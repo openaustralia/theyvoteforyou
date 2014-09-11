@@ -9,27 +9,20 @@ class MembersController < ApplicationController
     @sort = params[:sort]
     @house = params[:house]
 
-    order = case @sort
-    when nil
-      ["last_name", "first_name", "constituency", "party", "entered_house DESC"]
-    when "constituency"
-      ["constituency", "last_name", "first_name", "party", "entered_house DESC"]
-    when "party"
-      ["party", "last_name", "first_name", "constituency", "entered_house DESC"]
-    when "rebellions"
-      ["rebellions_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
-    when "attendance"
-      ["attendance_fraction DESC", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
-    when "date"
-      ["left_house", "last_name", "first_name", "constituency", "party", "entered_house DESC"]
-    else
-      raise "Unexpected value"
-    end
+    members = Member.in_australian_house(@house).current.includes(:member_info).to_a
 
-    # We're sorting to different values for attendance_fraction and rebellions_fraction in the database
-    # and in the rest of the app for display
-    # TODO: Fix this bug
-    @members = Member.joins('LEFT OUTER JOIN `member_infos` ON `member_infos`.`member_id` = `members`.`id`').select("members.*, round(votes_attended/votes_possible,10) as attendance_fraction, round(rebellions/votes_attended,10) as rebellions_fraction").in_australian_house(@house).current.order(order).includes(:member_info)
+    @members = case @sort
+    when "constituency"
+      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
+    when "party"
+      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
+    when "rebellions"
+      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+    when "attendance"
+      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+    else
+      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+    end
   end
 
   def show_redirect
