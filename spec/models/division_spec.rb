@@ -11,4 +11,14 @@ describe Division, :type => :model do
       expect(division.formatted_motion_text).to eq("<p>This remark<sup class=\"sup-1\"><a class=\"sup\" href='#footnote-1' onclick=\"ClickSup(1); return false;\">[1]</a></sup> deserves a footnote</p>\n")
     end
   end
+
+  describe '#passed?' do
+    subject(:division) { Division.new }
+
+    it "should not be passed when there's a draw in the Senate" do
+      allow(division).to receive(:australian_house) {'senate'}
+      allow(division).to receive(:aye_majority) {0}
+      expect(division.passed?).to be(false)
+    end
+  end
 end
