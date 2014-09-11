@@ -60,6 +60,7 @@ class DivisionsController < ApplicationController
 
     if @display == "allvotes" || @display == "allpossible"
       redirect_to params.merge(display: nil)
+      return
     end
 
     # If a member is included
@@ -90,10 +91,6 @@ class DivisionsController < ApplicationController
     if @display.nil?
       # TODO Fix this hacky nonsense by doing this query in the db
       @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
-    elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).order(order)
-    elsif @display == "allpossible"
       @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
     elsif @display == "policies"
       if params[:dmp]
