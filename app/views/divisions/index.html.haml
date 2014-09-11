@@ -34,6 +34,11 @@
     This is a table showing only the divisions where there were at
     least ten #{link_to "rebels", help_path(anchor: "clarify")}.
 
+%nav.btn-group
+  = nav_button_link("Both houses", divisions_path(params.merge(house: nil)), "All divisions", @house.nil?)
+  = nav_button_link("Representatives", divisions_path(params.merge(house: "representatives")), "Divisions for the House of Representatives", @house == "representatives")
+  = nav_button_link("Senate", divisions_path(params.merge(house: "senate")), "Divisions from the Senate", @house == 'senate')
+
 - if @party
   %table.table
     %thead

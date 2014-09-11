@@ -67,12 +67,6 @@ Divisions
 <option value="/divisions.php?house=senate&amp;rdisplay=all&amp;sort=turnout">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r2" name="r2">
-<option value="/divisions.php?sort=turnout">All houses</option>
-<option value="/divisions.php?house=representatives&amp;sort=turnout">Representatives only</option>
-<option selected="selected" value="/divisions.php?house=senate&amp;sort=turnout">Senate only</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r3" name="r3">
 <option selected="selected" value="/divisions.php?house=senate&amp;sort=turnout">All Divisions</option>
 <option value="/divisions.php?house=senate&amp;rdisplay2=rebels&amp;sort=turnout">Rebellions</option>
@@ -87,6 +81,11 @@ This page shows divisions in the Australian parliament. Make sure you
 <a href="/faq.php#clarify">read the explanation</a>
 about rebellions, as they may not be what you expect.
 </p>
+<nav class="btn-group">
+<a class="btn btn-sm btn-default" href="/divisions.php?sort=turnout" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;sort=turnout" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-primary" href="/divisions.php?house=senate&amp;sort=turnout" title="Divisions from the Senate">Senate</a>
+</nav>
 <table class="table">
 <thead>
 <tr>
