@@ -23,5 +23,5 @@
       - member.person.policy_person_distances.joins(:policy).order("policies.name").each do |policy_member_distance|
         %tr
           %td
-            %b= link_to fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy_member_distance.policy), precision: 0), member_path2(member, dmp: policy_member_distance.policy.id)
+            %b= link_to fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy_member_distance.policy), precision: 0), member_policy_path2(member, policy_member_distance.policy)
           %td= link_to policy_member_distance.policy.name, policy_member_distance.policy
