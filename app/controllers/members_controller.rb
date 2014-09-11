@@ -71,9 +71,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
-      render 'member_not_found', status: 404
-    end
+    render 'member_not_found', status: 404 if @member.nil?
   end
 
   def votes
@@ -85,11 +83,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member
-      @members = @member.person.members.order(entered_house: :desc)
-    else
-      render 'member_not_found', status: 404
-    end
+    render 'member_not_found', status: 404 if @member.nil?
   end
 
   def full
@@ -138,11 +132,7 @@ class MembersController < ApplicationController
     @member = @member.in_australian_house(params[:house])
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
-
-    if @member
-      @members = @member.person.members.order(entered_house: :desc)
-    else
-      render 'member_not_found', status: 404
-    end
+    
+    render 'member_not_found', status: 404 if @member.nil?
   end
 end

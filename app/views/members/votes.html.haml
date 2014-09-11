@@ -3,4 +3,4 @@
   = @member.full_name2
 
 = render "member_page_header", member: @member
-= render "all_votes", members: @members
+= render "all_votes", members: @member.person.members.order(entered_house: :desc)
