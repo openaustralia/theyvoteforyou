@@ -53,18 +53,20 @@ class DivisionsController < ApplicationController
   end
 
   def show_redirect
-    redirect_to params.merge(sort: nil)
+    if params[:sort]
+      redirect_to params.merge(sort: nil)
+      return
+    end
+    if params[:display] == "allvotes" || params[:display] == "allpossible"
+      redirect_to params.merge(display: nil)
+      return
+    end
   end
 
   def show
     house = params[:house] || "representatives"
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
-
-    if @display == "allvotes" || @display == "allpossible"
-      redirect_to params.merge(display: nil)
-      return
-    end
 
     # If a member is included
     if params[:mpn] && params[:mpc]
