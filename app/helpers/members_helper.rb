@@ -1,10 +1,6 @@
 module MembersHelper
   def member_path2(member)
-    member_path(
-        mpn: member.url_name,
-        mpc: member.url_electorate,
-        house: member.australian_house
-      )
+    member_path(member_params(member))
   end
 
   def member_policy_path2(member, policy)

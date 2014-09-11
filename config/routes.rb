@@ -52,7 +52,7 @@ Publicwhip::Application.routes.draw do
     queries << "display=#{r.query_parameters['display']}" if r.query_parameters["display"]
     result += "?" + queries.join("&") unless queries.empty?
     result
-  }, as: :member
+  }
 
   # Main routes
   root 'home#index'
@@ -63,7 +63,7 @@ Publicwhip::Application.routes.draw do
 
   get '/members/:house' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
-  get '/members/:house/:mpc/:mpn' => 'members#show'
+  get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
   get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy', as: :member_policy
   get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full', as: :full_member_policy
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member

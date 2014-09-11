@@ -40,12 +40,12 @@ class MembersController < ApplicationController
           return
         end
       end
-      redirect_to member_path(
+      redirect_to params.merge(
           mpn: member.url_name,
           mpc: member.url_electorate,
           house: member.australian_house,
-          dmp: params[:dmp],
-          display: params[:display]
+          mpid: nil,
+          id: nil
         )
       return
     end
