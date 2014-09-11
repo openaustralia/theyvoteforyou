@@ -25,7 +25,7 @@
     - @members.each do |member|
       %tr
         %td= link_to member.name, member_path2(member)
-        %td= vote_records_start_date(member)
+        %td= member_since(member)
         %td= member_until(member)
         %td= member.party_long
         %td.percent
