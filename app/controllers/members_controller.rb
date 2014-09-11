@@ -26,11 +26,19 @@ class MembersController < ApplicationController
   end
 
   def show_redirect
-    if params[:mpid] || params[:id]
+    if params[:mpid] || params[:id] || params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
       if params[:mpid]
         member = Member.find_by!(id: params[:mpid])
       elsif params[:id]
         member = Member.find_by!(gid: params[:id])
+      elsif params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
+        member = Member.with_name(params[:mpn].gsub("_", " "))
+        member = member.in_australian_house(params[:house]) if params[:house]
+        member = member.order(entered_house: :desc).first
+        if member.nil?
+          render 'member_not_found', status: 404
+          return
+        end
       end
       redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
@@ -41,17 +49,6 @@ class MembersController < ApplicationController
     end
     if params[:display] == "summary" || params[:display] == "alldreams"
       redirect_to params.merge(display: nil)
-      return
-    end
-    if params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
-      member = Member.with_name(params[:mpn].gsub("_", " "))
-      member = member.in_australian_house(params[:house]) if params[:house]
-      member = member.order(entered_house: :desc).first
-      if member.nil?
-        render 'member_not_found', status: 404
-        return
-      end
-      redirect_to view_context.member_path2(member, dmp: params[:dmp], display: params[:display])
       return
     end
     if params[:display] == "allvotes" || params[:showall] == "yes"
