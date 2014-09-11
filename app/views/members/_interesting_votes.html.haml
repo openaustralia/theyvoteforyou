@@ -8,5 +8,5 @@
   See also #{link_to "all votes", votes_member_path2(member)}.
 
 %table.table
-  - members.each do |member|
+  - member.person.members.order(entered_house: :desc).each do |member|
     = render "votes", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no rebellions"
