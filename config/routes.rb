@@ -69,7 +69,19 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
 
+  get 'divisions.php' => 'divisions#index_redirect',
+    constraints: lambda {|r| r.query_parameters["rdisplay2"] == "rebels"}
   get 'divisions.php' => 'divisions#index', as: :divisions
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["sort"]}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["house"].nil? }
+  get 'division.php' => 'divisions#show_policies',
+    constraints: lambda {|r| r.query_parameters["display"] == "policies"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division

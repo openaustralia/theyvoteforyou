@@ -11,8 +11,10 @@
           %th
             =whip.party_name
             %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
-          %td{:class => aye_vote_class(whip)}= whip.aye_votes_including_tells
-          %td{:class => no_vote_class(whip)}= whip.no_votes_including_tells
+          %td{:class => aye_vote_class(whip)}
+            = whip.aye_votes_including_tells if whip.aye_votes_including_tells > 0
+          %td{:class => no_vote_class(whip)}
+            = whip.no_votes_including_tells if whip.no_votes_including_tells > 0
       %tr
         %th.whip
           Totals

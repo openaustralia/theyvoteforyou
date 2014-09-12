@@ -6,22 +6,18 @@
     %small.pre-title= division_date_and_time(@division) + ", " + @division.australian_house_name
     = yield :title
 
-#secondnavtabs
-  %ul.nav.nav-tabs
-    = nav_link("Summary", division_with_policy_path(@division, display: nil, sort: params[:sort], dmp: params[:dmp]), "Overview of division", @display.nil?)
-    = nav_link("Policies", division_with_policy_path(@division, display: "policies", sort: params[:sort], dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
+- if @member.nil?
+  #secondnavtabs
+    %ul.nav.nav-tabs
+      = nav_link("Summary", division_with_policy_path(@division, display: nil, dmp: params[:dmp]), "Overview of division", @display.nil?)
+      = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @display.nil?
-  - if @division.policies.any?
-    %section.division-summary
-      %p
-        This division relates to the policy
-        = "position".pluralize(@division.policies.size)
-        = policies_list_sentence(@division.policies) + "."
+- if @division.policies.any?
+  %section.division-summary
+    %p
+      This division relates to the policy
+      = "position".pluralize(@division.policies.size)
+      = policies_list_sentence(@division.policies) + "."
 
-  = render "motion", member: @member, division: @division
-
-  = render "summary", division: @division, display: @display, sort: @sort, votes: @votes, members: @members
-
-- elsif @display == "policies"
-  = render "policies", policy: @policy, changed_from: @changed_from, division: @division
+= render "motion", member: @member, division: @division
+= render "summary", division: @division, members: @members

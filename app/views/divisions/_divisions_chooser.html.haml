@@ -9,19 +9,12 @@
     %option{:selected => (rdisplay == "all"), :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
   %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
 
-  %select.form-control#r2{:name => "r2"}
-    %option{:selected => house.nil?, :value => divisions_path(params.merge(house: nil))} All houses
-    %option{:selected => (house == "representatives"), :value => divisions_path(params.merge(house: "representatives"))} Representatives only
-    %option{:selected => (house == "senate"), :value => divisions_path(params.merge(house: "senate"))} Senate only
-  %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
-
-  %select.form-control#r3{:name => "r3"}
-    %option{:selected => (rdisplay2.nil?), :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
-    %option{:selected => (rdisplay2 == "rebels"), :value => divisions_path(params.merge(rdisplay2: "rebels"))} Rebellions
-    -# Only currently showing this when we're only looking at a single house. Doesn't seem right
-    - if parties
+  -# Only currently showing this when we're only looking at a single house. Doesn't seem right
+  - if parties
+    %select.form-control#r3{:name => "r3"}
+      %option{:selected => (rdisplay2.nil?), :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
       - parties.each do |party|
         - long_name = Party.long_name(party)
         - if !Party.whipless?(party)
           %option{:selected => (rdisplay2 == "#{party}_party"), :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
-  %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
+    %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/

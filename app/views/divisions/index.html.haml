@@ -1,7 +1,5 @@
 - content_for :title do
-  - if @rdisplay2 == "rebels"
-    Rebellions
-  - elsif @party
+  - if @party
     = @party
   - else
     Divisions
@@ -22,17 +20,13 @@
 
 = render "divisions_chooser", rdisplay: @rdisplay, rdisplay2: @rdisplay2, house: @house, parties: @parties
 
-%p
-  A 'division' is parliamentary terminology for a 'vote'
-  (#{link_to "read more...", help_path(anchor: "jargon")}).
-  This page shows divisions in the Australian parliament. Make sure you
-  = link_to "read the explanation", help_path(anchor: "clarify")
-  about rebellions, as they may not be what you expect.
+%p.lead
+  In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_path(anchor: "jargon")}
 
-- if @rdisplay2 == "rebels"
-  %p
-    This is a table showing only the divisions where there were at
-    least ten #{link_to "rebels", help_path(anchor: "clarify")}.
+%nav.btn-group
+  = nav_button_link("Both houses", divisions_path(params.merge(house: nil)), "All divisions", @house.nil?)
+  = nav_button_link("Representatives", divisions_path(params.merge(house: "representatives")), "Divisions for the House of Representatives", @house == "representatives")
+  = nav_button_link("Senate", divisions_path(params.merge(house: "senate")), "Divisions from the Senate", @house == 'senate')
 
 - if @party
   %table.table
@@ -53,7 +47,7 @@
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
-        %tr{:class => ("rebel" if @rdisplay2 != "rebels" && division.rebellious?)}
+        %tr{:class => ("rebel" if division.rebellious?)}
           %td= formatted_date(division.date, true)
           %td= division.clock_time
           %td= link_to truncate(division.name, length: 180), division_path2(division)
@@ -85,7 +79,7 @@
           %td{colspan: @house.nil? ? 9 : 8} no votes listed
       - else
         - @divisions.each do |division|
-          %tr{:class => ("rebel" if @rdisplay2 != "rebels" && @sort != "rebellions" && division.rebellious?)}
+          %tr{:class => ("rebel" if @sort != "rebellions" && division.rebellious?)}
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)

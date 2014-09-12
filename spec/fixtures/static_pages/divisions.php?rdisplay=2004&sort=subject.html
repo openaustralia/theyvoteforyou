@@ -49,7 +49,9 @@ Divisions
 </div>
 </div>
 </nav>
-<div class="container"><div class="page-header">
+<div class="container">
+
+<div class="page-header">
 <h1>Divisions
 —
 2004-2007
@@ -65,26 +67,16 @@ Divisions
 <option value="/divisions.php?rdisplay=all&amp;sort=subject">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r2" name="r2">
-<option selected="selected" value="/divisions.php?rdisplay=2004&amp;sort=subject">All houses</option>
-<option value="/divisions.php?house=representatives&amp;rdisplay=2004&amp;sort=subject">Representatives only</option>
-<option value="/divisions.php?house=senate&amp;rdisplay=2004&amp;sort=subject">Senate only</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r3" name="r3">
-<option selected="selected" value="/divisions.php?rdisplay=2004&amp;sort=subject">All Divisions</option>
-<option value="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004&amp;sort=subject">Rebellions</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
 </form>
 
-<p>
-A 'division' is parliamentary terminology for a 'vote'
-(<a href="/faq.php#jargon">read more...</a>).
-This page shows divisions in the Australian parliament. Make sure you
-<a href="/faq.php#clarify">read the explanation</a>
-about rebellions, as they may not be what you expect.
+<p class="lead">
+In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. <a href="/faq.php#jargon">Learn more...</a>
 </p>
+<nav class="btn-group">
+<a class="btn btn-sm btn-primary" href="/divisions.php?rdisplay=2004&amp;sort=subject" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay=2004&amp;sort=subject" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=senate&amp;rdisplay=2004&amp;sort=subject" title="Divisions from the Senate">Senate</a>
+</nav>
 <table class="table">
 <thead>
 <tr>
@@ -110,6 +102,7 @@ about rebellions, as they may not be what you expect.
 </tr>
 </tbody>
 </table>
+
 </div>
 <div id="footer1">
 <div class="container">

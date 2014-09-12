@@ -45,13 +45,19 @@ test
 Henare Degan
 </a></li>
 <li>
-<a href="/account/logout.php?r=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26dmp%3D1%26display%3Dpolicies" title="Make your browser forget that you are logged into The Public Whip as Henare Degan">Logout</a>
+<a href="/account/logout.php?r=%2Fdivision.php%3Fdate%3D2013-03-14%26display%3Dpolicies%26dmp%3D1%26house%3Drepresentatives%26number%3D1" title="Make your browser forget that you are logged into The Public Whip as Henare Degan">Logout</a>
 </li>
 </ul>
 </div>
 </div>
 </nav>
-<div class="container"><div class="page-header">
+<div class="container">
+<div class="alert alert-success">
+<button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button>
+<div id="flash_notice">Succesfully changed vote on policy from aye to non-voter</div>
+</div>
+
+<div class="page-header">
 <h1>
 <small class="pre-title">14 Mar 2013 at 10:56, Representatives</small>
 test
@@ -77,8 +83,7 @@ And policy <a href="/policies/1">Marriage equality</a> (<a href="/policies">chan
 <option value="aye">Aye</option>
 <option value="both">Abstain</option>
 <option value="no">No</option>
-<option value="no3">No (strong)</option></select><input class="btn btn-primary" name="submit" type="submit" value="Update" /><span class="error">Changed from aye</span>
-</form>
+<option value="no3">No (strong)</option></select><input class="btn btn-primary" name="submit" type="submit" value="Update" /></form>
 <h2 id="dreammp">Policies</h2>
 <p>
 The following policies have selected this division. You can use this to help you work out
@@ -100,6 +105,7 @@ the meaning of the vote. Or <a href="/policies">list all policies</a>.
 <p>
 <a href="/policies/new">Make a new policy</a>
 </p>
+
 
 </div>
 <div id="footer1">

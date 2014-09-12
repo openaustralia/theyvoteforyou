@@ -85,6 +85,14 @@ tbody {
     }
   }
 
+  .division-member-vote {
+    &:before {
+      @media (max-width: $screen-xs-max) {
+        content: attr(data-member) " voted ";
+      }
+    }
+  }
+
   .division-outcome {
     &:before {
       @media (max-width: $screen-xs-max) {
