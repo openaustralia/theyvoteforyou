@@ -26,7 +26,7 @@ class DivisionsController < ApplicationController
       @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
-    if @rdisplay2 && @rdisplay2 != "rebels"
+    if @rdisplay2
       if @parties.include? @rdisplay2.gsub('_party', '')
         @party = @rdisplay2.gsub('_party', '')
       else
@@ -53,7 +53,6 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-    @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
     @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
   end
