@@ -6,10 +6,11 @@
     %small.pre-title= division_date_and_time(@division) + ", " + @division.australian_house_name
     = yield :title
 
-#secondnavtabs
-  %ul.nav.nav-tabs
-    = nav_link("Summary", division_with_policy_path(@division, display: nil, dmp: params[:dmp]), "Overview of division", @display.nil?)
-    = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
+- if @member.nil?
+  #secondnavtabs
+    %ul.nav.nav-tabs
+      = nav_link("Summary", division_with_policy_path(@division, display: nil, dmp: params[:dmp]), "Overview of division", @display.nil?)
+      = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
 - if @division.policies.any?
   %section.division-summary
