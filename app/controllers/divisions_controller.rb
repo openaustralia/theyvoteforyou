@@ -77,7 +77,7 @@ class DivisionsController < ApplicationController
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
-    if @display.nil? || (params[:mpn] && params[:mpc])
+    if @display.nil?
       # If a member is included
       if params[:mpn] && params[:mpc]
         first_name = params[:mpn].split("_")[0]
