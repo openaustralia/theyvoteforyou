@@ -119,7 +119,6 @@ class DivisionsController < ApplicationController
   end
 
   def add_policy_vote
-    @sort = params[:sort]
     @display = params[:display]
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
