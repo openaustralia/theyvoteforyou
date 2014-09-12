@@ -15,8 +15,8 @@
     .row
       .col-md-6
         %p
-          Policy vote:
-          = vote_display_in_table(division.policy_vote(policy))
+          Supporters vote “#{vote_display_in_table(division.policy_vote(policy))}”
+
         = render 'divisions/summary_party_votes', division: division
       .col-md-6
         = division.formatted_motion_text
