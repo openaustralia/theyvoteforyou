@@ -72,35 +72,32 @@ class DivisionsController < ApplicationController
     end
   end
 
+  def show_policies
+    @display = "policies"
+    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    if params[:dmp]
+      @policy = Policy.find(params[:dmp])
+    elsif user_signed_in?
+      @policy = current_user.active_policy
+    end
+  end
+
   def show
     house = params[:house]
-    @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
-    if @display.nil?
-      # If a member is included
-      if params[:mpn] && params[:mpc]
-        first_name = params[:mpn].split("_")[0]
-        last_name = params[:mpn].split("_")[1]
-        electorate = params[:mpc].gsub("_", " ")
-        # TODO Also ensure that the member is current on the date of this division
-        member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
-        member = member.where(constituency: electorate) if electorate != "Senate"
-        member = member.first
-        @member = member.person.member_who_voted_on_division(@division)
-      end
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
-      render "show"
-    elsif @display == "policies"
-      if params[:dmp]
-        @policy = Policy.find(params[:dmp])
-      elsif user_signed_in?
-        @policy = current_user.active_policy
-      end
-      render "show_policies"
-    else
-      raise
+    # If a member is included
+    if params[:mpn] && params[:mpc]
+      first_name = params[:mpn].split("_")[0]
+      last_name = params[:mpn].split("_")[1]
+      electorate = params[:mpc].gsub("_", " ")
+      # TODO Also ensure that the member is current on the date of this division
+      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
+      member = member.where(constituency: electorate) if electorate != "Senate"
+      member = member.first
+      @member = member.person.member_who_voted_on_division(@division)
     end
+    @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
   end
 
   def edit
