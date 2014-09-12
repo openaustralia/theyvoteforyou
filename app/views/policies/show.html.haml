@@ -5,6 +5,8 @@
 
   =link_to "Make a new policy", new_policy_path, :class => "btn btn-link"
 
+  %blockquote.lead.policytext= @policy.description.capitalize + "."
+
 = render "nav", policy: @policy, display: nil
 
 %p.whatisflash
@@ -14,11 +16,7 @@
   or
   = succeed "." do
     = link_to "read more about Public Whip", help_path
-%p
-  Someone who believes that
-  %span.policytext= @policy.description
-  would have voted like
-  this...
-  %br/
+
+%p Someone who supports this policy would have voted like this...
 
 = render 'vote_summary_table', member: @member, policy: @policy
