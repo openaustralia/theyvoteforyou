@@ -4,6 +4,12 @@ class DivisionsController < ApplicationController
 
   before_action :authenticate_user!, only: [:edit, :update, :add_policy_vote]
 
+  def index_redirect
+    if params[:rdisplay2] == "rebels"
+      redirect_to params.merge(rdisplay2: nil, sort: "rebellions")
+    end
+  end
+
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]

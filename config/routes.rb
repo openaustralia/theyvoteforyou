@@ -69,6 +69,8 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
 
+  get 'divisions.php' => 'divisions#index_redirect',
+    constraints: lambda {|r| r.query_parameters["rdisplay2"] == "rebels"}
   get 'divisions.php' => 'divisions#index', as: :divisions
   get 'division.php' => 'divisions#show_redirect',
     constraints: lambda {|r| r.query_parameters["sort"]}
