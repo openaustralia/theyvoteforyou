@@ -15,10 +15,6 @@
                           'No (strong)' => 'no3'}
       = select_tag "vote#{policy.id}", options_for_select(select_options, (policy.vote_for_division(division) || '--')), size: 1, class: "form-control"
       %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
-      - if changed_from
-        %span.error Changed from #{changed_from}
-      - elsif params[:submit] == 'Update'
-        %span.error No change made
   - else
     %p
       And policy

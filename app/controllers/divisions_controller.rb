@@ -128,9 +128,13 @@ class DivisionsController < ApplicationController
     old_vote = @policy.update_division_vote!(@division, new_vote)
     # Return the "changed from" value
     if old_vote != new_vote
-      @changed_from = old_vote.nil? ? 'non-voter' : old_vote
+      changed_from = old_vote.nil? ? 'non-voter' : old_vote
     end
-
-    render 'show'
+    if changed_from
+      flash[:notice] = "Changed from #{changed_from}"
+    else
+      flash[:notice] = "No changed made"
+    end
+    redirect_to view_context.division_path2(@division, display: "policies", dmp: @policy.id)
   end
 end
