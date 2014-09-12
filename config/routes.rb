@@ -93,9 +93,9 @@ Publicwhip::Application.routes.draw do
   get 'divisions.php' => 'divisions#index', as: :divisions
 
   get '/divisions/:house/:date/:number' => 'divisions#show'
-  get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies'
-  get '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#show_policies'
-  get '/divisions/:house/:date/:number/history' => 'divisions#show_edits'
+  get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies', as: :division_policies
+  get '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#show_policies', as: :division_policy
+  get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit'
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
