@@ -1,12 +1,12 @@
 - content_for :title, @policy.name
 
-.page-header
-  %h1= yield :title
+.page-header.row
+  %nav.header-actions.col-md-3
+    =link_to_if(@policy, "Edit", edit_policy_path(@policy), :title => "Change title and definition of policy", :class => "btn btn-default btn-xs")
+    =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
+  %h1.col-md-9= yield :title
 
-  =link_to_if(@policy, "Edit", edit_policy_path(@policy), :title => "Change title and definition of policy", :class => "btn btn-link")
-  =link_to "Make a new policy", new_policy_path, :class => "btn btn-link"
-
-  %blockquote.lead.policytext= @policy.description.capitalize + "."
+  %blockquote.lead.policytext.col-md-12= @policy.description.capitalize + "."
 
 = render "nav", policy: @policy, display: nil
 
