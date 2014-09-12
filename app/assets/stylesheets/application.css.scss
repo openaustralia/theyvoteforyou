@@ -16,6 +16,12 @@ $line-height-base: 1.5;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+h1 {
+  .page-header & {
+    margin-top: 0;
+  }
+}
+
 .pre-title,
 .post-title {
   display: block;
