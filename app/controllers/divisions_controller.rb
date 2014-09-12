@@ -104,7 +104,9 @@ class DivisionsController < ApplicationController
         where(constituency: electorate).first
       @member = member.person.member_who_voted_on_division(@division)
     end
-    @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
+    @members = Member.in_australian_house(house).current_on(@division.date).
+      joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
+      order("members.party", "vote", "members.last_name", "members.first_name")
   end
 
   def edit
