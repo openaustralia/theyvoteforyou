@@ -84,8 +84,11 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
   get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
     constraints: lambda {|r| r.query_parameters["display"].nil? && r.query_parameters["mpn"].nil?}
+  get 'division.php' => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
+    constraints: lambda {|r| r.query_parameters["mpn"] && r.query_parameters["mpc"]}
   get 'division.php' => 'divisions#show', as: :division
   get '/divisions/:house/:date/:number' => 'divisions#show'
+  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show'
   post 'division.php' => 'divisions#add_policy_vote'
   get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
   get 'account/wiki.php' => 'divisions#edit', as: :edit_division
