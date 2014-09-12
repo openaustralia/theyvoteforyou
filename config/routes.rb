@@ -78,11 +78,12 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
   get 'division.php' => 'divisions#show_redirect',
     constraints: lambda {|r| r.query_parameters["house"].nil? }
-  get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies?dmp=#{r.query_parameters['dmp']}"},
+  get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies/#{r.query_parameters['dmp']}"},
     constraints: lambda {|r| r.query_parameters["display"] == "policies" && r.query_parameters["dmp"]}
   get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies"},
     constraints: lambda {|r| r.query_parameters["display"] == "policies"}
   get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies'
+  get '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#show_policies'
   get 'division.php' => 'divisions#show_redirect',
     constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
   get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},

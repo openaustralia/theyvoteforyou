@@ -209,6 +209,6 @@ describe "routing redirects", :type => :request do
 
   it do
     get "/division.php?date=2014-09-04&display=policies&house=senate&number=4&dmp=1"
-    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/policies?dmp=1"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/policies/1"
   end
 end
