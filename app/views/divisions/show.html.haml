@@ -11,11 +11,7 @@
     = nav_link("Summary", division_with_policy_path(@division, display: nil, dmp: params[:dmp]), "Overview of division", @display.nil?)
     = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
-- flash.each do |name, msg|
-  - if msg.is_a?(String)
-    %div{class: "alert alert-" + (name.to_s == "notice" ? "success" : "danger")}
-      %button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
-      %div{id: "flash_#{name}"}= msg
+= render "layouts/bootstrap_flash"
 
 - if @display.nil?
   - if @division.policies.any?
