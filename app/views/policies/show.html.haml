@@ -10,14 +10,6 @@
 
 = render "nav", policy: @policy, display: nil
 
-%p.whatisflash
-  These are the votes that define the
-  = "policy: \"#{@policy.name}\". You may want to"
-  #{link_to "read an introduction to policies", help_path(anchor: "policies")},
-  or
-  = succeed "." do
-    = link_to "read more about Public Whip", help_path
-
-%p Someone who supports this policy would have voted like this...
+%p These are the divisions that related to the policy “#{@policy.name}”. Compare how a supporter of the policy would vote to the division outcome.
 
 = render 'vote_summary_table', member: @member, policy: @policy
