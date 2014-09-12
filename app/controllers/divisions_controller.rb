@@ -91,12 +91,14 @@ class DivisionsController < ApplicationController
 
     if @display.nil?
       @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
+      render "show"
     elsif @display == "policies"
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
       elsif user_signed_in?
         @policy = current_user.active_policy
       end
+      render "show_policies"
     else
       raise
     end

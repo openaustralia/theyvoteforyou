@@ -11,12 +11,4 @@
     = nav_link("Summary", division_with_policy_path(@division, display: nil, dmp: params[:dmp]), "Overview of division", @display.nil?)
     = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @division.policies.any?
-  %section.division-summary
-    %p
-      This division relates to the policy
-      = "position".pluralize(@division.policies.size)
-      = policies_list_sentence(@division.policies) + "."
-
-= render "motion", member: @member, division: @division
-= render "summary", division: @division, members: @members
+= render "policies", policy: @policy, changed_from: @changed_from, division: @division
