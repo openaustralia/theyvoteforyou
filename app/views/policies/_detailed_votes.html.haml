@@ -6,7 +6,7 @@
       %h4
         = link_to division_with_member_path(division, member) do
           %small.pre-title= division_date_and_time(division) + ", " + division.australian_house_name
-          #{division.name} - Division No. #{division.number}
+          #{division.name}
     - else
       %h4
         = link_to division_with_policy_path(division, dmp: policy.id) do
