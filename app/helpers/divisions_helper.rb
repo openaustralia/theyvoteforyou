@@ -80,15 +80,7 @@ module DivisionsHelper
   end
 
   def division_outcome(division)
-    if division.tied?
-      "Draw"
-    else
-      if division.passed?
-        "Passed"
-      else
-        "Not passed"
-      end
-    end
+    division.passed? ? 'Passed' : 'Not passed'
   end
 
   def division_outcome_with_score(division)

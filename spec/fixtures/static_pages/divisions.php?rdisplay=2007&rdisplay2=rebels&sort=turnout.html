@@ -65,12 +65,6 @@ Rebellions
 <option value="/divisions.php?rdisplay2=rebels&amp;rdisplay=all&amp;sort=turnout">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r2" name="r2">
-<option selected="selected" value="/divisions.php?rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout">All houses</option>
-<option value="/divisions.php?house=representatives&amp;rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout">Representatives only</option>
-<option value="/divisions.php?house=senate&amp;rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout">Senate only</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r3" name="r3">
 <option value="/divisions.php?rdisplay=2007&amp;sort=turnout">All Divisions</option>
 <option selected="selected" value="/divisions.php?rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout">Rebellions</option>
@@ -89,6 +83,11 @@ about rebellions, as they may not be what you expect.
 This is a table showing only the divisions where there were at
 least ten <a href="/faq.php#clarify">rebels</a>.
 </p>
+<nav class="btn-group">
+<a class="btn btn-sm btn-primary" href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=senate&amp;rdisplay2=rebels&amp;rdisplay=2007&amp;sort=turnout" title="Divisions from the Senate">Senate</a>
+</nav>
 <table class="table">
 <thead>
 <tr>
@@ -98,7 +97,7 @@ least ten <a href="/faq.php#clarify">rebels</a>.
 <th><a href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2007&amp;sort=subject" title="Sort by subject">Subject</a></th>
 <th><a href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2007&amp;sort=rebellions" title="Sort by rebellions">Rebels</a><br />(<a href="/faq.php#clarify">explain..</a>)
 </th>
-<th>Majority</th>
+<th>Outcome</th>
 <th>Turnout</th>
 </tr>
 </thead>
@@ -109,7 +108,7 @@ least ten <a href="/faq.php#clarify">rebels</a>.
 <td>16:13</td>
 <td><a href="/division.php?date=2009-11-25&amp;house=senate&amp;number=8">Carbon Pollution Reduction Scheme Legislation</a></td>
 <td>11</td>
-<td>31</td>
+<td>Not passed <span class="division-outcome-score">48 – 17</span></td>
 <td>85.5%</td>
 </tr>
 </tbody>

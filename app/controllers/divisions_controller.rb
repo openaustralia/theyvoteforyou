@@ -52,15 +52,25 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
   end
 
+  def show_redirect
+    if params[:sort]
+      redirect_to params.merge(sort: nil)
+      return
+    end
+    if params[:display] == "allvotes" || params[:display] == "allpossible"
+      redirect_to params.merge(display: nil)
+      return
+    end
+    if params[:house].nil?
+      redirect_to params.merge(house: "representatives")
+      return
+    end
+  end
+
   def show
-    house = params[:house] || "representatives"
-    @sort = params[:sort]
+    house = params[:house]
     @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
-
-    if @display == "allvotes" || @display == "allpossible"
-      redirect_to params.merge(display: nil)
-    end
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -74,27 +84,8 @@ class DivisionsController < ApplicationController
       @member = member.person.member_who_voted_on_division(@division)
     end
 
-    order = case @sort
-    when nil, "party"
-      ["members.party", "vote", "members.last_name", "members.first_name"]
-    when "name"
-      ["members.last_name", "members.first_name"]
-    when "constituency"
-      ["members.constituency", "members.last_name", "members.first_name"]
-    when "vote"
-      ["vote", "members.last_name", "members.first_name"]
-    else
-      raise "Unexpected value"
-    end
-
     if @display.nil?
-      # TODO Fix this hacky nonsense by doing this query in the db
-      @votes = @division.votes.joins(:member).order(order).find_all{|v| v.rebellion?}
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
-    elsif @display == "allvotes"
-      @votes = @division.votes.joins(:member).order(order)
-    elsif @display == "allpossible"
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order(order)
+      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
     elsif @display == "policies"
       if params[:dmp]
         @policy = Policy.find(params[:dmp])
@@ -128,7 +119,6 @@ class DivisionsController < ApplicationController
   end
 
   def add_policy_vote
-    @sort = params[:sort]
     @display = params[:display]
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
     @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)

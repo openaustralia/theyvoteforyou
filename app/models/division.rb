@@ -38,6 +38,15 @@ class Division < ActiveRecord::Base
     member.vote_on_division_without_tell(self)
   end
 
+  # This is a bit of a guess
+  def majority
+    aye_majority.abs
+  end
+
+  def passed?
+    australian_house == 'senate' && tied? ? false : aye_majority >= 1
+  end
+
   # Equal number of votes for the ayes and noes
   def tied?
     aye_majority == 0
@@ -131,15 +140,6 @@ class Division < ActiveRecord::Base
   def oa_debate_id
     # This probably won't generalise to the senate
     debate_gid.split("/")[2]
-  end
-
-  # This is a bit of a guess
-  def majority
-    aye_majority.abs
-  end
-
-  def passed?
-    aye_majority >= 1
   end
 
   # TODO We should really be doing any tidying up of the clock time in the loader and

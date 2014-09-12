@@ -63,12 +63,6 @@ Rebellions
 <option value="/divisions.php?rdisplay2=rebels&amp;rdisplay=all">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r2" name="r2">
-<option selected="selected" value="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004">All houses</option>
-<option value="/divisions.php?house=representatives&amp;rdisplay2=rebels&amp;rdisplay=2004">Representatives only</option>
-<option value="/divisions.php?house=senate&amp;rdisplay2=rebels&amp;rdisplay=2004">Senate only</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r3" name="r3">
 <option value="/divisions.php?rdisplay=2004">All Divisions</option>
 <option selected="selected" value="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004">Rebellions</option>
@@ -87,6 +81,11 @@ about rebellions, as they may not be what you expect.
 This is a table showing only the divisions where there were at
 least ten <a href="/faq.php#clarify">rebels</a>.
 </p>
+<nav class="btn-group">
+<a class="btn btn-sm btn-primary" href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay2=rebels&amp;rdisplay=2004" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=senate&amp;rdisplay2=rebels&amp;rdisplay=2004" title="Divisions from the Senate">Senate</a>
+</nav>
 <table class="table">
 <thead>
 <tr>
@@ -96,7 +95,7 @@ least ten <a href="/faq.php#clarify">rebels</a>.
 <th><a href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004&amp;sort=subject" title="Sort by subject">Subject</a></th>
 <th><a href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004&amp;sort=rebellions" title="Sort by rebellions">Rebels</a><br />(<a href="/faq.php#clarify">explain..</a>)
 </th>
-<th>Majority</th>
+<th>Outcome</th>
 <th><a href="/divisions.php?rdisplay2=rebels&amp;rdisplay=2004&amp;sort=turnout" title="Sort by turnout">Turnout</a></th>
 </tr>
 </thead>

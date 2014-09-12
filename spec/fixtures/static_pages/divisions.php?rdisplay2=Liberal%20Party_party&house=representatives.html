@@ -65,12 +65,6 @@ Divisions
 <option value="/divisions.php?house=representatives&amp;rdisplay=all">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
-<select class="form-control" id="r2" name="r2">
-<option value="/divisions.php">All houses</option>
-<option selected="selected" value="/divisions.php?house=representatives">Representatives only</option>
-<option value="/divisions.php?house=senate">Senate only</option>
-</select>
-<input class="btn btn-default" name="submit" type="submit" value="Go" />
 <select class="form-control" id="r3" name="r3">
 <option selected="selected" value="/divisions.php?house=representatives">All Divisions</option>
 <option value="/divisions.php?house=representatives&amp;rdisplay2=rebels">Rebellions</option>
@@ -85,6 +79,11 @@ This page shows divisions in the Australian parliament. Make sure you
 <a href="/faq.php#clarify">read the explanation</a>
 about rebellions, as they may not be what you expect.
 </p>
+<nav class="btn-group">
+<a class="btn btn-sm btn-default" href="/divisions.php" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-primary" href="/divisions.php?house=representatives" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=senate" title="Divisions from the Senate">Senate</a>
+</nav>
 <table class="table">
 <thead>
 <tr>
@@ -93,7 +92,7 @@ about rebellions, as they may not be what you expect.
 <th><a href="/divisions.php?house=representatives&amp;sort=subject" title="Sort by subject">Subject</a></th>
 <th><a href="/divisions.php?house=representatives&amp;sort=rebellions" title="Sort by rebellions">Rebels</a><br />(<a href="/faq.php#clarify">explain..</a>)
 </th>
-<th>Majority</th>
+<th>Outcome</th>
 <th><a href="/divisions.php?house=representatives&amp;sort=turnout" title="Sort by turnout">Turnout</a></th>
 </tr>
 </thead>
