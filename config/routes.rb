@@ -94,7 +94,8 @@ Publicwhip::Application.routes.draw do
   get '/divisions/:house/:date/:number' => 'divisions#show'
   get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show'
   post 'division.php' => 'divisions#add_policy_vote'
-  get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
+  get 'edits.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history"}, as: :show_edits_division
+  get '/divisions/:house/:date/:number/history' => 'divisions#show_edits'
   get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}, as: :edit_division
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit'
   post 'account/wiki.php' => 'divisions#update'

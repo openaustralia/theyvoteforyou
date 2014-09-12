@@ -216,4 +216,9 @@ describe "routing redirects", :type => :request do
     get "/account/wiki.php?date=2014-09-04&house=senate&number=4&rr=%2Fdivisions%2Fsenate%2F2014-09-04%2F4&type=motion"
     expect(response).to redirect_to "/divisions/senate/2014-09-04/4/edit"
   end
+
+  it do
+    get "/edits.php?date=2014-09-04&house=senate&number=4&type=motion"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/history"
+  end
 end
