@@ -52,7 +52,9 @@
               %li= link_to "Sign Up", sign_up_path(r: (params[:r] || request.fullpath)), title: "Register to make or edit policies"
               %li= link_to "Login", account_settings_path(r: (params[:r] || request.fullpath)), title: "Login to edit policies"
 
-    .container= yield
+    .container
+      = render "layouts/bootstrap_flash"
+      = yield
     #footer1
       .container
         .row
