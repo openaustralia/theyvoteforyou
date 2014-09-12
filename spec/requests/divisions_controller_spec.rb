@@ -8,10 +8,6 @@ describe DivisionsController, :type => :request do
   describe "#show" do
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2")}
 
