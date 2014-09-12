@@ -6,7 +6,7 @@
       %th Subject
       - if member
         %th= member.name
-      %th.policyvotehead Supporter would have voted
+      %th.policyvotehead Supporters vote
       %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
