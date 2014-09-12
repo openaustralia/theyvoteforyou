@@ -22,12 +22,8 @@
 
 = render "divisions_chooser", rdisplay: @rdisplay, rdisplay2: @rdisplay2, house: @house, parties: @parties
 
-%p
-  A 'division' is parliamentary terminology for a 'vote'
-  (#{link_to "read more...", help_path(anchor: "jargon")}).
-  This page shows divisions in the Australian parliament. Make sure you
-  = link_to "read the explanation", help_path(anchor: "clarify")
-  about rebellions, as they may not be what you expect.
+%p.lead
+  In the Parliament of Australia votes are counted in <em>divisions</em>. Through these votes, elected members shape legislation and enact Government policy. #{link_to "Learn more...", help_path(anchor: "jargon")}
 
 - if @rdisplay2 == "rebels"
   %p
