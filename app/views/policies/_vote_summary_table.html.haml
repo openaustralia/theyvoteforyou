@@ -24,7 +24,7 @@
             - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
             - member = current_member || member
             %td
-              = link_to division.name, division_with_member_path(division, member)
+              = link_to division.name, member_division_path2(member, division)
             %td
               = vote_display_in_table(member.vote_on_division_without_tell(division))
           - else

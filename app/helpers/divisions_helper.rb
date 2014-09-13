@@ -5,11 +5,6 @@ module DivisionsHelper
     text
   end
 
-  def division_with_member_path(division, member)
-    #division_path2(division, {mpn: member.url_name, mpc: member.url_electorate})
-    member_division_path2(member, division)
-  end
-
   def member_division_path2(member, division)
     member_division_path(
       house: member.australian_house,
