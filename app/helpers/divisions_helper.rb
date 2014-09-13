@@ -6,7 +6,18 @@ module DivisionsHelper
   end
 
   def division_with_member_path(division, member)
-    division_path2(division, {mpn: member.url_name, mpc: member.url_electorate})
+    #division_path2(division, {mpn: member.url_name, mpc: member.url_electorate})
+    member_division_path2(member, division)
+  end
+
+  def member_division_path2(member, division)
+    member_division_path(
+      house: member.australian_house,
+      mpc: member.url_electorate.downcase,
+      mpn: member.url_name.downcase,
+      date: division.date,
+      number: division.number
+    )
   end
 
   def division_with_policy_path(division, q = {})
