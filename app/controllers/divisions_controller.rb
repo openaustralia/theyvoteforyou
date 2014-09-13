@@ -96,11 +96,10 @@ class DivisionsController < ApplicationController
 
     # If a member is included
     if params[:mpn] && params[:mpc]
-      first_name = params[:mpn].split("_")[0]
-      last_name = params[:mpn].split("_")[1]
+      name = params[:mpn].gsub("_", " ")
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
-      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).
+      member = Member.in_australian_house(house).with_name(name).
         where(constituency: electorate).first
       @member = member.person.member_who_voted_on_division(@division)
     end
