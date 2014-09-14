@@ -236,4 +236,9 @@ describe "routing redirects", :type => :request do
     get "/search.php?query=foo+bar"
     expect(response).to redirect_to "/search?query=foo+bar"
   end
+
+  it do
+    get "/search.php"
+    expect(response).to redirect_to "/search"
+  end
 end

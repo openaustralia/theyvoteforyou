@@ -76,7 +76,13 @@ Publicwhip::Application.routes.draw do
   get 'index.php' => redirect("/")
   # Unfortunately without resorting to something like js not possible to preserve anchor on redirect
   get 'faq.php' => redirect{|p,r| "/help"}
-  get 'search.php' => redirect{|p,r| "/search?query=#{Rack::Utils.escape(r.query_parameters['query'])}"}
+  get 'search.php' => redirect{|p,r|
+    if r.query_parameters['query']
+      "/search?query=#{Rack::Utils.escape(r.query_parameters['query'])}"
+    else
+      "/search"
+    end
+  }
 
   # Main routes
   root 'home#index'
