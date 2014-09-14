@@ -15,7 +15,11 @@ module DivisionsHelper
     elsif current_user
       dmp = current_user.active_policy_id
     end
-    division_path2(division, display: "policies", dmp: dmp)
+    if dmp
+      division_policy_path(division_params(division).merge(dmp: dmp))
+    else
+      division_policies_path(division_params(division))
+    end
   end
 
   def division_path2(division, q = {})
