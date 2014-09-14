@@ -20,12 +20,6 @@ module ApplicationHelper
       })
   end
 
-  def edit_division_path2(division)
-    # TODO Remove type from url
-    edit_division_path(type: "motion", rr: request.fullpath,
-      date: division.date, number: division.number, house: division.australian_house)
-  end
-
   # Returns Representatives or Senators
   def members_type(house)
     case house

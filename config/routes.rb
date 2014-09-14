@@ -72,7 +72,7 @@ Publicwhip::Application.routes.draw do
   get 'division.php' => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
     constraints: lambda {|r| r.query_parameters["mpn"] && r.query_parameters["mpc"]}
   get 'edits.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history"}, as: :show_edits_division
-  get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}, as: :edit_division
+  get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}
 
   # Main routes
   root 'home#index'
@@ -96,7 +96,7 @@ Publicwhip::Application.routes.draw do
   get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies', as: :division_policies
   get '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#show_policies', as: :division_policy
   get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
-  get '/divisions/:house/:date/:number/edit' => 'divisions#edit'
+  get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
   get 'division.php' => 'divisions#show', as: :division
   post 'division.php' => 'divisions#add_policy_vote'
   post 'account/wiki.php' => 'divisions#update'

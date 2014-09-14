@@ -38,6 +38,10 @@ module DivisionsHelper
     history_division_path(division_params(division))
   end
 
+  def edit_division_path2(division)
+    edit_division_path(division_params(division))
+  end
+
   def aye_vote_class(whip)
     if whip.aye_votes == 0
       "normal"
