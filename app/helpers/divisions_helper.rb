@@ -6,13 +6,7 @@ module DivisionsHelper
   end
 
   def member_division_path2(member, division)
-    member_division_path(
-      house: member.australian_house,
-      mpc: member.url_electorate.downcase,
-      mpn: member.url_name.downcase,
-      date: division.date,
-      number: division.number
-    )
+    member_division_path(division_params(division).merge(member_params(member)))
   end
 
   def division_with_policy_path(division, q = {})
@@ -21,17 +15,20 @@ module DivisionsHelper
   end
 
   def division_path2(division, q = {})
-    division_path(q.merge({
-        date: division.date,
-        number: division.number,
-        house: division.australian_house
-      }))
+    division_path(q.merge(division_params(division)))
+  end
+
+  def division_params(division)
+    {
+      date: division.date,
+      number: division.number,
+      house: division.australian_house
+    }
   end
 
   def show_edits_division_path2(division)
     # TODO Get rid of type=motion
-    show_edits_division_path(type: "motion",
-      date: division.date, number: division.number, house: division.australian_house)
+    show_edits_division_path({type: "motion"}.merge(division_params(division)))
   end
 
   def aye_vote_class(whip)
