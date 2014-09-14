@@ -126,7 +126,7 @@ class DivisionsController < ApplicationController
       @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
 
-    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
+    redirect_to view_context.division_path2(@division)
   end
 
   def add_policy_vote

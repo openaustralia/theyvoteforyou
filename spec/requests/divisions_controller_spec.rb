@@ -103,8 +103,7 @@ describe DivisionsController, :type => :request do
   end
 
   describe '#update' do
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, {submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description'}, "_2" }
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
+    it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 
   describe '#add_policy_vote' do
