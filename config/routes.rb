@@ -53,6 +53,26 @@ Publicwhip::Application.routes.draw do
     result += "?" + queries.join("&") unless queries.empty?
     result
   }
+  get 'divisions.php' => 'divisions#index_redirect',
+    constraints: lambda {|r| r.query_parameters["rdisplay2"] == "rebels"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["sort"]}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["house"].nil? }
+  get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies/#{r.query_parameters['dmp']}"},
+    constraints: lambda {|r| r.query_parameters["display"] == "policies" && r.query_parameters["dmp"]}
+  get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies"},
+    constraints: lambda {|r| r.query_parameters["display"] == "policies"}
+  get 'division.php' => 'divisions#show_redirect',
+    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
+  get 'division.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
+    constraints: lambda {|r| r.query_parameters["display"].nil? && r.query_parameters["mpn"].nil?}
+  get 'division.php' => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
+    constraints: lambda {|r| r.query_parameters["mpn"] && r.query_parameters["mpc"]}
+  get 'edits.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history"}
+  get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}
 
   # Main routes
   root 'home#index'
@@ -68,25 +88,17 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full', as: :full_member_policy
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
+  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
 
-  get 'divisions.php' => 'divisions#index_redirect',
-    constraints: lambda {|r| r.query_parameters["rdisplay2"] == "rebels"}
   get 'divisions.php' => 'divisions#index', as: :divisions
-  get 'division.php' => 'divisions#show_redirect',
-    constraints: lambda {|r| r.query_parameters["sort"]}
-  get 'division.php' => 'divisions#show_redirect',
-    constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
-  get 'division.php' => 'divisions#show_redirect',
-    constraints: lambda {|r| r.query_parameters["house"].nil? }
-  get 'division.php' => 'divisions#show_policies',
-    constraints: lambda {|r| r.query_parameters["display"] == "policies"}
-  get 'division.php' => 'divisions#show_redirect',
-    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
-  get 'division.php' => 'divisions#show', as: :division
-  post 'division.php' => 'divisions#add_policy_vote'
-  get 'edits.php' => 'divisions#show_edits', as: :show_edits_division
-  get 'account/wiki.php' => 'divisions#edit', as: :edit_division
-  post 'account/wiki.php' => 'divisions#update'
+
+  get '/divisions/:house/:date/:number' => 'divisions#show', as: :division
+  post '/divisions/:house/:date/:number' => 'divisions#update'
+  get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies', as: :division_policies
+  get '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#show_policies', as: :division_policy
+  post '/divisions/:house/:date/:number/policies/:dmp' => 'divisions#add_policy_vote'
+  get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
+  get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
 
   post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
 

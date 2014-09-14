@@ -103,32 +103,31 @@ describe DivisionsController, :type => :request do
   end
 
   describe '#update' do
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, {submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description'}, "_2" }
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
+    it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 
   describe '#add_policy_vote' do
     describe 'makes no changes' do
-      it {compare_static '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'}
-      it {compare_static '/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2', true, {submit: 'Update', vote2: '--'}, "_2"}
+      it {compare_static '/divisions/representatives/2006-12-06/3/policies/2', true, submit: 'Update', vote2: 'no'}
+      it {compare_static '/divisions/senate/2009-11-25/8/policies/2', true, {submit: 'Update', vote2: '--'}, "_2"}
     end
 
     it 'updates an existing policy division' do
-      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
     end
 
     describe 'creates a new policy division' do
-      it {compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'}
-      it {compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote1: 'aye3'}
+      it {compare_static '/divisions/representatives/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'}
+      it {compare_static '/divisions/senate/2013-03-14/1/policies/1', true, submit: 'Update', vote1: 'aye3'}
     end
 
     it 'removes a policy division' do
-      compare_static('/division.php?date=2013-03-14&number=1&dmp=1&display=policies', true, submit: 'Update', vote1: '--')
+      compare_static('/divisions/representatives/2013-03-14/1/policies/1', true, submit: 'Update', vote1: '--')
     end
 
     it 'recalculates MP agreement percentages' do
       # Just post to Rails
-      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
       # Rails does the recalculation in a background job so make sure that's done
       Delayed::Worker.new.work_off
       # Compare Rails what the PHP app would generate (because it would rebuild it's cache)
