@@ -117,11 +117,6 @@ Publicwhip::Application.routes.draw do
 
   match 'account/settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
 
-  devise_scope :user do
-    get '/account/logout.php' => 'devise/sessions#destroy', as: :logout
-    get '/account/register.php' => 'devise/registrations#new', as: :sign_up
-  end
-
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
 
