@@ -94,6 +94,10 @@ module DivisionsHelper
     division.passed? ? 'Passed' : 'Not passed'
   end
 
+  def division_outcome_class(division)
+    division.passed? ? 'division-outcome-passed' : 'division-outcome-not-passed'
+  end
+
   def division_outcome_with_score(division)
     result = division_outcome(division) + " "
     result += content_tag(:span, :class => "division-outcome-score") do
