@@ -221,4 +221,9 @@ describe "routing redirects", :type => :request do
     get "/edits.php?date=2014-09-04&house=senate&number=4&type=motion"
     expect(response).to redirect_to "/divisions/senate/2014-09-04/4/history"
   end
+
+  it do
+    get "/index.php"
+    expect(response).to redirect_to "/"
+  end
 end

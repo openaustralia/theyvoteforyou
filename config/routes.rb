@@ -73,11 +73,11 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["mpn"] && r.query_parameters["mpc"]}
   get 'edits.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history"}
   get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}
+  get 'index.php' => redirect("/")
 
   # Main routes
   root 'home#index'
 
-  get 'index.php' => 'home#index'
   get 'faq.php' => 'home#faq', as: :help
   get 'search.php' => 'home#search', as: :search
 
