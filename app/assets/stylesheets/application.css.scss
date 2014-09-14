@@ -16,6 +16,12 @@ $line-height-base: 1.5;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+h1 {
+  .page-header & {
+    margin-top: 0;
+  }
+}
+
 .pre-title,
 .post-title {
   display: block;
@@ -47,4 +53,16 @@ tbody {
 
 .division-outcome-score {
   display: inline-block;
+}
+
+// layout
+
+.header-actions {
+  text-align: right;
+
+  @media (min-width: $screen-sm-min) {
+    margin-top: .7em;
+    float: right;
+    clear: right;
+  }
 }

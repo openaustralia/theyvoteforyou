@@ -1,9 +1,9 @@
 - content_for :title, 'Policies'
 
 .page-header
+  %nav.header-actions.col-md-3
+    =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
   %h1= yield :title
-
-  =link_to "Make a new policy", new_policy_path, :class => "btn btn-link"
 
 %p
   Policies are stated positions on a particular issue. For example
