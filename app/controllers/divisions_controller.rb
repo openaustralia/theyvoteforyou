@@ -4,6 +4,12 @@ class DivisionsController < ApplicationController
 
   before_action :authenticate_user!, only: [:edit, :update, :add_policy_vote]
 
+  def index_redirect
+    if params[:rdisplay2] == "rebels"
+      redirect_to params.merge(rdisplay2: nil, sort: "rebellions")
+    end
+  end
+
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
@@ -20,7 +26,7 @@ class DivisionsController < ApplicationController
       @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
-    if @rdisplay2 && @rdisplay2 != "rebels"
+    if @rdisplay2
       if @parties.include? @rdisplay2.gsub('_party', '')
         @party = @rdisplay2.gsub('_party', '')
       else
@@ -47,7 +53,6 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
     @divisions = @divisions.in_australian_house(@house) if @house
     @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-    @divisions = @divisions.with_rebellions if @rdisplay2 == "rebels"
     @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
     @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
   end
@@ -65,36 +70,42 @@ class DivisionsController < ApplicationController
       redirect_to params.merge(house: "representatives")
       return
     end
+    if params[:mpc] == "Senate"
+      house = params[:house]
+      first_name = params[:mpn].split("_")[0]
+      last_name = params[:mpn].split("_")[1]
+
+      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+      redirect_to params.merge(mpc: member.url_electorate)
+    end
+  end
+
+  def show_policies
+    @display = "policies"
+    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    if params[:dmp]
+      @policy = Policy.find(params[:dmp])
+    elsif user_signed_in?
+      @policy = current_user.active_policy
+    end
   end
 
   def show
     house = params[:house]
-    @display = params[:display]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
 
     # If a member is included
     if params[:mpn] && params[:mpc]
-      first_name = params[:mpn].split("_")[0]
-      last_name = params[:mpn].split("_")[1]
+      name = params[:mpn].gsub("_", " ")
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
-      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name)
-      member = member.where(constituency: electorate) if electorate != "Senate"
-      member = member.first
+      member = Member.in_australian_house(house).with_name(name).
+        where(constituency: electorate).first
       @member = member.person.member_who_voted_on_division(@division)
     end
-
-    if @display.nil?
-      @members = Member.in_australian_house(house).current_on(@division.date).joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").order("members.party", "vote", "members.last_name", "members.first_name")
-    elsif @display == "policies"
-      if params[:dmp]
-        @policy = Policy.find(params[:dmp])
-      elsif user_signed_in?
-        @policy = current_user.active_policy
-      end
-    else
-      raise
-    end
+    @members = Member.in_australian_house(house).current_on(@division.date).
+      joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
+      order("members.party", "vote", "members.last_name", "members.first_name")
   end
 
   def edit
@@ -115,7 +126,7 @@ class DivisionsController < ApplicationController
       @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
 
-    params[:rr] ? redirect_to(params[:rr]) : render(:edit)
+    redirect_to view_context.division_path2(@division)
   end
 
   def add_policy_vote
@@ -135,6 +146,6 @@ class DivisionsController < ApplicationController
       # TODO Use the same terminology rather than icky aye3
       flash[:notice] = "Succesfully changed vote on policy from #{changed_from} to #{changed_to}"
     end
-    redirect_to view_context.division_path2(@division, display: "policies", dmp: @policy.id)
+    redirect_to view_context.division_with_policy_path(@division, @policy)
   end
 end

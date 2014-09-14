@@ -8,10 +8,6 @@ describe DivisionsController, :type => :request do
   describe "#show" do
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allvotes")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allvotes")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=allpossible")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=allpossible")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2")}
 
@@ -34,101 +30,53 @@ describe DivisionsController, :type => :request do
     it {compare_static("/divisions.php?rdisplay=2007")}
     it {compare_static("/divisions.php?rdisplay=2004")}
     it {compare_static("/divisions.php?rdisplay=all")}
-    it {compare_static("/divisions.php?rdisplay2=rebels")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels")}
     it {compare_static("/divisions.php?house=representatives")}
     it {compare_static("/divisions.php?rdisplay=2007&house=representatives")}
     it {compare_static("/divisions.php?rdisplay=2004&house=representatives")}
     it {compare_static("/divisions.php?rdisplay=all&house=representatives")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=representatives")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=representatives")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=representatives")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=representatives")}
     it {compare_static("/divisions.php?house=senate")}
     it {compare_static("/divisions.php?rdisplay=2007&house=senate")}
     it {compare_static("/divisions.php?rdisplay=2004&house=senate")}
     it {compare_static("/divisions.php?rdisplay=all&house=senate")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=senate")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=senate")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=senate")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=senate")}
 
     it {compare_static("/divisions.php?sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2007&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2004&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=all&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&sort=subject")}
     it {compare_static("/divisions.php?house=representatives&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=all&house=representatives&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=representatives&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=representatives&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=representatives&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=representatives&sort=subject")}
     it {compare_static("/divisions.php?house=senate&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2007&house=senate&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=2004&house=senate&sort=subject")}
     it {compare_static("/divisions.php?rdisplay=all&house=senate&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=senate&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=senate&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=senate&sort=subject")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=senate&sort=subject")}
 
     it {compare_static("/divisions.php?sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2007&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2004&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=all&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&sort=rebellions")}
     it {compare_static("/divisions.php?house=representatives&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=all&house=representatives&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=representatives&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=representatives&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=representatives&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=representatives&sort=rebellions")}
     it {compare_static("/divisions.php?house=senate&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2007&house=senate&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=2004&house=senate&sort=rebellions")}
     it {compare_static("/divisions.php?rdisplay=all&house=senate&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=senate&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=senate&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=senate&sort=rebellions")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=senate&sort=rebellions")}
 
     it {compare_static("/divisions.php?sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2007&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2004&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=all&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&sort=turnout")}
     it {compare_static("/divisions.php?house=representatives&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=all&house=representatives&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=representatives&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=representatives&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=representatives&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=representatives&sort=turnout")}
     it {compare_static("/divisions.php?house=senate&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2007&house=senate&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=2004&house=senate&sort=turnout")}
     it {compare_static("/divisions.php?rdisplay=all&house=senate&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay2=rebels&house=senate&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=rebels&house=senate&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=2004&rdisplay2=rebels&house=senate&sort=turnout")}
-    it {compare_static("/divisions.php?rdisplay=all&rdisplay2=rebels&house=senate&sort=turnout")}
 
     it {compare_static("/divisions.php?rdisplay2=Australian%20Labor%20Party_party&house=representatives")}
     it {compare_static("/divisions.php?rdisplay2=Liberal%20Party_party&house=representatives")}
@@ -155,32 +103,31 @@ describe DivisionsController, :type => :request do
   end
 
   describe '#update' do
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true, {submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description'}, "_2" }
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
+    it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 
   describe '#add_policy_vote' do
     describe 'makes no changes' do
-      it {compare_static '/division.php?date=2006-12-06&number=3&display=policies&dmp=2', true, submit: 'Update', vote2: 'no'}
-      it {compare_static '/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2', true, {submit: 'Update', vote2: '--'}, "_2"}
+      it {compare_static '/divisions/representatives/2006-12-06/3/policies/2', true, submit: 'Update', vote2: 'no'}
+      it {compare_static '/divisions/senate/2009-11-25/8/policies/2', true, {submit: 'Update', vote2: '--'}, "_2"}
     end
 
     it 'updates an existing policy division' do
-      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
     end
 
     describe 'creates a new policy division' do
-      it {compare_static '/division.php?date=2013-03-14&number=1&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'}
-      it {compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=1', true, submit: 'Update', vote1: 'aye3'}
+      it {compare_static '/divisions/representatives/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'}
+      it {compare_static '/divisions/senate/2013-03-14/1/policies/1', true, submit: 'Update', vote1: 'aye3'}
     end
 
     it 'removes a policy division' do
-      compare_static('/division.php?date=2013-03-14&number=1&dmp=1&display=policies', true, submit: 'Update', vote1: '--')
+      compare_static('/divisions/representatives/2013-03-14/1/policies/1', true, submit: 'Update', vote1: '--')
     end
 
     it 'recalculates MP agreement percentages' do
       # Just post to Rails
-      compare_static '/division.php?date=2013-03-14&number=1&house=senate&display=policies&dmp=2', true, submit: 'Update', vote2: 'aye3'
+      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
       # Rails does the recalculation in a background job so make sure that's done
       Delayed::Worker.new.work_off
       # Compare Rails what the PHP app would generate (because it would rebuild it's cache)

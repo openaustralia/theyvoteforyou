@@ -57,8 +57,10 @@ module HTMLCompareHelper
     else
       get(path)
     end
-    # Follow redirect
-    get response.headers['Location'] if response.headers['Location']
+    # Follow multiple redirects
+    while response.headers['Location']
+      get response.headers['Location']
+    end
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 
