@@ -181,4 +181,44 @@ describe "routing redirects", :type => :request do
     get "/division.php?date=2014-09-04&house=senate&mpc=Senate&mpn=Christine_Milne&number=4"
     expect(response).to redirect_to "/division.php?date=2014-09-04&house=senate&mpc=Tasmania&mpn=Christine_Milne&number=4"
   end
+
+  it do
+    get "/division.php?date=2014-09-04&house=senate&number=4&display=allpossible"
+    expect(response).to redirect_to "/division.php?date=2014-09-04&house=senate&number=4"
+  end
+
+  it do
+    get "/division.php?date=2014-09-04&house=senate&number=4&display=allvotes"
+    expect(response).to redirect_to "/division.php?date=2014-09-04&house=senate&number=4"
+  end
+
+  it do
+    get "/division.php?date=2014-09-04&house=representatives&number=3"
+    expect(response).to redirect_to "/divisions/representatives/2014-09-04/3"
+  end
+
+  it do
+    get "/division.php?date=2014-09-04&house=senate&mpc=Tasmania&mpn=Eric_Abetz&number=4"
+    expect(response).to redirect_to "/members/senate/tasmania/eric_abetz/divisions/2014-09-04/4"
+  end
+
+  it do
+    get "/division.php?date=2014-09-04&display=policies&house=senate&number=4"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/policies"
+  end
+
+  it do
+    get "/division.php?date=2014-09-04&display=policies&house=senate&number=4&dmp=1"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/policies/1"
+  end
+
+  it do
+    get "/account/wiki.php?date=2014-09-04&house=senate&number=4&rr=%2Fdivisions%2Fsenate%2F2014-09-04%2F4&type=motion"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/edit"
+  end
+
+  it do
+    get "/edits.php?date=2014-09-04&house=senate&number=4&type=motion"
+    expect(response).to redirect_to "/divisions/senate/2014-09-04/4/history"
+  end
 end

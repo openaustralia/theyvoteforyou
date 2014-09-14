@@ -5,30 +5,41 @@ module DivisionsHelper
     text
   end
 
-  def division_with_member_path(division, member)
-    division_path2(division, {mpn: member.url_name, mpc: member.url_electorate})
+  def member_division_path2(member, division)
+    member_division_path(division_params(division).merge(member_params(member)))
   end
 
-  def division_with_policy_path(division, q = {})
-    if q[:dmp].nil? && current_user
-      division_path2(division, q.merge(dmp: current_user.active_policy_id))
+  def division_with_policy_path(division, policy)
+    if policy
+      dmp = policy.id
+    elsif current_user
+      dmp = current_user.active_policy_id
+    end
+    if dmp
+      division_policy_path(division_params(division).merge(dmp: dmp))
     else
-      division_path2(division, q)
+      division_policies_path(division_params(division))
     end
   end
 
   def division_path2(division, q = {})
-    division_path(q.merge({
-        date: division.date,
-        number: division.number,
-        house: division.australian_house
-      }))
+    division_path(q.merge(division_params(division)))
   end
 
-  def show_edits_division_path2(division)
-    # TODO Get rid of type=motion
-    show_edits_division_path(type: "motion",
-      date: division.date, number: division.number, house: division.australian_house)
+  def division_params(division)
+    {
+      date: division.date,
+      number: division.number,
+      house: division.australian_house
+    }
+  end
+
+  def history_division_path2(division)
+    history_division_path(division_params(division))
+  end
+
+  def edit_division_path2(division)
+    edit_division_path(division_params(division))
   end
 
   def aye_vote_class(whip)
