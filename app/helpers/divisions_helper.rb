@@ -27,8 +27,7 @@ module DivisionsHelper
   end
 
   def show_edits_division_path2(division)
-    # TODO Get rid of type=motion
-    show_edits_division_path({type: "motion"}.merge(division_params(division)))
+    show_edits_division_path(division_params(division))
   end
 
   def aye_vote_class(whip)
