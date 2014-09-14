@@ -9,7 +9,8 @@ module DivisionsHelper
     member_division_path(division_params(division).merge(member_params(member)))
   end
 
-  def division_with_policy_path(division, q = {})
+  def division_with_policy_path(division, policy)
+    q = policy ? {dmp: policy.id} : {}
     q[:display] = "policies"
     dmp = (q[:dmp] || current_user.nil?) ? q[:dmp] : current_user.active_policy_id
     division_path2(division, q.merge(dmp: dmp))
