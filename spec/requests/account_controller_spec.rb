@@ -6,7 +6,7 @@ describe AccountController, :type => :request do
 
   describe '#settings' do
     it 'shows the settings page when logged in', focus: true do
-      compare_static '/account/settings.php', true
+      compare_static '/users/settings', true
     end
   end
 end

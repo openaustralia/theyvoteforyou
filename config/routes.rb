@@ -115,7 +115,7 @@ Publicwhip::Application.routes.draw do
     get 'detail', on: :member
   end
 
-  match 'account/settings.php' => 'account#settings', via: [:get, :post], as: :account_settings
+  get 'users/settings' => 'account#settings', as: :account_settings
 
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
