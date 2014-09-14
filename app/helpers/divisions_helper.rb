@@ -10,6 +10,7 @@ module DivisionsHelper
   end
 
   def division_with_policy_path(division, q = {})
+    q[:display] = "policies"
     dmp = (q[:dmp] || current_user.nil?) ? q[:dmp] : current_user.active_policy_id
     division_path2(division, q.merge(dmp: dmp))
   end

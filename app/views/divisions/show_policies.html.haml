@@ -9,11 +9,11 @@
 #secondnavtabs
   %ul.nav.nav-tabs
     = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
-    = nav_link("Policies", division_with_policy_path(@division, display: "policies", dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
+    = nav_link("Policies", division_with_policy_path(@division, dmp: params[:dmp]), "Show or change the polices which vote on this division", @display == "policies")
 
 - if @policy
   - if user_signed_in?
-    %form.form-inline.policyvote{:action => division_with_policy_path(@division, display: "policies", dmp: @policy.id), :method => "post"}
+    %form.form-inline.policyvote{:action => division_with_policy_path(@division, dmp: @policy.id), :method => "post"}
       %strong
         Please read policy
         definition and division description before altering

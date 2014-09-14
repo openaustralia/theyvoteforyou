@@ -146,6 +146,6 @@ class DivisionsController < ApplicationController
       # TODO Use the same terminology rather than icky aye3
       flash[:notice] = "Succesfully changed vote on policy from #{changed_from} to #{changed_to}"
     end
-    redirect_to view_context.division_with_policy_path(@division, display: "policies", dmp: @policy.id)
+    redirect_to view_context.division_with_policy_path(@division, dmp: @policy.id)
   end
 end
