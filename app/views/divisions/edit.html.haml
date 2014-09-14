@@ -40,6 +40,6 @@
       %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Cancel"}/
     %p
       -# TODO: Use path helper
-      = link_to "View change history", show_edits_division_path2(@division)
+      = link_to "View change history", history_division_path2(@division)
   .col-md-4
     = render "edit_help"

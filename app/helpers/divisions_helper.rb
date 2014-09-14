@@ -26,7 +26,7 @@ module DivisionsHelper
     }
   end
 
-  def show_edits_division_path2(division)
+  def history_division_path2(division)
     history_division_path(division_params(division))
   end
 
