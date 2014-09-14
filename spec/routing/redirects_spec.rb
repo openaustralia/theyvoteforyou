@@ -226,4 +226,9 @@ describe "routing redirects", :type => :request do
     get "/index.php"
     expect(response).to redirect_to "/"
   end
+
+  it do
+    get "/faq.php#motionedit"
+    expect(response).to redirect_to "/help"
+  end
 end
