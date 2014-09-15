@@ -6,7 +6,6 @@
     - Parliament.all.each do |id, details|
       %option{:selected => (rdisplay == id), :value => divisions_path(params.merge(rdisplay: (id == "2013" ? nil : id)))}= details[:name]
     %option{:selected => (rdisplay == "all"), :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
-  %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
 
   -# Only currently showing this when we're only looking at a single house. Doesn't seem right
   - if parties
@@ -16,4 +15,5 @@
         - long_name = Party.long_name(party)
         - if !Party.whipless?(party)
           %option{:selected => (rdisplay2 == "#{party}_party"), :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
-    %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
+
+  %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
