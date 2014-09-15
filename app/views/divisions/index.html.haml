@@ -27,6 +27,8 @@
   %table.table
     %thead
       %tr
+        - if @house.nil?
+          %th House
         %th= link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
         %th Time
         %th= link_to_unless @sort == "subject", "Subject", divisions_path(params.merge(sort: "subject")), title: "Sort by subject"
@@ -43,6 +45,8 @@
         -# TODO temporary variable Eek!
         - whip = division.whips.where(party: @party).first
         %tr{:class => ("rebel" if division.rebellious?)}
+          - if @house.nil?
+            %td{:class => division.house}= division.australian_house_name
           %td= formatted_date(division.date, true)
           %td= division.clock_time
           %td= link_to truncate(division.name, length: 180), division_path2(division)
