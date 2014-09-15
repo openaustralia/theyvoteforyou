@@ -1,5 +1,5 @@
-require 'rails_helper'
+require 'spec_helper'
 
-RSpec.describe HelpController, :type => :controller do
+describe HelpController, :type => :controller do
 
 end
