@@ -49,6 +49,17 @@ tbody {
   color: red;
 }
 
+// Forms
+
+.list-filters {
+  .form-inline,
+  .btn-group {
+    @media (min-width: $screen-sm-min) {
+      display: inline-block;
+    }
+  }
+}
+
 // Divisions
 
 .division-outcome-score {
