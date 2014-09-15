@@ -5,7 +5,7 @@
     = nav_button_link("Senate", divisions_path(params.merge(house: "senate")), "Divisions from the Senate", @house == 'senate')
 
   -# Don't include this parameter when we generate URLs if it's been removed by the controller
-  - params.delete :rdisplay2 if rdisplay2.nil?
+  - params.delete :rdisplay2 if party.nil?
 
   %form.form-inline{:action => redirect_path, :method => "post", :name => "secondnav"}
     %select.form-control#r{:name => "r"}
@@ -16,10 +16,10 @@
     -# Only currently showing this when we're only looking at a single house. Doesn't seem right
     - if parties
       %select.form-control#r3{:name => "r3"}
-        %option{:selected => (rdisplay2.nil?), :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
-        - parties.each do |party|
-          - long_name = Party.long_name(party)
-          - if !Party.whipless?(party)
-            %option{:selected => (rdisplay2 == "#{party}_party"), :value => divisions_path(params.merge(rdisplay2: "#{party}_party"))}= long_name
+        %option{:selected => (party.nil?), :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+        - parties.each do |party2|
+          - long_name = Party.long_name(party2)
+          - if !Party.whipless?(party2)
+            %option{:selected => (party == party2), :value => divisions_path(params.merge(rdisplay2: "#{party2}_party"))}= long_name
 
     %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
