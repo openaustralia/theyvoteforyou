@@ -1,7 +1,4 @@
 class UsersController < ApplicationController
-  # TODO: Reenable CSRF protection
-  skip_before_action :verify_authenticity_token
-
   before_action :authenticate_user!
 
   def show
