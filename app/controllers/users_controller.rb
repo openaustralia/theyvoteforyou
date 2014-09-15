@@ -2,9 +2,9 @@ class UsersController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, only: [:settings]
+  before_action :authenticate_user!
 
-  def settings
+  def show
     user = User.find(params[:id])
     # For the time being only allowed to look at your own profile
     if user != current_user
