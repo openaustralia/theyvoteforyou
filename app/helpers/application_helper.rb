@@ -10,7 +10,7 @@ module ApplicationHelper
   end
 
   def nav_button_link(name, path, title, current)
-    link_to name, path, title: title, class: "btn btn-sm #{current ? "btn-primary" : "btn-default"}"
+    link_to name, path, title: title, class: "btn btn-sm btn-default" + (current ? " active" : "")
   end
 
   def electorate_path2(member)
