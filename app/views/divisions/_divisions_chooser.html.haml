@@ -20,6 +20,6 @@
         - parties.each do |party2|
           - long_name = Party.long_name(party2)
           - if !Party.whipless?(party2)
-            %option{:selected => (party == party2), :value => divisions_path(params.merge(party: nil, rdisplay2: "#{party2}_party"))}= long_name
+            %option{:selected => (party == party2), :value => divisions_path(params.merge(party: party2, rdisplay2: nil))}= long_name
 
     %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
