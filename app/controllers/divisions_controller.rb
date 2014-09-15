@@ -23,10 +23,12 @@ class DivisionsController < ApplicationController
 
     # We can either use party or rdisplay2 to set the party
     if params[:party]
-      @party = params[:party]
+      @party = params[:party].gsub("_", " ")
     elsif params[:rdisplay2]
       @party = params[:rdisplay2].gsub('_party', '')
     end
+    # Match to canonical capitalisation
+    @party = @parties.find{|p| p.downcase == @party}
 
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 

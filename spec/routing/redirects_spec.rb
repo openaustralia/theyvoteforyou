@@ -254,16 +254,16 @@ describe "routing redirects", :type => :request do
 
   it do
     get "/divisions.php?house=representatives&rdisplay2=Liberal+Party_party&rdisplay=2010"
-    expect(response).to redirect_to "/parties/Liberal%20Party/divisions/representatives?rdisplay=2010"
+    expect(response).to redirect_to "/parties/liberal_party/divisions/representatives?rdisplay=2010"
   end
 
   it do
     get "/divisions.php?house=representatives&rdisplay2=Liberal+Party_party"
-    expect(response).to redirect_to "/parties/Liberal%20Party/divisions/representatives"
+    expect(response).to redirect_to "/parties/liberal_party/divisions/representatives"
   end
 
   it do
     get "/divisions.php?house=representatives&rdisplay2=Liberal+Party_party&sort=rebellions"
-    expect(response).to redirect_to "/parties/Liberal%20Party/divisions/representatives?sort=rebellions"
+    expect(response).to redirect_to "/parties/liberal_party/divisions/representatives?sort=rebellions"
   end
 end

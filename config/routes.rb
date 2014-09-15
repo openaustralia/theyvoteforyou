@@ -107,7 +107,7 @@ Publicwhip::Application.routes.draw do
     else
       party = r.query_parameters['rdisplay2'].gsub('_party', '')
     end
-    result = "/parties/#{URI.escape(party)}/divisions/#{r.query_parameters['house']}"
+    result = "/parties/#{party.downcase.gsub(' ', '_')}/divisions/#{r.query_parameters['house']}"
     q = []
     q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters['rdisplay']
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters['sort']
