@@ -29,14 +29,14 @@
       %tr
         - if @house.nil?
           %th House
-        %th= link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
+        %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
         %th Time
-        %th= link_to_unless @sort == "subject", "Subject", divisions_path(params.merge(sort: "subject")), title: "Sort by subject"
+        %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
         %th
           = @party
-          = link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
+          = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
         %th Loyal
-        %th= link_to_unless @sort == "rebellions", "Rebels", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
+        %th= link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
         -# TODO Need to remove Boths
         - if @house == "representatives"
           %th Boths
@@ -62,15 +62,15 @@
       %tr
         - if @house.nil?
           %th House
-        %th= link_to_unless @sort.nil?, "Date", divisions_path(params.merge(sort: nil)), title: "Sort by date"
+        %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
         %th Time
-        %th= link_to_unless @sort == "subject", "Subject", divisions_path(params.merge(sort: "subject")), title: "Sort by subject"
+        %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
         %th
-          = link_to_unless @sort == "rebellions", "Rebels", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
+          = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
           %br>/
           (#{link_to "explain..", help_faq_path(anchor: "clarify")})
         %th Outcome
-        %th= link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
+        %th= link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
     %tbody
       -# Avoid calling out to SQL again
       - if @divisions.to_a.empty?
