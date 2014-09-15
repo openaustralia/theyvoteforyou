@@ -37,9 +37,6 @@
           = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
         %th Loyal
         %th= link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
-        -# TODO Need to remove Boths
-        - if @house == "representatives"
-          %th Boths
     %tbody
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
@@ -54,8 +51,6 @@
           %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
           %td= whip.no_loyal
           %td= whip.no_rebels
-          - if @house == "representatives"
-            %td 0
 - else
   %table.table
     %thead
