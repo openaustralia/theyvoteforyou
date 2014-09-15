@@ -75,7 +75,7 @@ Publicwhip::Application.routes.draw do
   get 'account/wiki.php' => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}
   get 'index.php' => redirect("/")
   # Unfortunately without resorting to something like js not possible to preserve anchor on redirect
-  get 'faq.php' => redirect{|p,r| "/help"}
+  get 'faq.php' => redirect{|p,r| "/help/faq"}
   get 'search.php' => redirect{|p,r|
     if r.query_parameters['query']
       "/search?query=#{Rack::Utils.escape(r.query_parameters['query'])}"
@@ -87,7 +87,7 @@ Publicwhip::Application.routes.draw do
   # Main routes
   root 'home#index'
 
-  get 'help' => 'home#faq', as: :help
+  get 'help/faq' => 'home#faq', as: :help
   get 'search' => 'home#search', as: :search
 
   get '/members/:house' => 'members#index', as: :members
