@@ -16,14 +16,10 @@ class DivisionsController < ApplicationController
     @rdisplay = "2013" if @rdisplay.nil?
     @house = params[:house]
 
-    if @house
-      if @rdisplay != "all"
-        @parties = Division.in_parliament(Parliament.all[@rdisplay])
-      else
-        @parties = Division
-      end
-      @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
-    end
+    @parties = Division
+    @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
+    @parties = @parties.in_australian_house(@house) if @house
+    @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
 
     # We can either use party or rdisplay2 to set the party
     if params[:party]
