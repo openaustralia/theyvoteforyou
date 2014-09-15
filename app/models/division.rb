@@ -14,6 +14,22 @@ class Division < ActiveRecord::Base
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
 
+  def whip_for_party(party)
+    whips.where(party: party).first
+  end
+
+  def no_rebellions_in_party(party)
+    whip_for_party(party).no_rebels
+  end
+
+  def no_loyal_in_party(party)
+    whip_for_party(party).no_loyal
+  end
+
+  def attendance_fraction_in_party(party)
+    whip_for_party(party).attendance_fraction
+  end
+
   def wiki_motion
     wiki_motions.first
   end
