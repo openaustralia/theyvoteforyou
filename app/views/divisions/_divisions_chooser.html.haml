@@ -1,8 +1,8 @@
 .list-filters.clearfix
   %nav.btn-group
-    = nav_button_link("Both houses", divisions_path(params.merge(house: nil)), "All divisions", @house.nil?)
-    = nav_button_link("Representatives", divisions_path(params.merge(house: "representatives")), "Divisions for the House of Representatives", @house == "representatives")
-    = nav_button_link("Senate", divisions_path(params.merge(house: "senate")), "Divisions from the Senate", @house == 'senate')
+    = nav_button_link("Both houses", {house: nil, sort: params[:sort], rdisplay: params[:rdisplay]}, "All divisions", @house.nil?)
+    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
+    = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
   -# Don't include this parameter when we generate URLs if it's been removed by the controller
   - params.delete :rdisplay2 if party.nil?
