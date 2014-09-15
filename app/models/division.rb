@@ -6,7 +6,7 @@ class Division < ActiveRecord::Base
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
 
-  delegate :turnout, :aye_majority, :rebellions, to: :division_info
+  delegate :turnout, :aye_majority, :rebellions, :majority, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }
@@ -36,11 +36,6 @@ class Division < ActiveRecord::Base
 
   def vote_for(member)
     member.vote_on_division_without_tell(self)
-  end
-
-  # This is a bit of a guess
-  def majority
-    aye_majority.abs
   end
 
   def passed?

@@ -3,6 +3,10 @@ class DivisionInfo < ActiveRecord::Base
 
   # TODO Fix duplication between this class and MemberInfo
 
+  def majority
+    aye_majority.abs
+  end
+
   def self.update_all!
     rebellions = all_rebellion_counts
     tells = all_tells_counts
