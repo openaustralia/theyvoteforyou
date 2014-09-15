@@ -122,8 +122,8 @@ Publicwhip::Application.routes.draw do
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters['sort']
     result += "?" + q.join("&") unless q.empty?
     result
-  }, as: :divisions
-  get '/divisions' => 'divisions#index'
+  }
+  get '/divisions' => 'divisions#index', as: :divisions
   get '/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions' => 'divisions#index', as: :party_divisions
