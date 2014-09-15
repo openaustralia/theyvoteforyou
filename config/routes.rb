@@ -83,11 +83,11 @@ Publicwhip::Application.routes.draw do
       "/search"
     end
   }
+  get 'project/code.php', to: redirect('https://github.com/openaustralia/publicwhip/')
 
   # Main routes
   root 'home#index'
 
-  get 'help/faq' => 'home#faq', as: :help
   get 'search' => 'home#search', as: :search
 
   get '/members/:house' => 'members#index', as: :members
@@ -120,8 +120,9 @@ Publicwhip::Application.routes.draw do
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
 
-  get 'project/code.php', to: redirect('https://github.com/openaustralia/publicwhip/')
-  get 'project/data.php' => 'static#data', as: :data_help
+  get 'help/faq' => 'home#faq', as: :help
+  get 'project/data.php' => redirect("/help/data")
+  get 'help/data' => 'static#data', as: :data_help
   get 'project/research.php' => 'static#research', as: :research_help
 
   # Example of regular route:

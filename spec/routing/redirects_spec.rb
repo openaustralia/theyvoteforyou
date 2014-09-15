@@ -241,4 +241,9 @@ describe "routing redirects", :type => :request do
     get "/search.php"
     expect(response).to redirect_to "/search"
   end
+
+  it do
+    get "/project/data.php"
+    expect(response).to redirect_to "/help/data"
+  end
 end
