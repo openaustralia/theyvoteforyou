@@ -10,7 +10,7 @@
   Current
   = members_type_long(@house)
   are listed below. Refer to
-  = link_to "this explanation", help_path(anchor: "clarify")
+  = link_to "this explanation", help_faq_path(anchor: "clarify")
   of the "rebellion" and "attendance" rates, as they may not mean what you
   think they do.
 
@@ -24,11 +24,11 @@
       %td
         = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
         %br/
-        (#{link_to "explain...", help_path(anchor: "clarify")})
+        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
       %td
         = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
         %br/
-        (#{link_to "explain...", help_path(anchor: "clarify")})
+        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
   %tbody
     - @members.each do |member|
       %tr

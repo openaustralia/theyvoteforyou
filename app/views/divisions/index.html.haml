@@ -21,7 +21,7 @@
 = render "divisions_chooser", rdisplay: @rdisplay, rdisplay2: @rdisplay2, house: @house, parties: @parties
 
 %p.lead
-  In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_path(anchor: "jargon")}
+  In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "jargon")}
 
 %nav.btn-group
   = nav_button_link("Both houses", divisions_path(params.merge(house: nil)), "All divisions", @house.nil?)
@@ -69,7 +69,7 @@
         %th
           = link_to_unless @sort == "rebellions", "Rebels", divisions_path(params.merge(sort: "rebellions")), title: "Sort by rebellions"
           %br>/
-          (#{link_to "explain..", help_path(anchor: "clarify")})
+          (#{link_to "explain..", help_faq_path(anchor: "clarify")})
         %th Outcome
         %th= link_to_unless @sort == "turnout", "Turnout", divisions_path(params.merge(sort: "turnout")), title: "Sort by turnout"
     %tbody

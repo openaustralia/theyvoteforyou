@@ -122,9 +122,9 @@ Publicwhip::Application.routes.draw do
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
 
-  get 'help/faq' => 'home#faq', as: :help
-  get 'help/data' => 'static#data', as: :data_help
-  get 'help/research' => 'static#research', as: :research_help
+  get 'help/faq' => 'home#faq', as: :help_faq
+  get 'help/data' => 'static#data', as: :help_data
+  get 'help/research' => 'static#research', as: :help_research
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

@@ -19,6 +19,6 @@
     %b= link_to "Source", division.source_url, title: "The original record of vote as reported by Hansard"
     |
     %b= link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
-    (#{link_to "learn more", help_path(anchor: "motionedit")})
+    (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
     - if division.motion_edited?
       (last edited #{relative_time division.wiki_motion.edit_date} by #{division.wiki_motion.user.real_name})

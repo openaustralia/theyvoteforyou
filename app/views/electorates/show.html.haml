@@ -10,7 +10,7 @@
   %em Note:
   our voting records currently only go back to the
   beginning of 2006 for the House of Representatives and the Senate
-  (#{link_to "more details", help_path(anchor: "timeperiod")}).
+  (#{link_to "more details", help_faq_path(anchor: "timeperiod")}).
 
 %table.table
   %thead
@@ -19,8 +19,8 @@
       %th From
       %th To
       %th Party
-      %th Rebellions (#{link_to "explain...", help_path(anchor: "clarify")})
-      %th Attendance (#{link_to "explain...", help_path(anchor: "clarify")})
+      %th Rebellions (#{link_to "explain...", help_faq_path(anchor: "clarify")})
+      %th Attendance (#{link_to "explain...", help_faq_path(anchor: "clarify")})
   %tbody
     - @members.each do |member|
       %tr
