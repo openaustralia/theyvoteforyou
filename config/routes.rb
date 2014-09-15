@@ -142,7 +142,7 @@ Publicwhip::Application.routes.draw do
     get 'detail', on: :member
   end
 
-  get 'users/:id' => 'account#settings', as: :user
+  get 'users/:id' => 'users#settings', as: :user
 
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed
