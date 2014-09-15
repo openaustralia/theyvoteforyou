@@ -64,17 +64,17 @@ In the Australian Parliament a vote is called a <em>division</em>. Through these
 </div>
 <div class="list-filters clearfix">
 <nav class="btn-group">
-<a class="btn btn-sm btn-primary" href="/divisions.php?rdisplay=2004&amp;sort=subject" title="All divisions">Both houses</a>
-<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay=2004&amp;sort=subject" title="Divisions for the House of Representatives">Representatives</a>
-<a class="btn btn-sm btn-default" href="/divisions.php?house=senate&amp;rdisplay=2004&amp;sort=subject" title="Divisions from the Senate">Senate</a>
+<a class="btn btn-sm btn-primary" href="/divisions?rdisplay=2004&amp;sort=subject" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions/representatives?rdisplay=2004&amp;sort=subject" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-default" href="/divisions/senate?rdisplay=2004&amp;sort=subject" title="Divisions from the Senate">Senate</a>
 </nav>
 <form action="/redir.php" class="form-inline" method="post" name="secondnav">
 <select class="form-control" id="r" name="r">
-<option value="/divisions.php?sort=subject">2013 (current)</option>
-<option value="/divisions.php?rdisplay=2010&amp;sort=subject">2010-2013</option>
-<option value="/divisions.php?rdisplay=2007&amp;sort=subject">2008-2010</option>
-<option selected="selected" value="/divisions.php?rdisplay=2004&amp;sort=subject">2004-2007</option>
-<option value="/divisions.php?rdisplay=all&amp;sort=subject">All Parliaments</option>
+<option value="/divisions?sort=subject">2013 (current)</option>
+<option value="/divisions?rdisplay=2010&amp;sort=subject">2010-2013</option>
+<option value="/divisions?rdisplay=2007&amp;sort=subject">2008-2010</option>
+<option selected="selected" value="/divisions?rdisplay=2004&amp;sort=subject">2004-2007</option>
+<option value="/divisions?rdisplay=all&amp;sort=subject">All Parliaments</option>
 </select>
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
 </form>
@@ -84,13 +84,16 @@ In the Australian Parliament a vote is called a <em>division</em>. Through these
 <thead>
 <tr>
 <th>House</th>
-<th><a href="/divisions.php?rdisplay=2004" title="Sort by date">Date</a></th>
+<th><a href="/divisions?rdisplay=2004" title="Sort by date">Date</a></th>
 <th>Time</th>
 <th>Subject</th>
-<th><a href="/divisions.php?rdisplay=2004&amp;sort=rebellions" title="Sort by rebellions">Rebels</a><br />(<a href="/help/faq#clarify">explain..</a>)
+<th><a href="/divisions?rdisplay=2004&amp;sort=rebellions" title="Sort by rebellions">Rebels</a><br />(<a href="/help/faq#clarify">explain..</a>)
 </th>
 <th>Outcome</th>
-<th><a href="/divisions.php?rdisplay=2004&amp;sort=turnout" title="Sort by turnout">Turnout</a></th>
+<th>
+
+<a href="/divisions?rdisplay=2004&amp;sort=turnout" title="Sort by turnout">Turnout</a>
+</th>
 </tr>
 </thead>
 <tbody>

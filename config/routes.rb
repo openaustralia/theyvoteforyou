@@ -114,7 +114,17 @@ Publicwhip::Application.routes.draw do
     result += "?" + q.join("&") unless q.empty?
     result
   }, constraints: lambda {|r| r.query_parameters['rdisplay2'] || r.query_parameters['party']}
-  get 'divisions.php' => 'divisions#index', as: :divisions
+  get 'divisions.php' => redirect{|p,r|
+    result = "/divisions"
+    result += "/#{r.query_parameters['house']}" if r.query_parameters['house']
+    q = []
+    q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters['rdisplay']
+    q << "sort=#{r.query_parameters['sort']}" if r.query_parameters['sort']
+    result += "?" + q.join("&") unless q.empty?
+    result
+  }, as: :divisions
+  get '/divisions' => 'divisions#index'
+  get '/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions' => 'divisions#index', as: :party_divisions
 
