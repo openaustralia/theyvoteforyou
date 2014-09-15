@@ -36,7 +36,10 @@
           = @party
           = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
         %th Loyal
-        %th= link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
+        %th
+          = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
+          %br>/
+          (#{link_to "explain..", help_faq_path(anchor: "clarify")})
     %tbody
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
