@@ -14,7 +14,6 @@ class DivisionsController < ApplicationController
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]
     @rdisplay = "2013" if @rdisplay.nil?
-    @rdisplay2 = params[:rdisplay2]
     @house = params[:house]
 
     if @house
@@ -26,12 +25,9 @@ class DivisionsController < ApplicationController
       @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
-    if @rdisplay2
-      if @parties.include? @rdisplay2.gsub('_party', '')
-        @party = @rdisplay2.gsub('_party', '')
-      else
-        @rdisplay2 = nil
-      end
+    if params[:rdisplay2]
+      @party = params[:rdisplay2].gsub('_party', '')      
+      @party = nil unless @parties.include? @party
     end
 
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
