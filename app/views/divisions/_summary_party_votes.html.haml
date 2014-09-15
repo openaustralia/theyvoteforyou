@@ -9,7 +9,7 @@
       - division.whips.order(:party).each do |whip|
         %tr
           %th
-            =whip.party_name
+            = link_to whip.party_name, party_divisions_path2(whip.party_name)
             %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction, precision: 1) + ' turnout)'
           %td{:class => aye_vote_class(whip)}
             = whip.aye_votes_including_tells if whip.aye_votes_including_tells > 0

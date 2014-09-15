@@ -20,6 +20,10 @@ module ApplicationHelper
       })
   end
 
+  def party_divisions_path2(party)
+    party_divisions_path(party: party.downcase.gsub(" ", "_"))
+  end
+
   # Returns Representatives or Senators
   def members_type(house)
     case house
