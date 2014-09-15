@@ -6,7 +6,7 @@ class Division < ActiveRecord::Base
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
 
-  delegate :turnout, :aye_majority, :rebellions, :majority, to: :division_info
+  delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
   scope :in_australian_house, ->(australian_house) { in_house(House.australian_to_uk(australian_house)) }

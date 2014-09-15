@@ -7,6 +7,11 @@ class DivisionInfo < ActiveRecord::Base
     aye_majority.abs
   end
 
+  # a tie is 0.0. a unanimous vote is 1.0
+  def majority_fraction
+    majority.to_f / turnout
+  end
+
   def self.update_all!
     rebellions = all_rebellion_counts
     tells = all_tells_counts

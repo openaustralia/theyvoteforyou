@@ -64,4 +64,26 @@ describe DivisionInfo, :type => :model do
       expect(DivisionInfo.all_possible_turnout_counts).to eq({1 => 2, 2 => 2})
     end
   end
+
+  describe "#majority_fraction" do
+    it "should be 0 for a tied vote" do
+      division = DivisionInfo.new(turnout: 100, aye_majority: 0)
+      expect(division.majority_fraction). to eq(0.0)
+    end
+
+    it "should be 1 for a unanimous aye vote" do
+      division = DivisionInfo.new(turnout: 100, aye_majority: 100)
+      expect(division.majority_fraction). to eq(1.0)
+    end
+
+    it "should be 1 for a unanimous no vote" do
+      division = DivisionInfo.new(turnout: 100, aye_majority: -100)
+      expect(division.majority_fraction). to eq(1.0)
+    end
+
+    it "should be 0.5 for a aye/no split of 75/25" do
+      division = DivisionInfo.new(turnout: 100, aye_majority: 50)
+      expect(division.majority_fraction). to eq(0.5)
+    end
+  end
 end
