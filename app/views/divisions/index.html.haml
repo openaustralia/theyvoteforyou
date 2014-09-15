@@ -42,18 +42,16 @@
           = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
     %tbody
       - @divisions.each do |division|
-        -# TODO temporary variable Eek!
-        - whip = division.whips.where(party: @party).first
         %tr{:class => ("rebel" if division.rebellious?)}
           - if @house.nil?
             %td{:class => division.house}= division.australian_house_name
           %td= formatted_date(division.date, true)
           %td= division.clock_time
           %td= link_to truncate(division.name, length: 180), division_path2(division)
-          %td= whip.no_loyal
-          %td= whip.no_rebels
+          %td= division.whips.where(party: @party).first.no_loyal
+          %td= division.whips.where(party: @party).first.no_rebels
           -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-          %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
+          %td= fraction_to_percentage_display(division.whips.where(party: @party).first.attendance_fraction, precision: 1)
 - else
   %table.table
     %thead
