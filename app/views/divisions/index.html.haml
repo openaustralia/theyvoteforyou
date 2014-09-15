@@ -54,24 +54,19 @@
         %td{colspan: @house.nil? ? 9 : 8} no votes listed
     - else
       - @divisions.each do |division|
-        - if @party
-          %tr
-            - if @house.nil?
-              %td{:class => division.house}= division.australian_house_name
-            %td= formatted_date(division.date, true)
-            %td= division.clock_time
-            %td= link_to truncate(division.name, length: 180), division_path2(division)
+        %tr
+          - if @house.nil?
+            %td{:class => division.house}= division.australian_house_name
+          %td= formatted_date(division.date, true)
+          %td= division.clock_time
+          %td= link_to truncate(division.name, length: 180), division_path2(division)
+
+          - if @party
             %td= division.whips.where(party: @party).first.no_loyal
             %td= division.whips.where(party: @party).first.no_rebels
             -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
             %td= fraction_to_percentage_display(division.whips.where(party: @party).first.attendance_fraction, precision: 1)
-        - else
-          %tr
-            - if @house.nil?
-              %td{:class => division.house}= division.australian_house_name
-            %td= formatted_date(division.date, true)
-            %td= division.clock_time
-            %td= link_to truncate(division.name, length: 180), division_path2(division)
+          - else
             %td= division.rebellions
             %td= division_outcome_with_score(division)
             %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
