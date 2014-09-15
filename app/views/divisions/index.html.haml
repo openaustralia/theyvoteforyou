@@ -23,24 +23,32 @@
 
 = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
 
-- if @party
-  %table.table
-    %thead
-      %tr
-        - if @house.nil?
-          %th House
-        %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
-        %th Time
-        %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
+%table.table
+  %thead
+    %tr
+      - if @house.nil?
+        %th House
+      %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
+      %th Time
+      %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
+
+      - if @party
         %th Loyal
-        %th
-          = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
-          %br>/
-          (#{link_to "explain..", help_faq_path(anchor: "clarify")})
-        %th
-          = @party
-          = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
-    %tbody
+
+      %th
+        = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
+        %br>/
+        (#{link_to "explain..", help_faq_path(anchor: "clarify")})
+
+      - if @party.nil?
+        %th Outcome
+
+      %th
+        = @party if @party
+        = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
+
+  %tbody
+    - if @party
       - @divisions.each do |division|
         %tr{:class => ("rebel" if division.rebellious?)}
           - if @house.nil?
@@ -52,22 +60,7 @@
           %td= division.whips.where(party: @party).first.no_rebels
           -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
           %td= fraction_to_percentage_display(division.whips.where(party: @party).first.attendance_fraction, precision: 1)
-- else
-  %table.table
-    %thead
-      %tr
-        - if @house.nil?
-          %th House
-        %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
-        %th Time
-        %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
-        %th
-          = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
-          %br>/
-          (#{link_to "explain..", help_faq_path(anchor: "clarify")})
-        %th Outcome
-        %th= link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
-    %tbody
+    - else
       -# Avoid calling out to SQL again
       - if @divisions.to_a.empty?
         %tr
