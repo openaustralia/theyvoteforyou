@@ -44,7 +44,7 @@
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               %li
-                = link_to account_settings_path, title: "Change account settings" do
+                = link_to current_user, title: "Change account settings" do
                   You are:
                   = current_user.real_name || current_user.email
               %li

@@ -5,6 +5,10 @@ class AccountController < ApplicationController
   before_action :authenticate_user!, only: [:settings]
 
   def settings
-    redirect_to params[:r] if params[:r]
+    user = User.find(params[:id])
+    # For the time being only allowed to look at your own profile
+    if user != current_user
+      render text: "unauthorized", status: :unauthorized
+    end
   end
 end
