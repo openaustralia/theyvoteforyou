@@ -32,14 +32,14 @@
         %th= link_to_unless @sort.nil?, "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date"
         %th Time
         %th= link_to_unless @sort == "subject", "Subject", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject"
-        %th
-          = @party
-          = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
         %th Loyal
         %th
           = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
           %br>/
           (#{link_to "explain..", help_faq_path(anchor: "clarify")})
+        %th
+          = @party
+          = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
     %tbody
       - @divisions.each do |division|
         -# TODO temporary variable Eek!
@@ -50,10 +50,10 @@
           %td= formatted_date(division.date, true)
           %td= division.clock_time
           %td= link_to truncate(division.name, length: 180), division_path2(division)
-          -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-          %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
           %td= whip.no_loyal
           %td= whip.no_rebels
+          -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
+          %td= fraction_to_percentage_display(whip.attendance_fraction, precision: 1)
 - else
   %table.table
     %thead
