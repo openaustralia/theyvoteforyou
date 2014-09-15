@@ -4,9 +4,6 @@
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
-  -# Don't include this parameter when we generate URLs if it's been removed by the controller
-  - params.delete :rdisplay2 if party.nil?
-
   %form.form-inline{:action => redirect_path, :method => "post", :name => "secondnav"}
     %select.form-control#r{:name => "r"}
       - Parliament.all.each do |id, details|
