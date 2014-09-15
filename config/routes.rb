@@ -101,7 +101,21 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
   get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
 
+  get 'divisions.php' => redirect{|p,r|
+    if r.query_parameters['party']
+      party = r.query_parameters['party']
+    else
+      party = r.query_parameters['rdisplay2'].gsub('_party', '')
+    end
+    result = "/parties/#{URI.escape(party)}/divisions/#{r.query_parameters['house']}"
+    q = []
+    q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters['rdisplay']
+    q << "sort=#{r.query_parameters['sort']}" if r.query_parameters['sort']
+    result += "?" + q.join("&") unless q.empty?
+    result
+  }, constraints: lambda {|r| r.query_parameters['rdisplay2'] || r.query_parameters['party']}
   get 'divisions.php' => 'divisions#index', as: :divisions
+  get '/parties/:party/divisions/:house' => 'divisions#index'
 
   get '/divisions/:house/:date/:number' => 'divisions#show', as: :division
   post '/divisions/:house/:date/:number' => 'divisions#update'
