@@ -42,7 +42,7 @@ All divisions on record
 <li><a href="/members/representatives" title="List of all Representatives">Representatives</a></li>
 <li><a href="/members/senate" title="List of all Senators">Senators</a></li>
 <li><a href="/policies" title="Help to analyze MP&#39;s votes">Policies</a></li>
-<li><a href="/help/faq" title="Frequently asked questions">Help / FAQ</a></li>
+<li><a href="/help" title="Frequently asked questions">Help / FAQ</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
 <li><a href="/users/sign_up" title="Register to make or edit policies">Sign Up</a></li>
@@ -60,7 +60,15 @@ All divisions on record
 — Senate only
 (sorted by rebellions)
 </h1>
+<p class="lead">
+In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. <a href="/help#jargon">Learn more...</a>
+</p>
 </div>
+<nav class="btn-group">
+<a class="btn btn-sm btn-default" href="/divisions.php?rdisplay=all&amp;sort=rebellions" title="All divisions">Both houses</a>
+<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay=all&amp;sort=rebellions" title="Divisions for the House of Representatives">Representatives</a>
+<a class="btn btn-sm btn-primary" href="/divisions.php?house=senate&amp;rdisplay=all&amp;sort=rebellions" title="Divisions from the Senate">Senate</a>
+</nav>
 <form action="/redir.php" class="form-inline" method="post" name="secondnav">
 <select class="form-control" id="r" name="r">
 <option value="/divisions.php?house=senate&amp;sort=rebellions">2013 (current)</option>
@@ -82,21 +90,13 @@ All divisions on record
 <input class="btn btn-default" name="submit" type="submit" value="Go" />
 </form>
 
-<p class="lead">
-In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. <a href="/help/faq#jargon">Learn more...</a>
-</p>
-<nav class="btn-group">
-<a class="btn btn-sm btn-default" href="/divisions.php?rdisplay=all&amp;sort=rebellions" title="All divisions">Both houses</a>
-<a class="btn btn-sm btn-default" href="/divisions.php?house=representatives&amp;rdisplay=all&amp;sort=rebellions" title="Divisions for the House of Representatives">Representatives</a>
-<a class="btn btn-sm btn-primary" href="/divisions.php?house=senate&amp;rdisplay=all&amp;sort=rebellions" title="Divisions from the Senate">Senate</a>
-</nav>
 <table class="table">
 <thead>
 <tr>
 <th><a href="/divisions.php?house=senate&amp;rdisplay=all" title="Sort by date">Date</a></th>
 <th>Time</th>
 <th><a href="/divisions.php?house=senate&amp;rdisplay=all&amp;sort=subject" title="Sort by subject">Subject</a></th>
-<th>Rebels<br />(<a href="/help/faq#clarify">explain..</a>)
+<th>Rebels<br />(<a href="/help#clarify">explain..</a>)
 </th>
 <th>Outcome</th>
 <th><a href="/divisions.php?house=senate&amp;rdisplay=all&amp;sort=turnout" title="Sort by turnout">Turnout</a></th>
