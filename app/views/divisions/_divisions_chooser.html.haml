@@ -12,14 +12,4 @@
       - Parliament.all.each do |id, details|
         %option{:selected => (rdisplay == id), :value => divisions_path(params.merge(rdisplay: (id == "2013" ? nil : id)))}= details[:name]
       %option{:selected => (rdisplay == "all"), :value => divisions_path(params.merge(rdisplay: "all"))} All Parliaments
-
-    -# Only currently showing this when we're only looking at a single house. Doesn't seem right
-    - if parties
-      %select.form-control#r3{:name => "r3"}
-        %option{:selected => (party.nil?), :value => divisions_path(params.merge(party: nil, rdisplay2: nil))} All Divisions
-        - parties.each do |party2|
-          - long_name = Party.long_name(party2)
-          - if !Party.whipless?(party2)
-            %option{:selected => (party == party2), :value => divisions_path(params.merge(party: party2, rdisplay2: nil))}= long_name
-
     %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
