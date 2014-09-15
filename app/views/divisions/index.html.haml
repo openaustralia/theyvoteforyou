@@ -8,9 +8,9 @@
     All divisions on record
   - else
     = Parliament.all[@rdisplay][:name]
-  - if @house == "representatives" && @party.nil?
+  - if @house == "representatives"
     \— Representatives only
-  - elsif @house == "senate" && @party.nil?
+  - elsif @house == "senate"
     \— Senate only
   - if @sort
     (sorted by #{@sort})
