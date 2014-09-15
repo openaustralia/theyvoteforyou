@@ -55,7 +55,7 @@
     - else
       - @divisions.each do |division|
         - if @party
-          %tr{:class => ("rebel" if division.rebellious?)}
+          %tr
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
@@ -66,7 +66,7 @@
             -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
             %td= fraction_to_percentage_display(division.whips.where(party: @party).first.attendance_fraction, precision: 1)
         - else
-          %tr{:class => ("rebel" if @sort != "rebellions" && division.rebellious?)}
+          %tr
             - if @house.nil?
               %td{:class => division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
