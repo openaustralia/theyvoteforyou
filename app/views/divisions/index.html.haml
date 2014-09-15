@@ -19,7 +19,7 @@
   %h1= yield :title
 
   %p.lead
-    In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_path(anchor: "jargon")}
+    In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "jargon")}
 
 = render "divisions_chooser", rdisplay: @rdisplay, rdisplay2: @rdisplay2, house: @house, parties: @parties
 
