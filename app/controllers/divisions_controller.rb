@@ -31,7 +31,6 @@ class DivisionsController < ApplicationController
     elsif params[:rdisplay2]
       @party = params[:rdisplay2].gsub('_party', '')
     end
-    @party = nil if @party && !@parties.include?(@party)
 
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
