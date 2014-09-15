@@ -27,7 +27,7 @@
         %td= link_to member.name, member_path2(member)
         %td= member.since
         %td= member.until
-        %td= member.party_long
+        %td= link_to member.party_long, party_divisions_path2(member.party_long)
         %td.percent
           - if !member.person.has_whip?
             no whip
