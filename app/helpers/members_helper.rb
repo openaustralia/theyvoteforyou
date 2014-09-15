@@ -27,6 +27,15 @@ module MembersHelper
     }
   end
 
+  # Also say "whilst Independent" if they used to be in a different party
+  def party_long2(member)
+    if member.entered_reason == "changed_party" || member.left_reason == "changed_party"
+      "whilst #{member.party_long}"
+    else
+      member.party_long
+    end
+  end
+
   def vote_class(vote)
     if vote.nil?
       ""

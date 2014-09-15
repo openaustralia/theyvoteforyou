@@ -2,7 +2,7 @@ class Vote < ActiveRecord::Base
   belongs_to :division
   belongs_to :member
 
-  delegate :party, :party_long2, :name, :name_without_title, :electorate, to: :member
+  delegate :party, :name, :name_without_title, :electorate, to: :member
   delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
 

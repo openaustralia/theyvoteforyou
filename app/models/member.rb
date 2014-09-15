@@ -139,16 +139,6 @@ class Member < ActiveRecord::Base
     Party.long_name(party)
   end
 
-  # Also say "whilst Independent" if they used to be in a different party
-  # TODO Move this to a view helper
-  def party_long2
-    if entered_reason == "changed_party" || left_reason == "changed_party"
-      "whilst #{party_long}"
-    else
-      party_long
-    end
-  end
-
   def senator?
     australian_house == "senate"
   end
