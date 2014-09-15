@@ -115,8 +115,8 @@ Publicwhip::Application.routes.draw do
     result
   }, constraints: lambda {|r| r.query_parameters['rdisplay2'] || r.query_parameters['party']}
   get 'divisions.php' => 'divisions#index', as: :divisions
-  get '/parties/:party/divisions/:house' => 'divisions#index', as: :party_divisions
-  get '/parties/:party/divisions' => 'divisions#index'
+  get '/parties/:party/divisions/:house' => 'divisions#index'
+  get '/parties/:party/divisions' => 'divisions#index', as: :party_divisions
 
   get '/divisions/:house/:date/:number' => 'divisions#show', as: :division
   post '/divisions/:house/:date/:number' => 'divisions#update'
