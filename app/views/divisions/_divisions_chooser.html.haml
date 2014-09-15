@@ -16,10 +16,10 @@
     -# Only currently showing this when we're only looking at a single house. Doesn't seem right
     - if parties
       %select.form-control#r3{:name => "r3"}
-        %option{:selected => (party.nil?), :value => divisions_path(params.merge(rdisplay2: nil))} All Divisions
+        %option{:selected => (party.nil?), :value => divisions_path(params.merge(party: nil, rdisplay2: nil))} All Divisions
         - parties.each do |party2|
           - long_name = Party.long_name(party2)
           - if !Party.whipless?(party2)
-            %option{:selected => (party == party2), :value => divisions_path(params.merge(rdisplay2: "#{party2}_party"))}= long_name
+            %option{:selected => (party == party2), :value => divisions_path(params.merge(party: nil, rdisplay2: "#{party2}_party"))}= long_name
 
     %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/

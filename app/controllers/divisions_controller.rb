@@ -25,10 +25,13 @@ class DivisionsController < ApplicationController
       @parties = @parties.in_australian_house(@house).joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
     end
 
-    if params[:rdisplay2]
-      @party = params[:rdisplay2].gsub('_party', '')      
-      @party = nil unless @parties.include? @party
+    # We can either use party or rdisplay2 to set the party
+    if params[:party]
+      @party = params[:party]
+    elsif params[:rdisplay2]
+      @party = params[:rdisplay2].gsub('_party', '')
     end
+    @party = nil if @party && !@parties.include?(@party)
 
     raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
