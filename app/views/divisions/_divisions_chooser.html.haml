@@ -1,7 +1,6 @@
 -# Don't include this parameter when we generate URLs if it's been removed by the controller
 - params.delete :rdisplay2 if rdisplay2.nil?
 
-
 %form.form-inline{:action => redirect_path, :method => "post", :name => "secondnav"}
   %select.form-control#r{:name => "r"}
     - Parliament.all.each do |id, details|
