@@ -21,4 +21,5 @@
     %b= link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
     (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
     - if division.motion_edited?
-      (last edited #{relative_time division.wiki_motion.edit_date} by #{division.wiki_motion.user.real_name})
+      (last edited #{relative_time division.wiki_motion.edit_date}
+      by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user})
