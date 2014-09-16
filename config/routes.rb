@@ -136,8 +136,6 @@ Publicwhip::Application.routes.draw do
   get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
 
-  post 'redir.php', to: redirect { |p, r| (r.params[:r] || r.params[:r2] || r.params[:r3]) }, as: :redirect
-
   resources :policies, except: :destroy do
     get 'detail', on: :member
   end
