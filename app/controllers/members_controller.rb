@@ -9,7 +9,9 @@ class MembersController < ApplicationController
     @sort = params[:sort]
     @house = params[:house]
 
-    members = Member.in_australian_house(@house).current.includes(:member_info).to_a
+    members = Member.current
+    members = members.in_australian_house(@house) if @house
+    members = members.includes(:member_info).to_a
 
     @members = case @sort
     when "constituency"
@@ -132,7 +134,7 @@ class MembersController < ApplicationController
     @member = @member.in_australian_house(params[:house])
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
-    
+
     render 'member_not_found', status: 404 if @member.nil?
   end
 end

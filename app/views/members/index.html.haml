@@ -1,14 +1,20 @@
 - content_for :title do
   - if @sort == "rebellions"
     Rebel
-  #{members_type(@house)}
+  - if @house
+    = members_type(@house)
+  - else
+    = members_type("all")
 
 .page-header
   %h1= yield :title
 
 %p
   Current
-  = members_type_long(@house)
+  - if @house
+    = members_type_long(@house)
+  - else
+    = members_type_long("all")
   are listed below. Refer to
   = link_to "this explanation", help_faq_path(anchor: "clarify")
   of the "rebellion" and "attendance" rates, as they may not mean what you
@@ -19,7 +25,10 @@
     %tr.headings
       %td
       %td= link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
-      %td= link_to_unless @sort == "constituency", electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label(@house).downcase}"
+      - if @house
+        %td= link_to_unless @sort == "constituency", electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label(@house).downcase}"
+      - else
+        %td= link_to_unless @sort == "constituency", electorate_label("all"), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label('all').downcase}"
       %td= link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
       %td
         = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
