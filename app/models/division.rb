@@ -55,7 +55,7 @@ class Division < ActiveRecord::Base
   end
 
   def passed?
-    australian_house == 'senate' && tied? ? false : aye_majority >= 1
+    tied? ? false : aye_majority >= 1
   end
 
   # Equal number of votes for the ayes and noes

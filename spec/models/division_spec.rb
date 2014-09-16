@@ -15,8 +15,7 @@ describe Division, :type => :model do
   describe '#passed?' do
     subject(:division) { Division.new }
 
-    it "should not be passed when there's a draw in the Senate" do
-      allow(division).to receive(:australian_house) {'senate'}
+    it "should not be passed when there's a draw" do
       allow(division).to receive(:aye_majority) {0}
       expect(division.passed?).to be(false)
     end
