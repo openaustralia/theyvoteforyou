@@ -14,6 +14,7 @@ Publicwhip::Application.routes.draw do
 
   get '/account/changepass.php' => redirect('/users/edit')
   get '/account/changeemail.php' => redirect('/users/edit')
+  get '/account/settings.php' => redirect('/users/edit')
 
   get 'mps.php' => 'members#index_redirect',
     constraints: lambda {|r| r.query_parameters["house"] == "all" || r.query_parameters["house"].nil? || r.query_parameters["sort"] == "lastname" || r.query_parameters["parliament"]}
