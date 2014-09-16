@@ -92,6 +92,21 @@ module DivisionsHelper
     vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
+  def majority_strength_in_words(division)
+    if division.majority_fraction == 1.0
+      "unanimously"
+    elsif division.majority_fraction == 0.0
+      ""
+    elsif division.majority_fraction > 2.to_f / 3
+      "by a large majority"
+    elsif division.majority_fraction > 1.to_f / 3
+      "by a moderate majority"
+    elsif division.majority_fraction > 0
+      "by a small majority"
+    end
+  end
+
+  # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? 'Passed' : 'Not passed'
   end
