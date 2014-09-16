@@ -135,11 +135,10 @@ class DivisionsController < ApplicationController
     old_vote = @policy.update_division_vote!(@division, new_vote)
     # Return the "changed from" value
     if old_vote != new_vote
-      changed_from = old_vote.nil? ? 'non-voter' : old_vote
-      changed_to = new_vote.nil? ? 'non-voter' : new_vote
+      changed_from = old_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(old_vote).downcase
+      changed_to = new_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(new_vote).downcase
     end
     if changed_from
-      # TODO Use the same terminology rather than icky aye3
       flash[:notice] = "Succesfully changed vote on policy from #{changed_from} to #{changed_to}"
     end
     redirect_to view_context.division_with_policy_path(@division, @policy)

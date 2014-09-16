@@ -28,4 +28,4 @@
             %td.division-member-vote{:data => {:member => "#{member.name}"}}
               = vote_display_in_table(member.vote_on_division_without_tell(division))
           %td.division-outcome
-            = division_outcome_with_score(division)
+            = division_outcome_with_majority_strength(division)

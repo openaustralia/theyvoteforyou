@@ -80,6 +80,8 @@ module DivisionsHelper
       "No (strong)"
     when "absent"
       "absent"
+    when "both"
+      "Abstain"
     else
       vote.capitalize
     end
@@ -90,6 +92,25 @@ module DivisionsHelper
     vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
+  def majority_strength_in_words(division)
+    if division.majority_fraction == 1.0
+      "unanimously"
+    elsif division.majority_fraction == 0.0
+      ""
+    elsif division.majority_fraction > 2.to_f / 3
+      "by a large majority"
+    elsif division.majority_fraction > 1.to_f / 3
+      "by a moderate majority"
+    elsif division.majority_fraction > 0
+      "by a small majority"
+    end
+  end
+
+  def division_outcome_with_majority_strength(division)
+    division_outcome(division) + " " + majority_strength_in_words(division)
+  end
+
+  # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? 'Passed' : 'Not passed'
   end
@@ -111,10 +132,7 @@ module DivisionsHelper
   end
 
   def member_voted_with(member, division)
-    # We're using a different member for the link to try to make things the same as the php
-    # TODO get rid of this silliness as soon as we can
-    member2 = Member.where(person_id: member.person_id, house: division.house).current_on(division.date).first
-    sentence = link_to member2.full_name, member_path2(member2)
+    sentence = link_to member.full_name, member_path2(member)
     sentence += " "
     if member.vote_on_division_without_tell(division) == "absent"
       sentence += "did not vote."

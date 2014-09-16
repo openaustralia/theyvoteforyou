@@ -11,7 +11,7 @@
   %p
     by
     %a{href: '#ratioexpl'} scoring
-    %em.percent= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy), precision: 1)
+    %em.percent= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
     compared to the votes below
 - if full
   %p
@@ -117,4 +117,4 @@
   \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
   \=
   = succeed "." do
-    %b= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy), precision: 1, format: "%n %")
+    %b= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
