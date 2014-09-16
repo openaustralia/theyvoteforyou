@@ -5,6 +5,9 @@ class HomeController < ApplicationController
     @divisions = Division.with_rebellions.order("date DESC", "clock_time DESC", "name", "number DESC").limit(5)
   end
 
+  def about
+  end
+
   def search
     if params[:query] =~ /^\d{4}$/
       @postcode = params[:query]
