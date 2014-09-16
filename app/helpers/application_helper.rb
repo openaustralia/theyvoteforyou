@@ -75,7 +75,7 @@ module ApplicationHelper
     end
   end
 
-  def fraction_to_percentage_display(fraction, options = {})
+  def fraction_to_percentage_display(fraction, options = {precision: 1})
     if fraction
       percentage = fraction * 100
       number_to_percentage(percentage, options)

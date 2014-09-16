@@ -41,7 +41,7 @@
               0
             - elsif member.person.votes_attended_with_whip
               #{member.person.votes_attended_with_whip},
-              %b= fraction_to_percentage_display(member.person.rebellions_fraction, precision: 1)
+              %b= fraction_to_percentage_display(member.person.rebellions_fraction)
         %td.percent
           - if member.person.votes_attended.nil?
             votes
@@ -50,4 +50,4 @@
           out of
           - if member.person.votes_possible
             #{member.person.votes_possible},
-            %b= fraction_to_percentage_display(member.person.attendance_fraction, precision: 1)
+            %b= fraction_to_percentage_display(member.person.attendance_fraction)

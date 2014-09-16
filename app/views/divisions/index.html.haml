@@ -65,8 +65,8 @@
             %td= division.no_loyal_in_party(@party)
             %td= division.no_rebellions_in_party(@party)
             -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-            %td= fraction_to_percentage_display(division.attendance_fraction_in_party(@party), precision: 1)
+            %td= fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
           - else
             %td= division.rebellions
             %td= division_outcome_with_majority_strength(division)
-            %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
+            %td= fraction_to_percentage_display(division.attendance_fraction)
