@@ -5,8 +5,7 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible" />
 <meta content="width=device-width, initial-scale=1" name="viewport" />
 <title>
-Marriage inequality
-— The Public Whip
+The Public Whip — Counting votes on your behalf
 </title>
 <link href="/assets/application.css" media="screen" rel="stylesheet" />
 <!--[if lt IE 9]>
@@ -33,67 +32,102 @@ Marriage inequality
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
 <li><a href="/" title="Front page and site highlights">Home</a></li>
+<li><a href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
 <li><a href="/members" title="All people currently in Federal Parliament">People</a></li>
 <li><a href="/policies" title="Help to analyze MP&#39;s votes">Policies</a></li>
-<li><a href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
-<li><a href="/about" title="Information about this website">About</a></li>
 <li><a href="/help/faq" title="Frequently asked questions">Help / FAQ</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
-<li>
-<a href="/users/1" title="Change account settings">Henare Degan
-</a></li>
-<li>
-<a data-method="delete" href="/users/sign_out" rel="nofollow" title="Make your browser forget that you are logged into The Public Whip as Henare Degan">Logout</a>
-</li>
+<li><a href="/users/sign_up" title="Register to make or edit policies">Sign Up</a></li>
+<li><a href="/users/sign_in" title="Login to edit policies">Login</a></li>
 </ul>
 </div>
 </div>
 </nav>
 <div class="container">
 
-<div class="page-header row">
-<nav class="header-actions col-md-3">
-<a class="btn btn-default btn-xs" href="/policies/1/edit" title="Change title and definition of policy">Edit</a>
-<a class="btn btn-primary btn-xs" href="/policies/new">New policy</a>
-</nav>
-<h1 class="col-md-9">Marriage inequality</h1>
-<blockquote class="lead policytext col-md-12">Access to marriage should be inequal.</blockquote>
+<div class="row">
+<div class="col-md-8 col-md-push-4">
+<h1>
+Find out how
+<span class="emph">your</span>
+MP votes on the issues
+<span class="emph">you</span>
+care about.
+</h1>
+<p>
+Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of
+power on your behalf.
+</p>
+<p>In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.</p>
+<p>The Public Whip lets you see all their votes so you can hold them to account.</p>
 </div>
-<div id="secondnavtabs">
-<ul class="nav nav-tabs">
-<li class="active"><a href="/policies/1" title="Overview of the policy">Selected votes</a></li>
-<li><a href="/policies/1/detail" title="Also shows description of every vote">Details of votes</a></li>
-</ul>
+<div class="col-md-4 col-md-pull-8">
+<h2>Search the Whip</h2>
+<p>
+Enter your
+<strong>postcode</strong>,
+a
+<strong>Representative</strong>
+or
+<strong>Senator’s name</strong>,
+or a particular
+<strong>topic</strong>
+of interest
+</p>
+<form action="/search" class="form-inline searchtitlebarform" method="get" name="pw">
+<input class="form-control" id="query" maxlength="256" name="query" onblur="fadeout(this)" onfocus="fadein(this)" size="12" />
+<button class="btn btn-default" name="button" type="submit" value="Submit">Submit</button>
+</form>
 </div>
-
-<p>These are the divisions (votes in Australia’s Parliament) that related to the policy “Marriage inequality”. Compare how a supporter of the policy would have voted to the division outcome.</p>
-<table class="table divisions-table">
-<thead>
+</div>
+<h2>Recent controversial divisions</h2>
+<p>
+<a href="/divisions" title="Show all divisions ordered by most recent">Show all divisions ordered by most recent</a>
+</p>
+<table class="table">
 <tr>
-<th>Division</th>
-<th class="policyvotehead">Supporters vote</th>
-<th>Division outcome</th>
+<td class="lords">Senate</td>
+<td>25&nbsp;Nov&nbsp;2009</td>
+<td><a href="/divisions/senate/2009-11-25/8">Carbon Pollution Reduction Scheme Legislation</a></td>
 </tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<h3 class="h4">
-<small class="pre-title">14 Mar 2013 at 10:56, Representatives</small>
-<a href="/divisions/representatives/2013-03-14/1/policies/1">test</a>
-</h3>
-</td>
-<td class="division-policy-vote">
-Aye
-</td>
-<td class="division-outcome">
-Not passed by a small majority
-</td>
-</tr>
-</tbody>
 </table>
-
+<div class="row">
+<div class="col-md-4">
+<h2>Top rebel MPs</h2>
+<p>
+<a href="/members/representatives?sort=rebellions">Show all
+Representatives
+ordered by rebellions
+</a></p>
+<p>
+<a href="/members/senate?sort=rebellions">Show all
+Senators
+ordered by rebellions
+</a></p>
+</div>
+<div class="col-md-4">
+<h2>Representatives and Senators who attend votes most often</h2>
+<p>
+<a href="/members/representatives?sort=attendance">Show all
+Representatives
+ordered by attendance
+</a></p>
+<p>
+<a href="/members/senate?sort=attendance">Show all
+Senators
+ordered by attendance
+</a></p>
+</div>
+<div class="col-md-4">
+<h2>Test a Representative or Senator against policies you care about</h2>
+<p>
+<a href="/policies">Browse</a>
+existing policies
+</p>
+</div>
+<div class="clear"></div>
+</div>
 
 </div>
 <div id="footer1">
