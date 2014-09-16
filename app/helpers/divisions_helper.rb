@@ -80,6 +80,8 @@ module DivisionsHelper
       "No (strong)"
     when "absent"
       "absent"
+    when "both"
+      "Abstain"
     else
       vote.capitalize
     end
