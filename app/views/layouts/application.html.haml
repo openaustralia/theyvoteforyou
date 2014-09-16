@@ -45,7 +45,6 @@
             - if user_signed_in?
               %li
                 = link_to current_user, title: "Change account settings" do
-                  You are:
                   = current_user.real_name || current_user.email
               %li
                 = link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into The Public Whip as #{current_user.real_name || current_user.email}", method: :delete
