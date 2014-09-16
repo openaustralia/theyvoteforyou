@@ -4,9 +4,7 @@
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
-  %form.form-inline{:action => redirect_path, :method => "post", :name => "secondnav"}
-    %select.form-control#r{:name => "r"}
-      - Parliament.all.each do |id, details|
-        %option{:selected => (rdisplay == id), :value => url_for(rdisplay: (id == "2013" ? nil : id), house: params[:house], sort: params[:sort])}= details[:name]
-      %option{:selected => (rdisplay == "all"), :value => url_for(rdisplay: "all", house: params[:house], sort: params[:sort])} All Parliaments
-    %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Go"}/
+  %nav.btn-group
+    - Parliament.all.each do |id, details|
+      = nav_button_link(details[:name], {rdisplay: (id == "2013" ? nil : id), house: params[:house], sort: params[:sort]}, "", rdisplay == id)
+    = nav_button_link("All Parliaments", {rdisplay: "all", house: params[:house], sort: params[:sort]}, "", rdisplay == "all")
