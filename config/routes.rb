@@ -87,20 +87,6 @@ Publicwhip::Application.routes.draw do
   get 'project/data.php' => redirect("/help/data")
   get 'project/research.php' => redirect("/help/research")
 
-  # Main routes
-  root 'home#index'
-
-  get 'search' => 'home#search', as: :search
-
-  get '/members/:house' => 'members#index', as: :members
-  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
-  get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
-  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy', as: :member_policy
-  get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full', as: :full_member_policy
-  get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
-  get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
-  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
-
   get 'divisions.php' => redirect{|p,r|
     if r.query_parameters['party']
       party = r.query_parameters['party']
@@ -123,6 +109,24 @@ Publicwhip::Application.routes.draw do
     result += "?" + q.join("&") unless q.empty?
     result
   }
+
+  #################
+  #  Main routes  #
+  #################
+
+  root 'home#index'
+
+  get 'search' => 'home#search', as: :search
+
+  get '/members/:house' => 'members#index', as: :members
+  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
+  get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
+  get '/members/:house/:mpc/:mpn/policies/:dmp' => 'members#policy', as: :member_policy
+  get '/members/:house/:mpc/:mpn/policies/:dmp/full' => 'members#full', as: :full_member_policy
+  get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
+  get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
+  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
+
   get '/divisions' => 'divisions#index', as: :divisions
   get '/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions/:house' => 'divisions#index'
