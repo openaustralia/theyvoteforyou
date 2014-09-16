@@ -106,6 +106,10 @@ module DivisionsHelper
     end
   end
 
+  def division_outcome_with_majority_strength(division)
+    division_outcome(division) + " " + majority_strength_in_words(division)
+  end
+
   # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? 'Passed' : 'Not passed'

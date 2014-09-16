@@ -68,5 +68,5 @@
             %td= fraction_to_percentage_display(division.attendance_fraction_in_party(@party), precision: 1)
           - else
             %td= division.rebellions
-            %td= division_outcome_with_score(division)
+            %td= division_outcome_with_majority_strength(division)
             %td= fraction_to_percentage_display(division.attendance_fraction, precision: 1)
