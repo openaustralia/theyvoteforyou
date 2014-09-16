@@ -20,6 +20,12 @@
     of the "rebellion" and "attendance" rates, as they may not mean what you
     think they do.
 
+.list-filters.clearfix
+  %nav.btn-group
+    = nav_button_link("Both houses", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
+    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
+    = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
+
 %table.table
   %thead
     %tr.headings
