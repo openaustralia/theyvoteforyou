@@ -119,6 +119,8 @@ Publicwhip::Application.routes.draw do
 
   get 'search' => 'home#search', as: :search
 
+  get 'about' => 'home#about', as: :about
+
   get '/members/:house' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
