@@ -11,14 +11,6 @@ class MemberDistance < ActiveRecord::Base
     1 - distance_b
   end
 
-  def agreement_percentage
-    agreement_fraction * 100
-  end
-
-  def agreement_percentage_without_abstentions
-    agreement_fraction_without_abstentions * 100
-  end
-
   def self.update_all!
     Member.all.find_each do |member1|
       puts "Updating distances for #{member1.name}..."
