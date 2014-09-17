@@ -4,11 +4,11 @@ module MembersHelper
   end
 
   def member_policy_path2(member, policy)
-    member_policy_path(member_params(member).merge(dmp: policy.id))
+    member_policy_path(member_params(member).merge(id: policy.id))
   end
 
   def full_member_policy_path2(member, policy)
-    full_member_policy_path(member_params(member).merge(dmp: policy.id))
+    full_member_policy_path(member_params(member).merge(id: policy.id))
   end
 
   def votes_member_path2(member)

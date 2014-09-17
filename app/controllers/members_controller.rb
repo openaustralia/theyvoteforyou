@@ -99,7 +99,7 @@ class MembersController < ApplicationController
     @member = @member.order(entered_house: :desc).first
 
     if @member
-      @policy = Policy.find(params[:dmp])
+      @policy = Policy.find(params[:id])
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
       render "policy"
