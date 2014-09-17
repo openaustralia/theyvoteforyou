@@ -1,5 +1,5 @@
 class PolicyDivision < ActiveRecord::Base
-  has_paper_trail
+  has_paper_trail meta: { policy_id: :policy_id }
   belongs_to :policy
   belongs_to :division
 

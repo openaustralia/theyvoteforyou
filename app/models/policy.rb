@@ -1,5 +1,5 @@
 class Policy < ActiveRecord::Base
-  has_paper_trail
+  has_paper_trail meta: { policy_id: :id }
   has_many :policy_divisions
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy

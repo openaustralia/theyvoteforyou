@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917011343) do
+ActiveRecord::Schema.define(version: 20140917033028) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -206,9 +206,11 @@ ActiveRecord::Schema.define(version: 20140917011343) do
     t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
+    t.integer  "policy_id"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["policy_id"], name: "index_versions_on_policy_id", using: :btree
 
   create_table "votes", force: true do |t|
     t.integer "division_id",                            null: false
