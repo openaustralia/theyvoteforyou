@@ -22,14 +22,14 @@
     - if @division.policies
       - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
         %p
-          People who are <em>for</em>
+          People who are
           = link_to policy.name, policy
           would have voted '#{policy.vote_for_division(@division)}'
 
           = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
 
     %fieldset
-      %label People who are <em>for</em>
+      %label People who are
       = select_tag "policies", options_from_collection_for_select(Policy.all, "id", "name"), size: 1, class: "form-control", :prompt => "Select related policy"
 
       would have
@@ -48,7 +48,7 @@
   - if @division.policies
     - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
       %p
-        People who are <em>for</em>
+        People who are
         = link_to policy.name, policy
         would have voted '#{policy.vote_for_division(@division)}'
 
