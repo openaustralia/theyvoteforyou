@@ -10,15 +10,7 @@
   %h1= yield :title
 
   %p.lead
-    Current
-    - if @house
-      = members_type_long(@house)
-    - else
-      = members_type_long("all")
-    are listed below. Refer to
-    = link_to "this explanation", help_faq_path(anchor: "clarify")
-    of the "rebellion" and "attendance" rates, as they may not mean what you
-    think they do.
+    Current Members of Australia’s Federal Parliament.
 
 .list-filters.clearfix
   %nav.btn-group
