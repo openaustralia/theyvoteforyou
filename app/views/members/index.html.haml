@@ -1,16 +1,16 @@
 - content_for :title do
   - if @sort == "rebellions"
-    Rebel
+    Rebel,
+  Current
   - if @house
     = members_type(@house)
   - else
     = members_type("all")
 
 .page-header
-  %h1= yield :title
-
-  %p.lead
-    Current Members of Australia’s Federal Parliament.
+  %h1
+    = yield :title
+    %small in the Federal Parliament
 
 .list-filters.clearfix
   %nav.btn-group
