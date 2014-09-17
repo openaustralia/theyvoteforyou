@@ -27,6 +27,7 @@
           - # TODO: Make this show the nice form of the vote e.g. No (Strong)
           would have voted '#{policy.vote_for_division(@division)}'
 
+          - # TODO: Make this link work
           = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
 
     %fieldset
