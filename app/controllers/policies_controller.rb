@@ -9,6 +9,8 @@ class PoliciesController < ApplicationController
   end
 
   def show
+    @policy = Policy.find(params[:id])
+
     if params[:mpc] && params[:mpn]
       electorate = params[:mpc].gsub("_", " ")
       name = params[:mpn].gsub("_", " ")
@@ -19,15 +21,12 @@ class PoliciesController < ApplicationController
       @member = @member.order(entered_house: :desc).first
 
       if @member
-        @policy = Policy.find(params[:id])
         # Pick the member where the votes took place
         @member = @member.person.member_for_policy(@policy)
         render "members/policy"
       else
         render 'members/member_not_found', status: 404
       end
-    else
-      @policy = Policy.find(params[:id])
     end
   end
 
