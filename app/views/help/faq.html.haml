@@ -3,14 +3,6 @@
 %h1= yield :title
 %ul
   %li
-    %a{:href => "#whatis"} What is the Public Whip?
-  %li
-    %a{:href => "#how"} How does the Public Whip work?
-  %li
-    %a{:href => "#timeperiod"} What time period does it cover?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
     %a{:href => "#division"} What is a division?
   %li
     %a{:href => "#division-occur"} When does a division occur?
@@ -39,77 +31,7 @@
   %li
     %a{:href => "#tied-division"}
       What happens if a division is tied?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#legal"}
-      Legal question: what can I use this
-      information for?
-  %li
-    %a{:href => "#playwith"} Can I play with the software?
-  %li
-    %a{:href => "#datalicence"} What licence is the data under?
-  %li
-    %a{:href => "#organisation"}
-      What organisation is behind the Public
-      Whip?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#help"} Can I help with the project?
-  %li
-    %a{:href => "#contact"} How can I contact you?
-%h2.faq
-  %a{:name => "whatis"} What is the Public Whip?
-%p
-  Public Whip is a project to track the voting patterns of
-  Australian federal politicians. We're an independent,
-  non-governmental project of the
-  charity #{link_to "OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/"}.
-%h2.faq
-  %a{:name => "how"}
-    How does the Public Whip
-    work?
-%p
-  Debate transcripts of the House of Representatives and the
-  Senate are published online as #{link_to "Hansard", "http://www.openaustralia.org/"}.
-  Public Whip takes these records and compiles lists of votes that you can
-  access under #{link_to "Divisions", divisions_path}. You can search through
-  these votes using our #{link_to "search function", root_path} on the home
-  page or you can browse the votes that are relevant to the particular policy
-  areas listed under #{link_to "Policies", policies_path} (for more on our
-  policies, see #{link_to "What are Policies and how do they work?", "#policies"}).
-%h2.faq
-  %a{:name => "timeperiod"}
-    What time period does it
-    cover?
-%p
-  The Public Whip’s voting and membership data extends back to
-  2006. New divisions are added as soon as possible after becoming
-  available. We give no warranty for the data so
-  %a{:href => "#contact"} let us know
-  if you find any factual
-  inaccuracies.
-%p
-  %b Numerics:
-  The database contains
-  %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
-  distinct Representatives and Senators from
-  %strong= number_with_delimiter(Member.select(:party).distinct.count)
-  parties who have voted across
-  %strong= number_with_delimiter(Division.count)
-  divisions. In total
-  %strong= number_with_delimiter(Vote.count)
-  votes were cast giving an average of
-  -# Doing this to make it match the php app as a quick hack
-  - if Vote.count.to_f / Division.count == 1.0
-    %strong 1
-  - else
-    %strong= number_with_precision (Vote.count.to_f / Division.count), precision: 1, strip_insignificant_zeros: true
-  per division. Of these
-  %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
-  were against the majority vote for their party giving an average rebellion rate of
-  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
+
 %h2.faq
   %a{:name => "division"} What is a division?
 %p
@@ -238,6 +160,7 @@
 %p
   "Rebellion" figures record the number of rebel votes
   (see #{link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"}).
+
 %h2.faq
   %a{:name => "tied-division"}
     What happens if a division is tied?
@@ -259,77 +182,3 @@
   so they do not have a casting vote. If a vote in the Senate is tied it is
   = link_to 'considered to have failed', 'http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html'
   because a majority vote has not been reached.
-
-%h2.faq
-  %a{:name => "legal"}
-    Legal question: what can I use
-    this information for?
-%p
-  You can use the information freely so long as you credit the
-  Public Whip and share it (see #{link_to "What licence is the data under?", "#datalicence"}).
-  However, you should double check the
-  information to make sure it is correct. If you find an error,
-  please
-  %a{:href => "#contact"} contact us
-  and let us know.
-%h2.faq
-  %a{:name => "playwith"}
-    Can I play with the
-    software?
-%p
-  Yes. All the software we've written is free and protected by the
-  %a{:href => "http://www.fsf.org/licensing/licenses/agpl-3.0.html"}
-    GNU
-    Affero General Public License
-  (which means you can use it and
-  change it, but you have to release any changes you make). It's
-  available for #{link_to "download on Github", "https://github.com/openaustralia/publicwhip"}.
-%h2.faq
-  %a{:name => "datalicence"}
-    What licence is the data
-    under?
-%p
-  To the extent which we have rights to this database of
-  politicians’ voting records and related information, it is licensed
-  under the #{link_to "Open Data Commons Open Database License", "http://opendatacommons.org/licenses/odbl/"}.
-  This is an attribution,
-  share-alike licence. That means that you must credit the Public
-  Whip, for example via a link, if you use the data. It also means
-  that if you build on this data, you must also share the result
-  under a compatible open data licence.
-%h2.faq
-  %a{:name => "organisation"}
-    What organisation is behind
-    the Public Whip?
-%p
-  Public Whip in Australia was started and is run by the
-  #{link_to "OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/"},
-  a charity. It is based on the
-  %a{:href => "http://www.publicwhip.org.uk/"} UK Public Whip site
-  which was
-  created by
-  %a{:href => "http://www.flourish.org/"} Francis Irving
-  and
-  %a{:href => "http://www.goatchurch.org.uk/"} Julian Todd
-  in
-  2003.
-%h2.faq
-  %a{:name => "help"}
-    Can I help with the
-    project?
-%p
-  Yes! We're looking for people who are interested in making the
-  voting records more accessible as well as people with particular
-  skill-sets that they feel they could contribute. If this sounds
-  like you, please email us at
-  = succeed "." do
-    %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org
-%h2.faq
-  %a{:name => "contact"} How can I contact you?
-%p
-  You can contact us via email at
-  %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org
-  or our #{link_to "Twitter account", "http://twitter.com/openaustralia"}.
-%p
-  Please contact us if you find an error, have a suggestion or
-  have any questions.

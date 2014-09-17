@@ -1,29 +1,43 @@
 .row
   .col-md-8
-    %h1 About Working Title
+    :markdown
+      About Working Title
+      ===================
 
-    %p In Australia we elect individuals to represent us in Parliament. These people, our Members of Parliament, are then supposed to vote in our interest and pass legislation to create the society we want. Our media gives enormous space to these members to talk about and sell their positions—but do you know how the individual speaking for your electorate actually votes? Do they ever cross the floor to vote against their party for the interests and beliefs of people in your electorate?
+      In Australia we elect individuals to represent us in Parliament. These people, our Members of Parliament, are then supposed to vote in our interest and pass legislation to create the society we want. Our media gives enormous space to these members to talk about and sell their positions—but do you know how the individual speaking for your electorate actually votes? Do they ever cross the floor to vote against their party for the interests and beliefs of people in your electorate?
 
-    %p This website, Public Whip, creates a simple record of how every member of Federal Parliament votes in every recorded division (“Division” is the fancy parliamentary term for <em>vote in parliament</em>). Looking for the member who represents you? It’s easy to #{link_to "get started by searching", search_path()} or head to the full list of #{link_to "Senators", members_path(house: "senate")} and #{link_to "Representatives", members_path(house: "representatives")}.
+      This website, Public Whip, creates a simple record of how every member of Federal Parliament votes in every recorded division (“Division” is the fancy parliamentary term for <em>vote in parliament</em>). Looking for the member who represents you? It’s easy to #{link_to "get started by searching", search_path()} or head to the full list of #{link_to "Senators", members_path(house: "senate")} and #{link_to "Representatives", members_path(house: "representatives")}.
 
-    %p A lot of what happens in parliament is pretty confusing and full of stuffy jargon. People like you are using Public Whip to discuss and summarise many of the divisions and explain how they are related to specific policy positions. That means that you don’t have to speak archaic, parliamentary language to understand if a member votes #{link_to "for expanding powers to intercept communications", policy_path(44)} or #{link_to "for Aboriginal land rights", policy_path(24)} as an exmample. There is a whole #{link_to "list of policies", policies_path}, which you could even add to.
+      A lot of what happens in parliament is pretty confusing and full of stuffy jargon. People like you are using Public Whip to discuss and summarise many of the divisions and explain how they are related to specific policy positions. That means that you don’t have to speak archaic, parliamentary language to understand if a member votes #{link_to "for expanding powers to intercept communications", policy_path(44)} or #{link_to "for Aboriginal land rights", policy_path(24)} as an exmample. There is a whole #{link_to "list of policies", policies_path}, which you could even add to.
 
-    %h2 Who made this?
+      ## Who made this?
 
-    %p Public Whip is a non-partisan, open source project by the OpenAustralia Foundation, a not-for-profit, independent organisation that builds websites like this to help you keep tabs on your government.
+      Public Whip is a non-partisan, open source project by the OpenAustralia Foundation, a not-for-profit, independent organisation that builds websites like this to help you keep tabs on your government.
 
-    %p The OpenAustralian Foundation has ported this project from an older website set up in the UK...
+      The OpenAustralian Foundation has ported this project from the [UK Public Whip project](http://www.publicwhip.org.uk/) created by [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003.
 
-    %h2 Contribute
+      ## Where do the records come from?
 
-    %p Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on Github, where you can see all the full list of contributors, and find out how to contribute yourself.
+      Debate transcripts of the House of Representatives and the Senate are published online as #{link_to "Hansard", "http://www.openaustralia.org/"}. Public Whip takes these records and compiles lists of votes that you can access under #{link_to "Divisions", divisions_path}. You can search through these votes using our #{link_to "search function", root_path} on the home page or you can browse the votes that are relevant to the particular policy areas listed under #{link_to "Policies", policies_path} (for more on our policies, see #{link_to "What are Policies and how do they work?", "#policies"}).
 
-    %p If you’re not a civic-hacker (yet), you can help make this project better for everyone by summarising divisions and maintaining and discussing policies.
+      The Public Whip’s voting and membership data extends back to 2006. New divisions are added as soon as possible after becoming available. We give no warranty for the data so let us know if you find any factual inaccuracies.
 
-    %p You could also #{link_to "make a tax deductible donation to the OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/donate/"} to support us in creating and maintaining projects like this. You can find out about and use the other tools we provide, ...
+      ## Contribute
 
-    %h2 Contact
+      Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on Github, where you can see all the full list of contributors, and find out how to contribute yourself.
 
-    %p Email the OpenAustralia Foundation at #{mail_to "contact@openaustraliafoundation.org.au"}.
+      If you’re not a civic-hacker (yet), you can help make this project better for everyone by summarising divisions and maintaining and discussing policies.
 
-    %p You can also read the #{link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"}, follow us on #{link_to "Twitter", "http://twitter.com/openaustralia"} and #{link_to "contribute to our work on Github", "https://github.com/openaustralia"}.
+      You could also #{link_to "make a tax deductible donation to the OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/donate/"} to support us in creating and maintaining projects like this. You can find out about and use the other tools we provide, ...
+
+      ## Your rights
+
+      To the extent which we have rights to this database of politicians’ voting records and related information, it is licensed under the [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/). This is an attribution, share-alike licence. That means that you must credit the Public Whip, for example via a link, if you use the data. It also means that if you build on this data, you must also share the result under a compatible open data licence.
+
+      All the software we‘ve written that runs this website is free and protected by the [GNU Affero General Public License](http://www.gnu.org/licenses/agpl-3.0.html) (which means you can use it and change it, but you have to release any changes you make). The [source code is available for download on Github](https://github.com/openaustralia/publicwhip).
+
+      ## Contact
+
+      Email the OpenAustralia Foundation at #{mail_to "contact@openaustraliafoundation.org.au"}.
+
+      You can also read the #{link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"}, follow us on #{link_to "Twitter", "http://twitter.com/openaustralia"} and #{link_to "contribute to our work on Github", "https://github.com/openaustralia"}.
