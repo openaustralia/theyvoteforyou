@@ -76,18 +76,6 @@ class MembersController < ApplicationController
     render 'member_not_found', status: 404 if @member.nil?
   end
 
-  def votes
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_australian_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
-    render 'member_not_found', status: 404 if @member.nil?
-  end
-
   def show
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")

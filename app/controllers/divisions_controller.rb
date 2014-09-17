@@ -10,6 +10,22 @@ class DivisionsController < ApplicationController
     end
   end
 
+  def votes
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member.nil?
+      render 'members/member_not_found', status: 404
+    else
+      render 'members/votes'
+    end
+  end
+
   def index
     @sort = params[:sort]
     @rdisplay = params[:rdisplay]

@@ -2,7 +2,7 @@
   Voting Record —
   = @member.full_name2
 
-= render "member_page_header", member: @member
+= render "members/member_page_header", member: @member
 
 %h2#divisions #{link_to @member.full_name_no_electorate, member_path2(@member), title: "Overview of #{@member.full_name}"} : All Votes
 
@@ -10,4 +10,4 @@
 
 %table.table
   - @member.person.members.order(entered_house: :desc).each do |member|
-    = render "votes", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no votes listed"
+    = render "members/votes", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no votes listed"
