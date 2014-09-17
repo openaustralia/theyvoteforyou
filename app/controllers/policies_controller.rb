@@ -2,7 +2,26 @@ class PoliciesController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, except: [:index, :show, :detail]
+  before_action :authenticate_user!, except: [:index, :show, :detail, :policy]
+
+  def policy
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+
+    @member = Member.with_name(name)
+    @member = @member.in_australian_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    if @member
+      @policy = Policy.find(params[:dmp])
+      # Pick the member where the votes took place
+      @member = @member.person.member_for_policy(@policy)
+      render "members/policy"
+    else
+      render 'members/member_not_found', status: 404
+    end
+  end
 
   def index
     @policies = Policy.order(:private, :name).includes(:divisions => :wiki_motions)
