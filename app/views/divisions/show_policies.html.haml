@@ -11,28 +11,46 @@
     = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
     = nav_link("Policies", division_with_policy_path(@division, @policy), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @policy
-  - if user_signed_in?
-    %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
-      %strong
-        Please read policy
-        definition and division description before altering
-        vote
-      %br/
-      And policy #{link_to @policy.name, @policy} (#{link_to "change", policies_path}) voted
+- if user_signed_in?
+  %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
+    %legend
+      %p Connect this division with relevant policies.
+
+      %p Please read policy definitions and the division’s description before altering list.
+
+
+    - if @division.policies
+      - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+        %p
+          People who are <em>for</em>
+          = link_to policy.name, policy
+          would have voted '#{policy.vote_for_division(@division)}'
+
+          = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
+
+    %fieldset
+      People who are <em>for</em>
+      = select_tag "policies", options_from_collection_for_select(Policy.all, "id", "name"), size: 1, class: "form-control", :prompt => "Select related policy"
+      would have voted
       - select_options = {'Non-voter' => '--',
                           'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
                           'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{@policy.id}", options_for_select(select_options, (@policy.vote_for_division(@division) || '--')), size: 1, class: "form-control"
-      %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
-  - else
-    %p
-      And policy
-      = link_to @policy.name, @policy
-      voted '#{@policy.vote_for_division(@division)}'
+      = select_tag "vote#{@policy.id}", options_for_select(select_options, (@policy.vote_for_division(@division) || '--')), size: 1, class: "form-control", :prompt => "Select vote"
 
-%p
-  = link_to "Make a new policy", new_policy_path
+    %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
+
+- else
+  - if @division.policies
+    - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+      %p
+        People who are <em>for</em>
+        = link_to policy.name, policy
+        would have voted '#{policy.vote_for_division(@division)}'
+
+  %p
+    = link_to "Login", new_user_session_path, title: "Login to edit policies"
+    to edit policy connections.
+
