@@ -12,6 +12,7 @@
     = nav_link("Policies", division_with_policy_path(@division, @policy), "Show or change the polices which vote on this division", @display == "policies")
 
 - if user_signed_in?
+  - # TODO This action needs to change to add the policy selected in the "#policies select menu"
   %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
     %legend
       %p Connect this division with relevant policies.
