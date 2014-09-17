@@ -19,5 +19,15 @@
       = "position".pluralize(@division.policies.size)
       = policies_list_sentence(@division.policies) + "."
 
-= render "motion", division: @division
+= render "motion", member: @member, division: @division
+
 = render "summary", division: @division, members: @members, member: @member
+
+- if @division.policies
+  %h2 Related Policies
+  - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+    %p.lead
+      People who are
+      = link_to policy.name.downcase, policy
+      - # TODO: Make this show the nice form of the vote e.g. No (Strong)
+      would have voted '#{policy.vote_for_division(@division)}'
