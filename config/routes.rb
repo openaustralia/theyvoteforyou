@@ -125,7 +125,7 @@ Publicwhip::Application.routes.draw do
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
   get '/members/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
-  get '/members/:house/:mpc/:mpn/policies/:id/full' => 'members#full', as: :full_member_policy
+  get '/members/:house/:mpc/:mpn/policies/:id/full' => 'policies#full', as: :full_member_policy
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/members/:house/:mpc/:mpn/divisions' => 'members#votes', as: :votes_member
   get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
