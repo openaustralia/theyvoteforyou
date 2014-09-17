@@ -1,0 +1,13 @@
+- @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+  %p
+    People who are
+    = link_to policy.name.downcase, policy
+    - # TODO: Make this show the nice form of the vote e.g. No (Strong)
+    would have voted '#{policy.vote_for_division(@division)}'
+
+    - if @display == "policies"
+      - # TODO: Make this link work
+      = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
+
+- if @display != "policies"
+  = link_to("Edit related policies", division_with_policy_path(@division, nil), title: "Show or change the polices which vote on this division")

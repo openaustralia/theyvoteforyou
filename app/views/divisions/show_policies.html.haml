@@ -11,16 +11,7 @@
     = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
     = nav_link("Policies", division_with_policy_path(@division, @policy), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @division.policies
-  - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
-    %p
-      People who are
-      = link_to policy.name.downcase, policy
-      - # TODO: Make this show the nice form of the vote e.g. No (Strong)
-      would have voted '#{policy.vote_for_division(@division)}'
-
-      - # TODO: Make this link work
-      = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
+= render "current_policies_list", division: @division, display: @display
 
 - if user_signed_in?
   - # TODO This action needs to change to add the policy selected in the "#policies select menu"
