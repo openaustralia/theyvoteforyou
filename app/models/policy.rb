@@ -56,12 +56,12 @@ class Policy < ActiveRecord::Base
       policy_division.update! vote: new_vote
     end
 
-    delay.calculate_member_agreement_percentages!
+    delay.calculate_member_distances!
 
     old_vote
   end
 
-  def calculate_member_agreement_percentages!
+  def calculate_member_distances!
     policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
