@@ -5,7 +5,7 @@
   = member_type(member.australian_house) + "'s"
   vote differed from the majority vote of their party (Rebel).
 %p
-  See also #{link_to "all votes", votes_member_path2(member)}.
+  See also #{link_to "all votes", member_divisions_path2(member)}.
 
 %table.table
   - member.person.members.order(entered_house: :desc).each do |member|

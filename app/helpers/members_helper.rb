@@ -11,8 +11,8 @@ module MembersHelper
     full_member_policy_path(member_params(member).merge(id: policy.id))
   end
 
-  def votes_member_path2(member)
-    votes_member_path(member_params(member))
+  def member_divisions_path2(member)
+    member_divisions_path(member_params(member))
   end
 
   def friends_member_path2(member)
