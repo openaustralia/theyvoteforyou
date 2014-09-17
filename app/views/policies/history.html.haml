@@ -18,38 +18,26 @@
         -# TODO Check provisional or not
         Created provisional policy &ldquo;#{version.changeset["name"].second}&rdquo; with
         description &ldquo;#{version.changeset["description"].second}&rdquo;
-        by
-        #{User.find(version.version_author).real_name},
-        = time_ago_in_words(version.created_at)
-        ago
-        %br
       - elsif version.event == "update"
+        - text = []
+        Changed
         - if version.changeset.has_key?("name")
-          Changed name from &ldquo;#{version.changeset["name"].first}&rdquo;
-          to &ldquo;#{version.changeset["name"].second}&rdquo;
-          by
-          #{User.find(version.version_author).real_name},
-          = time_ago_in_words(version.created_at)
-          ago
-          %br
+          - text << "name from &ldquo;".html_safe + h(version.changeset['name'].first) + "&rdquo; to &ldquo;".html_safe + h(version.changeset['name'].second) + "&rdquo;".html_safe
         - if version.changeset.has_key?("description")
-          Changed description from &ldquo;#{version.changeset["description"].first}&rdquo;
-          to &ldquo;#{version.changeset["description"].second}&rdquo;
-          by
-          #{User.find(version.version_author).real_name},
-          = time_ago_in_words(version.created_at)
-          ago
-          %br
+          - text << "description from &ldquo;".html_safe + h(version.changeset['description'].first) + "&rdquo; to &ldquo;".html_safe + h(version.changeset['description'].second) + "&rdquo;".html_safe
         - if version.changeset.has_key?("private")
           - if version.changeset["private"].second == 0
-            Changed to not provisional
+            -# I really don't like using status here. It's just a stop-gap so that combining things
+            -# into a sentence that sort of works
+            - text << "status to not provisional"
           - else
-            Changed to provisional
-          by
-          #{User.find(version.version_author).real_name},
-          = time_ago_in_words(version.created_at)
-          ago
-          %br
+            - text << "status to provisional"
+        = text.to_sentence.html_safe
+      by
+      #{User.find(version.version_author).real_name},
+      = time_ago_in_words(version.created_at)
+      ago
+      %br
 
 %p This is a list of the vote changes made (this will be merged with the list above)
 
@@ -63,21 +51,11 @@
         vote on
         division
         = Division.find(version.changeset["division_id"].second).name
-        by
-        #{User.find(version.version_author).real_name},
-        = time_ago_in_words(version.created_at)
-        ago
-        %br
       - elsif version.event == "destroy"
         Removed
         #{version.reify.vote}
         vote on division
         = Division.find(version.reify.division_id).name
-        by
-        #{User.find(version.version_author).real_name},
-        = time_ago_in_words(version.created_at)
-        ago
-        %br
       - elsif version.event == "update"
         Changed
         = version.changeset["vote"].first
@@ -85,8 +63,8 @@
         = version.changeset["vote"].second
         vote on division
         = Division.find(version.reify.division_id).name
-        by
-        #{User.find(version.version_author).real_name},
-        = time_ago_in_words(version.created_at)
-        ago
-        %br
+      by
+      #{User.find(version.version_author).real_name},
+      = time_ago_in_words(version.created_at)
+      ago
+      %br
