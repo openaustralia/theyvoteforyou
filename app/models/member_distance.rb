@@ -3,12 +3,20 @@ class MemberDistance < ActiveRecord::Base
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
 
+  def agreement_fraction
+    1 - distance_a
+  end
+
+  def agreement_fraction_without_abstentions
+    1 - distance_b
+  end
+
   def agreement_percentage
-    (1 - distance_a) * 100
+    agreement_fraction * 100
   end
 
   def agreement_percentage_without_abstentions
-    (1 - distance_b) * 100
+    agreement_fraction_without_abstentions * 100
   end
 
   def self.update_all!
