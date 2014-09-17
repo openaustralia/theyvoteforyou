@@ -50,3 +50,43 @@
           = time_ago_in_words(version.created_at)
           ago
           %br
+
+%p This is a list of the vote changes made (this will be merged with the list above)
+
+%ul
+  - PaperTrail::Version.where(policy_id: @policy.id, item_type: "PolicyDivision").order(created_at: :desc).each do |version|
+    %li
+      - if version.event == "create"
+        -# TODO Use readable version of strong vote
+        Added
+        = version.changeset["vote"].second
+        vote on
+        division
+        = Division.find(version.changeset["division_id"].second).name
+        by
+        #{User.find(version.version_author).real_name},
+        = time_ago_in_words(version.created_at)
+        ago
+        %br
+      - elsif version.event == "destroy"
+        Removed
+        #{version.reify.vote}
+        vote on division
+        = Division.find(version.reify.division_id).name
+        by
+        #{User.find(version.version_author).real_name},
+        = time_ago_in_words(version.created_at)
+        ago
+        %br
+      - elsif version.event == "update"
+        Changed
+        = version.changeset["vote"].first
+        to
+        = version.changeset["vote"].second
+        vote on division
+        = Division.find(version.reify.division_id).name
+        by
+        #{User.find(version.version_author).real_name},
+        = time_ago_in_words(version.created_at)
+        ago
+        %br
