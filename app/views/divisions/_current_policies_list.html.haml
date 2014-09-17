@@ -2,6 +2,8 @@
   %p
     People who are
     = link_to policy.name.downcase, policy
+    - if policy.provisional?
+      %em (provisional)
     would have voted '#{simple_vote_display @division.policy_vote(policy)}'
 
     - if @display == "policies"
