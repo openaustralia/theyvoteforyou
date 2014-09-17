@@ -37,4 +37,8 @@ class PoliciesController < ApplicationController
     @policy.update_attributes!({name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)}.reject { |k,v| v.blank? })
     redirect_to action: 'show', id: @policy
   end
+
+  def history
+    @policy = Policy.find(params[:id])
+  end
 end

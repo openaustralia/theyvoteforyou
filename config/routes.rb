@@ -144,7 +144,10 @@ Publicwhip::Application.routes.draw do
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
 
   resources :policies, except: :destroy do
-    get 'detail', on: :member
+    member do
+      get 'detail'
+      get 'history'
+    end
   end
 
   get 'users/:id' => 'users#show', as: :user

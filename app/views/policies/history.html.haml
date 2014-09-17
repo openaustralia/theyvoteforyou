@@ -1,0 +1,52 @@
+- content_for :title do
+  Policy history for &ldquo;#{@policy.name}&rdquo;
+
+.page-header.row
+  %nav.header-actions.col-md-3
+    =link_to_if(@policy, "Edit", edit_policy_path(@policy), :title => "Change title and definition of policy", :class => "btn btn-default btn-xs")
+    =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
+  -# TODO This title is just a stop-gap. Make it not suck.
+  %h1.col-md-9= yield :title
+
+%p
+  This is just currently showing the changes made to the policy itself, not the votes on the policy.
+
+%ul
+  - @policy.versions.reverse.each do |version|
+    %li
+      - if version.event == "create"
+        -# TODO Check provisional or not
+        Created provisional policy &ldquo;#{version.changeset["name"].second}&rdquo; with
+        description &ldquo;#{version.changeset["description"].second}&rdquo;
+        by
+        #{User.find(version.version_author).real_name},
+        = time_ago_in_words(version.created_at)
+        ago
+        %br
+      - elsif version.event == "update"
+        - if version.changeset.has_key?("name")
+          Changed name from &ldquo;#{version.changeset["name"].first}&rdquo;
+          to &ldquo;#{version.changeset["name"].second}&rdquo;
+          by
+          #{User.find(version.version_author).real_name},
+          = time_ago_in_words(version.created_at)
+          ago
+          %br
+        - if version.changeset.has_key?("description")
+          Changed description from &ldquo;#{version.changeset["description"].first}&rdquo;
+          to &ldquo;#{version.changeset["description"].second}&rdquo;
+          by
+          #{User.find(version.version_author).real_name},
+          = time_ago_in_words(version.created_at)
+          ago
+          %br
+        - if version.changeset.has_key?("private")
+          - if version.changeset["private"].second == 0
+            Changed to not provisional
+          - else
+            Changed to provisional
+          by
+          #{User.find(version.version_author).real_name},
+          = time_ago_in_words(version.created_at)
+          ago
+          %br
