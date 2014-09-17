@@ -18,7 +18,7 @@
 
 %h2 Policy title and text
 
-%form{:action => policy_path(@policy), :method => "post"}
+= form_for @policy do |f|
   .form-group
     -# TODO Use for here for the label
     %label Title:
