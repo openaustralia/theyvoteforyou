@@ -2,8 +2,7 @@
   %p
     People who are
     = link_to policy.name.downcase, policy
-    - # TODO: Make this show the nice form of the vote e.g. No (Strong)
-    would have voted '#{policy.vote_for_division(@division)}'
+    would have voted '#{simple_vote_display @division.policy_vote(policy)}'
 
     - if @display == "policies"
       - # TODO: Make this link work
