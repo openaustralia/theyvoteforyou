@@ -11,6 +11,17 @@
     = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
     = nav_link("Policies", division_with_policy_path(@division, @policy), "Show or change the polices which vote on this division", @display == "policies")
 
+- if @division.policies
+  - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+    %p
+      People who are
+      = link_to policy.name.downcase, policy
+      - # TODO: Make this show the nice form of the vote e.g. No (Strong)
+      would have voted '#{policy.vote_for_division(@division)}'
+
+      - # TODO: Make this link work
+      = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
+
 - if user_signed_in?
   - # TODO This action needs to change to add the policy selected in the "#policies select menu"
   %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
@@ -18,18 +29,6 @@
       %p Connect this division with relevant policies.
 
       %p Please read policy definitions and the division’s description before altering list.
-
-
-    - if @division.policies
-      - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
-        %p
-          People who are
-          = link_to policy.name.downcase, policy
-          - # TODO: Make this show the nice form of the vote e.g. No (Strong)
-          would have voted '#{policy.vote_for_division(@division)}'
-
-          - # TODO: Make this link work
-          = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
 
     %fieldset
       %label People who are
@@ -48,13 +47,6 @@
     %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
 
 - else
-  - if @division.policies
-    - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
-      %p
-        People who are
-        = link_to policy.name, policy
-        would have voted '#{policy.vote_for_division(@division)}'
-
   %p
     = link_to "Login", new_user_session_path, title: "Login to edit policies"
     to edit policy connections.
