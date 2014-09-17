@@ -1,4 +1,5 @@
 class PolicyDivision < ActiveRecord::Base
+  has_paper_trail
   belongs_to :policy
   belongs_to :division
 
