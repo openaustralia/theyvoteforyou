@@ -23,7 +23,7 @@
       - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
         %p
           People who are
-          = link_to policy.name, policy
+          = link_to policy.name.downcase, policy
           - # TODO: Make this show the nice form of the vote e.g. No (Strong)
           would have voted '#{policy.vote_for_division(@division)}'
 
