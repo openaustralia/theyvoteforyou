@@ -70,17 +70,19 @@ module PoliciesHelper
     "Added " + vote + " vote on division " + division
   end
 
+  def version_attribution_sentence(version)
+    user_name = User.find(version.whodunnit).real_name
+    time = time_ago_in_words(version.created_at)
+    "by " + user_name + ", " + time + " ago"
+  end
+
   def version_sentence(version)
     if version.item_type == "Policy"
       result = policy_version_sentence(version)
     elsif version.item_type == "PolicyDivision"
       result = policy_division_version_sentence(version)
-    else
-      raise
     end
-    user_name = User.find(version.whodunnit).real_name
-    time = time_ago_in_words(version.created_at)
-    result += " by " + user_name + ", " + time + " ago"
+    result += " " + version_attribution_sentence(version)
     result
   end
 end
