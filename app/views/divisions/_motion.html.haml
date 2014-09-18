@@ -13,6 +13,10 @@
       Last edited #{relative_time division.wiki_motion.edit_date}
       by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user}
 
+    = link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
+    (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
+
+
   -# The motion can include html.
   -# TODO Need to check what happens when the user edits the motion. What can they add?
   .motion-text
@@ -21,6 +25,3 @@
     %b= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
     |
     %b= link_to "Source", division.source_url, title: "The original record of vote as reported by Hansard"
-    |
-    %b= link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
-    (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
