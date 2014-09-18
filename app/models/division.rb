@@ -218,8 +218,6 @@ class Division < ActiveRecord::Base
     # i.e. more than enough.
     text = text.size > 15000 ? wikimarkup_parse_basic(text) : wikimarkup_parse(text)
 
-    # The motion can include html.
-    # TODO Need to check what happens when the user edits the motion. What can they add?
     text.html_safe
   end
 
