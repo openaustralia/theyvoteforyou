@@ -28,7 +28,7 @@ module PoliciesHelper
   end
 
   def quote(word)
-    "&ldquo;" + word + "&rdquo;"
+    ("&ldquo;" + h(word) + "&rdquo;").html_safe
   end
 
   def policy_version_sentence(version)
@@ -63,7 +63,7 @@ module PoliciesHelper
     else
       raise
     end
-    result
+    result.html_safe
   end
 
   def policy_division_version_vote(version)
@@ -72,7 +72,7 @@ module PoliciesHelper
     elsif version.event == "destroy"
       version.reify.vote
     elsif version.event == "update"
-      version.changeset["vote"].first + " to " + version.changeset["vote"].second
+      version.changeset["vote"].first + " to ".html_safe + version.changeset["vote"].second
     end
   end
 
@@ -86,13 +86,13 @@ module PoliciesHelper
 
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    actions[version.event] + " " + vote + " vote on division " + link_to(division.name, division_path2(division))
+    actions[version.event].html_safe + " ".html_safe + vote + " vote on division ".html_safe + link_to(division.name, division_path2(division))
   end
 
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)
-    "by " + link_to(user.real_name, user) + ", " + time + " ago"
+    ("by " + link_to(user.real_name, user) + ", " + time + " ago").html_safe
   end
 
   def version_sentence(version)
@@ -101,7 +101,7 @@ module PoliciesHelper
     elsif version.item_type == "PolicyDivision"
       result = policy_division_version_sentence(version)
     end
-    result += " " + version_attribution_sentence(version)
+    result += " ".html_safe + version_attribution_sentence(version)
     result
   end
 end
