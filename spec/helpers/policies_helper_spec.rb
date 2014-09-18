@@ -72,9 +72,9 @@ describe PoliciesHelper, :type => :helper do
       end
 
       it "create vote on policy" do
-        version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye"], "division_id" => [nil, 5]})
+        version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye3"], "division_id" => [nil, 5]})
         result = helper.version_sentence(version)
-        expect(result).to eq 'Added aye vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+        expect(result).to eq 'Added aye (strong) vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
         expect(result).to be_html_safe
       end
 

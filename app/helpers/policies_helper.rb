@@ -68,11 +68,11 @@ module PoliciesHelper
 
   def policy_division_version_vote(version)
     if version.event == "create"
-      version.changeset["vote"].second
+      vote_display_in_table(version.changeset["vote"].second).downcase
     elsif version.event == "destroy"
-      version.reify.vote
+      vote_display_in_table(version.reify.vote).downcase
     elsif version.event == "update"
-      version.changeset["vote"].first + " to ".html_safe + version.changeset["vote"].second
+      vote_display_in_table(version.changeset["vote"].first).downcase + " to ".html_safe + vote_display_in_table(version.changeset["vote"].second).downcase
     end
   end
 
