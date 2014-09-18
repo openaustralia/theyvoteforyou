@@ -14,29 +14,22 @@
 = render "current_policies_list", division: @division, display: @display
 
 - if user_signed_in?
-  - # TODO This action needs to change to add the policy selected in the "#policies select menu"
-  %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
+  = form_for @division.policy_divisions.new, html: {class: 'form-inline policyvote'} do |f|
     %legend.small
       %p Connect this division with relevant policies.
-
       %p Please read policy definitions and the division’s description before altering list.
-
     %fieldset
       %label People who are
-      = select_tag "policies", options_from_collection_for_select(Policy.all, "id", "name"), size: 1, class: "form-control", :prompt => "Select related policy"
-
+      - # TODO: Don't display policies already selected
+      = f.collection_select :policy_id, Policy.all, "id", "name", {prompt: "Select related policy"}, size: 1, class: "form-control"
       would have
       %label voted
-      - select_options = {'Non-voter' => '--',
-                          'Aye (strong)' => 'aye3',
+      - select_options = {'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
-                          'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{@policy.id}", options_for_select(select_options, (@policy.vote_for_division(@division) || '--')), size: 1, class: "form-control", :prompt => "Select vote"
-
-    %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
-
+      = f.select :vote, options_for_select(select_options), {prompt: "Select vote"}, size: 1, class: "form-control"
+    = f.submit 'Create', class: 'btn btn-primary'
 - else
   %p
     = link_to "Login", new_user_session_path, title: "Login to edit policies"
