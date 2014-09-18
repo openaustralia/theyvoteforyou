@@ -74,21 +74,21 @@ describe PoliciesHelper, :type => :helper do
       it "create vote on policy" do
         version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye3"], "division_id" => [nil, 5]})
         result = helper.version_sentence(version)
-        expect(result).to eq 'Added aye (strong) vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+        expect(result).to eq 'Added aye (strong) on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
         expect(result).to be_html_safe
       end
 
       it "remove vote on policy" do
         version = double("version", item_type: "PolicyDivision", event: "destroy", whodunnit: 1, created_at: 1.hour.ago, changeset: nil, reify: double("policy_division", division_id: 5, vote: "no"))
         result = helper.version_sentence(version)
-        expect(result).to eq 'Removed no vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+        expect(result).to eq 'Removed no on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
         expect(result).to be_html_safe
       end
 
       it "change vote on policy" do
         version = double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => ["no", "aye"]}, reify: double("policy_division", division_id: 5))
         result = helper.version_sentence(version)
-        expect(result).to eq 'Changed no to aye vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+        expect(result).to eq 'Changed no to aye on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
         expect(result).to be_html_safe
       end
     end
