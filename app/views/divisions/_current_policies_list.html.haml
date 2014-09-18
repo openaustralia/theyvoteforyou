@@ -1,6 +1,7 @@
 - @division.policies.order(:name).each do |policy|
   %p
     People who are
+    - # TODO remove this downcase, it shouldn't be needed
     = link_to policy.name.downcase, policy
     - if policy.provisional?
       %em (provisional)
