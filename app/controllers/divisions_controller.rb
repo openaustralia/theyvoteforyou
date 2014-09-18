@@ -23,7 +23,7 @@ class DivisionsController < ApplicationController
       if @member.nil?
         render 'members/member_not_found', status: 404
       else
-        render 'votes'
+        render 'index_with_member'
       end
     else
       @sort = params[:sort]
