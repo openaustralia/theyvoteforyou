@@ -28,14 +28,24 @@ module PoliciesHelper
   end
 
   def version_sentence(version)
-    name = version.changeset["name"].second
-    description = version.changeset["description"].second
-    user_name = User.find(version.whodunnit).real_name
-    time = time_ago_in_words(version.created_at)
-    if version.changeset["private"].second == 2
-      "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+    if version.event == "create"
+      name = version.changeset["name"].second
+      description = version.changeset["description"].second
+      user_name = User.find(version.whodunnit).real_name
+      time = time_ago_in_words(version.created_at)
+      if version.changeset["private"].second == 2
+        "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+      else
+        "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+      end
+    elsif version.event == "update"
+      name1 = version.changeset["name"].first
+      name2 = version.changeset["name"].second
+      user_name = User.find(version.whodunnit).real_name
+      time = time_ago_in_words(version.created_at)
+      "Changed name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo; by " + user_name + ", " + time + " ago"
     else
-      "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+      raise
     end
   end
 end
