@@ -35,11 +35,9 @@ module PoliciesHelper
     if version.event == "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
-      if version.changeset["private"].second == 2
-        result = "Created provisional policy " + quote(name) + " with description " + quote(description)
-      else
-        result = "Created policy " + quote(name) + " with description " + quote(description)
-      end
+      result = "Created"
+      result += version.changeset["private"].second == 2 ? " provisional " : " "
+      result += "policy " + quote(name) + " with description " + quote(description)
     elsif version.event == "update"
       changes = []
       if version.changeset.has_key?("name")
