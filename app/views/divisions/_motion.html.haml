@@ -1,7 +1,3 @@
-- if member
-  %p.mpondivision
-    = member_voted_with(member, division).html_safe
-
 %section.motion{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
   .division-edit-notice.bg-info.row
     - if !division.motion_edited?
