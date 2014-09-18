@@ -20,40 +20,44 @@ describe PoliciesHelper, :type => :helper do
   end
 
   describe ".version_sentence" do
-    it "create provisional policy" do
+    before :each do
       expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
+    end
+
+    it "create provisional policy" do
       version = double("version", item_type: "Policy", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 2], "id" => [nil, 3]})
       expect(helper.version_sentence(version)).to eq "Created provisional policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by Matthew, about 1 hour ago"
     end
 
     it "create policy" do
-      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 0], "id" => [nil, 3]})
       expect(helper.version_sentence(version)).to eq "Created policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by Matthew, about 1 hour ago"
     end
 
     it "change name on policy" do
-      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"]})
       expect(helper.version_sentence(version)).to eq "Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo; by Matthew, about 1 hour ago"
     end
 
     it "change description on policy" do
-      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"description" => ["Description A", "Description B"]})
       expect(helper.version_sentence(version)).to eq "Changed description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo; by Matthew, about 1 hour ago"
     end
 
     it "change status on policy" do
-      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"private" => [2, 0]})
       expect(helper.version_sentence(version)).to eq "Changed status to not provisional by Matthew, about 1 hour ago"
     end
 
     it "change everything on policy" do
-      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"], "description" => ["Description A", "Description B"], "private" => [0, 2]})
       expect(helper.version_sentence(version)).to eq "Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to provisional by Matthew, about 1 hour ago"
+    end
+
+    it "create vote on policy" do
+      expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah"))
+      version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye"], "division_id" => [nil, 5]})
+      expect(helper.version_sentence(version)).to eq "Added aye vote on division blah by Matthew, about 1 hour ago"
     end
   end
 end
