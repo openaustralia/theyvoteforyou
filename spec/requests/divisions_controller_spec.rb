@@ -105,33 +105,4 @@ describe DivisionsController, :type => :request do
   describe '#update' do
     it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
-
-  describe '#add_policy_vote' do
-    describe 'makes no changes' do
-      it {compare_static '/divisions/representatives/2006-12-06/3/policies/2', true, submit: 'Update', vote2: 'no'}
-      it {compare_static '/divisions/senate/2009-11-25/8/policies/2', true, {submit: 'Update', vote2: '--'}, "_2"}
-    end
-
-    it 'updates an existing policy division' do
-      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
-    end
-
-    describe 'creates a new policy division' do
-      it {compare_static '/divisions/representatives/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'}
-      it {compare_static '/divisions/senate/2013-03-14/1/policies/1', true, submit: 'Update', vote1: 'aye3'}
-    end
-
-    it 'removes a policy division' do
-      compare_static('/divisions/representatives/2013-03-14/1/policies/1', true, submit: 'Update', vote1: '--')
-    end
-
-    it 'recalculates MP agreement percentages' do
-      # Just post to Rails
-      compare_static '/divisions/senate/2013-03-14/1/policies/2', true, submit: 'Update', vote2: 'aye3'
-      # Rails does the recalculation in a background job so make sure that's done
-      Delayed::Worker.new.work_off
-      # Compare Rails what the PHP app would generate (because it would rebuild it's cache)
-      compare_static '/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate', true, false, "_2"
-    end
-  end
 end

@@ -2,7 +2,7 @@ class DivisionsController < ApplicationController
   # TODO: Reenable CSRF protection
   skip_before_action :verify_authenticity_token
 
-  before_action :authenticate_user!, only: [:edit, :update, :add_policy_vote, :create_policy_division]
+  before_action :authenticate_user!, only: [:edit, :update, :create_policy_division]
 
   def index_redirect
     if params[:rdisplay2] == "rebels"
@@ -118,25 +118,6 @@ class DivisionsController < ApplicationController
     end
 
     redirect_to view_context.division_path2(@division)
-  end
-
-  def add_policy_vote
-    @display = params[:display]
-    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
-    @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
-
-    new_vote = params["vote#{@policy.id}".to_sym]
-    new_vote = nil if new_vote == "--"
-    old_vote = @policy.update_division_vote!(@division, new_vote)
-    # Return the "changed from" value
-    if old_vote != new_vote
-      changed_from = old_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(old_vote).downcase
-      changed_to = new_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(new_vote).downcase
-    end
-    if changed_from
-      flash[:notice] = "Succesfully changed vote on policy from #{changed_from} to #{changed_to}"
-    end
-    redirect_to view_context.division_with_policy_path(@division, @policy)
   end
 
   def create_policy_division
