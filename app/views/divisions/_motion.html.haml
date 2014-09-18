@@ -11,7 +11,6 @@
         = link_to "Improve the page providing a summary.", edit_division_path2(division)
     - else
       = link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
-      (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
 
       %p
         Last edited #{relative_time division.wiki_motion.edit_date}
