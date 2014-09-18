@@ -26,4 +26,12 @@ module PoliciesHelper
       end
     end
   end
+
+  def version_sentence(version)
+    name = version.changeset["name"].second
+    description = version.changeset["description"].second
+    user_name = User.find(version.whodunnit).real_name
+    time = time_ago_in_words(version.created_at)
+    "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+  end
 end
