@@ -9,7 +9,7 @@ class DivisionInfo < ActiveRecord::Base
 
   # a tie is 0.0. a unanimous vote is 1.0
   def majority_fraction
-    majority.to_f / turnout
+    turnout > 0 ? majority.to_f / turnout : 0
   end
 
   def self.update_all!
