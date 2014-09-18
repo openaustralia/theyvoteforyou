@@ -1,7 +1,8 @@
 %figure.voter-table
   %h2#votes
     Votes
-    %small= division_outcome_with_majority_strength(division)
+    %small.division-outcome-summary{:class => "#{division_outcome_class(division)}"}
+      = division_outcome_with_majority_strength(division)
 
 
   %table.table
