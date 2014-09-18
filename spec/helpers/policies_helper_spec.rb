@@ -37,5 +37,17 @@ describe PoliciesHelper, :type => :helper do
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"]})
       expect(helper.version_sentence(version)).to eq "Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo; by Matthew, about 1 hour ago"
     end
+
+    it "change description on policy" do
+      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
+      version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"description" => ["Description A", "Description B"]})
+      expect(helper.version_sentence(version)).to eq "Changed description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo; by Matthew, about 1 hour ago"
+    end
+
+    it "change status on policy" do
+      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
+      version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"private" => [2, 0]})
+      expect(helper.version_sentence(version)).to eq "Changed status to not provisional by Matthew, about 1 hour ago"
+    end
   end
 end

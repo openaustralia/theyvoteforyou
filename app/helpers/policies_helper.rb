@@ -39,11 +39,31 @@ module PoliciesHelper
         "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
       end
     elsif version.event == "update"
-      name1 = version.changeset["name"].first
-      name2 = version.changeset["name"].second
-      user_name = User.find(version.whodunnit).real_name
-      time = time_ago_in_words(version.created_at)
-      "Changed name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo; by " + user_name + ", " + time + " ago"
+      if version.changeset.has_key?("name")
+        name1 = version.changeset["name"].first
+        name2 = version.changeset["name"].second
+        user_name = User.find(version.whodunnit).real_name
+        time = time_ago_in_words(version.created_at)
+        "Changed name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo; by " + user_name + ", " + time + " ago"
+      elsif version.changeset.has_key?("description")
+        description1 = version.changeset["description"].first
+        description2 = version.changeset["description"].second
+        user_name = User.find(version.whodunnit).real_name
+        time = time_ago_in_words(version.created_at)
+        "Changed description from &ldquo;" + description1 + "&rdquo; to &ldquo;" + description2 + "&rdquo; by " + user_name + ", " + time + " ago"
+      elsif version.changeset.has_key?("private")
+        user_name = User.find(version.whodunnit).real_name
+        time = time_ago_in_words(version.created_at)
+        if version.changeset["private"].second == 0
+          "Changed status to not provisional by " + user_name + ", " + time + " ago"
+        elsif version.changeset["private"].second == 2
+          "Changed status to provisional by " + user_name + ", " + time + " ago"
+        else
+          raise
+        end
+      else
+        raise
+      end
     else
       raise
     end
