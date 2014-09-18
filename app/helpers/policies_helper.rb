@@ -90,9 +90,9 @@ module PoliciesHelper
   end
 
   def version_attribution_sentence(version)
-    user_name = User.find(version.whodunnit).real_name
+    user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)
-    "by " + user_name + ", " + time + " ago"
+    "by " + link_to(user.real_name, user) + ", " + time + " ago"
   end
 
   def version_sentence(version)
