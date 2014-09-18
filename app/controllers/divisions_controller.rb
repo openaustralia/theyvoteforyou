@@ -97,11 +97,6 @@ class DivisionsController < ApplicationController
   def show_policies
     @display = "policies"
     @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    if params[:dmp]
-      @policy = Policy.find(params[:dmp])
-    elsif user_signed_in?
-      @policy = current_user.active_policy
-    end
   end
 
   def edit
