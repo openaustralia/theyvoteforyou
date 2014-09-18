@@ -125,8 +125,13 @@ tbody {
   text-align: right;
 
   @media (min-width: $screen-sm-min) {
-    margin-top: .7em;
     float: right;
     clear: right;
+  }
+
+  .btn {
+    @media (min-width: $screen-sm-min) {
+      margin-top: 1em;
+    }
   }
 }
