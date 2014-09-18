@@ -32,6 +32,10 @@ module PoliciesHelper
     description = version.changeset["description"].second
     user_name = User.find(version.whodunnit).real_name
     time = time_ago_in_words(version.created_at)
-    "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+    if version.changeset["private"].second == 2
+      "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+    else
+      "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo; by " + user_name + ", " + time + " ago"
+    end
   end
 end

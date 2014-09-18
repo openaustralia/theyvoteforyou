@@ -20,10 +20,16 @@ describe PoliciesHelper, :type => :helper do
   end
 
   describe ".version_sentence" do
-    it "create policy" do
+    it "create provisional policy" do
       expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
       version = double("version", item_type: "Policy", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 2], "id" => [nil, 3]})
       expect(helper.version_sentence(version)).to eq "Created provisional policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by Matthew, about 1 hour ago"
+    end
+
+    it "create policy" do
+      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
+      version = double("version", item_type: "Policy", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 0], "id" => [nil, 3]})
+      expect(helper.version_sentence(version)).to eq "Created policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by Matthew, about 1 hour ago"
     end
   end
 end
