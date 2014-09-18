@@ -103,9 +103,9 @@ currently configured) run:
 ### Loading data
 
 To load live data, ensure `config/settings.yml` is configured to point to the
-correct XML data directory and then you can run the appropriate Rake task. Daily
-updates are carried out by the `application:load:daily` Rake task, which is run
-daily at 09:45 by cron.
+server where your XML data is hosted and then you can run the appropriate Rake
+task. Daily updates are carried out by the `application:load:daily` Rake task,
+which is run daily at 09:45 by cron.
 
 These are the tasks you need to know about:
 
