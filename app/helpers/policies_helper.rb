@@ -64,20 +64,27 @@ module PoliciesHelper
     result
   end
 
+  def policy_division_version_vote(version)
+    if version.event == "create"
+      version.changeset["vote"].second
+    elsif version.event == "destroy"
+      version.reify.vote
+    elsif version.event == "update"
+      version.changeset["vote"].first + " to " + version.changeset["vote"].second
+    end
+  end
+
+  def policy_division_version_division(version)
+    id = version.event == "create" ? version.changeset["division_id"].second : version.reify.division_id
+    Division.find(id)
+  end
+
   def policy_division_version_sentence(version)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
 
-    if version.event == "create"
-      vote = version.changeset["vote"].second
-      division_id = version.changeset["division_id"].second
-    elsif version.event == "destroy"
-      vote = version.reify.vote
-      division_id = version.reify.division_id
-    elsif version.event == "update"
-      vote = version.changeset["vote"].first + " to " + version.changeset["vote"].second
-      division_id = version.reify.division_id
-    end
-    actions[version.event] + " " + vote + " vote on division " + Division.find(division_id).name
+    vote = policy_division_version_vote(version)
+    division = policy_division_version_division(version)
+    actions[version.event] + " " + vote + " vote on division " + division.name
   end
 
   def version_attribution_sentence(version)
