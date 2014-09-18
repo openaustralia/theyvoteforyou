@@ -3,14 +3,11 @@
     %p.division-edit-notice.bg-info.col-md-12
       Last edited #{relative_time division.wiki_motion.edit_date}
       by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user}
-
   .row
     - if division.motion_edited?
       %nav.header-actions.col-md-3
         = link_to "Edit motion", edit_division_path2(division), title: "Edit and improve this description", class: "btn btn-default btn-xs"
-
     %h2.col-md-9 Motion
-
     - if !division.motion_edited?
       %p.division-edit-notice.alert-warning.col-md-12
         %strong Unedited text
