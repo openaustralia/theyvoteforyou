@@ -27,26 +27,30 @@ module PoliciesHelper
     end
   end
 
+  def quote(word)
+    "&ldquo;" + word + "&rdquo;"
+  end
+
   def policy_version_sentence(version)
     if version.event == "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       if version.changeset["private"].second == 2
-        result = "Created provisional policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo;"
+        result = "Created provisional policy " + quote(name) + " with description " + quote(description)
       else
-        result = "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo;"
+        result = "Created policy " + quote(name) + " with description " + quote(description)
       end
     elsif version.event == "update"
       changes = []
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        changes << "name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo;"
+        changes << "name from " + quote(name1) + " to " + quote(name2)
       end
       if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
-        changes << "description from &ldquo;" + description1 + "&rdquo; to &ldquo;" + description2 + "&rdquo;"
+        changes << "description from " + quote(description1) + " to " + quote(description2)
       end
       if version.changeset.has_key?("private")
         if version.changeset["private"].second == 0
