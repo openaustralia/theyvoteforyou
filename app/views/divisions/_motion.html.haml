@@ -4,15 +4,16 @@
 
 %section.motion{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
   .division-edit-notice.bg-info
-    = link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
-    (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
-
-    %p
-      - if !division.motion_edited?
+    - if !division.motion_edited?
+      %p
         %strong Unedited text
         automatically extracted from the debate.
         = link_to "Improve the page providing a summary.", edit_division_path2(division)
-      - else
+    - else
+      = link_to "Edit", edit_division_path2(division), title: "Edit and improve this description"
+      (#{link_to "learn more", help_faq_path(anchor: "motionedit")})
+
+      %p
         Last edited #{relative_time division.wiki_motion.edit_date}
         by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user}
 
