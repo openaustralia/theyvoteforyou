@@ -1,4 +1,4 @@
-- @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
+- @division.policies.order(:name).each do |policy|
   %p
     People who are
     = link_to policy.name.downcase, policy
