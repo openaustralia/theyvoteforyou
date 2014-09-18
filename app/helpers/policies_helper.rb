@@ -65,9 +65,17 @@ module PoliciesHelper
   end
 
   def policy_division_version_sentence(version)
-    vote = version.changeset["vote"].second
-    division = Division.find(version.changeset["division_id"].second).name
-    "Added " + vote + " vote on division " + division
+    if version.event == "create"
+      vote = version.changeset["vote"].second
+      division = Division.find(version.changeset["division_id"].second).name
+      "Added " + vote + " vote on division " + division
+    elsif version.event == "destroy"
+      vote = version.reify.vote
+      division = Division.find(version.reify.division_id).name
+      "Removed " + vote + " vote on division " + division
+    else
+      raise
+    end
   end
 
   def version_attribution_sentence(version)
