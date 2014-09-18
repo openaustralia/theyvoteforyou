@@ -37,25 +37,27 @@ module PoliciesHelper
         result = "Created policy &ldquo;" + name + "&rdquo; with description &ldquo;" + description + "&rdquo;"
       end
     elsif version.event == "update"
+      changes = []
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        result = "Changed name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo;"
-      elsif version.changeset.has_key?("description")
+        changes << "name from &ldquo;" + name1 + "&rdquo; to &ldquo;" + name2 + "&rdquo;"
+      end
+      if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
-        result = "Changed description from &ldquo;" + description1 + "&rdquo; to &ldquo;" + description2 + "&rdquo;"
-      elsif version.changeset.has_key?("private")
+        changes << "description from &ldquo;" + description1 + "&rdquo; to &ldquo;" + description2 + "&rdquo;"
+      end
+      if version.changeset.has_key?("private")
         if version.changeset["private"].second == 0
-          result = "Changed status to not provisional"
+          changes << "status to not provisional"
         elsif version.changeset["private"].second == 2
-          result = "Changed status to provisional"
+          changes << "status to provisional"
         else
           raise
         end
-      else
-        raise
       end
+      result = "Changed " + changes.to_sentence
     else
       raise
     end

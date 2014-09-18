@@ -49,5 +49,11 @@ describe PoliciesHelper, :type => :helper do
       version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"private" => [2, 0]})
       expect(helper.version_sentence(version)).to eq "Changed status to not provisional by Matthew, about 1 hour ago"
     end
+
+    it "change everything on policy" do
+      expect(User).to receive(:find).with(1).and_return(double("user", real_name: "Matthew"))
+      version = double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"], "description" => ["Description A", "Description B"], "private" => [0, 2]})
+      expect(helper.version_sentence(version)).to eq "Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to provisional by Matthew, about 1 hour ago"
+    end
   end
 end
