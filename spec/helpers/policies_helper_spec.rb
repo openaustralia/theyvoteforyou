@@ -54,22 +54,25 @@ describe PoliciesHelper, :type => :helper do
       expect(helper.version_sentence(version)).to eq 'Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to provisional by <a href="/users/3">Matthew</a>, about 1 hour ago'
     end
 
-    it "create vote on policy" do
-      expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah"))
-      version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye"], "division_id" => [nil, 5]})
-      expect(helper.version_sentence(version)).to eq 'Added aye vote on division blah by <a href="/users/3">Matthew</a>, about 1 hour ago'
-    end
+    context "changing policy vote" do
+      before :each do
+        expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah", date: Date.new(2001,1,1), number: 2, australian_house: "representatives"))
+      end
 
-    it "remove vote on policy" do
-      expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah"))
-      version = double("version", item_type: "PolicyDivision", event: "destroy", whodunnit: 1, created_at: 1.hour.ago, changeset: nil, reify: double("policy_division", division_id: 5, vote: "no"))
-      expect(helper.version_sentence(version)).to eq 'Removed no vote on division blah by <a href="/users/3">Matthew</a>, about 1 hour ago'
-    end
+      it "create vote on policy" do
+        version = double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye"], "division_id" => [nil, 5]})
+        expect(helper.version_sentence(version)).to eq 'Added aye vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+      end
 
-    it "change vote on policy" do
-      expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah"))
-      version = double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => ["no", "aye"]}, reify: double("policy_division", division_id: 5))
-      expect(helper.version_sentence(version)).to eq 'Changed no to aye vote on division blah by <a href="/users/3">Matthew</a>, about 1 hour ago'
+      it "remove vote on policy" do
+        version = double("version", item_type: "PolicyDivision", event: "destroy", whodunnit: 1, created_at: 1.hour.ago, changeset: nil, reify: double("policy_division", division_id: 5, vote: "no"))
+        expect(helper.version_sentence(version)).to eq 'Removed no vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+      end
+
+      it "change vote on policy" do
+        version = double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => ["no", "aye"]}, reify: double("policy_division", division_id: 5))
+        expect(helper.version_sentence(version)).to eq 'Changed no to aye vote on division <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago'
+      end
     end
   end
 end
