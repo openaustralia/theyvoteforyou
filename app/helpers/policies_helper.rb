@@ -73,6 +73,11 @@ module PoliciesHelper
       vote = version.reify.vote
       division = Division.find(version.reify.division_id).name
       "Removed " + vote + " vote on division " + division
+    elsif version.event == "update"
+      vote1 = version.changeset["vote"].first
+      vote2 = version.changeset["vote"].second
+      division = Division.find(version.reify.division_id).name
+      "Changed " + vote1 + " to " + vote2 + " vote on division " + division
     else
       raise
     end

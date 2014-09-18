@@ -65,5 +65,11 @@ describe PoliciesHelper, :type => :helper do
       version = double("version", item_type: "PolicyDivision", event: "destroy", whodunnit: 1, created_at: 1.hour.ago, changeset: nil, reify: double("policy_division", division_id: 5, vote: "no"))
       expect(helper.version_sentence(version)).to eq "Removed no vote on division blah by Matthew, about 1 hour ago"
     end
+
+    it "change vote on policy" do
+      expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah"))
+      version = double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => ["no", "aye"]}, reify: double("policy_division", division_id: 5))
+      expect(helper.version_sentence(version)).to eq "Changed no to aye vote on division blah by Matthew, about 1 hour ago"
+    end
   end
 end
