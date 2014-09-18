@@ -1,14 +1,12 @@
 %section.motion{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
-  .division-edit-notice.bg-info.col-md-12
+  %p.division-edit-notice.bg-info.col-md-12
     - if !division.motion_edited?
-      %p.col-md-12
-        %strong Unedited text
-        automatically extracted from the debate.
-        = link_to "Improve the page providing a summary.", edit_division_path2(division)
+      %strong Unedited text
+      automatically extracted from the debate.
+      = link_to "Improve the page providing a summary.", edit_division_path2(division)
     - else
-      %p.col-md-12
-        Last edited #{relative_time division.wiki_motion.edit_date}
-        by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user}
+      Last edited #{relative_time division.wiki_motion.edit_date}
+      by #{link_to division.wiki_motion.user.real_name, division.wiki_motion.user}
 
   .row
     - if division.motion_edited?
