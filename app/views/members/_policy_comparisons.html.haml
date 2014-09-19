@@ -21,4 +21,6 @@
         %tr
           %td
             %b= link_to fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy_member_distance.policy)), member_policy_path2(member, policy_member_distance.policy)
-          %td= link_to policy_member_distance.policy.name, policy_member_distance.policy
+          %td
+            For
+            = link_to policy_member_distance.policy.name, policy_member_distance.policy

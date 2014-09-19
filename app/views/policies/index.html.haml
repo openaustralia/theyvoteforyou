@@ -23,6 +23,7 @@
       - @policies.each do |policy|
         %tr
           %td
+            For
             = link_to policy.name, policy
             - if policy.provisional?
               %i (provisional)

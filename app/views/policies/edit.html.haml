@@ -3,7 +3,9 @@
 .page-header.row
   %nav.header-actions.col-md-3
     = link_to "History of edits", history_policy_path(@policy)
-  %h1.col-md-9= yield :title
+  %h1.col-md-9
+    For
+    = yield :title
 
 = render "nav", policy: @policy, display: "editdefinition"
 
