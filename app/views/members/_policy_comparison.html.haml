@@ -1,7 +1,7 @@
 .h1mppolicy
   %p.mp= link_to member.full_name2, member_path2(member)
   %p.voteexpl
-    = policy_agreement_summary(policy, member.person)
+    = policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))
     the policy
   %p.policy
     = link_to policy do

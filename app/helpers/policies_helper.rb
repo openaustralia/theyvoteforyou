@@ -7,7 +7,8 @@ module PoliciesHelper
     end.to_sentence.html_safe
   end
 
-  def policy_agreement_summary2(policy_member_distance)
+  # Returns things like "voted strongly against", "has never voted on", etc..
+  def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
       "voted <em>unknown about</em>".html_safe
     elsif policy_member_distance.number_of_votes == 0
@@ -31,11 +32,6 @@ module PoliciesHelper
       else
       end
     end
-  end
-
-  # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy, person)
-    policy_agreement_summary2(person.policy_person_distances.find_by(policy: policy))
   end
 
   def quote(word)
