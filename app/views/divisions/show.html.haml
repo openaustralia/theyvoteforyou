@@ -31,3 +31,6 @@
       = link_to policy.name.downcase, policy
       - # TODO: Make this show the nice form of the vote e.g. No (Strong)
       would have voted '#{policy.vote_for_division(@division)}'
+
+  - if @display != "policies"
+    = link_to("Edit related policies", division_with_policy_path(@division, nil), title: "Show or change the polices which vote on this division")
