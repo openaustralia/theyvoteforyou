@@ -32,7 +32,7 @@ module PoliciesHelper
       when 0.00...0.05
         "voted <em>very strongly against</em>".html_safe
       else
-        "voted <em>unknown about</em".html_safe
+        "voted <em>unknown about</em>".html_safe
       end
     end
   end
