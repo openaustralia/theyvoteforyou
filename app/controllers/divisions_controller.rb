@@ -11,46 +11,62 @@ class DivisionsController < ApplicationController
   end
 
   def index
-    @sort = params[:sort]
-    @rdisplay = params[:rdisplay]
-    @rdisplay = "2013" if @rdisplay.nil?
-    @house = params[:house]
+    if params[:mpc] && params[:mpn]
+      electorate = params[:mpc].gsub("_", " ")
+      name = params[:mpn].gsub("_", " ")
 
-    @parties = Division
-    @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-    @parties = @parties.in_australian_house(@house) if @house
-    @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
+      @member = Member.with_name(name)
+      @member = @member.in_australian_house(params[:house])
+      @member = @member.where(constituency: electorate)
+      @member = @member.order(entered_house: :desc).first
 
-    # We can either use party or rdisplay2 to set the party
-    if params[:party]
-      @party = params[:party].gsub("_", " ")
-    elsif params[:rdisplay2]
-      @party = params[:rdisplay2].gsub('_party', '')
-    end
-    # Match to canonical capitalisation
-    @party = @parties.find{|p| p.downcase == @party}
-
-    raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
-
-    order = case @sort
-    when nil
-      ["date DESC", "clock_time DESC", "name", "number DESC"]
-    when "subject"
-      ["name", "date DESC", "clock_time DESC", "number DESC"]
-    when "rebellions"
-      ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
-    when "turnout"
-      ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+      if @member.nil?
+        render 'members/member_not_found', status: 404
+      else
+        render 'index_with_member'
+      end
     else
-      raise "Unexpected value"
-    end
+      @sort = params[:sort]
+      @rdisplay = params[:rdisplay]
+      @rdisplay = "2013" if @rdisplay.nil?
+      @house = params[:house]
 
-    @divisions = Division.order(order)
-    @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
-    @divisions = @divisions.in_australian_house(@house) if @house
-    @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-    @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
-    @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
+      @parties = Division
+      @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
+      @parties = @parties.in_australian_house(@house) if @house
+      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
+
+      # We can either use party or rdisplay2 to set the party
+      if params[:party]
+        @party = params[:party].gsub("_", " ")
+      elsif params[:rdisplay2]
+        @party = params[:rdisplay2].gsub('_party', '')
+      end
+      # Match to canonical capitalisation
+      @party = @parties.find{|p| p.downcase == @party}
+
+      raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
+
+      order = case @sort
+      when nil
+        ["date DESC", "clock_time DESC", "name", "number DESC"]
+      when "subject"
+        ["name", "date DESC", "clock_time DESC", "number DESC"]
+      when "rebellions"
+        ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+      when "turnout"
+        ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+      else
+        raise "Unexpected value"
+      end
+
+      @divisions = Division.order(order)
+      @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
+      @divisions = @divisions.in_australian_house(@house) if @house
+      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
+      @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
+      @divisions = @divisions.includes(:whips, :division_info, :wiki_motions)
+    end
   end
 
   def show_redirect
@@ -125,7 +141,7 @@ class DivisionsController < ApplicationController
     policy_division = division.policy_divisions.new(policy_division_params)
 
     if policy_division.save
-      policy_division.policy.delay.calculate_member_agreement_percentages!
+      policy_division.policy.delay.calculate_member_distances!
     else
       flash[:error] = 'Could not connect policy'
     end

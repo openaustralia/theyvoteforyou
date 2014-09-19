@@ -1,7 +1,0 @@
-%h2#divisions #{link_to @member.full_name_no_electorate, member_path2(@member), title: "Overview of #{@member.full_name}"} : All Votes
-
-%p All votes #{@member.full_name_no_electorate} could have attended.
-
-%table.table
-  - member.person.members.order(entered_house: :desc).each do |member|
-    = render "votes", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no votes listed"

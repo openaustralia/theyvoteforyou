@@ -19,11 +19,11 @@
       = "position".pluralize(@division.policies.size)
       = policies_list_sentence(@division.policies) + "."
 
-= render "motion", member: @member, division: @division
+= render "motion", division: @division
 
 - if @division.policies
   %h2.h4 Related Policies
 
   = render "current_policies_list", division: @division, display: @display
 
-= render "summary", division: @division, members: @members
+= render "summary", division: @division, member: @member, members: @members

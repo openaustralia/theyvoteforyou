@@ -4,6 +4,7 @@
   %nav.header-actions.col-md-3
     =link_to_if(@policy, "Edit", edit_policy_path(@policy), :title => "Change title and definition of policy", :class => "btn btn-default btn-xs")
     =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
+    = link_to "History of edits", history_policy_path(@policy)
   %h1.col-md-9= yield :title
 
   %blockquote.lead.policytext.col-md-12= @policy.description.capitalize + "."
