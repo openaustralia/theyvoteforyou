@@ -10,25 +10,25 @@ module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
-      "voted <em>unknown about</em>".html_safe
+      "voted <strong>unknown about</strong>".html_safe
     elsif policy_member_distance.number_of_votes == 0
-      "has <em>never voted</em> on".html_safe
+      "has <strong>never voted</strong> on".html_safe
     else
       case policy_member_distance.agreement_fraction
       when 0.95..1.0
-        "voted <em>very strongly for</em>".html_safe
+        "voted <strong>very strongly for</strong>".html_safe
       when 0.85...0.95
-        "voted <em>strongly for</em>".html_safe
+        "voted <strong>strongly for</strong>".html_safe
       when 0.60...0.85
-        "voted <em>moderately for</em>".html_safe
+        "voted <strong>moderately for</strong>".html_safe
       when 0.40...0.60
-        "voted <em>a mixture of for and against</em> on".html_safe
+        "voted <strong>a mixture of for and against</strong> on".html_safe
       when 0.15...0.40
-        "voted <em>moderately against</em>".html_safe
+        "voted <strong>moderately against</strong>".html_safe
       when 0.05...0.15
-        "voted <em>strongly against</em>".html_safe
+        "voted <strong>strongly against</strong>".html_safe
       when 0.00...0.05
-        "voted <em>very strongly against</em>".html_safe
+        "voted <strong>very strongly against</strong>".html_safe
       else
       end
     end
