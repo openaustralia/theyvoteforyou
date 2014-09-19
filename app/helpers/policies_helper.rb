@@ -12,17 +12,23 @@ module PoliciesHelper
     if person.number_of_votes_on_policy(policy) == 0
       "has <em>never voted</em> on".html_safe
     else
-      fraction = person.agreement_fraction_with_policy(policy)
-      if fraction >= 0.80
+      case person.agreement_fraction_with_policy(policy)
+      when 0.95..1.0
+        "voted <em>very strongly for</em>".html_safe
+      when 0.85...0.95
         "voted <em>strongly for</em>".html_safe
-      elsif fraction >= 0.60
+      when 0.60...0.85
         "voted <em>moderately for</em>".html_safe
-      elsif fraction <= 0.20
-        "voted <em>strongly against</em>".html_safe
-      elsif fraction <= 0.40
+      when 0.40...0.60
+        "voted <em>a mixture of for and against</em> on".html_safe
+      when 0.15...0.40
         "voted <em>moderately against</em>".html_safe
+      when 0.05...0.15
+        "voted <em>strongly against</em>".html_safe
+      when 0.00...0.05
+        "voted <em>very strongly against</em>".html_safe
       else
-        "voted <em>ambiguously</em> on".html_safe
+        "voted <em>unknown about</em".html_safe
       end
     end
   end
