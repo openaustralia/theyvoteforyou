@@ -55,12 +55,11 @@
 
 %form{:action => policies_path, :method => "post"}
   .form-group
-    -# TODO Add for
-    %label Title of policy
-    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || '')}/
+    %label If you are for
+    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || ''), :placeholder => "equal treatment of same-sex couples"}/
   .form-group
-    %label Someone who believes that...
-    %textarea.form-control{:cols => "80", :name => "description", :rows => "6"}= params[:description]
+    %label you believe that
+    %textarea.form-control{:cols => "80", :name => "description", :rows => "6", placeholder: "the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples"}= params[:description]
   %p
     %span.ptitle Privacy notes:
     By creating a policy
