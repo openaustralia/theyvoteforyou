@@ -22,7 +22,7 @@ module PoliciesHelper
       when 0.60...0.85
         "voted <strong>moderately for</strong>".html_safe
       when 0.40...0.60
-        "voted <strong>a mixture of for and against</strong> on".html_safe
+        "voted <strong>a mixture of for and against</strong>".html_safe
       when 0.15...0.40
         "voted <strong>moderately against</strong>".html_safe
       when 0.05...0.15
