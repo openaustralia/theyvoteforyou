@@ -14,5 +14,5 @@
     - member.person.policy_person_distances.joins(:policy).order("policies.name").each do |policy_member_distance|
       %li
         = link_to member_policy_path2(member, policy_member_distance.policy) do
-          = policy_agreement_summary(policy_member_distance)
+          = raw(policy_agreement_summary(policy_member_distance).capitalize)
           = policy_member_distance.policy.name
