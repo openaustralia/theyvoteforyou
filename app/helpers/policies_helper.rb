@@ -9,10 +9,14 @@ module PoliciesHelper
 
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy, person)
-    if person.number_of_votes_on_policy(policy) == 0
+    pmd = person.policy_person_distances.find_by(policy: policy)
+    n = pmd.number_of_votes if pmd
+    fraction = pmd.agreement_fraction if pmd
+
+    if n == 0
       "has <em>never voted</em> on".html_safe
     else
-      case person.agreement_fraction_with_policy(policy)
+      case fraction
       when 0.95..1.0
         "voted <em>very strongly for</em>".html_safe
       when 0.85...0.95
