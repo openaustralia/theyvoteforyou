@@ -7,16 +7,13 @@ module PoliciesHelper
     end.to_sentence.html_safe
   end
 
-  # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy, person)
-    pmd = person.policy_person_distances.find_by(policy: policy)
-    n = pmd.number_of_votes if pmd
-    fraction = pmd.agreement_fraction if pmd
-
-    if n == 0
+  def policy_agreement_summary2(policy_member_distance)
+    if policy_member_distance.nil?
+      "voted <em>unknown about</em>".html_safe
+    elsif policy_member_distance.number_of_votes == 0
       "has <em>never voted</em> on".html_safe
     else
-      case fraction
+      case policy_member_distance.agreement_fraction
       when 0.95..1.0
         "voted <em>very strongly for</em>".html_safe
       when 0.85...0.95
@@ -32,9 +29,13 @@ module PoliciesHelper
       when 0.00...0.05
         "voted <em>very strongly against</em>".html_safe
       else
-        "voted <em>unknown about</em>".html_safe
       end
     end
+  end
+
+  # Returns things like "voted strongly against", "has never voted on", etc..
+  def policy_agreement_summary(policy, person)
+    policy_agreement_summary2(person.policy_person_distances.find_by(policy: policy))
   end
 
   def quote(word)
