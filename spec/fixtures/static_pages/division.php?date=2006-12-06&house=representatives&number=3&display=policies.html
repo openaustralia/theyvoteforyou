@@ -63,34 +63,37 @@ Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo
 <div id="secondnavtabs">
 <ul class="nav nav-tabs">
 <li><a href="/divisions/representatives/2006-12-06/3" title="Overview of division">Summary</a></li>
-<li class="active"><a href="/divisions/representatives/2006-12-06/3/policies/2" title="Show or change the polices which vote on this division">Policies</a></li>
+<li class="active"><a href="/divisions/representatives/2006-12-06/3/policies" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
 <p>
 People who are
 <a href="/policies/2">offshore processing</a>
 would have voted 'no'
-<a class="btn btn-sm btn-link" href="#">delete</a>
+<form action="/divisions/representatives/2006-12-06/3/policies/2/delete" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="delete" /></div></form>
 </p>
-<form action="/divisions/representatives/2006-12-06/3/policies/2" class="form-inline policyvote" method="post">
-<legend class="small">
+
+<form accept-charset="UTF-8" action="/divisions/representatives/2006-12-06/3/policies/create" class="form-inline policyvote" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><legend class="small">
 <p>Connect this division with relevant policies.</p>
 <p>Please read policy definitions and the division’s description before altering list.</p>
 </legend>
 <fieldset>
 <label>People who are</label>
-<select class="form-control" id="policies" name="policies" size="1"><option value="">Select related policy</option><option value="1">Marriage equality</option>
+<select class="form-control" id="policy_division_policy_id" name="policy_division[policy_id]" size="1"><option value="">Select related policy</option>
+<option value="1">Marriage equality</option>
 <option value="2">Offshore processing</option>
 <option value="3">provisional</option></select>
 would have
 <label>voted</label>
-<select class="form-control" id="vote2" name="vote2" size="1"><option value="">Select vote</option><option value="--">Non-voter</option>
+<select class="form-control" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="">Select vote</option>
 <option value="aye3">Aye (strong)</option>
 <option value="aye">Aye</option>
-<option value="both">Abstain</option>
-<option selected="selected" value="no">No</option>
+<option value="no">No</option>
 <option value="no3">No (strong)</option></select>
-</fieldset><input class="btn btn-primary" name="submit" type="submit" value="Update" /></form>
+</fieldset>
+<input class="btn btn-primary" name="commit" type="submit" value="Create" />
+</form>
+
 
 </div>
 <div id="footer1">
