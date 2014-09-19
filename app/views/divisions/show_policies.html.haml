@@ -14,7 +14,7 @@
 = render "current_policies_list", division: @division, display: @display
 
 - if user_signed_in?
-  = form_for @division.policy_divisions.new, html: {class: 'form-inline policyvote'} do |f|
+  = form_for :policy_division, url: create_policy_division_path(division_params(@division)), html: {class: 'form-inline policyvote'} do |f|
     %legend.small
       %p Connect this division with relevant policies.
       %p Please read policy definitions and the division’s description before altering list.
