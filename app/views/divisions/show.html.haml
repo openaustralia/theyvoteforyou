@@ -10,7 +10,7 @@
   #secondnavtabs
     %ul.nav.nav-tabs
       = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
-      = nav_link("Policies", division_with_policy_path(@division, nil), "Show or change the polices which vote on this division", @display == "policies")
+      = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
 
 - if @division.policies.any?
   %section.division-summary
