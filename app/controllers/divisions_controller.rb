@@ -122,14 +122,16 @@ class DivisionsController < ApplicationController
 
   def create_policy_division
     division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    policy_division = division.policy_divisions.new(policy_division_params)
 
-    if policy_division = division.policy_divisions.create(policy_division_params)
+    if policy_division.save
       policy_division.policy.delay.calculate_member_agreement_percentages!
-      # TODO Just point to the object when the path helper has been refactored
-      redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
     else
       flash[:error] = 'Could not connect policy'
     end
+
+    # TODO Just point to the object when the path helper has been refactored
+    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
   end
 
   private
