@@ -1,6 +1,7 @@
 - content_for :title do
   = @member.name
-  compared to '#{@policy.name}'
+  = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
+  = @policy.name
 
 .page-header
   %h1

@@ -1,18 +1,13 @@
 .h1mppolicy
-  %p.mp= link_to member.full_name2, member_path2(member)
-  %p.voteexpl
-    = policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))
-    the policy
-  %p.policy
-    = link_to policy do
-      %i
-        %b
-          = policy.name
   %p
+    = link_to member.full_name2, member_path2(member)
+    = policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))
+    = policy.name
     by
-    %a{href: '#ratioexpl'} scoring
-    %em.percent= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
+    = link_to "scoring", "#ratioexpl"
+    = fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
     compared to the votes below
+
 - if full
   %p
     Someone who believes that
