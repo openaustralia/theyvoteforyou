@@ -7,9 +7,8 @@
       %em (provisional)
     would have voted '#{simple_vote_display @division.policy_vote(policy)}'
 
-    - if @display == "policies"
-      - # TODO: Make this link work
-      = link_to_if(user_signed_in?, "delete", "#", :class => "btn btn-sm btn-link")
+    - if @display == "policies" && user_signed_in?
+      = button_to 'delete', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
 
 - if @display != "policies"
   = link_to("Edit related policies", division_with_policy_path(@division, nil), title: "Show or change the polices which vote on this division")
