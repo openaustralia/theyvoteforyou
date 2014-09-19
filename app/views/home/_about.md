@@ -8,7 +8,7 @@ Here at the Public Whip we hope to make it easier for you to see exactly how you
 
 We’ve peeled back the layers of stuffy jargon, arcane procedures and Monty Python-esque language so you can find out whether a member votes for [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
 
-It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives)and  [Senators](/members/senate).
+It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
 
 ## Who made this?
 
