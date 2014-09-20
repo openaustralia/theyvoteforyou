@@ -1,19 +1,21 @@
 - member.person.members.order(entered_house: :desc).each_with_index do |member, i|
   %p= member_type_place_date_sentence(member)
 
-- if member.person.has_whip?
-  %p
-    %strong
-      - if member.person.rebellions == 0
-        Never rebels.
-      - else
-        Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction)} of votes.
-    %small= link_to "explain rebellions", help_faq_path(anchor: "clarify")
+  - if member.person.votes_attended > 0
+    - if member.person.has_whip?
+      %p
+        %strong
+          - if member.person.rebellions == 0
+            Never rebels.
+          - else
+            Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction)} of votes.
+        %small= link_to "explain rebellions", help_faq_path(anchor: "clarify")
 
-%p
-  Attended #{fraction_to_percentage_display(member.person.attendance_fraction)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
-  %small= link_to "explain attendance", help_faq_path(anchor: "clarify")
-
+    %p
+      Attended #{fraction_to_percentage_display(member.person.attendance_fraction)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
+  - else
+    %strong No votes attended
+    %small= link_to "explain attendance", help_faq_path(anchor: "clarify")
 - # TODO: add back in the rebellion and attendance rate for previous membership.
 
 %p
