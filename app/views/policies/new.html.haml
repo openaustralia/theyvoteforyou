@@ -3,7 +3,7 @@
 .page-header
   %h1= yield :title
 
-- if @policy
+- if @policy.errors.any?
   .error
     %h2 Creating a new policy not complete, please try again
     %p Please name your policy, and give a definition.
@@ -53,7 +53,7 @@
       or you can see how it should be broken down, discuss it with others
       and fix it.
 
-%form{:action => policies_path, :method => "post"}
+= form_for @policy do |f|
   .form-group
     %label If you are for
     %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || ''), :placeholder => "equal treatment of same-sex couples"}/
