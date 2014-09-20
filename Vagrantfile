@@ -11,6 +11,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails
   config.vm.network "forwarded_port", guest: 1080, host: 1080 #mailcatcher
 
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize ["modifyvm", :id, "--memory", 1536]
+  end
+
   config.vm.provision "shell" do |shell|
   shell.inline = "mkdir -p /etc/puppet/modules;
      aptitude update
