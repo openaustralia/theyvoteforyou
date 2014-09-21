@@ -66,13 +66,20 @@ Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo
 <li class="active"><a href="/divisions/representatives/2006-12-06/3/policies" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
-<ul class="division-policies-list">
+<ul class="division-policies-list list-unstyled">
 <li class="division-policy">
-<p class="division-policy-statement">
+<form accept-charset="UTF-8" action="/divisions/representatives/2006-12-06/3/policies/2" class="division-policy-statement form-inline policyvote" method="post"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><label class="division-policy-statement">
 People who are
 <a href="/policies/2">offshore processing</a>
-would have voted 'no'
-</p>
+would have voted
+</label>
+<select id="policy_division_vote" name="policy_division[vote]"><option value="aye3">Aye (strong)</option>
+<option value="aye">Aye</option>
+<option selected="selected" value="no">No</option>
+<option value="no3">No (strong)</option></select>
+<input class="btn btn-primary btn-xs" name="commit" type="submit" value="Update" />
+</form>
+
 <form action="/divisions/representatives/2006-12-06/3/policies/2/delete" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></div></form>
 </li>
 </ul>

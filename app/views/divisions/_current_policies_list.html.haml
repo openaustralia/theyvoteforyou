@@ -1,16 +1,33 @@
-%ul.division-policies-list
+%ul.division-policies-list.list-unstyled
   - @division.policies.order(:name).each do |policy|
     %li.division-policy
-      %p.division-policy-statement
-        People who are
-        - # TODO remove this downcase, it shouldn't be needed
-        = link_to policy.name.downcase, policy
-        - if policy.provisional?
-          %em (provisional)
-        would have voted '#{simple_vote_display @division.policy_vote(policy)}'
+      - if user_signed_in?
+        = form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+          %label.division-policy-statement
+            People who are
+            - # TODO remove this downcase, it shouldn't be needed
+            = link_to policy.name.downcase, policy
+            - if policy.provisional?
+              %em (provisional)
+            would have voted
+          - select_options = {'Aye (strong)' => 'aye3',
+                              'Aye' => 'aye',
+                              'No' => 'no',
+                              'No (strong)' => 'no3'}
+          = f.select :vote, options_for_select(select_options, (policy.vote_for_division(@division))), size: 1, class: "form-control"
+          = f.submit 'Update', class: 'btn btn-primary btn-xs'
 
-      - if @display == "policies" && user_signed_in?
-        = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
+        - if @display == "policies" && user_signed_in?
+          = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
+      - else
+        %p.division-policy-statement
+          People who are
+          - # TODO remove this downcase, it shouldn't be needed
+          = link_to policy.name.downcase, policy
+          - if policy.provisional?
+            %em (provisional)
+          would have voted '#{simple_vote_display @division.policy_vote(policy)}'
 
 - if @display != "policies"
   = link_to("Edit related policies", division_policies_path(division_params(@division)), title: "Show or change the polices which vote on this division")
+
