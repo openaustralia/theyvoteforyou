@@ -130,6 +130,14 @@ tbody {
   }
 }
 
+.division-policy {
+  .division-policy-statement,
+  .button_to,
+  .button_to > div {
+    display: inline;
+  }
+}
+
 // layout
 
 .header-actions {

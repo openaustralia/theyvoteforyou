@@ -10,7 +10,6 @@
         would have voted '#{simple_vote_display @division.policy_vote(policy)}'
 
       - if @display == "policies" && user_signed_in?
-      - # FIXME This button is displaying on a newline and it shouldn't be
         = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
 
 - if @display != "policies"
