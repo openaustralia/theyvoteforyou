@@ -150,6 +150,20 @@ class DivisionsController < ApplicationController
     redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
   end
 
+  def update_policy_division
+    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+
+    if policy_division.update(policy_division_params)
+      flash[:notice] = 'Updated policy connection'
+    else
+      flash[:error] = 'Could not remove policy connection'
+    end
+
+    # TODO Just point to the object when the path helper has been refactored
+    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+  end
+
   def destroy_policy_division
     division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])

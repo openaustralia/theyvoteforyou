@@ -139,6 +139,7 @@ Publicwhip::Application.routes.draw do
   post '/divisions/:house/:date/:number' => 'divisions#update'
   get '/divisions/:house/:date/:number/policies' => 'divisions#show_policies', as: :division_policies
   post '/divisions/:house/:date/:number/policies/create' => 'divisions#create_policy_division', as: :create_policy_division
+  patch '/divisions/:house/:date/:number/policies/:policy_id' => 'divisions#update_policy_division', as: :update_policy_division
   delete '/divisions/:house/:date/:number/policies/:policy_id/delete' => 'divisions#destroy_policy_division', as: :destroy_policy_division
   get '/divisions/:house/:date/:number/policies/:dmp' => redirect("/divisions/%{house}/%{date}/%{number}/policies")
   get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
