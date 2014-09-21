@@ -18,7 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell" do |shell|
   shell.inline = "mkdir -p /etc/puppet/modules;
      aptitude update
-     aptitude upgrade -y
+     aptitude safe-upgrade -y
 
      # Unfortunately we require a reboot to load the new kernel.
      # I should probably update the vm, re-box it and upload it.
