@@ -45,4 +45,9 @@ describe "path helpers", type: :helper do
     expect(helper.electorate_path(member)).
       to eq "/members/representatives/twist"
   end
+
+  it ".member_division_path" do
+    expect(helper.member_division_path(member, division)).
+      to eq "/members/representatives/twist/foo_bar/divisions/2001-01-01/3"
+  end
 end

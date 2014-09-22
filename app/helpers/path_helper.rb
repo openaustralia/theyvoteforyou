@@ -7,8 +7,9 @@ module PathHelper
     party_divisions_path(party: party.downcase.gsub(" ", "_"))
   end
 
-  def member_division_path2(member, division)
-    member_division_path(division_params(division).merge(member_params(member)))
+  def member_division_path(member, division)
+    Rails.application.routes.url_helpers.
+      member_division_path(division_params(division).merge(member_params(member)))
   end
 
   def division_with_policy_path(division, policy)
