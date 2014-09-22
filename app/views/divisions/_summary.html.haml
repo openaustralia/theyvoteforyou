@@ -33,7 +33,7 @@
         - members.where(party: whip.party).each do |member|
           %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
             %td
-              = link_to member.name_without_title, member_path(member)
+              = link_to member.name_without_title, member
               = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path2(member), :class => 'text-muted'
 
             %td{:colspan => '3'}= member.vote_on_division_without_tell(division)

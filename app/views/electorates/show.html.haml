@@ -23,7 +23,7 @@
   %tbody
     - @members.each do |member|
       %tr
-        %td= link_to member.name, member_path(member)
+        %td= link_to member.name, member
         %td= member.since
         %td= member.until
         %td= link_to member.party_long, party_divisions_path2(member.party_long)

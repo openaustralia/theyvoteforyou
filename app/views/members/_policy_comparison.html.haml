@@ -1,6 +1,6 @@
 .h1mppolicy
   %p
-    = link_to member.full_name2, member_path(member)
+    = link_to member.full_name2, member
     = policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))
     = policy.name
     by
