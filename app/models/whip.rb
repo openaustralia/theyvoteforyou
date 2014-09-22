@@ -26,7 +26,7 @@ class Whip < ActiveRecord::Base
         whip.both_votes = 0
         whip.abstention_votes = 0
       end
-      
+
       whip.possible_votes = possible_votes || 0
       if whip.whipless? || whip.free_vote?
         whip.whip_guess = "none"
