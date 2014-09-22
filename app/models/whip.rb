@@ -28,13 +28,16 @@ class Whip < ActiveRecord::Base
       end
 
       whip.possible_votes = possible_votes || 0
-      if whip.whipless? || whip.free_vote?
-        whip.whip_guess = "none"
-      else
-        whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
-          whip.abstention_votes)
-      end
+      whip.whip_guess = whip.calc_whip_guess
       whip.save!
+    end
+  end
+
+  def calc_whip_guess
+    if whipless? || free_vote?
+      "none"
+    else
+      Whip.calc_whip_guess(aye_votes_including_tells, no_votes_including_tells, abstention_votes)
     end
   end
 
