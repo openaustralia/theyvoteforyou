@@ -20,6 +20,10 @@ class Party
     end
   end
 
+  def url_name
+    long_name.downcase.gsub(" ", "_")
+  end
+
   # Does this party not have a whip?
   def whipless?
     name == "XB" ||

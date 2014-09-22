@@ -4,7 +4,7 @@ module PathHelper
   end
 
   def party_divisions_path3(party_object)
-    party_divisions_path(party: party_object.long_name.downcase.gsub(" ", "_"))
+    party_divisions_path(party: party_object.url_name)
   end
 
   def member_division_path(member, division)
