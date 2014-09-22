@@ -135,7 +135,7 @@ class Member < ActiveRecord::Base
   end
 
   # Long version of party name
-  def party_long
+  def party_name
     Party.long_name(party)
   end
 

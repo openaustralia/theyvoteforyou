@@ -6,7 +6,7 @@ module MembersHelper
     else
       result = "".html_safe
     end
-    result += link_to member.party_long, party_divisions_path2(member.party_long)
+    result += link_to member.party_name, party_divisions_path2(member.party_name)
     result
   end
 
@@ -23,10 +23,10 @@ module MembersHelper
   def member_type_party_place_sentence(member)
     # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     if member.currently_in_parliament?
-      text = member.party_long + " " + member_type(member.australian_house) + " for " +
+      text = member.party_name + " " + member_type(member.australian_house) + " for " +
         content_tag(:span, member.electorate, class: "electorate")
     else
-      text = "Former " + member.party_long + " " + member_type(member.australian_house) + " for " +
+      text = "Former " + member.party_name + " " + member_type(member.australian_house) + " for " +
         content_tag(:span, member.electorate, class: 'electorate')
     end
     text.html_safe
