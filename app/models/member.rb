@@ -139,6 +139,11 @@ class Member < ActiveRecord::Base
     party_object.long_name
   end
 
+  # Are they a member of a party that has a whip?
+  def has_whip?
+    party_object.has_whip?
+  end
+
   def party_object
     Party.new(name: party)
   end
@@ -166,11 +171,6 @@ class Member < ActiveRecord::Base
   # TODO Make this more resilient by using current_on(Date.today)
   def self.current
     where(left_house: "9999-12-31")
-  end
-
-  # Are they a member of a party that has a whip?
-  def has_whip?
-    !Party.whipless?(party)
   end
 
   def possible_friends
