@@ -7,8 +7,8 @@ module MembersHelper
     Rails.application.routes.url_helpers.member_policy_path(member_params(member).merge(id: policy.id))
   end
 
-  def full_member_policy_path2(member, policy)
-    full_member_policy_path(member_params(member).merge(id: policy.id))
+  def full_member_policy_path(member, policy)
+    Rails.application.routes.url_helpers.full_member_policy_path(member_params(member).merge(id: policy.id))
   end
 
   def member_divisions_path2(member)
