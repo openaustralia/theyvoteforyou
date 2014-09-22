@@ -54,6 +54,7 @@ group :test do
   # the same database. So, using database_cleaner instead
   gem "database_cleaner"
   gem 'rspec-activemodel-mocks'
+  gem 'webmock'
 end
 
 group :development do

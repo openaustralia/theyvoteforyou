@@ -13,7 +13,7 @@ class Member < ActiveRecord::Base
   has_many :member_distances, foreign_key: :member1_id
   belongs_to :person
 
-  delegate :small_image_url, :large_image_url, to: :person
+  delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)

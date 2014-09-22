@@ -3,6 +3,10 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'html_compare_helper'
+require 'webmock/rspec'
+
+# tests can't make external requests
+WebMock.disable_net_connect!(allow: 'www.openaustralia.org')
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
