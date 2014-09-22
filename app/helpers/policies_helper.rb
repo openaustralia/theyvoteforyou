@@ -93,7 +93,7 @@ module PoliciesHelper
 
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division_path2(division))
+    actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
   end
 
   def version_attribution_sentence(version)

@@ -22,8 +22,8 @@ module DivisionsHelper
     end
   end
 
-  def division_path2(division, q = {})
-    division_path(q.merge(division_params(division)))
+  def division_path(division, q = {})
+    Rails.application.routes.url_helpers.division_path(q.merge(division_params(division)))
   end
 
   def division_params(division)

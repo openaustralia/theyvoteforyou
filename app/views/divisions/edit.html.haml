@@ -26,7 +26,7 @@
     Read the #{link_to "debate leading up to the vote", @division.oa_debate_url, target: '_blank'}.
 .row
   .col-md-8
-    = form_for @division, url: division_path2(@division), method: :post do |f|
+    = form_for @division, url: division_path(@division), method: :post do |f|
       .form-group
         -# TODO Add for to labels
         %label Division title:
