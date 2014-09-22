@@ -28,7 +28,7 @@ class Whip < ActiveRecord::Base
       end
       
       whip.possible_votes = possible_votes || 0
-      if Party.whipless?(whip.party) || whip.free_vote?
+      if whip.whipless? || whip.free_vote?
         whip.whip_guess = "none"
       else
         whip.whip_guess = calc_whip_guess(whip.aye_votes_including_tells, whip.no_votes_including_tells,
@@ -152,5 +152,9 @@ class Whip < ActiveRecord::Base
 
   def party_name
     party_object.long_name
+  end
+
+  def whipless?
+    Party.whipless?(party)
   end
 end
