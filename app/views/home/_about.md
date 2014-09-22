@@ -4,17 +4,18 @@ In Australia, every 4 years or so, we all head to the polling booths across the 
 
 But how do you know that the individual speaking for you in your electorate votes in your interest, or even bothers to turn up at all. Have they ever, even once, voted against their party on an issue people like you in your electorate care about?
 
-Here at the Public Whip we hope to make it easier for you to see exactly how your MP voted. 
+Here at the Public Whip we make it easier for you to see exactly how your MP voted. 
 
-We’ve peeled back the layers of stuffy jargon, arcane procedures and Monty Python-esque language so you can find out whether a member votes for [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
+We’ve peeled back the layers of stuffy jargon, arcane procedures and Monty Python-esque language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
 
 It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
 
 ## Who made this?
 
-Public Whip is a non-partisan, open source project by the OpenAustralia Foundation, a not-for-profit, independent organisation that builds websites like this to help you keep tabs on your government.
+Public Whip was built by the OpenAustralia Foundation, a not-for-profit, independent organisation.
 
-The OpenAustralian Foundation has ported this project from an older website set up in the UK...
+The OpenAustralian Foundation has adapted The Public Whip for Australia from [The Public Whip](http://www.publicwhip.org.uk/), originally created by [Francis Irving](http://wikipedia.org/wiki/Francis_Irving) and [Julian Todd](http://wikipedia.org/wiki/Julian_Todd) following the [18 March 2003 Parliamentary Approval for the invasion of Iraq](https://en.wikipedia.org/wiki/18_March_2003_Parliamentary_Approval_for_the_invasion_of_Iraq) as a tool to record which MPs had defied their party's whip long after the information had become effectively inaccessible for reference.
+
 
 ## Contribute
 
