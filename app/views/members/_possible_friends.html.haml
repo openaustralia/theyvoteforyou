@@ -2,7 +2,7 @@
   - if all_friends
     #{link_to @member.full_name_no_electorate, @member, title: "Overview of #{@member.full_name}"} : All Possible Friends
   - else
-    Possible Friends (<a href="#{friends_member_path2(member)}">more...</a>)
+    Possible Friends (#{link_to "more...", friends_member_path(member)})
 
 %p
   Shows which

@@ -24,4 +24,9 @@ describe "path helpers", type: :helper do
     expect(helper.member_divisions_path(member)).
       to eq "/members/representatives/twist/foo_bar/divisions"
   end
+
+  it ".friends_member_path" do
+    expect(helper.friends_member_path(member)).
+      to eq "/members/representatives/twist/foo_bar/friends"
+  end
 end

@@ -15,8 +15,8 @@ module MembersHelper
     Rails.application.routes.url_helpers.member_divisions_path(member_params(member))
   end
 
-  def friends_member_path2(member)
-    friends_member_path(member_params(member))
+  def friends_member_path(member)
+    Rails.application.routes.url_helpers.friends_member_path(member_params(member))
   end
 
   def member_params(member)
