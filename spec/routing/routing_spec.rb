@@ -40,4 +40,9 @@ describe "path helpers", type: :helper do
     expect(helper.edit_division_path(division)).
       to eq "/divisions/representatives/2001-01-01/3/edit"
   end
+
+  it ".electorate_path" do
+    expect(helper.electorate_path(member)).
+      to eq "/members/representatives/twist"
+  end
 end

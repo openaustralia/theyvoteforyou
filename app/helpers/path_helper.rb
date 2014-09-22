@@ -1,9 +1,6 @@
 module PathHelper
-  def electorate_path2(member)
-    electorate_path({
-        mpc: (member.url_electorate.downcase if member),
-        house: (member.australian_house if member)
-      })
+  def electorate_path(member)
+    Rails.application.routes.url_helpers.electorate_path(electorate_params(member))
   end
 
   def party_divisions_path2(party)
@@ -59,12 +56,15 @@ module PathHelper
     Rails.application.routes.url_helpers.friends_member_path(member_params(member))
   end
 
-  def member_params(member)
+  def electorate_params(member)
     {
-      mpn: member.url_name.downcase,
-      mpc: member.url_electorate.downcase,
-      house: member.australian_house
+      mpc: (member.url_electorate.downcase if member),
+      house: (member.australian_house if member)
     }
+  end
+
+  def member_params(member)
+    electorate_params(member).merge(mpn: member.url_name.downcase)
   end
 
   def division_params(division)
