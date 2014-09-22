@@ -3,8 +3,8 @@ module PathHelper
     Rails.application.routes.url_helpers.electorate_path(electorate_params(member))
   end
 
-  def party_divisions_path3(party_object)
-    party_divisions_path(party: party_object.url_name)
+  def party_divisions_path(party_object)
+    Rails.application.routes.url_helpers.party_divisions_path(party: party_object.url_name)
   end
 
   def member_division_path(member, division)

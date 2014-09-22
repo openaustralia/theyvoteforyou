@@ -5,6 +5,7 @@ describe "path helpers", type: :helper do
     australian_house: "representatives") }
   let(:policy) { mock_model(Policy, id: 123) }
   let(:division) { mock_model(Division, australian_house: "representatives", date: Date.new(2001,1,1), number: 3) }
+  let(:party) { double("party", url_name: "foo_bar") }
 
   it ".member_path" do
     expect(helper.member_path(member)).
@@ -54,5 +55,10 @@ describe "path helpers", type: :helper do
   it ".history_division_path" do
     expect(helper.history_division_path(division)).
       to eq "/divisions/representatives/2001-01-01/3/history"
+  end
+
+  it ".party_divisions_path" do
+    expect(helper.party_divisions_path(party)).
+      to eq "/parties/foo_bar/divisions"
   end
 end
