@@ -19,4 +19,9 @@ describe "path helpers", type: :helper do
     expect(helper.full_member_policy_path(member, policy)).
       to eq "/members/representatives/twist/foo_bar/policies/123/full"
   end
+
+  it ".member_divisions_path" do
+    expect(helper.member_divisions_path(member)).
+      to eq "/members/representatives/twist/foo_bar/divisions"
+  end
 end
