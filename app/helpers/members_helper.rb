@@ -1,6 +1,6 @@
 module MembersHelper
-  def member_path2(member)
-    member_path(member_params(member))
+  def member_path(member)
+    Rails.application.routes.url_helpers.member_path(member_params(member))
   end
 
   def member_policy_path2(member, policy)

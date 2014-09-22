@@ -132,7 +132,7 @@ module DivisionsHelper
   end
 
   def member_voted_with(member, division)
-    sentence = link_to member.full_name, member_path2(member)
+    sentence = link_to member.full_name, member_path(member)
     sentence += " "
     if member.vote_on_division_without_tell(division) == "absent"
       sentence += "did not vote."

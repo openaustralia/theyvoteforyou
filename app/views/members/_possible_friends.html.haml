@@ -1,6 +1,6 @@
 %h2#friends
   - if all_friends
-    #{link_to @member.full_name_no_electorate, member_path2(@member), title: "Overview of #{@member.full_name}"} : All Possible Friends
+    #{link_to @member.full_name_no_electorate, member_path(@member), title: "Overview of #{@member.full_name}"} : All Possible Friends
   - else
     Possible Friends (<a href="#{friends_member_path2(member)}">more...</a>)
 
@@ -43,7 +43,7 @@
       - possible_friends.each do |member_distance|
         %tr
           %td= fraction_to_percentage_display(member_distance.agreement_fraction)
-          %td= link_to member_distance.member2.name_without_title, member_path2(member_distance.member2)
+          %td= link_to member_distance.member2.name_without_title, member_path(member_distance.member2)
           %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path2(member_distance.member2)
           %td= party_long2(member_distance.member2)
 - if member.best_friends.count >= 5 && !all_friends
