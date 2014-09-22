@@ -36,9 +36,4 @@ class Party
   def has_whip?
     !whipless?
   end
-
-  # TODO Inline
-  def self.whipless?(name)
-    Party.new(name: name).whipless?
-  end
 end

@@ -155,6 +155,6 @@ class Whip < ActiveRecord::Base
   end
 
   def whipless?
-    Party.whipless?(party)
+    party_object.whipless?
   end
 end
