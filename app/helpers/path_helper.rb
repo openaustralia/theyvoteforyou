@@ -29,8 +29,8 @@ module PathHelper
     Rails.application.routes.url_helpers.division_path(q.merge(division_params(division)))
   end
 
-  def history_division_path2(division)
-    history_division_path(division_params(division))
+  def history_division_path(division)
+    Rails.application.routes.url_helpers.history_division_path(division_params(division))
   end
 
   def edit_division_path(division)
