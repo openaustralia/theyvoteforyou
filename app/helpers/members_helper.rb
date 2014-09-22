@@ -1,32 +1,4 @@
 module MembersHelper
-  def member_path(member)
-    Rails.application.routes.url_helpers.member_path(member_params(member))
-  end
-
-  def member_policy_path(member, policy)
-    Rails.application.routes.url_helpers.member_policy_path(member_params(member).merge(id: policy.id))
-  end
-
-  def full_member_policy_path(member, policy)
-    Rails.application.routes.url_helpers.full_member_policy_path(member_params(member).merge(id: policy.id))
-  end
-
-  def member_divisions_path(member)
-    Rails.application.routes.url_helpers.member_divisions_path(member_params(member))
-  end
-
-  def friends_member_path(member)
-    Rails.application.routes.url_helpers.friends_member_path(member_params(member))
-  end
-
-  def member_params(member)
-    {
-      mpn: member.url_name.downcase,
-      mpc: member.url_electorate.downcase,
-      house: member.australian_house
-    }
-  end
-
   # Also say "whilst Independent" if they used to be in a different party
   def party_long2(member)
     if member.entered_reason == "changed_party" || member.left_reason == "changed_party"
