@@ -1,7 +1,4 @@
 class PoliciesController < ApplicationController
-  # TODO: Reenable CSRF protection
-  skip_before_action :verify_authenticity_token
-
   before_action :authenticate_user!, except: [:index, :show, :detail, :full]
 
   def index
@@ -62,6 +59,7 @@ class PoliciesController < ApplicationController
   end
 
   def new
+    @policy = Policy.new
   end
 
   def create
