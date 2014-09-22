@@ -146,7 +146,11 @@ class Whip < ActiveRecord::Base
     no_votes + no_tells
   end
 
+  def party_object
+    Party.new(name: party)
+  end
+
   def party_name
-    Party.long_name(party)
+    party_object.long_name
   end
 end

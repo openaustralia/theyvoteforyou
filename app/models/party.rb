@@ -34,11 +34,6 @@ class Party
   end
 
   # TODO Inline
-  def self.long_name(name)
-    Party.new(name: name).long_name
-  end
-
-  # TODO Inline
   def self.whipless?(name)
     Party.new(name: name).whipless?
   end

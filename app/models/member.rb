@@ -136,7 +136,11 @@ class Member < ActiveRecord::Base
 
   # Long version of party name
   def party_name
-    Party.long_name(party)
+    party_object.long_name
+  end
+
+  def party_object
+    Party.new(name: party)
   end
 
   def senator?
