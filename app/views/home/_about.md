@@ -10,6 +10,8 @@ We’ve peeled back the layers of stuffy jargon, arcane procedures and Monty Pyt
 
 It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
 
+## Credits
+
 Public Whip was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), a not-for-profit, independent organisation. It is based on the [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) following the [18 March 2003 Parliamentary Approval for the invasion of Iraq](https://en.wikipedia.org/wiki/18_March_2003_Parliamentary_Approval_for_the_invasion_of_Iraq) as a tool to record which MPs had defied their party's whip long after the information had become effectively inaccessible for reference.
 
