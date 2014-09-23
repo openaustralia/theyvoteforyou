@@ -6,4 +6,6 @@ class User < ActiveRecord::Base
 
   has_many :wiki_motions
   has_many :policies
+
+  validates :name, presence: true
 end
