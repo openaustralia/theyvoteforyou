@@ -11,6 +11,8 @@
     = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
     = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
 
+%h2 Related Policies
+
 = render "current_policies_list", division: @division, display: @display
 
 - if user_signed_in?
