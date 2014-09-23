@@ -1,0 +1,18 @@
+.page-header
+  %h1 Recent edits
+
+%h2 All changes on policies:
+%ul
+  - PaperTrail::Version.order(created_at: :desc).each do |version|
+    %li= version_sentence(version)
+
+%h2 All motion text (and title) changes on divisions:
+%ul
+  - WikiMotion.order(edit_date: :desc).each do |version|
+    %li
+      Changed text on
+      = link_to version.division.name, version.division
+      by
+      #{link_to version.user.real_name, version.user},
+      = time_ago_in_words(version.edit_date)
+      ago

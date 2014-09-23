@@ -39,4 +39,7 @@ class HomeController < ApplicationController
       @divisions = Division.find_by_search_query params[:query]
     end
   end
+
+  def history
+  end
 end

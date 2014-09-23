@@ -118,8 +118,8 @@ Publicwhip::Application.routes.draw do
   root 'home#index'
 
   get 'search' => 'home#search', as: :search
-
   get 'about' => 'home#about', as: :about
+  get 'history' => 'home#history', as: :history
 
   get '/members(/:house)' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
