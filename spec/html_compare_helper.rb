@@ -80,10 +80,13 @@ module HTMLCompareHelper
       File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
         f.write new_text
       end
-      output("old.#{format}", o, path)
-      output("new.#{format}", n, path)
-      system("diff old.#{format} new.#{format}")
-      raise "Don't match. Writing to file old.#{format} and new.#{format}"
+      dump_prefix = "#{path}#{suffix}".gsub(/[^\w]/, '_').squeeze("_").sub(/\A_/, '') # /foo/bar.baz?q=1 => foo_bar_baz_q_1
+      old = "#{dump_prefix}.old.#{format}"
+      new = "#{dump_prefix}.new.#{format}"
+      output(old, o, path)
+      output(new, n, path)
+      system('diff', old, new)
+      raise "Don't match. Writing to file #{old} and #{new}"
     end
   end
 

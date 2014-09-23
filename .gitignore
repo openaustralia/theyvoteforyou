@@ -27,5 +27,5 @@ php/website/google*
 .bundle
 .vagrant
 
-old.xml
-new.xml
+*.old.xml
+*.new.xml
