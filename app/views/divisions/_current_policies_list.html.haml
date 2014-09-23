@@ -1,7 +1,7 @@
 %ul.division-policies-list.list-unstyled
   - @division.policies.order(:name).each do |policy|
     %li.division-policy
-      - if user_signed_in?
+      - if @display == "policies" && user_signed_in?
         = form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
           %label.division-policy-statement
             People who are
