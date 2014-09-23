@@ -1,5 +1,5 @@
 class DivisionsController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :add_policy_vote]
+  before_action :authenticate_user!, only: [:edit, :update, :create_policy_division, :update_policy_division, :destroy_policy_division]
 
   def index_redirect
     if params[:rdisplay2] == "rebels"
@@ -89,16 +89,6 @@ class DivisionsController < ApplicationController
     end
   end
 
-  def show_policies
-    @display = "policies"
-    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    if params[:dmp]
-      @policy = Policy.find(params[:dmp])
-    elsif user_signed_in?
-      @policy = current_user.active_policy
-    end
-  end
-
   def show
     house = params[:house]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
@@ -115,6 +105,11 @@ class DivisionsController < ApplicationController
     @members = Member.in_australian_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
+  end
+
+  def show_policies
+    @display = "policies"
+    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
   end
 
   def edit
@@ -137,22 +132,51 @@ class DivisionsController < ApplicationController
     redirect_to view_context.division_path(@division)
   end
 
-  def add_policy_vote
-    @display = params[:display]
-    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
-    @policy = (Policy.find_by(id: params[:dmp]) || current_user.active_policy)
+  def create_policy_division
+    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    policy_division = division.policy_divisions.new(policy_division_params)
 
-    new_vote = params["vote#{@policy.id}".to_sym]
-    new_vote = nil if new_vote == "--"
-    old_vote = @policy.update_division_vote!(@division, new_vote)
-    # Return the "changed from" value
-    if old_vote != new_vote
-      changed_from = old_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(old_vote).downcase
-      changed_to = new_vote.nil? ? 'non-voter' : view_context.vote_display_in_table(new_vote).downcase
+    if policy_division.save
+      policy_division.policy.delay.calculate_member_distances!
+    else
+      flash[:error] = 'Could not connect policy'
     end
-    if changed_from
-      flash[:notice] = "Succesfully changed vote on policy from #{changed_from} to #{changed_to}"
+
+    # TODO Just point to the object when the path helper has been refactored
+    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+  end
+
+  def update_policy_division
+    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+
+    if policy_division.update(policy_division_params)
+      flash[:notice] = 'Updated policy connection'
+    else
+      flash[:error] = 'Could not remove policy connection'
     end
-    redirect_to view_context.division_with_policy_path(@division, @policy)
+
+    # TODO Just point to the object when the path helper has been refactored
+    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+  end
+
+  def destroy_policy_division
+    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+
+    if policy_division.destroy
+      flash[:notice] = 'Removed policy connection'
+    else
+      flash[:error] = 'Could not remove policy connection'
+    end
+
+    # TODO Just point to the object when the path helper has been refactored
+    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+  end
+
+  private
+
+  def policy_division_params
+    params.require(:policy_division).permit(:policy_id, :vote)
   end
 end

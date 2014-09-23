@@ -10,20 +10,12 @@
   #secondnavtabs
     %ul.nav.nav-tabs
       = nav_link("Summary", @division, "Overview of division", @display.nil?)
-      = nav_link("Policies", division_with_policy_path(@division, nil), "Show or change the polices which vote on this division", @display == "policies")
+      = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
 
-= render "motion", member: @member, division: @division
-
-= render "summary", division: @division, members: @members, member: @member
+= render "motion", division: @division
+= render "summary", division: @division, member: @member, members: @members
 
 - if @division.policies
-  %h2 Related Policies
-  - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
-    %p.lead
-      People who are
-      = link_to policy.name.downcase, policy
-      - # TODO: Make this show the nice form of the vote e.g. No (Strong)
-      would have voted '#{policy.vote_for_division(@division)}'
+  %h2.h4 Related Policies
 
-  - if @display != "policies"
-    = link_to("Edit related policies", division_with_policy_path(@division, nil), title: "Show or change the polices which vote on this division")
+  = render "current_policies_list", division: @division, display: @display

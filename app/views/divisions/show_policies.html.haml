@@ -9,53 +9,33 @@
 #secondnavtabs
   %ul.nav.nav-tabs
     = nav_link("Summary", @division, "Overview of division", @display.nil?)
-    = nav_link("Policies", division_with_policy_path(@division, @policy), "Show or change the polices which vote on this division", @display == "policies")
+    = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @policy
-  - if user_signed_in?
-    %form.form-inline.policyvote{:action => division_with_policy_path(@division, @policy), :method => "post"}
-      %strong
-        Please read policy
-        definition and division description before altering
-        vote
-      %br/
-      And policy #{link_to @policy.name, @policy} (#{link_to "change", policies_path}) voted
-      - select_options = {'Non-voter' => '--',
-                          'Aye (strong)' => 'aye3',
+%h2 Related Policies
+
+= render "current_policies_list", division: @division, display: @display
+
+%h3 Make a new connection
+
+- if user_signed_in?
+  = form_for :policy_division, url: create_policy_division_path(division_params(@division)), html: {class: 'form-inline policyvote'} do |f|
+    %legend.small
+      %p Connect this division with relevant policies.
+      %p Please read policy definitions and the division’s description before altering list.
+    %fieldset
+      %label People who are
+      - # TODO: Don't display policies already selected
+      = f.collection_select :policy_id, Policy.all, "id", "name", {prompt: "Select related policy"}, size: 1, class: "form-control"
+      would have
+      %label voted
+      - select_options = {'Aye (strong)' => 'aye3',
                           'Aye' => 'aye',
-                          'Abstain' => 'both',
                           'No' => 'no',
                           'No (strong)' => 'no3'}
-      = select_tag "vote#{@policy.id}", options_for_select(select_options, (@policy.vote_for_division(@division) || '--')), size: 1, class: "form-control"
-      %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Update"}>/
-  - else
-    %p
-      And policy
-      = link_to @policy.name, @policy
-      voted '#{@policy.vote_for_division(@division)}'
+      = f.select :vote, options_for_select(select_options), {prompt: "Select vote"}, size: 1, class: "form-control"
+    = f.submit 'Connect policy', class: 'btn btn-primary'
+- else
+  %p
+    = link_to "Login", new_user_session_path, title: "Login to edit policies"
+    to edit policy connections.
 
-%h2#dreammp Policies
-
-%p
-  The following policies have selected this division. You can use this to help you work out
-  the meaning of the vote. Or #{link_to "list all policies", policies_path}.
-
-%table.table
-  %thead
-    %tr
-      %th Policy
-      %th Vote (in this division)
-  %tbody
-    - if @division.policies.empty?
-      %tr
-        %td{:colspan => "2"} No policies voted in this division
-    - else
-      - @division.policies.sort{|p1,p2| p1.name <=> p2.name }.each do |policy|
-        %tr
-          %td
-            = link_to policy.name, policy
-            - if policy.provisional?
-              %i (provisional)
-          %td= simple_vote_display @division.policy_vote(policy)
-%p
-  = link_to "Make a new policy", new_policy_path
