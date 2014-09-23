@@ -1,5 +1,5 @@
 .page-header
-  %h1 Edits made in the last week
+  %h1 All edits made in the last week
 
 - history = (PaperTrail::Version.where("created_at > ?", 1.week.ago) + WikiMotion.where("edit_date > ?", 1.week.ago)).sort_by{|v| -v.created_at.to_i}
 
