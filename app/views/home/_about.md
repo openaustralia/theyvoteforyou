@@ -18,7 +18,7 @@ Public Whip was built by the [OpenAustralia Foundation](https://www.openaustrali
 
 ## Contribute
 
-Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on Github, where you can see all the full list of contributors, and find out how to contribute yourself.
+Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can see all the full list of contributors, and find out how to contribute yourself.
 
 If you’re not a civic-hacker (yet), you can help make this project better for everyone by [summarising divisions](/divisions) and [maintaining and discussing policies](/policies).
 
