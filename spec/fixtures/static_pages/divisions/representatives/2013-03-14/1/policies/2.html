@@ -70,50 +70,38 @@ test
 <li class="active"><a href="/divisions/representatives/2013-03-14/1/policies/2" title="Show or change the polices which vote on this division">Policies</a></li>
 </ul>
 </div>
+<p>
+People who are
+<a href="/policies/1">marriage equality</a>
+would have voted 'aye'
+<a class="btn btn-sm btn-link" href="#">delete</a>
+</p>
+<p>
+People who are
+<a href="/policies/2">offshore processing</a>
+would have voted 'aye (strong)'
+<a class="btn btn-sm btn-link" href="#">delete</a>
+</p>
+
 <form action="/divisions/representatives/2013-03-14/1/policies/2" class="form-inline policyvote" method="post">
-<strong>
-Please read policy
-definition and division description before altering
-vote
-</strong>
-<br />
-And policy <a href="/policies/2">Offshore processing</a> (<a href="/policies">change</a>) voted
-<select class="form-control" id="vote2" name="vote2" size="1"><option value="--">Non-voter</option>
+<legend class="small">
+<p>Connect this division with relevant policies.</p>
+<p>Please read policy definitions and the division’s description before altering list.</p>
+</legend>
+<fieldset>
+<label>People who are</label>
+<select class="form-control" id="policies" name="policies" size="1"><option value="">Select related policy</option><option value="1">Marriage equality</option>
+<option value="2">Offshore processing</option>
+<option value="3">provisional</option></select>
+would have
+<label>voted</label>
+<select class="form-control" id="vote2" name="vote2" size="1"><option value="">Select vote</option><option value="--">Non-voter</option>
 <option selected="selected" value="aye3">Aye (strong)</option>
 <option value="aye">Aye</option>
 <option value="both">Abstain</option>
 <option value="no">No</option>
-<option value="no3">No (strong)</option></select><input class="btn btn-primary" name="submit" type="submit" value="Update" /></form>
-<h2 id="dreammp">Policies</h2>
-<p>
-The following policies have selected this division. You can use this to help you work out
-the meaning of the vote. Or <a href="/policies">list all policies</a>.
-</p>
-<table class="table">
-<thead>
-<tr>
-<th>Policy</th>
-<th>Vote (in this division)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="/policies/1">Marriage equality</a>
-</td>
-<td>aye</td>
-</tr>
-<tr>
-<td>
-<a href="/policies/2">Offshore processing</a>
-</td>
-<td>aye (strong)</td>
-</tr>
-</tbody>
-</table>
-<p>
-<a href="/policies/new">Make a new policy</a>
-</p>
+<option value="no3">No (strong)</option></select>
+</fieldset><input class="btn btn-primary" name="submit" type="submit" value="Update" /></form>
 
 </div>
 <div id="footer1">

@@ -1,335 +1,98 @@
 - content_for :title, "Help — Frequently Asked Questions"
 
-%h1= yield :title
-%ul
-  %li
-    %a{:href => "#whatis"} What is the Public Whip?
-  %li
-    %a{:href => "#how"} How does the Public Whip work?
-  %li
-    %a{:href => "#timeperiod"} What time period does it cover?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#division"} What is a division?
-  %li
-    %a{:href => "#division-occur"} When does a division occur?
-  %li
-    %a{:href => "#decisions"}
-      Why don’t all decisions made in Parliament
-      appear on Public Whip?
-  %li
-    %a{:href => "#summaries"}
-      Why don’t all the divisions have edited
-      summaries?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#policies"}
-      What are Policies and how do they
-      work?
-  %li
-    %a{:href => "#rebelandfree"}
-      What are “Rebel Voters” and what is a
-      “Conscience Vote” or “Free Vote”?
-  %li
-    %a{:href => "#clarify"}
-      What do the "attendance" and "rebellion"
-      figures mean?
-  %li
-    %a{:href => "#tied-division"}
-      What happens if a division is tied?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#legal"}
-      Legal question: what can I use this
-      information for?
-  %li
-    %a{:href => "#playwith"} Can I play with the software?
-  %li
-    %a{:href => "#datalicence"} What licence is the data under?
-  %li
-    %a{:href => "#organisation"}
-      What organisation is behind the Public
-      Whip?
-  %li{:style => "list-style: none"}
-    %br/
-  %li
-    %a{:href => "#help"} Can I help with the project?
-  %li
-    %a{:href => "#contact"} How can I contact you?
-%h2.faq
-  %a{:name => "whatis"} What is the Public Whip?
-%p
-  Public Whip is a project to track the voting patterns of
-  Australian federal politicians. We're an independent,
-  non-governmental project of the
-  charity #{link_to "OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/"}.
-%h2.faq
-  %a{:name => "how"}
-    How does the Public Whip
-    work?
-%p
-  Debate transcripts of the House of Representatives and the
-  Senate are published online as #{link_to "Hansard", "http://www.openaustralia.org/"}.
-  Public Whip takes these records and compiles lists of votes that you can
-  access under #{link_to "Divisions", divisions_path}. You can search through
-  these votes using our #{link_to "search function", root_path} on the home
-  page or you can browse the votes that are relevant to the particular policy
-  areas listed under #{link_to "Policies", policies_path} (for more on our
-  policies, see #{link_to "What are Policies and how do they work?", "#policies"}).
-%h2.faq
-  %a{:name => "timeperiod"}
-    What time period does it
-    cover?
-%p
-  The Public Whip’s voting and membership data extends back to
-  2006. New divisions are added as soon as possible after becoming
-  available. We give no warranty for the data so
-  %a{:href => "#contact"} let us know
-  if you find any factual
-  inaccuracies.
-%p
-  %b Numerics:
-  The database contains
-  %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
-  distinct Representatives and Senators from
-  %strong= number_with_delimiter(Member.select(:party).distinct.count)
-  parties who have voted across
-  %strong= number_with_delimiter(Division.count)
-  divisions. In total
-  %strong= number_with_delimiter(Vote.count)
-  votes were cast giving an average of
-  -# Doing this to make it match the php app as a quick hack
-  - if Vote.count.to_f / Division.count == 1.0
-    %strong 1
-  - else
-    %strong= number_with_precision (Vote.count.to_f / Division.count), precision: 1, strip_insignificant_zeros: true
-  per division. Of these
-  %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
-  were against the majority vote for their party giving an average rebellion rate of
-  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
-%h2.faq
-  %a{:name => "division"} What is a division?
-%p
-  A division is a formal vote on a motion in the House of
-  Representatives or the Senate. A motion is a formal proposal put to
-  the House or Senate to take action of some kind.
-%p
-  When a division is called on a particular motion, Members of
-  Parliament (MPs) in the House of Representatives or Senators in the
-  Senate divide themselves into two groups: one that votes Aye (yes)
-  and one that votes No. Each political party has whips who try to
-  persuade their members to vote along party lines.
-%h2.faq
-  %a{:name => "division-occur"}
-    When does a division
-    occur?
-%p
-  Most decisions in Parliament are made
-  %a{:href => "http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html"}
-    ‘on
-    the voices’
-  and not by division. When a question is asked by
-  the Chair, the Members of Parliament (MPs) or Senators call out Aye
-  (yes) or No and the Chair decides which are in the majority without
-  recording the names of who voted and how they voted.
-%p
-  A division is only called if two or more MPs or Senators call
-  for one. If only one MP or Senator calls for a division then their
-  name may be recorded in the official record (the Hansard) but no
-  division will occur.
-%p
-  In the House of Representatives, if there are four or less MPs
-  on a side of the division then the division does not proceed and
-  the Speaker declares the decision of the House immediately.
-  However, the names of the MPs in the minority are recorded.
-%p
-  In the Senate, if there is only one Senator on a side of the
-  division then the division does not proceed and the President
-  declares the decision of the Senate immediately. However, the names
-  of the lone Senator may be recorded.
-%h2.faq
-  %a{:name => "decisions"}
-    Why don’t all decisions made
-    in Parliament appear on Public Whip?
-%p
-  Public Whip is concerned with the voting patterns of
-  politicians, which means it is limited to formal votes (known as
-  divisions, see
-  = succeed ")." do
-    %a{:href => "#division"} What is a division?
-  This
-  is because politicians’ names and how they voted are only recorded
-  in the official record of Parliament (known as the Hansard) when a
-  division occurs.
-%p
-  Unfortunately, most decisions in Parliament are not made by
-  division (see #{link_to "When does a division occur?", "#division-occur"})
-  and so do not appear on this site.
-%h2.faq
-  %a{:name => "summaries"}
-    Why don’t all the divisions
-    have edited summaries?
-%p
-  When you click on a link for a #{link_to "division", divisions_path},
-  you will be taken to a summary that
-  will either contain an edited description of the division or text
-  taken automatically from the official record of Parliament (known
-  as Hansard). In some cases, the summary will contain no text.
-%p
-  Currently, the divisions with edited summaries are those that
-  are relevant to one of the #{link_to "Policies", policies_path}.
-  See our #{link_to "Research", help_research_path}
-  page to find out more about how the summaries are edited.
-%h2.faq
-  %a{:name => "policies"}
-    What are Policies and how do
-    they work?
-%p
-  On Public Whip, the #{link_to "Policies", policies_path} are
-  sets of votes on an issue.
-%p
-  We choose and develop particular Policies for a number of
-  reasons. For example, we prioritise issues where politicians have
-  rebelled (e.g. the #{link_to "local government recognition divisions", policy_path(id: 10)})
-  or where parties have allowed their members to take a conscience vote
-  (e.g. the #{link_to "same sex marriage divisions", policy_path(id: 1)})
-  because these divisions give a strong indication of an individual politician’s voting patterns
-  (see #{link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"}).
-  Other reasons for selecting a particular Policy include whether the matter was an
-  election issue (e.g. the #{link_to "carbon price", policy_path(id: 3)}) and whether
-  there was a high level of attendance
-  (see #{link_to "What do the “attendance” and “rebellion” figures mean?", "#clarify"}).
-%p
-  Unfortunately, Policies are restricted to issues that are voted
-  on by division because those are the only decisions that appear on Public Whip
-  (see #{link_to "Why don’t all decisions made in Parliament appear on Public Whip?", "#decisions"})
-%h2.faq
-  %a{:name => "rebelandfree"}
-    What are “Rebel Voters” and
-    what is a “Conscience Vote” or “Free Vote”?
-%p
-  An MP or Senator rebels by voting against the #{link_to "party whip", "http://www.peo.gov.au/learning/fact-sheets/party-whip.html"}.
-  This is known as #{link_to "crossing the floor", "http://www.peo.gov.au/learning/fact-sheets/crossing-the-floor.html"}   and rarely occurs these days.
-%p
-  In contrast, a
-  %a{:href => "http://en.wikipedia.org/wiki/Conscience_vote"} conscience vote
-  (also known as a free vote) occurs when MPs
-  or Senators are not obliged to vote with their party. Conscience votes
-  are rare. For example, between 1950 and 2007
-  = link_to 'only 32 conscience votes', 'http://www.aph.gov.au/About_Parliament/Parliamentary_Departments/Parliamentary_Library/pubs/rp/rp0809/09rp20#_Toc221347466'
-  took place. More recently in 2012 and 2013, the legislation related
-  to same sex marriage #{link_to 'was decided by conscience vote', policy_path(id: 1)}.
-%h2.faq
-  %a{:name => "clarify"}
-    What do the "attendance" and
-    "rebellion" figures mean?
-%p
-  "Attendance" figures record the politicians who vote in
-  any given division.
-%p
-  There are several reasons why a politician may have low
-  attendance figures. For example, they may have abstained, have
-  ministerial or other duties or they may be the speaker. Currently,
-  the Public Whip does not record if a member spoke in the debate but
-  did not vote.
-%p
-  "Rebellion" figures record the number of rebel votes
-  (see #{link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"}).
-%h2.faq
-  %a{:name => "tied-division"}
-    What happens if a division is tied?
-%p
-  In the House of Representatives, the Speaker
-  = link_to 'does not vote', 'http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html'
-  unless the result is a tie, in which case
-  = link_to 'the Speaker has the casting vote', 'http://www.aph.gov.au/about_parliament/house_of_representatives/powers_practice_and_procedure/~/link.aspx?_id=8485A681FB314882871407C0A81BE62C&_z=z#thesp'
-  to decide the matter. Speakers are expected to cast their vote according to
-  a set of principles but these have not always been applied consistently (of course!).
-%p
-  There are also rare cases where the Speaker has not exercised a casting vote.
-  For example when a vote that
-  = link_to 'requires an absolute majority', 'http://www.aph.gov.au/about_parliament/house_of_representatives/powers_practice_and_procedure/~/link.aspx?_id=9401351F60524BBF93050639FBA28300&_z=z#abs'
-  is tied, the Speaker’s casting vote may not acheive an absolute majority so there’s
-  no reason for them to excise that vote.
-%p
-  In the Senate, the President of the Senate may always vote along with other senators
-  so they do not have a casting vote. If a vote in the Senate is tied it is
-  = link_to 'considered to have failed', 'http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html'
-  because a majority vote has not been reached.
+.page-header
+  %h1= yield :title
 
-%h2.faq
-  %a{:name => "legal"}
-    Legal question: what can I use
-    this information for?
-%p
-  You can use the information freely so long as you credit the
-  Public Whip and share it (see #{link_to "What licence is the data under?", "#datalicence"}).
-  However, you should double check the
-  information to make sure it is correct. If you find an error,
-  please
-  %a{:href => "#contact"} contact us
-  and let us know.
-%h2.faq
-  %a{:name => "playwith"}
-    Can I play with the
-    software?
-%p
-  Yes. All the software we've written is free and protected by the
-  %a{:href => "http://www.fsf.org/licensing/licenses/agpl-3.0.html"}
-    GNU
-    Affero General Public License
-  (which means you can use it and
-  change it, but you have to release any changes you make). It's
-  available for #{link_to "download on Github", "https://github.com/openaustralia/publicwhip"}.
-%h2.faq
-  %a{:name => "datalicence"}
-    What licence is the data
-    under?
-%p
-  To the extent which we have rights to this database of
-  politicians’ voting records and related information, it is licensed
-  under the #{link_to "Open Data Commons Open Database License", "http://opendatacommons.org/licenses/odbl/"}.
-  This is an attribution,
-  share-alike licence. That means that you must credit the Public
-  Whip, for example via a link, if you use the data. It also means
-  that if you build on this data, you must also share the result
-  under a compatible open data licence.
-%h2.faq
-  %a{:name => "organisation"}
-    What organisation is behind
-    the Public Whip?
-%p
-  Public Whip in Australia was started and is run by the
-  #{link_to "OpenAustralia Foundation", "https://www.openaustraliafoundation.org.au/"},
-  a charity. It is based on the
-  %a{:href => "http://www.publicwhip.org.uk/"} UK Public Whip site
-  which was
-  created by
-  %a{:href => "http://www.flourish.org/"} Francis Irving
-  and
-  %a{:href => "http://www.goatchurch.org.uk/"} Julian Todd
-  in
-  2003.
-%h2.faq
-  %a{:name => "help"}
-    Can I help with the
-    project?
-%p
-  Yes! We're looking for people who are interested in making the
-  voting records more accessible as well as people with particular
-  skill-sets that they feel they could contribute. If this sounds
-  like you, please email us at
-  = succeed "." do
-    %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org
-%h2.faq
-  %a{:name => "contact"} How can I contact you?
-%p
-  You can contact us via email at
-  %a{:href => "mailto:contact@openaustralia.org"} contact@openaustralia.org
-  or our #{link_to "Twitter account", "http://twitter.com/openaustralia"}.
-%p
-  Please contact us if you find an error, have a suggestion or
-  have any questions.
+%ul
+  %li= link_to "What is the Public Whip?", "#whatis"
+  %li= link_to "How does the Public Whip work?", "#how"
+  %li= link_to "What time period does it cover?", "#timeperiod"
+
+%ul
+  %li= link_to "What is a division?", "#division"
+  %li= link_to "When does a division occur?", "#division-occur"
+  %li= link_to "Why don’t all decisions made in Parliament appear on Public Whip?", "#decisions"
+  %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
+
+%ul
+  %li= link_to "What are Policies and how do they work?", "#policies"
+  %li= link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"
+  %li= link_to 'What do the "attendance" and "rebellion" figures mean?', "#clarify"
+  %li= link_to "What happens if a division is tied?", "#tied-division"
+
+%ul
+  %li= link_to "Legal question: what can I use this information for?", "#legal"
+  %li= link_to "Can I play with the software?", "#playwith"
+  %li= link_to "What licence is the data under?", "#datalicence"
+  %li= link_to "What organisation is behind the Public Whip?", "#organisation"
+
+%ul
+  %li= link_to "Can I help with the project?", "#help"
+  %li= link_to "How can I contact you?", "#contact"
+
+%h2#whatis What is the Public Whip?
+:markdown
+  #{render "help/faq/what_is_it.md"}
+
+%h2#how How does the Public Whip work?
+:markdown
+  #{render "help/faq/how_does_it_work.md"}
+
+%h2#timeperiod What time period does it cover?
+= render "help/faq/time_period"
+
+%h2#division What is a division?
+:markdown
+  #{render "help/faq/division.md"}
+
+%h2#division-occur When does a division occur?
+:markdown
+  #{render "help/faq/when_division.md"}
+
+%h2#decisions Why don’t all decisions made in Parliament appear on Public Whip?
+:markdown
+  #{render "help/faq/decisions.md"}
+
+%h2#summaries Why don’t all the divisions have edited summaries?
+:markdown
+  #{render "help/faq/summaries.md"}
+
+%h2#policies What are Policies and how do they work?
+:markdown
+  #{render "help/faq/policies.md"}
+
+%h2#rebelandfree What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?
+:markdown
+  #{render "help/faq/rebel_and_free.md"}
+
+%h2#clarify What do the "attendance" and "rebellion" figures mean?
+:markdown
+  #{render "help/faq/attendance_and_rebellion.md"}
+
+%h2#tied-division What happens if a division is tied?
+:markdown
+  #{render "help/faq/tied_divisions.md"}
+
+%h2#legal Legal question: what can I use this information for?
+:markdown
+  #{render "help/faq/legal.md"}
+
+%h2#playwith Can I play with the software?
+:markdown
+  #{render "help/faq/software.md"}
+
+%h2#datalicence What licence is the data under?
+:markdown
+  #{render "help/faq/data_license.md"}
+
+%h2#organisation What organisation is behind the Public Whip?
+:markdown
+  #{render "help/faq/organisation.md"}
+
+%h2#help Can I help with the project?
+:markdown
+  #{render "help/faq/contribute.md"}
+
+%h2#contact How can I contact you?
+:markdown
+  #{render "help/faq/contact.md"}

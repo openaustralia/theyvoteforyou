@@ -43,24 +43,6 @@ class Policy < ActiveRecord::Base
     end
   end
 
-  def update_division_vote!(division, new_vote)
-    old_vote = vote_for_division(division)
-
-    policy_division = policy_divisions.find_or_initialize_by(division: division)
-
-    if old_vote && new_vote.nil?
-      policy_division.destroy!
-    elsif old_vote.nil? && new_vote
-      policy_division.update! vote: new_vote
-    elsif old_vote != new_vote
-      policy_division.update! vote: new_vote
-    end
-
-    delay.calculate_member_distances!
-
-    old_vote
-  end
-
   def calculate_member_distances!
     policy_person_distances.delete_all
 

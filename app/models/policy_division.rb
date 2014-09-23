@@ -4,6 +4,7 @@ class PolicyDivision < ActiveRecord::Base
   has_paper_trail meta: { policy_id: Proc.new{|pd| pd.policy_id} }
   belongs_to :policy
   belongs_to :division
+  validates :policy, :division, presence: true
 
   delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
 
