@@ -4,48 +4,31 @@
   %h1= yield :title
 
 %ul
-  %li
-    %a{:href => "#whatis"} What is the Public Whip?
-  %li
-    %a{:href => "#how"} How does the Public Whip work?
-  %li
-    %a{:href => "#timeperiod"} What time period does it cover?
+  %li= link_to "What is the Public Whip?", "#whatis"
+  %li= link_to "How does the Public Whip work?", "#how"
+  %li= link_to "What time period does it cover?", "#timeperiod"
   %li{:style => "list-style: none"}
     %br/
-  %li
-    %a{:href => "#division"} What is a division?
-  %li
-    %a{:href => "#division-occur"} When does a division occur?
-  %li
-    %a{:href => "#decisions"} Why don’t all decisions made in Parliament appear on Public Whip?
-  %li
-    %a{:href => "#summaries"} Why don’t all the divisions have edited summaries?
+  %li= link_to "What is a division?", "#division"
+  %li= link_to "When does a division occur?", "#division-occur"
+  %li= link_to "Why don’t all decisions made in Parliament appear on Public Whip?", "#decisions"
+  %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
   %li{:style => "list-style: none"}
     %br/
-  %li
-    %a{:href => "#policies"} What are Policies and how do they work?
-  %li
-    %a{:href => "#rebelandfree"} What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?
-  %li
-    %a{:href => "#clarify"} What do the "attendance" and "rebellion" figures mean?
-  %li
-    %a{:href => "#tied-division"} What happens if a division is tied?
+  %li= link_to "What are Policies and how do they work?", "#policies"
+  %li= link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"
+  %li= link_to 'What do the "attendance" and "rebellion" figures mean?', "#clarify"
+  %li= link_to "What happens if a division is tied?", "#tied-division"
   %li{:style => "list-style: none"}
     %br/
-  %li
-    %a{:href => "#legal"} Legal question: what can I use this information for?
-  %li
-    %a{:href => "#playwith"} Can I play with the software?
-  %li
-    %a{:href => "#datalicence"} What licence is the data under?
-  %li
-    %a{:href => "#organisation"} What organisation is behind the Public Whip?
+  %li= link_to "Legal question: what can I use this information for?", "#legal"
+  %li= link_to "Can I play with the software?", "#playwith"
+  %li= link_to "What licence is the data under?", "#datalicence"
+  %li= link_to "What organisation is behind the Public Whip?", "#organisation"
   %li{:style => "list-style: none"}
     %br/
-  %li
-    %a{:href => "#help"} Can I help with the project?
-  %li
-    %a{:href => "#contact"} How can I contact you?
+  %li= link_to "Can I help with the project?", "#help"
+  %li= link_to "How can I contact you?", "#contact"
 
 %h2.faq
   %a{:name => "whatis"} What is the Public Whip?
