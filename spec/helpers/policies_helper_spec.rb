@@ -21,7 +21,7 @@ describe PoliciesHelper, :type => :helper do
 
   describe ".version_sentence" do
     before :each do
-      expect(User).to receive(:find).with(1).and_return(mock_model(User, real_name: "Matthew", id: 3))
+      expect(User).to receive(:find).with(1).and_return(mock_model(User, name: "Matthew", id: 3))
       allow(Policy).to receive(:find).with(3).and_return(mock_model(Policy, id: 3, name: "chickens"))
     end
 

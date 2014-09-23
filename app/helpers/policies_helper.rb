@@ -118,7 +118,7 @@ module PoliciesHelper
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)
-    ("by " + link_to(user.real_name, user) + ", " + time + " ago").html_safe
+    ("by " + link_to(user.name, user) + ", " + time + " ago").html_safe
   end
 
   def version_sentence(version, options = {})

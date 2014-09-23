@@ -10,7 +10,7 @@
         Changed text on
         = link_to version.division.name, version.division
         by
-        #{link_to version.user.real_name, version.user},
+        #{link_to version.user.name, version.user},
         = time_ago_in_words(version.created_at)
         ago
       - else

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917033854) do
+ActiveRecord::Schema.define(version: 20140923072111) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -172,7 +172,7 @@ ActiveRecord::Schema.define(version: 20140917033854) do
   add_index "policy_person_distances", ["policy_id"], name: "dream_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.text     "real_name"
+    t.text     "name"
     t.text     "email"
     t.text     "legacy_password"
     t.text     "remote_addr"

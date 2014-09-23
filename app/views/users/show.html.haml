@@ -1,4 +1,4 @@
-- content_for :title, @you ? 'Your account' : @user.real_name
+- content_for :title, @you ? 'Your account' : @user.name
 
 - if @you
   %h1= yield :title
@@ -10,7 +10,7 @@
     )
     %br/
     %span.ptitle Real name:
-    = @user.real_name
+    = @user.name
     (
     = link_to "change real name", edit_user_registration_path
     )
@@ -22,7 +22,7 @@
 
 %h2
   Policies which
-  = @you ? "you" : @user.real_name
+  = @you ? "you" : @user.name
   made
 
 %ul
