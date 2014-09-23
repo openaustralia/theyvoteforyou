@@ -7,5 +7,5 @@ class User < ActiveRecord::Base
   has_many :wiki_motions
   has_many :policies
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 end
