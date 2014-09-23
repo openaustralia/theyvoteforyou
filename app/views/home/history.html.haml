@@ -4,7 +4,7 @@
 %h2 All changes on policies:
 %ul
   - PaperTrail::Version.order(created_at: :desc).each do |version|
-    %li= version_sentence(version)
+    %li= version_sentence(version, show_policy: true)
 
 %h2 All motion text (and title) changes on divisions:
 %ul

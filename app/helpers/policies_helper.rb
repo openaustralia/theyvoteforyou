@@ -38,19 +38,28 @@ module PoliciesHelper
     ("&ldquo;" + h(word) + "&rdquo;").html_safe
   end
 
-  def policy_version_sentence(version)
+  def policy_version_sentence(version, options)
     if version.event == "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " provisional " : " "
-      result += "policy " + quote(name) + " with description " + quote(description)
+      if options[:show_policy]
+        policy = Policy.find(version.changeset["id"].second)
+        result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
+      else
+        result += "policy " + quote(name) + " with description " + quote(description)
+      end
     elsif version.event == "update"
       changes = []
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        changes << "name from " + quote(name1) + " to " + quote(name2)
+        if options[:show_policy]
+          changes << "name to " + quote(name2)
+        else
+          changes << "name from " + quote(name1) + " to " + quote(name2)
+        end
       end
       if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
@@ -66,7 +75,12 @@ module PoliciesHelper
           raise
         end
       end
-      result = "Changed " + changes.to_sentence
+      if options[:show_policy]
+        policy = version.reify
+        result = "On policy " + link_to(policy.name, policy) + " changed " + changes.to_sentence
+      else
+        result = "Changed " + changes.to_sentence
+      end
     else
       raise
     end
@@ -88,12 +102,17 @@ module PoliciesHelper
     Division.find(id)
   end
 
-  def policy_division_version_sentence(version)
+  def policy_division_version_sentence(version, options)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
 
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+    if options[:show_policy]
+      policy = Policy.find(version.policy_id)
+      "On policy ".html_safe + link_to(policy.name, policy) + " ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+    else
+      actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+    end
   end
 
   def version_attribution_sentence(version)
@@ -102,11 +121,11 @@ module PoliciesHelper
     ("by " + link_to(user.real_name, user) + ", " + time + " ago").html_safe
   end
 
-  def version_sentence(version)
+  def version_sentence(version, options = {})
     if version.item_type == "Policy"
-      result = policy_version_sentence(version)
+      result = policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = policy_division_version_sentence(version)
+      result = policy_division_version_sentence(version, options)
     end
     result += " ".html_safe + version_attribution_sentence(version)
     result
