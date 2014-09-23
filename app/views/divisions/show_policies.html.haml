@@ -33,7 +33,7 @@
                           'No' => 'no',
                           'No (strong)' => 'no3'}
       = f.select :vote, options_for_select(select_options), {prompt: "Select vote"}, size: 1, class: "form-control"
-    = f.submit 'Create', class: 'btn btn-primary'
+    = f.submit 'Connect policy', class: 'btn btn-primary'
 - else
   %p
     = link_to "Login", new_user_session_path, title: "Login to edit policies"
