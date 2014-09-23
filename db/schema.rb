@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923072111) do
+ActiveRecord::Schema.define(version: 20140923073138) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -174,12 +174,6 @@ ActiveRecord::Schema.define(version: 20140923072111) do
   create_table "users", force: true do |t|
     t.text     "name"
     t.text     "email"
-    t.text     "legacy_password"
-    t.text     "remote_addr"
-    t.text     "confirm_hash"
-    t.text     "confirm_return_url"
-    t.integer  "is_confirmed",           default: 0,  null: false
-    t.datetime "reg_date"
     t.integer  "active_policy_id"
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
