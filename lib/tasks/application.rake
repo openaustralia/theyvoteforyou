@@ -83,6 +83,26 @@ namespace :application do
     end
   end
 
+  namespace :config do
+    task :dev do
+      %w(
+        config/database.yml
+        config/secrets.yml
+      ).each do |target|
+        source = "#{target}.example"
+        if not File.exist?(Rails.root.join(target))
+          FileUtils.cp(
+            Rails.root.join(source),
+            Rails.root.join(target)
+          )
+          puts "#{source} => #{target}"
+        else
+          puts "#{target} already exists."
+        end
+      end
+    end
+  end
+
   task :set_logger_to_stdout do
     Rails.logger = ActiveSupport::Logger.new(STDOUT)
     Rails.logger.level = 1

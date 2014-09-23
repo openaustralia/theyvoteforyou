@@ -30,20 +30,28 @@ carry out the following steps and you should be good to go. Developing with
 [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
 mainly useful with the retired PHP application.
 
+Before beginning, install MySQL, HTMLTidy and Ruby:
+
+```
+# OS X ...
+brew install homebrew/dupes/tidy mysql rbenv ruby-build
+rbenv install $(cat .ruby-version)
+
+# ... or Linux (Debian)
+sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
+# then follow: https://github.com/sstephenson/rbenv#basic-github-checkout to get rbenv and ruby-build
+```
+
 Steps required to configure, install and start the Rails application:
 
 ```
-# Copy database config and fill in your username, password and database settings
+# Copy the default config files over.
+# (Edit config/database.yml and fill in your username, password and database settings.)
+bundle exec rake application:config:dev
 cp config/database.yml.example config/database.yml
 
 # Copy secrets config
 cp config/secrets.yml.example config/secrets.yml
-
-# Generate a secret_key_base (copy this to config/secrets.yml)
-bundle exec rake secret
-
-# Copy settings config
-cp config/settings.yml.example config/settings.yml
 
 # Install bundle
 bundle install

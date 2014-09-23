@@ -113,8 +113,7 @@ describe Whip, :type => :model do
 
       context "whipless party vote" do
         it do
-          expect(Party).to receive(:whipless?).with("A").and_return(true)
-          expect(Party).to receive(:whipless?).with("B").and_return(false)
+          allow_any_instance_of(Whip).to receive(:whipless?).and_return(true)
           Whip.update_all!
           w = Whip.find_by(division: division, party: "A")
           expect(w.whip_guess).to eq "none"

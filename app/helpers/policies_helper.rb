@@ -8,21 +8,28 @@ module PoliciesHelper
   end
 
   # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy, person)
-    if person.number_of_votes_on_policy(policy) == 0
-      "has <em>never voted</em> on".html_safe
+  def policy_agreement_summary(policy_member_distance)
+    if policy_member_distance.nil?
+      "voted <strong>unknown about</strong>".html_safe
+    elsif policy_member_distance.number_of_votes == 0
+      "has <strong>never voted</strong> on".html_safe
     else
-      fraction = person.agreement_fraction_with_policy(policy)
-      if fraction >= 0.80
-        "voted <em>strongly for</em>".html_safe
-      elsif fraction >= 0.60
-        "voted <em>moderately for</em>".html_safe
-      elsif fraction <= 0.20
-        "voted <em>strongly against</em>".html_safe
-      elsif fraction <= 0.40
-        "voted <em>moderately against</em>".html_safe
+      case policy_member_distance.agreement_fraction
+      when 0.95..1.0
+        "voted <strong>very strongly for</strong>".html_safe
+      when 0.85...0.95
+        "voted <strong>strongly for</strong>".html_safe
+      when 0.60...0.85
+        "voted <strong>moderately for</strong>".html_safe
+      when 0.40...0.60
+        "voted <strong>a mixture of for and against</strong>".html_safe
+      when 0.15...0.40
+        "voted <strong>moderately against</strong>".html_safe
+      when 0.05...0.15
+        "voted <strong>strongly against</strong>".html_safe
+      when 0.00...0.05
+        "voted <strong>very strongly against</strong>".html_safe
       else
-        "voted <em>ambiguously</em> on".html_safe
       end
     end
   end
@@ -86,7 +93,7 @@ module PoliciesHelper
 
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division_path2(division))
+    actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
   end
 
   def version_attribution_sentence(version)

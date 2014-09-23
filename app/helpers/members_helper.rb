@@ -1,32 +1,4 @@
 module MembersHelper
-  def member_path2(member)
-    member_path(member_params(member))
-  end
-
-  def member_policy_path2(member, policy)
-    member_policy_path(member_params(member).merge(id: policy.id))
-  end
-
-  def full_member_policy_path2(member, policy)
-    full_member_policy_path(member_params(member).merge(id: policy.id))
-  end
-
-  def member_divisions_path2(member)
-    member_divisions_path(member_params(member))
-  end
-
-  def friends_member_path2(member)
-    friends_member_path(member_params(member))
-  end
-
-  def member_params(member)
-    {
-      mpn: member.url_name.downcase,
-      mpc: member.url_electorate.downcase,
-      house: member.australian_house
-    }
-  end
-
   # Also say "whilst Independent" if they used to be in a different party
   def party_long2(member)
     if member.entered_reason == "changed_party" || member.left_reason == "changed_party"
@@ -34,7 +6,7 @@ module MembersHelper
     else
       result = "".html_safe
     end
-    result += link_to member.party_long, party_divisions_path2(member.party_long)
+    result += link_to member.party_name, party_divisions_path(member.party_object)
     result
   end
 
@@ -51,10 +23,10 @@ module MembersHelper
   def member_type_party_place_sentence(member)
     # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     if member.currently_in_parliament?
-      text = member.party_long + " " + member_type(member.australian_house) + " for " +
+      text = member.party_name + " " + member_type(member.australian_house) + " for " +
         content_tag(:span, member.electorate, class: "electorate")
     else
-      text = "Former " + member.party_long + " " + member_type(member.australian_house) + " for " +
+      text = "Former " + member.party_name + " " + member_type(member.australian_house) + " for " +
         content_tag(:span, member.electorate, class: 'electorate')
     end
     text.html_safe

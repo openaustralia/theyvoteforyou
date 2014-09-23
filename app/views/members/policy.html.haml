@@ -1,6 +1,7 @@
 - content_for :title do
   = @member.name
-  compared to '#{@policy.name}'
+  = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
+  = @policy.name
 
 .page-header
   %h1
@@ -9,7 +10,7 @@
 
 #secondnavtabs
   %ul.nav.nav-tabs
-    = nav_link_unless_current("Summary", member_policy_path2(@member, @policy), "Show every vote cast by this MP")
-    = nav_link_unless_current("Full description", full_member_policy_path2(@member, @policy), "Also show descriptions of every vote")
+    = nav_link_unless_current("Summary", [@member, @policy], "Show every vote cast by this MP")
+    = nav_link_unless_current("Full description", full_member_policy_path(@member, @policy), "Also show descriptions of every vote")
 
 = render "members/policy_comparison", member: @member, policy: @policy, full: @full

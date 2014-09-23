@@ -18,6 +18,7 @@
 config/database.yml
 config/secrets.yml
 config/settings.yml
+config/settings/*.local.yml
 
 php/loader/PublicWhip/Config.pm
 php/loader/data.openaustralia.org

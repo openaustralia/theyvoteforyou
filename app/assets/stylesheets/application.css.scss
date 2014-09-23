@@ -62,6 +62,10 @@ tbody {
 
 // Divisions
 
+.motion-source-info {
+  border-top: 1px solid #E7E7E7;
+}
+
 .division-outcome-summary {
   &.division-outcome-passed {
     color: $brand-success;

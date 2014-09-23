@@ -9,21 +9,13 @@
 - if @member.nil?
   #secondnavtabs
     %ul.nav.nav-tabs
-      = nav_link("Summary", division_path2(@division), "Overview of division", @display.nil?)
+      = nav_link("Summary", @division, "Overview of division", @display.nil?)
       = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
 
-- if @division.policies.any?
-  %section.division-summary
-    %p
-      This division relates to the policy
-      = "position".pluralize(@division.policies.size)
-      = policies_list_sentence(@division.policies) + "."
-
 = render "motion", division: @division
+= render "summary", division: @division, member: @member, members: @members
 
 - if @division.policies
   %h2.h4 Related Policies
 
   = render "current_policies_list", division: @division, display: @display
-
-= render "summary", division: @division, member: @member, members: @members

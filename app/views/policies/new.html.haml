@@ -3,7 +3,7 @@
 .page-header
   %h1= yield :title
 
-- if @policy
+- if @policy.errors.any?
   .error
     %h2 Creating a new policy not complete, please try again
     %p Please name your policy, and give a definition.
@@ -53,14 +53,13 @@
       or you can see how it should be broken down, discuss it with others
       and fix it.
 
-%form{:action => policies_path, :method => "post"}
+= form_for @policy do |f|
   .form-group
-    -# TODO Add for
-    %label Title of policy
-    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || '')}/
+    %label If you are for
+    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || ''), :placeholder => "equal treatment of same-sex couples"}/
   .form-group
-    %label Someone who believes that...
-    %textarea.form-control{:cols => "80", :name => "description", :rows => "6"}= params[:description]
+    %label you believe that
+    %textarea.form-control{:cols => "80", :name => "description", :rows => "6", placeholder: "the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples"}= params[:description]
   %p
     %span.ptitle Privacy notes:
     By creating a policy

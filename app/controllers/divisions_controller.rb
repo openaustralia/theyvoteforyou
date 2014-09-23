@@ -1,8 +1,5 @@
 class DivisionsController < ApplicationController
-  # TODO: Reenable CSRF protection
-  skip_before_action :verify_authenticity_token
-
-  before_action :authenticate_user!, only: [:edit, :update, :create_policy_division, :destroy_policy_division]
+  before_action :authenticate_user!, only: [:edit, :update, :create_policy_division, :update_policy_division, :destroy_policy_division]
 
   def index_redirect
     if params[:rdisplay2] == "rebels"
@@ -133,7 +130,7 @@ class DivisionsController < ApplicationController
       @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
     end
 
-    redirect_to view_context.division_path2(@division)
+    redirect_to view_context.division_path(@division)
   end
 
   def create_policy_division

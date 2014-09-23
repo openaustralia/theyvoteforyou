@@ -5,30 +5,6 @@ module DivisionsHelper
     text
   end
 
-  def member_division_path2(member, division)
-    member_division_path(division_params(division).merge(member_params(member)))
-  end
-
-  def division_path2(division, q = {})
-    division_path(q.merge(division_params(division)))
-  end
-
-  def division_params(division)
-    {
-      date: division.date,
-      number: division.number,
-      house: division.australian_house
-    }
-  end
-
-  def history_division_path2(division)
-    history_division_path(division_params(division))
-  end
-
-  def edit_division_path2(division)
-    edit_division_path(division_params(division))
-  end
-
   def aye_vote_class(whip)
     if whip.aye_votes == 0
       "normal"
@@ -119,7 +95,7 @@ module DivisionsHelper
   end
 
   def member_voted_with(member, division)
-    sentence = link_to member.full_name, member_path2(member)
+    sentence = link_to member.full_name, member
     sentence += " "
     if member.vote_on_division_without_tell(division) == "absent"
       sentence += "did not vote."

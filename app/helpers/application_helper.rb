@@ -13,17 +13,6 @@ module ApplicationHelper
     link_to name, path, title: title, class: "btn btn-sm btn-default" + (current ? " active" : "")
   end
 
-  def electorate_path2(member)
-    electorate_path({
-        mpc: (member.url_electorate.downcase if member),
-        house: (member.australian_house if member)
-      })
-  end
-
-  def party_divisions_path2(party)
-    party_divisions_path(party: party.downcase.gsub(" ", "_"))
-  end
-
   # Returns Representatives or Senators
   def members_type(house)
     case house

@@ -68,7 +68,7 @@ describe PoliciesHelper, :type => :helper do
 
     context "changing policy vote" do
       before :each do
-        expect(Division).to receive(:find).with(5).and_return(double("division", name: "blah", date: Date.new(2001,1,1), number: 2, australian_house: "representatives"))
+        expect(Division).to receive(:find).with(5).and_return(mock_model(Division, name: "blah", date: Date.new(2001,1,1), number: 2, australian_house: "representatives"))
       end
 
       it "create vote on policy" do

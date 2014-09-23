@@ -23,10 +23,10 @@
   %tbody
     - @members.each do |member|
       %tr
-        %td= link_to member.name, member_path2(member)
+        %td= link_to member.name, member
         %td= member.since
         %td= member.until
-        %td= link_to member.party_long, party_divisions_path2(member.party_long)
+        %td= link_to member.party_name, party_divisions_path(member.party_object)
         %td.percent
           - if !member.person.has_whip?
             no whip

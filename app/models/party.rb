@@ -20,6 +20,10 @@ class Party
     end
   end
 
+  def url_name
+    long_name.downcase.gsub(" ", "_")
+  end
+
   # Does this party not have a whip?
   def whipless?
     name == "XB" ||
@@ -33,13 +37,7 @@ class Party
     name == "DPRES"
   end
 
-  # TODO Inline
-  def self.long_name(name)
-    Party.new(name: name).long_name
-  end
-
-  # TODO Inline
-  def self.whipless?(name)
-    Party.new(name: name).whipless?
+  def has_whip?
+    !whipless?
   end
 end
