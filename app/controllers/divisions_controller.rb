@@ -116,8 +116,7 @@ class DivisionsController < ApplicationController
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
   end
 
-  # TODO Rename to history
-  def show_edits
+  def history
     @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
   end
 

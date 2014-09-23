@@ -142,7 +142,7 @@ Publicwhip::Application.routes.draw do
   patch '/divisions/:house/:date/:number/policies/:policy_id' => 'divisions#update_policy_division', as: :update_policy_division
   delete '/divisions/:house/:date/:number/policies/:policy_id/delete' => 'divisions#destroy_policy_division', as: :destroy_policy_division
   get '/divisions/:house/:date/:number/policies/:dmp' => redirect("/divisions/%{house}/%{date}/%{number}/policies")
-  get '/divisions/:house/:date/:number/history' => 'divisions#show_edits', as: :history_division
+  get '/divisions/:house/:date/:number/history' => 'divisions#history', as: :history_division
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
 
   resources :policies, except: :destroy do
