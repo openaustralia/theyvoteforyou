@@ -6,5 +6,4 @@ class User < ActiveRecord::Base
 
   has_many :wiki_motions
   has_many :policies
-  has_one :active_policy, class_name: "Policy", foreign_key: :id, primary_key: :active_policy_id
 end

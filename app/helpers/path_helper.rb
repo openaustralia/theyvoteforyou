@@ -14,12 +14,7 @@ module PathHelper
 
   def division_with_policy_path(division, policy)
     if policy
-      dmp = policy.id
-    elsif current_user
-      dmp = current_user.active_policy_id
-    end
-    if dmp
-      division_policy_path(division_params(division).merge(dmp: dmp))
+      division_policy_path(division_params(division).merge(dmp: policy.id))
     else
       division_policies_path(division_params(division))
     end

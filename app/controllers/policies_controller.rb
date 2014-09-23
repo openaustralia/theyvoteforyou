@@ -53,9 +53,6 @@ class PoliciesController < ApplicationController
 
   def edit
     @policy = Policy.find(params[:id])
-
-    # FIXME This is how the user sets their active policy in PHP which is silly for many reasons
-    current_user.update_attribute :active_policy_id, @policy.id
   end
 
   def new
