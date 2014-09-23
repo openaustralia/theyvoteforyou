@@ -5,7 +5,7 @@ class WikiMotion < ActiveRecord::Base
   validates :title, presence: true
 
   attr_accessor :title, :description
-
+  alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
 
   # Strip timezone as it's stored in the DB as local time
