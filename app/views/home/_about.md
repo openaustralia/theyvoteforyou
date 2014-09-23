@@ -12,9 +12,8 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 ## Who made this?
 
-Public Whip was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), a not-for-profit, independent organisation.
-
-The OpenAustralian Foundation has adapted The Public Whip for Australia from [The Public Whip](http://www.publicwhip.org.uk/), originally created by [Francis Irving](http://wikipedia.org/wiki/Francis_Irving) and [Julian Todd](http://wikipedia.org/wiki/Julian_Todd) following the [18 March 2003 Parliamentary Approval for the invasion of Iraq](https://en.wikipedia.org/wiki/18_March_2003_Parliamentary_Approval_for_the_invasion_of_Iraq) as a tool to record which MPs had defied their party's whip long after the information had become effectively inaccessible for reference.
+Public Whip was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), a not-for-profit, independent organisation. It is based on the [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
+[Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) following the [18 March 2003 Parliamentary Approval for the invasion of Iraq](https://en.wikipedia.org/wiki/18_March_2003_Parliamentary_Approval_for_the_invasion_of_Iraq) as a tool to record which MPs had defied their party's whip long after the information had become effectively inaccessible for reference.
 
 
 ## Contribute
