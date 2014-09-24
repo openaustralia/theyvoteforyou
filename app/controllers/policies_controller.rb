@@ -66,9 +66,12 @@ class PoliciesController < ApplicationController
 
   def update
     @policy = Policy.find(params[:id])
-    # FIXME: In PHP it silently ignores empty attributes, we should show an error
-    @policy.update_attributes!({name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)}.reject { |k,v| v.blank? })
-    redirect_to action: 'show', id: @policy
+
+    if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+      redirect_to @policy, notice: 'Policy updated.'
+    else
+      redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
+    end
   end
 
   def history
