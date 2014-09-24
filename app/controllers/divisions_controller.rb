@@ -122,14 +122,16 @@ class DivisionsController < ApplicationController
 
   def update
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
+    wiki_motion = @division.wiki_motions.new(title: params[:newtitle],
+                                             description: params[:newdescription],
+                                             user: current_user,
+                                             edit_date: Time.now)
 
-    # TODO: Provide some feedback to the user about how their save went
-    # This is just matching the PHP app right now :(
-    if params[:submit] == 'Save'
-      @division.create_wiki_motion! params[:newtitle], params[:newdescription], current_user
+    if wiki_motion.save
+      redirect_to view_context.division_path(@division), notice: 'Division updated'
+    else
+      redirect_to view_context.edit_division_path(@division), alert: 'Could not update division'
     end
-
-    redirect_to view_context.division_path(@division)
   end
 
   def create_policy_division

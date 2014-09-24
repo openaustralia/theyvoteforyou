@@ -2,7 +2,7 @@ class WikiMotion < ActiveRecord::Base
   belongs_to :user
   belongs_to :division
 
-  validates :title, presence: true
+  validates :title, :description, presence: true
 
   attr_accessor :title, :description
   alias_attribute :created_at, :edit_date
