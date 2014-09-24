@@ -83,3 +83,14 @@ Not like:
 The project is clear, precise and humanist; the typeface and typesetting reflects this. A humanist sans-serif, set with comfortable line-lengths and spacing sets it apart from densely-set government and corporate tools. Unambiguous hierarchy in weight and scale give structure to the interface.
 
 The interface is more typographic than illustrative or graphic.
+
+More towards:
+
+* [Detention Logs](http://detentionlogs.com.au/investigations/recipe)
+* [The Grauniad](http://www.theguardian.com/world/2014/sep/24/asylum-seekers-morrison-will-sign-resettlement-deal-with-cambodia)
+
+Not like:
+
+* [About Google](https://www.google.com.au/intl/en/about/)
+* [Wikipedia](https://en.wikipedia.org/wiki/Triphenylphosphine)
+* [SMH](http://www.smh.com.au/federal-politics/political-news/scott-morrison-set-to-sign-refugee-resettlement-deal-with-cambodia-on-friday-20140924-10le2o.html)
