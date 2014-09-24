@@ -82,7 +82,7 @@ Not like:
 
 The project is clear, precise and humanist; the typeface and typesetting reflects this. A humanist sans-serif, set with comfortable line-lengths and spacing sets it apart from densely-set government and corporate tools. Unambiguous hierarchy in weight and scale give structure to the interface.
 
-The interface is more typographic than illustrative or graphic.
+The interface is more typographic than illustrative.
 
 More towards:
 
