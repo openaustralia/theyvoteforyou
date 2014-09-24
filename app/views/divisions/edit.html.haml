@@ -40,4 +40,4 @@
       -# TODO: Use path helper
       = link_to "View change history", history_division_path(@division)
   .col-md-4
-    = render "edit_help"
+    = render "edit_help", markdown: @division.markdown
