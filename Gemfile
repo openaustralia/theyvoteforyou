@@ -44,6 +44,7 @@ gem 'mechanize' # Used to download debates
 gem 'nokogiri' # Explicitly included as it's used directly when testing division loader
 gem 'seed_dump'
 gem "redcarpet"
+gem "reverse_markdown"
 gem 'paper_trail'
 
 group :test do
