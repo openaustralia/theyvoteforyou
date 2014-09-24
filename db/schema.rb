@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923074703) do
+ActiveRecord::Schema.define(version: 20140924013708) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -42,17 +42,18 @@ ActiveRecord::Schema.define(version: 20140923074703) do
 
   create_table "divisions", force: true do |t|
     t.boolean "valid"
-    t.date    "date",                 null: false
-    t.integer "number",               null: false
-    t.string  "house",      limit: 8, null: false
-    t.text    "name",                 null: false
-    t.binary  "source_url",           null: false
-    t.binary  "debate_url",           null: false
-    t.binary  "motion",               null: false
-    t.binary  "notes",                null: false
+    t.date    "date",                                 null: false
+    t.integer "number",                               null: false
+    t.string  "house",      limit: 8,                 null: false
+    t.text    "name",                                 null: false
+    t.binary  "source_url",                           null: false
+    t.binary  "debate_url",                           null: false
+    t.binary  "motion",                               null: false
+    t.binary  "notes",                                null: false
     t.string  "clock_time"
-    t.text    "source_gid",           null: false
-    t.text    "debate_gid",           null: false
+    t.text    "source_gid",                           null: false
+    t.text    "debate_gid",                           null: false
+    t.boolean "markdown",             default: false, null: false
   end
 
   add_index "divisions", ["date", "number", "house"], name: "division_date_2", unique: true, using: :btree
