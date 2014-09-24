@@ -212,11 +212,20 @@ class Division < ActiveRecord::Base
   def formatted_motion_text
     text = self.motion
 
+    if markdown?
+      # TODO Don't reinstantiate the markdown renderer on each request
+      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+      text = md.render(text)
+
     # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
     # It's probably not edited and formatted in wiki markup anyway. Maximum
     # field size is 65,535 characters. 15,000 characters is more than 12 pages,
     # i.e. more than enough.
-    text = text.size > 15000 ? wikimarkup_parse_basic(text) : wikimarkup_parse(text)
+    elsif text.size > 15000
+      text = wikimarkup_parse_basic(text)
+    else
+      text = wikimarkup_parse(text)
+    end
 
     text.html_safe
   end
