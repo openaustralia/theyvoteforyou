@@ -26,20 +26,6 @@ It is a surface to scratch *their* contribution—not *[a destination](http://ci
 * distinctly non-government & not corporate
 
 
-## Personality Map
-
-```
-                 Dominant                 
-                                            
-                                            
-                            x                
-Unfriendly                           Friendly   
-
-                                            
-                                            
-                 Submissive                 
-```
-
 ## Voice
 
 The voice of the Parliamentary Vote Tracker is helpful, clear and human. Citizens’ know they are dealing with a tool made for them by people who respect them and empathise with their situation: trying to understand and document parliamentary process-hard work.
