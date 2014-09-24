@@ -5,6 +5,7 @@ class PolicyDivision < ActiveRecord::Base
   belongs_to :policy
   belongs_to :division
   validates :policy, :division, presence: true
+  validates :vote, inclusion: { in: %w(aye3 aye no no3) }
 
   delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
 
