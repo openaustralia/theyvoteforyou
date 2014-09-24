@@ -106,6 +106,10 @@ class Division < ActiveRecord::Base
     end
   end
 
+  def edited?
+    !wiki_motion.nil?
+  end
+
   def name
     wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
   end
@@ -121,7 +125,7 @@ class Division < ActiveRecord::Base
   add_method_tracer :original_name, 'Custom/Division/original_name'
 
   def motion
-    text = wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    text = edited? ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     text = HTMLEntities.new.decode(text)
