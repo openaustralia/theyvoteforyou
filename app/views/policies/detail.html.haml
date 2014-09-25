@@ -8,7 +8,7 @@
   %h1.col-md-9
     = yield :title
 
-  %blockquote.lead.policytext.col-md-12= @policy.description.capitalize + "."
+  %blockquote.lead.policytext.col-md-12= capitalise_initial_character @policy.description
 
 = render "nav", policy: @policy, display: "motions"
 
