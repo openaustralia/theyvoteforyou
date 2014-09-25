@@ -4,9 +4,7 @@
 
 - if @policy.divisions.count > 0
   = render "nav", policy: @policy, display: nil
-
-  %p These are the divisions (votes in Australia’s Parliament) that related to the policy “for #{@policy.name}”. Compare how a supporter of the policy would have voted to the division outcome.
-
+  = render 'vote_table_leader', policy: @policy
   = render 'vote_summary_table', member: @member, policy: @policy
 - else
   %p
