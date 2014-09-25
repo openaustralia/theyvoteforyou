@@ -91,6 +91,9 @@ th {
 }
 
 .division-item {
+  .division-edit-notice {
+    font-size: $font-size-small;
+  }
 
   .division-datetime {
     &:after {

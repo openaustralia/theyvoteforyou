@@ -4,7 +4,13 @@
   %ol.divisions_list.list-unstyled
     - @divisions.each do |division|
       %li.panel.panel-default
-        %article.division-item.panel-body
+        %article.division-item.panel-body{:class => "#{division_edit_status_class(division)}"}
+          .division-edit-notice.pull-right.text-muted
+            - if division.motion_edited?
+              edited
+              = relative_time division.wiki_motion.edit_date
+            - else
+              raw
           .division-meta
             %time.division-datetime{:datetime => "#{division.date}"}= division_date_and_time(division)
             %span.division-house.pre= division.australian_house_name if @house.nil?
