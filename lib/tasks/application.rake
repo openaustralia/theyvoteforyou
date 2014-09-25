@@ -131,6 +131,20 @@ namespace :application do
         end
       end
     end
+
+    desc "Inline any footnotes on division motions"
+    task :inline_footnotes => :environment do
+      include PathHelper
+
+      Division.where(markdown: false).find_each do |division|
+        if division.edited? && division.motion =~ /\[(\d+)\]/
+          puts "Inlining footnotes on #{division_path(division)}..."
+          new_motion = Division.inline_footnotes(division.motion)
+          division.create_wiki_motion! division.name, new_motion, User.system
+        end
+      end
+      puts "Please NOTE: Go through divisions and tidy up manually. Automatic inlining has some limitations."
+    end
   end
 
   task :set_logger_to_stdout do
