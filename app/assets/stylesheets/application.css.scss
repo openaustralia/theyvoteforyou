@@ -15,6 +15,8 @@ $font-family-base:  "Fira Sans", sans-serif;
 $font-size-base: 18px;
 $line-height-base: 1.6;
 
+// Colours
+$text-color: #444444;
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -23,6 +25,11 @@ h1 {
   .page-header & {
     margin-top: 0;
   }
+}
+
+h1,
+h2 {
+  font-weight: normal;
 }
 
 .pre-title,
@@ -42,10 +49,9 @@ h1 {
 }
 
 // Tables
-tbody {
-  th {
-    font-weight: normal;
-  }
+
+th {
+  font-weight: normal;
 }
 
 .rebel {
