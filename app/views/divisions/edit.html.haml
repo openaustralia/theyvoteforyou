@@ -33,7 +33,17 @@
         %input.form-control{:maxlength => "250", :name => "newtitle", :size => "50", :type => "text", :value => @division.name}/
       .form-group
         %label Division description:
-        %textarea.form-control{:cols => "45", :name => "newdescription", :rows => "25"}= preserve(h(@division.motion))
+        - if @division.markdown?
+          %ul.nav.nav-tabs(role="tablist")
+            %li.active= link_to "Edit", "#edit", role: "tab", data: {toggle: "tab"}
+            %li= link_to "Preview", "#preview", role: "tab", data: {toggle: "tab"}, id: "preview_link"
+          .tab-content
+            .tab-pane.active#edit
+              %textarea.form-control{:cols => "45", :name => "newdescription", :rows => "25"}= preserve(h(@division.motion))
+            .tab-pane#preview
+        - else
+          %textarea.form-control{:cols => "45", :name => "newdescription", :rows => "25"}= preserve(h(@division.motion))
+
       %input.btn.btn-primary{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
       %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Cancel"}/
   .col-md-4
