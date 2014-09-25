@@ -35,8 +35,8 @@ describe PoliciesController, :type => :request do
   end
 
   describe '#update' do
-    it { compare_static '/policies/1', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional'}, "", :put}
-    it { compare_static '/policies/2', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'Onshore processing', description: 'refugees arrving by boat should be processed onshore'}, "", :put}
+    it { compare_static '/policies/1', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional'}, "", :put}
+    it { compare_static '/policies/2', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'onshore processing', description: 'refugees arrving by boat should be processed onshore'}, "", :put}
 
     it { compare_static '/policies/2', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: '', description: 'a useful description'}, "_2", :put }
     it { compare_static '/policies/2', true, {submitbutton: 'Save title and text', submiteditpolicy: 'Save', name: 'A useful title', description: ''}, "_3", :put }

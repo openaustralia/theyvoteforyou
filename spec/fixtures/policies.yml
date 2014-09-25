@@ -1,18 +1,18 @@
 one:
   id: 1
-  name: Marriage equality
+  name: marriage equality
   user_id: 1
   description: access to marriage should be equal
   private: 0
 two:
   id: 2
-  name: Offshore processing
+  name: offshore processing
   user_id: 1
   description: refugees arrving by boat should be processed offshore
   private: 0
 three:
   id: 3
-  name: provisional
+  name: provisional policies
   user_id: 1
   description: A provisional policy
   private: 2
