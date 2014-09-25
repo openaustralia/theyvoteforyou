@@ -43,26 +43,6 @@ class WikiMotion < ActiveRecord::Base
     end
   end
 
-  def self.footnotes(text)
-    result = {}
-    text.lines.each do |line|
-      # TODO I guess it should only match to the beginning of the line
-      if line =~ /\* \[(\d+)\] (.*)/
-        result[$1] = $2
-      end
-    end
-    result
-  end
-
-  def self.remove_footnotes(text)
-    text.lines.select{|l| !(l =~ /\* \[(\d+)\] (.*)/)}.join
-  end
-
-  def self.inline_footnotes(text)
-    footnotes = footnotes(text)
-    remove_footnotes(text).gsub(/\[(\d+)\]/) { "(#{footnotes[$1]})"}
-  end
-
   private
 
   def set_text_body
