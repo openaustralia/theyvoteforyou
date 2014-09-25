@@ -111,7 +111,7 @@ class Division < ActiveRecord::Base
   end
 
   def name
-    wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
+    wiki_motion ? wiki_motion.title.strip.gsub('-', '—') : original_name
   end
 
   add_method_tracer :name, 'Custom/Division/name'

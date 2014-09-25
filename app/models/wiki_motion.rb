@@ -22,6 +22,10 @@ class WikiMotion < ActiveRecord::Base
     division.wiki_motions.find_by('edit_date < ?', edit_date)
   end
 
+  def title
+    @title ||= text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1]
+  end
+
   def description
     @description ||= text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1]
   end
