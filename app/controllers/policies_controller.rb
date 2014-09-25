@@ -75,10 +75,14 @@ class PoliciesController < ApplicationController
   def update
     @policy = Policy.find(params[:id])
 
-    if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
-      redirect_to @policy, notice: 'Policy updated.'
+    if params[:submit] == 'Save title and text'
+      if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+        redirect_to @policy, notice: 'Policy updated.'
+      else
+        redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
+      end
     else
-      redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
+      redirect_to @policy
     end
   end
 
