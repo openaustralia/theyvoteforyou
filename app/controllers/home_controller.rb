@@ -9,6 +9,9 @@ class HomeController < ApplicationController
   end
 
   def search
+    @mps = []
+    @divisions = []
+
     if params[:query] =~ /^\d{4}$/
       @postcode = params[:query]
 
@@ -28,7 +31,6 @@ class HomeController < ApplicationController
         render nothing: true, status: :found, location: view_context.electorate_path(member)
         return
       elsif electorates.count > 1
-        @mps = []
         electorates.each do |e|
           member = Member.find_by_constituency(e['name'])
           @mps << member unless member.nil?
