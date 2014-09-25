@@ -36,8 +36,5 @@
         %textarea.form-control{:cols => "45", :name => "newdescription", :rows => "25"}= preserve(h(@division.motion))
       %input.btn.btn-primary{:accesskey => "S", :name => "submit", :type => "submit", :value => "Save"}/
       %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Cancel"}/
-    %p
-      -# TODO: Use path helper
-      = link_to "View change history", history_division_path(@division)
   .col-md-4
     = render "edit_help", markdown: @division.markdown
