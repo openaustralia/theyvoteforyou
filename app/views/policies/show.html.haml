@@ -1,4 +1,4 @@
-- content_for :title, @policy.name
+- content_for :title, "For #{@policy.name}"
 
 .page-header.row
   %nav.header-actions.col-md-3
@@ -6,7 +6,6 @@
     =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
     = link_to "History of edits", history_policy_path(@policy)
   %h1.col-md-9
-    For
     = yield :title
 
   %blockquote.lead.policytext.col-md-12= capitalise_initial_character @policy.description
