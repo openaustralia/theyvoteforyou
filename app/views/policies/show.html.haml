@@ -11,8 +11,18 @@
 
   %blockquote.lead.policytext.col-md-12= capitalise_initial_character @policy.description
 
-= render "nav", policy: @policy, display: nil
+- if @policy.divisions.count > 0
+  = render "nav", policy: @policy, display: nil
 
-%p These are the divisions (votes in Australia’s Parliament) that related to the policy “#{@policy.name}”. Compare how a supporter of the policy would have voted to the division outcome.
+  %p These are the divisions (votes in Australia’s Parliament) that related to the policy “#{@policy.name}”. Compare how a supporter of the policy would have voted to the division outcome.
 
-= render 'vote_summary_table', member: @member, policy: @policy
+  = render 'vote_summary_table', member: @member, policy: @policy
+- else
+  %p
+    This policy isn't connected with any divisions just yet.
+    You can help - to select votes for this policy,
+    = link_to "search", search_path
+    or
+    = link_to "browse", divisions_path
+    for divisions. On the page for each division you can choose how somebody
+    supporting this policy would have voted.
