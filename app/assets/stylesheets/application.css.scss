@@ -10,8 +10,11 @@
 //= require_self
 //= require_tree .
 
-$font-size-base: 17px;
-$line-height-base: 1.5;
+// Typography
+$font-family-base:  "Fira Sans", verdana, sans-serif;
+$font-size-base: 18px;
+$line-height-base: 1.6;
+
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
