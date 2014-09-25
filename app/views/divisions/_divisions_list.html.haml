@@ -1,45 +1,23 @@
-%table.table
-  %thead
-    %tr
-      %th
-        Division
+- if @divisions.to_a.empty?
+  %p No votes listed
+- else
+  %ol.divisions_list.list-unstyled
+    - @divisions.each do |division|
+      %li.panel.panel-default
+        %article.division-item.panel-body
+          .division-meta
+            %time.division-datetime{:datetime => "#{division.date}"}= division_date_and_time(division)
+            %span.division-house.pre= division.australian_house_name if @house.nil?
+          %h2.division-title
+            = link_to truncate(division.name, length: 180), division
 
-      - if @party
-        %th Loyal
-
-      %th
-        = link_to_unless @sort == "rebellions", "Rebels", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions"
-        %br>/
-        (#{link_to "explain..", help_faq_path(anchor: "clarify")})
-
-      - if @party.nil?
-        %th Outcome
-
-      %th
-        = @party if @party
-        = link_to_unless @sort == "turnout", "Turnout", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by turnout"
-
-  %tbody
-    -# Avoid calling out to SQL again
-    - if @divisions.to_a.empty?
-      %tr
-        %td{colspan: @house.nil? ? 9 : 8} no votes listed
-    - else
-      - @divisions.each do |division|
-        %tr
-          %td
-            %h3.h4
-              %small.pre-title
-                = division_date_and_time(division)
-                = ", " + division.australian_house_name if @house.nil?
-              = link_to truncate(division.name, length: 180), division
-
-          - if @party
-            %td= division.no_loyal_in_party(@party)
-            %td= division.no_rebellions_in_party(@party)
-            -# TODO Here it's called Turnout. Elsewhere it's called Attendance. Bad!
-            %td= fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
-          - else
-            %td= division.rebellions
-            %td= division_outcome_with_majority_strength(division)
-            %td= fraction_to_percentage_display(division.attendance_fraction)
+          %ul.list-inline.division-data
+            - if @party
+              %li
+                = whip_guess_with_strength_in_words(division.whips.find_by(party: @party)).capitalize
+              %li= division.no_rebellions_in_party(@party) > 0 ? pluralize(division.no_rebellions_in_party(@party), 'rebel') : "No rebels"
+              %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction_in_party(@party))} attendance
+            - else
+              %li= division_outcome_with_majority_strength(division)
+              %li= division.rebellions > 0 ? pluralize(division.rebellions, 'rebellions') : "No rebels"
+              %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction)} attendance

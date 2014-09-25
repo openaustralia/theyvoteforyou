@@ -73,6 +73,20 @@ module DivisionsHelper
     division_outcome(division) + " " + majority_strength_in_words(division)
   end
 
+  def whip_guess_with_strength_in_words(whip)
+    if whip.majority_fraction == 1.0
+      "unanimously voted " + whip.whip_guess
+    elsif whip.majority_fraction == 0.0
+      "split"
+    elsif whip.majority_fraction > 2.to_f / 3
+      "large majority voted " + whip.whip_guess
+    elsif whip.majority_fraction > 1.to_f / 3
+      "moderate majority voted " + whip.whip_guess
+    elsif whip.majority_fraction > 0
+      "small majority voted " + whip.whip_guess
+    end
+  end
+
   # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? 'Passed' : 'Not passed'

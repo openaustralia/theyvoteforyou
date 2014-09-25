@@ -137,6 +137,17 @@ class Whip < ActiveRecord::Base
     (total_votes).to_f / possible_votes
   end
 
+  # a tie is 0.0. a unanimous vote is 1.0
+  def majority_fraction
+    if calc_whip_guess == "aye"
+      aye_votes_including_tells.to_f / total_votes
+    elsif calc_whip_guess == "no"
+      no_votes_including_tells.to_f / total_votes
+    else calc_whip_guess == "none"
+      0.0
+    end
+  end
+
   def total_votes
     aye_votes_including_tells + no_votes_including_tells + both_votes + abstention_votes
   end

@@ -90,6 +90,31 @@ th {
   display: inline-block;
 }
 
+.division-item {
+
+  .division-datetime {
+    &:after {
+      @media (min-width: 33em) {
+        content: ", "
+      }
+    }
+  }
+
+  .division-house {
+    display: block;
+
+    @media (min-width: 33em) {
+      display: inline-block;
+    }
+  }
+
+  .division-title {
+    margin-top: .5em;
+    font-size: $font-size-h4;
+    max-width: 35em;
+  }
+}
+
 .divisions-table {
   thead {
     @media (max-width: $screen-xs-max) {
