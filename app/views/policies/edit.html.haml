@@ -6,17 +6,6 @@
   %h1.col-md-9
     = yield :title
 
-%h2 Votes related to this policy
-%p
-  This is currently your active policy;
-  <b>to change its votes, go to the
-  = link_to "division page", divisions_path
-  for the vote you want to change</b>.
-  You can use the
-  = link_to "search facility", search_path
-  to find divisions. If you haven't edited a policy
-  before please #{link_to "read about how policies work", help_faq_path(anchor: "policies")}.
-
 %h2 Policy title and text
 
 = form_for @policy do |f|
@@ -37,3 +26,13 @@
       'provisional' means the policy is not yet complete or consistent enough to display publicly
   %input.btn.btn-default{:name => "submiteditpolicy", :type => "hidden", :value => "Save"}/
   %input.btn.btn-primary{:accesskey => "S", :name => "submitbutton", :type => "submit", :value => "Save title and text"}/
+
+%h2 Votes related to this policy
+%p
+  To select votes for this policy,
+  = link_to "search", search_path
+  or
+  = link_to "browse", divisions_path
+  for divisions. On the page for each division you can choose how somebody
+  supporting this policy would have voted. If you haven't edited a policy
+  before please #{link_to "read about how policies work", help_faq_path(anchor: "policies")}.
