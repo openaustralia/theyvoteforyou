@@ -125,7 +125,13 @@ class Division < ActiveRecord::Base
   add_method_tracer :original_name, 'Custom/Division/original_name'
 
   def motion
-    text = edited? ? wiki_motion.description.strip : read_attribute(:motion)
+    if edited?
+      text = wiki_motion.description.strip
+    elsif markdown?
+      text = ReverseMarkdown.convert(read_attribute(:motion))
+    else
+      text = read_attribute(:motion)
+    end
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     HTMLEntities.new.decode(text)
