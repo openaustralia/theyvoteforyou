@@ -60,8 +60,12 @@ class PoliciesController < ApplicationController
   end
 
   def create
-    @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
-    render 'new' unless @policy.save
+    if params[:submit] == 'Make Policy'
+      @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
+      render 'new' unless @policy.save
+    else
+      redirect_to policies_path
+    end
   end
 
   def update
