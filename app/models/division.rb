@@ -209,9 +209,7 @@ class Division < ActiveRecord::Base
     text = self.motion
 
     if markdown?
-      # TODO Don't reinstantiate the markdown renderer on each request
-      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-      text = md.render(text)
+      text = Division.render_markdown(text)
 
     # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
     # It's probably not edited and formatted in wiki markup anyway. Maximum
@@ -224,6 +222,12 @@ class Division < ActiveRecord::Base
     end
 
     text.html_safe
+  end
+
+  def self.render_markdown(text)
+    # TODO Don't reinstantiate the markdown renderer on each request
+    md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    md.render(text)
   end
 
   private
