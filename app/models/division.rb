@@ -125,7 +125,7 @@ class Division < ActiveRecord::Base
   add_method_tracer :original_name, 'Custom/Division/original_name'
 
   def motion
-    text = edited? ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    text = edited? ? wiki_motion.description.strip : read_attribute(:motion)
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     text = HTMLEntities.new.decode(text)

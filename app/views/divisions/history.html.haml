@@ -40,4 +40,4 @@
             on
             = wiki_motion.edit_date.strftime('%F %T')
         %td
-          = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1]).to_s(:html).html_safe
+          = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.description).to_s(:html).html_safe
