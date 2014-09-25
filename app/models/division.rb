@@ -195,6 +195,18 @@ class Division < ActiveRecord::Base
     Hash[motion.scan(/^@\s*MP voted (aye|no) (.*)/)]
   end
 
+  def create_wiki_motion!(title, description, user)
+    build_wiki_motion(title, description, user).save!
+  end
+
+  def build_wiki_motion(title, description, user)
+    wiki_motions.new(title: title,
+      description: description,
+      user: user,
+      # TODO Use default rails created_at instead
+      edit_date: Time.now)
+  end
+
   def self.find_by_search_query(query)
     # FIXME: Remove nasty SQL below that was ported from PHP direct
     joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)')

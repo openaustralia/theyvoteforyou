@@ -122,10 +122,7 @@ class DivisionsController < ApplicationController
 
   def update
     @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
-    wiki_motion = @division.wiki_motions.new(title: params[:newtitle],
-                                             description: params[:newdescription],
-                                             user: current_user,
-                                             edit_date: Time.now)
+    wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
 
     if wiki_motion.save
       redirect_to view_context.division_path(@division), notice: 'Division updated'
