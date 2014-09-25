@@ -141,4 +141,12 @@ module DivisionsHelper
   def relative_time(time)
     time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
   end
+
+  def division_edit_status_class(division)
+    if division.motion_edited?
+      "division-status-edited"
+    else
+      "division-status-raw"
+    end
+  end
 end
