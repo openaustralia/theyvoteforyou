@@ -111,7 +111,7 @@ class Division < ActiveRecord::Base
   end
 
   def name
-    wiki_motion ? wiki_motion.title.strip.gsub('-', '—') : original_name
+    wiki_motion ? wiki_motion.title.strip : original_name
   end
 
   add_method_tracer :name, 'Custom/Division/name'
@@ -119,7 +119,7 @@ class Division < ActiveRecord::Base
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:name).gsub('-', '—'))
+    HTMLEntities.new.decode(read_attribute(:name))
   end
 
   add_method_tracer :original_name, 'Custom/Division/original_name'
@@ -128,9 +128,7 @@ class Division < ActiveRecord::Base
     text = edited? ? wiki_motion.description.strip : read_attribute(:motion)
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    text = HTMLEntities.new.decode(text)
-    # FIXME This is just to match the PHP app. Why the hell is it the opposite to the name??
-    text.gsub('—', '-')
+    HTMLEntities.new.decode(text)
   end
 
   def original_motion
