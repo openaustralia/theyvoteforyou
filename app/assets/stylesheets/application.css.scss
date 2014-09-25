@@ -61,6 +61,12 @@ th {
 // Forms
 
 .list-filters {
+  margin-bottom: 1em;
+
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 2em;
+  }
+
   .form-inline,
   .btn-group {
     @media (min-width: $screen-sm-min) {
