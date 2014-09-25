@@ -18,8 +18,13 @@ class WikiMotion < ActiveRecord::Base
     write_attribute(:edit_date, date.strftime('%F %T'))
   end
 
+  # TODO Doing this horrible workaround to deal with storing local time in db
+  def edit_date_without_timezone
+    edit_date.strftime('%F %T')
+  end
+
   def previous_edit
-    division.wiki_motions.find_by('edit_date < ?', edit_date)
+    division.wiki_motions.find_by('edit_date < ?', edit_date_without_timezone)
   end
 
   def title
