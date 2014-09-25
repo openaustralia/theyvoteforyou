@@ -149,6 +149,7 @@ GEM
       skinny (>= 0.1.2)
       sqlite3-ruby
       thin
+    marked-rails (0.2.10.1)
     mechanize (2.7.2)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0.0)
@@ -341,6 +342,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   mailcatcher
+  marked-rails
   marker!
   mechanize
   mysql2
