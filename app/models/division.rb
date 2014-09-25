@@ -106,6 +106,10 @@ class Division < ActiveRecord::Base
     end
   end
 
+  def edited?
+    !wiki_motion.nil?
+  end
+
   def name
     wiki_motion ? wiki_motion.text_body[/--- DIVISION TITLE ---(.*)--- MOTION EFFECT/m, 1].strip.gsub('-', '—') : original_name
   end
@@ -121,7 +125,7 @@ class Division < ActiveRecord::Base
   add_method_tracer :original_name, 'Custom/Division/original_name'
 
   def motion
-    text = wiki_motion ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
+    text = edited? ? wiki_motion.text_body[/--- MOTION EFFECT ---(.*)--- COMMENT/m, 1].strip : read_attribute(:motion)
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     text = HTMLEntities.new.decode(text)
@@ -205,9 +209,7 @@ class Division < ActiveRecord::Base
     text = self.motion
 
     if markdown?
-      # TODO Don't reinstantiate the markdown renderer on each request
-      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-      text = md.render(text)
+      text = Division.render_markdown(text)
 
     # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
     # It's probably not edited and formatted in wiki markup anyway. Maximum
@@ -220,6 +222,12 @@ class Division < ActiveRecord::Base
     end
 
     text.html_safe
+  end
+
+  def self.render_markdown(text)
+    # TODO Don't reinstantiate the markdown renderer on each request
+    md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+    md.render(text)
   end
 
   private

@@ -9,36 +9,42 @@
   %li= link_to "House Official Hansard", "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hansreps_2011"
   %li= link_to "Senate Official Hansard", "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hanssen261110"
 
-%p
-  %span.ptitle> Formatting codes
-  \. You can use the
-  following to mark paragraphs, lists and so on.
+- if markdown
+  %p
+    Use
+    = link_to "Markdown", "https://help.github.com/articles/markdown-basics"
+    to format your text
+- else
+  %p
+    %span.ptitle> Formatting codes
+    \. You can use the
+    following to mark paragraphs, lists and so on.
 
-%ul
-  %li
-    %code ''italic''
-    \-
-    %em italic
-  %li
-    %code [http://example.com A link]
-    \-
-    %a{:href => "http://example.com"} link
-  %li
-    %code * A point
-    \- bulleted list item
-  %li
-    %code An idea[1]
-    \- link to a footnote
-  %li
-    %code * [1] Ideas are good
-    \- footnote
-  %li
-    %code @A comment
-    \- comments aren't displayed
-  %li
-    %code @MP voted aye to say that little ponies are great
-    \- puts this text on the motion page "[MP Name] voted to say that
-    little ponies are great"
-  %li
-    %code @MP voted no
-    \- does it for MPs that voted no
+  %ul
+    %li
+      %code ''italic''
+      \-
+      %em italic
+    %li
+      %code [http://example.com A link]
+      \-
+      %a{:href => "http://example.com"} link
+    %li
+      %code * A point
+      \- bulleted list item
+    %li
+      %code An idea[1]
+      \- link to a footnote
+    %li
+      %code * [1] Ideas are good
+      \- footnote
+    %li
+      %code @A comment
+      \- comments aren't displayed
+    %li
+      %code @MP voted aye to say that little ponies are great
+      \- puts this text on the motion page "[MP Name] voted to say that
+      little ponies are great"
+    %li
+      %code @MP voted no
+      \- does it for MPs that voted no
