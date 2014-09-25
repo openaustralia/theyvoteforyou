@@ -130,4 +130,8 @@ module PoliciesHelper
     result += " ".html_safe + version_attribution_sentence(version)
     result
   end
+
+  def capitalise_initial_character(text)
+    text[0].upcase + text[1..-1]
+  end
 end
