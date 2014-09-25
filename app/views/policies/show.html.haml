@@ -9,7 +9,7 @@
     For
     = yield :title
 
-  %blockquote.lead.policytext.col-md-12= @policy.description.capitalize
+  %blockquote.lead.policytext.col-md-12= @policy.description[0].upcase + @policy.description[1..-1]
 
 = render "nav", policy: @policy, display: nil
 
