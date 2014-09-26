@@ -49,6 +49,7 @@ gem "reverse_markdown"
 gem 'paper_trail'
 # TODO This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
+gem 'simple_form'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
