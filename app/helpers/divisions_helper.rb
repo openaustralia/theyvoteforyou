@@ -73,6 +73,20 @@ module DivisionsHelper
     division_outcome(division) + " " + majority_strength_in_words(division)
   end
 
+  def whip_guess_with_strength_in_words(whip)
+    if whip.majority_fraction == 1.0
+      "unanimously voted " + whip.whip_guess
+    elsif whip.majority_fraction == 0.0
+      "split"
+    elsif whip.majority_fraction > 2.to_f / 3
+      "large majority voted " + whip.whip_guess
+    elsif whip.majority_fraction > 1.to_f / 3
+      "moderate majority voted " + whip.whip_guess
+    elsif whip.majority_fraction > 0
+      "small majority voted " + whip.whip_guess
+    end
+  end
+
   # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? 'Passed' : 'Not passed'
@@ -126,5 +140,23 @@ module DivisionsHelper
 
   def relative_time(time)
     time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
+  end
+
+  def division_edit_status_class(division)
+    if division.motion_edited?
+      "division-status-edited"
+    else
+      "division-status-raw"
+    end
+  end
+
+  def active_house_for_list_class(house)
+    if house == "representatives"
+      "display-house-representatives"
+    elsif house == "senate"
+      "display-house-senate"
+    elsif house == nil
+      "display-house-all"
+    end
   end
 end

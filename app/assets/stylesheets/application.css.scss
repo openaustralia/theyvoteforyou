@@ -61,6 +61,12 @@ th {
 // Forms
 
 .list-filters {
+  margin-bottom: 1em;
+
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 2em;
+  }
+
   .form-inline,
   .btn-group {
     @media (min-width: $screen-sm-min) {
@@ -88,6 +94,38 @@ th {
 .division-outcome-summary,
 .division-outcome-score {
   display: inline-block;
+}
+
+// Division lists
+
+.division-item {
+  .division-edit-notice {
+    font-size: $font-size-small;
+  }
+
+  .division-datetime {
+    .display-house-all & {
+      &:after {
+        @media (min-width: 33em) {
+          content: ", "
+        }
+      }
+    }
+  }
+
+  .division-house {
+    display: block;
+
+    @media (min-width: 33em) {
+      display: inline-block;
+    }
+  }
+
+  .division-title {
+    margin-top: .5em;
+    font-size: $font-size-h4;
+    max-width: 35em;
+  }
 }
 
 .divisions-table {
