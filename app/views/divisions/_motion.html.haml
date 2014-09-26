@@ -14,7 +14,9 @@
   .row
     %nav.header-actions.col-md-3
       = link_to "Edit motion", edit_division_path(division), title: "Edit and improve this description", class: "btn btn-default btn-xs"
-      %p= link_to_unless !@division.edited?, "View change history", history_division_path(@division)
+
+      - if @division.edited?
+        = link_to "View change history", history_division_path(@division), class: "btn btn-link btn-xs"
 
     %h2.col-md-9 Motion
   .motion-text
