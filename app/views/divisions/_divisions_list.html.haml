@@ -25,5 +25,5 @@
               %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction_in_party(@party))} attendance
             - else
               %li= division_outcome_with_majority_strength(division)
-              %li= division.rebellions > 0 ? pluralize(division.rebellions, 'rebellions') : "No rebels"
+              %li= division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
               %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction)} attendance
