@@ -67,8 +67,7 @@ Hmm.. yes.[3] And then some
 
 Yup [4].
 
-''References''
-      EOF
+    EOF
     end
 
     it ".inline_footnotes" do
@@ -85,7 +84,6 @@ Hmm.. yes.(Read more) And then some
 
 Yup (Read more about superannuation).
 
-''References''
       EOF
     end
   end

@@ -258,7 +258,13 @@ class Division < ActiveRecord::Base
   end
 
   def self.remove_footnotes(text)
-    text.lines.select{|l| !(l =~ /\* \[(\d+)\] (.*)/)}.join
+    text = text.lines.select{|l| !(l =~ /\* \[(\d+)\] (.*)/)}.join
+    # Remove last line containing ''References'' if it's there
+    if text.strip.lines.last == "''References''"
+      text.strip.lines[0..-2].join
+    else
+      text
+    end
   end
 
   def self.inline_footnotes(text)
