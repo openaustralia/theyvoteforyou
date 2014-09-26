@@ -1,0 +1,5 @@
+- unless distances.empty?
+  %h4= title
+  %ul
+    - distances.joins(:policy).order("policies.name").each do |ppd|
+      %li= link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy]
