@@ -12,9 +12,15 @@
   .dropdown.pull-right
     %button.btn.btn-default.dropdown-toggle{:type =>"button", :id=>"dropdownMenu1", "data-toggle" => "dropdown"}
       - if @sort == "turnout"
-        Sorted by Attendance
+        Sorted by
+        - if @party
+          = @party
+        Attendance
       - elsif @sort == "rebellions"
-        Sorted by Rebellions
+        Sorted by
+        - if @party
+          = @party
+        Rebellions
       - elsif @sort == "subject"
         Sorted Alphabetically
       - elsif @sort.nil?
@@ -23,9 +29,9 @@
 
     %ul.dropdown-menu.dropdown-menu-right{:role => "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{:role => "presentation", :class => "#{'disabled' if @sort == 'turnout'}"}
-        = link_to "Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
+        = link_to "#{@party + ' ' if @party}Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
       %li{:role => "presentation", :class => "#{'disabled' if @sort == 'rebellions'}"}
-        = link_to "Rebellions", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
+        = link_to "#{@party + ' ' if @party}Rebellions", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
       %li{:role => "presentation", :class => "#{'disabled' if @sort == 'subject'}"}
         = link_to "Alphabetically", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject", role: "menuitem", tabindex: "-1"
       %li{:role => "presentation", :class => "#{'disabled' if @sort.nil?}"}
