@@ -21,7 +21,17 @@
             - if @party
               %li
                 = whip_guess_with_strength_in_words(division.whips.find_by(party: @party)).capitalize
-              %li= division.no_rebellions_in_party(@party) > 0 ? pluralize(division.no_rebellions_in_party(@party), 'rebel') : "No rebels"
+              %li
+                - if division.no_rebellions_in_party(@party) > 0
+                  = pluralize(division.no_rebellions_in_party(@party), 'rebellion')
+                  by
+                  = " a " if division.no_rebellions_in_party(@party) == 1
+                  = @party
+                  = "member".pluralize(division.no_rebellions_in_party(@party))
+                - else
+                  No rebellions by
+                  = @party
+                  members
               %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction_in_party(@party))} attendance
             - else
               %li= division_outcome_with_majority_strength(division)
