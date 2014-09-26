@@ -16,7 +16,7 @@ Public Whip was built by the [OpenAustralia Foundation](https://www.openaustrali
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) following the [18 March 2003 Parliamentary Approval for the invasion of Iraq](https://en.wikipedia.org/wiki/18_March_2003_Parliamentary_Approval_for_the_invasion_of_Iraq) as a tool to record which MPs had defied their party's whip long after the information had become effectively inaccessible for reference.
 
 
-## Contribute
+## <a name='contribute'></a>Contribute
 
 Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can see all the full list of contributors, and find out how to contribute yourself.
 
@@ -24,7 +24,7 @@ If you’re not a civic-hacker (yet), you can help make this project better for 
 
 You could also [make a tax deductible donation](https://www.openaustraliafoundation.org.au/donate/) to the OpenAustralia Foundation to support us in creating and maintaining projects like this.
 
-## Contact
+## <a name='contact'></a>Contact
 
 Email the OpenAustralia Foundation at [contact@openaustraliafoundation.org.au](mailto:contact@openaustraliafoundation.org.au).
 
