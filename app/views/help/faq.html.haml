@@ -24,11 +24,6 @@
   %li= link_to "Legal question: what can I use this information for?", "#legal"
   %li= link_to "Can I play with the software?", "#playwith"
   %li= link_to "What licence is the data under?", "#datalicence"
-  %li= link_to "What organisation is behind the Public Whip?", "#organisation"
-
-%ul
-  %li= link_to "Can I help with the project?", "#help"
-  %li= link_to "How can I contact you?", "#contact"
 
 %h2#whatis What is the Public Whip?
 :markdown
@@ -84,15 +79,3 @@
 %h2#datalicence What licence is the data under?
 :markdown
   #{render "help/faq/data_license.md"}
-
-%h2#organisation What organisation is behind the Public Whip?
-:markdown
-  #{render "help/faq/organisation.md"}
-
-%h2#help Can I help with the project?
-:markdown
-  #{render "help/faq/contribute.md"}
-
-%h2#contact How can I contact you?
-:markdown
-  #{render "help/faq/contact.md"}

@@ -4,4 +4,4 @@ politicians’ names and how they voted are only recorded in the official record
 (known as the Hansard) when a division occurs.
 
 Unfortunately, most decisions in Parliament are not made by division
-(see #{link_to "When does a division occur?", "#division-occur"}) and so do not appear on this site.
+(see [When does a division occur?](#division-occur)) and so do not appear on this site.
