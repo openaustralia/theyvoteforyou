@@ -12,13 +12,13 @@
   .dropdown.pull-right
     %button.btn.btn-default.dropdown-toggle{:type =>"button", :id=>"dropdownMenu1", "data-toggle" => "dropdown"}
       - if @sort == "turnout"
-        Sort by Attendance
+        Sorted by Attendance
       - elsif @sort == "rebellions"
-        Sort by Rebellions
+        Sorted by Rebellions
       - elsif @sort == "subject"
-        Sort Alphabetically
+        Sorted Alphabetically
       - elsif @sort.nil?
-        Sort by Date
+        Sorted by Date
       %span.caret
 
     %ul.dropdown-menu.dropdown-menu-right{:role => "menu", "aria-labelledby" => "dropdownMenu1"}
