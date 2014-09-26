@@ -104,9 +104,11 @@ th {
   }
 
   .division-datetime {
-    &:after {
-      @media (min-width: 33em) {
-        content: ", "
+    .display-house-all & {
+      &:after {
+        @media (min-width: 33em) {
+          content: ", "
+        }
       }
     }
   }
