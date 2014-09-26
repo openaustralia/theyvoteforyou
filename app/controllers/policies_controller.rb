@@ -20,7 +20,7 @@ class PoliciesController < ApplicationController
       if @member
         # Pick the member where the votes took place
         @member = @member.person.member_for_policy(@policy)
-        render "members/policy"
+        render "show_with_member"
       else
         render 'members/member_not_found', status: 404
       end
@@ -41,7 +41,7 @@ class PoliciesController < ApplicationController
       @policy = Policy.find(params[:id])
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
-      render "members/policy"
+      render "show_with_member"
     else
       render 'members/member_not_found', status: 404
     end
