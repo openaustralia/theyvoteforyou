@@ -13,4 +13,15 @@
     = nav_link_unless_current("Summary", [@member, @policy], "Show every vote cast by this MP")
     = nav_link_unless_current("Full description", full_member_policy_path(@member, @policy), "Also show descriptions of every vote")
 
-= render "policy_comparison", member: @member, policy: @policy, full: @full
+= render "policy_comparison_intro", member: @member, policy: @policy
+
+- if @full
+  %p
+    Someone who believes that
+    %span.policytext= @policy.description
+    would cast votes described by the policy.
+  = render 'detailed_votes', member: @member, policy: @policy
+- else
+  = render 'vote_summary_table', member: @member, policy: @policy
+
+= render "how_the_number_is_calculated", member: @member, policy: @policy
