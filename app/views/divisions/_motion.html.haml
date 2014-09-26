@@ -1,8 +1,7 @@
 %section.motion.clearfix{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
   - if division.motion_edited?
     %p.division-edit-notice.bg-info.col-md-12
-      Last edited
-      = relative_time division.wiki_motion.edit_date
+      = link_to "Last edited #{relative_time division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
       by
       = link_to division.wiki_motion.user.name, division.wiki_motion.user
   - else
@@ -14,7 +13,6 @@
   .row
     %nav.header-actions.col-md-3
       = link_to "Edit motion", edit_division_path(division), title: "Edit and improve this description", class: "btn btn-default btn-xs"
-      %p= link_to_unless !@division.edited?, "View change history", history_division_path(@division)
 
     %h2.col-md-9 Motion
   .motion-text
