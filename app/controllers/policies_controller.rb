@@ -30,7 +30,6 @@ class PoliciesController < ApplicationController
   def full
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
-    @full = true
 
     @member = Member.with_name(name)
     @member = @member.in_australian_house(params[:house])
@@ -41,7 +40,7 @@ class PoliciesController < ApplicationController
       @policy = Policy.find(params[:id])
       # Pick the member where the votes took place
       @member = @member.person.member_for_policy(@policy)
-      render "show_with_member"
+      render "full"
     else
       render 'members/member_not_found', status: 404
     end
