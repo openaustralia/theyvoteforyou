@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140924013708) do
+ActiveRecord::Schema.define(version: 20140926044752) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -46,10 +46,10 @@ ActiveRecord::Schema.define(version: 20140924013708) do
     t.integer "number",                               null: false
     t.string  "house",      limit: 8,                 null: false
     t.text    "name",                                 null: false
-    t.binary  "source_url",                           null: false
-    t.binary  "debate_url",                           null: false
-    t.binary  "motion",                               null: false
-    t.binary  "notes",                                null: false
+    t.text    "source_url",                           null: false
+    t.text    "debate_url",                           null: false
+    t.text    "motion",                               null: false
+    t.text    "notes",                                null: false
     t.string  "clock_time"
     t.text    "source_gid",                           null: false
     t.text    "debate_gid",                           null: false
@@ -138,7 +138,7 @@ ActiveRecord::Schema.define(version: 20140924013708) do
   create_table "policies", force: true do |t|
     t.string  "name",        limit: 100, null: false
     t.integer "user_id",                 null: false
-    t.binary  "description",             null: false
+    t.text    "description",             null: false
     t.integer "private",     limit: 1,   null: false
   end
 
