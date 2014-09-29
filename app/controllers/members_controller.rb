@@ -11,7 +11,7 @@ class MembersController < ApplicationController
 
     members = Member.current
     members = members.in_australian_house(@house) if @house
-    members = members.includes(:member_info).to_a
+    members = members.includes(:member_info, person: [members: :member_info] ).to_a
 
     @members = case @sort
     when "constituency"
