@@ -1,0 +1,27 @@
+%table.table
+  %thead
+    %tr
+      %th
+      %th= link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
+      - if @house
+        %th= link_to_unless @sort == "constituency", electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label(@house).downcase}"
+      - else
+        %th= link_to_unless @sort == "constituency", electorate_label("all"), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label('all').downcase}"
+      %th= link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
+      %th
+        = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
+        %br/
+        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
+      %th
+        = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
+        %br/
+        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
+  %tbody
+    - @members.each do |member|
+      %tr
+        %td= link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", size: "44x58"), member
+        %td= link_to member.name_without_title, member
+        %td= link_to member.electorate, electorate_path(member)
+        %td= party_long2(member)
+        %td.percent= fraction_to_percentage_display(member.person.rebellions_fraction)
+        %td.percent= fraction_to_percentage_display(member.person.attendance_fraction)
