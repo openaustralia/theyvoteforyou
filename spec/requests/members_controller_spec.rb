@@ -45,6 +45,7 @@ describe MembersController, :type => :request do
 
     context "Barnaby Joyce" do
       before :each do
+        Person.create(id: 10350)
         Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
           first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",
