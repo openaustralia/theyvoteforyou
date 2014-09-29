@@ -22,7 +22,7 @@
       %p.division-edit-notice.alert-warning.alert
         %strong Unedited text
         automatically extracted from the debate.
-        = link_to "Improve the page providing a summary.", edit_division_path(division)
+        = link_to "Improve this page providing a summary.", edit_division_path(division)
     = division.formatted_motion_text
 
   %nav.motion-source-info{:class => "#{'collapse motion-raw-detail' if !division.motion_edited?}"}
