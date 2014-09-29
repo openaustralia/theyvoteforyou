@@ -234,8 +234,24 @@ th {
   .navbar-toggle {
     border-color: rgba(255,255,255,.2);
 
+    &:hover,
+    &:focus {
+      color: #efefef;
+      background-color: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.3);
+    }
+
     .icon-bar {
       background-color: #ddd;
+    }
+  }
+
+  a {
+    &:hover,
+    &:focus {
+      color: #efefef;
+      background-color: inherit !important;
+      text-decoration: underline !important;
     }
   }
 }
