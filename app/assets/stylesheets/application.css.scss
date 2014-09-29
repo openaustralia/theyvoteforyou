@@ -96,6 +96,23 @@ th {
   display: inline-block;
 }
 
+.motion-raw {
+  .motion-text {
+    .speaker {
+      @extend .h4;
+      margin-top: 1.5em;
+    }
+
+    p:not(.speaker) {
+      margin-left: 1em;
+
+      @media (min-width: $screen-sm-min) {
+        // margin-left: 2em;
+      }
+    }
+  }
+}
+
 // Division lists
 
 .division-item {
