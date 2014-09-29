@@ -26,7 +26,7 @@
           %td{:class => no_vote_class(whip)}
             = whip.no_votes_including_tells if whip.no_votes_including_tells > 0
           %td
-            %button.btn.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
+            %button.voter-table-toggle-members.btn.btn-default.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
               %span.sr-only show members
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
