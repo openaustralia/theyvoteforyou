@@ -1,0 +1,37 @@
+.list-filters.clearfix
+  %nav.btn-group
+    = nav_button_link("Both houses", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
+    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
+    = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
+
+  .dropdown.pull-right
+    %button.btn.btn-default.dropdown-toggle{:type =>"button", :id=>"dropdownMenu1", "data-toggle" => "dropdown"}
+      - if @sort == "constituency"
+        Sorted by Electorate
+      - elsif @sort == "rebellions"
+        Sorted by Rebellions
+      - elsif @sort == "party"
+        Sorted by Party
+      - elsif @sort == "attendance"
+        Sorted Attendance
+      - elsif @sort.nil?
+        Sorted by Alphabetically
+      %span.caret
+
+    %ul.dropdown-menu.dropdown-menu-right{:role => "menu", "aria-labelledby" => "dropdownMenu1"}
+      %li{:role => "presentation", :class => "#{'disabled' if @sort == 'constituency'}"}
+        -# TODO: This if could be refactored into a sinlge link_to
+        - if @house
+          = link_to electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label(@house).downcase}", role: "menuitem", tabindex: "-1"
+        - else
+          = link_to electorate_label("all"), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label('all').downcase}", role: "menuitem", tabindex: "-1"
+
+      %li{:role => "presentation", :class => "#{'disabled' if @sort == 'party'}"}
+        = link_to "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party", role: "menuitem", tabindex: "-1"
+      %li{:role => "presentation", :class => "#{'disabled' if @sort == 'rebellions'}"}
+        = link_to "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels", role: "menuitem", tabindex: "-1"
+      %li{:role => "presentation", :class => "#{'disabled' if @sort == @sort.nil?}"}
+        = link_to "Alphabetically", members_path(house: params[:house], sort: nil), title: "Sort by surname", role: "menuitem", tabindex: "-1"
+      -# TODO: fix bug that makes attendance always disabled
+      %li{:role => "presentation", :class => "#{'disabled' if 'attendance'}"}
+        = link_to "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance", role: "menuitem", tabindex: "-1"

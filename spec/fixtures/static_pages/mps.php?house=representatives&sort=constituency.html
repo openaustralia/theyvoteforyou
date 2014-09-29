@@ -64,7 +64,31 @@ Representatives
 <a class="btn btn-sm btn-default active" href="/members/representatives?sort=constituency" title="Members of the House of Representatives">Representatives</a>
 <a class="btn btn-sm btn-default" href="/members/senate?sort=constituency" title="Senators">Senate</a>
 </nav>
+<div class="dropdown pull-right">
+<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" type="button">
+Sorted by Electorate
+<span class="caret"></span>
+</button>
+<ul aria-labelledby="dropdownMenu1" class="dropdown-menu dropdown-menu-right" role="menu">
+<li class="disabled" role="presentation">
+<a href="/members/representatives?sort=constituency" role="menuitem" tabindex="-1" title="Sort by electorate">Electorate</a>
+</li>
+<li class="" role="presentation">
+<a href="/members/representatives?sort=party" role="menuitem" tabindex="-1" title="Sort by party">Party</a>
+</li>
+<li class="" role="presentation">
+<a href="/members/representatives?sort=rebellions" role="menuitem" tabindex="-1" title="Sort by rebels">Rebellions</a>
+</li>
+<li class="" role="presentation">
+<a href="/members/representatives" role="menuitem" tabindex="-1" title="Sort by surname">Alphabetically</a>
+</li>
+<li class="disabled" role="presentation">
+<a href="/members/representatives?sort=attendance" role="menuitem" tabindex="-1" title="Sort by attendance">Attendance</a>
+</li>
+</ul>
 </div>
+</div>
+
 <table class="table">
 <thead>
 <tr>
@@ -103,6 +127,7 @@ Representatives
 </tr>
 </tbody>
 </table>
+
 
 </div>
 <footer class="site-footer">

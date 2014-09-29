@@ -12,10 +12,8 @@
     = yield :title
     %small in the Australian Parliament
 
-.list-filters.clearfix
-  %nav.btn-group
-    = nav_button_link("Both houses", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
-    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
-    = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
+= render "members_chooser", members: @members, sort: @sort, house: @house
+
+-# if sort by rebellions or attendance provide some brief, contextual explanation here.
 
 = render "members_list", members: @members, sort: @sort, house: @house
