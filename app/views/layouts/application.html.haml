@@ -22,35 +22,34 @@
   %body
     = render 'google_analytics'
     %nav.site-header.navbar(role="navigation")
-      .container
-        // Brand and toggle get grouped for better mobile display
-        .navbar-header
-          %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          = link_to root_path, class: "navbar-brand" do
-            the public whip
+      // Brand and toggle get grouped for better mobile display
+      .navbar-header
+        %button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1")
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        = link_to root_path, class: "navbar-brand" do
+          the public whip
 
-        // Collect the nav links, forms, and other content for toggling
-        .collapse.navbar-collapse#bs-example-navbar-collapse-1
-          %ul.nav.navbar-nav
-            %li= link_to "People", members_path, title: "All people currently in Federal Parliament"
-            %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
-            %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
-            %li= link_to "About", about_path, title: "Information about this website"
-            %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
-          %ul.nav.navbar-nav.navbar-right
-            - if user_signed_in?
-              %li
-                = link_to current_user, title: "Change account settings" do
-                  = current_user.name || current_user.email
-              %li
-                = link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into The Public Whip as #{current_user.name || current_user.email}", method: :delete
-            - else
-              %li= link_to "Sign Up", new_user_registration_path, title: "Register to make or edit policies"
-              %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
+      // Collect the nav links, forms, and other content for toggling
+      .collapse.navbar-collapse#bs-example-navbar-collapse-1
+        %ul.nav.navbar-nav
+          %li= link_to "People", members_path, title: "All people currently in Federal Parliament"
+          %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
+          %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
+          %li= link_to "About", about_path, title: "Information about this website"
+          %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
+        %ul.nav.navbar-nav.navbar-right
+          - if user_signed_in?
+            %li
+              = link_to current_user, title: "Change account settings" do
+                = current_user.name || current_user.email
+            %li
+              = link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into The Public Whip as #{current_user.name || current_user.email}", method: :delete
+          - else
+            %li= link_to "Sign Up", new_user_registration_path, title: "Register to make or edit policies"
+            %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
 
     .container
       = render "layouts/bootstrap_flash"
