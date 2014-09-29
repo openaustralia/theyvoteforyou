@@ -1,10 +1,4 @@
-class Person
-  attr_reader :id
-
-  def initialize(params)
-    @id = params[:id]
-  end
-
+class Person < ActiveRecord::Base
   # TODO When Person becomes a table in the db make this an association
   def members
     Member.where(person_id: id)
