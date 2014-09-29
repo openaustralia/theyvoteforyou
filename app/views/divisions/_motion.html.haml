@@ -14,16 +14,17 @@
     - else
       %h2.col-md-12
         Raw division
-        %small.toggle-motion.btn.btn-link{:data => {:toggle => 'collapse', :target => '.motion-text'}}
+        %small.toggle-motion.btn.btn-link{:data => {:toggle => 'collapse', :target => '.motion-raw-detail'}}
           view debate text
 
-  .motion-text{:class => "#{'collapse' if !division.motion_edited?}"}
+  .motion-text{:class => "#{'collapse motion-raw-detail' if !division.motion_edited?}"}
     - if !division.motion_edited?
       %p.division-edit-notice.alert-warning.alert
         %strong Unedited text
         automatically extracted from the debate.
         = link_to "Improve the page providing a summary.", edit_division_path(division)
     = division.formatted_motion_text
-  %nav.motion-source-info
+
+  %nav.motion-source-info{:class => "#{'collapse motion-raw-detail' if !division.motion_edited?}"}
     %ul.list-inline.nav.nav-pills
       %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org", class: "text-muted"
