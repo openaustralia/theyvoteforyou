@@ -149,14 +149,4 @@ module DivisionsHelper
       "division-status-raw"
     end
   end
-
-  def active_house_for_list_class(house)
-    if house == "representatives"
-      "display-house-representatives"
-    elsif house == "senate"
-      "display-house-senate"
-    elsif house == nil
-      "display-house-all"
-    end
-  end
 end

@@ -76,4 +76,14 @@ module ApplicationHelper
   def formatted_date(date, include_nbsp = false)
     include_nbsp ? date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe : date.strftime("%-d %b %Y")
   end
+
+  def active_house_for_list_class(house)
+    if house == "representatives"
+      "display-house-representatives"
+    elsif house == "senate"
+      "display-house-senate"
+    elsif house == nil
+      "display-house-all"
+    end
+  end
 end
