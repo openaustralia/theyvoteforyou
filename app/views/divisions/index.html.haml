@@ -15,11 +15,13 @@
   - if @sort
     (sorted by #{@sort})
 
-.page-header
-  %h1= yield :title
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
 
-  %p.lead
-    In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "jargon")}
+      %p.lead
+        In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "jargon")}
 
 = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
 

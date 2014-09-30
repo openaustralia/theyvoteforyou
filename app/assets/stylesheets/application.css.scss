@@ -293,3 +293,16 @@ th {
     }
   }
 }
+
+// section-header
+
+.section-header {
+  margin-bottom: 2em;
+  background-color: #FFF2B8;
+
+  .page-header {
+    margin-bottom: 0;
+    border: 0;
+    padding-bottom: 0;
+  }
+}
