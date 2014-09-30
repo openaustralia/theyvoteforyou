@@ -101,6 +101,10 @@ you're running an older branch (out of scope for this guide).
 
 ## Production
 
+### Extra Requirements
+
+* Memcached
+
 ### Deployment
 
 The code is deployed using Capistrano. To deploy to staging (the only stage
