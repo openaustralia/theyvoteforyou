@@ -43,25 +43,30 @@ The Public Whip — Counting votes on your behalf
 </ul>
 </div>
 </nav>
-<div class="container">
-
-<div class="row banner-section">
+<div class="row banner-section jumbotron">
 <h1 class="banner-heading col-md-7">
 How does your MP Vote on the issues that matter to you?
 </h1>
 <div class="banner-action col-md-5">
-<p>
+<form action="/search" method="get" name="pw">
+<label for="query">
 Find your representative by
-<strong>postcode</strong>,
+<strong>postcode</strong>
 or
 <strong>name</strong>
-</p>
-<form action="/search" class="form-inline searchtitlebarform" method="get" name="pw">
+</label>
+<div class="input-group">
 <input class="form-control" id="query" maxlength="256" name="query" onblur="fadeout(this)" onfocus="fadein(this)" size="12" />
+<span class="input-group-btn">
 <button class="btn btn-default" name="button" type="submit" value="Submit">Search</button>
+</span>
+</div>
 </form>
 </div>
 </div>
+
+<div class="container">
+
 <h2>Recent controversial divisions</h2>
 <p>
 <a href="/divisions" title="Show all divisions ordered by most recent">Show all divisions ordered by most recent</a>
