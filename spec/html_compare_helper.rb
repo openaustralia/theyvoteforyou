@@ -11,7 +11,7 @@ module HTMLCompareHelper
   def compare(path, signed_in = false)
     raise 'Function deprecated. All comparisons should use compare_static now.'
     if signed_in
-      login_as(users(:one), :scope => :user)
+      login_as(users(:one), scope: :user)
 
       connection = Net::HTTP.new php_server
       text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'}).body
@@ -29,7 +29,7 @@ module HTMLCompareHelper
     agent = Mechanize.new
     headers = {}
     if signed_in
-      login_as(users(:one), :scope => :user)
+      login_as(users(:one), scope: :user)
       headers['Cookie'] = 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'
     end
 
@@ -44,7 +44,7 @@ module HTMLCompareHelper
   end
 
   def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post)
-    login_as(users(:one), :scope => :user) if signed_in
+    login_as(users(:one), scope: :user) if signed_in
 
     if form_params
       if method == :post

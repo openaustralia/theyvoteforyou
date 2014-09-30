@@ -243,10 +243,6 @@ th {
   }
 }
 
-.site-footer {
-  margin-top: 3em;
-}
-
 // header
 
 .site-header {
@@ -305,4 +301,16 @@ th {
     border: 0;
     padding-bottom: 0;
   }
+}
+
+// footer
+
+.site-footer {
+  margin-top: 3em;
+  border-top: 1px #eee solid;
+  padding-top: .5em;
+}
+
+.footer-msg {
+  margin-top: 10px;
 }

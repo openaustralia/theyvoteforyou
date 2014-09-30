@@ -4,16 +4,16 @@
       How does your MP vote on the issues that matter to you?
 
     .banner-action.col-md-5
-      %form{:action => search_path, :method => "get", :name => "pw"}
-        %label{:for => "query"}
+      %form{action: search_path, method: "get", name: "pw"}
+        %label{for: "query"}
           Find your representative by
           %strong postcode
           or
           %strong name
         .input-group
-          %input.form-control#query{:maxlength => "256", :name => "query", :type => "search", :placeholder => "e.g. 2042 or Anthony Albanese"}
+          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. 2042 or Anthony Albanese"}
           %span.input-group-btn
-            %button.btn.btn-primary{:name => "button", :type => "submit", :value => "Submit"} Search
+            %button.btn.btn-primary{name: "button", type: "submit", value: "Submit"} Search
 
 %h2 Recent controversial divisions
 %p
@@ -23,7 +23,7 @@
   - unless @divisions.empty?
     - @divisions.each do |division|
       %tr
-        %td{:class => division.house}= division.australian_house_name
+        %td{class: division.house}= division.australian_house_name
         %td= formatted_date(division.date, true)
         %td= link_to truncate(division.name, length: 180), division
 

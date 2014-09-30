@@ -36,7 +36,7 @@
   %tbody
     - if member.possible_friends.empty?
       %tr
-        %td{:colspan => "4"} No results found
+        %td{colspan: "4"} No results found
     - else
       - possible_friends = member.possible_friends.joins(:member2).order(:distance_a, "members.last_name", "members.first_name")
       - possible_friends = possible_friends.limit(5) if !all_friends

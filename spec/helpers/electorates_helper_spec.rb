@@ -10,5 +10,5 @@ require 'spec_helper'
 #     end
 #   end
 # end
-describe ElectoratesHelper, :type => :helper do
+describe ElectoratesHelper, type: :helper do
 end

@@ -98,7 +98,7 @@ module DivisionsHelper
 
   def division_outcome_with_score(division)
     result = division_outcome(division) + " "
-    result += content_tag(:span, :class => "division-outcome-score") do
+    result += content_tag(:span, class: "division-outcome-score") do
       if division.passed?
         text = division.aye_votes_including_tells.to_s + " – " + division.no_votes_including_tells.to_s
       else

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController, :type => :request do
+describe UsersController, type: :request do
   include HTMLCompareHelper
   fixtures :all
 

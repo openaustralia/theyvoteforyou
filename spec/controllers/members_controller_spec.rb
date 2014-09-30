@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe MembersController, :type => :controller do
+describe MembersController, type: :controller do
 end

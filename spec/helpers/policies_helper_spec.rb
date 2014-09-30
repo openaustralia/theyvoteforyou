@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe PoliciesHelper, :type => :helper do
+describe PoliciesHelper, type: :helper do
   before :each do
     User.delete_all
     Policy.delete_all
