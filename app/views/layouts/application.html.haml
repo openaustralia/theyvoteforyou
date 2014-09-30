@@ -61,13 +61,15 @@
         %p.footer-msg.col-md-8
           A project by the not-for-profit
           =link_to "OpenAustralia Foundation.", "http://www.openaustraliafoundation.org.au/"
+          %button.text-mute.small.btn-link{:data => {:toggle => 'collapse', :target => '#oaf-projects'}}
+            More projects
 
         %ul.social-nav.nav.nav-pills.col-md-4
           %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
           %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
           %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
 
-      .row
+      .row.collapse#oaf-projects
         %p.col-md-12
           Other projects by us that you might find interesting:
         %ul.oaf-projects.nav.nav-pills.col-md-12
