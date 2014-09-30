@@ -7,10 +7,12 @@
   - else
     = members_type("all")
 
-.page-header
-  %h1
-    = yield :title
-    %small in the Australian Parliament
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1
+        = yield :title
+        %small in the Australian Parliament
 
 .list-filters.clearfix
   %nav.btn-group
