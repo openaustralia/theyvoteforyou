@@ -11,6 +11,7 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
+  belongs_to :person
 
   delegate :small_image_url, :large_image_url, to: :person
 
@@ -22,10 +23,6 @@ class Member < ActiveRecord::Base
     first_name = name[0]
     last_name = name[1..-1].join(' ')
     [first_name, last_name]
-  end
-
-  def person
-    Person.new(id: person_id)
   end
 
   def changed_party?

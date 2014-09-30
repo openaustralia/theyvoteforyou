@@ -9,11 +9,7 @@ class PolicyPersonDistance < ActiveRecord::Base
                 distance_b: 0.0
 
   belongs_to :policy
-
-  # TODO replace with association when we can
-  def person
-    Person.new(id: person_id)
-  end
+  has_one :person
 
   def distance_object
     Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)

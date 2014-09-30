@@ -1,24 +1,7 @@
-class Person
-  attr_reader :id
-
-  def initialize(params)
-    @id = params[:id]
-  end
-
-  # TODO When Person becomes a table in the db make this an association
-  def members
-    Member.where(person_id: id)
-  end
-
-  # TODO When Person becomes a table in the db make this an association
-  def policy_person_distances
-    PolicyPersonDistance.where(person_id: id)
-  end
-
-  # TODO When Person becomes a table in the db make this an association
-  def offices
-    Office.where(person_id: id)
-  end
+class Person < ActiveRecord::Base
+  has_many :members
+  has_many :policy_person_distances
+  has_many :offices
 
   # Total number of rebellions across all members for this person
   def rebellions

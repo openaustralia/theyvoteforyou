@@ -36,7 +36,7 @@ module DataLoader
             person_id = People.member_to_person[member[:id]]
             raise "MP #{member[:id]} has no person" unless person_id
             person_id = person_id[/uk.org.publicwhip\/person\/(\d*)/, 1]
-
+            person = Person.find_or_create_by!(id: person_id)
             m = Member.find_or_initialize_by(gid: gid, id: id)
             m.update!(first_name: XML.escape_html(member[:firstname]),
                            last_name: XML.escape_html(member[:lastname]),
