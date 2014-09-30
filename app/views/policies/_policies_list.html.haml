@@ -1,0 +1,28 @@
+%table.table
+  %thead
+    %tr
+      %th Policy
+      %th
+        Votes
+        %i (unedited)
+  %tbody
+    - if @policies
+      - @policies.each do |policy|
+        %tr
+          %td
+            For
+            = link_to policy.name, policy
+            - if policy.provisional?
+              %i (provisional)
+          %td
+            = "#{policy.votes_count} "
+            - if policy.unedited_motions_count != 0
+              %i= "(#{policy.unedited_motions_count})"
+    - else
+      %tr
+        %td{:colspan => "4"}
+          No policies match this person's votes. You can
+          -# TODO Use path helper
+          = link_to "edit or make a policy that will appear here.", policies_path
+
+%p= "That makes #{@policies.size} policies which have voted in at least one division."
