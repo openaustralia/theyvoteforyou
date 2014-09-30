@@ -1,7 +1,9 @@
 - content_for :title, "Help — Frequently Asked Questions"
 
-.page-header
-  %h1= yield :title
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
 
 %ul
   %li= link_to "What is the Public Whip?", "#whatis"
