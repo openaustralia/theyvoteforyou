@@ -65,6 +65,9 @@ h2 {
 }
 
 .banner-action {
+  @media (min-width: $screen-sm-min) {
+    margin: 3em auto;
+  }
   label {
     font-weight: normal;
   }
