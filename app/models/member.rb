@@ -11,7 +11,7 @@ class Member < ActiveRecord::Base
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
-  belongs_to :person
+  belongs_to :person, touch: true
 
   delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person
 

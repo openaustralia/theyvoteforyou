@@ -1,5 +1,5 @@
 class MemberInfo < ActiveRecord::Base
-  belongs_to :member
+  belongs_to :member, touch: true
 
   def self.update_all!
     rebellions = all_rebellion_counts
