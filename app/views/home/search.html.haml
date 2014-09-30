@@ -39,11 +39,11 @@
     %tbody
       - if @divisions.empty?
         %tr
-          %td{:colspan => "9"} no divisions found
+          %td{colspan: "9"} no divisions found
       - else
         - @divisions.each do |division|
           %tr
-            %td{:class => division.house}= division.australian_house_name
+            %td{class: division.house}= division.australian_house_name
             %td= formatted_date(division.date, true)
             %td= division.clock_time
             %td= link_to division.name, division_path(division)

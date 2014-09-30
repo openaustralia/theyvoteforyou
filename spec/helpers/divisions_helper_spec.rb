@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DivisionsHelper, :type => :helper do
+describe DivisionsHelper, type: :helper do
   describe "#division_outcome" do
     context "Motion passed" do
       it { expect(helper.division_outcome(mock_model(Division, passed?: true))).to eq "Passed" }

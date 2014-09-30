@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Vote, :type => :model do
+describe Vote, type: :model do
 
 end
