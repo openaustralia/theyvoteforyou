@@ -251,7 +251,7 @@ th {
 
 .site-header {
   // background-color: #1B1934;
-  background-color: #E9A525;
+  background-color: #FFEA8A;
   border-radius: 0;
   margin-bottom: 0;
 
@@ -267,7 +267,7 @@ th {
 
   .navbar-toggle,
   a {
-    color: #fff;
+    color: #333;
   }
 
   .navbar-toggle {
@@ -275,7 +275,7 @@ th {
 
     &:hover,
     &:focus {
-      color: #efefef;
+      color: #111;
       background-color: rgba(255,255,255,.2);
       border-color: rgba(255,255,255,.3);
     }
@@ -288,7 +288,7 @@ th {
   a {
     &:hover,
     &:focus {
-      color: #efefef;
+      color: #111;
       background-color: inherit !important;
       text-decoration: underline !important;
     }
