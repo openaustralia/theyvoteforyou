@@ -50,6 +50,14 @@ h2 {
 
 // Banners
 
+.jumbotron {
+  background-color: #ffbb43;
+
+  .banner-heading {
+    color: #fff;
+  }
+}
+
 .banner-section {
   @media (min-width: $screen-sm-min) {
     text-align: center;
@@ -242,7 +250,8 @@ th {
 // header
 
 .site-header {
-  background-color: #1B1934;
+  // background-color: #1B1934;
+  background-color: #E9A525;
   border-radius: 0;
   margin-bottom: 0;
 
@@ -258,7 +267,7 @@ th {
 
   .navbar-toggle,
   a {
-    color: #ddd;
+    color: #fff;
   }
 
   .navbar-toggle {
