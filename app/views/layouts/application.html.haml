@@ -51,6 +51,8 @@
             %li= link_to "Sign Up", new_user_registration_path, title: "Register to make or edit policies"
             %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
 
+    = yield :header
+
     .container
       = render "layouts/bootstrap_flash"
       = yield

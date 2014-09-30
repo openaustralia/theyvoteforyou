@@ -1,33 +1,19 @@
-.row
-  .col-md-8.col-md-push-4
-    %h1
-      Find out how
-      %span.emph your
-      MP votes on the issues
-      %span.emph you
-      care about.
-    %p
-      Every week, a dozen or so times, your MP votes on changes to Australian law. This is their definitive exercise of
-      power on your behalf.
-    %p In order to know whether your MP is representing your views on the issues, you need to know how they’ve voted.
-    %p The Public Whip lets you see all their votes so you can hold them to account.
-  .col-md-4.col-md-pull-8
-    %h2 Search the Whip
-    %p
-      Enter your
-      = succeed "," do
-        %strong postcode
-      a
-      %strong Representative
-      or
-      = succeed "," do
-        %strong Senator’s name
-      or a particular
-      %strong topic
-      of interest
-    %form.form-inline.searchtitlebarform{:action => search_path, :method => "get", :name => "pw"}
-      %input.form-control#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
-      %button.btn.btn-default{:name => "button", :type => "submit", :value => "Submit"} Submit
+- content_for :header do
+  .row.banner-section.jumbotron
+    %h1.banner-heading.col-md-8
+      How does your MP vote on the issues that matter to you?
+
+    .banner-action.col-md-5
+      %form{:action => search_path, :method => "get", :name => "pw"}
+        %label{:for => "query"}
+          Find your representative by
+          %strong postcode
+          or
+          %strong name
+        .input-group
+          %input.form-control#query{:maxlength => "256", :name => "query", :type => "search", :placeholder => "e.g. 2042 or Anthony Albanese"}
+          %span.input-group-btn
+            %button.btn.btn-primary{:name => "button", :type => "submit", :value => "Submit"} Search
 
 %h2 Recent controversial divisions
 %p
