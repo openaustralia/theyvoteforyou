@@ -300,6 +300,12 @@ th {
     margin-bottom: 0;
     border: 0;
     padding-bottom: 0;
+
+    .lead {
+      @media (min-width: $screen-md-min) {
+        max-width: 65%; // 8/12 columns
+      }
+    }
   }
 }
 
