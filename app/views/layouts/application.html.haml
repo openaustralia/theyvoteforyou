@@ -57,38 +57,26 @@
       = render "layouts/bootstrap_flash"
       = yield
     %footer.site-footer
-      #footer1
-        .container
-          .row
-            .col-md-8
-              %h3 About the Project
+      .container
+        .row
+          %p.footer-msg.col-md-8
+            An
+            =link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"
+            project.
+            =# link_to "More projects", "https://www.openaustraliafoundation.org.au/projects/", class: "text-mute small btn-link"
 
-              %p
-                The Public Whip is brought to you by the not-for-profit
-                #{link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"}.
-                It is based on the
-                = link_to "UK site", "http://www.publicwhip.org.uk/"
-                of the same name.
 
-              %p
-                If you'd like to talk to us about the project, please
-                #{mail_to "contact@openaustraliafoundation.org.au", "email us"}.
+          %ul.social-nav.nav.nav-pills.col-md-4
+            %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
+            %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
+            %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
 
-            .col-md-4
-              %h3 The Whip on the Web
-              %ul.social
-                %li.wp= link_to "OpenAustralia Foundation Blog", "https://www.openaustraliafoundation.org.au/blog/"
-                %li.tw= link_to "Twitter", "http://twitter.com/openaustralia"
-
-      #footer2
-        .container
-          %div
-            Other projects by us that you might find interesting:
-          %div
+        .row#oaf-projects
+          %p.col-md-12
+            Explore our other projects:
             #{link_to "OpenAustralia", "http://www.openaustralia.org"},
             #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
-            = link_to "Right To Know", "http://www.righttoknow.org.au"
-            and
+            #{link_to "Right To Know", "http://www.righttoknow.org.au"} and
             #{link_to "Planning Alerts", "http://www.planningalerts.org.au"}.
 
     = javascript_include_tag "application"
