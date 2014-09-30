@@ -1,23 +1,16 @@
 .row.banner-section
   %h1.banner-heading.col-md-7
     How does your MP Vote on the issues that matter to you?
-  .banner-action.col-md-4
-    %h2 Search the Whip
+  .banner-action.col-md-5
     %p
-      Enter your
+      Find your representative by
       = succeed "," do
         %strong postcode
-      a
-      %strong Representative
       or
-      = succeed "," do
-        %strong Senator’s name
-      or a particular
-      %strong topic
-      of interest
+      %strong name
     %form.form-inline.searchtitlebarform{:action => search_path, :method => "get", :name => "pw"}
       %input.form-control#query{:maxlength => "256", :name => "query", :onblur => "fadeout(this)", :onfocus => "fadein(this)", :size => "12"}/
-      %button.btn.btn-default{:name => "button", :type => "submit", :value => "Submit"} Submit
+      %button.btn.btn-default{:name => "button", :type => "submit", :value => "Submit"} Search
 
 %h2 Recent controversial divisions
 %p
