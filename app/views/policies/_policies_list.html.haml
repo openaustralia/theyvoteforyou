@@ -8,7 +8,7 @@
           - if policy.provisional?
             %em (provisional)
           %small
-            = pluralize(policy.votes_count, "division")
+            = pluralize(policy.divisions.count, "division")
             - if policy.unedited_motions_count != 0
               %em= "(#{policy.unedited_motions_count} unedited)"
 - else

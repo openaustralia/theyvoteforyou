@@ -16,16 +16,12 @@ class Policy < ActiveRecord::Base
     policy_division.vote if policy_division
   end
 
-  def votes_count
-    policy_divisions.count
-  end
-
   def edited_motions_count
     divisions.select { |d| d.edited? }.count
   end
 
   def unedited_motions_count
-    votes_count - edited_motions_count
+    divisions.count - edited_motions_count
   end
 
   def provisional?
