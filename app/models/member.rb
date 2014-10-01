@@ -116,10 +116,13 @@ class Member < ActiveRecord::Base
   end
 
   def last_name
+    # I'm going to take a guess that this is slow in production
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     HTMLEntities.new.decode(original_last_name)
   end
+
+  add_method_tracer :last_name, 'Custom/Member/last_name'
 
   def original_constituency
     read_attribute(:constituency)
