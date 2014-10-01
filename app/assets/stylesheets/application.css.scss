@@ -79,6 +79,21 @@ th {
   }
 }
 
+// Members
+.members-list {
+  .member-avatar {
+    width: 30%;
+    padding-right: 3%;
+    float: left;
+  }
+
+  .member-party,
+  .member-data {
+    float: right;
+    width: 70%;
+  }
+}
+
 // Divisions
 
 .motion-source-info {
