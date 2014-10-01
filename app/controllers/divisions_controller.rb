@@ -160,7 +160,7 @@ class DivisionsController < ApplicationController
     if policy_division.update(policy_division_params)
       flash[:notice] = 'Updated policy connection'
     else
-      flash[:error] = 'Could not remove policy connection'
+      flash[:error] = 'Could not update policy connection'
     end
 
     # TODO Just point to the object when the path helper has been refactored
