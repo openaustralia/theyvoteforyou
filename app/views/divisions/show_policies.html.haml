@@ -22,6 +22,8 @@
     %legend.small
       %p Connect this division with relevant policies.
       %p Please read policy definitions and the division’s description before altering list.
+    - if @policy_division.errors.any?
+      .alert.alert-danger= @policy_division.errors.full_messages.to_sentence
     %fieldset
       %label People who are
       - # TODO: Don't display policies already selected
