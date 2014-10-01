@@ -115,6 +115,7 @@ class Member < ActiveRecord::Base
     read_attribute(:last_name)
   end
 
+  # TODO Remove the entities transformation below because it's REALLY SLOW
   def last_name
     # I'm going to take a guess that this is slow in production
     # For some reason some characters are stored in the database using html entities
