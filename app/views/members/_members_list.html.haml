@@ -4,7 +4,7 @@
       %article.member-item.panel-body
         %h2.member-title
           %span.member-name
-          = link_to member.name_without_title, member
+            = link_to member.name_without_title, member
         = link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-avatar"), member
         %span.member-party.inline-post-title= party_long2(member)
 
