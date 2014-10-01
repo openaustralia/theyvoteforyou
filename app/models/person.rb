@@ -39,20 +39,12 @@ class Person < ActiveRecord::Base
     votes_attended.to_f / votes_possible if votes_possible > 0
   end
 
-  def small_image_url
-    "http://www.openaustralia.org/images/mps/#{id}.jpg"
-  end
-
-  def large_image_url
-    "http://www.openaustralia.org/images/mpsL/#{id}.jpg"
-  end
-
   def show_large_image?
-    !Rails.env.production? || CheckResourceExists.call(self.large_image_url)
+    !!large_image_url
   end
 
   def show_small_image?
-    !Rails.env.production? || CheckResourceExists.call(self.small_image_url)
+    !!small_image_url
   end
 
   def member_who_voted_on_division(division)

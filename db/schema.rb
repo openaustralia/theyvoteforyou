@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001030631) do
+ActiveRecord::Schema.define(version: 20141001075857) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -152,6 +152,8 @@ ActiveRecord::Schema.define(version: 20141001030631) do
   create_table "people", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "small_image_url"
+    t.text     "large_image_url"
   end
 
   create_table "policies", force: true do |t|

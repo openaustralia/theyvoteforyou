@@ -32,11 +32,12 @@ namespace :application do
   end
 
   namespace :load do
-    desc 'Reloads members, offices and electorates from XML files'
+    desc 'Reloads members, offices and electorates from XML files and updates people images'
     task :members => [:environment, :set_logger_to_stdout] do
       DataLoader::Electorates.load!
       DataLoader::Offices.load!
       DataLoader::Members.load!
+      DataLoader::People.load_missing_images!
     end
 
     desc 'Load divisions from XML for a specified date'
