@@ -1,13 +1,14 @@
 - content_for :title, 'Policies'
 
-.page-header
-  %nav.header-actions.col-md-3
-    =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
-  %h1= yield :title
-  %p.lead
-    Policies are stated positions on a particular issue. For example
-    "Process asylum seekers offshore", or "Legalise same sex marriage".
-    Each policy has a definition and a way to vote in relevant
-    divisions in Parliament.
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %nav.header-actions.col-md-3
+        =link_to "New policy", new_policy_path, :class => "btn btn-primary btn-xs"
+      %h1= yield :title
+      %p.lead
+        Policies are stated positions on a particular issue.
+        Find out where your MP stood each time an aspect of
+        a policy was voted on in Parliament.
 
 = render "policies_list", policies: @policies

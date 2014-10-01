@@ -1,5 +1,3 @@
-# About
-
 In Australia, every 4 years or so, we all head to the polling booths across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and ultimately pass legislation to create the society we want, one which works for us.
 
 But how do you know that the individual speaking for you in your electorate votes in your interest, or even bothers to turn up at all. Have they ever, even once, voted against their party on an issue people like you in your electorate care about?
