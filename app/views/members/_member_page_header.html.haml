@@ -1,5 +1,6 @@
 .page-header
-  - cache ["v1", "photo", member.person] do
+  -# Don't want all the photo caches to expire at the same time
+  - cache ["v1", "photo", member.person], expires_in: Random.rand(24.0..48.0).hours do
     - if member.show_large_image?
       = image_tag(member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
   %h1= member.name_without_title
