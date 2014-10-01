@@ -86,6 +86,7 @@ th {
     @media (min-width: 40em) {
     }
   }
+
   .member-title {
     margin-top: 0;
     font-size: $font-size-h4;
@@ -101,12 +102,25 @@ th {
     width: 30%;
     padding-right: 3%;
     float: left;
+
+    @media (min-width: $screen-md-min) {
+      width: 16%;
+      padding-right: 3%;
+    }
   }
 
   .member-party,
   .member-data {
     float: right;
     width: 70%;
+  }
+
+  .member-title,
+  .member-party,
+  .member-data {
+    @media (min-width: $screen-md-min) {
+      width: 84%;
+    }
   }
 }
 
