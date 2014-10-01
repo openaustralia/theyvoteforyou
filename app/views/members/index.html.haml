@@ -42,7 +42,8 @@
     - @members.each do |member|
       %tr
         %td
-          - cache ["v1", "photo", member.person] do
+          -# Don't want all the photo caches to expire at the same time
+          - cache ["v1", "photo", member.person], expires_in: Random.rand(24.0..48.0).hours do
             - if member.show_small_image?
               = link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", size: "44x58"), member
         %td= link_to member.name_without_title, member
