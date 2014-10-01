@@ -1,5 +1,7 @@
 .page-header
-  = image_tag(member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
+  - cache ["v1", "photo", member.person] do
+    - if member.show_large_image?
+      = image_tag(member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
   %h1= member.name_without_title
   %p.lead= member_type_party_place_sentence(member)
   - if !member.person.current_offices.empty?
