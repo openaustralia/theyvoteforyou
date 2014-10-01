@@ -53,19 +53,15 @@
       or you can see how it should be broken down, discuss it with others
       and fix it.
 
-= form_for @policy do |f|
+= simple_form_for @policy do |f|
   .form-group
-    %label If you are for
-    %input.form-control{:maxlength => "50", :name => "name", :size => "40", :type => "text", :value => (params[:name] || ''), :placeholder => "equal treatment of same-sex couples"}/
+    = f.input :name, label: 'If you are for', required: false, placeholder: 'equal treatment of same-sex couples', input_html: {class: 'form-control', maxlength: 50, size: 40}
   .form-group
-    %label you believe that
-    %textarea.form-control{:cols => "80", :name => "description", :rows => "6", placeholder: "the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples"}= params[:description]
+    = f.input :description, label: 'you believe that', required: false, placeholder: 'the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples', input_html: {class: 'form-control', cols: 80, rows: 6}
   %p
     %span.ptitle Privacy notes:
-    By creating a policy
-    you are making your name
+    By creating a policy you are making your name
     %b= current_user.name
-    and the policy's voting
-    record public.
-  %input.btn.btn-primary{:name => "submit", :type => "submit", :value => "Make Policy"}/
-  %input.btn.btn-default{:name => "submit", :type => "submit", :value => "Cancel"}/
+    and the policy's voting record public.
+  = f.button :submit, class: 'btn-primary', value: 'Make Policy'
+  = f.button :submit, class: 'btn-default', value: 'Cancel'
