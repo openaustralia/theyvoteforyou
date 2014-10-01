@@ -28,10 +28,10 @@ describe PoliciesController, type: :request do
 
     it { compare_static '/policies/new', true, false }
 
-    it { compare_static '/policies', true, {submit: 'Make Policy', name: 'nuclear power', description: 'nuclear power is great.'} }
+    it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: 'nuclear power', description: 'nuclear power is great.'}} }
 
-    it { compare_static '/policies', true, {submit: 'Make Policy', name: '', description: 'nuclear power is great.'}, "_2" }
-    it { compare_static '/policies', true, {submit: 'Make Policy', name: 'nuclear power', description: ''}, "_3" }
+    it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: '', description: 'nuclear power is great.'}}, "_2" }
+    it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: 'nuclear power', description: ''}}, "_3" }
   end
 
   describe '#update' do
