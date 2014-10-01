@@ -59,11 +59,12 @@ class PoliciesController < ApplicationController
   end
 
   def create
-    if params[:submit] == 'Make Policy'
-      @policy = Policy.new name: params[:name], description: params[:description], user: current_user, private: 2
+    if params[:commit] == 'Make Policy'
+      @policy = Policy.new name: params[:policy][:name], description: params[:policy][:description], user: current_user, private: 2
       if @policy.save
         redirect_to @policy, notice: 'Successfully made new policy'
       else
+        flash[:alert] = 'Creating a new policy not complete, please try again'
         render 'new'
       end
     else

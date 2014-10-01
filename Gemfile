@@ -32,6 +32,7 @@ gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce8
 gem 'safe_attributes'
 gem 'newrelic_rpm'
 gem 'devise'
+gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'
 gem 'ranker'
@@ -48,12 +49,14 @@ gem "reverse_markdown"
 gem 'paper_trail'
 # TODO This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
+gem 'simple_form', '3.1.0.rc2' # Ask for 3.1rc since it plays nicer with Bootstrap 3
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
   gem "database_cleaner"
   gem 'rspec-activemodel-mocks'
+  gem 'webmock'
 end
 
 group :development do
@@ -79,6 +82,10 @@ end
 group :test, :development do
   gem 'rspec-rails'
   gem 'fuubar'
+end
+
+group :production do
+  gem 'dalli'
 end
 
 group :doc do
