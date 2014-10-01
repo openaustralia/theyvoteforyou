@@ -6,7 +6,7 @@
       %li.panel.panel-default
         %article.division-item.panel-body{:class => "#{division_edit_status_class(division)}"}
           .division-edit-notice.pull-right.text-muted
-            - if division.motion_edited?
+            - if division.edited?
               edited
               = relative_time division.wiki_motion.edit_date
             - else

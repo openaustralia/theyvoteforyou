@@ -143,7 +143,7 @@ module DivisionsHelper
   end
 
   def division_edit_status_class(division)
-    if division.motion_edited?
+    if division.edited?
       "division-status-edited"
     else
       "division-status-raw"

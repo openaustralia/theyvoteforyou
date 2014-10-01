@@ -21,7 +21,7 @@ class Policy < ActiveRecord::Base
   end
 
   def edited_motions_count
-    divisions.select { |d| d.motion_edited? }.count
+    divisions.select { |d| d.edited? }.count
   end
 
   def unedited_motions_count

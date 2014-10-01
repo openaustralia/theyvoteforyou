@@ -1,5 +1,5 @@
-%section.motion.clearfix{class: division.motion_edited? ? "motion-edited" : "motion-raw"}
-  - if division.motion_edited?
+%section.motion.clearfix{class: division.edited? ? "motion-edited" : "motion-raw"}
+  - if division.edited?
     %p.division-edit-notice.bg-info.col-md-12
       = link_to "Last edited #{relative_time division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
       by

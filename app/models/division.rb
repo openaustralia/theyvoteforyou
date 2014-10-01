@@ -141,10 +141,6 @@ class Division < ActiveRecord::Base
     read_attribute(:motion)
   end
 
-  def motion_edited?
-    !wiki_motion.nil?
-  end
-
   def oa_debate_url
     case australian_house
     when "representatives"
