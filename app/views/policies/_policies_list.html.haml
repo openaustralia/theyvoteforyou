@@ -7,9 +7,10 @@
           = link_to policy.name, policy
           - if policy.provisional?
             %em (provisional)
-          = "#{policy.votes_count} "
-          - if policy.unedited_motions_count != 0
-            %em= "(#{policy.unedited_motions_count})"
+          %small
+            = "#{policy.votes_count} "
+            - if policy.unedited_motions_count != 0
+              %em= "(#{policy.unedited_motions_count})"
 - else
   %p
     No policies match this person's votes. You can
