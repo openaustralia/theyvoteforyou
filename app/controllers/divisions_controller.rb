@@ -110,6 +110,7 @@ class DivisionsController < ApplicationController
   def show_policies
     @display = "policies"
     @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    @policy_division = @division.policy_divisions.new
   end
 
   def edit
@@ -137,17 +138,19 @@ class DivisionsController < ApplicationController
   end
 
   def create_policy_division
-    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    policy_division = division.policy_divisions.new(policy_division_params)
+    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    @policy_division = @division.policy_divisions.new(policy_division_params)
 
-    if policy_division.save
-      policy_division.policy.delay.calculate_member_distances!
+    if @policy_division.save
+      @policy_division.policy.delay.calculate_member_distances!
+      # TODO Just point to the object when the path helper has been refactored
+      redirect_to division_policies_path(house: @division.australian_house, date: @division.date, number: @division.number)
     else
       flash[:error] = 'Could not connect policy'
+      @display = "policies"
+      render 'show_policies'
     end
 
-    # TODO Just point to the object when the path helper has been refactored
-    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
   end
 
   def update_policy_division

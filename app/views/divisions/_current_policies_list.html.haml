@@ -2,7 +2,7 @@
   - @division.policies.order(:name).each do |policy|
     %li.division-policy
       - if @display == "policies" && user_signed_in?
-        = form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+        = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
           %label.division-policy-statement
             People who are for
             - # TODO remove this downcase, it shouldn't be needed
