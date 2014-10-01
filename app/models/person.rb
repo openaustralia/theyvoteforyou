@@ -48,11 +48,11 @@ class Person < ActiveRecord::Base
   end
 
   def show_large_image?
-    CheckResourceExists.call(self.large_image_url)
+    !Rails.env.production? || CheckResourceExists.call(self.large_image_url)
   end
 
   def show_small_image?
-    CheckResourceExists.call(self.small_image_url)
+    !Rails.env.production? || CheckResourceExists.call(self.small_image_url)
   end
 
   def member_who_voted_on_division(division)
