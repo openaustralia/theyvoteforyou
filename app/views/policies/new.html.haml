@@ -50,14 +50,12 @@
       and fix it.
 
 = simple_form_for @policy do |f|
-  .form-group
-    = f.input :name, label: 'If you are for', required: false, placeholder: 'equal treatment of same-sex couples', input_html: {class: 'form-control', maxlength: 50, size: 40}
-  .form-group
-    = f.input :description, label: 'you believe that', required: false, placeholder: 'the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples', input_html: {class: 'form-control', cols: 80, rows: 6}
+  = f.input :name, label: 'If you are for', required: false, placeholder: 'equal treatment of same-sex couples'
+  = f.input :description, label: 'you believe that', required: false, placeholder: 'the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples', input_html: {rows: 6}
   %p
     %span.ptitle Privacy notes:
     By creating a policy you are making your name
     %b= current_user.name
     and the policy's voting record public.
   = f.button :submit, class: 'btn-primary', value: 'Make Policy'
-  = f.button :submit, class: 'btn-default', value: 'Cancel'
+  = f.button :submit, value: 'Cancel'
