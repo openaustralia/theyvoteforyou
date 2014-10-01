@@ -3,11 +3,7 @@
 .page-header
   %h1= yield :title
 
-- if @policy.errors.any?
-  .error
-    %h2 Creating a new policy not complete, please try again
-    %p Please name your policy, and give a definition.
-- else
+- if !@policy.errors.any?
   %p
     Here you have to name and describe the policy. Afterwards, you
     will be able to select which votes support the policy. The new

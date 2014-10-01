@@ -64,6 +64,7 @@ class PoliciesController < ApplicationController
       if @policy.save
         redirect_to @policy, notice: 'Successfully made new policy'
       else
+        flash[:alert] = 'Creating a new policy not complete, please try again'
         render 'new'
       end
     else
