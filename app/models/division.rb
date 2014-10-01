@@ -13,6 +13,7 @@ class Division < ActiveRecord::Base
   # TODO This doesn't exactly match the wording in the interface. Fix this.
   scope :with_rebellions, -> { joins(:division_info).where("rebellions > 10") }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
+  scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
 
   def whip_for_party(party)
     whips.where(party: party).first

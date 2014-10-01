@@ -17,7 +17,7 @@ class Policy < ActiveRecord::Base
   end
 
   def unedited_motions_count
-    divisions.select { |d| !d.edited? }.count
+    divisions.unedited.count
   end
 
   def provisional?
