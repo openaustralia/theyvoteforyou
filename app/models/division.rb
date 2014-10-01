@@ -5,7 +5,7 @@ class Division < ActiveRecord::Base
   has_many :policy_divisions
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
-
+  has_one :wiki_motion, -> {order(edit_date: :desc)}
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
@@ -28,10 +28,6 @@ class Division < ActiveRecord::Base
 
   def attendance_fraction_in_party(party)
     whip_for_party(party).attendance_fraction
-  end
-
-  def wiki_motion
-    wiki_motions.first
   end
 
   def self.most_recent_date
