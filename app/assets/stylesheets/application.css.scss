@@ -81,11 +81,22 @@ th {
 
 // Members
 .members-list {
+  .member-item {
+    padding-top: 1em;
+    @media (min-width: 40em) {
+    }
+  }
   .member-title {
-    margin-top: .5em;
+    margin-top: 0;
     font-size: $font-size-h4;
+
+    @media (min-width: 40em) {
+      float: right;
+      width: 70%;
+    }
   }
 
+  // TODO: change percentage values to col variables
   .member-avatar {
     width: 30%;
     padding-right: 3%;
