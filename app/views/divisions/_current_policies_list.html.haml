@@ -5,8 +5,7 @@
         = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
           %label.division-policy-statement
             People who are for
-            - # TODO remove this downcase, it shouldn't be needed
-            = link_to policy.name.downcase, policy
+            = link_to policy.name, policy
             - if policy.provisional?
               %em (provisional)
             would have voted
@@ -20,8 +19,7 @@
       - else
         %p.division-policy-statement
           People who are for
-          - # TODO remove this downcase, it shouldn't be needed
-          = link_to policy.name.downcase, policy
+          = link_to policy.name, policy
           - if policy.provisional?
             %em (provisional)
           would have voted '#{simple_vote_display @division.policy_vote(policy)}'
