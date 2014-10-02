@@ -142,7 +142,6 @@ class DivisionsController < ApplicationController
     @policy_division = @division.policy_divisions.new(policy_division_params)
 
     if @policy_division.save
-      @policy_division.policy.delay.calculate_member_distances!
       # TODO Just point to the object when the path helper has been refactored
       redirect_to division_policies_path(house: @division.australian_house, date: @division.date, number: @division.number)
     else
