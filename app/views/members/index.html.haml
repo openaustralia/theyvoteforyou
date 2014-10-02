@@ -1,9 +1,4 @@
-- content_for :title do
-  Current
-  - if @house
-    = members_type(@house)
-  - else
-    = members_type("all")
+- content_for :title, @house ? members_type(@house) : members_type("all")
 
 - content_for :header do
   .section-header.clearfix
