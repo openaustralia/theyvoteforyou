@@ -1,10 +1,10 @@
 namespace :application do
   namespace :cache do
     desc 'Update all the caches'
-    task all: [:whip, :member, :division, :member_distances]
+    task all: [:whip, :member, :division, :policy_distances, :member_distances]
 
     desc 'Update all the caches, excluding member_distances (as they take ages)'
-    task all_except_member_distances: [:whip, :member, :division]
+    task all_except_member_distances: [:whip, :member, :division, :policy_distances]
 
     desc 'Rebuilds the whole cache of agreement between members'
     task member_distances: :environment do
@@ -28,6 +28,12 @@ namespace :application do
     task division: :whip do
       puts "Updating division cache..."
       DivisionInfo.update_all!
+    end
+
+    desc 'Update cache of guessed whips'
+    task :policy_distances => :environment do
+      puts "Updating policy distance cache..."
+      Policy.update_all!
     end
   end
 

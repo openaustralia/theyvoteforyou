@@ -39,6 +39,10 @@ class Policy < ActiveRecord::Base
     end
   end
 
+  def self.update_all!
+    all.each { |p| p.calculate_member_distances! }
+  end
+
   def calculate_member_distances!
     policy_person_distances.delete_all
 
