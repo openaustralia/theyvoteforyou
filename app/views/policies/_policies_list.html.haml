@@ -1,20 +1,10 @@
-- if @policies
-  %ul.list-unstyled
-    - @policies.each do |policy|
-      %li
-        %h2
-          For
-          = link_to policy.name, policy
-          - if policy.provisional?
-            %em (provisional)
-          %small
-            = pluralize(policy.divisions.count, "division")
-            - if policy.unedited_motions_count != 0
-              %em= "(#{policy.unedited_motions_count} unedited)"
-- else
-  %p
-    No policies match this person's votes. You can
-    -# TODO Use path helper
-    = link_to "edit or make a policy that will appear here.", policies_path
-
-%p= "That makes #{@policies.size} policies which have voted in at least one division."
+%ul.list-unstyled
+  - policies.each do |policy|
+    %li
+      %h2
+        For
+        = link_to policy.name, policy
+        %small
+          = pluralize(policy.divisions.count, "division")
+          - if policy.unedited_motions_count != 0
+            %em= "(#{policy.unedited_motions_count} unedited)"

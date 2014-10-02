@@ -11,6 +11,10 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
+  scope :provisional, -> { where(private: 2) }
+  # We can't call the scope public so we're calling it visible instead
+  scope :visible, -> { where(private: 0) }
+
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
     policy_division.vote if policy_division
