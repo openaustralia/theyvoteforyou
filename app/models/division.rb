@@ -16,7 +16,7 @@ class Division < ActiveRecord::Base
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
 
   def whip_for_party(party)
-    whips.where(party: party).first
+    whips.find_by(party: party)
   end
 
   def no_rebellions_in_party(party)
