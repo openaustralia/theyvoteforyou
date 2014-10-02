@@ -79,7 +79,7 @@ namespace :application do
         f.write("PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
       end
       [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
-        SeedDump.dump(records.all, file: 'db/seeds.rb', append: true, exclude: [])
+        SeedDump.dump(records.all, file: 'db/seeds.rb', append: true, exclude: [:created_at, :updated_at])
       end
     end
   end
