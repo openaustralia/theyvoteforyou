@@ -48,10 +48,6 @@ class Member < ActiveRecord::Base
     division_vote(division) ? division_vote(division).vote : "absent"
   end
 
-  def rebel_on_division?(division)
-    division_vote(division).rebellion? if division_vote(division)
-  end
-
   def name
     "#{title} #{name_without_title}".strip
   end
