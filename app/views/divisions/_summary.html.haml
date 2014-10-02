@@ -39,12 +39,11 @@
             %td{colspan: '3'} absent
 
         -# Show members in this party that are present in this division
-        - members.where("votes.id IS NOT NULL").where(party: whip.party).each do |member|
-          - vote = member.division_vote(division)
+        - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
           %tr.member-row.collapse{class: ('rebel' if vote.rebellion?), class: ('member-row-' + whip.party.parameterize)}
             %td
-              = link_to member.name_without_title, member
-              = link_to member.electorate, electorate_path(member), class: 'text-muted'
+              = link_to vote.member.name_without_title, vote.member
+              = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted'
             %td{colspan: '3'}= vote.vote
 
       %tr
