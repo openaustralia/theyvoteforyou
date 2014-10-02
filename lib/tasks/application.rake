@@ -76,7 +76,7 @@ namespace :application do
       Rake::Task["application:cache:all"].invoke
       # TODO This doesn't yet create policy information nor edited motion text
       File.open("db/seeds.rb", "w") do |f|
-        f.write("User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
+        f.write("PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
       end
       [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
         SeedDump.dump(records.all, file: 'db/seeds.rb', append: true, exclude: [])
