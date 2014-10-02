@@ -14,10 +14,6 @@ class FeedsController < ApplicationController
   def mpdream_info
     @policy = Policy.find(params[:id])
 
-    # TODO: We shouldn't need to run this each time as Rails correctly refreshes this cache
-    # when things change: https://github.com/openaustralia/publicwhip/blob/c341d2cc5fc8b4158db856659936cbf6396f7459/app/models/policy.rb#L65
-    @policy.calculate_member_distances!
-
     # FIXME: Using SQL to match PHP, see #211 for detailed description
     sql = "select policy_person_distances.person_id, distance_a, distance_b, members.id as member_id,
            (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,

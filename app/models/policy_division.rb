@@ -6,6 +6,8 @@ class PolicyDivision < ActiveRecord::Base
   belongs_to :division
   validates :policy, :division, presence: true
   validates :vote, inclusion: { in: %w(aye3 aye no no3) }
+  after_save    :calculate_policy_member_distances
+  after_destroy :calculate_policy_member_distances
 
   delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
 
@@ -22,5 +24,11 @@ class PolicyDivision < ActiveRecord::Base
     else
       vote
     end
+  end
+
+  private
+
+  def calculate_policy_member_distances
+    policy.delay.calculate_member_distances!
   end
 end
