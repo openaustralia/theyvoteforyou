@@ -30,13 +30,22 @@
               %span.sr-only show members
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
-        - members.where(party: whip.party).each do |member|
-          %tr.member-row.collapse{class: ('rebel' if (member.division_vote(division).rebellion? if member.division_vote(division))), class: ('member-row-' + whip.party.parameterize)}
+        -# Show members in this party that are absent in this division
+        - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
+          %tr.member-row.collapse{class: ('member-row-' + whip.party.parameterize)}
             %td
               = link_to member.name_without_title, member
               = link_to member.electorate, electorate_path(member), class: 'text-muted'
+            %td{colspan: '3'} absent
 
-            %td{colspan: '3'}= (member.division_vote(division) ? member.division_vote(division).vote : "absent")
+        -# Show members in this party that are present in this division
+        - members.where("votes.id IS NOT NULL").where(party: whip.party).each do |member|
+          - vote = member.division_vote(division)
+          %tr.member-row.collapse{class: ('rebel' if vote.rebellion?), class: ('member-row-' + whip.party.parameterize)}
+            %td
+              = link_to member.name_without_title, member
+              = link_to member.electorate, electorate_path(member), class: 'text-muted'
+            %td{colspan: '3'}= vote.vote
 
       %tr
         %th.whip
