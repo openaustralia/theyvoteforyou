@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DivisionInfo, :type => :model do
+describe DivisionInfo, type: :model do
   # TODO Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
   before :each do

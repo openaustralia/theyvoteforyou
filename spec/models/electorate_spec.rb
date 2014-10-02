@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Electorate, :type => :model do
+describe Electorate, type: :model do
 
 end

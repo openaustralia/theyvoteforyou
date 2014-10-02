@@ -1,7 +1,7 @@
 %figure.voter-table
   %h2#votes
     Votes
-    %small.division-outcome-summary{:class => "#{division_outcome_class(division)}"}
+    %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
       = division_outcome_with_majority_strength(division)
 
   - if member
@@ -21,29 +21,29 @@
           %th
             = link_to whip.party_name, party_divisions_path(whip.party_object)
             %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
-          %td{:class => aye_vote_class(whip)}
+          %td{class: aye_vote_class(whip)}
             = whip.aye_votes_including_tells if whip.aye_votes_including_tells > 0
-          %td{:class => no_vote_class(whip)}
+          %td{class: no_vote_class(whip)}
             = whip.no_votes_including_tells if whip.no_votes_including_tells > 0
           %td
-            %button.voter-table-toggle-members.btn.btn-default.glyphicon.glyphicon-chevron-down{:data => {:toggle => 'collapse', :target => '.member-row-' + whip.party.parameterize}}
+            %button.voter-table-toggle-members.btn.btn-default.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
               %span.sr-only show members
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
         - members.where(party: whip.party).each do |member|
-          %tr.member-row.collapse{:class => ('rebel' if member.rebel_on_division?(division)), :class => ('member-row-' + whip.party.parameterize)}
+          %tr.member-row.collapse{class: ('rebel' if member.rebel_on_division?(division)), class: ('member-row-' + whip.party.parameterize)}
             %td
               = link_to member.name_without_title, member
-              = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), :class => 'text-muted'
+              = link_to_if division.australian_house == 'representatives', member.electorate, electorate_path(member), class: 'text-muted'
 
-            %td{:colspan => '3'}= member.vote_on_division_without_tell(division)
+            %td{colspan: '3'}= member.vote_on_division_without_tell(division)
 
       %tr
         %th.whip
           Totals
           %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
-        %td{:class => aye_vote_total_class(division)}= division.aye_votes_including_tells
-        %td{:class => no_vote_total_class(division)}= division.no_votes_including_tells
+        %td{class: aye_vote_total_class(division)}= division.aye_votes_including_tells
+        %td{class: no_vote_total_class(division)}= division.no_votes_including_tells
         %td
 
   %figcaption.panel-footer

@@ -1,31 +1,31 @@
 namespace :application do
   namespace :cache do
     desc 'Update all the caches'
-    task :all => [:whip, :member, :division, :member_distances]
+    task all: [:whip, :member, :division, :member_distances]
 
     desc 'Update all the caches, excluding member_distances (as they take ages)'
-    task :all_except_member_distances => [:whip, :member, :division]
+    task all_except_member_distances: [:whip, :member, :division]
 
     desc 'Rebuilds the whole cache of agreement between members'
-    task :member_distances => :environment do
+    task member_distances: :environment do
       puts "Updating member distance cache..."
       MemberDistance.update_all!
     end
 
     desc 'Update cache of guessed whips'
-    task :whip => :environment do
+    task whip: :environment do
       puts "Updating cache of guessed whips..."
       Whip.update_all!
     end
 
     desc "Update cache of member attendance, rebellions, etc"
-    task :member => :whip do
+    task member: :whip do
       puts "Updating member cache..."
       MemberInfo.update_all!
     end
 
     desc "Update cache of division attendance, rebellions, etc"
-    task :division => :whip do
+    task division: :whip do
       puts "Updating division cache..."
       DivisionInfo.update_all!
     end
@@ -33,7 +33,7 @@ namespace :application do
 
   namespace :load do
     desc 'Reloads members, offices and electorates from XML files and updates people images'
-    task :members => [:environment, :set_logger_to_stdout] do
+    task members: [:environment, :set_logger_to_stdout] do
       DataLoader::Electorates.load!
       DataLoader::Offices.load!
       DataLoader::Members.load!
@@ -62,7 +62,7 @@ namespace :application do
 
   namespace :seed do
     desc ' WARNING deletes data: Create db/seed.rb sample data to make the life of the developer a joyous one'
-    task :create => :environment do
+    task create: :environment do
       FileUtils.rm_rf("db/seeds.rb")
       Rake::Task["db:reset"].invoke
       Rake::Task["application:load:members"].invoke
@@ -106,7 +106,7 @@ namespace :application do
 
   namespace :divisions do
     desc 'Convert all divisions motion text to markdown if possible'
-    task :markdown => :environment do
+    task markdown: :environment do
       include PathHelper
 
       Division.where(markdown: false).find_each do |division|
@@ -134,7 +134,7 @@ namespace :application do
     end
 
     desc "Inline any footnotes on division motions"
-    task :inline_footnotes => :environment do
+    task inline_footnotes: :environment do
       include PathHelper
 
       Division.where(markdown: false).find_each do |division|

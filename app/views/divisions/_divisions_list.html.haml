@@ -1,10 +1,10 @@
 - if @divisions.to_a.empty?
   %p No votes listed
 - else
-  %ol.divisions-list.list-unstyled{:class => active_house_for_list_class(@house)}
+  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
     - @divisions.each do |division|
       %li.panel.panel-default
-        %article.division-item.panel-body{:class => "#{division_edit_status_class(division)}"}
+        %article.division-item.panel-body{class: "#{division_edit_status_class(division)}"}
           .division-edit-notice.pull-right.text-muted
             - if division.edited?
               edited
@@ -12,7 +12,7 @@
             - else
               raw
           .division-meta
-            %time.division-datetime{:datetime => "#{division.date}"}= division_date_and_time(division)
+            %time.division-datetime{datetime: "#{division.date}"}= division_date_and_time(division)
             %span.division-house.pre= division.australian_house_name if @house.nil?
           %h2.division-title
             = link_to truncate(division.name, length: 180), division

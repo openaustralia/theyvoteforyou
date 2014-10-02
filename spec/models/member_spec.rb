@@ -1,4 +1,4 @@
 require 'spec_helper'
 
-describe Member, :type => :model do
+describe Member, type: :model do
 end

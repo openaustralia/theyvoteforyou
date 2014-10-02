@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe UsersHelper, :type => :helper do
+describe UsersHelper, type: :helper do
 
 end
