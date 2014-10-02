@@ -3,8 +3,9 @@
 - content_for :header do
   .section-header.clearfix
     .page-header.container
-      %h1
-        = yield :title
+      %h1= yield :title
+      %p.lead
+        These are the people who vote on your behalf in Parliament
 
 .list-filters.clearfix
   %nav.btn-group
