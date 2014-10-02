@@ -1,5 +1,5 @@
 common: &default_settings
-  license_key: <%= Rails.application.secrets.newrelic_api_key %>
+  license_key: YOUR_LICENCE_KEY
   app_name: Public Whip Rails Staging
 
   # When "true", the agent collects performance data about your

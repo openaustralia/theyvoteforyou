@@ -112,6 +112,9 @@ currently configured) run:
 
     bundle exec cap test deploy
 
+You'll need a local copy of `config/newrelic.yml` that includes your licence
+key to be able to record deployments to New Relic.
+
 ### Loading data
 
 To load live data, ensure `config/settings.yml` is configured to point to the
