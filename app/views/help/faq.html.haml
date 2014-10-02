@@ -6,7 +6,6 @@
       %h1= yield :title
 
 %ul
-  %li= link_to "What is the Public Whip?", "#whatis"
   %li= link_to "How does the Public Whip work?", "#how"
   %li= link_to "What time period does it cover?", "#timeperiod"
 
@@ -26,10 +25,6 @@
   %li= link_to "Legal question: what can I use this information for?", "#legal"
   %li= link_to "Can I play with the software?", "#playwith"
   %li= link_to "What licence is the data under?", "#datalicence"
-
-%h2#whatis What is the Public Whip?
-:markdown
-  #{render "help/faq/what_is_it.md"}
 
 %h2#how How does the Public Whip work?
 :markdown
