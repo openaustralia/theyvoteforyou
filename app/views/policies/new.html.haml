@@ -4,7 +4,8 @@
   %h1= yield :title
 
 - unless @policy.errors.any?
-  = render "new_policy_intro"
+  :markdown
+    #{render "new_policy_intro.md"}
 
 = simple_form_for @policy do |f|
   = f.input :name, label: 'If you are for', required: false, placeholder: 'equal treatment of same-sex couples'
