@@ -10,10 +10,15 @@
 = simple_form_for @policy do |f|
   = f.input :name, label: 'If you are for', required: false, placeholder: 'equal treatment of same-sex couples'
   = f.input :description, label: 'you believe that', required: false, placeholder: 'the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples', input_html: {rows: 6}
-  %p
-    %span.ptitle Privacy notes:
-    By creating a policy you are making your name
-    %b= current_user.name
-    and the policy's voting record public.
+  %ul
+    %li
+      Privacy &mdash;
+      By creating a policy you are making your name
+      %b= current_user.name
+      and the policy's voting record public.
+    %li
+      Licensing &mdash;
+      You agree to license what you add here under the Creative Commons Attribution License.
+      = link_to "Why?", help_faq_path(anchor: "policies_license")
   = f.button :submit, class: 'btn-primary', value: 'Make Policy'
   = f.button :submit, value: 'Cancel'
