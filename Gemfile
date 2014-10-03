@@ -45,6 +45,7 @@ gem 'mechanize' # Used to download debates
 gem 'nokogiri' # Explicitly included as it's used directly when testing division loader
 gem 'seed_dump'
 gem "redcarpet"
+gem "rdiscount"
 gem "reverse_markdown"
 gem 'paper_trail'
 # TODO This is using a fairly old version of the marked js lib. Update this gem
