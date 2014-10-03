@@ -19,6 +19,9 @@
     %li
       Licensing &mdash;
       You agree to license what you add here under the Creative Commons Attribution License.
-      = link_to "Why?", help_faq_path(anchor: "policies_license")
+      = link_to "Why?", "#policies_license", data: {toggle: "collapse"}
+  .alert.alert-info#policies_license.collapse
+    :markdown
+      #{render "help/faq/policies_license.md"}
   = f.button :submit, class: 'btn-primary', value: 'Make Policy'
   = f.button :submit, value: 'Cancel'
