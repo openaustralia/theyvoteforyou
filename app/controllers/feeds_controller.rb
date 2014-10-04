@@ -20,7 +20,7 @@ class FeedsController < ApplicationController
            (nvotesabsent + nvotesabsentstrong) as absent
            from policy_person_distances, members
            where policy_id = '#{@policy.id}' and
-           members.person_id = policy_person_distances.person_id"
+           members.person_id = policy_person_distances.person_id order by member_id"
     @policy_person_distances = PolicyPersonDistance.connection.select_all(sql)
   end
 end
