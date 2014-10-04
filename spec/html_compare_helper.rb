@@ -80,10 +80,7 @@ module HTMLCompareHelper
       File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
         f.write new_text
       end
-      output("old.#{format}", o, path)
-      output("new.#{format}", n, path)
-      system("diff old.#{format} new.#{format}")
-      raise "Don't match. Writing to file old.#{format} and new.#{format}"
+      raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
     end
   end
 

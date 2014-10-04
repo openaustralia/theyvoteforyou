@@ -36,8 +36,6 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-
-    FileUtils.rm_f %w(old.html old.xml new.html new.xml)
   end
 
   # If true, the base class of anonymous controllers will be inferred
