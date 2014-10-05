@@ -21,16 +21,16 @@ describe MemberDistance, type: :model do
       title: "", constituency: "bar", party: "Party", house: "commons",
       entered_house: Date.new(1999,1,1), left_house: Date.new(2010,1,1)) }
 
-    it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 0 }
-    it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 0}
-    it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 0}
+    it { expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
+    it { expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0}
+    it { expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 0}
 
     def check_vote_combination(vote1, teller1, vote2, teller2, same, differ, absent)
       membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
       memberb.votes.create(division: division, vote: vote2, teller: teller2) unless vote2 == "absent"
-      expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq same
-      expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq differ
-      expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq absent
+      expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq same
+      expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq differ
+      expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq absent
     end
 
     context "with votes in one division that only member A could vote on" do
@@ -107,9 +107,9 @@ describe MemberDistance, type: :model do
         memberb.votes.create(division: division5, vote: "no")
       end
 
-      it { expect(MemberDistance.calculate_nvotessame(membera, memberb)).to eq 2 }
-      it { expect(MemberDistance.calculate_nvotesdiffer(membera, memberb)).to eq 1 }
-      it { expect(MemberDistance.calculate_nvotesabsent(membera, memberb)).to eq 2 }
+      it { expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
+      it { expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
+      it { expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
 
       it ".calculate_distances" do
         expect(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
