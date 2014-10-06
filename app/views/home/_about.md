@@ -1,10 +1,10 @@
-In Australia, every 4 years or so, we all head to the polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and ultimately pass legislation to create the society we want, one which works for us.
+In Australia, every 4 years or so, we all head to the polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
 
-But how do you know that the individual speaking for you in your electorate votes in your interest, or even bothers to turn up at all. Have they ever, even once, voted against their party on an issue people like you in your electorate care about?
+Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
 
-Here at the Public Whip we make it easier for you to see exactly how your MP voted.
+Here at the Public Whip you can see exactly how your MP voted on issues you care about.
 
-We’ve peeled back the layers of stuffy jargon, arcane procedures and Monty Python-esque language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
+We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
 
 It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
 
