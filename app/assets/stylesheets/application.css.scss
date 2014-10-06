@@ -324,6 +324,12 @@ th {
       text-decoration: underline !important;
     }
   }
+
+  .navbar-form {
+    @media ( min-width: $screen-sm-min) {
+      margin-top: 8px;
+    }
+  }
 }
 
 // section-header

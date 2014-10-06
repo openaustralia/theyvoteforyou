@@ -39,6 +39,18 @@
           %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
           %li= link_to "About", about_path, title: "Information about this website"
           %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
+
+        %form{class: "navbar-form navbar-left", action: search_path, method: "get", name: "pw", role: "search"}
+          .input-group
+            %label.sr-only{for: "search"}
+              Search the Public Whip
+            %input.form-control.input-sm#query{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+              .input-group-btn
+                %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+                  %span.sr-only
+                    Submit
+                  %span.glyphicon.glyphicon-search
+
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li.dropdown
