@@ -2,6 +2,16 @@
 
 = render 'page_header', policy: @policy
 
+-# Only show this stuff if we actually have an edit history
+- if @policy.most_recent_version
+  %p.policy-edit-notice.bg-info.col-md-12
+    = link_to history_policy_path(@policy), title: "View the edit history of this policy." do
+      Last edited
+      = time_ago_in_words(@policy.last_edited_at)
+      ago
+    by
+    = link_to @policy.last_edited_by.name, @policy.last_edited_by
+
 - if @policy.divisions.count > 0
   = render "nav", policy: @policy, display: nil
   = render 'vote_table_leader', policy: @policy

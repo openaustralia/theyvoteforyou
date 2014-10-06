@@ -39,6 +39,18 @@ class Policy < ActiveRecord::Base
     end
   end
 
+  def most_recent_version
+    PaperTrail::Version.order(created_at: :desc).find_by(policy_id: id)
+  end
+
+  def last_edited_at
+    most_recent_version.created_at
+  end
+
+  def last_edited_by
+    User.find(most_recent_version.whodunnit)
+  end
+
   def self.update_all!
     all.each { |p| p.calculate_member_distances! }
   end
