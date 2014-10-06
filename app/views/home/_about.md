@@ -15,7 +15,7 @@ Public Whip was built by the [OpenAustralia Foundation](https://www.openaustrali
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this Public Whip possible.
 
-The Australian Public Whip was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies was done by the magnificent Micaela Ash and Natasha Burrows.
+The Australian Public Whip was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies before launch was done by the magnificent Micaela Ash and Natasha Burrows.
 
 Public Whip keeps getting better due to the efforts of
 
