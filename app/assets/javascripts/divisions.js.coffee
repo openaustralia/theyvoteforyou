@@ -5,3 +5,8 @@
 $ ->
   $("form.edit_division a#preview_link").on "shown.bs.tab", (e) ->
     $("#preview").html(marked($("#edit textarea").val()))
+
+  $(".division-title").widowFix({
+    letterLimit: 10,
+    prevLimit: 11
+  })
