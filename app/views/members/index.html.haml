@@ -13,6 +13,33 @@
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
 
+  .dropdown.pull-right
+    %button.btn.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
+      - if @sort.nil?
+        Sorted by Name
+      - elsif @sort == "constituency"
+        Sorted by
+        = @house ? electorate_label(@house) : electorate_label("all")
+      - elsif @sort == "party"
+        Sorted by Party
+      - elsif @sort == "rebellions"
+        Sorted by Rebellions
+      - elsif @sort == "attendance"
+        Sorted by Attendance
+      %span.caret
+
+    %ul.dropdown-menu.dropdown-menu-right{role: "menu", "aria-labelledby" => "dropdownMenu1"}
+      %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
+        = link_to "Name", {sort: nil, house: params[:house]}, role: "menuitem", tabindex: "-1"
+      %li{role: "presentation", class: "#{'disabled' if @sort == 'constituency'}"}
+        = link_to (@house ? electorate_label(@house) : electorate_label("all")), {sort: "constituency", house: params[:house]}, role: "menuitem", tabindex: "-1"
+      %li{role: "presentation", class: "#{'disabled' if @sort == 'party'}"}
+        = link_to "Party", {sort: "party", house: params[:house]}, role: "menuitem", tabindex: "-1"
+      %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}
+        = link_to "Rebellions", {sort: "rebellions", house: params[:house]}, role: "menuitem", tabindex: "-1"
+      %li{role: "presentation", class: "#{'disabled' if @sort == 'attendance'}"}
+        = link_to "Attendance", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
+
 %table.table
   %thead
     %tr
