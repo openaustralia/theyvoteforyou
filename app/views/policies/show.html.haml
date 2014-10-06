@@ -2,6 +2,13 @@
 
 = render 'page_header', policy: @policy
 
+-# TODO: make this dynamic
+-# if @policy.edited?
+%p.policy-edit-notice.bg-info.col-md-12
+  = link_to "Last edited relative_time", history_policy_path(@policy), title: "View the edit history of this policy."
+  by
+  = link_to "editor’s name", "#"
+
 - if @policy.divisions.count > 0
   = render "nav", policy: @policy, display: nil
   = render 'vote_table_leader', policy: @policy
