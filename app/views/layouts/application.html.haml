@@ -40,17 +40,6 @@
           %li= link_to "About", about_path, title: "Information about this website"
           %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
 
-        %form{class: "navbar-form navbar-left", action: search_path, method: "get", name: "pw", role: "search"}
-          .input-group
-            %label.sr-only{for: "search"}
-              Search the Public Whip
-            %input.form-control.input-sm#query{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
-              .input-group-btn
-                %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
-                  %span.sr-only
-                    Submit
-                  %span.glyphicon.glyphicon-search
-
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li.dropdown
@@ -63,6 +52,17 @@
                 %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into The Public Whip as #{current_user.name || current_user.email}", method: :delete
           - else
             %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
+
+        %form{class: "navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
+          .input-group
+            %label.sr-only{for: "search"}
+              Search the Public Whip
+            %input.form-control.input-sm#query{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+              .input-group-btn
+                %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+                  %span.sr-only
+                    Submit
+                  %span.glyphicon.glyphicon-search
 
     = yield :header
 
