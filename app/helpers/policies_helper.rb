@@ -7,6 +7,10 @@ module PoliciesHelper
     end.to_sentence.html_safe
   end
 
+  def policy_agreement_summary_without_html(policy_member_distance)
+    policy_agreement_summary(policy_member_distance).gsub("<strong>", "").gsub("</strong>", "")
+  end
+
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
