@@ -7,7 +7,7 @@ class House
       when "lords"
         "senate"
       else
-        raise "Unexpected value: #{house}"
+        raise ActiveRecord::RecordNotFound
       end
     end
 
@@ -18,7 +18,7 @@ class House
       when "senate"
         "lords"
       else
-        raise "unexpected value: #{australian_house}"
+        raise ActiveRecord::RecordNotFound
       end
     end
 
