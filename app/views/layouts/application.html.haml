@@ -64,10 +64,10 @@
                     Submit
                   %span.glyphicon.glyphicon-search
 
+    = render "layouts/bootstrap_flash"
     = yield :header
 
     .container
-      = render "layouts/bootstrap_flash"
       = yield
     %footer.site-footer
       .container
