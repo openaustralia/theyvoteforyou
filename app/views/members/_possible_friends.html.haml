@@ -2,7 +2,7 @@
   - if all_friends
     #{link_to @member.full_name_no_electorate, @member, title: "Overview of #{@member.full_name}"} : All Possible Friends
   - else
-    Possible Friends (#{link_to "more...", friends_member_path(member)})
+    Possible Friends
 
 %p
   Shows which
@@ -46,5 +46,7 @@
           %td= link_to member_distance.member2.name_without_title, member_distance.member2
           %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
           %td= party_long2(member_distance.member2)
+- unless all_friends
+  = link_to "More possible friends", friends_member_path(member)
 - if member.best_friends.count >= 5 && !all_friends
   (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)
