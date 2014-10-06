@@ -53,12 +53,12 @@ module ApplicationHelper
 
   def electorate_label(house)
     case house
+    when nil
+      "Electorate / State"
     when "representatives"
       "Electorate"
     when "senate"
       "State"
-    when "all"
-      "Electorate / State"
     else
       raise
     end
