@@ -17,7 +17,6 @@ Search for Tony Abbott
 
 </head>
 <body>
-
 <nav class="site-header navbar" role="navigation">
 <!-- / Brand and toggle get grouped for better mobile display -->
 <div class="navbar-header">
@@ -41,6 +40,23 @@ Search for Tony Abbott
 <ul class="nav navbar-nav navbar-right">
 <li><a href="/users/sign_in" title="Login to edit policies">Login</a></li>
 </ul>
+<form action="/search" class="navbar-form navbar-right" method="get" name="pw" role="search">
+<div class="input-group">
+<label class="sr-only" for="search">
+Search the Public Whip
+</label>
+<input class="form-control input-sm" id="query" maxlength="256" name="query" placeholder="Search" type="search">
+<div class="input-group-btn">
+<button class="btn btn-default input-sm" type="submit" value="Submit">
+<span class="sr-only">
+Submit
+</span>
+<span class="glyphicon glyphicon-search"></span>
+</button>
+</div>
+</input>
+</div>
+</form>
 </div>
 </nav>
 
@@ -152,6 +168,7 @@ Explore our other projects:
 </div>
 </div>
 </footer>
+
 <script src="/assets/application.js"></script>
 </body>
 </html>
