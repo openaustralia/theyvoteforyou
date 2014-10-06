@@ -44,18 +44,15 @@
   %thead
     %tr
       %th
-      %th= link_to_unless @sort.nil?, "Name", members_path(house: params[:house], sort: nil), title: "Sort by surname"
-      - if @house
-        %th= link_to_unless @sort == "constituency", electorate_label(@house), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label(@house).downcase}"
-      - else
-        %th= link_to_unless @sort == "constituency", electorate_label("all"), members_path(house: params[:house], sort: "constituency"), title: "Sort by #{electorate_label('all').downcase}"
-      %th= link_to_unless @sort == "party", "Party", members_path(house: params[:house], sort: "party"), title: "Sort by party"
+      %th Name
+      %th= @house ? electorate_label(@house) : electorate_label("all")
+      %th Party
       %th
-        = link_to_unless @sort == "rebellions", "Rebellions", members_path(house: params[:house], sort: "rebellions"), title: "Sort by rebels"
+        Rebellions
         %br/
         (#{link_to "explain...", help_faq_path(anchor: "clarify")})
       %th
-        = link_to_unless @sort == "attendance", "Attendance", members_path(house: params[:house], sort: "attendance"), title: "Sort by attendance"
+        Attendance
         %br/
         (#{link_to "explain...", help_faq_path(anchor: "clarify")})
   %tbody
