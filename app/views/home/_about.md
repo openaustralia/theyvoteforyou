@@ -15,6 +15,12 @@ Public Whip was built by the [OpenAustralia Foundation](https://www.openaustrali
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this Public Whip possible.
 
+The Australian Public Whip was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies was done by the magnificent Micaela Ash and Natasha Burrows.
+
+Public Whip keeps getting better due to the efforts of
+
+<%= render "contributions" %>
+
 ## <a name='contribute'></a>Contribute
 
 Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can see all the full list of contributors, and find out how to contribute yourself.
