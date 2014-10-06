@@ -165,6 +165,12 @@ th {
     font-size: $font-size-small;
   }
 
+  .division-datetime,
+  .division-house,
+  .division-data {
+    color: $text-color;
+  }
+
   .division-datetime {
     .display-house-all & {
       &:after {
