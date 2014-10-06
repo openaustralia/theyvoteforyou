@@ -131,6 +131,17 @@ th {
 
 // Division lists
 
+.division-panel-link {
+  display: block;
+
+  &:hover,
+  &:focus {
+    border-color: $brand-primary;
+    background-color: lighten($brand-primary, 45%);
+    text-decoration: none;
+  }
+}
+
 .division-item {
   .division-edit-notice {
     font-size: $font-size-small;
@@ -158,6 +169,11 @@ th {
     margin-top: .5em;
     font-size: $font-size-h4;
     max-width: 35em;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
   }
 }
 
