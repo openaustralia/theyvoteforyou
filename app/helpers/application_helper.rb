@@ -13,6 +13,10 @@ module ApplicationHelper
     link_to name, path, title: title, class: "btn btn-sm btn-default" + (current ? " active" : "")
   end
 
+  def body_class
+    controller.controller_path
+  end
+
   # Returns Representatives or Senators
   def members_type(house)
     case house
