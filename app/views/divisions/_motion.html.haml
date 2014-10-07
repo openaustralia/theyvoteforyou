@@ -1,10 +1,5 @@
 %section.motion.clearfix{class: division.edited? ? "motion-edited" : "motion-raw"}
-  - if division.edited?
-    %p.division-edit-notice.bg-info.col-md-12
-      = link_to "Last edited #{relative_time division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
-      by
-      = link_to division.wiki_motion.user.name, division.wiki_motion.user
-  - else
+  - if !division.edited?
     %p.division-edit-notice.alert-warning.col-md-12
       %strong Unedited text
       automatically extracted from the debate.
