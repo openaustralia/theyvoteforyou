@@ -6,7 +6,7 @@
       = link_to "Improve the page providing a summary.", edit_division_path(division)
 
   %h2.motion-title Summary
-  = link_to "Edit summary", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
+  = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
   .motion-text.col-md-8.row
     = division.formatted_motion_text
   %nav.motion-source-info
