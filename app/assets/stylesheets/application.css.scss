@@ -18,6 +18,11 @@ $line-height-base: 1.6;
 // Colours
 $text-color: #444444;
 
+$color-lemon: #ffea8a;
+$color-lemon-light: #fff2b8;
+
+$color-orange: #ffbb43;
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
@@ -51,7 +56,7 @@ h2 {
 // Banners
 
 .jumbotron {
-  background-color: #ffbb43;
+  background-color: $color-orange;
 
   .banner-heading {
     color: #fff;
@@ -288,7 +293,7 @@ th {
 // header
 
 .site-header {
-  background-color: #FFEA8A;
+  background-color: $color-lemon;
   border-radius: 0;
   margin-bottom: 0;
 
@@ -349,7 +354,7 @@ th {
 
 .section-header {
   margin-bottom: 2em;
-  background-color: #FFF2B8;
+  background-color: $color-lemon-light;
 
   .page-header {
     margin-bottom: 0;
