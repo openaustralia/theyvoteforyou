@@ -2,5 +2,4 @@
   %p No votes listed
 - else
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
-    - @divisions.each do |division|
-      %li= render 'division', division: division
+    = render partial: 'division', collection: @divisions
