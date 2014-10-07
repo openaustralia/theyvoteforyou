@@ -18,7 +18,8 @@
 %ul
   %li= link_to "What are Policies and how do they work?", "#policies"
   %li= link_to "What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?", "#rebelandfree"
-  %li= link_to 'What do the "attendance" and "rebellion" figures mean?', "#clarify"
+  %li= link_to 'What do the "attendance" figures mean?', "#attendance"
+  %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
   %li= link_to "What happens if a division is tied?", "#tied-division"
 
 %ul
@@ -50,8 +51,11 @@
 %h2#rebelandfree What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?
 = render "help/faq/rebel_and_free"
 
-%h2#clarify What do the "attendance" and "rebellion" figures mean?
-= render "help/faq/attendance_and_rebellion"
+%h2#attendance What do the "attendance" figures mean?
+= render "help/faq/attendance"
+
+%h2#rebellion What do the "rebellion" figures mean?
+= render "help/faq/rebellion"
 
 %h2#tied-division What happens if a division is tied?
 = render "help/faq/tied_divisions"

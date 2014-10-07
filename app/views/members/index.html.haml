@@ -50,11 +50,11 @@
       %th
         Rebellions
         %br/
-        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
+        (#{link_to "explain...", help_faq_path(anchor: "rebellion")})
       %th
         Attendance
         %br/
-        (#{link_to "explain...", help_faq_path(anchor: "clarify")})
+        (#{link_to "explain...", help_faq_path(anchor: "attendance")})
   %tbody
     - @members.each do |member|
       - cache ["v1", member, member.person] do

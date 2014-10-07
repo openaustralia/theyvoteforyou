@@ -9,7 +9,8 @@ because these divisions give a strong indication of an individual politician’s
 (see [What are “Rebel Voters” and what is a “Conscience Vote” or “Free Vote”?](#rebelandfree)).
 Other reasons for selecting a particular Policy include whether the matter was an election issue
 (e.g. the [carbon price](/policies/3)) and whether there was a high level of attendance
-(see [What do the “attendance” and “rebellion” figures mean?](#clarify)).
+(see [What do the “attendance” figures mean?](#attendance) and
+[What do the “rebellion” figures mean?](#rebellion)).
 
 Unfortunately, Policies are restricted to issues that are voted on by division because those are
 the only decisions that appear on Public Whip
