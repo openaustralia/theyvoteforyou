@@ -9,6 +9,8 @@
 
 - if @policy.divisions.count > 0
   = render "nav", policy: @policy, display: nil
+
+  %h2 Relevant divisions
   = render 'vote_table_leader', policy: @policy
   = render 'vote_summary_table', member: @member, policy: @policy
 - else
