@@ -136,9 +136,15 @@ th {
   }
 }
 
+.motion-title,
+.motion-title + .division-edit-link,
 .division-outcome-summary,
 .division-outcome-score {
   display: inline-block;
+}
+
+.motion-title + .division-edit-link {
+  margin-left: 1em;
 }
 
 .division-header {
