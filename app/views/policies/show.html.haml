@@ -1,16 +1,18 @@
 - content_for :title, "For #{@policy.name}"
 
-= render 'page_header', policy: @policy
-
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
-  %p.policy-edit-notice.bg-info.col-md-12
-    = link_to history_policy_path(@policy), title: "View the edit history of this policy." do
-      Last edited
-      = time_ago_in_words(@policy.last_edited_at)
-      ago
-    by
-    = link_to @policy.last_edited_by.name, @policy.last_edited_by
+  - content_for :history_notice do
+    .history-notice
+      %p.policy-edit-notice.container
+        = link_to history_policy_path(@policy), title: "View the edit history of this policy." do
+          Policy last edited
+          = time_ago_in_words(@policy.last_edited_at)
+          ago
+        by
+        = link_to @policy.last_edited_by.name, @policy.last_edited_by
+
+= render 'page_header', policy: @policy
 
 - if @policy.divisions.count > 0
   = render "nav", policy: @policy, display: nil
