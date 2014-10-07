@@ -70,11 +70,11 @@ class Whip < ActiveRecord::Base
 
   # TODO Move the info about which votes are free to the database
   def free_vote?
-    # Conscience / free votes from 2006 and onwards. This list from Appendix 3 of
+    # Free votes from 2006 and onwards. This list from Appendix 3 of
     # http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
     # TODO: Do we need to restrict this to only these parties? Are these votes free for all parties?
 
-    # The ALP decided at national conference to have a conscience vote on gay marriage
+    # The ALP decided at national conference to have a free vote on gay marriage
     # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
 
     if division.australian_house == "representatives"
