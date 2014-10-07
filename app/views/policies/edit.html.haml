@@ -25,7 +25,7 @@
     %p.help-block
       'provisional' means the policy is not yet complete or consistent enough to display publicly
   %input.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save title and text"}/
-  %input.btn.btn-default{name: "submit", type: "submit", value: "Cancel"}/
+  = link_to "Cancel", :back, class: "btn btn-default"
 
 %h2 Votes related to this policy
 = render 'division_edit_instructions'
