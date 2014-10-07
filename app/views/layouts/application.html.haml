@@ -34,11 +34,11 @@
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
         %ul.nav.navbar-nav
-          %li= link_to "People", members_path, title: "All people currently in Federal Parliament"
-          %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
-          %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
-          %li= link_to "About", about_path, title: "Information about this website"
-          %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
+          %li= link_to "People", members_path, class: 'navlink-members', title: "All people currently in Federal Parliament"
+          %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyze MP's votes"
+          %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
+          %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
+          %li= link_to "Help / FAQ", help_faq_path, class: 'navlink-help', title: "Frequently asked questions"
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
