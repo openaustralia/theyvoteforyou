@@ -19,13 +19,7 @@
 %p
   = link_to "Show all divisions ordered by most recent", divisions_path, title: "Show all divisions ordered by most recent"
 
-%table.table
-  - unless @divisions.empty?
-    - @divisions.each do |division|
-      %tr
-        %td{class: division.house}= division.australian_house_name
-        %td= formatted_date(division.date, true)
-        %td= link_to truncate(division.name, length: 180), division
+= render partial: 'divisions/divisions', object: @divisions
 
 %h2 Representatives and Senators who attend votes most often
 - ["representatives", "senate"].each do |house|
