@@ -2,7 +2,7 @@ require 'open-uri'
 
 class HomeController < ApplicationController
   def index
-    @divisions = Division.with_rebellions.order("date DESC", "clock_time DESC", "name", "number DESC").limit(5)
+    @divisions = Division.edited.order("date DESC", "clock_time DESC", "name", "number DESC").limit(5)
   end
 
   def about
