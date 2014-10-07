@@ -3,14 +3,7 @@
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
-    .history-notice
-      %p.policy-edit-notice.container
-        = link_to history_policy_path(@policy), title: "View the edit history of this policy." do
-          Policy last edited
-          = time_ago_in_words(@policy.last_edited_at)
-          ago
-        by
-        = link_to @policy.last_edited_by.name, @policy.last_edited_by
+    = render 'layouts/history_notice', policy: @policy
 
 = render 'page_header', policy: @policy
 

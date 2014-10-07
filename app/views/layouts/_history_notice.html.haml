@@ -1,5 +1,13 @@
 .history-notice
   %p.container
-    = link_to "Division last edited #{relative_time @division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
-    by
-    = link_to @division.wiki_motion.user.name, @division.wiki_motion.user
+    -if @division
+      = link_to "Division last edited #{relative_time @division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
+      by
+      = link_to @division.wiki_motion.user.name, @division.wiki_motion.user
+    -if @policy
+      = link_to history_policy_path(@policy), title: "View the edit history of this policy." do
+        Policy last edited
+        = time_ago_in_words(@policy.last_edited_at)
+        ago
+      by
+      = link_to @policy.last_edited_by.name, @policy.last_edited_by
