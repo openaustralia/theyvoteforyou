@@ -1,7 +1,9 @@
 An MP or Senator rebels by voting against the
 [party whip](http://www.peo.gov.au/learning/fact-sheets/party-whip.html). This is known as
-[crossing the floor](http://www.peo.gov.au/learning/fact-sheets/crossing-the-floor.html) and rarely
-occurs these days.
+[crossing the floor](http://www.peo.gov.au/learning/fact-sheets/crossing-the-floor.html).
+
+Labor party members are not allowed to rebel. In the Liberal party
+backbenchers are officially allowed to rebel but this is becoming increasingly uncommon in practise.
 
 In contrast, a [conscience vote](http://en.wikipedia.org/wiki/Conscience_vote) (also known as a
 free vote) occurs when MPs or Senators are not obliged to vote with their party. Conscience votes
