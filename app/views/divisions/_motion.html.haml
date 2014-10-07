@@ -5,11 +5,8 @@
       automatically extracted from the debate.
       = link_to "Improve the page providing a summary.", edit_division_path(division)
 
-  .row
-    %nav.header-actions.col-md-3
-      = link_to "Edit summary", edit_division_path(division), title: "Edit and improve this description", class: "btn btn-default btn-xs"
-
-    %h2.col-md-9 Summary
+  %h2.motion-title Summary
+  = link_to "Edit summary", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
   .motion-text.col-md-8.row
     = division.formatted_motion_text
   %nav.motion-source-info
