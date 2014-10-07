@@ -14,7 +14,11 @@ module ApplicationHelper
   end
 
   def body_class
-    controller.controller_path
+    if current_page?(controller: 'home', action: 'about')
+      "about"
+    else
+      controller.controller_path
+    end
   end
 
   # Returns Representatives or Senators
