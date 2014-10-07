@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141001075857) do
+ActiveRecord::Schema.define(version: 20141007052651) do
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -44,18 +44,18 @@ ActiveRecord::Schema.define(version: 20141001075857) do
 
   create_table "divisions", force: true do |t|
     t.boolean  "valid"
-    t.date     "date",                                 null: false
-    t.integer  "number",                               null: false
-    t.string   "house",      limit: 8,                 null: false
-    t.text     "name",                                 null: false
-    t.text     "source_url",                           null: false
-    t.text     "debate_url",                           null: false
-    t.text     "motion",                               null: false
-    t.text     "notes",                                null: false
+    t.date     "date",                                null: false
+    t.integer  "number",                              null: false
+    t.string   "house",      limit: 8,                null: false
+    t.text     "name",                                null: false
+    t.text     "source_url",                          null: false
+    t.text     "debate_url",                          null: false
+    t.text     "motion",                              null: false
+    t.text     "notes",                               null: false
     t.string   "clock_time"
-    t.text     "source_gid",                           null: false
-    t.text     "debate_gid",                           null: false
-    t.boolean  "markdown",             default: false, null: false
+    t.text     "source_gid",                          null: false
+    t.text     "debate_gid",                          null: false
+    t.boolean  "markdown",             default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

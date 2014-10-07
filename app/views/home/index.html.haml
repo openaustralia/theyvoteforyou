@@ -27,19 +27,10 @@
         %td= formatted_date(division.date, true)
         %td= link_to truncate(division.name, length: 180), division
 
-.row
-  .col-md-6
-    %h2 Representatives and Senators who attend votes most often
-    - ["representatives", "senate"].each do |house|
-      %p
-        = link_to members_path(house: house, sort: "attendance") do
-          Show all
-          = members_type(house)
-          ordered by attendance
-
-  .col-md-6
-    %h2 Test a Representative or Senator against policies you care about
-    %p
-      = link_to "Browse", policies_path
-      existing policies
-  .clear
+%h2 Representatives and Senators who attend votes most often
+- ["representatives", "senate"].each do |house|
+  %p
+    = link_to members_path(house: house, sort: "attendance") do
+      Show all
+      = members_type(house)
+      ordered by attendance

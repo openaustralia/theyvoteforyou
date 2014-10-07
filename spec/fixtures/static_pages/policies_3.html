@@ -16,7 +16,7 @@ Make a new policy
 <![endif]-->
 
 </head>
-<body>
+<body class="policies">
 <nav class="site-header navbar" role="navigation">
 <!-- / Brand and toggle get grouped for better mobile display -->
 <div class="navbar-header">
@@ -31,11 +31,10 @@ Make a new policy
 <!-- / Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
-<li><a href="/members" title="All people currently in Federal Parliament">People</a></li>
-<li><a href="/policies" title="Help to analyze MP&#39;s votes">Policies</a></li>
-<li><a href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
-<li><a href="/about" title="Information about this website">About</a></li>
-<li><a href="/help/faq" title="Frequently asked questions">Help / FAQ</a></li>
+<li><a class="navlink-members" href="/members" title="All people currently in Federal Parliament">People</a></li>
+<li><a class="navlink-policies" href="/policies" title="Help to analyze MP&#39;s votes">Policies</a></li>
+<li><a class="navlink-divisions" href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
+<li><a class="navlink-about" href="/about" title="Information about this website">About</a></li>
 </ul>
 <ul class="nav navbar-nav navbar-right">
 <li class="dropdown">
@@ -52,10 +51,10 @@ Henare Degan
 </ul>
 <form action="/search" class="navbar-form navbar-right" method="get" name="pw" role="search">
 <div class="input-group">
-<label class="sr-only" for="search">
+<label class="sr-only" for="query">
 Search the Public Whip
 </label>
-<input class="form-control input-sm" id="query" maxlength="256" name="query" placeholder="Search" type="search">
+<input class="form-control input-sm" maxlength="256" name="query" placeholder="Search" type="search" />
 <div class="input-group-btn">
 <button class="btn btn-default input-sm" type="submit" value="Submit">
 <span class="sr-only">
@@ -64,7 +63,6 @@ Submit
 <span class="glyphicon glyphicon-search"></span>
 </button>
 </div>
-</input>
 </div>
 </form>
 </div>
@@ -125,6 +123,7 @@ project.
 <li class="twitter"><a href="http://twitter.com/openaustralia">Twitter</a></li>
 <li class="blog"><a href="https://www.openaustraliafoundation.org.au/blog/">Blog</a></li>
 <li class="email"><a href="mailto:contact@openaustraliafoundation.org.au">Contact</a></li>
+<li class="help"><a href="/help/faq">Help / FAQ</a></li>
 </ul>
 </div>
 <div class="row" id="oaf-projects">

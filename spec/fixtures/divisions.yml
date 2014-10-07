@@ -11,6 +11,7 @@ one:
   notes: ""
   source_gid: ""
   debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
+  markdown: false
 
 two:
   id: 9
@@ -24,6 +25,7 @@ two:
   notes: ""
   source_gid: ""
   debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
+  markdown: false
 
 three:
   id: 347
@@ -38,6 +40,7 @@ three:
   notes: ""
   source_gid: "uk.org.publicwhip/debate/2006-12-06.112.1"
   debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
+  markdown: false
 
 four:
   id: 2037
@@ -52,6 +55,7 @@ four:
   notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-25.77.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
+  markdown: false
 
 five:
   id: 59
@@ -66,6 +70,7 @@ five:
   notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-30.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
+  markdown: false
 
 # This one used for checking the ordering of divisions by date.
 # Chronologically it is later than division_id 59, but the sql returns it
@@ -86,3 +91,4 @@ six:
   notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-10.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
+  markdown: false

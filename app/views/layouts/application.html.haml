@@ -19,7 +19,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     = csrf_meta_tag
-  %body
+  %body{class: "#{body_class}"}
     %nav.site-header.navbar(role="navigation")
       // Brand and toggle get grouped for better mobile display
       .navbar-header
@@ -34,11 +34,10 @@
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
         %ul.nav.navbar-nav
-          %li= link_to "People", members_path, title: "All people currently in Federal Parliament"
-          %li= link_to "Policies", policies_path, title: "Help to analyze MP's votes"
-          %li= link_to "Divisions", divisions_path, title: "List of all votes in Parliament"
-          %li= link_to "About", about_path, title: "Information about this website"
-          %li= link_to "Help / FAQ", help_faq_path, title: "Frequently asked questions"
+          %li= link_to "People", members_path, class: 'navlink-members', title: "All people currently in Federal Parliament"
+          %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyze MP's votes"
+          %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
+          %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
@@ -55,14 +54,14 @@
 
         %form{class: "navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
           .input-group
-            %label.sr-only{for: "search"}
+            %label.sr-only{for: "query"}
               Search the Public Whip
-            %input.form-control.input-sm#query{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
-              .input-group-btn
-                %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
-                  %span.sr-only
-                    Submit
-                  %span.glyphicon.glyphicon-search
+            %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+            .input-group-btn
+              %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+                %span.sr-only
+                  Submit
+                %span.glyphicon.glyphicon-search
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice
@@ -84,6 +83,7 @@
             %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
             %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
             %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
+            %li.help= link_to "Help / FAQ", help_faq_path()
 
         .row#oaf-projects
           %p.col-md-12

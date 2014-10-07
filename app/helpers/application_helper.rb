@@ -13,6 +13,14 @@ module ApplicationHelper
     link_to name, path, title: title, class: "btn btn-sm btn-default" + (current ? " active" : "")
   end
 
+  def body_class
+    if current_page?(controller: '/home', action: 'about')
+      "about"
+    else
+      controller.controller_path
+    end
+  end
+
   # Returns Representatives or Senators
   def members_type(house)
     case house

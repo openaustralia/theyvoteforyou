@@ -7,7 +7,7 @@ describe Division, type: :model do
       expect(division.formatted_motion_text).to eq("<p>A bill [No. 2] and votes</p>\n")
     end
     it do
-      division = Division.new(motion: "This remark[1] deserves a footnote")
+      division = Division.new(motion: "This remark[1] deserves a footnote", markdown: false)
       expect(division.formatted_motion_text).to eq("<p>This remark<sup class=\"sup-1\"><a class=\"sup\" href='#footnote-1' onclick=\"ClickSup(1); return false;\">[1]</a></sup> deserves a footnote</p>\n")
     end
   end

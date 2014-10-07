@@ -46,7 +46,7 @@ namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export do
     on roles(:app) do
-      within current_path.join('rails') do
+      within current_path do
         execute :sudo, :foreman, :export, :upstart, "/etc/init -u deploy -a publicwhip -f Procfile.production -l #{shared_path}/log --root #{current_path}"
       end
     end
