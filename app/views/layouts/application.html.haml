@@ -52,7 +52,7 @@
           - else
             %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
 
-        %form{class: "navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
+        %form{class: "site-header-search navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
           .input-group
             %label.sr-only{for: "query"}
               Search the Public Whip

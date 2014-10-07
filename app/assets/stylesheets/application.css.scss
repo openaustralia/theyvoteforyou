@@ -351,6 +351,24 @@ th {
   }
 }
 
+.site-header-search {
+  input[type="search"] {
+    background-color: lighten($color-lemon-light, 5%);
+    box-shadow: none;
+    border-color: lighten($color-lemon-light, 5%);
+
+    & + .input-group-btn button {
+      background-color: lighten($color-lemon-light, 5%);
+      border: 0;
+    }
+
+    &:focus {
+      background-color: white;
+    }
+  }
+}
+
+
 .alert-container {
   .alert {
     margin-bottom: 0;
