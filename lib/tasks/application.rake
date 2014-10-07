@@ -120,7 +120,7 @@ namespace :application do
           # TODO Don't convert divisions with voting actions, comments or footnotes
           if division.motion =~ /\[(\d+)\]/
             puts "Can not convert motion text to markdown because it contains footnotes: #{division_path(division)}"
-          elsif division.motion =~ /@/
+          elsif division.motion =~ /^@/
             puts "Can not convert motion text to markdown because it contains comments or voting actions: #{division_path(division)}"
           else
             new_motion = ReverseMarkdown.convert(division.formatted_motion_text)
