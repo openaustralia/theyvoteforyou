@@ -1,0 +1,15 @@
+h1 {
+  .page-header & {
+    margin-top: 0;
+  }
+}
+
+h1,
+h2 {
+  font-weight: normal;
+}
+
+.pre-title,
+.post-title {
+  display: block;
+}

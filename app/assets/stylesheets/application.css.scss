@@ -15,21 +15,8 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-h1 {
-  .page-header & {
-    margin-top: 0;
-  }
-}
+@import "global/typography";
 
-h1,
-h2 {
-  font-weight: normal;
-}
-
-.pre-title,
-.post-title {
-  display: block;
-}
 
 #footer1 {
   background-color: #ddd;
