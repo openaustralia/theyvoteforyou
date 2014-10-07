@@ -296,6 +296,7 @@ th {
   background-color: $color-lemon;
   border-radius: 0;
   margin-bottom: 0;
+  border: 0;
 
   @media (min-width: $screen-sm-min) {
     font-size: $font-size-small;
