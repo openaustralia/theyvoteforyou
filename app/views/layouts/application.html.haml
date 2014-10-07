@@ -54,14 +54,14 @@
 
         %form{class: "navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
           .input-group
-            %label.sr-only{for: "search"}
+            %label.sr-only{for: "query"}
               Search the Public Whip
-            %input.form-control.input-sm#query{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
-              .input-group-btn
-                %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
-                  %span.sr-only
-                    Submit
-                  %span.glyphicon.glyphicon-search
+            %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+            .input-group-btn
+              %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+                %span.sr-only
+                  Submit
+                %span.glyphicon.glyphicon-search
 
     = render "layouts/bootstrap_flash"
     = yield :header
