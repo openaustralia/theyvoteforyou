@@ -350,6 +350,13 @@ th {
   }
 }
 
+.members .navlink-members,
+.divisions .navlink-divisions,
+.policies .navlink-policies,
+.about .navlink-about {
+  background-color: $color-lemon-light;
+}
+
 // section-header
 
 .section-header {
