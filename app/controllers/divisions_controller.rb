@@ -145,7 +145,6 @@ class DivisionsController < ApplicationController
       @display = "policies"
       render 'show_policies'
     end
-
   end
 
   def update_policy_division
