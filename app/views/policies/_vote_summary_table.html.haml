@@ -18,7 +18,7 @@
           %td
             %h3.h4
               %small.pre-title= division_date_and_time(division) + ", " + division.australian_house_name
-              = member ? link_to(division.name, [member, division]) : link_to(division.name, division_policies_path(division_params(division)))
+              = member ? link_to(division.name, [member, division]) : link_to(division.name, division)
           - if member
             -# Find the member current at the time of this division
             - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
