@@ -1,0 +1,5 @@
+.history-notice
+  %p.container
+    = link_to "Division last edited #{relative_time @division.wiki_motion.edit_date}", history_division_path(@division), title: "View the edit history of this division."
+    by
+    = link_to @division.wiki_motion.user.name, @division.wiki_motion.user
