@@ -1,5 +1,5 @@
-=link_to division, class: 'panel panel-default division-panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
-  %article.division-item.panel-body{class: "#{division_edit_status_class(division)}"}
+= link_to division, class: 'panel panel-default division-panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
+  %article.division-item.panel-body{class: division_edit_status_class(division)}
     .division-edit-notice.pull-right.text-muted
       - if division.edited?
         edited
@@ -7,10 +7,10 @@
       - else
         raw
     .division-meta
-      %time.division-datetime{datetime: "#{division.date}"}= division_date_and_time(division)
+      %time.division-datetime{datetime: division.date}= division_date_and_time(division)
       %span.division-house.pre= division.australian_house_name if @house.nil?
     %h2.division-title
-      =truncate(division.name, length: 180)
+      = truncate(division.name, length: 180)
 
     %ul.list-inline.division-data
       - if @party
@@ -27,8 +27,12 @@
             No rebellions by
             = @party
             members
-        %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction_in_party(@party))} attendance
+        %li.text-muted
+          = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
+          attendance
       - else
         %li= division_outcome_with_majority_strength(division)
         %li= division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
-        %li.text-muted #{fraction_to_percentage_display(division.attendance_fraction)} attendance
+        %li.text-muted
+          = fraction_to_percentage_display(division.attendance_fraction)
+          attendance
