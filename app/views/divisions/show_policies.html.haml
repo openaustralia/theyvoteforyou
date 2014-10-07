@@ -4,12 +4,7 @@
 .page-header
   %h1
     %small.pre-title= division_date_and_time(@division) + ", " + @division.australian_house_name
-    = yield :title
-
-#secondnavtabs
-  %ul.nav.nav-tabs
-    = nav_link("Summary", @division, "Overview of division", @display.nil?)
-    = nav_link("Policies", division_policies_path(division_params(@division)), "Show or change the polices which vote on this division", @display == "policies")
+    = link_to yield(:title), @division
 
 %h2 Related Policies
 
