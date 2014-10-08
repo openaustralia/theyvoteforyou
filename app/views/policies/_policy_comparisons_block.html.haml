@@ -1,5 +1,7 @@
 - unless distances.empty?
-  %h3= title
-  %ul
-    - distances.each do |ppd|
-      %li= link_to ppd.person.member_for_policy(policy).name, ppd.person.member_for_policy(policy)
+  .policy-comparision-block
+    %h3= title
+    %ul.policy-comparision-list.list-unstyled
+      - distances.each do |ppd|
+        %li.policy-comparision-item
+          = link_to ppd.person.member_for_policy(policy).name, ppd.person.member_for_policy(policy), class: 'policy-comparision-member'
