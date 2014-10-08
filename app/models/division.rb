@@ -158,7 +158,7 @@ class Division < ActiveRecord::Base
   def clock_time
     text = read_attribute(:clock_time)
     if text.present?
-      Time.parse(text).strftime("%H:%M")
+      Time.parse(text).strftime("%l:%M %p")
     end
   end
 
