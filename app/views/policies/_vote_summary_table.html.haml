@@ -17,7 +17,7 @@
         %tr{class: ('strong' if division.policy_vote_strong?(policy))}
           %td
             %h3.h4
-              %small.pre-title= division_date_and_time(division) + ", " + division.australian_house_name
+              %small.pre-title= division_date_and_time(division) + " - " + division.australian_house_name
               #{ member ? link_to(division.name, member_division_path2(member, division)) : link_to(division.name, division_with_policy_path(division, policy))}
           - if member
             -# Find the member current at the time of this division
