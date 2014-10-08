@@ -82,16 +82,8 @@ module DataLoader
       Hash[votes]
     end
 
-    def bill_id
-      @division_xml.attr(:bill_id)
-    end
-
-    def bill_url
-      @division_xml.attr(:bill_url)
-    end
-
     def bills
-      id, url = bill_id, bill_url
+      id, url = @division_xml.attr(:bill_id), @division_xml.attr(:bill_url)
       if id && url
         ids = id.split("; ")
         urls = url.split("; ")
