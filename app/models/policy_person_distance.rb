@@ -9,7 +9,7 @@ class PolicyPersonDistance < ActiveRecord::Base
                 distance_b: 0.0
 
   belongs_to :policy
-  has_one :person
+  has_one :person, foreign_key: :id, primary_key: :person_id
 
   scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
   scope :strongly_for,          -> { where(distance_a: (0.05...0.15)) }
