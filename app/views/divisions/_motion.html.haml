@@ -12,3 +12,17 @@
   %nav.motion-source-info
     %ul.list-inline.nav.nav-pills
       %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org", class: "text-muted"
+
+-# This is clearly the wrong place for this but this will get us started
+
+- unless division.bills.empty?
+  Related to the bills:
+  %ul
+    - division.bills.each do |bill|
+      %li= link_to bill.official_id, bill.url
+
+- unless division.related_divisions.empty?
+  Related divisions (because they related to the same bills):
+  %ul
+    - division.related_divisions.each do |division|
+      %li= link_to division.name, division

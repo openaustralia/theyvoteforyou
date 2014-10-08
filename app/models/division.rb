@@ -16,6 +16,11 @@ class Division < ActiveRecord::Base
   scope :edited, -> { joins(:wiki_motion) }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
 
+  # Other divisions related to this one because they consider the same bills
+  def related_divisions
+    bills.map{|b| b.divisions}.flatten.uniq.select{|d| d != self}
+  end
+
   def whip_for_party(party)
     whips.find_by(party: party)
   end
