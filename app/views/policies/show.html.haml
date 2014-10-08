@@ -9,14 +9,14 @@
 
 - if @policy.divisions.count > 0
   %section.policy-comparisions
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', distances: @policy.policy_person_distances.very_strongly_for.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', distances: @policy.policy_person_distances.strongly_for.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', distances: @policy.policy_person_distances.moderately_for.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted a mixture of for and against', distances: @policy.policy_person_distances.for_and_against.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately against', distances: @policy.policy_person_distances.moderately_against.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', distances: @policy.policy_person_distances.strongly_against.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', distances: @policy.policy_person_distances.very_strongly_against.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
-    = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', distances: @policy.policy_person_distances.never_voted.select { |ppd| ppd.person.member_for_policy(@policy).currently_in_parliament? }
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', members: @policy.current_members_very_strongly_for
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', members: @policy.current_members_strongly_for
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', members: @policy.current_members_moderately_for
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted a mixture of for and against', members: @policy.current_members_for_and_against
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately against', members: @policy.current_members_moderately_against
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', members: @policy.current_members_strongly_against
+    = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
+    = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', members: @policy.current_members_never_voted
 
   = render "nav", policy: @policy, display: nil
 

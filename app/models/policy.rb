@@ -93,4 +93,43 @@ class Policy < ActiveRecord::Base
       })
     end
   end
+
+  def current_members_very_strongly_for
+    current_members(policy_person_distances.very_strongly_for)
+  end
+
+  def current_members_strongly_for
+    current_members(policy_person_distances.strongly_for)
+  end
+
+  def current_members_moderately_for
+    current_members(policy_person_distances.moderately_for)
+  end
+
+  def current_members_for_and_against
+    current_members(policy_person_distances.for_and_against)
+  end
+
+  def current_members_moderately_against
+    current_members(policy_person_distances.moderately_against)
+  end
+
+  def current_members_strongly_against
+    current_members(policy_person_distances.strongly_against)
+  end
+
+  def current_members_very_strongly_against
+    current_members(policy_person_distances.very_strongly_against)
+  end
+
+  def current_members_never_voted
+    current_members(policy_person_distances.never_voted)
+  end
+
+  private
+
+  def current_members(policy_person_distances)
+    members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
+    members.select { |m| m.currently_in_parliament? }
+  end
 end
