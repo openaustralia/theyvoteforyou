@@ -26,6 +26,12 @@ module DataLoader
           debates.divisions.each do |d|
             Rails.logger.info "Saving division: #{d.house} #{d.date} #{d.number}"
             ActiveRecord::Base.transaction do
+              bills = d.bills.map do |bill_hash|
+                bill = Bill.find_or_initialize_by(official_id: bill_hash[:id])
+                bill.update!(url: bill_hash[:url])
+                bill
+              end
+
               division = Division.find_or_initialize_by(date: d.date, number: d.number, house: d.house)
               division.update!(valid: true,
                                name: d.name,
@@ -35,8 +41,8 @@ module DataLoader
                                debate_gid: d.debate_gid,
                                motion: d.motion,
                                clock_time: d.clock_time,
-                               bill_id: d.bill_id,
-                               bill_url: d.bill_url)
+                               bills: bills)
+
               d.votes.each do |gid, vote|
                 member = Member.find_by!(gid: gid)
                 v = Vote.find_or_initialize_by(division: division, member: member)

@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008013017) do
+ActiveRecord::Schema.define(version: 20141008030623) do
+
+  create_table "bills", force: true do |t|
+    t.string   "official_id"
+    t.text     "url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bills_divisions", id: false, force: true do |t|
+    t.integer "division_id", null: false
+    t.integer "bill_id",     null: false
+  end
 
   create_table "delayed_jobs", force: true do |t|
     t.integer  "priority",   default: 0, null: false
@@ -57,8 +69,6 @@ ActiveRecord::Schema.define(version: 20141008013017) do
     t.boolean  "markdown",             default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "bill_id"
-    t.text     "bill_url"
   end
 
   add_index "divisions", ["date", "number", "house"], name: "division_date_2", unique: true, using: :btree
