@@ -35,7 +35,9 @@ module DataLoader
                                debate_gid: d.debate_gid,
                                motion: d.motion,
                                clock_time: d.clock_time,
-                               notes: '')
+                               notes: '',
+                               bill_id: d.bill_id,
+                               bill_url: d.bill_url)
               d.votes.each do |gid, vote|
                 member = Member.find_by!(gid: gid)
                 v = Vote.find_or_initialize_by(division: division, member: member)
