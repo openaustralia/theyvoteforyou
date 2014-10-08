@@ -32,7 +32,7 @@ class HomeController < ApplicationController
         return
       elsif electorates.count > 1
         electorates.each do |e|
-          member = Member.find_by_constituency(e['name'])
+          member = Member.current_on(Date.today).find_by(constituency: e['name'])
           @mps << member unless member.nil?
         end
       end
