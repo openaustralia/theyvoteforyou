@@ -1,0 +1,29 @@
+%table.table
+  %thead
+    %tr
+      %th
+      %th Name
+      %th= electorate_label(house)
+      %th Party
+      %th
+        Rebellions
+        %br/
+        (#{link_to "explain...", help_faq_path(anchor: "rebellion")})
+      %th
+        Attendance
+        %br/
+        (#{link_to "explain...", help_faq_path(anchor: "attendance")})
+  %tbody
+    - @members.each do |member|
+      - cache ["v1", member, member.person] do
+        %tr
+          %td
+            - if member.show_small_image?
+              = link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", size: "44x58"), member
+          %td= link_to member.name_without_title, member
+          %td= link_to member.electorate, electorate_path(member)
+          %td= party_long2(member)
+          %td.percent
+            - if member.person.rebellions_fraction && member.person.rebellions_fraction > 0
+              = fraction_to_percentage_display(member.person.rebellions_fraction)
+          %td.percent= fraction_to_percentage_display(member.person.attendance_fraction)
