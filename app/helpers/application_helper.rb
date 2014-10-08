@@ -82,6 +82,6 @@ module ApplicationHelper
   end
 
   def formatted_date(date, include_nbsp = false)
-    include_nbsp ? date.strftime("%-d&nbsp;%b&nbsp;%Y").html_safe : date.strftime("%-d %b %Y")
+    include_nbsp ? date.strftime(date.strftime("#{date.day.ordinalize}&nbsp;%b&nbsp;%Y, ")).html_safe : date.strftime(date.strftime("#{date.day.ordinalize} %b %Y, "))
   end
 end
