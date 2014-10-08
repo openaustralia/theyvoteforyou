@@ -90,6 +90,22 @@ module DataLoader
       @division_xml.attr(:bill_url)
     end
 
+    def bills
+      id, url = bill_id, bill_url
+      if id && url
+        ids = id.split("; ")
+        urls = url.split("; ")
+        raise unless ids.count == urls.count
+        result = []
+        ids.each_with_index do |f,i|
+          result << {id: ids[i], url: urls[i]}
+        end
+        result
+      else
+        []
+      end
+    end
+
     private
 
     def preceeding_major_heading_element

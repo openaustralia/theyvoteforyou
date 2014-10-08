@@ -43,6 +43,32 @@ describe DataLoader::DebatesXML do
     end
   end
 
+  describe "#bills" do
+    subject(:division_xml) { double }
+
+    it do
+      expect(division_xml).to receive(:attr).with(:bill_id).and_return nil
+      expect(division_xml).to receive(:attr).with(:bill_url).and_return nil
+      expect(DataLoader::DivisionXML.new(division_xml, 'representatives').bills).to be_empty
+    end
+
+    it do
+      expect(division_xml).to receive(:attr).with(:bill_id).and_return "r5327"
+      expect(division_xml).to receive(:attr).with(:bill_url).and_return "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327"
+      expect(DataLoader::DivisionXML.new(division_xml, 'representatives').bills).to eq [{id: "r5327", url:"http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327"}]
+    end
+
+    it do
+      expect(division_xml).to receive(:attr).with(:bill_id).and_return "r5254; r5305; r5303"
+      expect(division_xml).to receive(:attr).with(:bill_url).and_return "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5254; http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5305; http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5303"
+      expect(DataLoader::DivisionXML.new(division_xml, 'representatives').bills).to eq([
+        {id: "r5254", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5254"},
+        {id: "r5305", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5305"},
+        {id: "r5303", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5303"}
+      ])
+    end
+  end
+
   describe '#clock_time' do
     it 'adds preceeding zero and trailing seconds' do
       division_xml = double("Division XML", attr: '12:34')
