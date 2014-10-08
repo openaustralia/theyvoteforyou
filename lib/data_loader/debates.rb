@@ -11,7 +11,7 @@ module DataLoader
         House.australian.each do |house|
           url = "#{Settings.xml_data_base_url}scrapedxml/#{house}_debates/#{date}.xml"
           begin
-            xml_document = agent.get url
+            xml_document = Nokogiri::XML(agent.get(url).body)
           rescue Mechanize::ResponseCodeError => e
             if e.response_code == '404'
               Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
