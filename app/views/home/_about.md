@@ -1,6 +1,7 @@
 ### A Parliamentary Democracy for Everybody 
 In Australia, every 4 years or so, we all head to polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
 
+### They vote for you
 Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
 
 ### How your MP votes on issues you care about
