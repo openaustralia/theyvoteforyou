@@ -1,29 +1,29 @@
-%table.table
-  %thead
-    %tr
-      %th
-      %th Name
-      %th= electorate_label(house)
-      %th Party
-      %th
-        Rebellions
-        %br/
-        (#{link_to "explain...", help_faq_path(anchor: "rebellion")})
-      %th
-        Attendance
-        %br/
-        (#{link_to "explain...", help_faq_path(anchor: "attendance")})
-  %tbody
-    - @members.each do |member|
-      - cache ["v1", member, member.person] do
-        %tr
-          %td
-            - if member.show_small_image?
-              = link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", size: "44x58"), member
-          %td= link_to member.name_without_title, member
-          %td= link_to member.electorate, electorate_path(member)
-          %td= party_long2(member)
-          %td.percent
-            - if member.person.rebellions_fraction && member.person.rebellions_fraction > 0
+%ol.members-list.list-unstyled{:class => active_house_for_list_class(house)}
+  - @members.each do |member|
+    %li.panel.panel-default
+      %article.member-item.panel-body
+        %h2.member-title
+          %span.member-name
+            = link_to member.name_without_title, member
+        = link_to image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-avatar"), member
+        %span.member-party.inline-post-title= party_long2(member)
+
+        .member-data
+          %p.member-electorate
+            = link_to member.role, electorate_path(member)
+          %p.member-rebellions
+            -if fraction_to_percentage_display(member.person.rebellions_fraction) == 0
+              Never rebels
+            -else
+              -# TODO: Should this be an absolute count rather than percentage?
+              -# Maybe it's good to show it as a percentage because it highlights rarity?
+              Rebels
               = fraction_to_percentage_display(member.person.rebellions_fraction)
-          %td.percent= fraction_to_percentage_display(member.person.attendance_fraction)
+              of the time
+              -# TODO: add helper tooltip for rebellions
+              -# link_to "explain...", help_faq_path(anchor: "clarify")
+          %p.member-attendance
+            = fraction_to_percentage_display(member.person.attendance_fraction)
+            attendance
+            -# TODO: add helper tooltip for attendance
+            -# link_to "explain...", help_faq_path(anchor: "clarify")
