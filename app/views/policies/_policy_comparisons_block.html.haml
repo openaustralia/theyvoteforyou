@@ -4,4 +4,6 @@
     %ul.policy-comparision-list.list-unstyled
       - distances.each do |ppd|
         %li.policy-comparision-item
-          = link_to ppd.person.member_for_policy(policy).name, ppd.person.member_for_policy(policy), class: 'policy-comparision-member'
+          = link_to ppd.person.member_for_policy(policy), class: 'policy-comparision-member' do
+            =image_tag(ppd.person.member_for_policy(policy).small_image_url, alt: "Photo of #{ppd.person.member_for_policy(policy).name_without_title}", size: "44x58")
+            =ppd.person.member_for_policy(policy).name
