@@ -8,7 +8,7 @@
 = render 'page_header', policy: @policy
 
 - if @policy.divisions.count > 0
-  %h2 People
+  %h2 Voter records
   = render 'policy_comparisons_block', policy: @policy, title: 'Very strongly for', distances: @policy.policy_person_distances.very_strongly_for
   = render 'policy_comparisons_block', policy: @policy, title: 'Strongly for', distances: @policy.policy_person_distances.strongly_for
   = render 'policy_comparisons_block', policy: @policy, title: 'Moderately for', distances: @policy.policy_person_distances.moderately_for
