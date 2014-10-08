@@ -1,5 +1,5 @@
 class PoliciesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :detail, :full]
+  before_action :authenticate_user!, except: [:index, :show, :detail, :full, :history]
 
   def index
     @policies = Policy.order(:private, :name)

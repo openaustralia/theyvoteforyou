@@ -8,7 +8,6 @@ one:
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default"
   debate_url: ""
   motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>'
-  notes: ""
   source_gid: ""
   debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
   markdown: false
@@ -22,7 +21,6 @@ two:
   source_url: "http://aph.gov.au/somedebate"
   debate_url: ""
   motion: ""
-  notes: ""
   source_gid: ""
   debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
   markdown: false
@@ -37,7 +35,6 @@ three:
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
   debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
   motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>'
-  notes: ""
   source_gid: "uk.org.publicwhip/debate/2006-12-06.112.1"
   debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
   markdown: false
@@ -52,7 +49,6 @@ four:
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
   motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>'
-  notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-25.77.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
   markdown: false
@@ -67,7 +63,6 @@ five:
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
   motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>'
-  notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-30.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
   markdown: false
@@ -88,7 +83,6 @@ six:
   source_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
   debate_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
   motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>'
-  notes: ""
   source_gid: "uk.org.publicwhip/lords/2009-11-10.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
   markdown: false

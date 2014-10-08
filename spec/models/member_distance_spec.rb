@@ -35,7 +35,7 @@ describe MemberDistance, type: :model do
 
     context "with votes in one division that only member A could vote on" do
       let(:division) { Division.create(name: "1", date: Date.new(1995,1,1),
-      number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+      number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
       source_gid: "", debate_gid: "") }
 
       it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
@@ -47,7 +47,7 @@ describe MemberDistance, type: :model do
 
     context "with votes in one division that both members could vote on" do
       let(:division) { Division.create(name: "1", date: Date.new(2000,1,1),
-      number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+      number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
       source_gid: "", debate_gid: "") }
 
       it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
@@ -83,19 +83,19 @@ describe MemberDistance, type: :model do
         # Member A: 1 aye,    2 aye,     3 aye, 4 tellno, 5 absent
         # Member B: 1 absent, 2 tellaye, 3 no,  4 no,     5 no
         division1 = Division.create(name: "1", date: Date.new(2000,1,1),
-        number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+        number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
         source_gid: "", debate_gid: "")
         division2 = Division.create(name: "2", date: Date.new(2000,1,1),
-        number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+        number: 2, house: "commons", source_url: "", debate_url: "", motion: "",
         source_gid: "", debate_gid: "")
         division3 = Division.create(name: "3", date: Date.new(2000,1,1),
-        number: 3, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+        number: 3, house: "commons", source_url: "", debate_url: "", motion: "",
         source_gid: "", debate_gid: "")
         division4 = Division.create(name: "4", date: Date.new(2000,1,1),
-        number: 4, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+        number: 4, house: "commons", source_url: "", debate_url: "", motion: "",
         source_gid: "", debate_gid: "")
         division5 = Division.create(name: "5", date: Date.new(2000,1,1),
-        number: 5, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+        number: 5, house: "commons", source_url: "", debate_url: "", motion: "",
         source_gid: "", debate_gid: "")
         membera.votes.create(division: division1, vote: "aye")
         membera.votes.create(division: division2, vote: "aye")

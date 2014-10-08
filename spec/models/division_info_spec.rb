@@ -19,14 +19,14 @@ describe DivisionInfo, type: :model do
       entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1)) }
 
     let(:division1) { Division.create(id: 1, name: "1", date: Date.new(2000,1,1),
-    number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
     source_gid: "", debate_gid: "") }
     let(:division2) { Division.create(id: 2, name: "2", date: Date.new(2000,1,1),
-    number: 2, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    number: 2, house: "commons", source_url: "", debate_url: "", motion: "",
     source_gid: "", debate_gid: "") }
     # This division neither of the members could have voted on
     let(:division3) { Division.create(id: 3, name: "3", date: Date.new(2002,1,1),
-    number: 1, house: "commons", source_url: "", debate_url: "", motion: "", notes: "",
+    number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
     source_gid: "", debate_gid: "") }
 
     before :each do

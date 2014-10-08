@@ -6,6 +6,8 @@ class Division < ActiveRecord::Base
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
   has_one :wiki_motion, -> {order(edit_date: :desc)}
+  has_and_belongs_to_many :bills
+  
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
@@ -13,6 +15,11 @@ class Division < ActiveRecord::Base
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :edited, -> { joins(:wiki_motion) }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
+
+  # Other divisions related to this one because they consider the same bills
+  def related_divisions
+    bills.map{|b| b.divisions}.flatten.uniq.select{|d| d != self}
+  end
 
   def whip_for_party(party)
     whips.find_by(party: party)
