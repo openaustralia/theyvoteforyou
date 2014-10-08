@@ -82,6 +82,14 @@ module DataLoader
       Hash[votes]
     end
 
+    def bill_id
+      @division_xml.attr(:bill_id)
+    end
+
+    def bill_url
+      @division_xml.attr(:bill_url)
+    end
+
     private
 
     def preceeding_major_heading_element
