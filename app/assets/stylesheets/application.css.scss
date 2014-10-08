@@ -109,6 +109,14 @@ th {
   @media (min-width: $screen-lg-min) {
     padding-bottom: 3em;
   }
+
+  h2 + & {
+    margin-top: 1em;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: 2em;
+    }
+  }
 }
 
 .policy-comparision-position {
