@@ -127,37 +127,37 @@ th {
   font-size: 24px;
   font-weight: normal;
 
-  .position-very-strongly-for & {
+  .position-voted-very-strongly-for & {
     border-top-color: $color-very-strongly-for;
     color: $color-very-strongly-for;
   }
 
-  .position-strongly-for & {
+  .position-voted-strongly-for & {
     border-top-color: $color-strongly-for;
     color: $color-strongly-for;
   }
 
-  .position-moderately-for & {
+  .position-voted-moderately-for & {
     border-top-color: $color-moderately-for;
     color: $color-moderately-for;
   }
 
-  .position-a-mixture-of-for-and-against & {
+  .position-voted-a-mixture-of-for-and-against & {
     border-top-color: $color-mixed-position;
     color: $color-mixed-position;
   }
 
-  .position-moderately-against & {
+  .position-voted-moderately-against & {
     border-top-color: $color-moderately-against;
     color: $color-moderately-against;
   }
 
-  .position-strongly-against & {
+  .position-voted-strongly-against & {
     border-top-color: $color-strongly-against;
     color: $color-strongly-against;
   }
 
-  .position-very-strongly-against & {
+  .position-voted-very-strongly-against & {
     border-top-color: $color-very-strongly-against;
     color: $color-very-strongly-against;
   }
