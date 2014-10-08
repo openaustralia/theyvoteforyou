@@ -1,9 +1,9 @@
 - unless distances.empty?
-  .policy-comparision-block
-    %h3.policy-comparision-position= title
+  .policy-comparision-block.row
+    %h3.policy-comparision-position.col-xs-12= title
     %ul.policy-comparision-list.member-list-compact.list-unstyled
       - distances.each do |ppd|
-        %li.policy-comparision-item.member-item
-          = link_to ppd.person.member_for_policy(policy), class: 'policy-comparision-member' do
+        %li.policy-comparision-item.member-item.col-xs-12.col-sm-6.col-md-4.col-lg-3
+          = link_to ppd.person.member_for_policy(policy), class: 'policy-comparision-member member-item-link' do
             =image_tag(ppd.person.member_for_policy(policy).small_image_url, alt: "Photo of #{ppd.person.member_for_policy(policy).name_without_title}", class: 'member-photo', size: "44x58")
             %span.member-name=ppd.person.member_for_policy(policy).name

@@ -80,7 +80,13 @@ th {
 // Members
 
 .member-list-compact {
+  .member-item {
+    @include clearfix;
+  }
+
   .member-photo {
+    float: left;
+    clear: left;
     margin-right: .5em;
   }
 }
@@ -88,8 +94,9 @@ th {
 // Policies
 
 .policy-comparision-position {
-  border-top: .25em solid $gray;
-  padding: .25em 0;
+  border-top: .25em solid #ccc;
+  padding-top: .5em;
+  padding-bottom: .25em;
   font-size: 24px;
   font-weight: normal;
 }
