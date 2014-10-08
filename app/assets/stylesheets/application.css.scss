@@ -84,6 +84,12 @@ th {
     @include clearfix;
   }
 
+  .member-link {
+    .policy-comparision-block & {
+      color: $text-color;
+    }
+  }
+
   .member-photo {
     float: left;
     clear: left;
@@ -93,12 +99,60 @@ th {
 
 // Policies
 
+.policy-comparision-block {
+  padding-bottom: 1em;
+
+  @media (min-width: $screen-sm-min) {
+    padding-bottom: 2em;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    padding-bottom: 3em;
+  }
+}
+
 .policy-comparision-position {
+  margin-top: 0;
   border-top: .25em solid #ccc;
   padding-top: .5em;
   padding-bottom: .25em;
   font-size: 24px;
   font-weight: normal;
+
+  .position-very-strongly-for & {
+    border-top-color: $color-very-strongly-for;
+    color: $color-very-strongly-for;
+  }
+
+  .position-strongly-for & {
+    border-top-color: $color-strongly-for;
+    color: $color-strongly-for;
+  }
+
+  .position-moderately-for & {
+    border-top-color: $color-moderately-for;
+    color: $color-moderately-for;
+  }
+
+  .position-a-mixture-of-for-and-against & {
+    border-top-color: $color-mixed-position;
+    color: $color-mixed-position;
+  }
+
+  .position-moderately-against & {
+    border-top-color: $color-moderately-against;
+    color: $color-moderately-against;
+  }
+
+  .position-strongly-against & {
+    border-top-color: $color-strongly-against;
+    color: $color-strongly-against;
+  }
+
+  .position-very-strongly-against & {
+    border-top-color: $color-very-strongly-against;
+    color: $color-very-strongly-against;
+  }
 }
 
 .policy-comparision-item {
