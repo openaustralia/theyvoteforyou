@@ -7,6 +7,14 @@
 = render "summary", division: @division, member: @member, members: @members
 
 - if @division.policies
-  %h2.h4 Related Policies
+  %h2 Related Policies
 
   = render "current_policies_list", division: @division, display: @display
+
+- unless @division.related_divisions.empty?
+  %h2 Related divisions
+  %p
+    Because they relate to the same
+    = @division.bills.count == 1 ? "bill" : "bills"
+    as this division
+  = render partial: "divisions", object: @division.related_divisions

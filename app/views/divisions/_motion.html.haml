@@ -7,22 +7,18 @@
 
   %h2.motion-title Summary
   = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
-  .motion-text.col-md-8.row
-    = division.formatted_motion_text
+  .row
+    .motion-text.col-md-8
+      = division.formatted_motion_text
+    .col-md-4
+      -# This is clearly the wrong place for this but this will get us started
+
+      - unless division.bills.empty?
+        Related to the
+        = division.bills.count == 1 ? "bill" : "bills"
+        %ul
+          - division.bills.each do |bill|
+            %li= link_to bill.official_id, bill.url
   %nav.motion-source-info
     %ul.list-inline.nav.nav-pills
       %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org", class: "text-muted"
-
--# This is clearly the wrong place for this but this will get us started
-
-- unless division.bills.empty?
-  Related to the bills:
-  %ul
-    - division.bills.each do |bill|
-      %li= link_to bill.official_id, bill.url
-
-- unless division.related_divisions.empty?
-  Related divisions (because they related to the same bills):
-  %ul
-    - division.related_divisions.each do |division|
-      %li= link_to division.name, division
