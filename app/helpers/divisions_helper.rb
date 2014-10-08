@@ -1,7 +1,7 @@
 module DivisionsHelper
   def division_date_and_time(division)
     text = formatted_date(division.date)
-    text += division.clock_time if division.clock_time
+    text += ", #{division.clock_time}" if division.clock_time
     text
   end
 
