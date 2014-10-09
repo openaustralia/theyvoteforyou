@@ -12,11 +12,11 @@
       = link_to "edit or make a policy", policies_path
       that will appear here.
 - else
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.very_strongly_for, title: "Voted very strongly for"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.strongly_for, title: "Voted strongly for"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.moderately_for, title: "Voted moderately for"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.for_and_against, title: "Voted a mixture of for and against"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.moderately_against, title: "Voted moderately against"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.strongly_against, title: "Voted strongly against"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.very_strongly_against, title: "Voted very strongly against"
-  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.never_voted, title: "Has never voted on"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.very_strongly_for, title: "Voted very strongly for"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.strongly_for, title: "Voted strongly for"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.moderately_for, title: "Voted moderately for"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.for_and_against, title: "Voted a mixture of for and against"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.moderately_against, title: "Voted moderately against"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.strongly_against, title: "Voted strongly against"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.very_strongly_against, title: "Voted very strongly against"
+  = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.visible.never_voted, title: "Has never voted on"
