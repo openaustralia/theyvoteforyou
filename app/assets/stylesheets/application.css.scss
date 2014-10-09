@@ -77,6 +77,15 @@ th {
   }
 }
 
+// Alerts
+
+.alert-container {
+  .alert {
+    margin-bottom: 0;
+    border: 0;
+  }
+}
+
 // Members
 
 .member-list-compact {
@@ -418,14 +427,6 @@ th {
     &:focus {
       background-color: white;
     }
-  }
-}
-
-
-.alert-container {
-  .alert {
-    margin-bottom: 0;
-    border: 0;
   }
 }
 
