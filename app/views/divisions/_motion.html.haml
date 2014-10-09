@@ -18,7 +18,7 @@
         = division.bills.count == 1 ? "bill" : "bills"
         %ul
           - division.bills.each do |bill|
-            %li= link_to bill.official_id, bill.url
+            %li= link_to bill.title, bill.url
   %nav.motion-source-info
     %ul.list-inline.nav.nav-pills
       %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org", class: "text-muted"
