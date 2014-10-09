@@ -6,7 +6,7 @@
   made
 
 %ul
-- @policies.each do |policy|
+- @user.policies.each do |policy|
   %li
     = link_to policy.name, policy
     - if @you
