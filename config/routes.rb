@@ -161,6 +161,7 @@ Publicwhip::Application.routes.draw do
     get 'faq'
     get 'data'
     get 'research'
+    get 'licencing'
   end
 
   # Example of regular route:
