@@ -416,6 +416,10 @@ th {
       margin-top: 8px;
     }
   }
+
+  .open .dropdown-toggle {
+    background: $color-lemon;
+  }
 }
 
 .site-header-search {
