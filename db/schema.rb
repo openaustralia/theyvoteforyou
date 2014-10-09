@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141008030623) do
+ActiveRecord::Schema.define(version: 20141009090336) do
 
   create_table "bills", force: true do |t|
     t.string   "official_id"
     t.text     "url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "title"
   end
 
   create_table "bills_divisions", id: false, force: true do |t|
