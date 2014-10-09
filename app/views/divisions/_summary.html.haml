@@ -17,32 +17,35 @@
         %th
     %tbody
       - division.whips.order(:party).each do |whip|
-        %tr.party-row
-          %th
-            = link_to whip.party_name, party_divisions_path(whip.party_object)
-            %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
-          %td{class: aye_vote_class(whip)}
-            = whip.aye_votes_including_tells if whip.aye_votes_including_tells > 0
-          %td{class: no_vote_class(whip)}
-            = whip.no_votes_including_tells if whip.no_votes_including_tells > 0
-          %td
-            %button.voter-table-toggle-members.btn.btn-default.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
-              %span.sr-only show members
+        - if !whip.whipless?
+          %tr.party-row
+            %th
+              = link_to whip.party_name, party_divisions_path(whip.party_object)
+              %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
+            %td{class: aye_vote_class(whip)}
+              = whip.aye_votes_including_tells if whip.aye_votes_including_tells > 0
+            %td{class: no_vote_class(whip)}
+              = whip.no_votes_including_tells if whip.no_votes_including_tells > 0
+            %td
+              %button.voter-table-toggle-members.btn.btn-default.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
+                %span.sr-only show members
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
         -# Show members in this party that are absent in this division
         - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
-          %tr.member-row.collapse{class: ('member-row-' + whip.party.parameterize)}
+          %tr.member-row{class: [('collapse' unless whip.whipless?), ('member-row-' + whip.party.parameterize)]}
             %td
               = link_to member.name_without_title, member
+              = vote.member.party_name if whip.whipless?
               = link_to member.electorate, electorate_path(member), class: 'text-muted'
             %td{colspan: '3'} absent
 
         -# Show members in this party that are present in this division
         - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
-          %tr.member-row.collapse{class: ('rebel' if vote.rebellion?), class: ('member-row-' + whip.party.parameterize)}
+          %tr.member-row{class: [('collapse' unless whip.whipless?), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
             %td
               = link_to vote.member.name_without_title, vote.member
+              = vote.member.party_name if whip.whipless?
               = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted'
             %td{colspan: '3'}= vote.vote
 
