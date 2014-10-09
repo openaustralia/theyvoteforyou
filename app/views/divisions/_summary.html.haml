@@ -4,10 +4,6 @@
     %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
       = division_outcome_with_majority_strength(division)
 
-  - if member
-    %p.mpondivision
-      = member_voted_with member, division
-
   %table.table
     %thead
       %tr

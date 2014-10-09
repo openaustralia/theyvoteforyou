@@ -4,4 +4,9 @@
 .page-header.division-header
   %h1.division-title
     %small.pre-title= division_date_and_time(division) + " – " + division.australian_house_name
-    = link_to_if @display == 'policies', yield(:title), division
+    - if @display == 'policies'
+      = link_to yield(:title), :back
+    - elsif member
+      = member_voted_with(member, division) + ' on the division ' + content_tag(:em, yield(:title))
+    - else
+      = yield(:title)
