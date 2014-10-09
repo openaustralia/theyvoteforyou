@@ -109,10 +109,10 @@ module DivisionsHelper
   end
 
   def member_voted_with(member, division)
-    sentence = link_to member.full_name, member
+    sentence = link_to member.name, member
     sentence += " "
     if member.vote_on_division_without_tell(division) == "absent"
-      sentence += "did not vote."
+      sentence += "did not vote"
     end
 
     if !division.action_text.empty? && division.action_text[member.vote_on_division_without_tell(division)]
@@ -123,7 +123,7 @@ module DivisionsHelper
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
         if member.vote_on_division_without_tell(division) != "absent"
-          sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}."
+          sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}"
         end
       elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
@@ -132,7 +132,7 @@ module DivisionsHelper
       end
 
       if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-        sentence += " (#{member.vote_on_division_without_tell(division).capitalize})."
+        sentence += " (#{member.vote_on_division_without_tell(division).capitalize})"
       end
       sentence
     end
