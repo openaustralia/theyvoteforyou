@@ -22,8 +22,10 @@ It is a surface to scratch *their* contribution—not *[a destination](http://ci
 * respectful but not boring
 * friendly but not assuming
 * simple but not patronising
-* accurate but not academic and jargony
+* accurate but not academic or jargony
 * distinctly non-government & not corporate
+
+This section inspired by [Mailchimp’s helpful writing style guide](http://mailchimp.com/about/style-guide/#voice-and-tone).
 
 
 ## Voice
