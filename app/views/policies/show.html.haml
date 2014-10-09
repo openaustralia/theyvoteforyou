@@ -21,9 +21,9 @@
     = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
     = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', members: @policy.current_members_never_voted
 
-  = render "nav", policy: @policy, display: nil
-
   %h2#divisions Relevant divisions
+  %p
+    = link_to "See detail", detail_policy_path(@policy), title: 'Shows all available division summaries'
   = render 'vote_table_leader', policy: @policy
   = render 'vote_summary_table', member: @member, policy: @policy
   %p.alert.alert-postnote.small
