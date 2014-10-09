@@ -14,7 +14,7 @@
   - if @policies.visible
     = render "policies_list", policies: @policies.visible
   - if @policies.provisional
-    %h1 Provisional policies
+    %h1{id: 'provisional'} Provisional policies
     = render "policies_list", policies: @policies.provisional
 
 - else
