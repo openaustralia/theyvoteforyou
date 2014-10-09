@@ -28,7 +28,7 @@ module DataLoader
             ActiveRecord::Base.transaction do
               bills = d.bills.map do |bill_hash|
                 bill = Bill.find_or_initialize_by(official_id: bill_hash[:id])
-                bill.update!(url: bill_hash[:url])
+                bill.update!(url: bill_hash[:url], title: bill_hash[:title])
                 bill
               end
 
