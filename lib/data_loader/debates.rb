@@ -43,10 +43,10 @@ module DataLoader
                                clock_time: d.clock_time,
                                bills: bills)
 
+              division.votes.delete_all(:delete_all)
               d.votes.each do |gid, vote|
                 member = Member.find_by!(gid: gid)
-                v = Vote.find_or_initialize_by(division: division, member: member)
-                v.update!(vote: vote[0], teller: vote[1])
+                Vote.create!(division: division, member: member, vote: vote[0], teller: vote[1])
               end
             end
           end
