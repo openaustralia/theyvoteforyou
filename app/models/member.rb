@@ -93,7 +93,7 @@ class Member < ActiveRecord::Base
     if senator?
       "Senator  for #{electorate}"
     else
-      "MP for #{electorate}"
+      "Representative for #{electorate}"
     end
   end
 
