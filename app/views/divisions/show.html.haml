@@ -2,7 +2,7 @@
   - content_for :history_notice do
     =render "layouts/history_notice", division: @division
 
-= render "header", division: @division
+= render "header", division: @division, member: @member
 = render "motion", division: @division
 = render "summary", division: @division, member: @member, members: @members
 
