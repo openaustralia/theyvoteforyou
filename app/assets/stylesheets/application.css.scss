@@ -79,6 +79,63 @@ th {
 
 // Members
 
+.members-list {
+  .member-item {
+    padding-top: 1em;
+  }
+
+  .member-photo {
+    max-width: 44px;
+  }
+
+  .member-name {
+    font-size: $font-size-h4;
+  }
+
+  .member-role {
+    margin-bottom: 0;
+
+    @media (min-width: $screen-md-min) {
+      float: left;
+      clear: left;
+    }
+  }
+
+  .member-party,
+  .member-electorate {
+    display: block;
+
+    @media (min-width: 30em) {
+      display: inline;
+    }
+
+    a {
+    }
+  }
+
+  .member-data {
+    margin-top: .5em;
+    margin-bottom: 0;
+    font-size: $font-size-supporting;
+    text-transform: uppercase;
+
+    @media (min-width: $screen-md-min) {
+      float: right;
+      clear: right;
+    }
+  }
+
+  .member-rebellions,
+  .member-attendance {
+    display: block;
+
+    @media (min-width: 30em) {
+      margin-right: 1em;
+      display: inline-block;
+    }
+  }
+}
+
 .member-list-compact {
   .member-item {
     @include clearfix;
@@ -214,14 +271,19 @@ th {
 
 // Division lists
 
-.division-panel-link {
+.panel-link {
   display: block;
+  color: $text-color;
 
   &:hover,
   &:focus {
     border-color: $brand-primary;
     background-color: lighten($brand-primary, 45%);
     text-decoration: none;
+  }
+
+  .panel-link-title {
+    color: $brand-primary;
   }
 }
 

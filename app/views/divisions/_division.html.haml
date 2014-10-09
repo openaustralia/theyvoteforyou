@@ -1,5 +1,5 @@
 %li
-  = link_to division, class: 'panel panel-default division-panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
+  = link_to division, class: 'panel panel-default panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
     %article.division-item.panel-body{class: division_edit_status_class(division)}
       .division-edit-notice.pull-right.text-muted
         - if division.edited?
@@ -10,7 +10,7 @@
       .division-meta
         %time.division-datetime{datetime: division.date}= division_date_and_time(division)
         %span.division-house.pre= division.australian_house_name if @house.nil?
-      %h2.division-title
+      %h2.division-title.panel-link-title
         = truncate(division.name, length: 180)
 
       %ul.list-inline.division-data
