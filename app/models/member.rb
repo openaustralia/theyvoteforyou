@@ -89,6 +89,14 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def role
+    if senator?
+      "Senator  for #{electorate}"
+    else
+      "Representative for #{electorate}"
+    end
+  end
+
   def in_parliament_on_date(date)
     date >= entered_house && date < left_house
   end
