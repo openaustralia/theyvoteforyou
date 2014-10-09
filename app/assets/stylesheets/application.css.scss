@@ -240,7 +240,7 @@ th {
     .display-house-all & {
       &:after {
         @media (min-width: 33em) {
-          content: ", "
+          content: " – "
         }
       }
     }
