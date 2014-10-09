@@ -9,7 +9,8 @@
 - @policies.each do |policy|
   %li
     = link_to policy.name, policy
-    (#{policy.status})
+    - if @you
+      (#{policy.status})
 
 - if @you
   %p
