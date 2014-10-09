@@ -23,6 +23,12 @@
   %h2#divisions Relevant divisions
   = render 'vote_table_leader', policy: @policy
   = render 'vote_summary_table', member: @member, policy: @policy
+  %p.alert.alert-postnote.small
+    If you know of other
+    = link_to 'divisions', divisions_path
+    that relate to this policy, you can add them in the
+    %strong Related Policies
+    section of that division‘s page.
 - else
   %p This policy isn't connected with any divisions just yet.
   = render 'division_edit_instructions'
