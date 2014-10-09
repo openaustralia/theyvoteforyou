@@ -12,7 +12,7 @@
 
             %p.member-data
               %span.member-rebellions
-                -if fraction_to_percentage_display(member.person.rebellions_fraction) == 0
+                -if member.person.rebellions_fraction == 0
                   Never rebels
                 -else
                   -# TODO: Should this be an absolute count rather than percentage?
