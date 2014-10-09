@@ -36,7 +36,7 @@
           %tr.member-row{class: [('collapse' unless whip.whipless?), ('member-row-' + whip.party.parameterize)]}
             %td
               = link_to member.name_without_title, member
-              = vote.member.party_name if whip.whipless?
+              = member.party_name if whip.whipless?
               = link_to member.electorate, electorate_path(member), class: 'text-muted'
             %td{colspan: '3'} absent
 
