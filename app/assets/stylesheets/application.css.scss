@@ -508,6 +508,11 @@ th {
 .policies .navlink-policies,
 .about .navlink-about {
   background-color: $color-lemon-light;
+
+  &:hover,
+  &:focus {
+    background-color: $color-lemon-light !important;
+  }
 }
 
 // section-header
