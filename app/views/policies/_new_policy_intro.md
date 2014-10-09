@@ -32,7 +32,5 @@ Some other things to note about policies:
 * All policies must be convertable into votes. So, for example,
   "Make Australia a Republic" doesn't work because there haven't been
   any such votes (recently).
-* Don't be shy. These policies belong to everyone. If you have a
-  point of view that a policy is wrongly voting, or it's ill-defined,
-  or you can see how it should be broken down, discuss it with others
-  and fix it.
+* Don't be shy. These policies belong to everyone.
+  If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.
