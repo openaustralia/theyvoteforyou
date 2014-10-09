@@ -83,18 +83,8 @@ module DataLoader
     end
 
     def bills
-      id, url = @division_xml.attr(:bill_id), @division_xml.attr(:bill_url)
-      if id && url
-        ids = id.split("; ")
-        urls = url.split("; ")
-        raise unless ids.count == urls.count
-        result = []
-        ids.each_with_index do |f,i|
-          result << {id: ids[i], url: urls[i]}
-        end
-        result
-      else
-        []
+      @division_xml.search("bills bill").map do |bill|
+        {id: bill.attr(:id), url: bill.attr(:url), title: bill.inner_text}
       end
     end
 
