@@ -86,6 +86,11 @@ th {
   }
 }
 
+.alert-postnote {
+  border-radius: 0;
+  border-left: .5em solid $gray-lighter;
+}
+
 // Members
 
 .member-list-compact {
