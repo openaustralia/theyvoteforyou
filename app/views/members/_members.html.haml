@@ -1,8 +1,8 @@
 %ol.members-list.list-unstyled{:class => active_house_for_list_class(house)}
   - @members.each do |member|
     %li
-      = link_to member, class: 'panel panel-default panel-link' do
-        %article.member-item.panel-body.media
+      = link_to member, class: 'member-item panel-link' do
+        %article.media
           = image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-photo pull-left")
           .media-body
             %h2.media-heading.member-name.panel-link-title= member.name_without_title
