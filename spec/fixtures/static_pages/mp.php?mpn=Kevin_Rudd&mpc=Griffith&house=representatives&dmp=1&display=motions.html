@@ -162,7 +162,11 @@ Totals
 </div>
 </div>
 
-<h2 id="ratioexpl">How the number is calculated</h2>
+<h2 id="ratioexpl">
+How
+"voted very strongly against"
+is worked out
+</h2>
 <p>
 The MP's votes count towards a weighted average where the most important votes get
 50 points,
@@ -184,6 +188,9 @@ for voting against, and
 1
 (out of 2)
 if absent.
+</p>
+<p>
+Then, the number gets converted to a simple english language phrase based on the range of values it's within.
 </p>
 <table class="table">
 <thead>
@@ -268,11 +275,72 @@ difference.
 </tbody>
 </table>
 <p>
-agreement score = MP's points / total points
+Agreement score = MP's points / total points
 = 0 / 10
 =
 <b>0.0%</b>.
 </p>
+<p>
+And then
+</p>
+<ul>
+<li>
+between
+95%
+and
+100%
+becomes
+"very strongly for"
+</li>
+<li>
+between
+85%
+and
+95%
+becomes
+"strongly for"
+</li>
+<li>
+between
+60%
+and
+85%
+becomes
+"moderately for"
+</li>
+<li>
+between
+40%
+and
+60%
+becomes
+"a mixture of for and against"
+</li>
+<li>
+between
+15%
+and
+40%
+becomes
+"moderately against"
+</li>
+<li>
+between
+5.0%
+and
+15%
+becomes
+"strongly against"
+</li>
+<li>
+between
+0.0%
+and
+5.0%
+becomes
+"very strongly against"
+</li>
+</ul>
 
 
 </div>
