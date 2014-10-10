@@ -13,7 +13,7 @@
                               'Aye' => 'aye',
                               'No' => 'no',
                               'No (strong)' => 'no3'}
-          = f.select :vote, options_for_select(select_options, (policy.vote_for_division(@division))), size: 1, class: "form-control"
+          = f.select :vote, options_for_select(select_options, (policy.vote_for_division(@division))), {}, size: 1, class: "form-control"
           = f.submit 'Update', class: 'btn btn-primary btn-xs'
         = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
       - else
