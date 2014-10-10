@@ -40,7 +40,7 @@
               = link_to member.name_without_title, member
               = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
               %small.post-title.text-muted= member.party_name if whip.whipless?
-            %td.cell-vote absent
+            %td.cell-vote Absent
             %td.cell-toggler
 
         -# Show members in this party that are present in this division
@@ -50,7 +50,7 @@
               = link_to vote.member.name_without_title, vote.member
               = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
               %small.post-title.text-muted= vote.member.party_name if whip.whipless?
-            %td.cell-vote= vote.vote
+            %td.cell-vote= vote.vote.capitalize
             %td.cell-toggler
 
       %tr
