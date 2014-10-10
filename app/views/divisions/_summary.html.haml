@@ -20,7 +20,7 @@
             %th.cell-name
               = link_to whip.party_name, party_divisions_path(whip.party_object)
               %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
-            %td.cell-vote
+            %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
               - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
                 %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
                   = whip.aye_votes_including_tells
