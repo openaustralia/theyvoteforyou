@@ -12,7 +12,7 @@
       %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
   %p
     Attended #{fraction_to_percentage_display(member.person.attendance_fraction)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
-    %small= link_to "explain attendance", help_faq_path(anchor: "atttendance")
+    %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
 - else
   %strong No votes attended
 - # TODO: add back in the rebellion and attendance rate for previous membership.
