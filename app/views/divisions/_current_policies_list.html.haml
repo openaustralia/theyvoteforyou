@@ -4,8 +4,8 @@
       - if @display == "policies" && user_signed_in?
         = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
           %label.division-policy-statement
-            People who are for
-            = link_to policy.name, policy
+            People who are
+            = link_to "for #{policy.name}", policy
             - if policy.provisional?
               %em (provisional)
             would have voted
@@ -18,8 +18,8 @@
         = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
       - else
         %p.division-policy-statement
-          People who are for
-          = link_to policy.name, policy
+          People who are
+          = link_to "for #{policy.name}", policy
           - if policy.provisional?
             %em (provisional)
           would have voted '#{simple_vote_display @division.policy_vote(policy)}'
