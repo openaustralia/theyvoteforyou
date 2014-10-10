@@ -15,6 +15,10 @@ class Policy < ActiveRecord::Base
   # We can't call the scope public so we're calling it visible instead
   scope :visible, -> { where(private: 0) }
 
+  def name_with_for
+    "for #{name}"
+  end
+
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
     policy_division.vote if policy_division
