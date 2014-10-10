@@ -5,31 +5,35 @@ This will help you make everything you write at the Public Whip easy to read and
 
 ## Use Plain English 
 People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible. 
-George Orwell would be proud
-“Never use a metaphor, simile, or other figure of speech which you are used to seeing in print. Never use a long word where a short one will do. If it is possible to cut a word out always cut it out. Never use the passive voice where you can use the active. Never use a foreign phrase a scientific word or a jargon word if you can think of an everyday English equivalent. Break any of these rules sooner than say anything outright barbarous.”
+
 
 ## Don’t Use Long Words, buzzwords, or jargon
 Use easy or short words instead of long formal ones. Use ‘buy’ instead of ‘purchase’, ‘help’ instead of ‘assist’, ‘about’ instead of ‘approximately’ and ‘like’ instead of ‘such as’.
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
+
 ## Active voice
 Use the active rather than passive voice. This will help us write concise, clear content.
 ## Avoid duplication
 Duplicate content confuses people and damages the credibility of Public Whip content. 
 If something is written once and links to relevant resources easily and well, people are more likely to trust the content.
+
 ## Be concise
 To keep content understandable, concise and relevant, it should be:
-specific
-informative
-clear 
-concise (friendliness can lead to a lack of precision and unnecessary words) human (not a faceless machine)
-serious but not pompous
-emotionless – adjectives can be subjective and make the text sound more emotive and like spin
-use words which encourage people to think in a particular way about an issue.
+* specific
+* informative
+* clear 
+* concise (friendliness can lead to a lack of precision and unnecessary words) human (not a faceless machine)
+* serious but not pompous
+* emotionless – adjectives can be subjective and make the text sound more emotive and like spin
+* non partisan - only use words which is used by one 
+
+
 ## You should:
-use contractions (eg can’t, don’t, )
-not let caveats dictate unwieldy grammar – eg say ‘You can’ rather than ‘You may be able to’
-not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
+*use contractions (eg can’t, don’t, they'll, we've, let's )
+*not let caveats dictate unwieldy grammar – eg say ‘You can’ rather than ‘You may be able to’
+*not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
 (Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
+
 ## Use Gender-neutral text
 Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’ etc.
 
@@ -48,8 +52,7 @@ Anyone can put information online, but writing well for the web is very differen
 They use:
 * short sentences
 * subheaded sections
-* plain english
-This helps people find what they need quickly and absorb it effortlessly.
+* plain english. This helps people find what they need quickly and absorb it effortlessly.
 
 ##How people read
 Knowing how people read means you'll write in a way they can understand easily and quickly.
@@ -61,6 +64,7 @@ Web-user eye-tracking studies show that people tend to ‘read’ a webpage in a
 So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
 Make sure your bullet points are all in the same tense and verb form, with any common information in the preceding sentence.
+
 Good example:
 
 At the activity centre you can:
@@ -82,26 +86,17 @@ When you use a longer word (8 or 9 letters), people are more likely to skip shor
 Look at this sentence: "The recently implemented categorical standardisation procedure on waste oil should not be applied before 1 January 2014." It’s just an example, but you can imagine people missing that ‘not’. This is a big deal.
 How about:
 "Do not use the new waste oil standards before 1 January 2014."
+
 Focus on the child’s common word set of up to 5,000 words. This makes it easier to read and understand information quickly.
 
-## Start writing
-So now you’re ready to write.
 
-## Titles
-Make every word count.
-Make sure your titles are clear for the content type you are using.
-Keep all titles to 65 characters (including spaces).
-Front-load keywords and use colons to break up long titles (it helps people to scan). ‘Planning appeal procedures: technical review’ works better than ‘Technical review of planning appeal procedures’.
-Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand.
+Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand. 
 Remember that puns or wordplay can make the content difficult to find.
 
 
-## Summaries
-Condense the main point of the page in 140 characters or less. Use search keywords (especially ones you haven’t included in the page title).
-Remember that the summary – along with the title – is often what people see in search results. So let them see quickly whether this page will have the information they want.
-Summaries should end with a full stop.
 
-adapted from https://www.gov.uk/design-principles/style-guide/writing-for-the-web and https://www.gov.uk/design-principles/style-guide/writing-for-govuk licenced under the Open Government 2.0 Licence 
+
+Partially adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the Open Government 2.0 Licence 
 
 
 
