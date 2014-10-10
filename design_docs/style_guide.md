@@ -96,7 +96,7 @@ Remember that puns or wordplay can make the content difficult to find.
 
 
 
-Partially adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the Open Government 2.0 Licence 
+Partially adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the (Open Government 2.0 Licence)[https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/] 
 
 
 
