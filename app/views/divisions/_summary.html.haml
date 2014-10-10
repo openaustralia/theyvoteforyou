@@ -21,13 +21,16 @@
               = link_to whip.party_name, party_divisions_path(whip.party_object)
               %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
             %td.cell-vote
-              %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
-                = whip.aye_votes_including_tells
-                Aye
-              –
-              %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
-                = whip.no_votes_including_tells
-                No
+              - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
+                %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
+                  = whip.aye_votes_including_tells
+                  Aye
+                –
+                %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
+                  = whip.no_votes_including_tells
+                  No
+              - else
+                Absent
             %td.cell-toggler
               %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
                 %span.sr-only show members
