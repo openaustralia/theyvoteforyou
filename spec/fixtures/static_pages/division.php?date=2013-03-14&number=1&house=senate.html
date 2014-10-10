@@ -92,7 +92,7 @@ automatically extracted from the debate.
 </nav>
 </section>
 
-<figure class="voter-table">
+<figure class="voter-table col-md-7">
 <h2 id="votes">
 Votes
 <small class="division-outcome-not-passed division-outcome-summary">
@@ -100,47 +100,65 @@ Not passed by a small majority
 </small>
 </h2>
 <table class="table">
+<colgroup class="column-name" span="1"></colgroup>
+<colgroup class="column-vote" span="1"></colgroup>
+<colgroup class="column-toggler" span="1"></colgroup>
 <thead>
 <tr>
 <th>Party</th>
-<th>Ayes</th>
-<th>Noes</th>
-<th></th>
+<th class="cell-vote">Votes</th>
+<th class="cell-toggler"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/australian_greens/divisions">Australian Greens</a>
 <small class="post-title text-muted">(100% turnout)</small>
 </th>
-<td class="normal">
-
-</td>
-<td class="whip">
+<td class="cell-vote">
+<span class="normal zero-votes">
+0
+Aye
+</span>
+–
+<span class="whip">
 1
+No
+</span>
 </td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
-<tr class="collapse member-row member-row-australian-greens">
-<td>
+<tr class="collapse member-row member-row-australian-greens party-member-row">
+<th class="cell-name">
 <a href="/members/senate/tasmania/christine_milne">Christine Milne</a>
-<a class="text-muted" href="/members/senate/tasmania">Tasmania</a>
-</td>
-<td colspan="3">no</td>
+<a class="text-muted member-electorate" href="/members/senate/tasmania">Tasmania</a>
+<small class="post-title text-muted"></small>
+</th>
+<td class="cell-vote">no</td>
+<td class="cell-toggler"></td>
 </tr>
 <tr>
 <th class="whip">
 Totals
 <small class="post-title text-muted">(78% turnout)</small>
 </th>
-<td class="normal">0</td>
-<td class="whip">1</td>
-<td></td>
+<td class="cell-vote">
+<span class="normal">
+0
+Aye
+–
+</span>
+<span class="whip">
+1
+No
+</span>
+</td>
+<td class="cell-toggler"></td>
 </tr>
 </tbody>
 </table>
