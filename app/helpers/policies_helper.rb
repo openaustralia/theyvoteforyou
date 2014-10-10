@@ -18,24 +18,22 @@ module PoliciesHelper
     elsif policy_member_distance.number_of_votes == 0
       "has <strong>never voted</strong> on".html_safe
     else
-      case policy_member_distance.agreement_fraction
-      when 0.95..1.0
-        "voted <strong>very strongly for</strong>".html_safe
-      when 0.85...0.95
-        "voted <strong>strongly for</strong>".html_safe
-      when 0.60...0.85
-        "voted <strong>moderately for</strong>".html_safe
-      when 0.40...0.60
-        "voted <strong>a mixture of for and against</strong>".html_safe
-      when 0.15...0.40
-        "voted <strong>moderately against</strong>".html_safe
-      when 0.05...0.15
-        "voted <strong>strongly against</strong>".html_safe
-      when 0.00...0.05
-        "voted <strong>very strongly against</strong>".html_safe
-      else
-      end
+      text = ranges.find{|r| r.first.include?(policy_member_distance.agreement_fraction)}.second
+      "voted ".html_safe + content_tag(:strong, text.html_safe)
     end
+  end
+
+  # TODO This shouldn't really be in a helper should it? It smells a lot like "business" logic
+  def ranges
+    {
+      0.95..1.00 => "very strongly for",
+      0.85..0.95 => "strongly for",
+      0.60..0.85 => "moderately for",
+      0.40..0.60 => "a mixture of for and against",
+      0.15..0.40 => "moderately against",
+      0.05..0.15 => "strongly against",
+      0.00..0.05 => "very strongly against"
+    }
   end
 
   def quote(word)
