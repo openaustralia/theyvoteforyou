@@ -479,6 +479,16 @@ th {
     @media ( min-width: $screen-sm-min) {
       margin-top: 8px;
     }
+
+    .form-control {
+      @media ( min-width: $screen-sm-min) {
+        width: 8em;
+      }
+
+      @media ( min-width: 60em) {
+        width: auto;
+      }
+    }
   }
 
   .open .dropdown-toggle {
