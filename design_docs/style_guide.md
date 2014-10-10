@@ -12,7 +12,8 @@ Use easy or short words instead of long formal ones. Use ‘buy’ instead of �
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
 
 ## Active voice
-Use the active rather than passive voice. This will help us write concise, clear content.
+Use the active rather than passive voice. Use "They sang songs"(active) not "songs were sung" (passive)
+
 ## Avoid duplication
 Duplicate content confuses people and damages the credibility of Public Whip content. 
 If something is written once and links to relevant resources easily and well, people are more likely to trust the content.
