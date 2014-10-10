@@ -248,11 +248,11 @@ th {
 
 .division-outcome-summary {
   &.division-outcome-passed {
-    color: $brand-success;
+    color: $color-vote-for;
   }
 
   &.division-outcome-not-passed {
-    color: $brand-danger;
+    color: $color-vote-against;
   }
 }
 
