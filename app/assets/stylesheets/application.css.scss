@@ -316,10 +316,18 @@ th {
 
   .party-row .cell-vote {
     color: $gray-light;
-  }
 
-  .party-row .cell-vote span:not(.zero-votes) {
-    color: $text-color;
+    span {
+      color: $text-color;
+    }
+
+    span.zero-votes {
+      color: $gray-light;
+    }
+
+    span.rebel {
+      color: $color-rebel;
+    }
   }
 
   .cell-toggler {
