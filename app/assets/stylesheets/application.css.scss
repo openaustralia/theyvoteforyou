@@ -345,6 +345,11 @@ th {
   }
 
   .party-member-row {
+    th,
+    td {
+      border-top-color: $gray-lighter;
+    }
+
     th:first-child {
       padding-left: .75em;
 
