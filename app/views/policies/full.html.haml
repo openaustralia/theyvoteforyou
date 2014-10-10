@@ -1,12 +1,17 @@
 - content_for :title do
   = @member.name
-  = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
+  = policy_agreement_summary_without_html(@member.person.policy_person_distances.find_by(policy: @policy))
   = @policy.name
 
 .page-header
-  %h1
-    = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115")
-    = yield :title
+  .media
+    = link_to @member, class: "pull-left" do
+      = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115", class: "media-object")
+    .media-body
+      %h1.media-heading
+        = link_to @member.name, @member
+        = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
+        = link_to @policy.name, @policy
 
 #secondnavtabs
   %ul.nav.nav-tabs
