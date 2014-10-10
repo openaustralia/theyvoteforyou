@@ -285,6 +285,20 @@ th {
   }
 }
 
+// Division votes table
+
+.voter-table-toggle-members {
+  border-color: transparent;
+}
+
+.division-policy {
+  .division-policy-statement,
+  .button_to,
+  .button_to > div {
+    display: inline;
+  }
+}
+
 // Division lists
 
 .panel-link {
@@ -344,7 +358,7 @@ th {
   }
 }
 
-// Division votes table
+// Policy divisions comparision table
 
 .divisions-table {
   thead {
@@ -396,18 +410,6 @@ th {
         content: "Division outcome: "
       }
     }
-  }
-}
-
-.voter-table-toggle-members {
-  border-color: transparent;
-}
-
-.division-policy {
-  .division-policy-statement,
-  .button_to,
-  .button_to > div {
-    display: inline;
   }
 }
 
