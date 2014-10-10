@@ -10,7 +10,7 @@
     .media-body
       %h1.media-heading
         = link_to @member.name, @member
-        = link_to policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy)), "#ratioexpl"
+        = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
         = link_to @policy.name, @policy
 
 #secondnavtabs
