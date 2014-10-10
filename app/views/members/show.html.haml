@@ -6,5 +6,8 @@
 = render "summary", member: @member
 = render "external_links", member: @member
 = render "policy_comparisons", member: @member
-= render "interesting_votes", member: @member
+- if @member.person.has_whip?
+  = render "interesting_votes", member: @member
+- else
+  = render "recent_votes", member: @member
 = render "possible_friends", member: @member, all_friends: false
