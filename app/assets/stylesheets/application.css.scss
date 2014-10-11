@@ -57,7 +57,7 @@ th {
 }
 
 .rebel {
-  color: red;
+  color: $color-rebel;
 }
 
 // Forms
@@ -285,6 +285,107 @@ th {
   }
 }
 
+// Division votes table
+
+.voter-table {
+  padding-right: 0;
+  padding-left: 0;
+  float: none;
+
+  .column-name {
+      // width: 7em;
+  }
+
+  .column-vote {
+    width: 10em;
+  }
+
+  tbody {
+    th:first-child {
+      @media (max-width: $screen-xs-max) {
+        padding-left: 0;
+      }
+    }
+  }
+
+  .cell-vote {
+    padding-right: 0;
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .party-row .cell-vote {
+    color: $gray-light;
+
+    span {
+      color: $text-color;
+    }
+
+    span.zero-votes {
+      color: $gray-light;
+    }
+
+    span.rebel {
+      color: $color-rebel;
+    }
+  }
+
+  .party-row .party-absent {
+    color: $text-color;
+  }
+
+  .cell-toggler {
+    padding-right: 0;
+    padding-left: 0;
+    text-align: right;
+    width: 1em;
+    color: $gray-light;
+
+    .btn {
+      border: 0;
+      padding-top: 0;
+      background: transparent;
+    }
+  }
+
+  .party-member-row {
+    th,
+    td {
+      border-top-color: $gray-lighter;
+    }
+
+    th:first-child {
+      padding-left: .75em;
+
+      @media (min-width: $screen-xs-min) {
+        padding-left: 1.5em;
+      }
+    }
+  }
+
+  .member-row-independent,
+  .member-row-spk,
+  .member-row-cwm,
+  .member-row-pres,
+  .member-row-dpres {
+    .member-party {
+      display: block;
+    }
+  }
+}
+
+.voter-table-toggle-members {
+  border-color: transparent;
+}
+
+.division-policy {
+  .division-policy-statement,
+  .button_to,
+  .button_to > div {
+    display: inline;
+  }
+}
+
 // Division lists
 
 .panel-link {
@@ -344,7 +445,7 @@ th {
   }
 }
 
-// Division votes table
+// Policy divisions comparision table
 
 .divisions-table {
   thead {
@@ -396,18 +497,6 @@ th {
         content: "Division outcome: "
       }
     }
-  }
-}
-
-.voter-table-toggle-members {
-  border-color: transparent;
-}
-
-.division-policy {
-  .division-policy-statement,
-  .button_to,
-  .button_to > div {
-    display: inline;
   }
 }
 

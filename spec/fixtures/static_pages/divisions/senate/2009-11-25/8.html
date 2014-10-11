@@ -112,7 +112,7 @@ A lovely new title
 </nav>
 </section>
 
-<figure class="voter-table">
+<figure class="voter-table col-md-7">
 <h2 id="votes">
 Votes
 <small class="division-outcome-not-passed division-outcome-summary">
@@ -120,152 +120,182 @@ Not passed by a moderate majority
 </small>
 </h2>
 <table class="table">
+<colgroup class="column-name" span="1"></colgroup>
+<colgroup class="column-vote" span="1"></colgroup>
+<colgroup class="column-toggler" span="1"></colgroup>
 <thead>
 <tr>
 <th>Party</th>
-<th>Ayes</th>
-<th>Noes</th>
-<th></th>
+<th class="cell-vote">Votes</th>
+<th class="cell-toggler"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/australian_greens/divisions">Australian Greens</a>
 <small class="post-title text-muted">(100% turnout)</small>
 </th>
-<td class="normal">
-
-</td>
-<td class="whip">
+<td class="cell-vote">
+<span class="normal zero-votes">
+0
+Aye
+</span>
+–
+<span class="whip">
 5
+No
+</span>
 </td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-greens" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
-<tr class="collapse member-row member-row-australian-greens">
-<td>
+<tr class="collapse member-row member-row-australian-greens party-member-row">
+<th class="cell-name">
 <a href="/members/senate/tasmania/christine_milne">Christine Milne</a>
-<a class="text-muted" href="/members/senate/tasmania">Tasmania</a>
-</td>
-<td colspan="3">no</td>
+<a class="text-muted member-electorate" href="/members/senate/tasmania">Tasmania</a>
+<small class="post-title text-muted"></small>
+</th>
+<td class="cell-vote">No</td>
+<td class="cell-toggler"></td>
 </tr>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/australian_labor_party/divisions">Australian Labor Party</a>
 <small class="post-title text-muted">(94% turnout)</small>
 </th>
-<td class="normal">
-
-</td>
-<td class="whip">
+<td class="cell-vote">
+<span class="normal zero-votes">
+0
+Aye
+</span>
+–
+<span class="whip">
 29
+No
+</span>
 </td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-australian-labor-party" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-australian-labor-party" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/country_liberal_party/divisions">Country Liberal Party</a>
 <small class="post-title text-muted">(0.0% turnout)</small>
 </th>
-<td class="normal">
-
+<td class="cell-vote party-absent">
+Absent
 </td>
-<td class="normal">
-
-</td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-country-liberal-party" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-country-liberal-party" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/family_first_party/divisions">Family First Party</a>
 <small class="post-title text-muted">(100% turnout)</small>
 </th>
-<td class="whip">
+<td class="cell-vote">
+<span class="whip">
 1
+Aye
+</span>
+–
+<span class="normal zero-votes">
+0
+No
+</span>
 </td>
-<td class="normal">
-
-</td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-family-first-party" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-family-first-party" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
 <tr class="member-row member-row-independent">
-<td>
+<th class="cell-name">
 <a href="/members/senate/wa/surly_nihilist">Surly Nihilist</a>
-Independent
-<a class="text-muted" href="/members/senate/wa">WA</a>
-</td>
-<td colspan="3">aye</td>
+<a class="text-muted member-electorate" href="/members/senate/wa">WA</a>
+<small class="post-title text-muted">Independent</small>
+</th>
+<td class="cell-vote">Aye</td>
+<td class="cell-toggler"></td>
 </tr>
 <tr class="member-row member-row-independent">
-<td>
+<th class="cell-name">
 <a href="/members/senate/wa/disagreeable_curmudgeon">Disagreeable Curmudgeon</a>
-Independent
-<a class="text-muted" href="/members/senate/wa">WA</a>
-</td>
-<td colspan="3">no</td>
+<a class="text-muted member-electorate" href="/members/senate/wa">WA</a>
+<small class="post-title text-muted">Independent</small>
+</th>
+<td class="cell-vote">No</td>
+<td class="cell-toggler"></td>
 </tr>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/liberal_party/divisions">Liberal Party</a>
 <small class="post-title text-muted">(77% turnout)</small>
 </th>
-<td class="rebel">
+<td class="cell-vote">
+<span class="rebel">
 11
-</td>
-<td class="whip">
+Aye
+</span>
+–
+<span class="whip">
 12
+No
+</span>
 </td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-liberal-party" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-liberal-party" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
 </tr>
-<tr class="collapse member-row member-row-liberal-party rebel">
-<td>
+<tr class="collapse member-row member-row-liberal-party party-member-row rebel">
+<th class="cell-name">
 <a href="/members/senate/wa/judith_adams">Judith Adams</a>
-
-<a class="text-muted" href="/members/senate/wa">WA</a>
-</td>
-<td colspan="3">aye</td>
+<a class="text-muted member-electorate" href="/members/senate/wa">WA</a>
+<small class="post-title text-muted"></small>
+</th>
+<td class="cell-vote">Aye</td>
+<td class="cell-toggler"></td>
 </tr>
-<tr class="collapse member-row member-row-liberal-party rebel">
-<td>
+<tr class="collapse member-row member-row-liberal-party party-member-row rebel">
+<th class="cell-name">
 <a href="/members/senate/wa/christopher_back">Christopher Back</a>
-
-<a class="text-muted" href="/members/senate/wa">WA</a>
-</td>
-<td colspan="3">aye</td>
+<a class="text-muted member-electorate" href="/members/senate/wa">WA</a>
+<small class="post-title text-muted"></small>
+</th>
+<td class="cell-vote">Aye</td>
+<td class="cell-toggler"></td>
 </tr>
 <tr class="party-row">
-<th>
+<th class="cell-name">
 <a href="/parties/national_party/divisions">National Party</a>
 <small class="post-title text-muted">(80% turnout)</small>
 </th>
-<td class="whip">
+<td class="cell-vote">
+<span class="whip">
 4
+Aye
+</span>
+–
+<span class="normal zero-votes">
+0
+No
+</span>
 </td>
-<td class="normal">
-
-</td>
-<td>
-<button class="voter-table-toggle-members btn btn-default glyphicon glyphicon-chevron-down" data-target=".member-row-national-party" data-toggle="collapse">
+<td class="cell-toggler">
+<button class="voter-table-toggle-members btn glyphicon glyphicon-chevron-down" data-target=".member-row-national-party" data-toggle="collapse">
 <span class="sr-only">show members</span>
 </button>
 </td>
@@ -275,13 +305,22 @@ Independent
 Totals
 <small class="post-title text-muted">(86% turnout)</small>
 </th>
-<td class="normal">17</td>
-<td class="whip">48</td>
-<td></td>
+<td class="cell-vote">
+<span class="normal">
+17
+Aye
+–
+</span>
+<span class="whip">
+48
+No
+</span>
+</td>
+<td class="cell-toggler"></td>
 </tr>
 </tbody>
 </table>
-<figcaption class="panel-footer">
+<figcaption class="panel-footer small">
 <p><span class="rebel">Red entries</span> are rebel votes against the majority of a party.</p>
 <p>Turnout is the percentage of members eligible to vote that did vote.</p>
 </figcaption>
