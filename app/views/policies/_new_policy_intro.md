@@ -6,7 +6,7 @@ Remember, all policies are public. They are a shared resource to be edited and u
 
 ## Tips for useful policies
 
-* **Allow for as little interpretation as possible.** For example, "Evangelical Christian" and "Fiscal Responsibility" are not policies since there are differing opinions about what would be implemented. Instead, things like "Ban research using embryos" and "Buy more nuclear weapons" are policies because, even if you don't agree with them, you can still agree on which way they would vote.
+* **Allow for as little interpretation as possible**. *“For healthy children”* and *“For fiscal responsibility”* are bad examples of policies because it is a matter of opinion how a specific divisions relates to them. We could argue all day about it. *“For increasing funding to university education”* and *“For privatising government assets”* are good examples because it is easier to know how a supporter would vote in a relevant division. We should all be able to agree about how supporters would have voted, whether we agree with the policy or not personally.
 
 * **Be specific.** Usually a policy can't be broken down into other policies. If it can be, maybe you should split it into two sub-policies. There are exceptions, for example "Pro-vegetarianism" may agree with all the votes for "Conserve coastal fish stocks" although for quite different reasons.
 
