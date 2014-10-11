@@ -240,6 +240,13 @@ th {
   margin-bottom: .5em;
 }
 
+#tips {
+  ul {
+    padding-left: 0;
+    list-style: none;
+  }
+}
+
 // Divisions
 
 .motion-source-info {

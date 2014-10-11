@@ -80,8 +80,10 @@ Submit
 
 <p>Remember, all policies are public. They are a shared resource to be edited and update by anyone (like Wikipedia).</p>
 
-<h2>Tips for useful policies</h2>
-
+<button class="btn btn-link btn-sm" data-target="#tips" data-toggle="collapse" id="tips-toggler" type="button">
+Tips for useful policies
+</button>
+<div class="collapse alert alert-info" id="tips">
 <ul>
 <li><p><strong>Allow for as little interpretation as possible</strong>. <em>“For healthy children”</em> is a bad example because it is a matter of opinion how a specific divisions relates to it. We could argue all day about it. <em>“For increasing funding to university education”</em> is a good example because it is easier to know how a supporter would have voted in relevant divisions.</p></li>
 <li><p><strong>Be specific.</strong> Aim for a policy that can&#39;t be broken down into other policies. If it can be, maybe you should split it up. There are exceptions where it could be useful to have overlapping policies.</p></li>
@@ -90,6 +92,7 @@ Submit
 <li><p><strong>Don&#39;t be shy</strong>. These policies belong to everyone. If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.</p></li>
 </ul>
 
+</div>
 <form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><fieldset>
 <div class="form-group string optional policy_name"><label class="string optional control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" /></div>
 <p class="small help-block">Complete the statement to provide a short, specific policy summary.</p>
