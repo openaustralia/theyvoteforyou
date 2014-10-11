@@ -6,7 +6,7 @@ Remember, all policies are public. They are a shared resource to be edited and u
 
 ## Tips for useful policies
 
-* **Allow for as little interpretation as possible**. *“For healthy children”* and *“For fiscal responsibility”* are bad examples of policies because it is a matter of opinion how a specific divisions relates to them. We could argue all day about it. *“For increasing funding to university education”* and *“For privatising government assets”* are good examples because it is easier to know how a supporter would vote in a relevant division. We should all be able to agree about how supporters would have voted, whether we agree with the policy or not personally.
+* **Allow for as little interpretation as possible**. *“For healthy children”* is a bad example because it is a matter of opinion how a specific divisions relates to it. We could argue all day about it. *“For increasing funding to university education”* is a good example because it is easier to know how a supporter would have voted in relevant divisions.
 
 * **Be specific.** Usually a policy can't be broken down into other policies. If it can be, maybe you should split it into two sub-policies. There are exceptions, for example "Pro-vegetarianism" may agree with all the votes for "Conserve coastal fish stocks" although for quite different reasons.
 
