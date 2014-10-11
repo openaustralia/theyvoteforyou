@@ -1,7 +1,7 @@
 # Parliamentary Vote Tracker Design Persona
 
 ## Overview
-*What is the character of the project in relationship to it’s users?*
+*What is the character of the project in relation to it’s users?*
 
 These are not dry, “parliamentary” records. This is useful information about how your elected representatives act on your behalf.
 
