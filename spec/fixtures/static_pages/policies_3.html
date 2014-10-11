@@ -80,9 +80,15 @@ Submit
 <div class="page-header">
 <h1>Make a new policy</h1>
 </div>
-<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class="form-group string optional policy_name"><label class="string optional control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" value="nuclear power" /></div>
+<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><fieldset>
+<div class="form-group string optional policy_name"><label class="string optional control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" value="nuclear power" /></div>
+<p class="small help-block">Complete the statement to provide a short, specific policy summary.</p>
+</fieldset>
+<fieldset>
 <div class="form-group text optional policy_description has-error"><label class="text optional control-label" for="policy_description">you believe that</label><textarea class="text optional form-control" id="policy_description" name="policy[description]" placeholder="the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples" rows="6">
 </textarea><span class="help-block">can't be blank</span></div>
+<p class="small help-block">Describe of the belief that makes someone a supporter of the policy.</p>
+</fieldset>
 <ul>
 <li>
 Privacy &mdash;
