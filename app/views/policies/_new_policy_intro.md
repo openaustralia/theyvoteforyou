@@ -1,10 +1,6 @@
 Here you have to name and describe the policy. Afterwards, you
 will be able to select which votes support the policy. The new
-policy can represent anything you like. Some examples:
-
-* Equal laws for heterosexuals and homosexuals.
-* For offshore processing of arrivals by boat.
-* Pro-nuclear power.
+policy can represent anything you like.
 
 All policies are public. Just because you made a policy does not
 mean you own it. Anybody can edit it. Although everyone will by no
