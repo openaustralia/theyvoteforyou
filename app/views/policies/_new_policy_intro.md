@@ -6,12 +6,12 @@ Remember, all policies are public. They are a shared resource to be edited and u
 
 ## Tips for useful policies
 
-* Policies should be open to as little interpretation as possible. For example, "Evangelical Christian" and "Fiscal Responsibility" are not policies since there are differing opinions about what would be implemented. Instead, things like "Ban research using embryos" and "Buy more nuclear weapons" are policies because, even if you don't agree with them, you can still agree on which way they would vote.
+* **Allow for as little interpretation as possible.** For example, "Evangelical Christian" and "Fiscal Responsibility" are not policies since there are differing opinions about what would be implemented. Instead, things like "Ban research using embryos" and "Buy more nuclear weapons" are policies because, even if you don't agree with them, you can still agree on which way they would vote.
 
-* Usually a policy can't be broken down into other policies. If it can be, maybe you should split it into two sub-policies. There are exceptions, for example "Pro-vegetarianism" may agree with all the votes for "Conserve coastal fish stocks" although for quite different reasons.
+* **Be specific.** Usually a policy can't be broken down into other policies. If it can be, maybe you should split it into two sub-policies. There are exceptions, for example "Pro-vegetarianism" may agree with all the votes for "Conserve coastal fish stocks" although for quite different reasons.
 
-* The opposite of a policy is not necessarily a policy, particularly if it is not one of the extremes. There could be, for instance, three different approaches to solving a particular problem.
+* **Don’t duplicate.** Check the [policies page](/policies) to see if the policy you are thinking of exists. The opposite of a policy is not necessarily a policy. For example “For maintaining a price on carbon” and “For removing a price on carbon” are practically will probably produce inverted results and so have limited new value for people viewing the site.
 
-* All policies must be convertable into votes. So, for example, "Make Australia a Republic" doesn't work because there haven't been any such votes (recently).
+* **Check whether relevant divisions exist.** All policies should have existing divisions that relate to them. For example, "Make Australia a Republic" doesn't work well as a policy because there haven't been relevant divisions since our records begin (2006).
 
-* Don't be shy. These policies belong to everyone. If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.
+* **Don't be shy**. These policies belong to everyone. If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.
