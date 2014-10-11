@@ -1,13 +1,10 @@
-Here you have to name and describe the policy. Afterwards, you
-will be able to select which votes support the policy. The new
-policy can represent anything you like.
+Add a new policy by completing two statements below.
 
-All policies are public. Just because you made a policy does not
-mean you own it. Anybody can edit it. Although everyone will by no
-means agree with every policy, they should agree that its votes in
-divisions are logical consequences of its definition.
+After a policy is created you will be able to associate it with  divisions and select how a supporter of the policy would have voted. The Public Whip compares the real votes of MPs to your selections and calculates the voting record for the policy. [Find out more about the process](/help/faq#policies).
 
-Some other things to note about policies:
+Remember, all policies are public. They are a shared resource to be edited and update by anyone (like Wikipedia).
+
+## Tips for useful policies
 
 * Policies should be open to as little interpretation as
   possible. For example, "Evangelical Christian" and "Fiscal
