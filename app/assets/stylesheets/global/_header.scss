@@ -1,0 +1,130 @@
+.site-header {
+  background-color: $color-lemon;
+  border-radius: 0;
+  margin-bottom: 0;
+  border: 0;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: $font-size-small;
+  }
+
+  .navbar-brand {
+    @media (min-width: $screen-sm-min) {
+      font-size: $font-size-base;
+    }
+  }
+
+  .navbar-toggle,
+  a {
+    color: #333;
+  }
+
+  .navbar-toggle {
+    border-color: rgba(255,255,255,.2);
+
+    &:hover,
+    &:focus {
+      color: #111;
+      background-color: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.3);
+    }
+
+    .icon-bar {
+      background-color: #ddd;
+    }
+  }
+
+  a {
+    &:hover,
+    &:focus {
+      color: #111;
+      background-color: inherit !important;
+      text-decoration: underline !important;
+    }
+  }
+
+  .navbar-form {
+    @media ( min-width: $screen-sm-min) {
+      margin-top: 8px;
+    }
+
+    .form-control {
+      @media ( min-width: $screen-sm-min) {
+        width: 8em;
+      }
+
+      @media ( min-width: 60em) {
+        width: auto;
+      }
+    }
+  }
+
+  .open .dropdown-toggle {
+    background: $color-lemon;
+  }
+}
+
+.site-header-search {
+  input[type="search"] {
+    background-color: lighten($color-lemon-light, 5%);
+    box-shadow: none;
+    border-color: lighten($color-lemon-light, 5%);
+
+    & + .input-group-btn button {
+      background-color: lighten($color-lemon-light, 5%);
+      border: 0;
+    }
+
+    &:focus {
+      background-color: white;
+    }
+  }
+}
+
+.members .navlink-members,
+.divisions .navlink-divisions,
+.policies .navlink-policies,
+.about .navlink-about {
+  background-color: $color-lemon-light;
+
+  &:hover,
+  &:focus {
+    background-color: $color-lemon-light !important;
+  }
+}
+
+// section-header
+
+.section-header {
+  margin-bottom: 2em;
+  background-color: $color-lemon-light;
+
+  .page-header {
+    margin-bottom: 0;
+    border: 0;
+    padding-bottom: 0;
+
+    .lead {
+      @media (min-width: $screen-md-min) {
+        max-width: 65%; // 8/12 columns
+      }
+    }
+  }
+}
+
+// page header
+
+.header-actions {
+  text-align: right;
+
+  @media (min-width: $screen-sm-min) {
+    float: right;
+    clear: right;
+  }
+
+  .btn {
+    @media (min-width: $screen-sm-min) {
+      margin-top: 1em;
+    }
+  }
+}
