@@ -1,0 +1,56 @@
+.panel-link {
+  display: block;
+  color: $text-color;
+
+  &:hover,
+  &:focus {
+    border-color: $brand-primary;
+    background-color: lighten($brand-primary, 45%);
+    text-decoration: none;
+  }
+
+  .panel-link-title {
+    color: $brand-primary;
+  }
+}
+
+.division-item {
+  .division-edit-notice {
+    font-size: $font-size-small;
+  }
+
+  .division-datetime,
+  .division-house,
+  .division-data {
+    color: $text-color;
+  }
+
+  .division-datetime {
+    .display-house-all & {
+      &:after {
+        @media (min-width: 33em) {
+          content: " – "
+        }
+      }
+    }
+  }
+
+  .division-house {
+    display: block;
+
+    @media (min-width: 33em) {
+      display: inline-block;
+    }
+  }
+
+  .division-title {
+    margin-top: .5em;
+    font-size: $font-size-h4;
+    max-width: 35em;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}

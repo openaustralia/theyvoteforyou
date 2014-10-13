@@ -1,0 +1,17 @@
+.member-list-compact {
+  .member-item {
+    @include clearfix;
+  }
+
+  .member-link {
+    .policy-comparision-block & {
+      color: $text-color;
+    }
+  }
+
+  .member-photo {
+    float: left;
+    clear: left;
+    margin-right: .5em;
+  }
+}

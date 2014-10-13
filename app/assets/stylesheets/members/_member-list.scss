@@ -1,0 +1,58 @@
+.members-list {
+  .member-item {
+    border-top: 1px solid $gray-lighter;
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+  }
+
+  .member-photo {
+    max-width: 44px;
+  }
+
+  .member-name {
+    font-size: $font-size-h4;
+  }
+
+  .member-role {
+    margin-bottom: 0;
+
+    @media (min-width: $screen-md-min) {
+      float: left;
+      clear: left;
+    }
+  }
+
+  .member-party,
+  .member-electorate {
+    display: block;
+
+    @media (min-width: 30em) {
+      display: inline;
+    }
+
+    a {
+    }
+  }
+
+  .member-data {
+    margin-top: .5em;
+    margin-bottom: 0;
+    font-size: $font-size-supporting;
+    text-transform: uppercase;
+
+    @media (min-width: $screen-md-min) {
+      float: right;
+      clear: right;
+    }
+  }
+
+  .member-rebellions,
+  .member-attendance {
+    display: block;
+
+    @media (min-width: 30em) {
+      margin-right: 1em;
+      display: inline-block;
+    }
+  }
+}

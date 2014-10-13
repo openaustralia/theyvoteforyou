@@ -1,0 +1,19 @@
+.history-notice {
+    padding: .2em 0;
+    color: $gray;
+    background-color: $gray-lighter;
+    font-size: $font-size-supporting;
+
+    @media (min-width: $screen-sm-min) {
+      padding: .2em 0;
+      font-size: $font-size-small;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+
+    a {
+      color: $gray;
+    }
+}

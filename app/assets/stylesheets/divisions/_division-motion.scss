@@ -1,0 +1,24 @@
+.motion-source-info {
+  border-top: 1px solid #E7E7E7;
+}
+
+.division-outcome-summary {
+  &.division-outcome-passed {
+    color: $color-vote-for;
+  }
+
+  &.division-outcome-not-passed {
+    color: $color-vote-against;
+  }
+}
+
+.motion-title,
+.motion-title + .division-edit-link,
+.division-outcome-summary,
+.division-outcome-score {
+  display: inline-block;
+}
+
+.motion-title + .division-edit-link {
+  margin-left: 1em;
+}
