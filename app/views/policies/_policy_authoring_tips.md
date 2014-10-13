@@ -4,6 +4,6 @@
 
 * **Don’t duplicate.** Check the [policies page](/policies) to see if the policy you are thinking of exists. The opposite of a policy is not necessarily a policy. For example “For maintaining a price on carbon” and “For removing a price on carbon” will probably produce inverted results and so have limited new value for people viewing the site.
 
-* **Check whether relevant divisions exist.** All policies should have existing divisions that relate to them. For example, "Make Australia a Republic" doesn't work well as a policy because there haven't been relevant divisions since our records begin (2006).
+* **Check whether relevant divisions exist.** All policies should have existing divisions that relate to them. For example, “Make Australia a Republic” doesn't work well as there haven't been any relevant divisions during the period currently covered by the Pubic Whip (2006 – present).
 
 * **Don't be shy**. These policies belong to everyone. If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.
