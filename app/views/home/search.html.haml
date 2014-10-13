@@ -15,6 +15,25 @@
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
+  %p
+    Found these Representatives and Senators whose names sound like
+    '#{params[:query]}':
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Electorate / State
+        %th Party
+    %tbody
+      - if @mps.empty?
+        %tr
+          %td{colspan: 3} no members found
+      - else
+        - @mps.each do |mp|
+          %tr
+            %td= link_to mp.name, mp
+            %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
+            %td= mp.party
   %p Found these divisions matching '#{params[:query]}':
   %table.table
     %thead
@@ -45,26 +64,6 @@
             %td= division.rebellions
             %td= division.turnout
             %td= division.majority
-
-  %p
-    Found these Representatives and Senators whose names sound like
-    '#{params[:query]}':
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Electorate / State
-        %th Party
-    %tbody
-      - if @mps.empty?
-        %tr
-          %td{colspan: 3} no members found
-      - else
-        - @mps.each do |mp|
-          %tr
-            %td= link_to mp.name, mp
-            %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
-            %td= mp.party
   %p
     Also try browsing the list of #{link_to "all Representatives", members_path(house: "representatives")},
     = link_to "all Senators", members_path(house: "senate")
