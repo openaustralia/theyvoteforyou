@@ -15,6 +15,10 @@
   - content_for :title, "Search results for: #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
+  - if @mps.empty? && @divisions.empty?
+    %p
+      We're sorry but we couldn't find any people or divisions for your search term.
+      Try your search again using some different terms.
   - if !@mps.empty?
     %h2 People
     %table.table
