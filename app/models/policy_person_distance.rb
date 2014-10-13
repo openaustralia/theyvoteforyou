@@ -21,6 +21,10 @@ class PolicyPersonDistance < ActiveRecord::Base
   scope :very_strongly_against, -> { where(distance_a: (0.95..1.0)) }
   scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
 
+  def voted?
+    nvotessame > 0 || nvotessamestrong > 0 || nvotesdiffer > 0 || nvotesdifferstrong > 0
+  end
+
   def distance_object
     Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)
   end
