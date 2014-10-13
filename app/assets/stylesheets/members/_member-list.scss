@@ -13,15 +13,6 @@
     font-size: $font-size-h4;
   }
 
-  .member-role {
-    margin-bottom: 0;
-
-    @media (min-width: $screen-md-min) {
-      float: left;
-      clear: left;
-    }
-  }
-
   .member-party,
   .member-electorate {
     display: block;
@@ -31,28 +22,6 @@
     }
 
     a {
-    }
-  }
-
-  .member-data {
-    margin-top: .5em;
-    margin-bottom: 0;
-    font-size: $font-size-supporting;
-    text-transform: uppercase;
-
-    @media (min-width: $screen-md-min) {
-      float: right;
-      clear: right;
-    }
-  }
-
-  .member-rebellions,
-  .member-attendance {
-    display: block;
-
-    @media (min-width: 30em) {
-      margin-right: 1em;
-      display: inline-block;
     }
   }
 }

@@ -6,12 +6,12 @@
           = image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-photo pull-left")
           .media-body
             %h2.media-heading.member-name.panel-link-title= member.name_without_title
-            %p.member-role
+            %p.member-role.object-primary
               %span.member-party.inline-post-title= member.party_name
               %span.member-electorate= member.role
 
-            %p.member-data
-              %span.member-rebellions
+            %p.member-data.object-data
+              %span.member-rebellions.object-data-rebellion
                 -if member.person.rebellions_fraction == 0
                   Never rebels
                 -else
@@ -22,7 +22,7 @@
                   of the time
                   -# TODO: add helper tooltip for rebellions
                   -# link_to "explain...", help_faq_path(anchor: "clarify")
-              %span.member-attendance
+              %span.member-attendance.object-data-attendance
                 = fraction_to_percentage_display(member.person.attendance_fraction)
                 attendance
                 -# TODO: add helper tooltip for attendance
