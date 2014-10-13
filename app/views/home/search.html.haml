@@ -15,9 +15,7 @@
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
-  %p
-    Found these Representatives and Senators whose names sound like
-    '#{params[:query]}':
+  %h2 People
   %table.table
     %thead
       %tr
@@ -34,7 +32,7 @@
             %td= link_to mp.name, mp
             %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
             %td= mp.party
-  %p Found these divisions matching '#{params[:query]}':
+  %h2 Divisions
   %table.table
     %thead
       %tr
