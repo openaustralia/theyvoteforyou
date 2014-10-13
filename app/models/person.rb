@@ -47,8 +47,11 @@ class Person < ActiveRecord::Base
     !!small_image_url
   end
 
+  def latest_member
+    members.order(entered_house: :desc).first
+  end
+
   def member_who_voted_on_division(division)
-    latest_member = members.order(entered_house: :desc).first
     # What we have now in @member is a member related to the person that voted in division but @member wasn't necessarily
     # current when @division took place. So, let's fix this
     # We're doing this the same way as the php which doesn't seem necessarily the best way
