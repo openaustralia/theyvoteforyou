@@ -26,7 +26,7 @@ class HomeController < ApplicationController
       end
 
       if electorates.count == 1
-        member = Member.find_by_constituency(electorates.first['name'])
+        member = Member.find_by!(constituency: electorates.first['name'])
         # FIXME: We should redirect but this is how the PHP app does it currently
         render nothing: true, status: :found, location: view_context.electorate_path(member)
         return
