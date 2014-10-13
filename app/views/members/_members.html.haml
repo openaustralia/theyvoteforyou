@@ -12,18 +12,20 @@
 
             %p.member-data
               %span.member-rebellions
-                -if member.person.rebellions_fraction == 0
-                  Never rebels
-                -else
-                  -# TODO: Should this be an absolute count rather than percentage?
-                  -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  Rebels
-                  = fraction_to_percentage_display(member.person.rebellions_fraction)
-                  of the time
-                  -# TODO: add helper tooltip for rebellions
-                  -# link_to "explain...", help_faq_path(anchor: "clarify")
+                - if member.person.rebellions_fraction
+                  -if member.person.rebellions_fraction == 0
+                    Never rebels
+                  -else
+                    -# TODO: Should this be an absolute count rather than percentage?
+                    -# Maybe it's good to show it as a percentage because it highlights rarity?
+                    Rebels
+                    = fraction_to_percentage_display(member.person.rebellions_fraction)
+                    of the time
+                    -# TODO: add helper tooltip for rebellions
+                    -# link_to "explain...", help_faq_path(anchor: "clarify")
               %span.member-attendance
-                = fraction_to_percentage_display(member.person.attendance_fraction)
-                attendance
-                -# TODO: add helper tooltip for attendance
-                -# link_to "explain...", help_faq_path(anchor: "clarify")
+                - if member.person.attendance_fraction
+                  = fraction_to_percentage_display(member.person.attendance_fraction)
+                  attendance
+                  -# TODO: add helper tooltip for attendance
+                  -# link_to "explain...", help_faq_path(anchor: "clarify")
