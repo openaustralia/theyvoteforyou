@@ -21,18 +21,7 @@
       Try your search again using some different terms.
   - if !@mps.empty?
     %h2 People
-    %table.table
-      %thead
-        %tr
-          %th Name
-          %th Electorate / State
-          %th Party
-      %tbody
-        - @mps.each do |mp|
-          %tr
-            %td= link_to mp.name, mp
-            %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
-            %td= mp.party
+    = render "members/members", members: @mps, house: nil
   - if !@divisions.empty?
     %h2 Divisions
     %table.table
