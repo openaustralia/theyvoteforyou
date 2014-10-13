@@ -15,44 +15,38 @@
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
-  %h2 People
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Electorate / State
-        %th Party
-    %tbody
-      - if @mps.empty?
+  - if !@mps.empty?
+    %h2 People
+    %table.table
+      %thead
         %tr
-          %td{colspan: 3} no members found
-      - else
+          %th Name
+          %th Electorate / State
+          %th Party
+      %tbody
         - @mps.each do |mp|
           %tr
             %td= link_to mp.name, mp
             %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
             %td= mp.party
-  %h2 Divisions
-  %table.table
-    %thead
-      %tr
-        %th House
-        %th Date
-        %th Time
-        %th Subject
-        %th
-          Rebels
-          %br/
-          (
-          = link_to "explain..", help_faq_path(anchor: "rebellion")
-          )
-        %th Turnout
-        %th Majority
-    %tbody
-      - if @divisions.empty?
+  - if !@divisions.empty?
+    %h2 Divisions
+    %table.table
+      %thead
         %tr
-          %td{colspan: "9"} no divisions found
-      - else
+          %th House
+          %th Date
+          %th Time
+          %th Subject
+          %th
+            Rebels
+            %br/
+            (
+            = link_to "explain..", help_faq_path(anchor: "rebellion")
+            )
+          %th Turnout
+          %th Majority
+      %tbody
         - @divisions.each do |division|
           %tr
             %td{class: division.house}= division.australian_house_name
