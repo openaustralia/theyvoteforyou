@@ -73,51 +73,32 @@ Submit
 <div class="container">
 <div class="page-header">
 <h1>Make a new policy</h1>
+<p class="lead">Add a new policy by completing two statements below.</p>
 </div>
-<p>Here you have to name and describe the policy. Afterwards, you
-will be able to select which votes support the policy. The new
-policy can represent anything you like. Some examples:</p>
+<div class="row">
+<div class="col-md-8">
+<p>After a policy is created you will be able to associate it with  divisions and select how a supporter of the policy would have voted. The Public Whip compares the real votes of MPs to your selections and calculates the voting record for the policy. <a href="/help/faq#policies">Find out more about the process</a>.</p>
 
+<p>Remember, all policies are public. They are a shared resource to be edited and updated by anyone (like Wikipedia).</p>
+
+<button class="btn btn-link btn-sm" data-target="#tips" data-toggle="collapse" id="tips-toggler" type="button">
+Tips for useful policies
+</button>
+<div class="collapse alert alert-info" id="tips">
 <ul>
-<li>Equal laws for heterosexuals and homosexuals.</li>
-<li>For offshore processing of arrivals by boat.</li>
-<li>Pro-nuclear power.</li>
+<li><p><strong>Allow for as little interpretation as possible</strong>. <em>“For healthy children”</em> is a bad example because it is a matter of opinion how a specific divisions relates to it. We could argue all day about it. <em>“For increasing funding to university education”</em> is a good example because it is easier to know how a supporter would have voted in relevant divisions.</p></li>
+<li><p><strong>Be specific.</strong> Aim for a policy that can&#39;t be broken down into other policies. If it can be, maybe you should split it up. There are exceptions where it could be useful to have overlapping policies.</p></li>
+<li><p><strong>Don’t duplicate.</strong> Check the <a href="/policies">policies page</a> to see if the policy you are thinking of exists. The opposite of a policy is not necessarily a policy. For example “For maintaining a price on carbon” and “For removing a price on carbon” will probably produce inverted results and so have limited new value for people viewing the site.</p></li>
+<li><p><strong>Check whether relevant divisions exist.</strong> All policies should have existing divisions that relate to them. For example, “Make Australia a Republic” doesn&#39;t work well as there haven&#39;t been any relevant divisions during the period currently covered by the Pubic Whip (2006 – present).</p></li>
+<li><p><strong>Don&#39;t be shy</strong>. These policies belong to everyone. If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.</p></li>
 </ul>
 
-<p>All policies are public. Just because you made a policy does not
-mean you own it. Anybody can edit it. Although everyone will by no
-means agree with every policy, they should agree that its votes in
-divisions are logical consequences of its definition.</p>
-
-<p>Some other things to note about policies:</p>
-
-<ul>
-<li>Policies should be open to as little interpretation as
-possible. For example, &quot;Evangelical Christian&quot; and &quot;Fiscal
-Responsibility&quot; are not policies since there are differing opinions
-about what would be implemented. Instead, things like &quot;Ban research
-using embryos&quot; and &quot;Buy more nuclear weapons&quot; are policies because,
-even if you don&#39;t agree with them, you can still agree on which way
-they would vote.</li>
-<li>Usually a policy can&#39;t be broken down into other policies. If
-it can be, maybe you should split it into two sub-policies. There
-are exceptions, for example &quot;Pro-vegetarianism&quot; may agree with all
-the votes for &quot;Conserve coastal fish stocks&quot; although for quite
-different reasons.</li>
-<li>The opposite of a policy is not necessarily a policy,
-particularly if it is not one of the extremes. There could be, for
-instance, three different approaches to solving a particular
-problem.</li>
-<li>All policies must be convertable into votes. So, for example,
-&quot;Make Australia a Republic&quot; doesn&#39;t work because there haven&#39;t been
-any such votes (recently).</li>
-<li>Don&#39;t be shy. These policies belong to everyone.
-If you believe that a policy is wrongly voting on divisions or is ill-defined, fix it.</li>
-</ul>
-
-<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class="form-group string optional policy_name"><label class="string optional control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" /></div>
-<div class="form-group text optional policy_description"><label class="text optional control-label" for="policy_description">you believe that</label><textarea class="text optional form-control" id="policy_description" name="policy[description]" placeholder="the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples" rows="6">
+</div>
+<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class="form-group string optional policy_name"><label class="string optional h4 control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" /></div>
+<p class="small help-block">Complete the statement to provide a short, specific policy summary.</p>
+<div class="form-group text optional policy_description"><label class="text optional h4 control-label" for="policy_description">you believe that</label><textarea class="text optional form-control" id="policy_description" name="policy[description]" placeholder="the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples" rows="6">
 </textarea></div>
+<p class="small help-block">Describe of the belief that makes someone a supporter of the policy.</p>
 <ul>
 <li>
 Privacy &mdash;
@@ -144,6 +125,8 @@ being licensed under the <a href="http://creativecommons.org/licenses/by/4.0/">C
 <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
 </form>
 
+</div>
+</div>
 
 </div>
 <footer class="site-footer">

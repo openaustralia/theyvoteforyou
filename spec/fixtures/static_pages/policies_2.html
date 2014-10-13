@@ -79,10 +79,15 @@ Submit
 <div class="container">
 <div class="page-header">
 <h1>Make a new policy</h1>
+<p class="lead">Add a new policy by completing two statements below.</p>
 </div>
-<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class="form-group string optional policy_name has-error"><label class="string optional control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" value="" /><span class="help-block">can't be blank</span></div>
-<div class="form-group text optional policy_description"><label class="text optional control-label" for="policy_description">you believe that</label><textarea class="text optional form-control" id="policy_description" name="policy[description]" placeholder="the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples" rows="6">
+<div class="row">
+<div class="col-md-8">
+<form accept-charset="UTF-8" action="/policies" class="simple_form new_policy" id="new_policy" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><div class="form-group string optional policy_name has-error"><label class="string optional h4 control-label" for="policy_name">If you are for</label><input class="string optional form-control" id="policy_name" name="policy[name]" placeholder="equal treatment of same-sex couples" type="text" value="" /><span class="help-block">can't be blank</span></div>
+<p class="small help-block">Complete the statement to provide a short, specific policy summary.</p>
+<div class="form-group text optional policy_description"><label class="text optional h4 control-label" for="policy_description">you believe that</label><textarea class="text optional form-control" id="policy_description" name="policy[description]" placeholder="the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples" rows="6">
 nuclear power is great.</textarea></div>
+<p class="small help-block">Describe of the belief that makes someone a supporter of the policy.</p>
 <ul>
 <li>
 Privacy &mdash;
@@ -109,6 +114,8 @@ being licensed under the <a href="http://creativecommons.org/licenses/by/4.0/">C
 <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
 </form>
 
+</div>
+</div>
 
 </div>
 <footer class="site-footer">
