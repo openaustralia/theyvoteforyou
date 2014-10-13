@@ -35,10 +35,10 @@ To keep content understandable, concise and relevant, it should be:
 *not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
 (Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
 
-## Use Gender-neutral text
+### Use Gender-neutral text
 Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’ etc.
 
-##Stick to the style guide
+###Stick to the style guide
 By keeping to the style guide, we:
 save time – people don’t have to learn different conventions
 make fewer small mistakes
@@ -46,7 +46,7 @@ will make it easier for new people to start writing
 help users  – some people will pick up inconsistencies while reading; that means they are thinking about how something is being said and not what is being said
 raise trust levels – if we are consistent, we are giving a coherent view.
 
-## Write for the web
+### Write for the web
 We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background. 
 
 Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the The Guardian, Oxfam or Lonely Planet or the BBC. You'll see their content is easy to read and understand.
@@ -55,12 +55,12 @@ They use:
 * subheaded sections
 * plain english. This helps people find what they need quickly and absorb it effortlessly.
 
-##How people read
+###Know How people read
 Knowing how people read means you'll write in a way they can understand easily and quickly.
 By the time the average child is 9 years old, they can skip up to 30% of words on a page and still accurately predict the text. That's not just reading online. If there's enough context, the mind fills in the gaps. You don't need to read every word to understand what is written.
 Also, online, people don't read in the traditional way. They don't necessarily read top to bottom or even from word to word.
 
-## Front-loadings
+### Use Front-loadings
 Web-user eye-tracking studies show that people tend to ‘read’ a webpage in an ‘F’ shape pattern. They look across the top, then down the side, reading further across when they find what they need.
 So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
@@ -81,7 +81,7 @@ At the activity centre:
 * you can run
 
 
-## Common words
+### Use Common words
 By the time a child is 5 or 6 years old, they'll use 2,500 to 5,000 common words. Even as adults, we find these words easier to recognise and understand.
 When you use a longer word (8 or 9 letters), people are more likely to skip shorter words that follow it, words of 3, 4 or 5 letters. So if you use longer, more complicated words, readers will skip more. Keep it simple.
 Look at this sentence: "The recently implemented categorical standardisation procedure on waste oil should not be applied before 1 January 2014." It’s just an example, but you can imagine people missing that ‘not’. This is a big deal.
