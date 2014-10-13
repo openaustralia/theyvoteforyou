@@ -2,7 +2,7 @@
 
 * **Be specific.** Aim for a policy that can't be broken down into other policies. If it can be, maybe you should split it up. There are exceptions where it could be useful to have overlapping policies.
 
-* **Don’t duplicate.** Check the [policies page](/policies) to see if the policy you are thinking of exists. The opposite of a policy is not necessarily a policy. For example “For maintaining a price on carbon” and “For removing a price on carbon” are practically will probably produce inverted results and so have limited new value for people viewing the site.
+* **Don’t duplicate.** Check the [policies page](/policies) to see if the policy you are thinking of exists. The opposite of a policy is not necessarily a policy. For example “For maintaining a price on carbon” and “For removing a price on carbon” will probably produce inverted results and so have limited new value for people viewing the site.
 
 * **Check whether relevant divisions exist.** All policies should have existing divisions that relate to them. For example, "Make Australia a Republic" doesn't work well as a policy because there haven't been relevant divisions since our records begin (2006).
 
