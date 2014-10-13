@@ -10,6 +10,6 @@ require 'spec_helper'
 #     end
 #   end
 # end
-RSpec.describe Api::PeopleHelper, :type => :helper do
+RSpec.describe Api::V1::PeopleHelper, :type => :helper do
   pending "add some examples to (or delete) #{__FILE__}"
 end

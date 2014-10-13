@@ -167,7 +167,9 @@ Publicwhip::Application.routes.draw do
   ## API routes
 
   namespace :api do
-    resources :people, only: :index
+    namespace :v1 do
+      resources :people, only: :index
+    end
   end
 
   # Example of regular route:
