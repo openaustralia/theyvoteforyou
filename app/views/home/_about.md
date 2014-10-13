@@ -21,15 +21,13 @@ A huge thank you to [Google Australia](http://www.google.com.au) whose donation 
 
 ### <a name='contribute'></a>You can help
 
-<%= Settings.project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
+Make this project better for everyone by [summarising divisions](/divisions) and [maintaining and discussing policies](/policies). You can also [make a tax deductible donation](https://www.openaustraliafoundation.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
+
+<%= Settings.project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
 
 <%= Settings.project_name %> keeps getting better due to the efforts of
 
 <%= render "contributions" %>
-
-If you’re not a civic-hacker (yet), you can help make this project better for everyone by [summarising divisions](/divisions) and [maintaining and discussing policies](/policies).
-
-You could also [make a tax deductible donation](https://www.openaustraliafoundation.org.au/donate/) to the OpenAustralia Foundation to support us in creating and maintaining projects like this.
 
 ### <a name='contact'></a>Contact
 
