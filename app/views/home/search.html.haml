@@ -24,31 +24,7 @@
     = render "members/members", members: @mps, house: nil
   - if !@divisions.empty?
     %h2 Divisions
-    %table.table
-      %thead
-        %tr
-          %th House
-          %th Date
-          %th Time
-          %th Subject
-          %th
-            Rebels
-            %br/
-            (
-            = link_to "explain..", help_faq_path(anchor: "rebellion")
-            )
-          %th Turnout
-          %th Majority
-      %tbody
-        - @divisions.each do |division|
-          %tr
-            %td{class: division.house}= division.australian_house_name
-            %td= formatted_date(division.date, true)
-            %td= division.clock_time
-            %td= link_to division.name, division_path(division)
-            %td= division.rebellions
-            %td= division.turnout
-            %td= division.majority
+    = render "divisions/divisions", divisions: @divisions
   %p
     Also try browsing the list of #{link_to "all Representatives", members_path(house: "representatives")},
     = link_to "all Senators", members_path(house: "senate")
