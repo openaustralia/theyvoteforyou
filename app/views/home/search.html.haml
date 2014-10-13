@@ -26,9 +26,8 @@
     %h2 Divisions
     = render "divisions/divisions", divisions: @divisions
   %p
-    Also try browsing the list of #{link_to "all Representatives", members_path(house: "representatives")},
-    = link_to "all Senators", members_path(house: "senate")
-    or #{link_to "all divisions", divisions_path}.
+    Also try browsing the list of #{link_to "People", members_path},
+    #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.
   = render 'search_form'
 - else
   - content_for :title, "Search"
