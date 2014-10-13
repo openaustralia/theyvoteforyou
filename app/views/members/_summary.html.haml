@@ -1,5 +1,5 @@
 - member.person.members.order(entered_house: :desc).each_with_index do |member, i|
-  %p= member_type_place_date_sentence(member)
+  %p= member_type_party_place_date_sentence(member)
 
 - if member.person.votes_attended > 0
   - if member.person.has_whip?

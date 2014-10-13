@@ -20,17 +20,17 @@
   }
 
   .navbar-toggle {
-    border-color: rgba(255,255,255,.2);
+    border-color: rgba(255,255,255,.6);
 
     &:hover,
     &:focus {
       color: #111;
       background-color: rgba(255,255,255,.2);
-      border-color: rgba(255,255,255,.3);
+      border-color: rgba(255,255,255,.4);
     }
 
     .icon-bar {
-      background-color: #ddd;
+      background-color: darken($color-lemon, 50%);
     }
   }
 

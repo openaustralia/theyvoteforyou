@@ -1,0 +1,30 @@
+.object-primary {
+  margin-bottom: 0;
+
+  @media (min-width: $screen-md-min) {
+    float: left;
+    clear: left;
+  }
+}
+
+.object-data {
+  margin-top: .5em;
+  margin-bottom: 0;
+  font-size: $font-size-supporting;
+  text-transform: uppercase;
+
+  @media (min-width: $screen-md-min) {
+    float: right;
+    clear: right;
+  }
+}
+
+.object-data-rebellion,
+.object-data-attendance {
+  display: block;
+
+  @media (min-width: 30em) {
+    margin-right: 1em;
+    display: inline-block;
+  }
+}

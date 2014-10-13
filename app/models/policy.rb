@@ -55,6 +55,11 @@ class Policy < ActiveRecord::Base
     User.find(most_recent_version.whodunnit)
   end
 
+  def self.find_by_search_query(query)
+    where('LOWER(convert(name using utf8)) LIKE :query
+           OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+  end
+
   def self.update_all!
     all.each { |p| p.calculate_member_distances! }
   end

@@ -13,11 +13,14 @@
       %h2.division-title.panel-link-title
         = truncate(division.name, length: 180)
 
-      %ul.list-inline.division-data
-        - if @party
-          %li
-            = whip_guess_with_strength_in_words(division.whip_for_party(@party)).capitalize
-          %li
+      - if @party
+        %p.division-outcome.division-party-outcome.object-primary= whip_guess_with_strength_in_words(division.whip_for_party(@party)).capitalize
+      - else
+        %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
+
+      %p.division-data.object-data
+        %span.division-rebellions.object-data-rebellion
+          - if @party
             - if division.no_rebellions_in_party(@party) > 0
               = pluralize(division.no_rebellions_in_party(@party), 'rebellion')
               by
@@ -28,12 +31,12 @@
               No rebellions by
               = @party
               members
-          %li.text-muted
+          - else
+            = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
+        %span.division-attendance.object-data-attendance
+          - if @party
             = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
             attendance
-        - else
-          %li= division_outcome_with_majority_strength(division)
-          %li= division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
-          %li.text-muted
+          - else
             = fraction_to_percentage_display(division.attendance_fraction)
             attendance

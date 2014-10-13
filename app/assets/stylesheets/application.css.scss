@@ -2,6 +2,7 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "bootstrap-accessibility";
 
 @import "global/typography";
 @import "global/banners";
@@ -11,6 +12,7 @@
 @import "global/history-notice";
 @import "global/header";
 @import "global/footer";
+@import "global/object-list";
 
 @import "members/members";
 

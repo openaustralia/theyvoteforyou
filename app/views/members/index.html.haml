@@ -5,7 +5,7 @@
     .page-header.container
       %h1= yield :title
       %p.lead
-        These are the people who vote on your behalf in Parliament
+        The people who vote on your behalf in Parliament
 
 .list-filters.clearfix
   %nav.btn-group
@@ -40,4 +40,4 @@
       %li{role: "presentation", class: "#{'disabled' if @sort == 'attendance'}"}
         = link_to "Attendance", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
 
-= render "members", members: @members, sort: @sort, house: @house
+= render "members", members: @members, house: @house

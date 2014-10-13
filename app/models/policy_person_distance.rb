@@ -11,7 +11,7 @@ class PolicyPersonDistance < ActiveRecord::Base
   belongs_to :policy
   has_one :person, foreign_key: :id, primary_key: :person_id
 
-  scope :visible, -> { joins(:policy).where(policies: {private: 0}) }
+  scope :visible, -> { joins(:policy).merge(Policy.visible) }
   scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
   scope :strongly_for,          -> { where(distance_a: (0.05...0.15)) }
   scope :moderately_for,        -> { where(distance_a: (0.15...0.40)) }
@@ -20,6 +20,10 @@ class PolicyPersonDistance < ActiveRecord::Base
   scope :strongly_against,      -> { where(distance_a: (0.85...0.95)) }
   scope :very_strongly_against, -> { where(distance_a: (0.95..1.0)) }
   scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
+
+  def voted?
+    nvotessame > 0 || nvotessamestrong > 0 || nvotesdiffer > 0 || nvotesdifferstrong > 0
+  end
 
   def distance_object
     Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)

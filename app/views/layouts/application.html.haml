@@ -28,7 +28,7 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        = link_to Settings.project_name.downcase, root_path, class: "navbar-brand"
+        = link_to Settings.project_name, root_path, class: "navbar-brand"
 
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
@@ -37,6 +37,17 @@
           %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyze MP's votes"
           %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
           %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
+
+        %form{class: "site-header-search navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
+          .input-group
+            %label.sr-only{for: "query"}
+              Search #{Settings.project_name}
+            %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+            .input-group-btn
+              %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+                %span.sr-only
+                  Submit
+                %span.glyphicon.glyphicon-search
 
         %ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
@@ -50,17 +61,6 @@
                 %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name || current_user.email}", method: :delete
           - else
             %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
-
-        %form{class: "site-header-search navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
-          .input-group
-            %label.sr-only{for: "query"}
-              Search #{Settings.project_name}
-            %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
-            .input-group-btn
-              %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
-                %span.sr-only
-                  Submit
-                %span.glyphicon.glyphicon-search
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice

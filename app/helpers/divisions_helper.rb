@@ -60,17 +60,21 @@ module DivisionsHelper
       "unanimously"
     elsif division.majority_fraction == 0.0
       ""
-    elsif division.majority_fraction > 2.to_f / 3
-      "by a large majority"
-    elsif division.majority_fraction > 1.to_f / 3
-      "by a moderate majority"
-    elsif division.majority_fraction > 0
-      "by a small majority"
+    else
+      "by a " + content_tag(:span, {class: 'has-tooltip', title: division_score(division)}) do
+        if division.majority_fraction > 2.to_f / 3
+          "large majority"
+        elsif division.majority_fraction > 1.to_f / 3
+          "moderate majority"
+        elsif division.majority_fraction > 0
+          "small majority"
+        end
+      end
     end
   end
 
   def division_outcome_with_majority_strength(division)
-    division_outcome(division) + " " + majority_strength_in_words(division)
+    "#{division_outcome(division)} #{majority_strength_in_words(division)}".html_safe
   end
 
   def whip_guess_with_strength_in_words(whip)
@@ -96,16 +100,12 @@ module DivisionsHelper
     division.passed? ? 'division-outcome-passed' : 'division-outcome-not-passed'
   end
 
-  def division_outcome_with_score(division)
-    result = division_outcome(division) + " "
-    result += content_tag(:span, class: "division-outcome-score") do
-      if division.passed?
-        text = division.aye_votes_including_tells.to_s + " – " + division.no_votes_including_tells.to_s
-      else
-        text = division.no_votes_including_tells.to_s + " – " + division.aye_votes_including_tells.to_s
-      end
+  def division_score(division)
+    if division.passed?
+      "#{division.aye_votes_including_tells.to_s} Aye – #{division.no_votes_including_tells.to_s} No"
+    else
+      "#{division.no_votes_including_tells.to_s} No – #{division.aye_votes_including_tells.to_s} Aye"
     end
-    result.html_safe
   end
 
   def member_voted_with(member, division)
