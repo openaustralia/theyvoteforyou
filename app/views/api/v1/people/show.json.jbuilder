@@ -20,12 +20,11 @@ json.offices do
 end
 
 json.policy_comparisons do
-  json.array! @person.policy_person_distances.order(:distance_a) do |ppd|
+  json.array! @person.policy_person_distances.visible.order(:distance_a) do |ppd|
     json.policy do
       json.id ppd.policy.id
       json.name ppd.policy.name
       json.description ppd.policy.description
-      json.provisional ppd.policy.provisional?
     end
     json.agreement number_with_precision(ppd.agreement_fraction * 100,  precision: 2, significant: true)
     json.voted ppd.voted?
