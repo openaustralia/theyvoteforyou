@@ -10,7 +10,7 @@
     = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
     .motion-text
       = division.formatted_motion_text
-  %nav.motion-external-links.col-md-4.col-lg-5
+  %nav.motion-external-links.col-md-3.col-md-offset-1.col-lg-4.col-lg-offset-1
     %h2.h5 External links
     %ul
       - division.bills.each do |bill|
