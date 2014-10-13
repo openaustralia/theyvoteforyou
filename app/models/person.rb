@@ -2,6 +2,8 @@ class Person < ActiveRecord::Base
   has_many :members
   has_many :policy_person_distances
   has_many :offices
+  # People who are currently in parliament
+  scope :current, -> { joins(:members).merge(Member.current) }
 
   # Total number of rebellions across all members for this person
   def rebellions

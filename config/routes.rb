@@ -164,6 +164,12 @@ Publicwhip::Application.routes.draw do
     get 'licencing'
   end
 
+  ## API routes
+
+  namespace :api do
+    resources :people, only: :index
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
