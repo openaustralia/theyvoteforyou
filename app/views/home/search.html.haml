@@ -9,12 +9,7 @@
   - if @postcode_error
     %p There was an error trying to look up the postcode: The postcode server returned an error.
   - else
-    %table.table
-      - @mps.each do |mp|
-        %tr
-          %td= link_to mp.name, mp
-          %td= mp.party
-          %td= link_to mp.electorate, electorate_path(mp)
+    = render "members/members", members: @mps, house: nil
 
 - elsif params[:query]
   - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
