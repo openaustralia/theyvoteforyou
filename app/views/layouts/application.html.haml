@@ -7,9 +7,9 @@
     %title
       - unless yield(:title).empty?
         = yield :title
-        \— The Public Whip
+        \— Public Whip
       - else
-        The Public Whip — Counting votes on your behalf
+        Public Whip — Counting votes on your behalf
 
     = stylesheet_link_tag "//code.cdn.mozilla.net/fonts/fira.css"
     = stylesheet_link_tag "application"
@@ -29,7 +29,7 @@
           %span.icon-bar
           %span.icon-bar
         = link_to root_path, class: "navbar-brand" do
-          the public whip
+          public whip
 
       // Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
@@ -48,14 +48,14 @@
                 %li= link_to "Your page", current_user
                 %li= link_to "Edit profile", edit_user_registration_path
                 %li.divider
-                %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into The Public Whip as #{current_user.name || current_user.email}", method: :delete
+                %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into Public Whip as #{current_user.name || current_user.email}", method: :delete
           - else
             %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
 
         %form{class: "site-header-search navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
           .input-group
             %label.sr-only{for: "query"}
-              Search the Public Whip
+              Search Public Whip
             %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
             .input-group-btn
               %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
