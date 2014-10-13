@@ -12,7 +12,7 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 ### Thanks for making this
 
-Public Whip was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
+<%= Settings.project_name %> was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. We owe Julian and Francis a massive debt of gratitude for everything they've done.
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this Public Whip possible.
@@ -21,9 +21,9 @@ The Australian Public Whip was created by Henare Degan, Matthew Landauer, Luke B
 
 ### <a name='contribute'></a>You can help
 
-Public Whip is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
+<%= Settings.project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [Github](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
 
-Public Whip keeps getting better due to the efforts of
+<%= Settings.project_name %> keeps getting better due to the efforts of
 
 <%= render "contributions" %>
 

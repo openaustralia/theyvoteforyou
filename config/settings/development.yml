@@ -3,3 +3,6 @@ xml_data_base_url: http://data.openaustralia.org/
 
 # Or if you want to load from your local filesystem instead them you might do something like
 #xml_data_base_url: file:///Users/matthew/git/openaustralia/openaustralia-parser/pwdata/
+
+# Name of project to display thoughout the application
+project_name: Public Whip

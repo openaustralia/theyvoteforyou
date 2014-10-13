@@ -6,13 +6,13 @@
       %h1= yield :title
 
 %ul
-  %li= link_to "How does Public Whip work?", "#how"
+  %li= link_to "How does #{Settings.project_name} work?", "#how"
   %li= link_to "What time period does it cover?", "#timeperiod"
 
 %ul
   %li= link_to "What is a division?", "#division"
   %li= link_to "When does a division occur?", "#division-occur"
-  %li= link_to "Why don’t all decisions made in Parliament appear on Public Whip?", "#decisions"
+  %li= link_to "Why don’t all decisions made in Parliament appear on #{Settings.project_name}?", "#decisions"
   %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
 
 %ul
@@ -23,7 +23,7 @@
   %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
   %li= link_to "What happens if a division is tied?", "#tied-division"
 
-%h2#how How does Public Whip work?
+%h2#how How does #{Settings.project_name} work?
 = render "help/faq/how_does_it_work"
 
 %h2#timeperiod What time period does it cover?
@@ -35,7 +35,7 @@
 %h2#division-occur When does a division occur?
 = render "help/faq/when_division"
 
-%h2#decisions Why don’t all decisions made in Parliament appear on Public Whip?
+%h2#decisions Why don’t all decisions made in Parliament appear on #{Settings.project_name}?
 = render "help/faq/decisions"
 
 %h2#summaries Why don’t all the divisions have edited summaries?

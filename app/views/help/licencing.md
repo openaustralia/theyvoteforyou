@@ -1,7 +1,7 @@
 <% content_for :title, "Licencing" %>
 
 ### Use the data
-You are free to reuse/republish the parliamentary data in Public Whip with a reference and link to this website.
+You are free to reuse/republish the parliamentary data in <%= Settings.project_name %> with a reference and link to this website.
 The data is licensed under [Open Data Commons Open Database License](http://opendatacommons.org/licenses/odbl/) to the extent which we have rights to it.
 This is an attribution, share-alike licence, so the work you produce with this data must also share the result under a compatible open data licence.
 

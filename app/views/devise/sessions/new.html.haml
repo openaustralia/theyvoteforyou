@@ -1,4 +1,4 @@
-- content_for :title, 'Login to Public Whip'
+- content_for :title, "Login to #{Settings.project_name}"
 
 %h1= yield :title
 
@@ -22,4 +22,4 @@
         = f.check_box :remember_me
         Remember me
 
-  = f.submit "Login to Public Whip", class: "btn btn-default"
+  = f.submit "Login to #{Settings.project_name}", class: "btn btn-default"

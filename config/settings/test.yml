@@ -1,2 +1,5 @@
 # URL where Public Whip XML data files can be found
 xml_data_base_url: http://data.openaustralia.org/
+
+# Name of project to display thoughout the application
+project_name: Public Whip
