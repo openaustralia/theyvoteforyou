@@ -9,67 +9,22 @@
   - if @postcode_error
     %p There was an error trying to look up the postcode: The postcode server returned an error.
   - else
-    %table.table
-      - @mps.each do |mp|
-        %tr
-          %td= link_to mp.name, mp
-          %td= mp.party
-          %td= link_to mp.electorate, electorate_path(mp)
+    = render "members/members", members: @mps, house: nil
 
 - elsif params[:query]
-  - content_for :title, "Search for #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
+  - content_for :title, "Search results for: #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
   %h1= yield :title
-  %p Found these divisions matching '#{params[:query]}':
-  %table.table
-    %thead
-      %tr
-        %th House
-        %th Date
-        %th Time
-        %th Subject
-        %th
-          Rebels
-          %br/
-          (
-          = link_to "explain..", help_faq_path(anchor: "rebellion")
-          )
-        %th Turnout
-        %th Majority
-    %tbody
-      - if @divisions.empty?
-        %tr
-          %td{colspan: "9"} no divisions found
-      - else
-        - @divisions.each do |division|
-          %tr
-            %td{class: division.house}= division.australian_house_name
-            %td= formatted_date(division.date, true)
-            %td= division.clock_time
-            %td= link_to division.name, division_path(division)
-            %td= division.rebellions
-            %td= division.turnout
-            %td= division.majority
-
-  %p
-    Found these Representatives and Senators whose names sound like
-    '#{params[:query]}':
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Electorate / State
-        %th Party
-    %tbody
-      - if @mps.empty?
-        %tr
-          %td{colspan: 3} no members found
-      - else
-        - @mps.each do |mp|
-          %tr
-            %td= link_to mp.name, mp
-            %td= link_to_unless mp.senator?, mp.electorate, electorate_path(mp)
-            %td= mp.party
+  - if @mps.empty? && @divisions.empty?
+    %p
+      We're sorry but we couldn't find any people or divisions for your search term.
+      Try your search again using some different terms.
+  - if !@mps.empty?
+    %h2 People
+    = render "members/members", members: @mps, house: nil
+  - if !@divisions.empty?
+    %h2 Divisions
+    = render "divisions/divisions", divisions: @divisions
   %p
     Also try browsing the list of #{link_to "all Representatives", members_path(house: "representatives")},
     = link_to "all Senators", members_path(house: "senate")

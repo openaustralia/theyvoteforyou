@@ -1,5 +1,5 @@
 %ol.members-list.list-unstyled{:class => active_house_for_list_class(house)}
-  - @members.each do |member|
+  - members.each do |member|
     %li
       = link_to member, class: 'member-item panel-link' do
         %article.media
@@ -11,19 +11,21 @@
               %span.member-electorate= member.role
 
             %p.member-data.object-data
-              %span.member-rebellions.object-data-rebellion
-                -if member.person.rebellions_fraction == 0
-                  Never rebels
-                -else
-                  -# TODO: Should this be an absolute count rather than percentage?
-                  -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  Rebels
-                  = fraction_to_percentage_display(member.person.rebellions_fraction)
-                  of the time
-                  -# TODO: add helper tooltip for rebellions
+              - if member.person.rebellions_fraction
+                %span.member-rebellions.object-data-rebellion
+                  -if member.person.rebellions_fraction == 0
+                    Never rebels
+                  -else
+                    -# TODO: Should this be an absolute count rather than percentage?
+                    -# Maybe it's good to show it as a percentage because it highlights rarity?
+                    Rebels
+                    = fraction_to_percentage_display(member.person.rebellions_fraction)
+                    of the time
+                    -# TODO: add helper tooltip for rebellions
+                    -# link_to "explain...", help_faq_path(anchor: "clarify")
+              - if member.person.attendance_fraction
+                %span.member-attendance.object-data-attendance
+                  = fraction_to_percentage_display(member.person.attendance_fraction)
+                  attendance
+                  -# TODO: add helper tooltip for attendance
                   -# link_to "explain...", help_faq_path(anchor: "clarify")
-              %span.member-attendance.object-data-attendance
-                = fraction_to_percentage_display(member.person.attendance_fraction)
-                attendance
-                -# TODO: add helper tooltip for attendance
-                -# link_to "explain...", help_faq_path(anchor: "clarify")
