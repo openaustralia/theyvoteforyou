@@ -10,7 +10,7 @@
     - unless @policy.errors.any?
       = render "new_policy_intro"
 
-      %button{id: 'tips-toggler', type: 'button', class: 'btn btn-link btn-sm', data: {toggle: 'collapse', target: '#tips'}}
+      %button{id: 'tips-toggler', type: 'button', class: 'btn btn-link btn-sm btn-lone-link', data: {toggle: 'collapse', target: '#tips'}}
         Tips for useful policies
       #tips.collapse.alert.alert-info
         = render "policy_authoring_tips"
