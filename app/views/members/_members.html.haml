@@ -7,8 +7,7 @@
           .media-body
             %h2.media-heading.member-name.panel-link-title= member.name_without_title
             %p.member-role
-              %span.member-party.inline-post-title= member.party_name
-              %span.member-electorate= member.role
+              = member_type_party_place_sentence(member)
 
             %p.member-data
               %span.member-rebellions
