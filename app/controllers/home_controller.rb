@@ -26,10 +26,8 @@ class HomeController < ApplicationController
       end
 
       if electorates.count == 1
-        member = Member.find_by!(constituency: electorates.first['name'])
-        # FIXME: We should redirect but this is how the PHP app does it currently
-        render nothing: true, status: :found, location: view_context.electorate_path(member)
-        return
+        member = Member.current.find_by!(constituency: electorates.first['name'])
+        redirect_to view_context.member_path(member)
       elsif electorates.count > 1
         electorates.each do |e|
           member = Member.current_on(Date.today).find_by(constituency: e['name'])
