@@ -6,7 +6,7 @@
     .media-body
       %h1.media-heading
         = member.name_without_title
-      %p.lead= member_type_party_place_date_sentence(member)
+      %p.member-role.lead= member_type_party_place_date_sentence(member)
 
       - if member.person.votes_attended > 0
         - if member.person.has_whip?
