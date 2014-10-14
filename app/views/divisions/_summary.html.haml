@@ -15,7 +15,7 @@
         %th.cell-toggler
     %tbody
       - division.whips.order(:party).each do |whip|
-        - if !whip.whipless?
+        - if !whip.whipless? && whip.possible_votes != 1
           %tr.party-row
             %th.cell-name
               = link_to whip.party_name, party_divisions_path(whip.party_object)
@@ -37,22 +37,22 @@
 
         -# Show members in this party that are present in this division
         - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
-          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless?), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
+          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
             %th.cell-name
               = link_to vote.member.name_without_title, vote.member
               = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
-              %small.post-title.text-muted= vote.member.party_name if whip.whipless?
+              %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
             %td.cell-vote= vote.vote.capitalize
             %td.cell-toggler
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
         -# Show members in this party that are absent in this division
         - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
-          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless?), ('member-row-' + whip.party.parameterize)]}
+          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + whip.party.parameterize)]}
             %th.cell-name
               = link_to member.name_without_title, member
               = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
-              %small.post-title.text-muted= member.party_name if whip.whipless?
+              %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
             %td.cell-vote Absent
             %td.cell-toggler
 
