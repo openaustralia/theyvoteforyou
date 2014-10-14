@@ -19,24 +19,36 @@
         %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
 
       %p.division-data.object-data
-        %span.division-rebellions.object-data-rebellion
-          - if @party
-            - if division.no_rebellions_in_party(@party) > 0
-              = pluralize(division.no_rebellions_in_party(@party), 'rebellion')
-              by
-              = " a " if division.no_rebellions_in_party(@party) == 1
-              = @party
-              = "member".pluralize(division.no_rebellions_in_party(@party))
+        - if @member
+          = @member.name_without_title
+          - if @member.attended_division?(division)
+            Voted
+            = division.vote_for(@member)
+            - if @member.has_whip?
+              = @member.division_vote(division).rebellion? ? "against" : "with"
+              the
+              = @member.party_name
+          - else
+            was absent
+        - else
+          %span.division-rebellions.object-data-rebellion
+            - if @party
+              - if division.no_rebellions_in_party(@party) > 0
+                = pluralize(division.no_rebellions_in_party(@party), 'rebellion')
+                by
+                = " a " if division.no_rebellions_in_party(@party) == 1
+                = @party
+                = "member".pluralize(division.no_rebellions_in_party(@party))
+              - else
+                No rebellions by
+                = @party
+                members
             - else
-              No rebellions by
-              = @party
-              members
-          - else
-            = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
-        %span.division-attendance.object-data-attendance
-          - if @party
-            = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
-            attendance
-          - else
-            = fraction_to_percentage_display(division.attendance_fraction)
-            attendance
+              = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
+          %span.division-attendance.object-data-attendance
+            - if @party
+              = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
+              attendance
+            - else
+              = fraction_to_percentage_display(division.attendance_fraction)
+              attendance
