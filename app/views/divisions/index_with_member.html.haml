@@ -8,6 +8,5 @@
 
 %p All votes #{@member.full_name_no_electorate} could have attended.
 
-%table.table
-  - @member.person.members.order(entered_house: :desc).each do |member|
-    = render "members/votes", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no votes listed"
+- @member.person.members.order(entered_house: :desc).each do |member|
+  = render "divisions", divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc)
