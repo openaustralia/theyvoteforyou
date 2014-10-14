@@ -55,4 +55,13 @@ module MembersHelper
     end
     text
   end
+
+  def member_history_sentence(member)
+    text = "Before being #{member_type_party_place_sentence(member)}, #{member.name_without_title} was "
+    member.person.members.order(entered_house: :desc).offset(1).each_with_index do |member, i|
+      text += member.party_name + " " + member_type(member.australian_house) + " for " + content_tag(:span, member.electorate, class: 'electorate')
+    end.to_sentence
+    text += "."
+    text.html_safe
+  end
 end

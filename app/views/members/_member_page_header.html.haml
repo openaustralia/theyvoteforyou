@@ -6,8 +6,3 @@
     .media-body
       %h1.media-heading
         = member.name_without_title
-      %p.lead= member_type_party_place_sentence(member)
-      - if !member.person.current_offices.empty?
-        %p
-          -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-          = member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
