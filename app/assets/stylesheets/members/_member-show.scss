@@ -1,0 +1,14 @@
+.page-header {
+  .member-period {
+    display: block;
+    text-transform: capitalize;
+    // font-weight: normal;
+    font-size: 18px;
+    color: $gray;
+
+    @media (min-width: $screen-md-min) {
+      display: inline-block;
+      text-transform: none;
+    }
+  }
+}
