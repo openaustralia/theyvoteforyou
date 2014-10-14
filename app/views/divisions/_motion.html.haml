@@ -1,24 +1,18 @@
-%section.motion.clearfix{class: division.edited? ? "motion-edited" : "motion-raw"}
-  - if !division.edited?
-    %p.division-edit-notice.alert-warning.col-md-12
-      %strong Unedited text
-      automatically extracted from the debate.
-      = link_to "Improve the page providing a summary.", edit_division_path(division)
+- if !division.edited?
+  %p.division-edit-notice.alert-warning.col-md-12
+    %strong Unedited text
+    automatically extracted from the debate.
+    = link_to "Improve the page providing a summary.", edit_division_path(division)
 
-  %h2.motion-title Summary
-  = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
-  .row
-    .motion-text.col-md-8
+%section.motion.row{class: division.edited? ? "motion-edited" : "motion-raw"}
+  .col-md-8.col-lg-7
+    %h2.motion-title Summary
+    = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
+    .motion-text
       = division.formatted_motion_text
-    .col-md-4
-      -# This is clearly the wrong place for this but this will get us started
-
-      - unless division.bills.empty?
-        Related to the
-        = division.bills.count == 1 ? "bill" : "bills"
-        %ul
-          - division.bills.each do |bill|
-            %li= link_to bill.title, bill.url
-  %nav.motion-source-info
-    %ul.list-inline.nav.nav-pills
-      %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org", class: "text-muted"
+  %nav.motion-external-links.col-md-3.col-md-offset-1.col-lg-4.col-lg-offset-1
+    %h2.h5 External links
+    %ul
+      %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
+      - division.bills.each do |bill|
+        %li= link_to bill.title, bill.url
