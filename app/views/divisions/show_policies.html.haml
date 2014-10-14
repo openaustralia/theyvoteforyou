@@ -19,14 +19,9 @@
       = f.collection_select :policy_id, Policy.all, "id", "name", {prompt: "Select related policy"}, size: 1, class: "form-control"
       would have
       %label voted
-      - select_options = {'Aye (strong)' => 'aye3',
-                          'Aye' => 'aye',
-                          'No' => 'no',
-                          'No (strong)' => 'no3'}
-      = f.select :vote, options_for_select(select_options), {prompt: "Select vote"}, size: 1, class: "form-control"
+      = vote_select(f)
     = f.submit 'Connect policy', class: 'btn btn-primary'
 - else
   %p
     = link_to "Login", new_user_session_path, title: "Login to edit policies"
     to edit policy connections.
-
