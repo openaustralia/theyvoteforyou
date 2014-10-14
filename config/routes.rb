@@ -110,6 +110,7 @@ Publicwhip::Application.routes.draw do
     result += "?" + q.join("&") unless q.empty?
     result
   }
+  get '/members/:house/:mpc/:mpn/policies/:id/full' => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
 
   #################
   #  Main routes  #
