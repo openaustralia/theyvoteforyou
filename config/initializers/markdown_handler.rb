@@ -1,5 +1,11 @@
 require 'redcarpet'
 
+class BootstrapTableRenderer < Redcarpet::Render::HTML
+  def table(header, body)
+    "<table class=\"table\"><thead>#{header}</thead><tbody>#{body}</tbody></table>"
+  end
+end
+
 module MarkdownHandler
   def self.erb
     @erb ||= ActionView::Template.registered_template_handler(:erb)
@@ -7,7 +13,7 @@ module MarkdownHandler
 
   def self.call(template)
     compiled_source = erb.call(template)
-    "Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(begin;#{compiled_source};end).html_safe"
+    "Redcarpet::Markdown.new(BootstrapTableRenderer, tables: true).render(begin;#{compiled_source};end).html_safe"
   end
 end
 

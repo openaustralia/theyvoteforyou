@@ -32,10 +32,6 @@ module PathHelper
     Rails.application.routes.url_helpers.member_policy_path(member_params(member).merge(id: policy.id))
   end
 
-  def full_member_policy_path(member, policy)
-    Rails.application.routes.url_helpers.full_member_policy_path(member_params(member).merge(id: policy.id))
-  end
-
   def member_divisions_path(member)
     Rails.application.routes.url_helpers.member_divisions_path(member_params(member))
   end

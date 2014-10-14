@@ -13,11 +13,6 @@
         = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
         = link_to @policy.name, @policy
 
-#secondnavtabs
-  %ul.nav.nav-tabs
-    = nav_link_unless_current("Summary", [@member, @policy], "Show every vote cast by this MP")
-    = nav_link_unless_current("Full description", full_member_policy_path(@member, @policy), "Also show descriptions of every vote")
-
 %p
   How
   = link_to @member.name, @member

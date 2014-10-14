@@ -1,0 +1,57 @@
+- content_for :title, "API - Get the data"
+
+%h1= yield :title
+.row
+  .col-md-10
+    %p
+      With modest developer skills you can use the modern REST API to access almost all the information available
+      on #{Settings.project_name}.
+
+    %p
+      All endpoints return their results as JSON.
+
+    %p
+      Jump to the section you're most interested in
+
+    %ul
+      %li= link_to "All current people in parliament", "#people"
+      %li= link_to "Details for a person", "#person"
+      %li= link_to "All policies", "#policies"
+      %li= link_to "Details for a policy", "#policy"
+      %li= link_to "Legacy API", "#legacy"
+
+%h2#people All current people in parliament
+.row
+  .col-md-10
+    = render "help/data/people"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_people.md", class: "btn btn-default"
+
+%h2#person Details for a person
+.row
+  .col-md-10
+    = render "help/data/person"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_person.md", class: "btn btn-default"
+
+%h2#policies All policies
+.row
+  .col-md-10
+    = render "help/data/policies"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_policies.md", class: "btn btn-default"
+
+%h2#policy Details for a policy
+.row
+  .col-md-10
+    = render "help/data/policy"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_policy.md", class: "btn btn-default"
+
+
+%h2#legacy Legacy API
+.row
+  .col-md-10
+    = render "help/data/legacy"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_legacy.md", class: "btn btn-default"

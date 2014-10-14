@@ -281,4 +281,9 @@ describe "routing redirects", type: :request do
     get "/divisions.php"
     expect(response).to redirect_to "/divisions"
   end
+
+  it do
+    get "/members/representatives/lilley/wayne_swan/policies/3/full"
+    expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
+  end
 end

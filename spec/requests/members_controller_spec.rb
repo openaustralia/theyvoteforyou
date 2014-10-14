@@ -36,10 +36,6 @@ describe MembersController, type: :request do
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1")}
 
-    it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1&display=motions")}
-    it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1&display=motions")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1&display=motions")}
-
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}
 
