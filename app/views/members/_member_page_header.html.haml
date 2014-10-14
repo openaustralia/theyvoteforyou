@@ -10,8 +10,8 @@
 
       - if member.person.votes_attended > 0
         - if member.person.has_whip?
-          %p
-            %strong
+          %p.member-data
+            %span.member-rebellions
               - if member.person.rebellions == 0
                 Never rebels.
               - else
