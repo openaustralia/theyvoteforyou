@@ -17,5 +17,3 @@ likewise for the Senate.
 
 Each [policy](<%= policies_path %>) has an XML representation of how much
 each MP agrees with it, e.g. [mpdream-info.xml?id=1](<%= mpdream_info_feed_path(id: 1, format: :xml) %>).
-
-Hey, you should [help document this better](https://github.com/openaustralia/publicwhip/blob/test/app/views/help/data.md)!
