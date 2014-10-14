@@ -165,6 +165,6 @@ module DivisionsHelper
                         'Aye' => 'aye',
                         'No' => 'no',
                         'No (strong)' => 'no3'}
-    f.select :vote, options_for_select(select_options, value), options, size: 1, class: "form-control"
+    f.select :vote, options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
 end
