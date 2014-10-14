@@ -20,16 +20,7 @@
 
       %p.division-data.object-data
         - if @member
-          = @member.name_without_title
-          - if @member.attended_division?(division)
-            Voted
-            = division.vote_for(@member)
-            - if @member.has_whip?
-              = @member.division_vote(division).rebellion? ? "against" : "with"
-              the
-              = @member.party_name
-          - else
-            was absent
+          = member_vote_with_party(@member, division)
         - else
           %span.division-rebellions.object-data-rebellion
             - if @party

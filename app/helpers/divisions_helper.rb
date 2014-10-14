@@ -138,6 +138,21 @@ module DivisionsHelper
     end
   end
 
+  def member_vote_with_party(member, division)
+    sentence = member.name_without_title
+    if member.attended_division?(division)
+      sentence += " voted #{division.vote_for(member)}"
+      if member.has_whip?
+        sentence += member.division_vote(division).rebellion? ? " against" : " with"
+        sentence += " the #{member.party_name}"
+      end
+    else
+      sentence += " was absent"
+    end
+
+    sentence
+  end
+
   def relative_time(time)
     time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
   end
