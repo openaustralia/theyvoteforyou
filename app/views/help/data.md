@@ -7,7 +7,14 @@ on <%= Settings.project_name %>.
 
 All endpoints return their results as JSON.
 
-## All current people in parliament
+Jump to the section you're most interested in
+
+* [All current people in parliament](#people)
+* [Details for a person](#person)
+* [All policies](#policies)
+* [Details for a policy](#policy)
+
+<h2 id="people">All current people in parliament</h2>
 
 <pre>GET <%= link_to api_v1_people_url(format: "json"), api_v1_people_url(format: "json") %></pre>
 
@@ -17,7 +24,7 @@ Senate.
 
 To get more detailed information about a person use the `id` to do the following:
 
-## Details for a person
+<h2 id="person">Details for a person</h2>
 
 <pre>GET <%= api_v1_person_url(format: "json", id: "foo").gsub("foo", "[id]") %></pre>
 
@@ -59,7 +66,7 @@ This returns all sorts of useful detailed information, including
   </tbody>
 </table>
 
-## All policies
+<h2 id="policies">All policies</h2>
 
 <pre>GET <%= link_to api_v1_policies_url(format: "json"), api_v1_policies_url(format: "json") %></pre>
 
@@ -92,7 +99,7 @@ This returns basic information about policies including
   </tbody>
 </table>
 
-## Details for a policy
+<h2 id="policy">Details for a policy</h2>
 
 <pre>GET <%= api_v1_policy_url(format: "json", id: "foo").gsub("foo", "[id]") %></pre>
 
