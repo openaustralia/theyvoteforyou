@@ -15,6 +15,5 @@
 //= require jquery_ujs
 //= require marked
 //= require jquery.widowFix-1.3.2
-//= require bootstrap-accessibility
 //= require bootstrap-select
 //= require_tree .
