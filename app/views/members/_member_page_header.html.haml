@@ -8,3 +8,12 @@
         = member.name_without_title
       %p.lead= member_type_party_place_date_sentence(member)
 
+      - if member.person.votes_attended > 0
+        - if member.person.has_whip?
+          %p
+            %strong
+              - if member.person.rebellions == 0
+                Never rebels.
+              - else
+                Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction)} of votes.
+            %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")

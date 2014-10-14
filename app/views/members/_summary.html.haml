@@ -12,13 +12,5 @@
     %strong No votes attended
     - # TODO: add back in the rebellion and attendance rate for previous membership.
 
-  - if member.person.has_whip?
-    %p
-      %strong
-        - if member.person.rebellions == 0
-          Never rebels.
-        - else
-          Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction)} of votes.
-      %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
   - if member.person.members.size > 1
     = member_history_sentence(member)
