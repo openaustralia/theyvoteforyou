@@ -43,6 +43,14 @@ class WikiMotion < ActiveRecord::Base
     end
   end
 
+  def previous_title
+    if previous_edit
+      previous_edit.title
+    else
+      division.original_name
+    end
+  end
+
   private
 
   def set_text_body

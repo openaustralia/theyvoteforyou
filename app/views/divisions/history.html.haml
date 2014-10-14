@@ -27,7 +27,7 @@
   %thead
     %tr
       %th Change
-      %th Division Description Changes
+      %th Division
   %tbody
     - @division.wiki_motions.each_with_index do |wiki_motion, index|
       %tr
@@ -40,4 +40,7 @@
             on
             = wiki_motion.edit_date.strftime('%F %T')
         %td
+          %p Title
+          = Diffy::Diff.new(wiki_motion.previous_title.strip, wiki_motion.title.strip).to_s(:html).html_safe
+          %p Description
           = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.description).to_s(:html).html_safe
