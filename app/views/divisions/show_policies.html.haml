@@ -15,12 +15,11 @@
       .alert.alert-danger= @policy_division.errors.full_messages.to_sentence
     %fieldset
       %label People who are for
-      - # TODO: Don't display policies already selected
       = f.select :policy_id, nil, {prompt: "Select related policy"}, size: 1, class: "selectpicker", data: {width: "auto", "live-search" => true} do
         %optgroup(label="Provisional policies")
-          = options_from_collection_for_select(Policy.provisional.order(:name), "id", "name")
+          = options_from_collection_for_select(Policy.provisional.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
         %optgroup(label="Non-provisional policies")
-          = options_from_collection_for_select(Policy.visible.order(:name), "id", "name")
+          = options_from_collection_for_select(Policy.visible.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
       would have
       %label voted
       = vote_select(f, nil, prompt: "Select vote")
