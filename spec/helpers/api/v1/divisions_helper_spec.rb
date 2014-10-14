@@ -11,5 +11,5 @@ require 'spec_helper'
 #   end
 # end
 RSpec.describe Api::V1::DivisionsHelper, :type => :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+
 end
