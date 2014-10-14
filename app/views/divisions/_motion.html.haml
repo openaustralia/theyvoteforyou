@@ -13,6 +13,6 @@
   %nav.motion-external-links.col-md-3.col-md-offset-1.col-lg-4.col-lg-offset-1
     %h2.h5 External links
     %ul
+      %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
       - division.bills.each do |bill|
         %li= link_to bill.title, bill.url
-      %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
