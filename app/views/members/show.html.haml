@@ -4,9 +4,8 @@
 
 = render "member_page_header", member: @member
 = render "summary", member: @member
-
-= render "policy_comparisons", member: @member
 = render "external_links", member: @member
+= render "policy_comparisons", member: @member
 - if @member.person.has_whip?
   = render "interesting_votes", member: @member
 - else
