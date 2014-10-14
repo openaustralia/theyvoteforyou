@@ -160,11 +160,11 @@ module DivisionsHelper
     end
   end
 
-  def vote_select(f, value = nil)
+  def vote_select(f, value, options = {})
     select_options = {'Aye (strong)' => 'aye3',
                         'Aye' => 'aye',
                         'No' => 'no',
                         'No (strong)' => 'no3'}
-    f.select :vote, options_for_select(select_options, value), {prompt: "Select vote"}, size: 1, class: "form-control"
+    f.select :vote, options_for_select(select_options, value), options, size: 1, class: "form-control"
   end
 end

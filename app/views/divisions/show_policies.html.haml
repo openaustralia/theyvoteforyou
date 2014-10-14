@@ -19,7 +19,7 @@
       = f.collection_select :policy_id, Policy.all, "id", "name", {prompt: "Select related policy"}, size: 1, class: "form-control"
       would have
       %label voted
-      = vote_select(f)
+      = vote_select(f, nil, prompt: "Select vote")
     = f.submit 'Connect policy', class: 'btn btn-primary'
 - else
   %p
