@@ -18,6 +18,7 @@
       %li= link_to "Details for a person", "#person"
       %li= link_to "All policies", "#policies"
       %li= link_to "Details for a policy", "#policy"
+      %li= link_to "All divisions", "#divisions"
       %li= link_to "Legacy API", "#legacy"
 
 %h2#people All current people in parliament
@@ -48,6 +49,12 @@
   .col-md-2
     = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_policy.md", class: "btn btn-default"
 
+%h2#divisions All divisions
+.row
+  .col-md-10
+    = render "help/data/divisions"
+  .col-md-2
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_divisions.md", class: "btn btn-default"
 
 %h2#legacy Legacy API
 .row
