@@ -1,5 +1,5 @@
 %section.page-section#interesting-votes
-  %h2#divisions Interesting Votes
+  %h2 Interesting Votes
 
   %p
     Votes in parliament for which this
@@ -8,9 +8,6 @@
   %p
     See also #{link_to "all votes", [member, Division]}.
 
-  %table.table
-    - member.person.members.order(entered_house: :desc).each do |member|
-      - if member.has_whip?
-        = render "votes", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no rebellions"
-      - else
-        = render "votes", member: member, divisions: [], empty_message: "#{member.party_name.pluralize} have no whip"
+  - member.person.members.order(entered_house: :desc).each do |member|
+    - if member.has_whip?
+      = render "divisions/divisions", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc)

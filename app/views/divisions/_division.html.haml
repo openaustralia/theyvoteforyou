@@ -13,8 +13,8 @@
 
       - if @party
         %p.division-outcome.division-party-outcome.object-primary= whip_guess_with_strength_in_words(division.whip_for_party(@party)).capitalize
-      - elsif @member
-        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(@member)).downcase}"}= member_vote_with_type(@member, division)
+      - elsif member
+        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(member)).downcase}"}= member_vote_with_type(member, division)
         %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
       - else
         %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
