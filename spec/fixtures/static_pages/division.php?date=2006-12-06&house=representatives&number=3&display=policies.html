@@ -88,10 +88,9 @@ People who are
 <a href="/policies/2">for offshore processing</a>
 would have voted
 </label>
-<select class="form-control" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="aye3">Aye (strong)</option>
-<option value="aye">Aye</option>
-<option selected="selected" value="no">No</option>
-<option value="no3">No (strong)</option></select>
+<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><optgroup label="A less important vote"><option value="aye">Aye</option>
+<option selected="selected" value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Aye (strong)</option>
+<option value="no3">No (strong)</option></optgroup></select>
 <input class="btn btn-primary btn-xs" name="commit" type="submit" value="Update" />
 </form>
 
@@ -106,17 +105,16 @@ would have voted
 </legend>
 <fieldset>
 <label>People who are for</label>
-<select class="form-control" id="policy_division_policy_id" name="policy_division[policy_id]" size="1"><option value="">Select related policy</option>
+<select class="selectpicker" id="policy_division_policy_id" name="policy_division[policy_id]" size="1"><option value="">Select related policy</option>
 <option value="1">marriage equality</option>
 <option value="2">offshore processing</option>
 <option value="3">provisional policies</option></select>
 would have
 <label>voted</label>
-<select class="form-control" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="">Select vote</option>
-<option value="aye3">Aye (strong)</option>
-<option value="aye">Aye</option>
-<option value="no">No</option>
-<option value="no3">No (strong)</option></select>
+<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="">Select vote</option>
+<optgroup label="A less important vote"><option value="aye">Aye</option>
+<option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Aye (strong)</option>
+<option value="no3">No (strong)</option></optgroup></select>
 </fieldset>
 <input class="btn btn-primary" name="commit" type="submit" value="Connect policy" />
 </form>

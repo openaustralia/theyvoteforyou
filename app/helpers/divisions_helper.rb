@@ -161,10 +161,16 @@ module DivisionsHelper
   end
 
   def vote_select(f, value, options = {})
-    select_options = {'Aye (strong)' => 'aye3',
-                        'Aye' => 'aye',
-                        'No' => 'no',
-                        'No (strong)' => 'no3'}
-    f.select :vote, options_for_select(select_options, value), options, size: 1, class: "selectpicker"
+    select_options = [
+      ['A less important vote', [
+        ['Aye', 'aye'],
+        ['No', 'no']
+      ]],
+      ['An important vote', [
+        ['Aye (strong)', 'aye3'],
+        ['No (strong)', 'no3']
+      ]]
+    ]
+    f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
 end
