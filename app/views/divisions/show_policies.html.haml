@@ -16,7 +16,7 @@
     %fieldset
       %label People who are for
       - # TODO: Don't display policies already selected
-      = f.collection_select :policy_id, Policy.all.order(:name), "id", "name", {prompt: "Select related policy"}, size: 1, class: "selectpicker", data: {width: "auto"}
+      = f.collection_select :policy_id, Policy.all.order(:name), "id", "name", {prompt: "Select related policy"}, size: 1, class: "selectpicker", data: {width: "auto", "live-search" => true}
       would have
       %label voted
       = vote_select(f, nil, prompt: "Select vote")
