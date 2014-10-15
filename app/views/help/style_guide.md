@@ -28,7 +28,7 @@ To keep content understandable, concise and relevant, it should be:
 * human (not a faceless machine)
 * serious but not pompous
 * emotionless – adjectives can be subjective and make the text sound more emotive and like spin
-* non partisan - only use words which is used by one
+* non-partisan – only use words which is used by one
 
 ## You should:
 
