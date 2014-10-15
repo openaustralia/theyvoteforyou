@@ -1,3 +1,4 @@
-- divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
-- divisions = divisions.select { |d| d.house == member.house } if member
-= render "divisions/divisions", divisions: divisions
+%section.page-section#divisions
+  - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
+  - divisions = divisions.select { |d| d.house == member.house } if member
+  = render "divisions/divisions", divisions: divisions
