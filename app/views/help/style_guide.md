@@ -1,25 +1,25 @@
 <% content_for :title, "Style Guide" %>
-## <%= yield :title %>
+# <%= yield :title %>
 The Public Whip is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 Use this guide when you write new divisions, summaries, or to help improve content that is already there.
 This will help you make everything you write at the Public Whip easy to read and understand.
 
-### Use Plain English
+## Use Plain English
 People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible.
 
 
-### Don’t Use Long Words, buzzwords, or jargon
+## Don’t Use Long Words, buzzwords, or jargon
 Use easy or short words instead of long formal ones. Use ‘buy’ instead of ‘purchase’, ‘help’ instead of ‘assist’, ‘about’ instead of ‘approximately’ and ‘like’ instead of ‘such as’.
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
 
-### Active voice
+## Active voice
 Use the active rather than passive voice. Use "They sang songs"(active) not "songs were sung" (passive)
 
-### Avoid duplication
+## Avoid duplication
 Duplicate content confuses people and damages the credibility of Public Whip content.
 If something is written once and links to relevant resources easily and well, people are more likely to trust the content.
 
-### Be concise
+## Be concise
 To keep content understandable, concise and relevant, it should be:
 * specific
 * informative
@@ -37,10 +37,10 @@ To keep content understandable, concise and relevant, it should be:
 * not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
 (Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
 
-### Use Gender-neutral text
+## Use Gender-neutral text
 Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’ etc.
 
-### Stick to the style guide
+## Stick to the style guide
 By keeping to the style guide, we:
 save time – people don’t have to learn different conventions
 make fewer small mistakes
@@ -57,12 +57,12 @@ They use:
 * subheaded sections
 * plain english. This helps people find what they need quickly and absorb it effortlessly.
 
-###Know How people read
+## Know How people read
 Knowing how people read means you'll write in a way they can understand easily and quickly.
 By the time the average child is 9 years old, they can skip up to 30% of words on a page and still accurately predict the text. That's not just reading online. If there's enough context, the mind fills in the gaps. You don't need to read every word to understand what is written.
 Also, online, people don't read in the traditional way. They don't necessarily read top to bottom or even from word to word.
 
-### Use Front-loadings
+## Use Front-loadings
 Web-user eye-tracking studies show that people tend to ‘read’ a webpage in an ‘F’ shape pattern. They look across the top, then down the side, reading further across when they find what they need.
 So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
@@ -83,7 +83,7 @@ At the activity centre:
 * you can run
 
 
-### Use Common words
+## Use Common words
 By the time a child is 5 or 6 years old, they'll use 2,500 to 5,000 common words. Even as adults, we find these words easier to recognise and understand.
 When you use a longer word (8 or 9 letters), people are more likely to skip shorter words that follow it, words of 3, 4 or 5 letters. So if you use longer, more complicated words, readers will skip more. Keep it simple.
 Look at this sentence: "The recently implemented categorical standardisation procedure on waste oil should not be applied before 1 January 2014." It’s just an example, but you can imagine people missing that ‘not’. This is a big deal.
