@@ -170,7 +170,7 @@ Publicwhip::Application.routes.draw do
     namespace :v1 do
       resources :people, only: [:index, :show]
       resources :policies, only: [:index, :show]
-      resources :divisions, only: :index
+      resources :divisions, only: [:index, :show]
     end
   end
 

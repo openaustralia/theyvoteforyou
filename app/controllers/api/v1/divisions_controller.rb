@@ -5,4 +5,8 @@ class Api::V1::DivisionsController < ApplicationController
     @divisions = @divisions.where("date <= ?", params[:end_date]) if params[:end_date]
     @divisions = @divisions.where(house: House.australian_to_uk(params[:house])) if params[:house]
   end
+
+  def show
+    @division = Division.find(params[:id])
+  end
 end
