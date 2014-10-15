@@ -14,11 +14,12 @@
 
   - if division.rebellions > 0
     %ul.list-unstyled.small
-      - # TODO: Make this dynamic
-      %li
-        =link_to "Ian Macdonald"
-        voted Aye against the majority of the Liberal Party.
-
+      - division.votes.rebellious.each do |vote|
+        %li
+          = link_to vote.member.name, vote.member
+          voted
+          = vote_display_in_table vote.vote
+          against the majority of the #{vote.member.party}.
 
   %table.table
     %colgroup.column-name{span: 1}
