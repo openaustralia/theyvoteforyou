@@ -50,9 +50,17 @@ module MembersHelper
       text += (" " +
         content_tag(:span, "since #{member.since}", class: 'member-period')).html_safe
     else
-      text += (", " +
+      text += (" " +
         content_tag(:span, "#{member.since} – #{member.until}", class: 'member-period')).html_safe
     end
     text
+  end
+
+  def member_history_sentence(member)
+    text = "Before being #{member_type_party_place_sentence(member)}, #{member.name_without_title} was "
+    text += member.person.members.order(entered_house: :desc).offset(1).map do |member, i|
+      member.party_name + " " + member_type(member.australian_house) + " for " + content_tag(:span, member.electorate, class: 'electorate')
+    end.to_sentence
+    text.html_safe + "."
   end
 end

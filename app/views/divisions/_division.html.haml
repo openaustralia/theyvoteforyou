@@ -18,7 +18,7 @@
       - else
         %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
 
-      %p.division-data.object-data
+      %p.division-data.object-data.object-secondary
         - if @member || @policy
           - if @member
             %span.division-member-vote.object-data-member-vote= member_vote_with_party(@member, division)

@@ -7,16 +7,19 @@
   }
 }
 
-.object-data {
+.object-secondary {
   margin-top: .5em;
   margin-bottom: 0;
-  font-size: $font-size-supporting;
-  text-transform: uppercase;
 
   @media (min-width: $screen-md-min) {
     float: right;
     clear: right;
   }
+}
+
+.object-data {
+  text-transform: uppercase;
+  font-size: $font-size-supporting;
 }
 
 .object-data-rebellion,

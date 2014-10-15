@@ -1,23 +1,10 @@
-- member.person.members.order(entered_house: :desc).each_with_index do |member, i|
-  %p= member_type_party_place_date_sentence(member)
+%p.member-description
+  - if !member.person.current_offices.empty?
+    = member.name_without_title
+    is
+    -# TODO: The UK uses extra Offices data like department so this will need to be expanded
+    = member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."
 
-- if member.person.votes_attended > 0
-  - if member.person.has_whip?
-    %p
-      %strong
-        - if member.person.rebellions == 0
-          Never rebels.
-        - else
-          Rebels on #{fraction_to_percentage_display(member.person.rebellions_fraction)} of votes.
-      %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
-  %p
-    Attended #{fraction_to_percentage_display(member.person.attendance_fraction)} of votes (#{member.person.votes_attended} of #{member.person.votes_possible}).
-    %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
-- else
-  %strong No votes attended
-- # TODO: add back in the rebellion and attendance rate for previous membership.
-
-%p
-  %em Note:
-  our voting records currently only go back to the beginning of 2006
-  (#{link_to "more details", help_faq_path(anchor: "timeperiod")}).
+  - # TODO: add back in the rebellion and attendance rate for previous membership.
+  - if member.person.members.size > 1
+    = member_history_sentence(member)

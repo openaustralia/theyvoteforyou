@@ -6,8 +6,29 @@
     .media-body
       %h1.media-heading
         = link_to_unless_current member.name_without_title, member
-      %p.lead= member_type_party_place_sentence(member)
-      - if !member.person.current_offices.empty?
-        %p
-          -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-          = member.person.current_offices.map{|o| "<strong>#{o.position}</strong>" }.to_sentence(two_words_connector: ", and ").html_safe
+      %p.member-role.lead= member_type_party_place_date_sentence(member)
+
+      - if member.person.votes_attended > 0
+        - if member.person.has_whip?
+          %p.member-data.object-data
+            - if member.person.rebellions_fraction
+              %span.member-rebellions.object-data-rebellion
+                -if member.person.rebellions_fraction == 0
+                  Never rebels
+                -else
+                  -# TODO: Should this be an absolute count rather than percentage?
+                  -# Maybe it's good to show it as a percentage because it highlights rarity?
+                  Rebels
+                  = fraction_to_percentage_display(member.person.rebellions_fraction)
+                  of the time
+                  -# TODO: add helper tooltip for rebellions
+                  -# link_to "explain...", help_faq_path(anchor: "clarify")
+                %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+            - if member.person.attendance_fraction
+              %span.member-attendance.object-data-attendance
+                = fraction_to_percentage_display(member.person.attendance_fraction)
+                attendance
+                -# TODO: add helper tooltip for attendance
+                -# link_to "explain...", help_faq_path(anchor: "clarify")
+                %small= link_to "explain attendance.", help_faq_path(anchor: "attendance")
+
