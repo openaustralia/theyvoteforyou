@@ -5,14 +5,14 @@ Use this guide when you write new divisions, summaries, or to help improve conte
 This will help you make everything you write at the Public Whip easy to read and understand.
 
 ## Use plain English
-People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible.
+People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well also prefer plain English. It allows them to understand your content as quickly as possible.
 
 ## Don’t use long words, buzzwords, or jargon
 Use easy or short words instead of long formal ones. Use ‘buy’ instead of ‘purchase’, ‘help’ instead of ‘assist’, ‘about’ instead of ‘approximately’ and ‘like’ instead of ‘such as’.
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
 
 ## Active voice
-Use the active rather than passive voice. Use "They sang songs"(active) not "songs were sung" (passive)
+Use the active rather than passive voice. Use "They sang songs" (active) not "songs were sung" (passive).
 
 ## Avoid duplication
 Duplicate content confuses people and damages the credibility of Public Whip content.
@@ -31,13 +31,13 @@ To keep content understandable, concise and relevant, it should be:
 
 ## You should:
 
-* use contractions (eg can’t, don’t, they'll, we've, let's )
-* not let caveats dictate unwieldy grammar – eg say ‘You can’ rather than ‘You may be able to’
+* use contractions (e.g. can’t, don’t, they’ll, we’ve, let’s)
+* not let caveats dictate unwieldy grammar – e.g. say ‘You can’ rather than ‘You may be able to’
 * not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
 (Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
 
 ## Use gender-neutral text
-Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’ etc.
+Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’, etc.
 
 ## Stick to the style guide
 By keeping to the style guide, we:
