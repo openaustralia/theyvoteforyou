@@ -11,19 +11,10 @@ json.policy_divisions do
   end
 end
 
-
 json.people_comparisons do
   json.array! @policy.policy_person_distances.order(:distance_a) do |ppd|
     json.person do
-      json.id ppd.person.id
-      member = ppd.person.latest_member
-      json.name do
-        json.first member.first_name
-        json.last member.last_name
-      end
-      json.electorate member.electorate
-      json.house member.australian_house
-      json.party member.party
+      json.partial! "api/v1/people/person", person: ppd.person
     end
     json.agreement number_with_precision(ppd.agreement_fraction * 100,  precision: 2, significant: true)
     json.voted ppd.voted?
