@@ -95,7 +95,7 @@ How about:
 
 Focus on the child’s common word set of up to 5,000 words. This makes it easier to read and understand information quickly.
 
-Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand.
+Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc. but keep the language easy to understand.
 Remember that puns or wordplay can make the content difficult to find.
 
-Mostly adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/)
+Mostly adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/).
