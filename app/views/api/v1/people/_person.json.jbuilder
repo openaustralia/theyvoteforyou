@@ -1,9 +1,11 @@
 json.id person.id
-member = person.latest_member
-json.name do
-  json.first member.first_name
-  json.last member.last_name
+json.latest_member do
+  json.id person.latest_member.id
+  json.name do
+    json.first person.latest_member.first_name
+    json.last person.latest_member.last_name
+  end
+  json.electorate person.latest_member.electorate
+  json.house person.latest_member.australian_house
+  json.party person.latest_member.party
 end
-json.electorate member.electorate
-json.house member.australian_house
-json.party member.party
