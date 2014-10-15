@@ -24,37 +24,37 @@
 %h2#people All current people in parliament
 .row
   .col-md-10
-    = render "help/data/people"
+    = render "api/v1/people/docs_index"
   .col-md-2
-    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_people.md", class: "btn btn-default"
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/api/v1/people/_docs_index.md", class: "btn btn-default"
 
 %h2#person Details for a person
 .row
   .col-md-10
-    = render "help/data/person"
+    = render "api/v1/people/docs_show"
   .col-md-2
-    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_person.md", class: "btn btn-default"
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/api/v1/people/_docs_show.md", class: "btn btn-default"
 
 %h2#policies All policies
 .row
   .col-md-10
-    = render "help/data/policies"
+    = render "api/v1/policies/docs_index"
   .col-md-2
-    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_policies.md", class: "btn btn-default"
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/api/v1/policies/_docs_index.md", class: "btn btn-default"
 
 %h2#policy Details for a policy
 .row
   .col-md-10
-    = render "help/data/policy"
+    = render "api/v1/policies/docs_show"
   .col-md-2
-    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_policy.md", class: "btn btn-default"
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/api/v1/policies/_docs_show.md", class: "btn btn-default"
 
 %h2#divisions All divisions
 .row
   .col-md-10
-    = render "help/data/divisions"
+    = render "api/v1/divisions/docs_index"
   .col-md-2
-    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/help/data/_divisions.md", class: "btn btn-default"
+    = link_to "Edit docs", "https://github.com/openaustralia/publicwhip/tree/test/app/views/api/v1/divisions/_docs_index.md", class: "btn btn-default"
 
 %h2#legacy Legacy API
 .row
