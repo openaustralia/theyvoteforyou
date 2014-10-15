@@ -46,7 +46,7 @@ By keeping to the style guide, we:
 * save time – people don’t have to learn different conventions
 * make fewer small mistakes
 * make it easier for new people to start writing
-* help users  – some people will pick up inconsistencies while reading; that means they are thinking about how something is being said and not what is being said
+* help users – some people will pick up inconsistencies while reading; that means they are thinking about how something is being said and not what is being said
 * raise trust levels – if we are consistent, we are giving a coherent view.
 
 ## Write for the web
