@@ -7,6 +7,5 @@
 %p
   See also #{link_to "all votes", [member, Division]}.
 
-%table.table
-  - member.person.members.order(entered_house: :desc).each do |member|
-    = render "members/votes", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(5), empty_message: "no votes listed"
+- member.person.members.order(entered_house: :desc).each do |member|
+  = render "divisions/divisions", divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(5)

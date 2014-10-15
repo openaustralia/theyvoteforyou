@@ -28,6 +28,8 @@ class DivisionsController < ApplicationController
       @rdisplay = "2013" if @rdisplay.nil?
       @house = params[:house]
 
+      raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
+
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @parties = @parties.in_australian_house(@house) if @house
@@ -42,11 +44,7 @@ class DivisionsController < ApplicationController
       # Match to canonical capitalisation
       @party = @parties.find{|p| p.downcase == @party}
 
-      raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
-
       order = case @sort
-      when nil
-        ["date DESC", "clock_time DESC", "name", "number DESC"]
       when "subject"
         ["name", "date DESC", "clock_time DESC", "number DESC"]
       when "rebellions"
@@ -54,7 +52,8 @@ class DivisionsController < ApplicationController
       when "turnout"
         ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
       else
-        raise "Unexpected value"
+        @sort = nil
+        ["date DESC", "clock_time DESC", "name", "number DESC"]
       end
 
       @divisions = Division.order(order)
