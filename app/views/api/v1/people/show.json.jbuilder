@@ -11,9 +11,7 @@ json.offices @person.current_offices, partial: "api/v1/offices/office", as: :off
 json.policy_comparisons do
   json.array! @person.policy_person_distances.visible.order(:distance_a) do |ppd|
     json.policy do
-      json.id ppd.policy.id
-      json.name ppd.policy.name
-      json.description ppd.policy.description
+      json.partial! "api/v1/policies/policy", policy: ppd.policy
     end
     json.agreement number_with_precision(ppd.agreement_fraction * 100,  precision: 2, significant: true)
     json.voted ppd.voted?
