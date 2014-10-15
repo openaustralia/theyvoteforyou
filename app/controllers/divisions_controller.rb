@@ -45,8 +45,6 @@ class DivisionsController < ApplicationController
       @party = @parties.find{|p| p.downcase == @party}
 
       order = case @sort
-      when nil
-        ["date DESC", "clock_time DESC", "name", "number DESC"]
       when "subject"
         ["name", "date DESC", "clock_time DESC", "number DESC"]
       when "rebellions"
@@ -54,7 +52,8 @@ class DivisionsController < ApplicationController
       when "turnout"
         ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
       else
-        raise "Unexpected value"
+        @sort = nil
+        ["date DESC", "clock_time DESC", "name", "number DESC"]
       end
 
       @divisions = Division.order(order)
