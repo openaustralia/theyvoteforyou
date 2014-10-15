@@ -28,10 +28,7 @@ end
 json.policy_divisions do
   json.array! @division.policy_divisions do |pd|
     json.policy do
-      json.id pd.policy.id
-      json.name pd.policy.name
-      json.description pd.policy.description
-      json.provisional pd.policy.provisional?
+      json.partial! "api/v1/policies/policy", policy: pd.policy
     end
     json.vote pd.vote_without_strong
     json.strong pd.strong_vote?
