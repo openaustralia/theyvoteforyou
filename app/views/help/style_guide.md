@@ -9,7 +9,7 @@ People don’t stop understanding text because it’s written clearly. People wh
 
 ## Don’t use long words, buzzwords, or jargon
 Use easy or short words instead of long formal ones. Use ‘buy’ instead of ‘purchase’, ‘help’ instead of ‘assist’, ‘about’ instead of ‘approximately’ and ‘like’ instead of ‘such as’.
-Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
+Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The [Plain English Campaign](http://www.plainenglish.co.uk/free-guides.html) have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
 
 ## Active voice
 Use the active rather than passive voice. Use "They sang songs" (active) not "songs were sung" (passive).
