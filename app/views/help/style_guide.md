@@ -52,7 +52,7 @@ By keeping to the style guide, we:
 ## Write for the web
 We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
 
-Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the [The Guardian](http://www.theguardian.com/au), [Oxfam](https://www.oxfam.org.au/) or [Lonely Planet](http://www.lonelyplanet.com/) or the [BBC](http://www.bbc.co.uk/). You'll see their content is easy to read and understand.
+Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the [The Guardian](http://www.theguardian.com/au), [Oxfam](https://www.oxfam.org.au/), [Lonely Planet](http://www.lonelyplanet.com/), or the [BBC](http://www.bbc.co.uk/). You'll see their content is easy to read and understand.
 They use:
 
 * short sentences
