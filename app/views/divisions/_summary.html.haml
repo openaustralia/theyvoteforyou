@@ -14,7 +14,7 @@
 
   - if division.rebellions > 0
     %ul.list-unstyled.small
-      - division.votes.rebellious.each do |vote|
+      - division.votes.rebellious.order("members.last_name", "members.first_name").each do |vote|
         %li
           = link_to vote.member.name, vote.member
           voted
