@@ -161,6 +161,7 @@ Publicwhip::Application.routes.draw do
     get 'faq'
     get 'data'
     get 'research'
+    get 'style-guide', to: :style_guide
   end
 
   # Example of regular route:

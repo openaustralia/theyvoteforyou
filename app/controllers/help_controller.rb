@@ -7,4 +7,7 @@ class HelpController < ApplicationController
 
   def research
   end
+
+  def style_guide
+  end
 end
