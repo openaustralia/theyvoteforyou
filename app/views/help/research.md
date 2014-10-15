@@ -44,5 +44,5 @@ You should also summarise the context and purpose of the bill or motion under th
 * **Use impartial language**. Keep your language as unbiased as possible.
 * **Keep it brief**. Brevity is the boss of the internet.
 
-The They Vote for You Style Guide will help you write your summaries with tips on plain English writing and writing for the web.
+<%= Settings.project_name %>'s [Style Guide](/help/style-guide) will help you write your summaries with tips on plain English writing and writing for the web.
 
