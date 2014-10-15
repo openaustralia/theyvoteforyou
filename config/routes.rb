@@ -162,6 +162,7 @@ Publicwhip::Application.routes.draw do
     get 'data'
     get 'research'
     get 'licencing'
+    get 'style-guide', to: :style_guide
   end
 
   ## API routes

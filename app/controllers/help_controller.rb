@@ -10,4 +10,7 @@ class HelpController < ApplicationController
 
   def licencing
   end
+
+  def style_guide
+  end
 end
