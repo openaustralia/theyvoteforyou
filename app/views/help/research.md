@@ -1,12 +1,13 @@
+<%= content_for :title, "Parliamentary Research" %>
 
 # Parliamentary Research
 ## Introduction
-Many people use They Vote for You to research their area of special interest and to understand what Parliament is doing. We want to make it possible for everyone to share the workload of decoding political jargon and summarising what a vote is about.
+Many people use <%= Settings.project_name %> to research their area of special interest and to understand what Parliament is doing. We want to make it possible for everyone to share the workload of decoding political jargon and summarising what a vote is about.
 
 ## Editing division summaries
 When the system uploads a new division, it puts text taken from the parliamentary debate into the division summary. This text isn’t very helpful and needs to be replaced by an actual summary explaining what the vote is about.
 
-They Vote for You lets anyone write a plain English summary of a division so that everyone can understand what Parliament is voting on. We provide useful links for you to research next to each division and a guide for division summaries below to help you begin writing. Feedback on ways to improve this guide is appreciated.
+<%= Settings.project_name %> lets anyone write a plain English summary of a division so that everyone can understand what Parliament is voting on. We provide useful links for you to research next to each division and a guide for division summaries below to help you begin writing. Feedback on ways to improve this guide is appreciated.
 
 Divisions can be marked as relevant to a pre-existing policy (see [Policies](http://publicwhip-rails.openaustraliafoundation.org.au/policies)) or one that you develop yourself.
 
