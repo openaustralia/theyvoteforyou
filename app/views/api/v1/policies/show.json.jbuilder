@@ -7,11 +7,7 @@ json.provisional @policy.provisional?
 json.policy_divisions do
   json.array! @policy.policy_divisions do |pd|
     json.division do
-      json.id pd.division.id
-      json.house pd.division.australian_house
-      json.name pd.division.name
-      json.date pd.division.date
-      json.number pd.division.number
+      json.partial! "api/v1/divisions/division", division: pd.division
     end
     json.vote pd.vote_without_strong
     json.strong pd.strong_vote?
