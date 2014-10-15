@@ -3,14 +3,7 @@ json.partial! "division", division: @division
 # Extra information that isn't in the summary
 json.summary @division.motion
 json.markdown @division.markdown?
-json.votes do
-  json.array! @division.votes.order(:vote) do |vote|
-    json.vote vote.vote
-    json.member do
-      json.partial! "api/v1/members/member", member: vote.member
-    end
-  end
-end
+json.votes @division.votes.order(:vote), partial: "api/v1/votes/vote", as: :vote
 
 json.policy_divisions do
   json.array! @division.policy_divisions do |pd|
