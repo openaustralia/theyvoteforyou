@@ -7,7 +7,6 @@ This will help you make everything you write at the Public Whip easy to read and
 ## Use Plain English
 People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible.
 
-
 ## Don’t Use Long Words, buzzwords, or jargon
 Use easy or short words instead of long formal ones. Use ‘buy’ instead of ‘purchase’, ‘help’ instead of ‘assist’, ‘about’ instead of ‘approximately’ and ‘like’ instead of ‘such as’.
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The Plain English Campaign have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
@@ -28,7 +27,6 @@ To keep content understandable, concise and relevant, it should be:
 * serious but not pompous
 * emotionless – adjectives can be subjective and make the text sound more emotive and like spin
 * non partisan - only use words which is used by one
-
 
 ## You should:
 
@@ -82,7 +80,6 @@ At the activity centre:
 * you can play
 * you can run
 
-
 ## Use Common words
 By the time a child is 5 or 6 years old, they'll use 2,500 to 5,000 common words. Even as adults, we find these words easier to recognise and understand.
 When you use a longer word (8 or 9 letters), people are more likely to skip shorter words that follow it, words of 3, 4 or 5 letters. So if you use longer, more complicated words, readers will skip more. Keep it simple.
@@ -92,14 +89,7 @@ How about:
 
 Focus on the child’s common word set of up to 5,000 words. This makes it easier to read and understand information quickly.
 
-
 Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand.
 Remember that puns or wordplay can make the content difficult to find.
 
-
-
-
 Mostly adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/)
-
-
-
