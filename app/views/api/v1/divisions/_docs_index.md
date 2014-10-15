@@ -9,10 +9,12 @@ Parameter          | Description
 `name`             | Short name
 `date`             | Date in the format `yyyy-mm-dd`
 `number`           | The first division on a particular day and in a particular house is 1. Each following division is numbered consecutively
+`clock_time`       | The time of the division in the format `hh:mm AM` or `hh:mm PM` or `null` if not available
 `aye_votes`        | The number of people who voted "aye"
 `no_votes`         | The number of people who voted "no"
 `possible_turnout` | The number of people who could potentially have voted based on the current number of members
 `rebellions`       | The number of votes that went against the majority vote of their party
+`edited`           | `true` if the summary of the division has been edited
 
 To get more results or divisions within a particular date range you can do
 
