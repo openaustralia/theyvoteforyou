@@ -7,7 +7,11 @@
           .media-body
             %h2.media-heading.member-name.panel-link-title= member.name_without_title
             %p.member-role.object-primary
-              = member_type_party_place_sentence(member)
+              %span.member-party.inline-post-title
+                - if !member.currently_in_parliament?
+                  Former
+                = member.party_name
+              %span.member-electorate= member.role
 
             %p.member-data.object-data.object-secondary
               - if member.person.rebellions_fraction
