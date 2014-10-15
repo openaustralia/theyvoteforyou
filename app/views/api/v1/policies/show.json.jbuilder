@@ -1,7 +1,4 @@
-json.id @policy.id
-json.name @policy.name
-json.description @policy.description
-json.provisional @policy.provisional?
+json.partial! "policy", policy: @policy
 
 # More detailed information
 json.policy_divisions do
