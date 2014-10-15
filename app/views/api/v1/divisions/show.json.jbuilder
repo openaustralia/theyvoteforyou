@@ -13,14 +13,7 @@ json.votes do
   json.array! @division.votes.order(:vote) do |vote|
     json.vote vote.vote
     json.member do
-      json.id vote.member.id
-      json.person do
-        json.id vote.member.person_id
-      end
-      json.first_name vote.member.first_name
-      json.last_name vote.member.last_name
-      json.electorate vote.member.electorate
-      json.party vote.member.party
+      json.partial! "api/v1/members/member", member: vote.member
     end
   end
 end
