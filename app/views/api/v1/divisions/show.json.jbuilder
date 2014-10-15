@@ -1,10 +1,4 @@
-json.id @division.id
-json.house @division.australian_house
-json.name @division.name
-json.date @division.date
-json.number @division.number
-json.clock_time (@division.clock_time ? @division.clock_time.strip : nil)
-json.possible_turnout @division.division_info.possible_turnout
+json.partial! "division", division: @division
 
 # Extra information that isn't in the summary
 json.summary @division.motion
