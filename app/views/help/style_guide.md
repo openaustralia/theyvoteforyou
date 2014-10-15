@@ -1,8 +1,8 @@
 <% content_for :title, "Style Guide" %>
 # <%= yield :title %>
-The Public Whip is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
+<%= Settings.project_name %> is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 Use this guide when you write new divisions, summaries, or to help improve content that is already there.
-This will help you make everything you write at the Public Whip easy to read and understand.
+This will help you make everything you write at the <%= Settings.project_name %> easy to read and understand.
 
 ## Use plain English
 People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well also prefer plain English. It allows them to understand your content as quickly as possible.
@@ -15,7 +15,7 @@ Government ‘buzzwords’ and jargon are often vague, and don’t help people u
 Use the active rather than passive voice. Use "They sang songs" (active) not "songs were sung" (passive).
 
 ## Avoid duplication
-Duplicate content confuses people and damages the credibility of Public Whip content.
+Duplicate content confuses people and damages the credibility of <%= Settings.project_name %> content.
 If something is written once and links to relevant resources easily and well, people are more likely to trust the content.
 
 ## Be concise
@@ -50,7 +50,7 @@ By keeping to the style guide, we:
 * raise trust levels – if we are consistent, we are giving a coherent view
 
 ## Write for the web
-We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
+We take into account how people read on the web when we write for <%= Settings.project_name %>. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
 
 Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the [The Guardian](http://www.theguardian.com/au), [Oxfam](https://www.oxfam.org.au/), [Lonely Planet](http://www.lonelyplanet.com/), or the [BBC](http://www.bbc.co.uk/). You'll see their content is easy to read and understand.
 They use:
