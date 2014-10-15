@@ -12,9 +12,9 @@
     - else
       Nobody rebelled against their party.
 
-  - if division.rebellions > 0
+  - if @rebellions
     %ul.list-unstyled.small
-      - division.votes.rebellious.order("members.last_name", "members.first_name").each do |vote|
+      - @rebellions.each do |vote|
         %li
           = link_to vote.member.name, vote.member
           voted

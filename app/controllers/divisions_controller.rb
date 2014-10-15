@@ -91,6 +91,7 @@ class DivisionsController < ApplicationController
   def show
     house = params[:house]
     @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
+    @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
 
     # If a member is included
     if params[:mpn] && params[:mpc]
