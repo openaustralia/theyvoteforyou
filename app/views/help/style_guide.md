@@ -64,7 +64,7 @@ Knowing how people read means you'll write in a way they can understand easily a
 By the time the average child is 9 years old, they can skip up to 30% of words on a page and still accurately predict the text. That's not just reading online. If there's enough context, the mind fills in the gaps. You don't need to read every word to understand what is written.
 Also, online, people don't read in the traditional way. They don't necessarily read top to bottom or even from word to word.
 
-## Use front-loadings
+## Use front-loading
 Web-user eye-tracking studies show that people tend to ‘read’ a webpage in an ‘F’ shape pattern. They look across the top, then down the side, reading further across when they find what they need.
 So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
