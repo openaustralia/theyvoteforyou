@@ -42,7 +42,7 @@ class DivisionsController < ApplicationController
       # Match to canonical capitalisation
       @party = @parties.find{|p| p.downcase == @party}
 
-      raise "Invalid rdisplay param" unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
+      raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
       order = case @sort
       when nil
