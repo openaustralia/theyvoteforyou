@@ -2,7 +2,6 @@ json.partial! "division", division: @division
 
 # Extra information that isn't in the summary
 json.summary @division.motion
-json.markdown @division.markdown?
 json.votes @division.votes.order(:vote), partial: "api/v1/votes/vote", as: :vote
 
 json.policy_divisions do
