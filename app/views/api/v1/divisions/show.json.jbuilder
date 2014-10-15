@@ -15,11 +15,4 @@ json.policy_divisions do
   end
 end
 
-json.bills do
-  json.array! @division.bills do |bill|
-    json.id bill.id
-    json.official_id bill.official_id
-    json.title bill.title
-    json.url bill.url
-  end
-end
+json.bills @division.bills, partial: "api/v1/bills/bill", as: :bill
