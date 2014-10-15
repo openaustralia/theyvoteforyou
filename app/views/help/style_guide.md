@@ -1,10 +1,10 @@
 ## Public Whip Style Guide
-The Public Whip is for everyone. It should be easy for everyone to find out how their MP votes in Parliament. 
-Use this guide when you write new divisions, summaries, or to help improve content that is already there. 
-This will help you make everything you write at the Public Whip easy to read and understand. 
+The Public Whip is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
+Use this guide when you write new divisions, summaries, or to help improve content that is already there.
+This will help you make everything you write at the Public Whip easy to read and understand.
 
-### Use Plain English 
-People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible. 
+### Use Plain English
+People don’t stop understanding text because it’s written clearly. People who have trouble reading English may not understand if you use difficult language. Research shows that people who read very well people also prefer plain English. It allows them to understand your content as quickly as possible.
 
 
 ### Don’t Use Long Words, buzzwords, or jargon
@@ -15,18 +15,18 @@ Government ‘buzzwords’ and jargon are often vague, and don’t help people u
 Use the active rather than passive voice. Use "They sang songs"(active) not "songs were sung" (passive)
 
 ### Avoid duplication
-Duplicate content confuses people and damages the credibility of Public Whip content. 
+Duplicate content confuses people and damages the credibility of Public Whip content.
 If something is written once and links to relevant resources easily and well, people are more likely to trust the content.
 
 ### Be concise
 To keep content understandable, concise and relevant, it should be:
 * specific
 * informative
-* clear 
+* clear
 * concise (friendliness can lead to a lack of precision and unnecessary words) human (not a faceless machine)
 * serious but not pompous
 * emotionless – adjectives can be subjective and make the text sound more emotive and like spin
-* non partisan - only use words which is used by one 
+* non partisan - only use words which is used by one
 
 
 ## You should:
@@ -48,7 +48,7 @@ help users  – some people will pick up inconsistencies while reading; that mea
 raise trust levels – if we are consistent, we are giving a coherent view.
 
 ## Write for the web
-We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background. 
+We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
 
 Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the The Guardian, Oxfam or Lonely Planet or the BBC. You'll see their content is easy to read and understand.
 They use:
@@ -92,7 +92,7 @@ How about:
 Focus on the child’s common word set of up to 5,000 words. This makes it easier to read and understand information quickly.
 
 
-Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand. 
+Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc but keep the language easy to understand.
 Remember that puns or wordplay can make the content difficult to find.
 
 
