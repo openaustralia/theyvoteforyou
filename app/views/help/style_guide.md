@@ -1,4 +1,5 @@
-## Public Whip Style Guide
+<% content_for :title, "Public Whip Style Guide" %>
+## <%= yield :title %>
 The Public Whip is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 Use this guide when you write new divisions, summaries, or to help improve content that is already there.
 This will help you make everything you write at the Public Whip easy to read and understand.
