@@ -6,11 +6,7 @@ json.rebellions @person.rebellions
 json.votes_attended @person.votes_attended
 json.votes_possible @person.votes_possible
 
-json.offices do
-  json.array! @person.current_offices do |office|
-    json.position office.position
-  end
-end
+json.offices @person.current_offices, partial: "api/v1/offices/office", as: :office
 
 json.policy_comparisons do
   json.array! @person.policy_person_distances.visible.order(:distance_a) do |ppd|
