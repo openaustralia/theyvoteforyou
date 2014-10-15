@@ -7,7 +7,7 @@ json.clock_time (@division.clock_time ? @division.clock_time.strip : nil)
 json.possible_turnout @division.division_info.possible_turnout
 
 # Extra information that isn't in the summary
-json.motion @division.motion
+json.summary @division.motion
 json.markdown @division.markdown?
 json.votes do
   json.array! @division.votes.order(:vote) do |vote|
