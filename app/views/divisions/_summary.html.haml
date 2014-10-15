@@ -4,6 +4,22 @@
     %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
       = division_outcome_with_majority_strength(division)
 
+  %p.division-rebellions-sentence
+    - if division.rebellions > 0
+      There was
+      %span.rebel= pluralize(division.rebellions, 'rebellion')
+      in this division.
+    - else
+      Nobody rebelled against their party.
+
+  - if division.rebellions > 0
+    %ul.list-unstyled.small
+      - # TODO: Make this dynamic
+      %li
+        =link_to "Ian Macdonald"
+        voted Aye against the majority of the Liberal Party.
+
+
   %table.table
     %colgroup.column-name{span: 1}
     %colgroup.column-vote{span: 1}
