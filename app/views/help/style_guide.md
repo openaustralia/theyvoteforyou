@@ -20,6 +20,7 @@ If something is written once and links to relevant resources easily and well, pe
 
 ## Be concise
 To keep content understandable, concise and relevant, it should be:
+
 * specific
 * informative
 * clear
@@ -51,6 +52,7 @@ We take into account how people read on the web when we write for Public Whip. W
 
 Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the The Guardian, Oxfam or Lonely Planet or the BBC. You'll see their content is easy to read and understand.
 They use:
+
 * short sentences
 * subheaded sections
 * plain english. This helps people find what they need quickly and absorb it effortlessly.
@@ -69,6 +71,7 @@ Make sure your bullet points are all in the same tense and verb form, with any c
 Good example:
 
 At the activity centre you can:
+
 * swim
 * play
 * run
@@ -76,6 +79,7 @@ At the activity centre you can:
 Bad example:
 
 At the activity centre:
+
 * you can swim
 * you can play
 * you can run
