@@ -32,7 +32,7 @@ To keep content understandable, concise and relevant, it should be:
 
 ## You should:
 
-* use contractions (e.g. can’t, don’t, they’ll, we’ve, let’s)
+* use contractions – e.g. can’t, don’t, they’ll, we’ve, let’s
 * not let caveats dictate unwieldy grammar – e.g. say ‘You can’ rather than ‘You may be able to’
 * not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
 (Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
