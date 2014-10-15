@@ -28,6 +28,8 @@ class DivisionsController < ApplicationController
       @rdisplay = "2013" if @rdisplay.nil?
       @house = params[:house]
 
+      raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
+
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @parties = @parties.in_australian_house(@house) if @house
@@ -41,8 +43,6 @@ class DivisionsController < ApplicationController
       end
       # Match to canonical capitalisation
       @party = @parties.find{|p| p.downcase == @party}
-
-      raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
       order = case @sort
       when nil
