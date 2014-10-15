@@ -35,7 +35,7 @@ To keep content understandable, concise and relevant, it should be:
 * use contractions – e.g. can’t, don’t, they’ll, we’ve, let’s
 * not let caveats dictate unwieldy grammar – e.g. say ‘You can’ rather than ‘You may be able to’
 * not use long sentences – check any sentences with more than 25 words to see if you can split them to make them clearer
-(Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be.)
+(Note: words ending in ‘–ion’ and ‘–ment’ tend to make sentences longer and more complicated than they need to be)
 
 ## Use gender-neutral text
 Make sure text is gender neutral wherever possible. Use ‘them’, ‘their’, ‘they’, etc.
@@ -47,7 +47,7 @@ By keeping to the style guide, we:
 * make fewer small mistakes
 * make it easier for new people to start writing
 * help users – some people will pick up inconsistencies while reading; that means they are thinking about how something is being said and not what is being said
-* raise trust levels – if we are consistent, we are giving a coherent view.
+* raise trust levels – if we are consistent, we are giving a coherent view
 
 ## Write for the web
 We take into account how people read on the web when we write for Public Whip. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
@@ -57,7 +57,7 @@ They use:
 
 * short sentences
 * subheaded sections
-* plain english. This helps people find what they need quickly and absorb it effortlessly.
+* plain english. This helps people find what they need quickly and absorb it effortlessly
 
 ## Know how people read
 Knowing how people read means you'll write in a way they can understand easily and quickly.
