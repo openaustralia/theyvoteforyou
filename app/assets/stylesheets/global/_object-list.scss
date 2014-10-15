@@ -20,7 +20,9 @@
 }
 
 .object-data-rebellion,
-.object-data-attendance {
+.object-data-attendance,
+.object-data-member-vote,
+.object-data-policy-vote {
   display: block;
 
   @media (min-width: 30em) {
