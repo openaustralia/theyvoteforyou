@@ -12,7 +12,7 @@ Use easy or short words instead of long formal ones. Use ‘buy’ instead of �
 Government ‘buzzwords’ and jargon are often vague, and don’t help people understand what is being said. The [Plain English Campaign](http://www.plainenglish.co.uk/free-guides.html) have a list of words you can use instead. This list is helpful to give you a sense of words which are easier to understand.
 
 ## Active voice
-Use the active rather than passive voice. Use "They sang songs" (active) not "songs were sung" (passive).
+Use the active rather than passive voice. Use "they sang songs" (active) not "songs were sung" (passive).
 
 ## Avoid duplication
 Duplicate content confuses people and damages the credibility of <%= Settings.project_name %> content.
