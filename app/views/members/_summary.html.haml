@@ -4,14 +4,7 @@
     is
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
     = member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."
-  - if member.person.votes_attended > 0
-    = !member.person.current_offices.empty? ? member.last_name : member.name_without_title
-    = "has" if member.currently_in_parliament?
-    attended #{fraction_to_percentage_display(member.person.attendance_fraction)} of possible votes, #{member.person.votes_attended} of #{member.person.votes_possible}
-    %small= link_to "explain attendance.", help_faq_path(anchor: "attendance")
-  - else
-    %strong No votes attended
-    - # TODO: add back in the rebellion and attendance rate for previous membership.
 
+  - # TODO: add back in the rebellion and attendance rate for previous membership.
   - if member.person.members.size > 1
     = member_history_sentence(member)
