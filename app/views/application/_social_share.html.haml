@@ -1,0 +1,13 @@
+%aside.social-share
+  %h2.social-share-heading.small.text-muted Share
+
+  %ul.list-inline.small
+    %li.share-link.share-link-facebook
+      = link_to "https://www.facebook.com/sharer/sharer.php?u=<?php the_permalink(); ?>&t=<?php echo $data_share_text; ?>", title: "Share on Facebook" do
+        %i
+        Facebook
+
+    %li.share-link.share-link-twitter
+      = link_to "https://twitter.com/intent/tweet?url=<?php the_permalink(); ?>&text=<?php echo $data_share_text; ?>&via=Wendy_Bacon", title: "Share on Twitter" do
+        %i
+        Twitter
