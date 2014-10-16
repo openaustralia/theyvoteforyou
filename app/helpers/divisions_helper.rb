@@ -52,11 +52,6 @@ module DivisionsHelper
     end
   end
 
-  # TODO: Refactor this - it looks suspiciously like the above
-  def simple_vote_display(vote)
-    vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
-  end
-
   def majority_strength_in_words(division)
     if division.majority_fraction == 1.0
       "unanimously"
