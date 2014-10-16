@@ -48,7 +48,7 @@
   &:focus {
     text-decoration: none;
     background: $color-blue-dark;
-    color: $color-blue;
+    color: lighten($color-blue, 10%);
 
     .author-project-name {
       color: #ddd;
