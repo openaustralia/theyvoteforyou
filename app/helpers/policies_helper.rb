@@ -91,11 +91,11 @@ module PoliciesHelper
 
   def policy_division_version_vote(version)
     if version.event == "create"
-      content_tag(:strong, vote_display_in_table(version.changeset["vote"].second).downcase)
+      content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
     elsif version.event == "destroy"
-      content_tag(:strong, vote_display_in_table(version.reify.vote).downcase)
+      content_tag(:strong, vote_display(version.reify.vote).downcase)
     elsif version.event == "update"
-      content_tag(:strong, vote_display_in_table(version.changeset["vote"].first).downcase) + " to ".html_safe + content_tag(:strong, vote_display_in_table(version.changeset["vote"].second).downcase)
+      content_tag(:strong, vote_display(version.changeset["vote"].first).downcase) + " to ".html_safe + content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
     end
   end
 

@@ -18,7 +18,8 @@
           = link_to policy.name_with_for, policy
           - if policy.provisional?
             %em (provisional)
-          would have voted '#{simple_vote_display @division.policy_vote(policy)}'
+          would have voted
+          = vote_display @division.policy_vote(policy)
 
 - if @display != "policies"
   = link_to("Edit related policies", division_policies_path(division_params(@division)), title: "Show or change the polices which vote on this division")

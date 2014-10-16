@@ -3,8 +3,8 @@
     %thead
       %tr
         %th Party
-        %th Ayes
-        %th Noes
+        %th= vote_display "aye"
+        %th= vote_display "no"
     %tbody
       - division.whips.order(:party).each do |whip|
         %tr

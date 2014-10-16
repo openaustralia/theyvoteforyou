@@ -23,7 +23,7 @@
           - if @member
             %span.division-member-vote.object-data-member-vote= member_vote_with_party(@member, division)
           - if @policy
-            %span.division-policy-vote.object-data-policy-vote= "Supporters vote #{vote_display_in_table(division.policy_vote(@policy))}"
+            %span.division-policy-vote.object-data-policy-vote= "Supporters vote #{vote_display(division.policy_vote(@policy))}"
         - else
           %span.division-rebellions.object-data-rebellion
             - if @party

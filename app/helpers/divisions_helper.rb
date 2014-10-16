@@ -35,24 +35,21 @@ module DivisionsHelper
     division.aye_votes >= division.no_votes ? "whip" : "normal"
   end
 
-  def vote_display_in_table(vote)
+  def vote_display(vote)
     case vote
     when "aye3"
-      "Aye (strong)"
+      "Yes (strong)"
     when "no3"
       "No (strong)"
     when "absent"
       "absent"
     when "both"
       "Abstain"
+    when "aye"
+      "Yes"
     else
       vote.capitalize
     end
-  end
-
-  # TODO: Refactor this - it looks suspiciously like the above
-  def simple_vote_display(vote)
-    vote == 'aye3' || vote == 'no3' ? "#{vote[0...-1]} (strong)" : vote
   end
 
   def majority_strength_in_words(division)
@@ -102,9 +99,9 @@ module DivisionsHelper
 
   def division_score(division)
     if division.passed?
-      "#{division.aye_votes_including_tells.to_s} Aye – #{division.no_votes_including_tells.to_s} No"
+      "#{division.aye_votes_including_tells.to_s} #{vote_display "aye"} – #{division.no_votes_including_tells.to_s} #{vote_display "no"}"
     else
-      "#{division.no_votes_including_tells.to_s} No – #{division.aye_votes_including_tells.to_s} Aye"
+      "#{division.no_votes_including_tells.to_s} #{vote_display "no"} – #{division.aye_votes_including_tells.to_s} #{vote_display "aye"}"
     end
   end
 
@@ -123,7 +120,7 @@ module DivisionsHelper
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
         if member.vote_on_division_without_tell(division) != "absent"
-          sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}"
+          sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}"
         end
       elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
@@ -132,7 +129,7 @@ module DivisionsHelper
       end
 
       if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-        sentence += " (#{member.vote_on_division_without_tell(division).capitalize})"
+        sentence += " (#{vote_display member.vote_on_division_without_tell(division)})"
       end
       sentence
     end
@@ -141,7 +138,7 @@ module DivisionsHelper
   def member_vote_with_party(member, division)
     sentence = member.name_without_title
     if member.attended_division?(division)
-      sentence += " voted #{vote_display_in_table(division.vote_for(member))}"
+      sentence += " voted #{vote_display(division.vote_for(member))}"
       if member.has_whip? && !division.whip_for_party(member.party).free_vote?
         sentence += member.division_vote(division).rebellion? ? " against" : " with"
         sentence += " the #{member.party_name}"
@@ -180,12 +177,12 @@ module DivisionsHelper
   def vote_select(f, value, options = {})
     select_options = [
       ['A less important vote', [
-        ['Aye', 'aye'],
-        ['No', 'no']
+        [vote_display('aye'), 'aye'],
+        [vote_display('no'), 'no']
       ]],
       ['An important vote', [
-        ['Aye (strong)', 'aye3'],
-        ['No (strong)', 'no3']
+        [vote_display('aye3'), 'aye3'],
+        [vote_display('no3'), 'no3']
       ]]
     ]
     f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"

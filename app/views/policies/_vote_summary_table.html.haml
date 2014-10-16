@@ -30,8 +30,8 @@
             - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
             - member = current_member || member
             %td.division-member-vote{data: {member: "#{member.name}"}}
-              = vote_display_in_table(member.vote_on_division_without_tell(division))
+              = vote_display(member.vote_on_division_without_tell(division))
           %td.division-policy-vote
-            = vote_display_in_table(division.policy_vote(policy))
+            = vote_display(division.policy_vote(policy))
           %td.division-outcome
             = division_outcome_with_majority_strength(division)
