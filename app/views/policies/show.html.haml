@@ -1,6 +1,3 @@
-- content_for :title, capitalise_initial_character(@policy.name_with_for)
-- set_meta_tags description: "Find out how people in parliament stand on #{@policy.name}."
-
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
