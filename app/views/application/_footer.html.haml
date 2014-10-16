@@ -1,22 +1,26 @@
 %footer.site-footer
-      %p.footer-msg.col-md-8
   .footer-main
     .container
+      %ul.nav.navbar-nav
+        %li= link_to "About", about_path
+        %li= link_to "Help / FAQ", help_faq_path
+        %li= link_to "Recent changes", history_path
+        %li= link_to "API", help_data_path
+        %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
+
+      %p.author-msg
         An
         = link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"
         project
 
-      %ul.social-nav.nav.nav-pills.col-md-4
+      %ul.author-media.list-inline.small
         %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
         %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
-        %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
-        %li.help= link_to "Help / FAQ", help_faq_path
 
-      %ul.col-md-8.list-unstyled
-        %li
-          This data and software are
-          = link_to "free and open source", help_licencing_path
-        %li= link_to "API - Get the data", help_data_path
+      %p.license-msg.small
+        This data and software are
+        = link_to "free and open source", help_licencing_path
+
   .author-projects
     .container
 
