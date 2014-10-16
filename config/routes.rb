@@ -127,6 +127,7 @@ Publicwhip::Application.routes.draw do
   }
   get '/members/:house/:mpc' => redirect('/people/%{house}/%{mpc}')
   get '/members/:house/:mpc/:mpn' => redirect('/people/%{house}/%{mpc}/%{mpn}')
+  get '/members/:house/:mpc/:mpn/policies/:id' => redirect('/people/%{house}/%{mpc}/%{mpn}/policies/%{id}')
 
   #################
   #  Main routes  #
@@ -141,7 +142,7 @@ Publicwhip::Application.routes.draw do
   get '/people(/:house)' => 'members#index', as: :members
   get '/people/:house/:mpc' => 'electorates#show', as: :electorate
   get '/people/:house/:mpc/:mpn' => 'members#show', as: :member
-  get '/members/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
+  get '/people/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/members/:house/:mpc/:mpn/divisions' => 'divisions#index', as: :member_divisions
   get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
