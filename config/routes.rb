@@ -111,6 +111,20 @@ Publicwhip::Application.routes.draw do
     result
   }
   get '/members/:house/:mpc/:mpn/policies/:id/full' => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
+  get '/members' => redirect{|p,r|
+    if r.query_parameters['sort']
+      "/people?sort=#{r.query_parameters['sort']}"
+    else
+      "/people"
+    end
+  }, as: nil
+  get '/members/:house' => redirect{|p,r|
+    if r.query_parameters['sort']
+      "/people/#{p[:house]}?sort=#{r.query_parameters['sort']}"
+    else
+      "/people/#{p[:house]}"
+    end
+  }
 
   #################
   #  Main routes  #
@@ -122,7 +136,7 @@ Publicwhip::Application.routes.draw do
   get 'about' => 'home#about', as: :about
   get 'history' => 'home#history', as: :history
 
-  get '/members(/:house)' => 'members#index', as: :members
+  get '/people(/:house)' => 'members#index', as: :members
   get '/members/:house/:mpc' => 'electorates#show', as: :electorate
   get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
   get '/members/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
