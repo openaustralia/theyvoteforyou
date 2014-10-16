@@ -9,7 +9,7 @@ describe "path helpers", type: :helper do
 
   it ".member_path" do
     expect(helper.member_path(member)).
-      to eq "/members/representatives/twist/foo_bar"
+      to eq "/people/representatives/twist/foo_bar"
   end
 
   it ".member_policy_path" do

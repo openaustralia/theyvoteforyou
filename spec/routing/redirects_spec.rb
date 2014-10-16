@@ -306,4 +306,9 @@ describe "routing redirects", type: :request do
     get "/members/representatives?sort=attendance"
     expect(response).to redirect_to "/people/representatives?sort=attendance"
   end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
+  end
 end

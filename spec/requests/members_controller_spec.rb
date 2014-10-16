@@ -65,7 +65,7 @@ describe MembersController, type: :request do
     end
 
     it "should 404 when the wrong name is given for a correct electorate" do
-      get "/members/representatives/warringah/foo_bar"
+      get "/people/representatives/warringah/foo_bar"
       expect(response.status).to eq(404)
     end
   end
