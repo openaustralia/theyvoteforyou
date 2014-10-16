@@ -8,7 +8,11 @@
   }
 
   a {
-    color: $color-blue-dark;
+    color: $color-blue;
+
+    @media (min-width: $screen-md-min) {
+      color: $color-blue-dark;
+    }
   }
 }
 
@@ -45,15 +49,23 @@
     text-decoration: none;
     background: $color-blue-dark;
     color: $color-blue;
+
+    .author-project-name {
+      color: #ddd;
+    }
   }
 }
 
 .author-project-name {
   margin: 0 !important;
   font-weight: normal;
-  color: $color-blue;
+  color: #ddd;
   font-size: $font-size-base;
   line-height: $line-height-base;
+
+  @media (min-width: $screen-md-min) {
+    color: $color-blue;
+  }
 }
 
 .author-project-description {
