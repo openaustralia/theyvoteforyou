@@ -1,0 +1,72 @@
+.author-projects {
+  padding-top: 36px;
+  background: darken($color-blue-dark, 20%);
+  // color: $text-color;
+
+  @media (min-width: $screen-md-min) {
+    padding-top: 24px;
+  }
+
+  a {
+    color: $color-blue;
+
+    @media (min-width: $screen-md-min) {
+      color: $color-blue-dark;
+    }
+  }
+}
+
+.author-projects-list {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+
+  li {
+    @media (min-width: $screen-sm-min) {
+      float: left;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+.author-projects-heading {
+  padding-bottom: 10px;
+  display: block;
+}
+
+.author-projects-list-item {
+  // border-top: 1px $color-blue-dark solid;
+  padding: 10px 15px;
+  display: block;
+  background: transparent;
+  transition: .3s all ease;
+
+  @media (min-width: $screen-sm-min) {
+    border: 1px darken($color-blue-dark, 10%) solid;
+    min-height: 128px;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background: $color-blue-dark;
+    color: lighten($color-blue, 10%);
+
+    .author-project-name {
+      color: #ddd;
+    }
+  }
+}
+
+.author-project-name {
+  margin: 0 !important;
+  font-weight: normal;
+  color: #ddd;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  transition: .2s color ease;
+
+  @media (min-width: $screen-md-min) {
+    color: $color-blue;
+  }
+}
+

@@ -1,27 +1,45 @@
 %footer.site-footer
-  .container
-    .row
-      %p.footer-msg.col-md-8
+  .footer-main
+    .container
+      %ul.nav.navbar-nav
+        %li= link_to "About", about_path
+        %li= link_to "Help / FAQ", help_faq_path
+        %li= link_to "Recent changes", history_path
+        %li= link_to "API", help_data_path
+        %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
+
+      %p.author-msg
         An
         = link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"
         project
 
-      %ul.social-nav.nav.nav-pills.col-md-4
+      %ul.author-media.list-inline.small
         %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
         %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
-        %li.email= mail_to "contact@openaustraliafoundation.org.au", "Contact"
-        %li.help= link_to "Help / FAQ", help_faq_path
 
-      %ul.col-md-8.list-unstyled
-        %li
-          This data and software are
-          = link_to "free and open source", help_licencing_path
-        %li= link_to "API - Get the data", help_data_path
+      %p.license-msg.small
+        This data and software are
+        = link_to "free and open source", help_licencing_path
 
-    .row#oaf-projects
-      %p.col-md-12
-        Explore our other projects
-        #{link_to "OpenAustralia.org", "http://www.openaustralia.org"},
-        #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
-        #{link_to "Right To Know", "http://www.righttoknow.org.au"} and
-        #{link_to "PlanningAlerts", "http://www.planningalerts.org.au"}
+  .author-projects
+    .container
+      .author-projects-heading Explore our other projects:
+
+    .row
+      %ul.author-projects-list.list-unstyled.container
+        %li.col-sm-6.col-md-3
+          = link_to "http://www.openaustralia.org", class: 'author-projects-list-item' do
+            %h4.author-project-name OpenAustralia.org
+            %p.author-project-description.small Keep tabs on what your representative is saying in Parliament
+        %li.col-sm-6.col-md-3
+          = link_to "http://www.electionleaflets.org.au", class: 'author-projects-list-item' do
+            %h4.author-project-name Election Leaflets
+            %p.author-project-description.small Live election leaflet monitoring
+        %li.col-sm-6.col-md-3
+          = link_to "http://www.righttoknow.org.au", class: 'author-projects-list-item' do
+            %h4.author-project-name Right To Know
+            %p.author-project-description.small Access inside information about what your government is doing
+        %li.col-sm-6.col-md-3
+          = link_to "http://www.planningalerts.org.au", class: 'author-projects-list-item' do
+            %h4.author-project-name PlanningAlerts
+            %p.author-project-description.small Email alerts of planning applications near you
