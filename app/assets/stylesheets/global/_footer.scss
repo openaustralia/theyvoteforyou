@@ -104,6 +104,64 @@
   display: inline-block;
 }
 
+.author-projects {
+  background: darken($color-blue-dark, 20%);
+  // color: $text-color;
+
+  @media (min-width: $screen-md-min) {
+    padding-top: 24px;
+  }
+
+  a {
+    color: $color-blue-dark;
+  }
 }
+
+.author-projects-list {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+
+  li {
+    @media (min-width: $screen-sm-min) {
+      float: left;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+.author-projects-heading {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: block;
+}
+
+.author-projects-list-item {
+  // border-top: 1px $color-blue-dark solid;
+  padding: 10px 15px;
+  display: block;
+  background: transparent;
+
+  @media (min-width: $screen-sm-min) {
+    // border-top: 4px $color-blue-dark solid;
+    min-height: 128px;
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    background: $color-blue-dark;
+    color: $color-blue;
+  }
+}
+
+.author-project-name {
+  margin: 0 !important;
+  font-weight: normal;
+  color: $color-blue;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+}
+
+.author-project-description {
 
 }
