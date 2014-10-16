@@ -19,7 +19,7 @@
           - if policy.provisional?
             %em (provisional)
           would have voted
-          = vote_display_in_table @division.policy_vote(policy)
+          = vote_display @division.policy_vote(policy)
 
 - if @display != "policies"
   = link_to("Edit related policies", division_policies_path(division_params(@division)), title: "Show or change the polices which vote on this division")
