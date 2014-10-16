@@ -1,7 +1,7 @@
 %footer.site-footer
-  .container
-    .row
       %p.footer-msg.col-md-8
+  .footer-main
+    .container
         An
         = link_to "OpenAustralia Foundation", "http://www.openaustraliafoundation.org.au/"
         project
@@ -17,11 +17,13 @@
           This data and software are
           = link_to "free and open source", help_licencing_path
         %li= link_to "API - Get the data", help_data_path
+  .author-projects
+    .container
 
-    .row#oaf-projects
       %p.col-md-12
         Explore our other projects
         #{link_to "OpenAustralia.org", "http://www.openaustralia.org"},
         #{link_to "Election Leaflets", "http://www.electionleaflets.org.au"},
         #{link_to "Right To Know", "http://www.righttoknow.org.au"} and
         #{link_to "PlanningAlerts", "http://www.planningalerts.org.au"}
+    .row
