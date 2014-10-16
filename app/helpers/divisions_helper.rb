@@ -177,12 +177,12 @@ module DivisionsHelper
   def vote_select(f, value, options = {})
     select_options = [
       ['A less important vote', [
-        ['Aye', 'aye'],
-        ['No', 'no']
+        [vote_display_in_table('aye'), 'aye'],
+        [vote_display_in_table('no'), 'no']
       ]],
       ['An important vote', [
-        ['Aye (strong)', 'aye3'],
-        ['No (strong)', 'no3']
+        [vote_display_in_table('aye3'), 'aye3'],
+        [vote_display_in_table('no3'), 'no3']
       ]]
     ]
     f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
