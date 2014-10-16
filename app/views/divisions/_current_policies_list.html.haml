@@ -22,4 +22,4 @@
           = vote_display @division.policy_vote(policy)
 
 - if @display != "policies"
-  = link_to("Edit related policies", division_policies_path(division_params(@division)), title: "Show or change the polices which vote on this division")
+  = link_to("Edit related policies", division_policies_path(division_params(@division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")
