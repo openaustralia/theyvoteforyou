@@ -1,9 +1,8 @@
 .site-footer {
   margin-top: 48px;
-  border-top: 1px #eee solid;
+  border-top: 16px $color-blue solid;
   background: $color-blue-dark;
   color: #ddd;
-  border-top: 16px $color-blue solid;
 
   @media (min-width: $screen-sm-min) {
     padding-top: 14px;
@@ -51,7 +50,6 @@
 }
 
 .footer-main {
-  // border-bottom: 16px $color-blue solid;
   @media (min-width: $screen-md-min) {
     padding-bottom: 24px;
   }
