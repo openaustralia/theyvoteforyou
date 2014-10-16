@@ -120,7 +120,7 @@ module DivisionsHelper
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff == 0
         if member.vote_on_division_without_tell(division) != "absent"
-          sentence += "voted #{member.vote_on_division_without_tell(division).capitalize}"
+          sentence += "voted #{vote_display_in_table member.vote_on_division_without_tell(division)}"
         end
       elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
@@ -129,7 +129,7 @@ module DivisionsHelper
       end
 
       if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-        sentence += " (#{member.vote_on_division_without_tell(division).capitalize})"
+        sentence += " (#{vote_display_in_table member.vote_on_division_without_tell(division)})"
       end
       sentence
     end
