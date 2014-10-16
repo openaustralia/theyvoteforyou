@@ -6,6 +6,17 @@
   }
 }
 
+.division-policy-statement-vote {
+  display: inline-block;
+
+  &.voted-aye {
+    color: $color-vote-for;
+  }
+  &.voted-no {
+    color: $color-vote-against;
+  }
+}
+
 .voter-table {
   padding-right: 0;
   padding-left: 0;
