@@ -1,5 +1,7 @@
 - unless distances.empty?
-  %h4= title
-  %ul
-    - distances.joins(:policy).order("policies.name").each do |ppd|
-      %li= link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy]
+  .policy-comparision-block.row{class: "position-#{title.parameterize}"}
+    %h3.policy-comparision-position.col-md-7= title
+    %ul.policy-comparision-list.member-list-compact.list-unstyled
+      - distances.joins(:policy).order("policies.name").each do |ppd|
+        %li.policy-comparision-item.member-item.col-md-7
+          = link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy], class: 'policy-comparision-policy'
