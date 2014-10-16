@@ -1,6 +1,7 @@
 - content_for :title do
   Voting Record —
   = @member.full_name2
+- set_meta_tags description: "How #{@member.name_without_title} voted on issues in parliament."
 
 = render "member_page_header", member: @member
 = render "summary", member: @member
