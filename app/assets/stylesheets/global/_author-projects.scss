@@ -40,7 +40,7 @@
   background: transparent;
 
   @media (min-width: $screen-sm-min) {
-    // border-top: 4px $color-blue-dark solid;
+    border: 1px darken($color-blue-dark, 10%) solid;
     min-height: 128px;
   }
 
