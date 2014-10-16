@@ -44,7 +44,7 @@ describe "path helpers", type: :helper do
 
   it ".member_division_path" do
     expect(helper.member_division_path(member, division)).
-      to eq "/members/representatives/twist/foo_bar/divisions/2001-01-01/3"
+      to eq "/people/representatives/twist/foo_bar/divisions/2001-01-01/3"
   end
 
   it ".history_division_path" do

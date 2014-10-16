@@ -331,4 +331,9 @@ describe "routing redirects", type: :request do
     get "/members/representatives/warringah/tony_abbott/divisions"
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions"
   end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
+  end
 end
