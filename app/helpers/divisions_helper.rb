@@ -99,9 +99,9 @@ module DivisionsHelper
 
   def division_score(division)
     if division.passed?
-      "#{division.aye_votes_including_tells.to_s} Aye – #{division.no_votes_including_tells.to_s} No"
+      "#{division.aye_votes_including_tells.to_s} #{vote_display_in_table "aye"} – #{division.no_votes_including_tells.to_s} #{vote_display_in_table "no"}"
     else
-      "#{division.no_votes_including_tells.to_s} No – #{division.aye_votes_including_tells.to_s} Aye"
+      "#{division.no_votes_including_tells.to_s} #{vote_display_in_table "no"} – #{division.aye_votes_including_tells.to_s} #{vote_display_in_table "aye"}"
     end
   end
 
