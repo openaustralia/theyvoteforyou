@@ -12,7 +12,7 @@
     = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members
-    %section.policy-comparisions
+    .policy-comparisions
       = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', members: @policy.current_members_very_strongly_for
       = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', members: @policy.current_members_strongly_for
       = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', members: @policy.current_members_moderately_for
