@@ -1,4 +1,5 @@
 <%= content_for :title, "Parliamentary Research" %>
+<% set_meta_tags description: "A guide on how to contribute to #{Settings.project_name} by researching policies and divisions." %>
 
 # Parliamentary Research
 ## Introduction
