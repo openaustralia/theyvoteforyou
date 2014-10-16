@@ -1,4 +1,5 @@
 <% content_for :title, "Licencing" %>
+<% set_meta_tags description: "The licences that make #{Settings.project_name}'s data and software free and open source." %>
 
 ### Use the data
 You are free to reuse/republish the parliamentary data in <%= Settings.project_name %> with a reference and link to this website.
