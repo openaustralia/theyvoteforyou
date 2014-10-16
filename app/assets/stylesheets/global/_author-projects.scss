@@ -38,6 +38,7 @@
   padding: 10px 15px;
   display: block;
   background: transparent;
+  transition: .3s all ease;
 
   @media (min-width: $screen-sm-min) {
     border: 1px darken($color-blue-dark, 10%) solid;
@@ -62,6 +63,7 @@
   color: #ddd;
   font-size: $font-size-base;
   line-height: $line-height-base;
+  transition: .2s color ease;
 
   @media (min-width: $screen-md-min) {
     color: $color-blue;
