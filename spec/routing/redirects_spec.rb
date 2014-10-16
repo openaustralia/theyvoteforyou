@@ -308,6 +308,11 @@ describe "routing redirects", type: :request do
   end
 
   it do
+    get "/members/representatives/melbourne"
+    expect(response).to redirect_to "/people/representatives/melbourne"
+  end
+
+  it do
     get "/members/representatives/warringah/tony_abbott"
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
   end

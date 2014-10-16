@@ -125,8 +125,8 @@ Publicwhip::Application.routes.draw do
       "/people/#{p[:house]}"
     end
   }
+  get '/members/:house/:mpc' => redirect('/people/%{house}/%{mpc}')
   get '/members/:house/:mpc/:mpn' => redirect('/people/%{house}/%{mpc}/%{mpn}')
-
 
   #################
   #  Main routes  #
@@ -139,7 +139,7 @@ Publicwhip::Application.routes.draw do
   get 'history' => 'home#history', as: :history
 
   get '/people(/:house)' => 'members#index', as: :members
-  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
+  get '/people/:house/:mpc' => 'electorates#show', as: :electorate
   get '/people/:house/:mpc/:mpn' => 'members#show', as: :member
   get '/members/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
   get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
