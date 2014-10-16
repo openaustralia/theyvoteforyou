@@ -38,13 +38,15 @@ module DivisionsHelper
   def vote_display_in_table(vote)
     case vote
     when "aye3"
-      "Aye (strong)"
+      "Yes (strong)"
     when "no3"
       "No (strong)"
     when "absent"
       "absent"
     when "both"
       "Abstain"
+    when "aye"
+      "Yes"
     else
       vote.capitalize
     end
