@@ -5,7 +5,7 @@
   %nav.header-actions.col-md-3
     = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "btn btn-default btn-xs"
     = link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
-  %h1.col-md-9
+  %h1.col-md-9.long-title
     = yield :title
   %blockquote.lead.policytext.col-md-12= capitalise_initial_character policy.description
 

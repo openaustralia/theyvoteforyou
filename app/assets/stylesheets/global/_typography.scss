@@ -14,6 +14,22 @@ h2 {
   display: block;
 }
 
+.long-title {
+  font-size: 30px;
+
+  @media (min-width: $screen-md-min) {
+    font-size: 36px;
+  }
+
+  .pre-title {
+    font-size: 18px;
+
+    @media (min-width: $screen-sm-min) {
+      font-size: 24px;
+    }
+  }
+}
+
 .btn-lone-link {
   padding-left: 0;
 }
