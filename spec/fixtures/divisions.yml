@@ -3,7 +3,7 @@ one:
   date: 2013-3-14
   clock_time: "010:56:00"
   number: 1
-  house: "commons"
+  house: representatives
   name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail"
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default"
   debate_url: ""
@@ -16,7 +16,7 @@ two:
   id: 9
   date: 2013-3-14
   number: 1
-  house: "lords"
+  house: senate
   name: "Motions &#8212; Renewable Energy Certificates"
   source_url: "http://aph.gov.au/somedebate"
   debate_url: ""
@@ -30,7 +30,7 @@ three:
   date: 2006-12-06
   clock_time: "019:29:00"
   number: 3
-  house: "commons"
+  house: representatives
   name: 'Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail'
   source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
   debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000"
@@ -44,7 +44,7 @@ four:
   date: 2009-11-25
   clock_time: "016:13:00"
   number: 8
-  house: 'lords'
+  house: senate
   name: 'Carbon Pollution Reduction Scheme Legislation'
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000
@@ -58,7 +58,7 @@ five:
   date: 2009-11-30
   clock_time: "012:00:00"
   number: 8
-  house: 'lords'
+  house: senate
   name: 'Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading'
   source_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
   debate_url: http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000
@@ -78,7 +78,7 @@ six:
   date: 2009-12-30
   clock_time: "012:00:00"
   number: 8
-  house: 'lords'
+  house: senate
   name: 'Proceedural ban of flatulence during divisions'
   source_url: https://www.youtube.com/watch?v=yUGw_l3G-JE
   debate_url: https://www.youtube.com/watch?v=yUGw_l3G-JE

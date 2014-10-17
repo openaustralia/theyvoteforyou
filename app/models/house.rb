@@ -1,27 +1,5 @@
 class House
   class << self
-    def uk_to_australian(house)
-      case house
-      when "commons"
-        "representatives"
-      when "lords"
-        "senate"
-      else
-        raise ActiveRecord::RecordNotFound
-      end
-    end
-
-    def australian_to_uk(australian_house)
-      case australian_house
-      when "representatives"
-        "commons"
-      when "senate"
-        "lords"
-      else
-        raise ActiveRecord::RecordNotFound
-      end
-    end
-
     def australian
       %w(representatives senate)
     end

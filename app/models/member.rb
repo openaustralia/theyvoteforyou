@@ -3,7 +3,7 @@ class Member < ActiveRecord::Base
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
-  scope :in_australian_house, ->(australian_house) { where(house: House.australian_to_uk(australian_house)) }
+  scope :in_australian_house, ->(australian_house) { where(house: australian_house) }
   scope :with_name, ->(name) {
     first_name, last_name = Member.parse_first_last_name(name)
     where(first_name: first_name, last_name: last_name)
@@ -170,7 +170,7 @@ class Member < ActiveRecord::Base
   end
 
   def australian_house
-    House.uk_to_australian(house)
+    house
   end
 
   def electorate
