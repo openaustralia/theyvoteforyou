@@ -52,7 +52,7 @@ gem "marked-rails"
 gem 'simple_form', '3.1.0.rc2' # Ask for 3.1rc since it plays nicer with Bootstrap 3
 gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
-
+gem 'meta-tags'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
