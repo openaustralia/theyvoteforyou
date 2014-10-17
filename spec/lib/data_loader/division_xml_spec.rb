@@ -10,7 +10,7 @@ describe DataLoader::DebatesXML do
 
     it { expect(division.date).to eq('2009-11-25') }
     it { expect(division.number).to eq('1') }
-    it { expect(division.house).to eq('commons') }
+    it { expect(division.house).to eq('representatives') }
     it { expect(division.name).to eq('Social Security and Other Legislation Amendment (Income Support for Students) Bill 2009 [No. 2] &#8212; Second Reading') }
     it { expect(division.source_url).to eq('http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2009-11-25/0000') }
     it { expect(division.debate_url).to eq('http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2009-11-25/0000') }

@@ -4,7 +4,7 @@ module DataLoader
 
     def initialize(division_xml, house)
       @division_xml = division_xml
-      @house = House.australian_to_uk(house)
+      @house = house
     end
 
     def date
