@@ -2,8 +2,9 @@
   - members.each do |member|
     %li
       = link_to member, class: 'member-item object-item panel-link' do
-        %article.media
-          = image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-photo pull-left")
+        %article.media{class: ("member-no-photo" unless member.show_small_image?)}
+          - if member.show_small_image?
+            = image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: "member-photo pull-left")
           .media-body
             %h2.media-heading.member-name.panel-link-title= member.name_without_title
             %p.member-role.object-primary
