@@ -133,12 +133,12 @@
     width: 100%;
     text-align: center;
 
-    @media (min-width: $screen-xs-min) {
+    @media (min-width: $screen-sm-min) {
       text-align: left;
-      float: right !important;
+      float: right;
       width: auto;
       display: inline-block;
-    }
+     }
 
     @media (min-width: $screen-md-min) {
       float: right !important;
