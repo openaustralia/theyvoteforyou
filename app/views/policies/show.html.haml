@@ -9,7 +9,7 @@
 = render "social_share"
 
 - if @policy.divisions.count > 0
-  %p.lead.col-sm-12
+  %p.lead.col-sm-7
     = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members
@@ -36,5 +36,5 @@
       %strong Related Policies
       section of that division‘s page.
 - else
-  %p This policy isn't connected with any divisions just yet.
+  %p.col-sm-8 This policy isn't connected with any divisions just yet.
   = render 'division_edit_instructions'

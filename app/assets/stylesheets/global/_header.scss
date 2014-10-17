@@ -122,9 +122,31 @@
 // page header
 .page-header {
   margin-top: 24px;
+  @include clearfix;
 
   @media (min-width: $screen-sm-min) {
     margin-top: 48px;
+  }
+
+  + .social-share {
+    display: block;
+    width: 100%;
+    text-align: center;
+
+    @media (min-width: $screen-xs-min) {
+      text-align: left;
+      float: right !important;
+      width: auto;
+      display: inline-block;
+    }
+
+    @media (min-width: $screen-md-min) {
+      float: right !important;
+      margin-left: 0;
+    }
+
+    // @include make-lg-column-offset(8);
+    @include make-lg-column(3);
   }
 }
 
