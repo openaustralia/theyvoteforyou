@@ -14,20 +14,12 @@ module DataLoader
             # Ignores entries older than the 1997 UK General Election
             next if member[:todate] <= '1997-04-08'
 
-            house = member[:house]
-            house = case house
-                    when 'representatives'
-                      'commons'
-                    when 'senate'
-                      'lords'
-                    end
-
             gid = member[:id]
             if gid.include?('uk.org.publicwhip/member/')
-              raise 'House mismatch' unless house == 'commons'
+              raise 'House mismatch' unless member[:house] == 'representatives'
               id = gid[/uk.org.publicwhip\/member\/(\d*)/, 1]
             elsif gid.include?('uk.org.publicwhip/lord/')
-              raise 'House mismatch' unless house == 'lords'
+              raise 'House mismatch' unless member[:house] == 'senate'
               id = gid[/uk.org.publicwhip\/lord\/(\d*)/, 1]
             else
               raise "Unknown gid type #{gid}"
@@ -43,7 +35,7 @@ module DataLoader
                            title: member[:title],
                            constituency: XML.escape_html(member[:division]),
                            party: member[:party],
-                           house: house,
+                           house: member[:house],
                            entered_house: member[:fromdate],
                            left_house: member[:todate],
                            entered_reason: member[:fromwhy],
