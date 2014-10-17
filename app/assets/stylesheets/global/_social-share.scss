@@ -1,11 +1,37 @@
 .social-share {
-  text-align: right;
-
+  // font-weight: 300;
   ul {
     display: inline;
   }
 }
 
 .social-share-heading {
-  display: inline;
+  margin: 0 10px 0 0;
+  display: inline-block;
+  color: #aaa;
+}
+
+.share-link {
+  margin-left: 2px;
+  color: #888;
+
+  i {
+    margin-right: 3px;
+    vertical-align: middle;
+    font-size: 24px;
+    display: inline-block;
+    color: #aaa;
+
+    &.fi-social-facebook {
+      padding: 0 0 2px 0;
+    }
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    i {
+      color: inherit;
+    }
+  }
 }
