@@ -31,7 +31,7 @@ class Member < ActiveRecord::Base
 
   # All divisions that this member could have attended
   def divisions_possible
-    Division.where(house: house).where("date >= ? AND date < ?", entered_house, left_house)
+    Division.possible_for_member(self)
   end
 
   # Divisions that this member has voted on where either they were a rebel or voting
