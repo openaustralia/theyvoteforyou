@@ -8,9 +8,13 @@
   %h1 Edit division description
 
 %p
-  Write a summary of what was voted on in
-  = link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.australian_house_name}"
-  and replace the confusing raw text.
+  - if @division.edited?
+    Improve the
+  - else
+    Write a
+  summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.australian_house_name}"}#{"." if @division.edited?}
+  - unless @division.edited?
+    and replace the confusing raw text.
 %p
   Accurate, informed summaries draw on the
   = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
