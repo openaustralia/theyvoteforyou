@@ -2,21 +2,18 @@ module DataLoader
   class DivisionXML
     MAXIMUM_MOTION_TEXT_SIZE = 15000
 
+    attr_accessor :division_xml, :house
+
     def initialize(division_xml, house)
-      @division_xml = division_xml
-      @house = house
+      self.division_xml, self.house = division_xml, house
     end
 
     def date
-      @division_xml.attr(:divdate)
+      division_xml.attr(:divdate)
     end
 
     def number
-      @division_xml.attr(:divnumber)
-    end
-
-    def house
-      @house
+      division_xml.attr(:divnumber)
     end
 
     def name
@@ -32,7 +29,7 @@ module DataLoader
     end
 
     def source_url
-      @division_xml.attr(:url)
+      division_xml.attr(:url)
     end
 
     def debate_url
@@ -41,7 +38,7 @@ module DataLoader
     end
 
     def source_gid
-      @division_xml.attr(:id)
+      division_xml.attr(:id)
     end
 
     def debate_gid
@@ -57,7 +54,7 @@ module DataLoader
     end
 
     def clock_time
-      time = @division_xml.attr(:time)
+      time = division_xml.attr(:time)
       time = "#{time}:00" if time =~ /^\d\d:\d\d$/
       time = "0#{time}" if time =~ /^\d\d:\d\d:\d\d$/
 
@@ -72,7 +69,7 @@ module DataLoader
     # Returns a hash of votes in the form of member gid => [vote, teller]
     # TODO Make it an array of hashes like {gid: ..., vote: ..., teller: ...}
     def votes
-      votes = @division_xml.xpath('memberlist/member').map do |vote_xml|
+      votes = division_xml.xpath('memberlist/member').map do |vote_xml|
         gid = vote_xml.attr(:id)
         teller = vote_xml.attr(:teller) == 'yes'
         vote = vote_xml.attr(:vote)
@@ -83,7 +80,7 @@ module DataLoader
     end
 
     def bills
-      @division_xml.search("bills bill").map do |bill|
+      division_xml.search("bills bill").map do |bill|
         {id: bill.attr(:id), url: bill.attr(:url), title: bill.inner_text}
       end
     end
@@ -107,7 +104,7 @@ module DataLoader
     end
 
     def find_previous(name)
-      previous_element = @division_xml.previous_element
+      previous_element = division_xml.previous_element
       while previous_element.name != name
         previous_element = previous_element.previous_element
       end
@@ -115,7 +112,7 @@ module DataLoader
     end
 
     def pwmotiontexts
-      previous_element = @division_xml.previous_element
+      previous_element = division_xml.previous_element
       pwmotiontexts = []
       while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
         pwmotiontexts << previous_element.xpath('p[@pwmotiontext]') unless previous_element.xpath('p[@pwmotiontext]').empty?
@@ -125,7 +122,7 @@ module DataLoader
     end
 
     def previous_speeches
-      previous_element = @division_xml.previous_element
+      previous_element = division_xml.previous_element
       speeches = []
       while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
         speeches << previous_element if previous_element.name == 'speech'
