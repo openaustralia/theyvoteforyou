@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def default_meta_description
+    'Discover how your MP votes on the issues that matter to you.'
+  end
+
   def nav_link(name, path, title, current)
     content_tag(:li, class: ("active" if current)) do
       link_to name, path, title: title

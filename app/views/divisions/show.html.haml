@@ -1,3 +1,5 @@
+- set_meta_tags description: "A vote in the #{@division.australian_house_name} on #{formatted_date(@division.date)}. #{@division.name}."
+
 - if @division.edited?
   - content_for :history_notice do
     =render "layouts/history_notice", division: @division

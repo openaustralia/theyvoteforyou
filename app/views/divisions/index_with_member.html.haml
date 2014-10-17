@@ -1,6 +1,7 @@
 - content_for :title do
   Voting Record —
   = @member.full_name2
+- set_meta_tags description: "A list of all votes in parliament that #{@member.full_name_no_electorate} could have attended."
 
 = render "members/member_page_header", member: @member
 
