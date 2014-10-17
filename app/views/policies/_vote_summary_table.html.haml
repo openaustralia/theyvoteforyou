@@ -8,7 +8,7 @@
       %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
-    - divisions = divisions.select { |d| d.house == member.house } if member
+    - divisions = divisions.possible_for_member(member) if member
     - if divisions.empty?
       %tr
         %td{colspan: 7} no votes listed
