@@ -1,14 +1,13 @@
-- content_for :title, capitalise_initial_character(@policy.name_with_for)
-
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
     = render 'layouts/history_notice', policy: @policy
 
 = render 'page_header', policy: @policy
+= render "social_share"
 
 - if @policy.divisions.count > 0
-  %p.lead.col-sm-12
+  %p.lead.col-sm-7
     = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members
@@ -32,8 +31,8 @@
       If you know of other
       = link_to 'divisions', divisions_path
       that relate to this policy, you can add them in the
-      %strong Related Policies
+      %strong Votes
       section of that division‘s page.
 - else
-  %p This policy isn't connected with any divisions just yet.
+  %p.col-sm-8 This policy isn't connected with any divisions just yet.
   = render 'division_edit_instructions'

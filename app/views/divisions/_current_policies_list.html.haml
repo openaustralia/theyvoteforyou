@@ -1,25 +1,28 @@
-%ul.division-policies-list.list-unstyled
-  - @division.policies.order(:name).each do |policy|
-    %li.division-policy
-      - if @display == "policies" && user_signed_in?
-        = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
-          %label.division-policy-statement
+- unless @division.policies.empty?
+  %ul.division-policies-list.list-unstyled
+    - @division.policies.order(:name).each do |policy|
+      %li.division-policy
+        - if @display == "policies" && user_signed_in?
+          = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+            %label.division-policy-statement
+              People who are
+              = link_to policy.name_with_for, policy
+              - if policy.provisional?
+                %em (provisional)
+              would have voted
+            = vote_select(f, policy.vote_for_division(@division))
+            = f.submit 'Update', class: 'btn btn-primary btn-xs'
+          = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
+        - else
+          %p.division-policy-statement
             People who are
             = link_to policy.name_with_for, policy
             - if policy.provisional?
               %em (provisional)
-            would have voted
-          = vote_select(f, policy.vote_for_division(@division))
-          = f.submit 'Update', class: 'btn btn-primary btn-xs'
-        = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
-      - else
-        %p.division-policy-statement
-          People who are
-          = link_to policy.name_with_for, policy
-          - if policy.provisional?
-            %em (provisional)
-          would have voted
-          = vote_display @division.policy_vote(policy)
+            would have
+            %span.division-policy-statement-vote{class: "voted-" + @division.policy_division(policy).vote_without_strong.downcase}
+              voted
+              = vote_display @division.policy_division(policy).vote_without_strong
 
 - if @display != "policies"
-  = link_to("Edit related policies", division_policies_path(division_params(@division)), title: "Show or change the polices which vote on this division")
+  = link_to("#{@division.policies.empty? ? "Does this division relate to a policy?" : "Add or update related policies"}", division_policies_path(division_params(@division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")

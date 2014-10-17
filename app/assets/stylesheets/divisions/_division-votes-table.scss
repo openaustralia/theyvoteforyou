@@ -1,3 +1,22 @@
+.division-policies {
+  margin-bottom: 24px;
+
+  .division-policies-list {
+    margin-bottom: 0;
+  }
+}
+
+.division-policy-statement-vote {
+  display: inline-block;
+
+  &.voted-aye {
+    color: $color-vote-for;
+  }
+  &.voted-no {
+    color: $color-vote-against;
+  }
+}
+
 .voter-table {
   padding-right: 0;
   padding-left: 0;

@@ -109,6 +109,9 @@ GEM
     execjs (2.2.1)
     ffi (1.9.3)
     formatador (0.2.5)
+    foundation-icons-sass-rails (3.0.0)
+      railties (>= 3.1.1)
+      sass-rails (>= 3.1.1)
     fuubar (2.0.0)
       rspec (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -166,6 +169,8 @@ GEM
       nokogiri (~> 1.4)
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
+    meta-tags (2.0.0)
+      actionpack (>= 3.0.0)
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.6.0)
@@ -350,6 +355,7 @@ DEPENDENCIES
   devise
   devise-async
   diffy
+  foundation-icons-sass-rails
   fuubar
   guard
   guard-rspec
@@ -362,6 +368,7 @@ DEPENDENCIES
   marked-rails
   marker!
   mechanize
+  meta-tags
   mysql2
   newrelic_rpm
   nokogiri

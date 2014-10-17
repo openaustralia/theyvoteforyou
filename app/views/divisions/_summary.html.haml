@@ -4,6 +4,9 @@
     %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
       = division_outcome_with_majority_strength(division)
 
+  .division-policies#related-policies
+    = render "current_policies_list", division: @division, display: @display
+
   %p.division-rebellions-sentence
     - if division.rebellions > 0
       There was

@@ -2,6 +2,7 @@
   = @member.name
   = policy_agreement_summary_without_html(@member.person.policy_person_distances.find_by(policy: @policy))
   = @policy.name
+- set_meta_tags description: "How #{@member.name_without_title} voted in parliament on #{@policy.name}."
 
 .page-header
   .media
@@ -13,7 +14,9 @@
         = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
         = link_to @policy.name, @policy
 
-%p
+= render "social_share"
+
+%p.col-sm-7
   How
   = link_to @member.name, @member
   voted compared to someone who believes that

@@ -1,7 +1,7 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'publicwhip-test.openaustraliafoundation.org.au'
+set :application, 'theyvoteforyou.org.au'
 set :repo_url, 'https://github.com/openaustralia/publicwhip.git'
 
 role :app, %w{deploy@kedumba.openaustraliafoundation.org.au}

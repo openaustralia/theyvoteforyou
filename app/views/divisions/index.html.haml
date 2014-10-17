@@ -3,17 +3,8 @@
     = @party
   - else
     Divisions
-  \—
-  - if @rdisplay == "all"
-    All divisions on record
-  - else
-    = Parliament.all[@rdisplay][:name]
-  - if @house == "representatives"
-    \— Representatives only
-  - elsif @house == "senate"
-    \— Senate only
-  - if @sort
-    (sorted by #{@sort})
+
+- set_meta_tags description: "A list of votes, called divisions, in parliament. These votes help shape legislation that affects us all."
 
 - content_for :header do
   .section-header.clearfix
