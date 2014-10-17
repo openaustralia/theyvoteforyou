@@ -117,6 +117,13 @@
       }
     }
   }
+
+  // special exception for very long title of /people
+  .members & h1 {
+    @media (max-width: $screen-xs-max) {
+      font-size: 36px;
+    }
+  }
 }
 
 // page header
