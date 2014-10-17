@@ -2,10 +2,10 @@
 - set_meta_tags description: "Find out how people in parliament stand on #{@policy.name}."
 
 .page-header.row
-  %nav.header-actions.col-md-3
+  %nav.header-actions.col-md-3.col-lg-2
     = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "btn btn-default btn-xs"
     = link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
-  %h1.col-md-9.long-title
+  %h1.col-md-9.col-lg-10.long-title
     = yield :title
   %blockquote.lead.policytext.col-md-12= capitalise_initial_character policy.description
 
