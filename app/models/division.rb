@@ -11,7 +11,6 @@ class Division < ActiveRecord::Base
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
   scope :in_house, ->(house) { where(house: house) }
-  scope :in_australian_house, ->(australian_house) { in_house(australian_house) }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :edited, -> { joins(:wiki_motion) }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
@@ -145,7 +144,7 @@ class Division < ActiveRecord::Base
   end
 
   def oa_debate_url
-    case australian_house
+    case house
     when "representatives"
       "http://www.openaustralia.org/debates/?id=#{oa_debate_id}"
     when "senate"
@@ -169,16 +168,8 @@ class Division < ActiveRecord::Base
     end
   end
 
-  def australian_house
-    house
-  end
-
-  def australian_house=(h)
-    self.house = h
-  end
-
-  def australian_house_name
-    australian_house.capitalize
+  def house_name
+    house.capitalize
   end
 
   def policy_division(policy)

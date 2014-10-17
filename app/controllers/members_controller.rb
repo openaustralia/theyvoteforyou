@@ -10,7 +10,7 @@ class MembersController < ApplicationController
     @house = params[:house]
 
     members = Member.current
-    members = members.in_australian_house(@house) if @house
+    members = members.in_house(@house) if @house
     members = members.includes(:member_info, person: [members: :member_info] ).to_a
 
     @members = case @sort
@@ -35,7 +35,7 @@ class MembersController < ApplicationController
         member = Member.find_by!(gid: params[:id])
       elsif params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
         member = Member.with_name(params[:mpn].gsub("_", " "))
-        member = member.in_australian_house(params[:house]) if params[:house]
+        member = member.in_house(params[:house]) if params[:house]
         member = member.order(entered_house: :desc).first
         if member.nil?
           render 'member_not_found', status: 404
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
       redirect_to params.merge(
           mpn: member.url_name,
           mpc: member.url_electorate,
-          house: member.australian_house,
+          house: member.house,
           mpid: nil,
           id: nil
         )
@@ -69,7 +69,7 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ")
 
     @member = Member.with_name(name)
-    @member = @member.in_australian_house(params[:house])
+    @member = @member.in_house(params[:house])
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
@@ -81,7 +81,7 @@ class MembersController < ApplicationController
     name = params[:mpn].gsub("_", " ")
 
     @member = Member.with_name(name)
-    @member = @member.in_australian_house(params[:house])
+    @member = @member.in_house(params[:house])
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 

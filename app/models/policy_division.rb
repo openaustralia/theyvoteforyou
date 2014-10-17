@@ -9,7 +9,7 @@ class PolicyDivision < ActiveRecord::Base
   after_save    :calculate_policy_member_distances
   after_destroy :calculate_policy_member_distances
 
-  delegate :name, :australian_house, :australian_house_name, :date, :number, :house, to: :division
+  delegate :name, :house, :house_name, :date, :number, to: :division
 
   def strong_vote?
     vote == 'aye3' || vote == 'no3'

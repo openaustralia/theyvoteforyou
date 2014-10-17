@@ -6,7 +6,7 @@
 
   %p
     Shows which
-    = members_type(member.australian_house)
+    = members_type(member.house)
     voted most similarly to this one in the
     -# TODO This displays the parliament when the MP entered the house, which
     -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
@@ -21,9 +21,9 @@
 
     This is measured from 0% agreement (never voted the
     same) to 100% (always voted the same). Only votes that both
-    = members_type(member.australian_house)
+    = members_type(member.house)
     attended are counted. This may reveal relationships between
-    = members_type(member.australian_house)
+    = members_type(member.house)
     that were previously unsuspected. Or it may be nonsense.
 
   %table.table
@@ -31,7 +31,7 @@
       %tr.headings
         %th Agreement
         %th Name
-        %th= electorate_label(member.australian_house)
+        %th= electorate_label(member.house)
         %th Party
     %tbody
       - if member.possible_friends.empty?

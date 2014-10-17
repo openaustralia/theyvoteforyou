@@ -6,6 +6,6 @@ json.latest_member do
     json.last person.latest_member.last_name
   end
   json.electorate person.latest_member.electorate
-  json.house person.latest_member.australian_house
+  json.house person.latest_member.house
   json.party person.latest_member.party
 end

@@ -32,7 +32,7 @@
     - @division.wiki_motions.each_with_index do |wiki_motion, index|
       %tr
         %td{width: "16%"}
-          = link_to "#{@division.australian_house} vote #{@division.date}##{@division.number}", @division
+          = link_to "#{@division.house} vote #{@division.date}##{@division.number}", @division
           %p
             Edited by
             = link_to wiki_motion.user.name, wiki_motion.user

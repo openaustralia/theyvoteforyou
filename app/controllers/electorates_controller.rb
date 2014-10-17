@@ -8,7 +8,7 @@ class ElectoratesController < ApplicationController
     house = params[:house]
 
     @members = Member.where(constituency: electorate).order(entered_house: :desc)
-    @members = @members.in_australian_house(house) if house
+    @members = @members.in_house(house) if house
     @member = @members.first
     raise ActiveRecord::RecordNotFound if @member.nil?
   end

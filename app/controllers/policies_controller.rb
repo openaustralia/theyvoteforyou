@@ -13,7 +13,7 @@ class PoliciesController < ApplicationController
       name = params[:mpn].gsub("_", " ")
 
       @member = Member.with_name(name)
-      @member = @member.in_australian_house(params[:house])
+      @member = @member.in_house(params[:house])
       @member = @member.where(constituency: electorate)
       @member = @member.order(entered_house: :desc).first
 
