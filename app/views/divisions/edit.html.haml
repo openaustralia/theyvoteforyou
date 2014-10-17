@@ -7,23 +7,24 @@
 .page-header
   %h1 Edit division description
 
-%p
-  - if @division.edited?
-    Improve the
-  - else
-    Write a
-  summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.australian_house_name}"}#{"." if @division.edited?}
-  - unless @division.edited?
-    and replace the confusing raw text.
-%p
-  Accurate, informed summaries draw on the
-  = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
-  and our #{link_to 'research guide', help_research_path}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
+%section.page-section.col-md-8
+  %p
+    - if @division.edited?
+      Improve the
+    - else
+      Write a
+    summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.australian_house_name}"}#{"." if @division.edited?}
+    - unless @division.edited?
+      and replace the confusing raw text.
+  %p
+    Accurate, informed summaries draw on the
+    = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
+    and our #{link_to 'research guide', help_research_path}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
 
-%p
-  Clear and succinct summaries are best.
-  = link_to 'Use our style guide', help_style_guide_path
-  to write something that everyone can understand.
+  %p
+    Clear and succinct summaries are best.
+    = link_to 'Use our style guide', help_style_guide_path
+    to write something that everyone can understand.
 
 .row
   .col-md-8
