@@ -117,6 +117,13 @@
       }
     }
   }
+
+  // special exception for very long title of /people
+  .members & h1 {
+    @media (max-width: $screen-xs-max) {
+      font-size: 36px;
+    }
+  }
 }
 
 // page header
@@ -159,8 +166,10 @@
   }
 
   .btn {
+    margin-bottom: 10px;
+
     @media (min-width: $screen-sm-min) {
-      margin-top: 1em;
+      margin-top: 5px;
     }
   }
 }

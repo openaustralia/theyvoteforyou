@@ -1,4 +1,4 @@
-### A Parliamentary Democracy for Everybody 
+### A Parliamentary Democracy for Everybody
 In Australia, every 4 years or so, we all head to polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
 
 ### They vote for you
@@ -31,6 +31,6 @@ Make this project better for everyone by [summarising divisions](/divisions) and
 
 ### <a name='contact'></a>Contact
 
-Email the OpenAustralia Foundation at [contact@openaustraliafoundation.org.au](mailto:contact@openaustraliafoundation.org.au).
+Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
 You can also read the [OpenAustralia Foundation Blog](https://www.openaustraliafoundation.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
