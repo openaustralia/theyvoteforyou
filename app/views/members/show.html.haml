@@ -4,6 +4,7 @@
 - set_meta_tags description: "How #{@member.name_without_title} voted on issues in parliament."
 
 = render "member_page_header", member: @member
+= render "social_share"
 = render "summary", member: @member
 = render "external_links", member: @member
 = render "policy_comparisons", member: @member
