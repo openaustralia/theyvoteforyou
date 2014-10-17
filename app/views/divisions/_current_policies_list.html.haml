@@ -25,4 +25,4 @@
               = vote_display @division.policy_division(policy).vote_without_strong
 
 - if @display != "policies"
-  = link_to("#{@division.policies.empty? ? "Does this division relate to a policy?" : "Edit related policies"}", division_policies_path(division_params(@division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")
+  = link_to("#{@division.policies.empty? ? "Does this division relate to a policy?" : "Add or update related policies"}", division_policies_path(division_params(@division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")
