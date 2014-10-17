@@ -5,4 +5,5 @@ xml_data_base_url: http://data.openaustralia.org/
 #xml_data_base_url: file:///Users/matthew/git/openaustralia/openaustralia-parser/pwdata/
 
 # Name of project to display thoughout the application
-project_name: Public Whip
+project_name: They Vote For You
+contact_email: contact@theyvoteforyou.org.au

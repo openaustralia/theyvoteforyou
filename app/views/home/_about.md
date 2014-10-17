@@ -31,6 +31,6 @@ Make this project better for everyone by [summarising divisions](/divisions) and
 
 ### <a name='contact'></a>Contact
 
-Email the OpenAustralia Foundation at [contact@openaustraliafoundation.org.au](mailto:contact@openaustraliafoundation.org.au).
+Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
 You can also read the [OpenAustralia Foundation Blog](https://www.openaustraliafoundation.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
