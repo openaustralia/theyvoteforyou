@@ -1,4 +1,6 @@
 <% content_for :title, "Style Guide" %>
+<% set_meta_tags description: "A guide to the style to use when contributing to #{Settings.project_name}." %>
+
 # <%= yield :title %>
 <%= Settings.project_name %> is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 Use this guide when you write new divisions, summaries, or to help improve content that is already there.

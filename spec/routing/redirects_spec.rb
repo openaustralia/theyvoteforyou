@@ -45,23 +45,23 @@ describe "routing redirects", type: :request do
 
   it do
     get "/mps.php?house=all&sort=rebellions"
-    expect(response).to redirect_to("/members/representatives?sort=rebellions")
+    expect(response).to redirect_to("/people/representatives?sort=rebellions")
   end
 
   it do
     get "/mps.php?house=representatives&sort=lastname"
-    expect(response).to redirect_to("/members/representatives")
+    expect(response).to redirect_to("/people/representatives")
   end
 
   # Test that we don't need to get redirected twice
   it do
     get "/mps.php?house=all&sort=lastname"
-    expect(response).to redirect_to("/members/representatives")
+    expect(response).to redirect_to("/people/representatives")
   end
 
   it do
     get "/mps.php?sort=rebellions"
-    expect(response).to redirect_to("/members/representatives?sort=rebellions")
+    expect(response).to redirect_to("/people/representatives?sort=rebellions")
   end
 
   it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
@@ -285,5 +285,55 @@ describe "routing redirects", type: :request do
   it do
     get "/members/representatives/lilley/wayne_swan/policies/3/full"
     expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
+  end
+
+  it do
+    get "/members"
+    expect(response).to redirect_to "/people"
+  end
+
+  it do
+    get "/members/representatives"
+    expect(response).to redirect_to "/people/representatives"
+  end
+
+  it do
+    get "/members?sort=attendance"
+    expect(response).to redirect_to "/people?sort=attendance"
+  end
+
+  it do
+    get "/members/representatives?sort=attendance"
+    expect(response).to redirect_to "/people/representatives?sort=attendance"
+  end
+
+  it do
+    get "/members/representatives/melbourne"
+    expect(response).to redirect_to "/people/representatives/melbourne"
+  end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
+  end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott/policies/23"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/23"
+  end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott/friends"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/friends"
+  end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott/divisions"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions"
+  end
+
+  it do
+    get "/members/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
   end
 end

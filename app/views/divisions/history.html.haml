@@ -6,6 +6,7 @@
   = @division.original_name
   —
   = formatted_date(@division.date)
+- set_meta_tags description: "All changes made to the description and title of the division: #{@division.name}"
 
 .page-header
   %h1= yield :title

@@ -80,8 +80,8 @@ describe PoliciesHelper, type: :helper do
       context "create vote on policy" do
         let(:version) { double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => [nil, "aye3"], "division_id" => [nil, 5]}, policy_id: 3) }
 
-        it { expect(helper.version_sentence(version)).to eq 'Added <strong>aye (strong)</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
-        it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">chickens</a> added <strong>aye (strong)</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+        it { expect(helper.version_sentence(version)).to eq 'Added <strong>yes (strong)</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+        it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">chickens</a> added <strong>yes (strong)</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
 
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
@@ -97,8 +97,8 @@ describe PoliciesHelper, type: :helper do
       context "change vote on policy" do
         let(:version) { double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"vote" => ["no", "aye"]}, reify: double("policy_division", division_id: 5), policy_id: 3) }
 
-        it { expect(helper.version_sentence(version)).to eq 'Changed <strong>no</strong> to <strong>aye</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
-        it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">chickens</a> changed <strong>no</strong> to <strong>aye</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+        it { expect(helper.version_sentence(version)).to eq 'Changed <strong>no</strong> to <strong>yes</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+        it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">chickens</a> changed <strong>no</strong> to <strong>yes</strong> on <a href="/divisions/representatives/2001-01-01/2">blah</a> by <a href="/users/3">Matthew</a>, about 1 hour ago' }
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
     end

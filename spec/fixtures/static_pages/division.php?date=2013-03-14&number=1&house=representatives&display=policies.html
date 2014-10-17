@@ -19,7 +19,6 @@ test
 </head>
 <body class="divisions">
 <nav class="site-header navbar" role="navigation">
-<!-- / Brand and toggle get grouped for better mobile display -->
 <div class="navbar-header">
 <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button">
 <span class="sr-only">Toggle navigation</span>
@@ -29,10 +28,9 @@ test
 </button>
 <a class="navbar-brand" href="/">Public Whip</a>
 </div>
-<!-- / Collect the nav links, forms, and other content for toggling -->
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
-<li><a class="navlink-members" href="/members" title="All people currently in Federal Parliament">People</a></li>
+<li><a class="navlink-members" href="/people" title="All people currently in Federal Parliament">People</a></li>
 <li><a class="navlink-policies" href="/policies" title="Help to analyze MP&#39;s votes">Policies</a></li>
 <li><a class="navlink-divisions" href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
 <li><a class="navlink-about" href="/about" title="Information about this website">About</a></li>
@@ -88,8 +86,8 @@ People who are
 <a href="/policies/1">for marriage equality</a>
 would have voted
 </label>
-<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><optgroup label="A less important vote"><option selected="selected" value="aye">Aye</option>
-<option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Aye (strong)</option>
+<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><optgroup label="A less important vote"><option selected="selected" value="aye">Yes</option>
+<option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option value="no3">No (strong)</option></optgroup></select>
 <input class="btn btn-primary btn-xs" name="commit" type="submit" value="Update" />
 </form>
@@ -116,8 +114,8 @@ would have voted
 </select>would have
 <label>voted</label>
 <select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="">Select vote</option>
-<optgroup label="A less important vote"><option value="aye">Aye</option>
-<option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Aye (strong)</option>
+<optgroup label="A less important vote"><option value="aye">Yes</option>
+<option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option value="no3">No (strong)</option></optgroup></select>
 </fieldset>
 <input class="btn btn-primary" name="commit" type="submit" value="Connect policy" />

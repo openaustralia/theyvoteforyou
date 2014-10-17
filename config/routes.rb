@@ -111,6 +111,26 @@ Publicwhip::Application.routes.draw do
     result
   }
   get '/members/:house/:mpc/:mpn/policies/:id/full' => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
+  get '/members' => redirect{|p,r|
+    if r.query_parameters['sort']
+      "/people?sort=#{r.query_parameters['sort']}"
+    else
+      "/people"
+    end
+  }, as: nil
+  get '/members/:house' => redirect{|p,r|
+    if r.query_parameters['sort']
+      "/people/#{p[:house]}?sort=#{r.query_parameters['sort']}"
+    else
+      "/people/#{p[:house]}"
+    end
+  }
+  get '/members/:house/:mpc' => redirect('/people/%{house}/%{mpc}')
+  get '/members/:house/:mpc/:mpn' => redirect('/people/%{house}/%{mpc}/%{mpn}')
+  get '/members/:house/:mpc/:mpn/policies/:id' => redirect('/people/%{house}/%{mpc}/%{mpn}/policies/%{id}')
+  get '/members/:house/:mpc/:mpn/friends' => redirect('/people/%{house}/%{mpc}/%{mpn}/friends')
+  get '/members/:house/:mpc/:mpn/divisions' => redirect('/people/%{house}/%{mpc}/%{mpn}/divisions')
+  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => redirect('/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}')
 
   #################
   #  Main routes  #
@@ -122,13 +142,13 @@ Publicwhip::Application.routes.draw do
   get 'about' => 'home#about', as: :about
   get 'history' => 'home#history', as: :history
 
-  get '/members(/:house)' => 'members#index', as: :members
-  get '/members/:house/:mpc' => 'electorates#show', as: :electorate
-  get '/members/:house/:mpc/:mpn' => 'members#show', as: :member
-  get '/members/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
-  get '/members/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
-  get '/members/:house/:mpc/:mpn/divisions' => 'divisions#index', as: :member_divisions
-  get '/members/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
+  get '/people(/:house)' => 'members#index', as: :members
+  get '/people/:house/:mpc' => 'electorates#show', as: :electorate
+  get '/people/:house/:mpc/:mpn' => 'members#show', as: :member
+  get '/people/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
+  get '/people/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
+  get '/people/:house/:mpc/:mpn/divisions' => 'divisions#index', as: :member_divisions
+  get '/people/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
 
   get '/divisions' => 'divisions#index', as: :divisions
   get '/divisions/:house' => 'divisions#index'

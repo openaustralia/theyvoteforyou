@@ -1,7 +1,7 @@
 Most decisions in Parliament are made
 [‘on the voices’](http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html)
 and not by division. When a question is asked by the Chair, the Members of Parliament (MPs) or
-Senators call out Aye (yes) or No and the Chair decides which are in the majority without
+Senators call out Yes or No and the Chair decides which are in the majority without
 recording the names of who voted and how they voted.
 
 A division is only called if two or more MPs or Senators call for one. If only one MP or Senator

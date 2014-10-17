@@ -14,7 +14,7 @@
       %tr
         %td= formatted_date(division.date, true)
         %td= link_to truncate(division.name, length: 180), [member, division]
-        %td= division.vote_for(member)
-        %td= division.whip_guess_for(member.party)
+        %td= vote_display(division.vote_for(member))
+        %td= vote_display(division.whip_guess_for(member.party))
         %td{class: vote_class(member.division_vote(division))}
           = division.role_for(member)

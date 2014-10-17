@@ -4,6 +4,9 @@
     %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
       = division_outcome_with_majority_strength(division)
 
+  .division-policies#related-policies
+    = render "current_policies_list", division: @division, display: @display
+
   %p.division-rebellions-sentence
     - if division.rebellions > 0
       There was
@@ -18,7 +21,7 @@
         %li
           = link_to vote.member.name, vote.member
           voted
-          = vote_display_in_table vote.vote
+          = vote_display vote.vote
           against the majority of the #{vote.member.party}.
 
   %table.table
@@ -41,11 +44,11 @@
               - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
                 %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
                   = whip.aye_votes_including_tells
-                  Aye
+                  = vote_display "aye"
                 –
                 %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
                   = whip.no_votes_including_tells
-                  No
+                  = vote_display "no"
               - else
                 Absent
             %td.cell-toggler
@@ -59,7 +62,7 @@
               = link_to vote.member.name_without_title, vote.member
               = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
               %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
-            %td.cell-vote= vote.vote.capitalize
+            %td.cell-vote= vote_display vote.vote
             %td.cell-toggler
 
         - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
@@ -80,11 +83,11 @@
         %td.cell-vote
           %span{class: aye_vote_total_class(division)}
             = division.aye_votes_including_tells
-            Aye
+            = vote_display "aye"
             –
           %span{class: no_vote_total_class(division)}
             = division.no_votes_including_tells
-            No
+            = vote_display "no"
         %td.cell-toggler
 
   %figcaption.panel-footer.small

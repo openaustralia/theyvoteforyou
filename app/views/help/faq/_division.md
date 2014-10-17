@@ -3,5 +3,5 @@ a formal proposal put to the House or Senate to take action of some kind.
 
 When a division is called on a particular motion, Members of Parliament (MPs) in the House of
 Representatives or Senators in the Senate divide themselves into two groups: one that votes
-Aye (yes) and one that votes No. Each political party has whips who try to persuade their members
+Yes and one that votes No. Each political party has whips who try to persuade their members
 to vote along party lines.

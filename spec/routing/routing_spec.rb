@@ -9,22 +9,22 @@ describe "path helpers", type: :helper do
 
   it ".member_path" do
     expect(helper.member_path(member)).
-      to eq "/members/representatives/twist/foo_bar"
+      to eq "/people/representatives/twist/foo_bar"
   end
 
   it ".member_policy_path" do
     expect(helper.member_policy_path(member, policy)).
-      to eq "/members/representatives/twist/foo_bar/policies/123"
+      to eq "/people/representatives/twist/foo_bar/policies/123"
   end
 
   it ".member_divisions_path" do
     expect(helper.member_divisions_path(member)).
-      to eq "/members/representatives/twist/foo_bar/divisions"
+      to eq "/people/representatives/twist/foo_bar/divisions"
   end
 
   it ".friends_member_path" do
     expect(helper.friends_member_path(member)).
-      to eq "/members/representatives/twist/foo_bar/friends"
+      to eq "/people/representatives/twist/foo_bar/friends"
   end
 
   it ".division_path" do
@@ -39,12 +39,12 @@ describe "path helpers", type: :helper do
 
   it ".electorate_path" do
     expect(helper.electorate_path(member)).
-      to eq "/members/representatives/twist"
+      to eq "/people/representatives/twist"
   end
 
   it ".member_division_path" do
     expect(helper.member_division_path(member, division)).
-      to eq "/members/representatives/twist/foo_bar/divisions/2001-01-01/3"
+      to eq "/people/representatives/twist/foo_bar/divisions/2001-01-01/3"
   end
 
   it ".history_division_path" do

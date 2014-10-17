@@ -1,3 +1,5 @@
+- set_meta_tags description: "A vote in the #{@division.australian_house_name} on #{formatted_date(@division.date)}. #{@division.name}."
+
 - if @division.edited?
   - content_for :history_notice do
     =render "layouts/history_notice", division: @division
@@ -5,12 +7,6 @@
 = render "header", division: @division, member: @member
 = render "motion", division: @division
 = render "summary", division: @division, members: @members
-
-- if @division.policies
-  %section.page-section#related-policies
-    %h2 Related Policies
-
-    = render "current_policies_list", division: @division, display: @display
 
 - unless @division.related_divisions.empty?
   %section.page-section#related-divisions
