@@ -26,7 +26,7 @@
       %th Change
       %th Division
   %tbody
-    - @division.wiki_motions.each_with_index do |wiki_motion, index|
+    - @division.wiki_motions.each do |wiki_motion|
       %tr
         %td{width: "16%"}
           = link_to "#{@division.house} vote #{@division.date}##{@division.number}", @division
