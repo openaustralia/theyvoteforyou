@@ -67,8 +67,11 @@
     = yield :history_notice
     = yield :header
 
-    .container
+    - if current_page?(controller: 'home', action: 'index')
       = yield
+    - else
+      .container= yield
+
     = render "footer"
     = render "google_analytics"
     = javascript_include_tag "application"
