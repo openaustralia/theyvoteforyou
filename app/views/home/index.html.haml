@@ -16,16 +16,10 @@
           %span.input-group-btn
             %button.btn.btn-primary{name: "button", type: "submit", value: "Submit"} Search
 
-%h2 Edited recent divisions
-%p
-  = link_to "Show all divisions ordered by most recent", divisions_path, title: "Show all divisions ordered by most recent"
-
-= render partial: 'divisions/divisions', object: @divisions
-
-%h2 Representatives and Senators who attend votes most often
-- ["representatives", "senate"].each do |house|
-  %p
-    = link_to members_path(house: house, sort: "attendance") do
-      Show all
-      = members_type(house)
-      ordered by attendance
+.row
+  .col-md-4
+    = render "panel1"
+  .col-md-4
+    = render "panel2"
+  .col-md-4
+    = render "panel3"
