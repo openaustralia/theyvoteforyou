@@ -6,7 +6,10 @@
         %li= link_to "Help / FAQ", help_faq_path
         %li= link_to "Recent changes", history_path
         %li= link_to "API", help_data_path
-        %li.email= mail_to Settings.contact_email, "Contact"
+        %li.email
+          = mail_to Settings.contact_email do
+            %i.fi-mail
+            Contact
 
       %p.author-msg
         An
@@ -14,7 +17,10 @@
         project
 
       %ul.author-media.list-inline.small
-        %li.twitter= link_to "Twitter", "http://twitter.com/openaustralia"
+        %li.twitter
+          = link_to "http://twitter.com/openaustralia" do
+            %i.fi-social-twitter
+            Twitter
         %li.blog= link_to "Blog", "https://www.openaustraliafoundation.org.au/blog/"
 
       %p.license-msg.small

@@ -1,29 +1,31 @@
 - content_for :title do
-  Edit division description —
+  Edit division summary —
   = @division.name
   —
   = division_date_and_time(@division) + ", " + @division.house_name
 
 .page-header
-  %h1 Edit division description
+  %h1 Edit division summary
 
-%p
-  Describe the
-  %i result
-  of this division. This will require
-  you to check through the debate leading up to the vote. The raw,
-  and frequently wrong, motion text is there by default. Feel free to
-  remove it when you've replaced it with something better.
-%p
-  Please, keep it accurate, authorative, and as jargon-free as
-  possible so that new readers who don't know Parliamentary procedure
-  can gain enlightenment. You are urged to include links to the
-  legislation, reports, and committee proceedings that are referred
-  to so that readers who want to follow the story further will know
-  where to look.
-%p
-  %b
-    Read the #{link_to "debate leading up to the vote", @division.oa_debate_url, target: '_blank'}.
+%section.page-section.col-md-8
+  %p
+    - if @division.edited?
+      Improve the
+    - else
+      Write a
+    summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.house_name}"}#{"." if @division.edited?}
+    - unless @division.edited?
+      and replace the raw debate text.
+  %p
+    Accurate, informed summaries draw on the
+    = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
+    and our #{link_to 'research guide', help_research_path}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
+
+  %p
+    Clear and succinct summaries are best.
+    = link_to 'Use our style guide', help_style_guide_path
+    to write something that everyone can understand.
+
 .row
   .col-md-8
     = form_for @division, url: division_path(@division), method: :post do |f|
@@ -32,7 +34,7 @@
         %label Division title:
         %input.form-control{maxlength: "250", name: "newtitle", size: "50", type: "text", value: @division.name}/
       .form-group
-        %label Division description:
+        %label Division summary:
         - if @division.markdown?
           %ul.nav.nav-tabs(role="tablist")
             %li.active= link_to "Edit", "#edit", role: "tab", data: {toggle: "tab"}

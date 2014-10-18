@@ -8,12 +8,29 @@ class Member < ActiveRecord::Base
     first_name, last_name = Member.parse_first_last_name(name)
     where(first_name: first_name, last_name: last_name)
   }
+  # TODO Make this more resilient by using current_on(Date.today)
+  scope :current, -> { where(left_house: "9999-12-31") }
+
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
   belongs_to :person, touch: true
 
   delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person
+
+  def self.random(collection)
+    # While testing make this deterministic
+    if Rails.env.test?
+      collection.first
+    else
+      collection.offset(rand(collection.count)).first
+    end
+  end
+
+  # Return a random member of parliament who is currently there
+  def self.random_current
+    random(Member.current)
+  end
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
@@ -171,11 +188,6 @@ class Member < ActiveRecord::Base
 
   def electorate
     constituency
-  end
-
-  # TODO Make this more resilient by using current_on(Date.today)
-  def self.current
-    where(left_house: "9999-12-31")
   end
 
   def possible_friends

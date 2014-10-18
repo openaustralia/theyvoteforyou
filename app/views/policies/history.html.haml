@@ -10,10 +10,6 @@
   -# TODO This title is just a stop-gap. Make it not suck.
   %h1.col-md-9= yield :title
 
-%p
-  Or
-  = link_to "see all the recent changes", history_path
-
 %ul
   - PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc).each do |version|
     %li= version_sentence(version)

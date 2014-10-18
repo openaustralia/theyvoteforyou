@@ -24,8 +24,8 @@ describe DivisionsHelper, type: :helper do
       it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.2))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">small majority</span>" }
     end
 
-    context "Motion with a moderate majority" do
-      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.5))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">moderate majority</span>" }
+    context "Motion with a modest majority" do
+      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.5))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">modest majority</span>" }
     end
 
     context "Motion with a large majority" do
