@@ -1,7 +1,3 @@
-<% content_for :title, "Parliamentary Research" %>
-<% set_meta_tags description: "A guide on how to contribute to #{Settings.project_name} by researching policies and divisions." %>
-
-# Parliamentary Research
 ## Introduction
 Many people use <%= Settings.project_name %> to research their area of special interest and to understand what Parliament is doing. We want to make it possible for everyone to share the workload of decoding political jargon and summarising what a vote is about.
 
