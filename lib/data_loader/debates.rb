@@ -21,8 +21,15 @@ module DataLoader
             end
           end
 
+          existing_divisions = Division.where(date: date, house: house)
+
           debates = DebatesXML.new(xml_document, house)
           Rails.logger.info "No debates found in XML for #{house} on #{date}" if debates.divisions.empty?
+
+          if existing_divisions && existing_divisions.count != debates.divisions.count
+            Rails.logger.warn "Division reload mismatch! #{existing_divisions.count} divisions in the database and #{debates.divisions.count} in the XML"
+          end
+
           debates.divisions.each do |d|
             Rails.logger.info "Saving division: #{d.house} #{d.date} #{d.number}"
             ActiveRecord::Base.transaction do
