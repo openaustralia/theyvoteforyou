@@ -18,6 +18,20 @@ class Member < ActiveRecord::Base
 
   delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person
 
+  def self.random(collection)
+    # While testing make this deterministic
+    if Rails.env.test?
+      collection.first
+    else
+      collection.offset(rand(collection.count)).first
+    end
+  end
+
+  # Return a random member of parliament who is currently there
+  def self.random_current
+    random(Member.current)
+  end
+
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
     name = name.split(" ")
