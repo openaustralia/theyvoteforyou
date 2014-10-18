@@ -17,6 +17,7 @@
 }
 
 .author-projects-list {
+  margin-bottom: 0;
   padding-right: 0 !important;
   padding-left: 0 !important;
 
@@ -35,13 +36,14 @@
 
 .author-projects-list-item {
   // border-top: 1px $color-blue-dark solid;
-  padding: 10px 15px;
+  padding: 10px 0;
   display: block;
   background: transparent;
   transition: .3s all ease;
 
   @media (min-width: $screen-sm-min) {
     border: 1px darken($color-blue-dark, 10%) solid;
+    padding: 10px 15px;
     min-height: 128px;
   }
 
