@@ -1,4 +1,3 @@
-### Edit
+### Make it better
 
-Update [policies](<%= policies_path %>) and summaries of [votes](<%= divisions_path %>) just like [Wikipedia](http://www.wikipedia.org/). Easily
-fix something that is wrong or add something new. It's a shared resource for all.
+People like you are making the chaos of Parliament understandable by summarising [divisions](<%= divisions_path %>) and explaining [policies](<%= policies_path %>), just like Wikipedia. Fix-up mistakes or add something new—this is a shared resource built by you.
