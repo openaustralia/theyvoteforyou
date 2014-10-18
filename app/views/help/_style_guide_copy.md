@@ -1,8 +1,3 @@
-<% content_for :title, "Style Guide" %>
-<% set_meta_tags description: "A guide to the style to use when contributing to #{Settings.project_name}." %>
-
-# <%= yield :title %>
-<%= Settings.project_name %> is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 Use this guide when you write new divisions, summaries, or to help improve content that is already there.
 This will help you make everything you write at the <%= Settings.project_name %> easy to read and understand.
 
@@ -100,4 +95,4 @@ Focus on the child’s common word set of up to 5,000 words. This makes it easie
 Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc. but keep the language easy to understand.
 Remember that puns or wordplay can make the content difficult to find.
 
-Mostly adapted from [Writing for the web] (https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/).
+Mostly adapted from [Writing for the web](https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/).
