@@ -14,18 +14,43 @@
 
 .banner-heading,
 .banner-action {
-  margin-left: auto;
-  margin-right: auto;
   float: none;
   clear: both;
+
+  @media (min-width: $screen-sm-min) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .banner-action {
-  @media (min-width: $screen-sm-min) {
-    margin: 3em auto;
-  }
   label {
     font-weight: normal;
   }
 }
 
+.site-introduction {
+  .banner-heading {
+    max-width: 8em;
+
+    @media (min-width: 30em) {
+      max-width: 11em;
+    }
+
+    @media (min-width: 40em) {
+      max-width: auto;
+    }
+  }
+
+  .banner-action {
+    max-width: 27em;
+
+    @media (min-width: 35em) {
+      margin: 2em 0;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      margin: 3em auto;
+    }
+  }
+}
