@@ -8,6 +8,9 @@ class Member < ActiveRecord::Base
     first_name, last_name = Member.parse_first_last_name(name)
     where(first_name: first_name, last_name: last_name)
   }
+  # TODO Make this more resilient by using current_on(Date.today)
+  scope :current, -> { where(left_house: "9999-12-31") }
+
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id
@@ -171,11 +174,6 @@ class Member < ActiveRecord::Base
 
   def electorate
     constituency
-  end
-
-  # TODO Make this more resilient by using current_on(Date.today)
-  def self.current
-    where(left_house: "9999-12-31")
   end
 
   def possible_friends
