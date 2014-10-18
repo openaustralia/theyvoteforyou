@@ -27,7 +27,7 @@ module DataLoader
           Rails.logger.info "No debates found in XML for #{house} on #{date}" if debates.divisions.empty?
 
           if existing_divisions && existing_divisions.count != debates.divisions.count
-            Rails.logger.warn "Division reload mismatch! #{existing_divisions.count} divisions in the database and #{debates.divisions.count} in the XML"
+            Rails.logger.warn "Division reload mismatch! #{house} #{date}: #{existing_divisions.count} divisions in the database and #{debates.divisions.count} in the XML"
           end
 
           debates.divisions.each do |d|
