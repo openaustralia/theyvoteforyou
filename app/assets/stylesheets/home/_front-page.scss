@@ -1,11 +1,25 @@
 .site-introduction {
   background-color: $color-orange;
+  padding-bottom: 45px;
+
+  @media (min-width: $screen-xs-min) {
+    padding-top: 45px;
+    padding-bottom: 60px;
+  }
 
   @media (min-width: $screen-sm-min) {
+    padding-top: 90px;
+    padding-bottom: 90px;
     text-align: center;
   }
 
+  @media (min-width: $screen-lg-min) {
+    padding-top: 120px;
+    padding-bottom: 135px;
+  }
+
   .banner-heading {
+    margin-top: 0;
     max-width: 8em;
     color: #fff;
 
@@ -22,16 +36,38 @@
     max-width: 27em;
 
     @media (min-width: 35em) {
-      margin: 2em 0;
+      margin: 2em 0 0;
     }
 
     @media (min-width: $screen-sm-min) {
-      margin: 3em auto;
+      margin: 3em auto 0;
     }
   }
 }
 
-.front-panels {
+.front-panels-block {
   padding-right: 0;
   padding-left: 0;
+
+  @media (min-width: $screen-sm-min) {
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+
+    @media (min-width: $screen-md-min) {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+}
+
+.front-panel {
+   + .front-panel {
+    @media (min-width: $screen-sm-min) {
+      margin-top: 48px;
+    }
+
+    @media (min-width: $screen-md-min) {
+      margin-top: 0;
+    }
+  }
 }
