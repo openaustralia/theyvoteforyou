@@ -58,6 +58,7 @@
     @media (min-width: $screen-md-min) {
       padding-top: 90px;
       padding-bottom: 90px;
+
     }
 
     .container {
@@ -73,7 +74,11 @@
 }
 
 .front-panel {
-   + .front-panel {
+  @media (min-width: $screen-lg-min) {
+    padding: 0 45px;
+  }
+
+  + .front-panel {
     @media (min-width: $screen-sm-min) {
       margin-top: 48px;
     }
