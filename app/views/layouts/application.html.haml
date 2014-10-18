@@ -67,7 +67,7 @@
     = yield :history_notice
     = yield :header
 
-    - if current_page?(controller: 'home', action: 'index')
+    - if current_page?(controller: '/home', action: 'index')
       = yield
     - else
       .container.main-content= yield
