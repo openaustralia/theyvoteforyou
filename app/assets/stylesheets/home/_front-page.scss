@@ -1,6 +1,7 @@
 .site-introduction {
   background-color: $color-orange;
   padding-bottom: 45px;
+  margin-bottom: 0;
 
   @media (min-width: $screen-xs-min) {
     padding-top: 45px;
@@ -46,17 +47,28 @@
 }
 
 .front-panels-block {
-  padding-right: 0;
-  padding-left: 0;
+  padding-top: 15px;
+  padding-bottom: 30px;
 
   @media (min-width: $screen-sm-min) {
-      padding-top: 24px;
-      padding-bottom: 24px;
+      padding-top: 30px;
+      padding-bottom: 30px;
     }
 
     @media (min-width: $screen-md-min) {
-      padding-top: 48px;
-      padding-bottom: 48px;
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .container {
+      padding-right: 0;
+      padding-left: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    + .site-footer {
+      margin-top: 0;
     }
 }
 
