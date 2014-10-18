@@ -1,0 +1,32 @@
+.site-introduction {
+  background-color: $color-orange;
+
+  @media (min-width: $screen-sm-min) {
+    text-align: center;
+  }
+
+  .banner-heading {
+    max-width: 8em;
+    color: #fff;
+
+    @media (min-width: 30em) {
+      max-width: 11em;
+    }
+
+    @media (min-width: 40em) {
+      max-width: auto;
+    }
+  }
+
+  .banner-action {
+    max-width: 27em;
+
+    @media (min-width: 35em) {
+      margin: 2em 0;
+    }
+
+    @media (min-width: $screen-sm-min) {
+      margin: 3em auto;
+    }
+  }
+}
