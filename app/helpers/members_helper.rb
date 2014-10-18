@@ -23,10 +23,10 @@ module MembersHelper
   def member_type_party_place_sentence(member)
     # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     if member.currently_in_parliament?
-      text = member.party_name + " " + member_type(member.australian_house) + " for " +
+      text = member.party_name + " " + member_type(member.house) + " for " +
         content_tag(:span, member.electorate, class: "electorate")
     else
-      text = "Former " + member.party_name + " " + member_type(member.australian_house) + " for " +
+      text = "Former " + member.party_name + " " + member_type(member.house) + " for " +
         content_tag(:span, member.electorate, class: 'electorate')
     end
     text.html_safe
@@ -35,10 +35,10 @@ module MembersHelper
   def member_type_place_sentence(member)
     # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     if member.currently_in_parliament?
-      text = member_type(member.australian_house) + " for " +
+      text = member_type(member.house) + " for " +
         content_tag(:span, member.electorate, class: "electorate")
     else
-      text = "Former " + member_type(member.australian_house) + " for " +
+      text = "Former " + member_type(member.house) + " for " +
         content_tag(:span, member.electorate, class: 'electorate')
     end
     text.html_safe
@@ -59,7 +59,7 @@ module MembersHelper
   def member_history_sentence(member)
     text = "Before being #{member_type_party_place_sentence(member)}, #{member.name_without_title} was "
     text += member.person.members.order(entered_house: :desc).offset(1).map do |member, i|
-      member.party_name + " " + member_type(member.australian_house) + " for " + content_tag(:span, member.electorate, class: 'electorate')
+      member.party_name + " " + member_type(member.house) + " for " + content_tag(:span, member.electorate, class: 'electorate')
     end.to_sentence
     text.html_safe + "."
   end

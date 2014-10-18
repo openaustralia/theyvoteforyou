@@ -43,7 +43,7 @@ module PathHelper
   def electorate_params(member)
     {
       mpc: (member.url_electorate.downcase if member),
-      house: (member.australian_house if member)
+      house: (member.house if member)
     }
   end
 
@@ -55,7 +55,7 @@ module PathHelper
     {
       date: division.date,
       number: division.number,
-      house: division.australian_house
+      house: division.house
     }
   end
 end

@@ -5,7 +5,7 @@ module PeopleHelper
     if person.members.count > 1 && person.members.map{|m| m.house}.uniq.count > 1
       "person"
     else
-      member_type(person.members.first.australian_house)
+      member_type(person.members.first.house)
     end
   end
 end

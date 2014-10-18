@@ -4,7 +4,7 @@ warringah:
   main_name: true
   from_date: 1000-1-1
   to_date: 9999-12-31
-  house: "commons"
+  house: representatives
 
 griffith:
   id: 63
@@ -12,7 +12,7 @@ griffith:
   main_name: true
   from_date: 1000-1-1
   to_date: 9999-12-31
-  house: "commons"
+  house: representatives
 
 bennelong:
   id: 138
@@ -20,7 +20,7 @@ bennelong:
   main_name: true
   from_date: 1000-1-1
   to_date: 9999-12-31
-  house: "commons"
+  house: representatives
 
 lowe:
   id: 101
@@ -28,7 +28,7 @@ lowe:
   main_name: true
   from_date: 1000-01-01
   to_date: 9999-12-31
-  house: "commons"
+  house: representatives
 
 chifley:
   id: 14
@@ -36,4 +36,4 @@ chifley:
   main_name: true
   from_date: 1000-01-01
   to_date: 9999-12-31
-  house: commons
+  house: representatives

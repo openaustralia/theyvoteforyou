@@ -77,7 +77,7 @@ class Whip < ActiveRecord::Base
     # The ALP decided at national conference to have a free vote on gay marriage
     # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
 
-    if division.australian_house == "representatives"
+    if division.house == "representatives"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006,2,16)
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
@@ -88,7 +88,7 @@ class Whip < ActiveRecord::Base
       elsif division.date == Date.new(2012,9,19) && division.number == 1
         party == 'Australian Labor Party'
       end
-    elsif division.australian_house == "senate"
+    elsif division.house == "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006,2,9) && division.number >= 3
         ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)

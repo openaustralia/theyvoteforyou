@@ -3,7 +3,7 @@
   = link_to_unless sort == "name", "Name", division_path(division, {sort: "name", dmp: nil, display: params[:display]})
   -# For senate hide this to match php app
   -# This isn't actually desired so change this
-  - if division.australian_house == "representatives"
+  - if division.house == "representatives"
     |
     = link_to_unless sort == "constituency", "Electorate", division_path(division, {sort: "constituency", dmp: nil, display: params[:display]})
   |

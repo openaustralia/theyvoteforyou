@@ -8,7 +8,7 @@
       %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
-    - divisions = divisions.select { |d| d.house == member.house } if member
+    - divisions = divisions.possible_for_member(member) if member
     - if divisions.empty?
       %tr
         %td{colspan: 7} no votes listed
@@ -17,7 +17,7 @@
         %tr{class: ('strong' if division.policy_vote_strong?(policy))}
           %td
             %h3.division-title.h4
-              %small.pre-title= division_date_and_time(division) + " – " + division.australian_house_name
+              %small.pre-title= division_date_and_time(division) + " – " + division.house_name
               = member ? link_to(division.name, [member, division]) : link_to(division.name, division)
             - if member
               - # TODO Add the button style and disclosure behaviour as progressive enhancement through js

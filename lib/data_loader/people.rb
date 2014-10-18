@@ -11,12 +11,12 @@ module DataLoader
     def self.load_missing_images!
       Person.where(small_image_url: nil).find_each do |person|
         puts "Checking small photo for person #{person.id}..."
-        url = "http://www.openaustralia.org/images/mps/#{person.id}.jpg"
+        url = "https://www.openaustralia.org/images/mps/#{person.id}.jpg"
         person.update_attributes(small_image_url: url) if CheckResourceExists.call(url)
       end
       Person.where(large_image_url: nil).find_each do |person|
         puts "Checking large photo for person #{person.id}..."
-        url = "http://www.openaustralia.org/images/mpsL/#{person.id}.jpg"
+        url = "https://www.openaustralia.org/images/mpsL/#{person.id}.jpg"
         person.update_attributes(large_image_url: url) if CheckResourceExists.call(url)
       end
     end

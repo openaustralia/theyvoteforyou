@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009090336) do
+ActiveRecord::Schema.define(version: 20141017005318) do
 
   create_table "bills", force: true do |t|
     t.string   "official_id"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20141009090336) do
     t.boolean  "valid"
     t.date     "date",                                null: false
     t.integer  "number",                              null: false
-    t.string   "house",      limit: 8,                null: false
+    t.string   "house",                               null: false
     t.text     "name",                                null: false
     t.text     "source_url",                          null: false
     t.text     "debate_url",                          null: false
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20141009090336) do
     t.boolean  "main_name",                                     null: false
     t.date     "from_date",              default: '1000-01-01', null: false
     t.date     "to_date",                default: '9999-12-31', null: false
-    t.string   "house",      limit: 8,   default: "commons",    null: false
+    t.string   "house",                  default: "commons",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 20141009090336) do
     t.string   "title",          limit: 50,                         null: false
     t.string   "constituency",   limit: 100,                        null: false
     t.string   "party",          limit: 100,                        null: false
-    t.string   "house",          limit: 8,                          null: false
+    t.string   "house",                                             null: false
     t.date     "entered_house",              default: '1000-01-01', null: false
     t.date     "left_house",                 default: '9999-12-31', null: false
     t.string   "entered_reason", limit: 16,  default: "unknown",    null: false

@@ -45,12 +45,12 @@ describe MembersController, type: :request do
         Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
           first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",
-          house: "commons", constituency: "New England",
+          house: "representatives", constituency: "New England",
           entered_house: "2013-09-07", left_house: "9999-12-31")
         Member.create(id: 100114, gid: "uk.org.publicwhip/lord/100114", source_gid: "",
           first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",
-          house: "lords", constituency: "Queensland",
+          house: "senate", constituency: "Queensland",
           entered_house: "2005-07-01", left_house: "2013-08-08")
 
         Electorate.create(id: 143, name: "New England", main_name: true)

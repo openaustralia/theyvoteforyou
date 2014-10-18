@@ -1,5 +1,5 @@
 json.id division.id
-json.house division.australian_house
+json.house division.house
 json.name division.name
 json.date division.date
 json.number division.number

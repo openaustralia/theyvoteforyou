@@ -15,7 +15,7 @@ module DataLoader
           from_date: division[:fromdate],
           to_date: division[:todate],
           # TODO: Support Scottish parliament
-          house: 'commons')
+          house: 'representatives')
       end
       Rails.logger.info "Loaded #{Electorate.count} electorates"
     end

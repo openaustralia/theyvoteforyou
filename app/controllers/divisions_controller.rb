@@ -13,7 +13,7 @@ class DivisionsController < ApplicationController
       name = params[:mpn].gsub("_", " ")
 
       @member = Member.with_name(name)
-      @member = @member.in_australian_house(params[:house])
+      @member = @member.in_house(params[:house])
       @member = @member.where(constituency: electorate)
       @member = @member.order(entered_house: :desc).first
 
@@ -32,7 +32,7 @@ class DivisionsController < ApplicationController
 
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-      @parties = @parties.in_australian_house(@house) if @house
+      @parties = @parties.in_house(@house) if @house
       @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
 
       # We can either use party or rdisplay2 to set the party
@@ -58,7 +58,7 @@ class DivisionsController < ApplicationController
 
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
-      @divisions = @divisions.in_australian_house(@house) if @house
+      @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motion)
@@ -83,14 +83,14 @@ class DivisionsController < ApplicationController
       first_name = params[:mpn].split("_")[0]
       last_name = params[:mpn].split("_")[1]
 
-      member = Member.in_australian_house(house).where(first_name: first_name, last_name: last_name).first
+      member = Member.in_house(house).where(first_name: first_name, last_name: last_name).first
       redirect_to params.merge(mpc: member.url_electorate)
     end
   end
 
   def show
     house = params[:house]
-    @division = Division.in_australian_house(house).find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(house).find_by!(date: params[:date], number: params[:number])
     @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
 
     # If a member is included
@@ -98,31 +98,31 @@ class DivisionsController < ApplicationController
       name = params[:mpn].gsub("_", " ")
       electorate = params[:mpc].gsub("_", " ")
       # TODO Also ensure that the member is current on the date of this division
-      member = Member.in_australian_house(house).with_name(name).
+      member = Member.in_house(house).with_name(name).
         where(constituency: electorate).first
       @member = member.person.member_who_voted_on_division(@division)
     end
-    @members = Member.in_australian_house(house).current_on(@division.date).
+    @members = Member.in_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
   end
 
   def show_policies
     @display = "policies"
-    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new
   end
 
   def edit
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
   end
 
   def history
-    @division = Division.in_australian_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
   end
 
   def update
-    @division = Division.in_australian_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
 
     wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
 
@@ -134,12 +134,12 @@ class DivisionsController < ApplicationController
   end
 
   def create_policy_division
-    @division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new(policy_division_params)
 
     if @policy_division.save
       # TODO Just point to the object when the path helper has been refactored
-      redirect_to division_policies_path(house: @division.australian_house, date: @division.date, number: @division.number)
+      redirect_to division_policies_path(house: @division.house, date: @division.date, number: @division.number)
     else
       flash[:error] = 'Could not connect policy'
       @display = "policies"
@@ -148,7 +148,7 @@ class DivisionsController < ApplicationController
   end
 
   def update_policy_division
-    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
 
     if policy_division.update(policy_division_params)
@@ -158,11 +158,11 @@ class DivisionsController < ApplicationController
     end
 
     # TODO Just point to the object when the path helper has been refactored
-    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+    redirect_to division_policies_path(house: division.house, date: division.date, number: division.number)
   end
 
   def destroy_policy_division
-    division = Division.in_australian_house(params[:house]).find_by!(date: params[:date], number: params[:number])
+    division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
 
     if policy_division.destroy
@@ -172,7 +172,7 @@ class DivisionsController < ApplicationController
     end
 
     # TODO Just point to the object when the path helper has been refactored
-    redirect_to division_policies_path(house: division.australian_house, date: division.date, number: division.number)
+    redirect_to division_policies_path(house: division.house, date: division.date, number: division.number)
   end
 
   private

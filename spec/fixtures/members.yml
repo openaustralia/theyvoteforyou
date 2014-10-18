@@ -7,7 +7,7 @@ tony_abbott:
   title: ''
   constituency: Warringah
   party: Liberal Party
-  house: commons
+  house: representatives
   entered_house: 1994-03-26
   left_house: 9999-12-31
   entered_reason: by_election
@@ -23,7 +23,7 @@ kevin_rudd:
   title: ''
   constituency: Griffith
   party: Australian Labor Party
-  house: commons
+  house: representatives
   entered_house: 1998-10-03
   left_house: 2013-11-22
   entered_reason: general_election
@@ -39,7 +39,7 @@ christine_milne:
   title: ''
   constituency: Tasmania
   party: Australian Greens
-  house: lords
+  house: senate
   entered_house: 2005-07-01
   left_house: 9999-12-31
   entered_reason: general_election
@@ -52,7 +52,7 @@ john_howard:
   last_name: 'Howard'
   party: 'Liberal Party'
   constituency: 'Bennelong'
-  house: 'commons'
+  house: representatives
   gid: 'uk.org.publicwhip/member/265'
   source_gid: ""
   title: ""
@@ -68,7 +68,7 @@ maxine_mckew:
   last_name: 'McKew'
   party: 'Australian Labor Party'
   constituency: 'Bennelong'
-  house: 'commons'
+  house: representatives
   gid: 'uk.org.publicwhip/member/367'
   source_gid: ""
   title: ""
@@ -84,7 +84,7 @@ john_alexander:
   last_name: 'Alexander'
   party: 'Liberal Party'
   constituency: 'Bennelong'
-  house: 'commons'
+  house: representatives
   gid: 'uk.org.publicwhip/member/589'
   source_gid: ""
   title: ""
@@ -103,7 +103,7 @@ christopher_back:
   title: ''
   constituency: WA
   party: Liberal Party
-  house: lords
+  house: senate
   entered_house: 2009-03-11
   left_house: 9999-12-31
   entered_reason: general_election
@@ -119,7 +119,7 @@ judith_adams:
   title: ''
   constituency: WA
   party: Liberal Party
-  house: lords
+  house: senate
   entered_house: 2005-07-01
   left_house: 2012-03-31
   entered_reason: general_election
@@ -135,7 +135,7 @@ paul_zammit:
   title: ''
   constituency: Lowe
   party: Independent
-  house: commons
+  house: representatives
   entered_house: 1996-03-02
   left_house: 1998-10-03
   entered_reason: general_election
@@ -151,7 +151,7 @@ disagreeable_curmudgeon:
   title: ''
   constituency: WA
   party: Independent
-  house: lords
+  house: senate
   entered_house: 1996-03-02
   left_house: 2010-10-03
   entered_reason: general_election
@@ -167,7 +167,7 @@ surly_nihilist:
   title: ''
   constituency: WA
   party: Independent
-  house: lords
+  house: senate
   entered_house: 1996-03-02
   left_house: 2010-10-03
   entered_reason: general_election
@@ -183,7 +183,7 @@ roger_price:
   title: ''
   constituency: Chifley
   party: Australian Labor Party
-  house: commons
+  house: representatives
   entered_house: 1984-12-01
   left_house: 2010-08-21
   entered_reason: general_election
