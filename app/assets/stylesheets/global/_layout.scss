@@ -1,0 +1,17 @@
+.main-content {
+  @media (min-width: $screen-sm-min) {
+    min-height: 300px;
+  }
+
+  @media (min-height: 750px) {
+    min-height: 480px;
+  }
+
+  @media (min-width: 1500px) {
+    min-height: 600px;
+  }
+
+  @media (min-width: 1800px) {
+    min-height: 800px;
+  }
+}

@@ -30,6 +30,14 @@ h2 {
   }
 }
 
+.lead {
+  font-weight: normal;
+
+  @media (min-width: $screen-sm-min) {
+    font-weight: 300;
+  }
+}
+
 .btn-lone-link {
   padding-left: 0;
 }

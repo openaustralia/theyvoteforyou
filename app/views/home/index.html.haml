@@ -1,10 +1,10 @@
 - set_meta_tags description: default_meta_description
 - content_for :header do
-  .banner-section.jumbotron
-    %h1.banner-heading.col-md-8
+  .site-introduction.banner-section.jumbotron
+    %h1.banner-heading
       How does your MP vote on the issues that matter to you?
 
-    .banner-action.col-md-5
+    .banner-action
       %form{action: search_path, method: "get", name: "pw"}
         %label{for: "query"}
           Find your representative by
@@ -12,20 +12,15 @@
           or
           %strong name
         .input-group
-          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. 2042 or Anthony Albanese"}
+          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. 2340 or #{Member.random_current.name_without_title}"}
           %span.input-group-btn
             %button.btn.btn-primary{name: "button", type: "submit", value: "Submit"} Search
 
-%h2 Edited recent divisions
-%p
-  = link_to "Show all divisions ordered by most recent", divisions_path, title: "Show all divisions ordered by most recent"
-
-= render partial: 'divisions/divisions', object: @divisions
-
-%h2 Representatives and Senators who attend votes most often
-- ["representatives", "senate"].each do |house|
-  %p
-    = link_to members_path(house: house, sort: "attendance") do
-      Show all
-      = members_type(house)
-      ordered by attendance
+.front-panels-block.banner-section
+  .container
+    .front-panel.col-md-4
+      = render "panel1"
+    .front-panel.col-md-4
+      = render "panel2"
+    .front-panel.col-md-4
+      = render "panel3"
