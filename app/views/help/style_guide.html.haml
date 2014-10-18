@@ -1,0 +1,15 @@
+- content_for :title, "Style Guide"
+- set_meta_tags description: "A guide to the style to use when contributing to #{Settings.project_name}."
+
+
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+      %p.lead
+        %em.project_name= Settings.project_name
+        is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
+
+.row
+  .col-md-8
+    =render "help/style_guide_copy"

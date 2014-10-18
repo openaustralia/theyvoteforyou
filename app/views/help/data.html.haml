@@ -1,13 +1,16 @@
 - content_for :title, "API - Get the data"
 - set_meta_tags description: "How to use the #{Settings.project_name} API to access data about people and votes in parliament and the issues that matter to you."
 
-%h1= yield :title
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+      %p.lead
+        With modest developer skills you can use the modern REST API to access almost all the information available on
+        %em #{Settings.project_name}.
+
 .row
   .col-md-10
-    %p
-      With modest developer skills you can use the modern REST API to access almost all the information available
-      on #{Settings.project_name}.
-
     %p
       All endpoints return their results as JSON.
 

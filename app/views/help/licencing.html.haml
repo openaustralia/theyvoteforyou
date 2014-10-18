@@ -1,0 +1,34 @@
+- content_for :title, "Licencing"
+- set_meta_tags description: "The licences that make #{Settings.project_name}'s data and software free and open source."
+
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+      %p.lead
+        You are free to reuse/republish the parliamentary data in
+        %em
+          = Settings.project_name
+        with a reference and link to this website.
+
+.row
+  .col-md-8
+    %section.page-section
+      %h2 Use the data
+
+      %p
+        The data is licensed under
+        = link_to "Open Data Commons Open Database License", "http://opendatacommons.org/licenses/odbl/"
+        to the extent which we have rights to it. This is an attribution, share-alike licence, so the work you produce with this data must also share the result under a compatible open data licence.
+      %p
+        Always double check any data you use are correct. If you do find an error,
+        = link_to "please let us know", about_path(anchor: "contact")
+        and we'll do our best to correct it for everyone.
+
+    %section.page-section
+      %h2 Use the software
+
+      %p
+        = link_to "Download the software on GitHub", 'https://github.com/openaustralia/publicwhip'
+        You may use it and change it you as long as you release any changes you make under the terms of
+        = link_to "GNU Affero General Public License", "http://www.fsf.org/licensing/licenses/agpl-3.0.html"
