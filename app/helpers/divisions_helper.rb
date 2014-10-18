@@ -62,7 +62,7 @@ module DivisionsHelper
         if division.majority_fraction > 2.to_f / 3
           "large majority"
         elsif division.majority_fraction > 1.to_f / 3
-          "moderate majority"
+          "modest majority"
         elsif division.majority_fraction > 0
           "small majority"
         end
@@ -82,7 +82,7 @@ module DivisionsHelper
     elsif whip.majority_fraction > 2.to_f / 3
       "large majority voted " + whip.whip_guess
     elsif whip.majority_fraction > 1.to_f / 3
-      "moderate majority voted " + whip.whip_guess
+      "modest majority voted " + whip.whip_guess
     elsif whip.majority_fraction > 0
       "small majority voted " + whip.whip_guess
     end
