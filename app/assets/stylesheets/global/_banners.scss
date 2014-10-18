@@ -6,12 +6,6 @@
   }
 }
 
-.banner-section {
-  @media (min-width: $screen-sm-min) {
-    text-align: center;
-  }
-}
-
 .banner-heading,
 .banner-action {
   float: none;
@@ -30,6 +24,10 @@
 }
 
 .site-introduction {
+  @media (min-width: $screen-sm-min) {
+    text-align: center;
+  }
+
   .banner-heading {
     max-width: 8em;
 
