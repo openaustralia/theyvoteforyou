@@ -1,31 +1,16 @@
-.jumbotron {
-  background-color: $color-orange;
-
-  .banner-heading {
-    color: #fff;
-  }
-}
-
-.banner-section {
-  @media (min-width: $screen-sm-min) {
-    text-align: center;
-  }
-}
-
 .banner-heading,
 .banner-action {
-  margin-left: auto;
-  margin-right: auto;
   float: none;
   clear: both;
+
+  @media (min-width: $screen-sm-min) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .banner-action {
-  @media (min-width: $screen-sm-min) {
-    margin: 3em auto;
-  }
   label {
     font-weight: normal;
   }
 }
-
