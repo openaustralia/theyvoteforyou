@@ -1,4 +1,4 @@
-- set_meta_tags description: "A vote in the #{@division.house_name} on #{formatted_date(@division.date)}. #{@division.name}."
+- set_meta_tags description: "A vote in the #{@division.full_house_name} on #{formatted_date(@division.date)}. #{@division.name}."
 
 - if @division.edited?
   - content_for :history_notice do

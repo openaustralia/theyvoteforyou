@@ -173,6 +173,10 @@ class Division < ActiveRecord::Base
     house.capitalize
   end
 
+  def full_house_name
+    house == 'representatives' ? 'House of Representatives' : house_name
+  end
+
   def policy_division(policy)
     policy_divisions.find_by!(policy_id: policy.id)
   end
