@@ -44,7 +44,18 @@
   @media (min-width: $screen-sm-min) {
     border: 1px darken($color-blue-dark, 10%) solid;
     padding: 10px 15px;
+  }
+
+  @media (min-width: $screen-sm-min) {
     min-height: 128px;
+  }
+
+ @media (min-width: $screen-md-min) {
+    min-height: 156px;
+  }
+
+ @media (min-width: $screen-lg-min) {
+    min-height: 136px;
   }
 
   &:hover,
@@ -72,3 +83,6 @@
   }
 }
 
+.author-project-description {
+  margin-bottom: 0;
+}
