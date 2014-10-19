@@ -144,6 +144,10 @@ class Division < ActiveRecord::Base
     read_attribute(:motion)
   end
 
+  def history
+    (wiki_motions + PaperTrail::Version.where(division_id: id)).sort_by { |o| o.created_at }.reverse
+  end
+
   def oa_debate_url
     case house
     when "representatives"
