@@ -27,6 +27,17 @@ class Member < ActiveRecord::Base
     end
   end
 
+  # Randomly pick a postcode from a small selection that covers each State and Territory
+  # in Australia where the postcode only relates to one electorate.
+  def self.random_postcode
+    postcodes = ["0836", "2300", "2902", "3219", "4570", "6280", "7320"]
+    if Rails.env.test?
+      postcodes.first
+    else
+      postcodes[rand(7)]
+    end
+  end
+
   # Return a random member of parliament who is currently there
   def self.random_current
     random(Member.current)
