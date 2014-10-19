@@ -1,19 +1,22 @@
 - content_for :title, "Help — Frequently Asked Questions"
 - set_meta_tags description: "Parliament's confusing jargon explained in plain English."
-
 - content_for :header do
   .section-header.clearfix
     .page-header.container
       %h1= yield :title
 
 %ul
-  %li= link_to "How does #{Settings.project_name} work?", "#how"
+  %li
+    = link_to "#how" do
+      How does #{inline_project_name} work?
   %li= link_to "What time period does it cover?", "#timeperiod"
 
 %ul
   %li= link_to "What is a division?", "#division"
   %li= link_to "When does a division occur?", "#division-occur"
-  %li= link_to "Why don’t all decisions made in Parliament appear on #{Settings.project_name}?", "#decisions"
+  %li
+    = link_to "#decisions" do
+      Why don’t all decisions made in Parliament appear on #{inline_project_name}?
   %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
 
 %ul
@@ -24,7 +27,7 @@
   %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
   %li= link_to "What happens if a division is tied?", "#tied-division"
 
-%h2#how How does #{Settings.project_name} work?
+%h2#how How does #{inline_project_name} work?
 = render "help/faq/how_does_it_work"
 
 %h2#timeperiod What time period does it cover?
@@ -36,7 +39,7 @@
 %h2#division-occur When does a division occur?
 = render "help/faq/when_division"
 
-%h2#decisions Why don’t all decisions made in Parliament appear on #{Settings.project_name}?
+%h2#decisions Why don’t all decisions made in Parliament appear on #{inline_project_name}?
 = render "help/faq/decisions"
 
 %h2#summaries Why don’t all the divisions have edited summaries?

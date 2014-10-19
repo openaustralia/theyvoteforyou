@@ -6,9 +6,7 @@
   .section-header.clearfix
     .page-header.container
       %h1= yield :title
-      %p.lead
-        %em.project_name= Settings.project_name
-        is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
+      %p.lead #{inline_project_name} is for everyone. It should be easy for everyone to find out how their MP votes in Parliament.
 
 .row
   .col-md-8
