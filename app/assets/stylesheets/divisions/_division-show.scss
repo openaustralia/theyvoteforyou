@@ -1,0 +1,26 @@
+.division-external-links {
+  width: 100%;
+  clear: left;
+
+  h2:first-child {
+    margin-top: 46px;
+    margin-bottom: 0;
+  }
+
+  .object-item {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .motion-edited + & {
+  @media (min-width: $screen-md-min) {
+    float: right !important;
+    clear: right;
+  }
+
+  // @include make-lg-column-offset(8);
+  @include make-md-column(4);
+  @include make-lg-column(4);
+  }
+}
+

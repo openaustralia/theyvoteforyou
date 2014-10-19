@@ -8,11 +8,3 @@
   .col-md-8.col-lg-7
     %h2.motion-title Summary
     = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
-    .motion-text
-      = division.formatted_motion_text
-  %nav.motion-external-links.col-md-3.col-md-offset-1.col-lg-4.col-lg-offset-1
-    %h2.h5 External links
-    %ul
-      %li= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
-      - division.bills.each do |bill|
-        %li= link_to bill.title, bill.url

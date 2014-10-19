@@ -1,0 +1,6 @@
+%nav.division-external-links.page-section
+  %h2.h5 External links
+  %ul.list-unstyled.object-list-compact
+    %li.object-item= link_to "Debate in Parliament", division.oa_debate_url, title: "Links to debate shown at www.openaustralia.org"
+    - division.bills.each do |bill|
+      %li.object-item= link_to bill.title, bill.url

@@ -7,6 +7,7 @@
 = render "header", division: @division, member: @member
 = render "social_share"
 = render "motion", division: @division
+= render "external_links", division: @division
 = render "summary", division: @division, members: @members
 
 - unless @division.related_divisions.empty?
