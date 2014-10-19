@@ -1,6 +1,7 @@
 .policies-list {
   .policy-title {
     font-weight: normal;
+    padding-left: 0;
   }
 
   .policy-division-count {
@@ -12,4 +13,9 @@
       display: inline-block;
     }
   }
+
+  .policy-data {
+    margin-top: 0;
+  }
+
 }

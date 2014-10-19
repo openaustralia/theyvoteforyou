@@ -1,9 +1,11 @@
 %ul.policies-list.list-unstyled
   - policies.each do |policy|
-    %li
-      %h2.h3.policy-title
+    %li.object-item.row
+      %h2.policy-title.object-heading.object-primary.col-md-7
         = link_to capitalise_initial_character(policy.name_with_for), policy, class: 'policy-name'
-        %small.policy-division-count
+
+      %p.policy-data.object-secondary
+        %span
           = pluralize(policy.divisions.count, "division")
           - if policy.unedited_motions_count != 0
             %em= "(#{policy.unedited_motions_count} unedited)"
