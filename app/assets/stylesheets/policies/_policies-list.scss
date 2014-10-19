@@ -1,6 +1,7 @@
 .policies-list {
   .policy-title {
     font-weight: normal;
+    padding-left: 0;
   }
 
   .policy-division-count {
@@ -10,6 +11,17 @@
     @media (min-width: $screen-md-min) {
       margin-top: 0;
       display: inline-block;
+    }
+  }
+
+  .policy-data {
+    margin-top: 0;
+  }
+
+  .policy-edit-notice {
+    &:before {
+      content: "\00a0\25CF\00a0";
+      color: #aaa;
     }
   }
 }

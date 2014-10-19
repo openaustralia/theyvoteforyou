@@ -1,9 +1,15 @@
 %ul.policies-list.list-unstyled
   - policies.each do |policy|
     %li
-      %h2.h3.policy-title
-        = link_to capitalise_initial_character(policy.name_with_for), policy, class: 'policy-name'
-        %small.policy-division-count
-          = pluralize(policy.divisions.count, "division")
-          - if policy.unedited_motions_count != 0
-            %em= "(#{policy.unedited_motions_count} unedited)"
+      = link_to policy, class: 'object-item panel-link row' do
+        %article
+          %h2.policy-title.object-heading.panel-link-title.col-md-7
+            = capitalise_initial_character(policy.name_with_for)
+
+          %p.policy-data.object-secondary
+            %span
+              = pluralize(policy.divisions.count, "division")
+              - if policy.unedited_motions_count != 0
+                %em= "(#{policy.unedited_motions_count} unedited)"
+            %small.policy-edit-notice.text-muted
+              edited #{time_ago_in_words(policy.last_edited_at)} ago

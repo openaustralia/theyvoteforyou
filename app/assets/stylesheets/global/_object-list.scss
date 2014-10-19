@@ -7,6 +7,11 @@
   @include clearfix;
 }
 
+.object-heading {
+  margin-top: 0;
+  font-size: $font-size-h4;
+}
+
 .object-primary {
   margin-bottom: 0;
 

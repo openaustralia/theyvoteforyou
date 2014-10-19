@@ -48,7 +48,7 @@ class Policy < ActiveRecord::Base
   end
 
   def last_edited_at
-    most_recent_version.created_at
+    most_recent_version ? most_recent_version.created_at : updated_at
   end
 
   def last_edited_by
