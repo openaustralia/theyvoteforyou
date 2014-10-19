@@ -148,6 +148,18 @@ class Division < ActiveRecord::Base
     (wiki_motions + PaperTrail::Version.where(division_id: id)).sort_by { |o| o.created_at }.reverse
   end
 
+  def last_edit
+    history.first
+  end
+
+  def last_edited_at
+    last_edit.created_at
+  end
+
+  def last_edited_by
+    last_edit.is_a?(PaperTrail::Version) ? User.find(last_edit.whodunnit) : last_edit.user
+  end
+
   def oa_debate_url
     case house
     when "representatives"
