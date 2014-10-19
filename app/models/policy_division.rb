@@ -1,7 +1,7 @@
 class PolicyDivision < ActiveRecord::Base
-  # Using proc form of meta so that policy_id is set on create as well
+  # Using proc form of meta so that associated IDs are set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
-  has_paper_trail meta: { policy_id: Proc.new{|pd| pd.policy_id} }
+  has_paper_trail meta: { policy_id: Proc.new{|pd| pd.policy_id}, division_id: Proc.new{|pd| pd.division_id} }
   belongs_to :policy
   belongs_to :division
   validates :policy, :division, presence: true

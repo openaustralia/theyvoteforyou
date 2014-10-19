@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141017005318) do
+ActiveRecord::Schema.define(version: 20141018235020) do
 
   create_table "bills", force: true do |t|
     t.string   "official_id"
@@ -243,8 +243,10 @@ ActiveRecord::Schema.define(version: 20141017005318) do
     t.datetime "created_at"
     t.integer  "policy_id"
     t.text     "object_changes"
+    t.integer  "division_id"
   end
 
+  add_index "versions", ["division_id"], name: "index_versions_on_division_id", using: :btree
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   add_index "versions", ["policy_id"], name: "index_versions_on_policy_id", using: :btree
 
