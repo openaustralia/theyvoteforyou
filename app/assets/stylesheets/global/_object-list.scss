@@ -5,6 +5,14 @@
   padding-bottom: 1.5em;
   padding-left: 15px;
   @include clearfix;
+
+  .object-list-compact & {
+    padding: 10px 15px;
+
+    &:first-child {
+      border: 0;
+    }
+  }
 }
 
 .object-heading {
