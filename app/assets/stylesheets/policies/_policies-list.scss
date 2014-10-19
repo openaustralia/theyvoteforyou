@@ -18,4 +18,10 @@
     margin-top: 0;
   }
 
+  .policy-edit-notice {
+    &:before {
+      content: "\00a0\25CF\00a0";
+      color: #aaa;
+    }
+  }
 }
