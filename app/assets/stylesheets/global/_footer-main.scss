@@ -25,7 +25,8 @@
 
     a {
       // border-bottom: 1px $color-blue solid;
-
+      padding-right: 0;
+      padding-left: 30px;
       @media (min-width: $screen-sm-min) {
       }
 
