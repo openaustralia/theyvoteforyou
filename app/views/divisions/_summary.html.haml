@@ -1,96 +1,97 @@
-%figure.voter-table.page-section.col-md-7
-  %h2#votes
-    Votes
-    %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
-      = division_outcome_with_majority_strength(division)
+.page-section#votes
+  %figure.voter-table.col-md-7
+    %h2
+      Votes
+      %small.division-outcome-summary{class: "#{division_outcome_class(division)}"}
+        = division_outcome_with_majority_strength(division)
 
-  .division-policies#related-policies
-    = render "current_policies_list", division: @division, display: @display
+    .division-policies#related-policies
+      = render "current_policies_list", division: @division, display: @display
 
-  %p.division-rebellions-sentence
-    - if division.rebellions > 0
-      There was
-      %span.rebel= pluralize(division.rebellions, 'rebellion')
-      in this division.
-    - else
-      Nobody rebelled against their party.
+    %p.division-rebellions-sentence
+      - if division.rebellions > 0
+        There was
+        %span.rebel= pluralize(division.rebellions, 'rebellion')
+        in this division.
+      - else
+        Nobody rebelled against their party.
 
-  - if @rebellions
-    %ul.list-unstyled.small
-      - @rebellions.each do |vote|
-        %li
-          = link_to vote.member.name, vote.member
-          voted
-          = vote_display vote.vote
-          against the majority of the #{vote.member.party}.
+    - if @rebellions
+      %ul.list-unstyled.small
+        - @rebellions.each do |vote|
+          %li
+            = link_to vote.member.name, vote.member
+            voted
+            = vote_display vote.vote
+            against the majority of the #{vote.member.party}.
 
-  %table.table
-    %colgroup.column-name{span: 1}
-    %colgroup.column-vote{span: 1}
-    %colgroup.column-toggler{span: 1}
-    %thead
-      %tr
-        %th Party
-        %th.cell-vote Votes
-        %th.cell-toggler
-    %tbody
-      - division.whips.order(:party).each do |whip|
-        - if !whip.whipless? && whip.possible_votes != 1
-          %tr.party-row
-            %th.cell-name
-              = link_to whip.party_name, party_divisions_path(whip.party_object)
-              %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
-            %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
-              - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
-                %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
-                  = whip.aye_votes_including_tells
-                  = vote_display "aye"
-                –
-                %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
-                  = whip.no_votes_including_tells
-                  = vote_display "no"
-              - else
-                Absent
-            %td.cell-toggler
-              %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
-                %span.sr-only show members
+    %table.table
+      %colgroup.column-name{span: 1}
+      %colgroup.column-vote{span: 1}
+      %colgroup.column-toggler{span: 1}
+      %thead
+        %tr
+          %th Party
+          %th.cell-vote Votes
+          %th.cell-toggler
+      %tbody
+        - division.whips.order(:party).each do |whip|
+          - if !whip.whipless? && whip.possible_votes != 1
+            %tr.party-row
+              %th.cell-name
+                = link_to whip.party_name, party_divisions_path(whip.party_object)
+                %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
+              %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
+                - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
+                  %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
+                    = whip.aye_votes_including_tells
+                    = vote_display "aye"
+                  –
+                  %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
+                    = whip.no_votes_including_tells
+                    = vote_display "no"
+                - else
+                  Absent
+              %td.cell-toggler
+                %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
+                  %span.sr-only show members
 
-        -# Show members in this party that are present in this division
-        - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
-          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
-            %th.cell-name
-              = link_to vote.member.name_without_title, vote.member
-              = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
-              %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
-            %td.cell-vote= vote_display vote.vote
-            %td.cell-toggler
+          -# Show members in this party that are present in this division
+          - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
+            %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
+              %th.cell-name
+                = link_to vote.member.name_without_title, vote.member
+                = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
+                %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
+              %td.cell-vote= vote_display vote.vote
+              %td.cell-toggler
 
-        - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
-        -# Show members in this party that are absent in this division
-        - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
-          %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + whip.party.parameterize)]}
-            %th.cell-name
-              = link_to member.name_without_title, member
-              = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
-              %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
-            %td.cell-vote Absent
-            %td.cell-toggler
+          - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
+          -# Show members in this party that are absent in this division
+          - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
+            %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + whip.party.parameterize)]}
+              %th.cell-name
+                = link_to member.name_without_title, member
+                = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
+                %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
+              %td.cell-vote Absent
+              %td.cell-toggler
 
-      %tr
-        %th.whip
-          Totals
-          %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
-        %td.cell-vote
-          %span{class: aye_vote_total_class(division)}
-            = division.aye_votes_including_tells
-            = vote_display "aye"
-            –
-          %span{class: no_vote_total_class(division)}
-            = division.no_votes_including_tells
-            = vote_display "no"
-        %td.cell-toggler
+        %tr
+          %th.whip
+            Totals
+            %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
+          %td.cell-vote
+            %span{class: aye_vote_total_class(division)}
+              = division.aye_votes_including_tells
+              = vote_display "aye"
+              –
+            %span{class: no_vote_total_class(division)}
+              = division.no_votes_including_tells
+              = vote_display "no"
+          %td.cell-toggler
 
-  %figcaption.panel-footer.small
-    - if division.rebellions > 0
-      %p <span class="rebel">Red entries</span> are rebel votes against the majority of a party.
-    %p Turnout is the percentage of members eligible to vote that did vote.
+    %figcaption.panel-footer.small
+      - if division.rebellions > 0
+        %p <span class="rebel">Red entries</span> are rebel votes against the majority of a party.
+      %p Turnout is the percentage of members eligible to vote that did vote.
