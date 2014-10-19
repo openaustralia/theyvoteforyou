@@ -163,6 +163,11 @@ describe "routing redirects", type: :request do
   end
 
   it do
+    get "/mp.php?mpn=Tony_Windsor&mpc=New%20England&house=representatives"
+    expect(response).to redirect_to "/members/representatives/new_england/tony_windsor"
+  end
+
+  it do
     get "/division.php?date=2014-09-04&display=policies&house=senate&number=4&sort=vote&dmp=1"
     expect(response).to redirect_to "/division.php?date=2014-09-04&display=policies&dmp=1&house=senate&number=4"
   end
