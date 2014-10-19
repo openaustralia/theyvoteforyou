@@ -80,7 +80,6 @@ module HTMLCompareHelper
       File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
         f.write new_text
       end
-      puts `git diff`
       raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
     end
   end
