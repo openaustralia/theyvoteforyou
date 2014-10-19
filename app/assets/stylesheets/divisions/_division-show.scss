@@ -17,6 +17,10 @@
   }
 }
 
+.motion {
+  padding: 0;
+}
+
 .division-external-links {
   width: 100%;
   clear: left;
@@ -32,14 +36,18 @@
   }
 
   .motion-edited + & {
-  @media (min-width: $screen-md-min) {
-    float: right !important;
-    clear: right;
-  }
+    @media (max-width: $screen-sm-max) {
+      padding: 0;
+    }
 
-  // @include make-lg-column-offset(8);
-  @include make-md-column(4);
-  @include make-lg-column(4);
+    @media (min-width: $screen-md-min) {
+      float: right !important;
+      clear: right;
+    }
+
+    // @include make-lg-column-offset(8);
+    @include make-md-column(4);
+    @include make-lg-column(4);
   }
 }
 
