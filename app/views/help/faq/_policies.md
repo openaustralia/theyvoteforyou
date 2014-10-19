@@ -1,4 +1,4 @@
-On <%= Settings.project_name %>, the [Policies](/policies) are sets of votes on an issue.
+On <%= inline_project_name %>, the [Policies](/policies) are sets of votes on an issue.
 
 We choose and develop particular Policies for a number of reasons. For example, we prioritise
 issues where politicians have rebelled
@@ -13,5 +13,5 @@ Other reasons for selecting a particular Policy include whether the matter was a
 [What do the “rebellion” figures mean?](#rebellion)).
 
 Unfortunately, Policies are restricted to issues that are voted on by division because those are
-the only decisions that appear on <%= Settings.project_name %>
-(see [Why don’t all decisions made in Parliament appear on <%= Settings.project_name %>?](#decisions))
+the only decisions that appear on <%= inline_project_name %>
+(see [Why don’t all decisions made in Parliament appear on <%= inline_project_name %>?](#decisions))

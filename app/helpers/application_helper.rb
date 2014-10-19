@@ -88,4 +88,8 @@ module ApplicationHelper
   def formatted_date(date, include_nbsp = false)
     include_nbsp ? date.strftime("#{date.day.ordinalize}&nbsp;%b&nbsp;%Y").html_safe : date.strftime("#{date.day.ordinalize} %b %Y")
   end
+
+  def inline_project_name
+    content_tag(:em, Settings.project_name, class: 'project-name')
+  end
 end

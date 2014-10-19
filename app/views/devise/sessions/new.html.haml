@@ -1,6 +1,6 @@
 - content_for :title, "Login to #{Settings.project_name}"
 
-%h1= yield :title
+%h1 Login to #{inline_project_name}
 
 %p
   Not got a login? #{link_to 'Register a new account', new_registration_path(resource_name)}
