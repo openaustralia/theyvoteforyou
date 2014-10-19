@@ -1,10 +1,13 @@
 - if !division.edited?
-  %p.division-edit-notice.alert-warning.col-md-7
-    %strong Unedited text
-    automatically extracted from the debate.
-    = link_to "Improve the page providing a summary.", edit_division_path(division)
+  .division-edit-notice.page-section.clearfix.col-sm-7
+    %p.alert.alert-warning
+      = link_to "Improve this page by providing a summary of what happened.", edit_division_path(division)
+    %button.btn.btn-link.btn-sm{type: 'button', data: {toggle: 'collapse', target: ".motion"}} Show unedited debate text
 
-%section.motion.page-section.row{class: division.edited? ? "motion-edited" : "motion-raw"}
-  .col-md-8.col-lg-7
+%section.motion.page-section.col-md-8.col-lg-7{class: division.edited? ? "motion-edited" : "motion-raw collapse"}
+  - if division.edited?
     %h2.motion-title Summary
     = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-default btn-xs"
+  .motion-text
+    = division.formatted_motion_text
+
