@@ -13,6 +13,7 @@ Divisions can be marked as relevant to a pre-existing policy (see [Policies](htt
 Division titles are currently made up of three parts that are separated by a dash.
 
 For divisions on bills, these three parts are:
+
 1. name of the bill
 2. stage of the debate
 3. subject matter of the motion being voted on
@@ -20,6 +21,7 @@ For divisions on bills, these three parts are:
 Example: *Minerals Resource Rent Tax Repeal and Other Measures Bill 2014 - Third Reading - Read a third time*
 
 For divisions on all other motions (eg Document motions), the three parts are:
+
 1. type of motion
 2. subject matter that the motion is related to
 3. subject matter of the motion being voted on
@@ -28,6 +30,7 @@ Example: *Matters of Urgency - Same-Sex Relationships - Recognise same sex marri
 
 ### Summary
 Division summaries should answer the following questions:
+
 * How did the majority vote?
  * eg “*The majority voted in favour of a motion to read the bill for a third time.*”
 * What does the vote actually mean?
@@ -37,6 +40,7 @@ Division summaries should answer the following questions:
 You should also summarise the context and purpose of the bill or motion under the subheading ‘**Background to bill**’ or ‘**Background to motion**’. You can find this information by following the links available on the division’s page (under ‘External links’). [Bills digests](http://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/Bills_Digests) are particularly useful when available.
 
 ## Remember to:
+
 * **Avoid parliamentary jargon**. Phrases like "stand as printed" and "third reading" should not be used unless explained.
 * **Include hyperlinks**. Give references for any statements included in the summary and to any relevant documents or articles.
 * **Use impartial language**. Keep your language as unbiased as possible.
