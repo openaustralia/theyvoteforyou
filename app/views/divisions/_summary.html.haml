@@ -36,9 +36,9 @@
     %tbody
       - division.whips.order(:party).each do |whip|
         - if !whip.whipless? && whip.possible_votes != 1
-          %tr.party-row
+          %tr.party-row{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
             %th.cell-name
-              = link_to whip.party_name, party_divisions_path(whip.party_object)
+              %span.party-name= whip.party_name
               %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
             %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
               - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
