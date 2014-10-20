@@ -1,8 +1,7 @@
 - if division.edited?
   %section.motion.page-section.col-md-8.col-lg-7{class: division.edited? ? "motion-edited" : "motion-raw collapse"}
-    - if division.edited?
-      %h2.motion-title Summary
-      = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-link btn-xs"
+    %h2.motion-title Summary
+    = link_to "Edit", edit_division_path(division), title: "Edit and improve this description", class: "division-edit-link btn btn-link btn-xs"
     .motion-text
       = division.formatted_motion_text
 - else
