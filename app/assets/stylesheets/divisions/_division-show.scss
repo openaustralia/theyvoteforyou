@@ -1,22 +1,3 @@
-.division-edit-notice {
-  text-align: center;
-  padding: 0;
-
-  @media (min-width: $screen-sm-min) {
-    text-align: right;
-  }
-
-  .alert {
-    text-align: left;
-    margin-bottom: 5px;
-  }
-
-  .btn {
-    color: #888;
-    z-index: 99;
-  }
-}
-
 .motion {
   padding: 0;
 }
