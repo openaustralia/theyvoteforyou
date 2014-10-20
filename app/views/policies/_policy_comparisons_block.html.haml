@@ -3,7 +3,7 @@
     %h3.policy-comparision-position.col-xs-12
       = title
       = policy.name
-    %ul.policy-comparision-list.member-list-compact.list-unstyled.col-xs-12
+    %ul.policy-comparision-list.list-unstyled.col-xs-12
       - members.each do |member|
         %li.policy-comparision-member.member-item
           = link_to [member, policy], class: 'policy-comparision-member member-link has-tooltip', title: member.name do
