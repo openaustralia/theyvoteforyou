@@ -92,4 +92,8 @@ class PolicyPersonDistance < ActiveRecord::Base
   def number_of_votes
     nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong
   end
+
+  def number_of_possible_votes
+    nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong + nvotesabsent + nvotesabsentstrong
+  end
 end

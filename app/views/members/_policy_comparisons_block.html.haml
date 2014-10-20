@@ -5,3 +5,10 @@
       - distances.joins(:policy).order("policies.name").each do |ppd|
         %li.policy-comparision-policy.object-item.col-md-7
           = link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy], class: 'policy-title'
+          ●
+          - if ppd.number_of_votes > 0
+            attended
+            = ppd.number_of_votes
+            of
+          = ppd.number_of_possible_votes
+          possible
