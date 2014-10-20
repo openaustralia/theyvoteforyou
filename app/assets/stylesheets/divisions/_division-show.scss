@@ -6,15 +6,8 @@
   width: 100%;
   clear: left;
 
-  h2:first-child {
-    margin-top: 46px;
-    margin-bottom: 0;
-  }
-
-  .object-item {
-    padding-right: 0;
-    padding-left: 0;
-  }
+  @include make-md-column(7);
+  padding: 0;
 
   .motion-edited + & {
     @media (max-width: $screen-sm-max) {
@@ -29,6 +22,20 @@
     // @include make-lg-column-offset(8);
     @include make-md-column(4);
     @include make-lg-column(4);
+  }
+
+  h2:first-child {
+    margin-top: 46px;
+    margin-bottom: 0;
+  }
+
+  .object-item {
+    padding-right: 0;
+    padding-left: 0;
+
+    a {
+      display: block;
+    }
   }
 }
 
