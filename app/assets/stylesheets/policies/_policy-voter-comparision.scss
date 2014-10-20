@@ -25,9 +25,12 @@
   border-top: .25em solid #ccc;
   padding-top: .5em;
   padding-bottom: .25em;
-  width: 100%;
   font-size: 24px;
   font-weight: normal;
+
+  .policies & {
+    width: 100%;
+  }
 
   .position-voted-very-strongly-for & {
     border-top-color: $color-very-strongly-for;
