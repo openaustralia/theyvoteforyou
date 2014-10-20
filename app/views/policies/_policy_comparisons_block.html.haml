@@ -3,9 +3,9 @@
     %h3.policy-comparision-position.col-xs-12
       = title
       = policy.name
-    %ul.policy-comparision-list.member-list-compact.list-unstyled
+    %ul.policy-comparision-list.member-list-compact.list-unstyled.col-xs-12
       - members.each do |member|
-        %li.policy-comparision-member.member-item.col-xs-12.col-sm-6.col-md-4.col-lg-3
           = link_to [member, policy], class: 'policy-comparision-member member-link' do
             = image_tag(member.small_image_url, alt: "Photo of #{member.name_without_title}", class: 'member-photo', size: "44x58")
+        %li.policy-comparision-member.member-item
             %span.member-name.sr-only= member.name
