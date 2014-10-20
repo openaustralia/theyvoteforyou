@@ -5,60 +5,62 @@
     .page-header.container
       %h1= yield :title
 
-%ul
-  %li
-    = link_to "#how" do
-      How does #{inline_project_name} work?
-  %li= link_to "What time period does it cover?", "#timeperiod"
+.row
+  .col-md-8
+    %ul
+      %li
+        = link_to "#how" do
+          How does #{inline_project_name} work?
+      %li= link_to "What time period does it cover?", "#timeperiod"
 
-%ul
-  %li= link_to "What is a division?", "#division"
-  %li= link_to "When does a division occur?", "#division-occur"
-  %li
-    = link_to "#decisions" do
-      Why don’t all decisions made in Parliament appear on #{inline_project_name}?
-  %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
+    %ul
+      %li= link_to "What is a division?", "#division"
+      %li= link_to "When does a division occur?", "#division-occur"
+      %li
+        = link_to "#decisions" do
+          Why don’t all decisions made in Parliament appear on #{inline_project_name}?
+      %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
 
-%ul
-  %li= link_to "What are Policies and how do they work?", "#policies"
-  %li= link_to "What are “Rebel Voters”?", "#rebel"
-  %li= link_to "What is a “Free Vote”?", "#free"
-  %li= link_to 'What do the "attendance" figures mean?', "#attendance"
-  %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
-  %li= link_to "What happens if a division is tied?", "#tied-division"
+    %ul
+      %li= link_to "What are Policies and how do they work?", "#policies"
+      %li= link_to "What are “Rebel Voters”?", "#rebel"
+      %li= link_to "What is a “Free Vote”?", "#free"
+      %li= link_to 'What do the "attendance" figures mean?', "#attendance"
+      %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
+      %li= link_to "What happens if a division is tied?", "#tied-division"
 
-%h2#how How does #{inline_project_name} work?
-= render "help/faq/how_does_it_work"
+    %h2#how How does #{inline_project_name} work?
+    = render "help/faq/how_does_it_work"
 
-%h2#timeperiod What time period does it cover?
-= render "help/faq/time_period"
+    %h2#timeperiod What time period does it cover?
+    = render "help/faq/time_period"
 
-%h2#division What is a division?
-= render "help/faq/division"
+    %h2#division What is a division?
+    = render "help/faq/division"
 
-%h2#division-occur When does a division occur?
-= render "help/faq/when_division"
+    %h2#division-occur When does a division occur?
+    = render "help/faq/when_division"
 
-%h2#decisions Why don’t all decisions made in Parliament appear on #{inline_project_name}?
-= render "help/faq/decisions"
+    %h2#decisions Why don’t all decisions made in Parliament appear on #{inline_project_name}?
+    = render "help/faq/decisions"
 
-%h2#summaries Why don’t all the divisions have edited summaries?
-= render "help/faq/summaries"
+    %h2#summaries Why don’t all the divisions have edited summaries?
+    = render "help/faq/summaries"
 
-%h2#policies What are Policies and how do they work?
-= render "help/faq/policies"
+    %h2#policies What are Policies and how do they work?
+    = render "help/faq/policies"
 
-%h2#rebel What are “Rebel Voters”?
-= render "help/faq/rebel"
+    %h2#rebel What are “Rebel Voters”?
+    = render "help/faq/rebel"
 
-%h2#free What is a “Free Vote”?
-= render "help/faq/free"
+    %h2#free What is a “Free Vote”?
+    = render "help/faq/free"
 
-%h2#attendance What do the "attendance" figures mean?
-= render "help/faq/attendance"
+    %h2#attendance What do the "attendance" figures mean?
+    = render "help/faq/attendance"
 
-%h2#rebellion What do the "rebellion" figures mean?
-= render "help/faq/rebellion"
+    %h2#rebellion What do the "rebellion" figures mean?
+    = render "help/faq/rebellion"
 
-%h2#tied-division What happens if a division is tied?
-= render "help/faq/tied_divisions"
+    %h2#tied-division What happens if a division is tied?
+    = render "help/faq/tied_divisions"

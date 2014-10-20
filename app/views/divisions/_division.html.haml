@@ -5,8 +5,6 @@
         - if division.edited?
           edited
           = relative_time division.wiki_motion.edit_date
-        - else
-          raw
       .division-meta
         %time.division-datetime{datetime: division.date}= division_date_and_time(division)
         %span.division-house.pre= division.house_name if @house.nil?

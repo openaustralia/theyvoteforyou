@@ -45,24 +45,37 @@
     text-align: center;
   }
 
-  .party-row .cell-vote {
-    color: $gray-light;
+  .party-row {
+    cursor: pointer;
 
-    span {
+    .party-name {
+      color: $color-blue;
+
+      &:hover,
+      &:focus {
+        text-decoration: underline;
+      }
+    }
+
+    .cell-vote {
+      color: $gray-light;
+
+      span {
+        color: $text-color;
+      }
+
+      span.zero-votes {
+        color: $gray-light;
+      }
+
+      span.rebel {
+        color: $color-rebel;
+      }
+    }
+
+    .party-absent {
       color: $text-color;
     }
-
-    span.zero-votes {
-      color: $gray-light;
-    }
-
-    span.rebel {
-      color: $color-rebel;
-    }
-  }
-
-  .party-row .party-absent {
-    color: $text-color;
   }
 
   .cell-toggler {
