@@ -75,6 +75,10 @@
 
   .policies & {
     width: 100%;
+
+    @media (min-width: $screen-sm-min) {
+      padding-right: 170px;
+    }
   }
 }
 
@@ -105,5 +109,9 @@
     top: 0;
     right: 0;
     float: none;
+  }
+
+  .policies & {
+    padding: 14px  15px 0 0;
   }
 }
