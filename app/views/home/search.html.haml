@@ -5,7 +5,7 @@
   - else
     - content_for :title, "Representatives for postcode #{@postcode}"
 
-  %h1= yield :title
+  %h1.long-title= yield :title
 
   - if @postcode_error
     %p There was an error trying to look up the postcode: The postcode server returned an error.
@@ -15,7 +15,7 @@
 - elsif !params[:query].blank?
   - content_for :title, "Search results for: #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
 
-  %h1= yield :title
+  %h1.long-title= yield :title
   - if @mps.empty? && @divisions.empty? && @policies.empty?
     %p
       We're sorry but we couldn't find any people or divisions for your search term.

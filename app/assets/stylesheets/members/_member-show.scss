@@ -16,3 +16,11 @@
     }
   }
 }
+
+.members .page-header {
+  h1 {
+    @media (max-width: 40em) {
+      font-size: 30px;
+    }
+  }
+}
