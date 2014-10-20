@@ -5,3 +5,4 @@
       - distances.joins(:policy).order("policies.name").each do |ppd|
         %li.policy-comparision-policy.object-item
           = link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy], class: 'policy-title'
+    =link_to "Something not right?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how to improve it.", class: 'policy-correction-notice small'

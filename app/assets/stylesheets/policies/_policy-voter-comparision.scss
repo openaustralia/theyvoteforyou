@@ -93,3 +93,17 @@
     opacity: .8;
   }
 }
+
+.policy-correction-notice {
+  padding: 10px 0;
+  display: inline-block;
+  float: right;
+  color: lighten($gray-light, 25%);
+
+  @media (min-width: $screen-sm-min) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: none;
+  }
+}
