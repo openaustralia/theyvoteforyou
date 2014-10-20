@@ -38,10 +38,6 @@
     }
 
     li:first-child a {
-      @media (min-width: $screen-sm-min) {
-        padding-left: 0;
-      }
-
       @media (min-width: $screen-md-min) {
         padding-left: 16px;
       }
