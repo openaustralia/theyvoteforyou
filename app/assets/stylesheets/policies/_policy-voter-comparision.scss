@@ -67,6 +67,10 @@
 
 .policy-comparision-member {
   margin-bottom: .5em;
+  @media (max-width: 20em) {
+    width: 30%;
+  }
+
   &:focus {
     outline: 0;
     opacity: .8;
