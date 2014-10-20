@@ -67,4 +67,8 @@
 
 .policy-comparision-member {
   margin-bottom: .5em;
+  &:focus {
+    outline: 0;
+    opacity: .8;
+  }
 }

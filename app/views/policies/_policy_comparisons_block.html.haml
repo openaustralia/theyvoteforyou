@@ -5,7 +5,7 @@
       = policy.name
     %ul.policy-comparision-list.member-list-compact.list-unstyled.col-xs-12
       - members.each do |member|
-          = link_to [member, policy], class: 'policy-comparision-member member-link' do
         %li.policy-comparision-member.member-item
+          = link_to [member, policy], class: 'policy-comparision-member member-link has-tooltip', title: member.name do
             = image_tag(member.large_image_url, alt: "Photo of #{member.name_without_title}", class: 'member-photo', width: 85, height: 114)
             %span.member-name.sr-only= member.name
