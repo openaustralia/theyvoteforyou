@@ -1,5 +1,7 @@
 .policy-comparision-block {
   padding-bottom: 1em;
+  float: none;
+  clear: both;
 
   @media (min-width: $screen-sm-min) {
     padding-bottom: 2em;
@@ -23,6 +25,7 @@
   border-top: .25em solid #ccc;
   padding-top: .5em;
   padding-bottom: .25em;
+  width: 100%;
   font-size: 24px;
   font-weight: normal;
 
