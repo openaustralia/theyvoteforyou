@@ -20,7 +20,8 @@
 .voter-table {
   padding-right: 0;
   padding-left: 0;
-  float: none;
+  float: left;
+  clear: both;
 
   .column-name {
       // width: 7em;

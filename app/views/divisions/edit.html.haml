@@ -13,9 +13,7 @@
       Improve the
     - else
       Write a
-    summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.house_name}"}#{"." if @division.edited?}
-    - unless @division.edited?
-      and replace the raw debate text.
+    summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.house_name}"}.
   %p
     Accurate, informed summaries draw on the
     = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
@@ -41,10 +39,12 @@
             %li= link_to "Preview", "#preview", role: "tab", data: {toggle: "tab"}, id: "preview_link"
           .tab-content
             .tab-pane.active#edit
-              %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}= preserve(h(@division.motion))
+              %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
+                = preserve(h(@division.motion)) if @division.edited?
             .tab-pane#preview
         - else
-          %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}= preserve(h(@division.motion))
+          %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
+            = preserve(h(@division.motion)) if @division.edited?
 
       %input.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save"}/
       = link_to "Cancel", :back, class: "btn btn-default"
