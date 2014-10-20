@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $(".policy-name").widowFix({
+  $(".policy-name, .policy-comparision-position").widowFix({
       letterLimit: 10,
       prevLimit: 11
     })

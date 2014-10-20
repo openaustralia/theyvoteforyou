@@ -1,7 +1,18 @@
 .policy-comparision-block {
+  border-top: 7px solid #ccc;
   padding-bottom: 1em;
   float: none;
   clear: both;
+  position: relative;
+
+  .members & {
+    margin: 0 -15px;
+
+    .policy-comparision-list {
+      margin: 0 -15px;
+    }
+
+  }
 
   @media (min-width: $screen-sm-min) {
     padding-bottom: 2em;
@@ -9,6 +20,41 @@
 
   @media (min-width: $screen-lg-min) {
     padding-bottom: 3em;
+  }
+
+  &.position-voted-very-strongly-for {
+    border-top-color: $color-very-strongly-for;
+    color: $color-very-strongly-for;
+  }
+
+  &.position-voted-strongly-for {
+    border-top-color: $color-strongly-for;
+    color: $color-strongly-for;
+  }
+
+  &.position-voted-moderately-for {
+    border-top-color: $color-moderately-for;
+    color: $color-moderately-for;
+  }
+
+  &.position-voted-a-mixture-of-for-and-against {
+    border-top-color: $color-mixed-position;
+    color: $color-mixed-position;
+  }
+
+  &.position-voted-moderately-against {
+    border-top-color: $color-moderately-against;
+    color: $color-moderately-against;
+  }
+
+  &.position-voted-strongly-against {
+    border-top-color: $color-strongly-against;
+    color: $color-strongly-against;
+  }
+
+  &.position-voted-very-strongly-against {
+    border-top-color: $color-very-strongly-against;
+    color: $color-very-strongly-against;
   }
 
   h2 + & {
@@ -22,7 +68,6 @@
 
 .policy-comparision-position {
   margin-top: 0;
-  border-top: .25em solid #ccc;
   padding-top: .5em;
   padding-bottom: .25em;
   font-size: 24px;
@@ -30,41 +75,10 @@
 
   .policies & {
     width: 100%;
-  }
 
-  .position-voted-very-strongly-for & {
-    border-top-color: $color-very-strongly-for;
-    color: $color-very-strongly-for;
-  }
-
-  .position-voted-strongly-for & {
-    border-top-color: $color-strongly-for;
-    color: $color-strongly-for;
-  }
-
-  .position-voted-moderately-for & {
-    border-top-color: $color-moderately-for;
-    color: $color-moderately-for;
-  }
-
-  .position-voted-a-mixture-of-for-and-against & {
-    border-top-color: $color-mixed-position;
-    color: $color-mixed-position;
-  }
-
-  .position-voted-moderately-against & {
-    border-top-color: $color-moderately-against;
-    color: $color-moderately-against;
-  }
-
-  .position-voted-strongly-against & {
-    border-top-color: $color-strongly-against;
-    color: $color-strongly-against;
-  }
-
-  .position-voted-very-strongly-against & {
-    border-top-color: $color-very-strongly-against;
-    color: $color-very-strongly-against;
+    @media (min-width: $screen-sm-min) {
+      padding-right: 170px;
+    }
   }
 }
 
@@ -81,5 +95,23 @@
   &:focus {
     outline: 0;
     opacity: .8;
+  }
+}
+
+.policy-correction-notice {
+  padding: 10px 0;
+  display: inline-block;
+  float: right;
+  color: lighten($gray-light, 25%);
+
+  @media (min-width: $screen-sm-min) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: none;
+  }
+
+  .policies & {
+    padding: 14px  15px 0 0;
   }
 }
