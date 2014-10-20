@@ -50,6 +50,8 @@
 }
 
 .footer-main {
+  padding-bottom: 18px;
+
   @media (min-width: $screen-md-min) {
     padding-bottom: 24px;
   }
@@ -69,7 +71,12 @@
 }
 
 .license-msg {
+  @media (min-width: $screen-sm-min) {
+    padding-top: 24px;
+  }
   @media (min-width: $screen-md-min) {
+    margin-top: 8px;
+    padding-top: 0;
     float: right;
   }
 }
@@ -86,13 +93,16 @@
   margin-top: 18px;
   clear: left;
   @media (min-width: $screen-sm-min) {
-    display: inline-block;
-    margin-right: 1em;
+    padding-top: 36px;
+    font-size: 24px;
+    // display: inline-block;
+    // margin-right: 1em;
   }
 
   @media (min-width: $screen-md-min) {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-right: 0;
+    padding-top: 0;
     clear: none;
     display: block;
   }
@@ -100,4 +110,19 @@
 
 .author-media {
   display: inline-block;
+
+  li + li {
+    margin-left: 10px;
+  }
+
+  i {
+    vertical-align: middle;
+    margin-right: 3px;
+    font-size: 22px;
+    display: inline-block;
+
+    &.fi-mail {
+      padding: 2px 0 0;
+    }
+  }
 }
