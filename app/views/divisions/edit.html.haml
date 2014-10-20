@@ -41,10 +41,12 @@
             %li= link_to "Preview", "#preview", role: "tab", data: {toggle: "tab"}, id: "preview_link"
           .tab-content
             .tab-pane.active#edit
-              %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}= preserve(h(@division.motion))
+              %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
+                = preserve(h(@division.motion)) if @division.edited?
             .tab-pane#preview
         - else
-          %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}= preserve(h(@division.motion))
+          %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
+            = preserve(h(@division.motion)) if @division.edited?
 
       %input.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save"}/
       = link_to "Cancel", :back, class: "btn btn-default"
