@@ -247,7 +247,7 @@ class Member < ActiveRecord::Base
     score_clause += ")"
 
     sql_query += " AND (#{score_clause} > 0)
-                   GROUP BY concat(first_name, ' ', last_name, ' ', constituency)
+                   GROUP BY concat(first_name, ' ', last_name)
                    ORDER BY #{score_clause} DESC, last_name"
 
     Member.find_by_sql [sql_query, placeholders]
