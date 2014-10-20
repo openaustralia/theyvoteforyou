@@ -46,6 +46,12 @@
         padding-left: 16px;
       }
     }
+
+    li:last-child a {
+      @media (min-width: $screen-md-min) {
+        padding-right: 0;
+      }
+    }
   }
 }
 
