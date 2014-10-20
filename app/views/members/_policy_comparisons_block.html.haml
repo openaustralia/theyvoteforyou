@@ -4,4 +4,14 @@
     %ul.policy-comparision-list.object-list-compact.list-unstyled
       - distances.joins(:policy).order("policies.name").each do |ppd|
         %li.policy-comparision-policy.object-item.col-md-7
-          = link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy], class: 'policy-title'
+          = link_to [member, ppd.policy], class: 'policy-title' do
+            = capitalise_initial_character(ppd.policy.name)
+            %span.policy-comparison-votes-count.text-muted.object-data
+              - if ppd.number_of_votes > 0
+                Attended
+                = ppd.number_of_votes
+                of
+              - else
+                Absent for
+              = ppd.number_of_possible_votes
+              votes
