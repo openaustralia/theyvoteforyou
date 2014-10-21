@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021033254) do
+ActiveRecord::Schema.define(version: 20141021184859) do
+
+  create_table "api_statistics", force: true do |t|
+    t.string   "ip_address"
+    t.text     "query"
+    t.text     "user_agent"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "bills", force: true do |t|
     t.string   "official_id"
