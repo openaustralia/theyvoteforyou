@@ -61,7 +61,7 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
-      @divisions = @divisions.includes(:division_info, :wiki_motion, :whips)
+      @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
   end
 

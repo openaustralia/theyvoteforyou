@@ -5,7 +5,6 @@ class Division < ActiveRecord::Base
   has_many :policy_divisions
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> {order(edit_date: :desc)}
-  has_one :wiki_motion, -> {order(edit_date: :desc)}
   has_and_belongs_to_many :bills
   
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
@@ -13,8 +12,12 @@ class Division < ActiveRecord::Base
   scope :in_house, ->(house) { where(house: house) }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :possible_for_member, ->(member) { where(house: member.house).where("date >= ? AND date < ?", member.entered_house, member.left_house) }
-  scope :edited, -> { joins(:wiki_motion) }
+  scope :edited, -> { joins(:wiki_motions) }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
+
+  def wiki_motion
+    wiki_motions.first
+  end
 
   # Other divisions related to this one because they consider the same bills
   def related_divisions
