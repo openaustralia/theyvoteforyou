@@ -1,8 +1,14 @@
-<pre>GET <%= api_v1_policy_url(format: "json", id: "foo").gsub("foo", "[id]") %></pre>
+<% if current_user %>
+<pre>GET <%= api_v1_policy_url(format: "json", id: "foo", key: current_user.api_key).gsub("foo", "[id]") %></pre>
+<% else %>
+<pre>GET <%= api_v1_policy_url(format: "json", id: "id2", key: "api_key2").gsub("id2", "[id]").gsub("api_key2", "[api_key]") %></pre>
+<% end %>
 
+<% if current_user %>
 For example
 
-<pre>GET <%= link_to api_v1_policy_url(format: "json", id: 1), api_v1_policy_url(format: "json", id: 1) %></pre>
+<pre>GET <%= link_to api_v1_policy_url(format: "json", id: 1, key: current_user.api_key), api_v1_policy_url(format: "json", id: 1, key: current_user.api_key) %></pre>
+<% end %>
 
 This returns all sorts of useful detailed information, including
 

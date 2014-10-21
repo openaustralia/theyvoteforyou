@@ -1,4 +1,8 @@
-<pre>GET <%= link_to api_v1_divisions_url(format: "json"), api_v1_divisions_url(format: "json") %></pre>
+<% if current_user %>
+<pre>GET <%= link_to api_v1_divisions_url(format: "json", key: current_user.api_key), api_v1_divisions_url(format: "json", key: current_user.api_key) %></pre>
+<% else %>
+<pre>GET <%= api_v1_divisions_url(format: "json", key: "api_key2").gsub("api_key2", "[api_key]") %></pre>
+<% end %>
 
 This returns basic information about the **most recent 100** divisions including
 
@@ -18,7 +22,11 @@ Parameter          | Description
 
 To get more results or divisions within a particular date range you can do
 
-<pre>GET <%= link_to api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate"), api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate") %></pre>
+<% if current_user %>
+<pre>GET <%= link_to api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate", key: current_user.api_key), api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate", key: current_user.api_key) %></pre>
+<% else %>
+<p>Fix this!</p>
+<% end %>
 
 Again this will return **at most 100** results. It is your responsibility to ensure that you are
 getting all the data you expect. In practise if you receive 100 results narrow the date range or just look
