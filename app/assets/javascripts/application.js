@@ -15,5 +15,6 @@
 //= require jquery_ujs
 //= require marked
 //= require jquery.widowFix-1.3.2
+//= require jquery.lazyload
 //= require bootstrap-select
 //= require_tree .
