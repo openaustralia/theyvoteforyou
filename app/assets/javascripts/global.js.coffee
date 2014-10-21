@@ -1,2 +1,2 @@
 $ ->
-  $("html").addClass("js")
+  $("html").removeClass("no-js").addClass("js")
