@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-  has_many :members
+  has_many :members, -> {order(entered_house: :desc)}
   has_many :policy_person_distances
   has_many :offices
   # People who are currently in parliament
@@ -50,7 +50,7 @@ class Person < ActiveRecord::Base
   end
 
   def latest_member
-    members.order(entered_house: :desc).first
+    members.first
   end
 
   def member_who_voted_on_division(division)
