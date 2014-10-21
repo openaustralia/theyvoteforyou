@@ -19,6 +19,8 @@
     %ul
       - if current_user.nil?
         %li= link_to "Get an API key", "#key"
+      - else
+        %li= link_to "Your personal API key", "#key"
       %li= link_to "All current people in parliament", "#people"
       %li= link_to "Details for a person", "#person"
       %li= link_to "All policies", "#policies"
@@ -40,6 +42,15 @@
         or
         = link_to "Sign Up", new_user_registration_path
         and come back to this page.
+- else
+  %h2#key Your personal API key
+  .row
+    .col-md-10
+      %p
+        Your API key is <code>#{current_user.api_key}</code>. It is a key just for you. Please don't share it with
+        anyone else.
+      %p
+        The API examples below already include your personal key.
 
 %h2#people All current people in parliament
 .row
