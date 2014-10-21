@@ -1,4 +1,4 @@
-class Api::V1::PeopleController < ApplicationController
+class Api::V1::PeopleController < Api::V1::ApplicationController
   def index
     @people = Person.current
   end

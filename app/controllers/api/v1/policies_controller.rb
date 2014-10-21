@@ -1,4 +1,4 @@
-class Api::V1::PoliciesController < ApplicationController
+class Api::V1::PoliciesController < Api::V1::ApplicationController
   def index
     @policies = Policy.order(:id).all
   end

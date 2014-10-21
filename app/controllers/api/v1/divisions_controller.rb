@@ -1,4 +1,4 @@
-class Api::V1::DivisionsController < ApplicationController
+class Api::V1::DivisionsController < Api::V1::ApplicationController
   def index
     @divisions = Division.order(date: :desc, house: :desc, number: :desc).includes(:wiki_motion, :whips, :division_info).limit(100)
     @divisions = @divisions.where("date >= ?", params[:start_date]) if params[:start_date]
