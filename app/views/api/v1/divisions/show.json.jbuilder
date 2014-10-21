@@ -2,10 +2,10 @@ json.partial! "division", division: @division
 
 # Extra information that isn't in the summary
 json.summary @division.motion
-json.votes @division.votes.order(:vote), partial: "api/v1/votes/vote", as: :vote
+json.votes @division.votes.order(:vote).includes(:member), partial: "api/v1/votes/vote", as: :vote
 
 json.policy_divisions do
-  json.array! @division.policy_divisions do |pd|
+  json.array! @division.policy_divisions.includes(:policy) do |pd|
     json.policy do
       json.partial! "api/v1/policies/policy", policy: pd.policy
     end
