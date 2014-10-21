@@ -2,7 +2,7 @@ json.partial! "policy", policy: @policy
 
 # More detailed information
 json.policy_divisions do
-  json.array! @policy.policy_divisions do |pd|
+  json.array! @policy.policy_divisions.includes(:division => [:wiki_motions, :whips, :division_info]) do |pd|
     json.division do
       json.partial! "api/v1/divisions/division", division: pd.division
     end
@@ -12,7 +12,7 @@ json.policy_divisions do
 end
 
 json.people_comparisons do
-  json.array! @policy.policy_person_distances.order(:distance_a) do |ppd|
+  json.array! @policy.policy_person_distances.includes(:person => :members).order(:distance_a) do |ppd|
     json.person do
       json.partial! "api/v1/people/person", person: ppd.person
     end
