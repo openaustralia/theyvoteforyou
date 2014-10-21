@@ -1,6 +1,6 @@
 class Api::V1::ApplicationController < ApplicationController
   before_action :require_key
-  # TODO Log api request
+  after_action :log_api_request
 
   private
 
@@ -10,5 +10,9 @@ class Api::V1::ApplicationController < ApplicationController
     if user.nil?
       render json: {error: "You need a valid api key. Sign up for an account on #{Settings.project_name} to get one."}, status: :unauthorized
     end
+  end
+
+  def log_api_request
+    ApiStatistic.log(request)
   end
 end
