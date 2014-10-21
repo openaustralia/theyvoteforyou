@@ -9,7 +9,7 @@ json.votes_possible @person.votes_possible
 json.offices @person.current_offices, partial: "api/v1/offices/office", as: :office
 
 json.policy_comparisons do
-  json.array! @person.policy_person_distances.visible.order(:distance_a) do |ppd|
+  json.array! @person.policy_person_distances.includes(:policy).visible.order(:distance_a) do |ppd|
     json.policy do
       json.partial! "api/v1/policies/policy", policy: ppd.policy
     end
