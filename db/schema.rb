@@ -57,17 +57,17 @@ ActiveRecord::Schema.define(version: 20141021033254) do
 
   create_table "divisions", force: true do |t|
     t.boolean  "valid"
-    t.date     "date",                                null: false
-    t.integer  "number",                              null: false
-    t.string   "house",                               null: false
-    t.text     "name",                                null: false
-    t.text     "source_url",                          null: false
-    t.text     "debate_url",                          null: false
-    t.text     "motion",                              null: false
+    t.date     "date",                      null: false
+    t.integer  "number",                    null: false
+    t.string   "house",                     null: false
+    t.text     "name",                      null: false
+    t.text     "source_url",                null: false
+    t.text     "debate_url",                null: false
+    t.text     "motion",                    null: false
     t.string   "clock_time"
-    t.text     "source_gid",                          null: false
-    t.text     "debate_gid",                          null: false
-    t.boolean  "markdown",             default: true, null: false
+    t.text     "source_gid",                null: false
+    t.text     "debate_gid",                null: false
+    t.boolean  "markdown",   default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
