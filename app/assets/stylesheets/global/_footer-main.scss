@@ -24,9 +24,14 @@
     }
 
     a {
-      // border-bottom: 1px $color-blue solid;
+      @media (min-width: $screen-md-min) {
+        padding-right: 10px;
+        padding-left: 10px;
+      }
 
-      @media (min-width: $screen-sm-min) {
+      @media (min-width: $screen-lg-min) {
+        padding-right: 15px;
+        padding-left: 15px;
       }
 
       &:hover,
@@ -38,8 +43,8 @@
     }
 
     li:first-child a {
-      @media (min-width: $screen-md-min) {
-        padding-left: 16px;
+      @media (min-width: $grid-float-breakpoint) {
+        padding-left: 0;
       }
     }
 
@@ -80,6 +85,15 @@
     margin-top: 8px;
     padding-top: 0;
     float: right;
+  }
+
+  .issues-link {
+    display: inline-block;
+
+    &:before {
+      content: "\00a0\25CF\00a0";
+      color: $color-blue;
+    }
   }
 }
 
