@@ -7,5 +7,3 @@ $ ->
       letterLimit: 10,
       prevLimit: 11
     })
-
-  $("img.lazy").lazyload()
