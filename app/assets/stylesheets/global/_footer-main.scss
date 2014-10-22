@@ -62,7 +62,7 @@
 .license-msg,
 .author-msg {
   a {
-    border-bottom: 2px solid lighten($color-blue-dark, 5%);
+    border-bottom: 2px solid darken($color-blue, 10%);
 
     &:hover,
     &:focus {
