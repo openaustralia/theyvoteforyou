@@ -5,7 +5,7 @@ In Australia, every 4 years or so, we all head to polling places across the coun
 Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
 
 ### How your MP votes on issues you care about
-We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can add your own.
+We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can [add your own](<%= new_policy_path() %>).
 
 ### Find your MP
 It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
