@@ -118,6 +118,12 @@
   .quote-avatar {
     border-radius: 3px;
     margin-right: 5px;
+    display: inline-block;
+    border: 0;
+
+    .no-js & {
+      visibility: hidden;
+    }
   }
 }
 
