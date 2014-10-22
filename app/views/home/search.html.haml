@@ -13,7 +13,7 @@
     = render "members/members", members: @mps, house: nil
 
 - elsif !params[:query].blank?
-  - content_for :title, "Search results for: #{params[:query].gsub(/[^A-Za-z0-9 \.\,]/, '')}"
+  - content_for :title, "Search results for: #{params[:query]}"
 
   %h1.long-title= yield :title
   - if @mps.empty? && @divisions.empty? && @policies.empty?
