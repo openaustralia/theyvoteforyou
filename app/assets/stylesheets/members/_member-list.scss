@@ -1,12 +1,17 @@
 .members-list {
   .member-photo {
     max-width: 44px;
+
+    &.no-lazy {
+      margin-right: 10px;
+    }
   }
 
   .member-name {
     font-size: $font-size-h4;
   }
 
+  .no-js .media-body,
   .member-no-photo .media-body {
     padding-left: 54px;
   }

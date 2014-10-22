@@ -1,0 +1,7 @@
+.lazy {
+  display: none;
+
+  .js & {
+    display: inherit;
+  }
+}
