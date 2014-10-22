@@ -222,8 +222,8 @@ class Member < ActiveRecord::Base
                  WHERE 1=1"
 
     score_clause = "("
-    score_clause += "(lower(concat(first_name, ' ', last_name)) = '#{query_string}') * 10"
-    placeholders = {}
+    score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
+    placeholders = {query_string: query_string}
     bitcount = 0
     query_string.split.each do |querybit|
       querybit = querybit.strip
