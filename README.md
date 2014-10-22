@@ -107,10 +107,9 @@ you're running an older branch (out of scope for this guide).
 
 ### Deployment
 
-The code is deployed using Capistrano. To deploy to staging (the only stage
-currently configured) run:
+The code is deployed using Capistrano. To deploy to production run:
 
-    bundle exec cap test deploy
+    bundle exec cap production deploy
 
 You'll need a local copy of `config/newrelic.yml` that includes your licence
 key to be able to record deployments to New Relic.
