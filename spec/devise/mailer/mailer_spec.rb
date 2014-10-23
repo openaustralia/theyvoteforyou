@@ -31,7 +31,7 @@ They Vote For You
     it { expect(mail).to_not be_multipart }
     it do
       expect(mail.body.to_s).to eq <<-EOF
-<p>Hello foo@bar.com!</p>
+<p>Hello Matthew!</p>
 <p>Someone has requested a link to change your password. You can do this through the link below.</p>
 <p><a href="http://pw.org.au/users/password/edit?reset_password_token=abc123">Change my password</a></p>
 <p>If you didn't request this, please ignore this email.</p>
