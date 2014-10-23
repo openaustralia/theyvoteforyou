@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Devise::Mailer do
-  let(:user) { mock_model(User, email: "foo@bar.com") }
+  let(:user) { mock_model(User, email: "foo@bar.com", name: "Matthew") }
   describe "#confirmation_instructions" do
     let(:mail) { Devise::Mailer.confirmation_instructions(user, "abc123") }
 
@@ -11,9 +11,11 @@ describe Devise::Mailer do
     it { expect(mail).to_not be_multipart }
     it do
       expect(mail.body.to_s).to eq <<-EOF
-<p>Welcome foo@bar.com!</p>
+<p>Congratulations Matthew!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>You are one step away from creating your account on They Vote For You</p>
+
+<p>Please confirm your account email by clicking the link below:</p>
 
 <p><a href="http://pw.org.au/users/confirmation?confirmation_token=abc123">Confirm my account</a></p>
       EOF
