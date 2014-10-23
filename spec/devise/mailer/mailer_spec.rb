@@ -7,7 +7,7 @@ describe Devise::Mailer do
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
     it { expect(mail.to).to eq ["foo@bar.com"] }
-    it { expect(mail.subject).to eq "Confirmation instructions" }
+    it { expect(mail.subject).to eq "How to confirm your account" }
     it { expect(mail).to_not be_multipart }
     it do
       expect(mail.body.to_s).to eq <<-EOF
@@ -27,7 +27,7 @@ They Vote For You
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
     it { expect(mail.to).to eq ["foo@bar.com"] }
-    it { expect(mail.subject).to eq "Reset password instructions" }
+    it { expect(mail.subject).to eq "Reset your password" }
     it { expect(mail).to_not be_multipart }
     it do
       expect(mail.body.to_s).to eq <<-EOF
