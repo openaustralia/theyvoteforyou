@@ -12,11 +12,11 @@ describe Devise::Mailer do
     it do
       expect(mail.body.to_s).to eq <<-EOF
 <p>Congratulations Matthew!</p>
-
-<p>You are one step away from creating your account on They Vote For You</p>
-
+<p>
+You are one step away from creating your account on
+They Vote For You
+</p>
 <p>Please confirm your account email by clicking the link below:</p>
-
 <p><a href="http://pw.org.au/users/confirmation?confirmation_token=abc123">Confirm my account</a></p>
       EOF
     end
@@ -32,11 +32,8 @@ describe Devise::Mailer do
     it do
       expect(mail.body.to_s).to eq <<-EOF
 <p>Hello foo@bar.com!</p>
-
 <p>Someone has requested a link to change your password. You can do this through the link below.</p>
-
 <p><a href="http://pw.org.au/users/password/edit?reset_password_token=abc123">Change my password</a></p>
-
 <p>If you didn't request this, please ignore this email.</p>
 <p>Your password won't change until you access the link above and create a new one.</p>
       EOF
