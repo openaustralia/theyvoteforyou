@@ -6,6 +6,7 @@ describe Devise::Mailer do
     let(:mail) { Devise::Mailer.confirmation_instructions(user, "abc123") }
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
+    it { expect(mail[:from].display_names).to eq ["They Vote For You"]}
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "How to confirm your account" }
     it { expect(mail).to_not be_multipart }
@@ -26,6 +27,7 @@ They Vote For You
     let(:mail) { Devise::Mailer.reset_password_instructions(user, "abc123") }
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
+    it { expect(mail[:from].display_names).to eq ["They Vote For You"]}
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "Reset your password" }
     it { expect(mail).to_not be_multipart }
