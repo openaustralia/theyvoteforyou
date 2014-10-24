@@ -22,15 +22,19 @@
   .navbar-toggle {
     border-color: rgba(255,255,255,.6);
 
+    .icon-bar {
+      background-color: darken($color-lemon, 50%);
+    }
+
     &:hover,
     &:focus {
       color: #111;
-      background-color: rgba(255,255,255,.2);
-      border-color: rgba(255,255,255,.4);
-    }
+      background-color: $gray;
+      border-color: darken($color-lemon, 50%);
 
-    .icon-bar {
-      background-color: darken($color-lemon, 50%);
+      .icon-bar {
+        background-color: $color-lemon-light;
+      }
     }
   }
 
