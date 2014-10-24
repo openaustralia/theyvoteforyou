@@ -53,4 +53,23 @@
       text-decoration: underline;
     }
   }
+
+  .division-outcome,
+  .division-member-vote {
+    &:before {
+      content: "\00a0\25CF\00a0";
+      color: #aaa;
+    }
+  }
+
+  .division-member-vote.member-voted-yes:before,
+  &.division-outcome-passed .division-outcome:before {
+    color: $color-vote-for;
+  }
+
+
+  .division-member-vote.member-voted-no:before,
+   &.division-outcome-not-passed .division-outcome:before {
+    color: $color-vote-against;
+  }
 }

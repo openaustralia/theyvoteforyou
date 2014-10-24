@@ -1,6 +1,6 @@
 %li
   = link_to division, class: 'object-item panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
-    %article.division-item{class: division_edit_status_class(division)}
+    %article.division-item{class: division_edit_status_class(division) + " " + division_outcome_class(division)}
       .division-edit-notice.pull-right.text-muted
         - if division.edited?
           edited

@@ -156,6 +156,10 @@ module DivisionsHelper
     sentence
   end
 
+  def member_vote_class(member, division)
+    "member-voted-" + vote_display(division.vote_for(member))
+  end
+
   def relative_time(time)
     time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
   end
