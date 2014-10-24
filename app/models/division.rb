@@ -251,6 +251,10 @@ class Division < ActiveRecord::Base
       text = wikimarkup_parse(text)
     end
 
+    # This is a small hack to make links to an old site point to the new site
+    text.gsub!("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
+      "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au")
+
     text.html_safe
   end
 
@@ -311,9 +315,6 @@ class Division < ActiveRecord::Base
     # Footnotes
     text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
 
-    # This is a small hack to make links to an old site point to the new site
-    text.gsub!("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
-      "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au")
     text
   end
 

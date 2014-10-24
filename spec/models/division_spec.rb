@@ -12,9 +12,18 @@ describe Division, type: :model do
     end
 
     describe 'update old site links' do
-      it do
-        division = Division.new(motion: "<a href=\"http://publicwhip-test.openaustraliafoundation.org.au\">Foobar</a>", markdown: false)
-        expect(division.formatted_motion_text).to eq("<p><a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a></p>\n")
+      context 'publicwhip-test' do
+        subject(:division) { Division.new(motion: "<a href=\"http://publicwhip-test.openaustraliafoundation.org.au\">Foobar</a>") }
+
+        it do
+          division.markdown = false
+          expect(division.formatted_motion_text).to eq("<p><a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a></p>\n")
+        end
+
+        it do
+          division.markdown = true
+          expect(division.formatted_motion_text).to eq("<p><a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a></p>\n")
+        end
       end
     end
   end
