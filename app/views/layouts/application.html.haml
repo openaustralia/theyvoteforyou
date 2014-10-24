@@ -61,8 +61,8 @@
                 %li.divider
                 %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name || current_user.email}", method: :delete
           - else
-            %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource"
             %li= link_to "Log in", new_user_session_path, title: "Log in to your account"
+            %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource"
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice
