@@ -26,5 +26,11 @@ module Publicwhip
     # config.i18n.default_locale = :de
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.middleware.insert_before(Rack::Runtime, Rack::Rewrite) do
+      moved_permanently /(.*)/,
+                        ->(match, rack_env) { HTMLEntities.new.decode(URI.unescape(match[1])) },
+                        if: ->(rack_env) { URI.unescape(rack_env['REQUEST_URI']) != HTMLEntities.new.decode(URI.unescape(rack_env['REQUEST_URI'])) }
+    end
   end
 end
