@@ -253,7 +253,7 @@ class Division < ActiveRecord::Base
 
     # This is a small hack to make links to an old site point to the new site
     text.gsub!("<a href=\"http://publicwhip-test.openaustraliafoundation.org.au",
-      "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au")
+      "<a href=\"https://theyvoteforyou.org.au")
 
     text.html_safe
   end
