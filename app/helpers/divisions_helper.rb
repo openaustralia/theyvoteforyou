@@ -135,6 +135,10 @@ module DivisionsHelper
     end
   end
 
+  def member_vote(member, division)
+    member.name_without_title + " voted #{vote_display(division.vote_for(member))}"
+  end
+
   def member_vote_with_party(member, division)
     sentence = member.name_without_title
     if member.attended_division?(division)
