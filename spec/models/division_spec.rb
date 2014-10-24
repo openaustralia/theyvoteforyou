@@ -10,6 +10,13 @@ describe Division, type: :model do
       division = Division.new(motion: "This remark[1] deserves a footnote", markdown: false)
       expect(division.formatted_motion_text).to eq("<p>This remark<sup class=\"sup-1\"><a class=\"sup\" href='#footnote-1' onclick=\"ClickSup(1); return false;\">[1]</a></sup> deserves a footnote</p>\n")
     end
+
+    describe 'update old site links' do
+      it do
+        division = Division.new(motion: "<a href=\"http://publicwhip-test.openaustraliafoundation.org.au\">Foobar</a>", markdown: false)
+        expect(division.formatted_motion_text).to eq("<p><a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a></p>\n")
+      end
+    end
   end
 
   describe '#passed?' do
