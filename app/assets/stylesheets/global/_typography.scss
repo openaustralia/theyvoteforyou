@@ -45,3 +45,8 @@ h2 {
 .page-section {
   margin-bottom: 48px;
 }
+
+// resets the font-size of blockquotes to inherit from wrapping section.
+blockquote {
+  font-size: 1em;
+}
