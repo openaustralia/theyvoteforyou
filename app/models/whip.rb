@@ -133,8 +133,7 @@ class Whip < ActiveRecord::Base
   end
 
   def attendance_fraction
-    # TODO What if possible_votes == 0?
-    (total_votes).to_f / possible_votes
+    (total_votes).to_f / possible_votes unless possible_votes == 0
   end
 
   # a tie is 0.0. a unanimous vote is 1.0
