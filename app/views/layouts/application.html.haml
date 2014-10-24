@@ -50,7 +50,7 @@
                   Submit
                 %span.glyphicon.glyphicon-search
 
-        %ul.nav.navbar-nav.navbar-right
+        %ul.account-nav.nav.navbar-nav.navbar-right
           - if user_signed_in?
             %li.dropdown
               %a.dropdown-toggle(href="#" data-toggle="dropdown")
@@ -61,7 +61,8 @@
                 %li.divider
                 %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name || current_user.email}", method: :delete
           - else
-            %li= link_to "Login", new_user_session_path, title: "Login to edit policies"
+            %li= link_to "Log in", new_user_session_path, title: "Log in to your account"
+            %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource"
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice
