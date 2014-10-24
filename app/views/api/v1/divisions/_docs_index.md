@@ -25,7 +25,7 @@ To get more results or divisions within a particular date range you can do
 <% if current_user %>
 <pre>GET <%= link_to api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate", key: current_user.api_key), api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate", key: current_user.api_key) %></pre>
 <% else %>
-<p>Fix this!</p>
+<pre>GET <%= api_v1_divisions_url(format: "json", start_date: "2014-08-01", end_date: "2014-09-01", house: "senate") + '&key=[api_key]' %></pre>
 <% end %>
 
 Again this will return **at most 100** results. It is your responsibility to ensure that you are
