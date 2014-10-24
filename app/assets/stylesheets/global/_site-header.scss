@@ -43,10 +43,28 @@
     }
   }
 
+  .account-nav {
+    li + li {
+      a {
+        @media ( min-width: $grid-float-breakpoint) {
+          color: $gray;
+        }
+
+        &:hover,
+        &:focus {
+          @media ( min-width: $grid-float-breakpoint) {
+            color: $text-color;
+          }
+        }
+      }
+    }
+  }
+
   .navbar-form {
     @media ( min-width: $grid-float-breakpoint) {
       margin-top: 8px;
       padding-right: 0;
+      padding-left: 30px;
     }
 
     .form-control {
