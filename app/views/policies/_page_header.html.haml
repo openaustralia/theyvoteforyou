@@ -7,5 +7,5 @@
     = link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
   %h1.col-md-9.col-lg-10.long-title
     = yield :title
-  %blockquote.lead.policytext.col-md-12= capitalise_initial_character policy.description
+  .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
