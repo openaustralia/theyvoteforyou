@@ -1,4 +1,8 @@
 Publicwhip::Application.routes.draw do
+  # Strip HTML entities from requests
+  get '*path', to: redirect { |params, request| HTMLEntities.new.decode(params[:path]) },
+               constraints: lambda { |request| URI.unescape(request.fullpath) != HTMLEntities.new.decode(URI.unescape(request.fullpath)) }
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
