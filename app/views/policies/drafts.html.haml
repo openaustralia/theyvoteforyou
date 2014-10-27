@@ -1,0 +1,20 @@
+- content_for :title, 'Draft Policies'
+- set_meta_tags description: "A list of draft policies on #{Settings.project_name}. Draft policies are those that are not yet complete or consistent enough to display publicly."
+
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %nav.header-actions.col-md-3
+        =link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
+      %h1= yield :title
+      %p.lead
+        Draft policies are those that are not yet complete or consistent enough to display publicly.
+        You can help out by editing and making them better.
+
+%p= link_to "← Published policies", policies_path
+
+- if @policies
+  = render "policies_list", policies: @policies
+- else
+  %p
+    There are no draft policies yet. Go ahead and #{link_to "make the first one", new_policy_path}.

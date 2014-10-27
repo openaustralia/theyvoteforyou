@@ -12,14 +12,11 @@
         You can research and create your own.
 
 - if @policies
-  - if @policies.visible
-    = render "policies_list", policies: @policies.visible
-  - if @policies.provisional
-    %h1{id: 'provisional'} Draft policies
-    = render "policies_list", policies: @policies.provisional
-
+  = render "policies_list", policies: @policies
 - else
   %p
     No policies match this person's votes. You can
     -# TODO Use path helper
     = link_to "edit or make a policy that will appear here.", policies_path
+
+%p See also #{link_to "draft policies", drafts_policies_path}.
