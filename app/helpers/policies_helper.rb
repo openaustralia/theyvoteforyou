@@ -2,7 +2,7 @@ module PoliciesHelper
   def policies_list_sentence(policies)
     policies.map do |policy|
       text = link_to h(policy.name), policy
-      text += " ".html_safe + content_tag(:i, "(provisional)") if policy.provisional?
+      text += " ".html_safe + content_tag(:i, "(draft)") if policy.provisional?
       text
     end.to_sentence.html_safe
   end
@@ -45,7 +45,7 @@ module PoliciesHelper
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
-      result += version.changeset["private"].second == 2 ? " provisional " : " "
+      result += version.changeset["private"].second == 2 ? " draft " : " "
       if options[:show_policy]
         policy = Policy.find(version.changeset["id"].second)
         result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
@@ -70,9 +70,9 @@ module PoliciesHelper
       end
       if version.changeset.has_key?("private")
         if version.changeset["private"].second == 0
-          changes << "status to not provisional"
+          changes << "status to not draft"
         elsif version.changeset["private"].second == 2
-          changes << "status to provisional"
+          changes << "status to draft"
         else
           raise
         end
