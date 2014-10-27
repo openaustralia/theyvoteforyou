@@ -68,6 +68,14 @@ class Member < ActiveRecord::Base
     divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("divisions.id")
   end
 
+  def rebellious_divisions
+    divisions.joins(:whips).where(rebellious_vote)
+  end
+
+  def free_divisions
+    divisions.joins(:whips).where(free_vote)
+  end
+
   def division_vote(division)
     votes.find_by(division: division)
   end
