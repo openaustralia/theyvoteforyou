@@ -1,8 +1,7 @@
-%section.page-section#interesting-votes
-  %h2 Interesting Votes
+- if @interesting_divisions.flat_map { |m| m.interesting_divisions }.any?
+  %section.page-section#interesting-votes
+    %h2 Interesting Votes
 
-  %p
-    See also #{link_to "all votes", [member, Division]}.
+    %p See also #{link_to "all votes", [member, Division]}.
 
-  - if @interesting_divisions.flat_map { |m| m.interesting_divisions }.any?
     = render "members/divisions", member: member
