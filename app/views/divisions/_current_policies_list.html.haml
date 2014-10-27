@@ -8,7 +8,7 @@
               People who are
               = link_to policy.name_with_for, policy
               - if policy.provisional?
-                %em (provisional)
+                %em (draft)
               would have voted
             = vote_select(f, policy.vote_for_division(@division))
             = f.submit 'Update', class: 'btn btn-primary btn-xs'
@@ -18,7 +18,7 @@
             People who are
             = link_to policy.name_with_for, policy
             - if policy.provisional?
-              %em (provisional)
+              %em (draft)
             would have
             %span.division-policy-statement-vote{class: "voted-" + @division.policy_division(policy).vote_without_strong.downcase}
               voted

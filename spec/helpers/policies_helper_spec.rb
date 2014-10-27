@@ -13,10 +13,10 @@ describe PoliciesHelper, type: :helper do
     let(:policy3) { Policy.create!(id: 3, name: "<em>A</em> provisional policy", description: "prov", user: user, private: 2) }
 
     it { expect(helper.policies_list_sentence([policy1])).to eq '<a href="/policies/1">A nice policy</a>' }
-    it { expect(helper.policies_list_sentence([policy2])).to eq '<a href="/policies/2">A provisional policy</a> <i>(provisional)</i>'}
-    it { expect(helper.policies_list_sentence([policy3])).to eq '<a href="/policies/3">&lt;em&gt;A&lt;/em&gt; provisional policy</a> <i>(provisional)</i>'}
+    it { expect(helper.policies_list_sentence([policy2])).to eq '<a href="/policies/2">A provisional policy</a> <i>(draft)</i>'}
+    it { expect(helper.policies_list_sentence([policy3])).to eq '<a href="/policies/3">&lt;em&gt;A&lt;/em&gt; provisional policy</a> <i>(draft)</i>'}
     it { expect(helper.policies_list_sentence([policy3])).to be_html_safe }
-    it { expect(helper.policies_list_sentence([policy1, policy2])).to eq '<a href="/policies/1">A nice policy</a> and <a href="/policies/2">A provisional policy</a> <i>(provisional)</i>'}
+    it { expect(helper.policies_list_sentence([policy1, policy2])).to eq '<a href="/policies/1">A nice policy</a> and <a href="/policies/2">A provisional policy</a> <i>(draft)</i>'}
   end
 
   describe ".version_sentence" do
@@ -28,8 +28,8 @@ describe PoliciesHelper, type: :helper do
     context "create provisional policy" do
       let(:version) { double("version", item_type: "Policy", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 2], "id" => [nil, 3]}) }
 
-      it { expect(helper.version_sentence(version)).to eq 'Created provisional policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by <a href="/users/3">Matthew</a>, about 1 hour ago' }
-      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'Created provisional policy <a href="/policies/3">&ldquo;A new policy&rdquo;</a> with description &ldquo;Oh yes!&rdquo; by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version)).to eq 'Created draft policy &ldquo;A new policy&rdquo; with description &ldquo;Oh yes!&rdquo; by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'Created draft policy <a href="/policies/3">&ldquo;A new policy&rdquo;</a> with description &ldquo;Oh yes!&rdquo; by <a href="/users/3">Matthew</a>, about 1 hour ago' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 
@@ -59,16 +59,16 @@ describe PoliciesHelper, type: :helper do
     context "change status on policy" do
       let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"private" => [2, 0]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
 
-      it { expect(helper.version_sentence(version)).to eq 'Changed status to not provisional by <a href="/users/3">Matthew</a>, about 1 hour ago' }
-      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">Version A</a> changed status to not provisional by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version)).to eq 'Changed status to not draft by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">Version A</a> changed status to not draft by <a href="/users/3">Matthew</a>, about 1 hour ago' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 
     context "change everything on policy" do
       let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"], "description" => ["Description A", "Description B"], "private" => [0, 2]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
 
-      it { expect(helper.version_sentence(version)).to eq 'Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to provisional by <a href="/users/3">Matthew</a>, about 1 hour ago' }
-      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">Version A</a> changed name to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to provisional by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version)).to eq 'Changed name from &ldquo;Version A&rdquo; to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to draft by <a href="/users/3">Matthew</a>, about 1 hour ago' }
+      it { expect(helper.version_sentence(version, show_policy: true)).to eq 'On policy <a href="/policies/3">Version A</a> changed name to &ldquo;Version B&rdquo;, description from &ldquo;Description A&rdquo; to &ldquo;Description B&rdquo;, and status to draft by <a href="/users/3">Matthew</a>, about 1 hour ago' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 

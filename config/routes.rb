@@ -166,6 +166,7 @@ Publicwhip::Application.routes.draw do
   get '/divisions/:house/:date/:number/edit' => 'divisions#edit', as: :edit_division
 
   resources :policies, except: :destroy do
+    get 'drafts', on: :collection
     member do
       get 'detail'
       get 'history'

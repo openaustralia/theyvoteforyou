@@ -21,9 +21,9 @@
   .checkbox
     %label
       %input#provisional{name: "provisional", type: "checkbox", value: "provisional", checked: @policy.provisional?}
-      Provisional policy
+      Draft policy
     %p.help-block
-      'provisional' means the policy is not yet complete or consistent enough to display publicly
+      'draft' means the policy is not yet complete or consistent enough to display publicly
   %input.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save title and text"}/
   = link_to "Cancel", :back, class: "btn btn-default"
 
