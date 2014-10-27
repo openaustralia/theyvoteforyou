@@ -61,8 +61,8 @@ INNER JOIN
 LEFT JOIN
   votes AS votes2 on votes2.division_id = divisions.id
 WHERE
-  (votes1.member_id = '#{member1_id}') AND
-  (votes2.member_id = '#{member2_id}') AND
+  (votes1.member_id = #{ActiveRecord::Base.sanitize member1_id}) AND
+  (votes2.member_id = #{ActiveRecord::Base.sanitize member2_id}) AND
   ((votes1.vote = 'aye' AND votes2.vote = 'aye') OR
    (votes1.vote = 'no' AND votes2.vote = 'no'))
 }
@@ -88,8 +88,8 @@ LEFT JOIN
 LEFT JOIN
   votes AS votes2 on votes2.division_id = divisions.id
 WHERE
-  (votes1.member_id = '#{member1_id}') AND
-  (votes2.member_id = '#{member2_id}') AND
+  (votes1.member_id = #{ActiveRecord::Base.sanitize member1_id}) AND
+  (votes2.member_id = #{ActiveRecord::Base.sanitize member2_id}) AND
   ((votes1.vote = 'aye' AND votes2.vote = 'no') OR
    (votes1.vote = 'no' AND votes2.vote = 'aye'))
 }
@@ -116,12 +116,12 @@ SELECT
 FROM
   divisions
 LEFT JOIN
-  votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = '#{member1_id}'
+  votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{ActiveRecord::Base.sanitize member1_id}
 LEFT JOIN
-  votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = '#{member2_id}'
+  votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{ActiveRecord::Base.sanitize member2_id}
 WHERE
-  (divisions.date >= '#{member1_entered_house}') AND (divisions.date <= '#{member1_left_house}') AND
-  (divisions.date >= '#{member2_entered_house}') AND (divisions.date <= '#{member2_left_house}') AND
+  (divisions.date >= #{ActiveRecord::Base.sanitize member1_entered_house}) AND (divisions.date <= #{ActiveRecord::Base.sanitize member1_left_house}) AND
+  (divisions.date >= #{ActiveRecord::Base.sanitize member2_entered_house}) AND (divisions.date <= #{ActiveRecord::Base.sanitize member2_left_house}) AND
   ((votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL))
 }
 
