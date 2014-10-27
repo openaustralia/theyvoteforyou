@@ -1,6 +1,6 @@
 %li
   = link_to division, class: 'object-item panel-link', title: "See full division page for #{truncate(division.name, length: 180)}." do
-    %article.division-item{class: division_edit_status_class(division)}
+    %article.division-item{class: division_edit_status_class(division) + " " + division_outcome_class(division)}
       .division-edit-notice.pull-right.text-muted
         - if division.edited?
           edited
@@ -13,15 +13,15 @@
 
       - if @party
         %p.division-outcome.division-party-outcome.object-primary= whip_guess_with_strength_in_words(division.whip_for_party(@party)).capitalize
+      - elsif member
+        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(member)).downcase}"}= member_vote_with_type(member, division)
+        %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
       - else
         %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
 
       %p.division-data.object-data.object-secondary
-        - if @member || @policy
-          - if @member
-            %span.division-member-vote.object-data-member-vote= member_vote_with_party(@member, division)
-          - if @policy
-            %span.division-policy-vote.object-data-policy-vote= "Supporters vote #{vote_display(division.policy_vote(@policy))}"
+        - if @policy
+          %span.division-policy-vote.object-data-policy-vote= "Supporters vote #{vote_display(division.policy_vote(@policy))}"
         - else
           %span.division-rebellions.object-data-rebellion
             - if @party

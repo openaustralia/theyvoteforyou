@@ -1,16 +1,7 @@
-%section.page-section#interesting-votes
-  %h2#divisions Interesting Votes
+- if @member.person.members.order(entered_house: :desc).flat_map { |m| m.interesting_divisions }.any?
+  %section.page-section#interesting-votes
+    %h2 Interesting Votes
 
-  %p
-    Votes in parliament for which this
-    = member_type(member.house) + "'s"
-    vote differed from the majority vote of their party (Rebel).
-  %p
-    See also #{link_to "all votes", [member, Division]}.
+    %p See also #{link_to "all votes", [member, Division]}.
 
-  %table.table
-    - member.person.members.order(entered_house: :desc).each do |member|
-      - if member.has_whip?
-        = render "votes", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc), empty_message: "no rebellions"
-      - else
-        = render "votes", member: member, divisions: [], empty_message: "#{member.party_name.pluralize} have no whip"
+    = render "members/divisions", member: member

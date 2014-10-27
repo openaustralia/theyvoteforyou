@@ -135,6 +135,26 @@ module DivisionsHelper
     end
   end
 
+  def member_vote(member, division)
+    member.name_without_title + " voted #{vote_display(division.vote_for(member))}"
+  end
+
+  def member_vote_with_type(member, division)
+    sentence = member.name_without_title
+    if member.attended_division?(division)
+       sentence += " voted #{vote_display(division.vote_for(member))}"
+      if member.division_vote(division).rebellion?
+        sentence += ", rebelling against"
+        sentence += " the #{member.party_name}"
+      elsif division.whip_for_party(member.party).free_vote?
+        sentence += " in this free vote"
+      end
+    else
+      sentence += " was absent"
+    end
+    sentence
+  end
+
   def member_vote_with_party(member, division)
     sentence = member.name_without_title
     if member.attended_division?(division)
@@ -150,6 +170,10 @@ module DivisionsHelper
     end
 
     sentence
+  end
+
+  def member_vote_class(member, division)
+    "member-voted-" + vote_display(division.vote_for(member))
   end
 
   def relative_time(time)

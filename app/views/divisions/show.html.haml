@@ -17,4 +17,4 @@
       Because they relate to the same
       = @division.bills.count == 1 ? "bill" : "bills"
       as this division
-    = render partial: "divisions", object: @division.related_divisions
+    = render partial: "divisions", locals: {member: @member}, object: @division.related_divisions
