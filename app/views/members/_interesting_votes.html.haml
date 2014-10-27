@@ -4,6 +4,6 @@
   %p
     See also #{link_to "all votes", [member, Division]}.
 
-  - member.person.members.order(entered_house: :desc).each do |member|
+  - @interesting_divisions.each do |member|
     - if member.has_whip?
       = render "divisions/divisions", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc)

@@ -86,6 +86,8 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
+    @interesting_divisions = @member.person.members.order(entered_house: :desc) if @member
+
     render 'member_not_found', status: 404 if @member.nil?
   end
 end
