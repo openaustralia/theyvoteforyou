@@ -250,7 +250,7 @@ class Member < ActiveRecord::Base
                    GROUP BY concat(first_name, ' ', last_name)
                    ORDER BY #{score_clause} DESC, last_name"
 
-    Member.find_by_sql [sql_query, placeholders]
+    Member.find_by_sql([sql_query, placeholders]).map { |m| m.person.latest_member }
   end
 
   private
