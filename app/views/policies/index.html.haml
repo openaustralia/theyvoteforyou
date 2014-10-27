@@ -15,8 +15,6 @@
   = render "policies_list", policies: @policies
 - else
   %p
-    No policies match this person's votes. You can
-    -# TODO Use path helper
-    = link_to "edit or make a policy that will appear here.", policies_path
+    There are no published policies yet. Go ahead and #{link_to "make the first one", new_policy_path}.
 
 %p See also #{link_to "draft policies", drafts_policies_path}.
