@@ -15,13 +15,7 @@
   %strong= number_with_delimiter(Division.count)
   divisions. In total
   %strong= number_with_delimiter(Vote.count)
-  votes were cast giving an average of
-  -# Doing this to make it match the php app as a quick hack
-  - if Vote.count.to_f / Division.count == 1.0
-    %strong 1
-  - else
-    %strong= number_with_precision (Vote.count.to_f / Division.count), precision: 1, strip_insignificant_zeros: true
-  per division. Of these
+  votes were cast,
   %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
   were against the majority vote for their party giving an average rebellion rate of
   <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
