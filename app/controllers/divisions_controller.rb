@@ -3,7 +3,7 @@ class DivisionsController < ApplicationController
 
   def index_redirect
     if params[:rdisplay2] == "rebels"
-      redirect_to params.merge(rdisplay2: nil, sort: "rebellions")
+      redirect_to params.merge(only_path: true, rdisplay2: nil, sort: "rebellions")
     end
   end
 
@@ -67,15 +67,15 @@ class DivisionsController < ApplicationController
 
   def show_redirect
     if params[:sort]
-      redirect_to params.merge(sort: nil)
+      redirect_to params.merge(only_path: true, sort: nil)
       return
     end
     if params[:display] == "allvotes" || params[:display] == "allpossible"
-      redirect_to params.merge(display: nil)
+      redirect_to params.merge(only_path: true, display: nil)
       return
     end
     if params[:house].nil?
-      redirect_to params.merge(house: "representatives")
+      redirect_to params.merge(only_path: true, house: "representatives")
       return
     end
     if params[:mpc] == "Senate"
@@ -84,7 +84,7 @@ class DivisionsController < ApplicationController
       last_name = params[:mpn].split("_")[1]
 
       member = Member.in_house(house).where(first_name: first_name, last_name: last_name).first
-      redirect_to params.merge(mpc: member.url_electorate)
+      redirect_to params.merge(only_path: true, mpc: member.url_electorate)
     end
   end
 

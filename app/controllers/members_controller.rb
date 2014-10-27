@@ -43,6 +43,7 @@ class MembersController < ApplicationController
         end
       end
       redirect_to params.merge(
+          only_path: true,
           mpn: member.url_name,
           mpc: member.url_electorate,
           house: member.house,
@@ -52,15 +53,15 @@ class MembersController < ApplicationController
       return
     end
     if params[:dmp] && params[:display] == "allvotes"
-      redirect_to params.merge(display: nil)
+      redirect_to params.merge(only_path: true, display: nil)
       return
     end
     if params[:display] == "summary" || params[:display] == "alldreams"
-      redirect_to params.merge(display: nil)
+      redirect_to params.merge(only_path: true, display: nil)
       return
     end
     if params[:display] == "allvotes" || params[:showall] == "yes"
-      redirect_to params.merge(showall: nil, display: "everyvote")
+      redirect_to params.merge(only_path: true, showall: nil, display: "everyvote")
     end
   end
 
