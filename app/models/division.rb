@@ -12,7 +12,7 @@ class Division < ActiveRecord::Base
   scope :in_house, ->(house) { where(house: house) }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :possible_for_member, ->(member) { where(house: member.house).where("date >= ? AND date < ?", member.entered_house, member.left_house) }
-  scope :edited, -> { joins(:wiki_motions) }
+  scope :edited, -> { joins(:wiki_motions).distinct }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
 
   def wiki_motion
