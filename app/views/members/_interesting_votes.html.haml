@@ -4,6 +4,5 @@
   %p
     See also #{link_to "all votes", [member, Division]}.
 
-  - @interesting_divisions.each do |member|
-    - if member.has_whip?
-      = render "divisions/divisions", member: member, divisions: member.interesting_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+  - if @interesting_divisions.flat_map { |m| m.interesting_divisions }.any?
+    = render "members/divisions", member: member
