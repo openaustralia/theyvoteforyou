@@ -10,8 +10,9 @@
     - else
       never taken part in a free vote
     since
-    - if member.person.earliest_member.in_parliament_on_date(Date.new(2006,2,6))
+    - # TODO get the data starting dates dynamically
       2006.
+    - if member.person.earliest_member.entered_house < (Date.new(2006,2,7))
     -else
       entering Parliament in #{member.person.earliest_member.since}.
 
