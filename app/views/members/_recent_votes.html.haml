@@ -9,4 +9,4 @@
     See also #{link_to "all votes", [member, Division]}.
 
   - member.person.members.order(entered_house: :desc).each do |member|
-    = render "divisions/divisions", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(3)
+    = render "divisions/divisions", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(5)
