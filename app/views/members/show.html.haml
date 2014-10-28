@@ -6,7 +6,7 @@
 = render "summary", member: @member
 = render "external_links", member: @member
 = render "policy_comparisons", member: @member
-- if @member.person.has_whip?
+- if @member.person.members.map{ |m| m.has_whip?}
   = render "interesting_votes", member: @member
 - else
   = render "recent_votes", member: @member
