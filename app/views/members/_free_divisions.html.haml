@@ -13,7 +13,7 @@
     - if member.person.earliest_member.in_parliament_on_date(Date.new(2006,2,6))
       2006.
     -else
-      entering Parliement in #{member.since}.
+      entering Parliament in #{member.person.earliest_member.since}.
 
     %small= link_to "explain “Free Votes”", help_faq_path(anchor: "free")
 

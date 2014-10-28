@@ -13,7 +13,7 @@
     - if member.person.earliest_member.in_parliament_on_date(Date.new(2006,2,6))
       2006.
     -else
-      #{member.since}.
+      #{member.person.earliest_member.since}.
 
     %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
 
