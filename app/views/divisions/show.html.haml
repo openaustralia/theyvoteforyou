@@ -14,7 +14,12 @@
   %section.page-section#related-divisions
     %h2 Related divisions
     %p
-      Because they relate to the same
+      - if @division.related_divisions.size == 1
+        Another division relating
+      - else
+        = @division.related_divisions.size.to_words.capitalize
+        divisions relating
+      to the same
       = @division.bills.count == 1 ? "bill" : "bills"
-      as this division
+      as this one:
     = render partial: "divisions", locals: {member: @member}, object: @division.related_divisions
