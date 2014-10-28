@@ -1,25 +1,5 @@
 - if @member.person.members.order(entered_house: :desc).flat_map { |m| m.interesting_divisions }.any?
-  %section.page-section#rebellions
-    %h2 Rebel votes
-
-    %p
-      = member.name_without_title
-      has
-      - if @member.person.rebellions > 0
-        voted against the majority of their party
-        = pluralize(@member.person.rebellions, "time")
-      - else
-        never voted against the majority of their party
-      since
-      - if member.earliest_member.in_parliament_on_date(Date.new(2006,2,6))
-        2006.
-      -else
-        #{member.since}.
-
-      %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
-    %p See also #{link_to "all votes", [member, Division]}.
-
-    = render "members/rebellious_divisions", member: member
+  = render "members/rebellious_divisions", member: member
 
   %section.page-section#free-votes
     %h2 Free votes
