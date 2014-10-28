@@ -186,6 +186,9 @@ GEM
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     ntlm-http (0.1.1)
+    numbers_and_words (0.10.0)
+      activesupport
+      i18n
     orm_adapter (0.5.0)
     paper_trail (3.0.5)
       activerecord (>= 3.0, < 5.0)
@@ -372,6 +375,7 @@ DEPENDENCIES
   mysql2
   newrelic_rpm
   nokogiri
+  numbers_and_words (~> 0.10.0)
   paper_trail
   rack-mini-profiler
   rails (= 4.1.5)
