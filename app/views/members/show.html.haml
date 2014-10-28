@@ -8,5 +8,6 @@
 = render "policy_comparisons", member: @member
 - if @member.person.has_whip?
   = render "interesting_votes", member: @member
-= render "recent_votes", member: @member
+- else
+  = render "recent_votes", member: @member
 = render "possible_friends", member: @member, all_friends: false
