@@ -1,6 +1,23 @@
 %section.page-section#free-votes
   %h2 Free votes
 
+  %p
+    = member.name_without_title
+    has
+    - if member.person.free_votes > 0
+      taken part in
+      = pluralize(member.person.free_votes, "free vote")
+    - else
+      never taken part in a free vote
+    since
+    - if member.earliest_member.in_parliament_on_date(Date.new(2006,2,6))
+      2006.
+    -else
+      entering Parliement in #{member.since}.
+
+    %small= link_to "explain “Free Votes”", help_faq_path(anchor: "free")
+
+
   %p See also #{link_to "all votes", [member, Division]}.
 
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
