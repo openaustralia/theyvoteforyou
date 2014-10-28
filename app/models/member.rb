@@ -153,6 +153,10 @@ class Member < ActiveRecord::Base
     left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
   end
 
+  def earliest_member
+    person.members.last
+  end
+
   # Last name as it's stored in the database including horrible html entities
   # which for some reason are in there
   def original_last_name
