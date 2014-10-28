@@ -58,6 +58,10 @@ class Person < ActiveRecord::Base
     members.first
   end
 
+  def earliest_member
+    members.last
+  end
+
   def member_who_voted_on_division(division)
     # What we have now in @member is a member related to the person that voted in division but @member wasn't necessarily
     # current when @division took place. So, let's fix this
