@@ -1,5 +1,5 @@
 - if @member.person.members.order(entered_house: :desc).flat_map { |m| m.interesting_divisions }.any?
-  %section.page-section#interesting-votes
+  %section.page-section#rebellions
     %h2 Rebel votes
 
     %p
@@ -21,7 +21,7 @@
 
     = render "members/rebellious_divisions", member: member
 
-
+  %section.page-section#free-votes
     %h2 Free votes
 
     %p See also #{link_to "all votes", [member, Division]}.
