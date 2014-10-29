@@ -1,6 +1,4 @@
-Hello Matthew Landauer!
-
-Someone has requested a link to change your password. You can do this through the link below.
+Matthew Landauer, someone has requested a link to change your password. You can do this through the link below.
 
 http://pw.org.au/users/password/edit?reset_password_token=abc123
 
