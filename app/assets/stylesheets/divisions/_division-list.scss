@@ -59,7 +59,7 @@
     }
   }
 
-  .division-outcome,
+
   .division-member-vote {
     &:before {
       content: "\00a0\25CF\00a0";
@@ -69,12 +69,16 @@
 
   .division-member-vote.member-voted-yes:before,
   &.division-outcome-passed .division-outcome:before {
-    color: $color-vote-for;
+    content: "\00a0\2192\00a0";
+    color: $text-color;
+    font-weight: bold;
   }
 
 
   .division-member-vote.member-voted-no:before,
    &.division-outcome-not-passed .division-outcome:before {
-    color: $color-vote-against;
+    content: "\00a0\2190\00a0";
+    color: $text-color;
+    font-weight: bold;
   }
 }
