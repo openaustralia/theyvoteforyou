@@ -53,6 +53,7 @@ gem 'simple_form', '3.1.0.rc2' # Ask for 3.1rc since it plays nicer with Bootstr
 gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
 gem 'meta-tags'
+gem 'numbers_and_words', '~> 0.10.0'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
