@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Devise::Mailer do
-  let(:user) { mock_model(User, email: "foo@bar.com", name: "Matthew") }
+  let(:user) { mock_model(User, email: "foo@bar.com", name: "Matthew Landauer") }
   describe "#confirmation_instructions" do
     let(:mail) { Devise::Mailer.confirmation_instructions(user, "abc123") }
 
