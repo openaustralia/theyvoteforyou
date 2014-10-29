@@ -10,6 +10,11 @@ class Person < ActiveRecord::Base
     members.to_a.sum{|m| m.rebellions.to_i}
   end
 
+  # total number of free votes across all members for the person
+  def free_votes
+    members.to_a.sum{ |m| m.free_divisions.size}
+  end
+
   # Total number of votes across all members for this person
   def votes_attended
     members.to_a.sum{|m| m.votes_attended.to_i}
@@ -51,6 +56,10 @@ class Person < ActiveRecord::Base
 
   def latest_member
     members.first
+  end
+
+  def earliest_member
+    members.last
   end
 
   def member_who_voted_on_division(division)
