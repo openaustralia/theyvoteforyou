@@ -1,0 +1,9 @@
+Hello Matthew!
+
+Someone has requested a link to change your password. You can do this through the link below.
+
+http://pw.org.au/users/password/edit?reset_password_token=abc123
+
+If you didn't request this, please ignore this email.
+
+Your password won't change until you access the link above and create a new one.

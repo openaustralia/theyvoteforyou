@@ -10,28 +10,8 @@ describe Devise::Mailer do
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "How to confirm your account" }
     it { expect(mail).to be_multipart }
-    it do
-      expect(mail.html_part.body.to_s).to eq <<-EOF
-<p>Congratulations Matthew!</p>
-<p>
-You are one step away from creating your account on
-They Vote For You
-</p>
-<p>Please confirm your account email by clicking the link below:</p>
-<p><a href="http://pw.org.au/users/confirmation?confirmation_token=abc123">Confirm my account</a></p>
-      EOF
-    end
-    it do
-      expect(mail.text_part.body.to_s).to eq <<-EOF
-Congratulations Matthew!
-
-You are one step away from creating your account on They Vote For You
-
-Please confirm your account email by clicking the link below:
-
-http://pw.org.au/users/confirmation?confirmation_token=abc123
-      EOF
-    end
+    it { expect(mail.html_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.html") }
+    it { expect(mail.text_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.txt") }
   end
 
   describe "#reset_password_instructions" do
@@ -42,27 +22,7 @@ http://pw.org.au/users/confirmation?confirmation_token=abc123
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "Reset your password" }
     it { expect(mail).to be_multipart }
-    it do
-      expect(mail.html_part.body.to_s).to eq <<-EOF
-<p>Hello Matthew!</p>
-<p>Someone has requested a link to change your password. You can do this through the link below.</p>
-<p><a href="http://pw.org.au/users/password/edit?reset_password_token=abc123">Change my password</a></p>
-<p>If you didn't request this, please ignore this email.</p>
-<p>Your password won't change until you access the link above and create a new one.</p>
-      EOF
-    end
-    it do
-      expect(mail.text_part.body.to_s).to eq <<-EOF
-Hello Matthew!
-
-Someone has requested a link to change your password. You can do this through the link below.
-
-http://pw.org.au/users/password/edit?reset_password_token=abc123
-
-If you didn't request this, please ignore this email.
-
-Your password won't change until you access the link above and create a new one.
-      EOF
-    end
+    it { expect(mail.html_part.body.to_s).to eq File.read("spec/devise/regression/reset.html") }
+    it { expect(mail.text_part.body.to_s).to eq File.read("spec/devise/regression/reset.txt") }
   end
 end
