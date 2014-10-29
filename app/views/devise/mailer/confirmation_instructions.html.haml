@@ -1,7 +1,0 @@
-%p
-  #{@resource.name}, you are one step away from creating your account on
-  = Settings.project_name
-
-%p Please confirm your account email by clicking the link below:
-
-%p= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token)

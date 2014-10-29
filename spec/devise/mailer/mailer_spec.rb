@@ -8,7 +8,7 @@ describe Devise::Mailer do
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
     it { expect(mail[:from].display_names).to eq ["They Vote For You"]}
     it { expect(mail.to).to eq ["foo@bar.com"] }
-    it { expect(mail.subject).to eq "How to confirm your account" }
+    it { expect(mail.subject).to eq "Confirm your email address" }
     it { expect(mail).to be_multipart }
     it { expect(mail.html_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.html") }
     it { expect(mail.text_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.txt") }

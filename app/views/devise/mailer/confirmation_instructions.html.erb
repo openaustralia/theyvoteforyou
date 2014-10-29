@@ -285,8 +285,8 @@ a {
               <table width="100%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="content-block">
-                    Matthew Landauer, you are one step away from creating your account on
-                    <em>They Vote For You</em>
+                    <%= @resource.name %>, you are one step away from creating your account on
+                    <em><%= Settings.project_name %></em>
                   </td>
                 </tr>
                 <tr>
@@ -296,12 +296,12 @@ a {
                 </tr>
                 <tr>
                   <td class="content-block">
-                    <a class="btn-primary" href="http://pw.org.au/users/confirmation?confirmation_token=abc123">Confirm email address</a>
+                    <%= link_to "Confirm email address", confirmation_url(@resource, confirmation_token: @token), class: "btn-primary" %>
                   </td>
                 </tr>
                 <tr>
                   <td class="content-block">
-                    &mdash; The <em>They Vote For You</em> team
+                    &mdash; The <em><%= Settings.project_name %></em> team
                   </td>
                 </tr>
               </table>
