@@ -27,6 +27,7 @@ class DivisionsController < ApplicationController
       @rdisplay = params[:rdisplay]
       @rdisplay = "2013" if @rdisplay.nil?
       @house = params[:house]
+      @date = params[:date]
 
       raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
 
@@ -59,6 +60,7 @@ class DivisionsController < ApplicationController
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
+      @divisions = @divisions.on_date(@date) if @date
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)

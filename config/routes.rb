@@ -152,6 +152,7 @@ Publicwhip::Application.routes.draw do
 
   get '/divisions' => 'divisions#index', as: :divisions
   get '/divisions/:house' => 'divisions#index'
+  get '/divisions/:house/:date' => 'divisions#index'
   get '/parties/:party/divisions/:house' => 'divisions#index'
   get '/parties/:party/divisions' => 'divisions#index', as: :party_divisions
 
