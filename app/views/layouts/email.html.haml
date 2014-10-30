@@ -1,0 +1,27 @@
+!!!
+%html(xmlns="http://www.w3.org/1999/xhtml")
+  %head
+    %meta(name="viewport" content="width=device-width")
+    %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    %title= yield :subject
+    %style= Publicwhip::Application.assets["email.css"].to_s.html_safe
+
+  %body
+    %table.body-wrap
+      %tr
+        %td
+        %td.container(width="600")
+          .content
+            %table.main(width="100%" cellpadding="0" cellspacing="0")
+              %tr
+                %td.content-wrap
+                  %table(width="100%" cellpadding="0" cellspacing="0")
+                    = yield
+            .footer
+              %table(width="100%")
+                %tr
+                  %td.aligncenter.content-block
+                    Follow
+                    = link_to "@#{Settings.project_twitter}", "http://twitter.com/#{Settings.project_twitter}"
+                    on Twitter.
+        %td
