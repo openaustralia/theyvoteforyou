@@ -5,8 +5,8 @@
     Recent votes in parliament that this
     = member_type(member.house)
     could have attended.
-  %p
-    See also #{link_to "all votes", [member, Division]}.
 
   - member.person.members.order(entered_house: :desc).each do |member|
     = render "divisions/divisions", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(3)
+
+  =link_to "View all votes", [member, Division], class: 'btn btn-default btn-sm'

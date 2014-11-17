@@ -47,6 +47,6 @@
             %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
             %td= party_long2(member_distance.member2)
   - unless all_friends
-    = link_to "More possible friends", friends_member_path(member)
+    = link_to "More possible friends", friends_member_path(member), class: 'btn btn-default btn-sm'
   - if member.best_friends.count >= 5 && !all_friends
     (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)
