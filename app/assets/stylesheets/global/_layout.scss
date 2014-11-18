@@ -20,12 +20,26 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  font-size: 0;
 }
 
 .grid-list-module {
-  @include make-xs-column(6, 0);
-  @include make-sm-column(3, 0);
-  @include make-md-column(2, 0);
+  font-size: $font-size-base;
+  display: inline-block;
+  width: 80%;
+  margin: 0 auto;
+
+  @media (min-width: 18em) {
+    width: 50%; // 6/12
+  }
+
+  @media (min-width: $screen-sm-min) {
+    width: 25%; // 3/12
+  }
+
+  @media (min-width: $screen-md-min) {
+    width: 16.6666%; // 2/12
+  }
 
   a {
     padding: 2em 1.5em 0;
