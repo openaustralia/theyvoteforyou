@@ -53,11 +53,6 @@
     padding: 2em 1.5em 0;
     display: block;
     height: 10em;
-    font-size: $font-size-small;
-
-    @media (min-width: $screen-xs-min) {
-      font-size: 1em;
-    }
 
     .has-flexbox & {
       padding: 1em;
