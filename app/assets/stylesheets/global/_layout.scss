@@ -15,3 +15,33 @@
     min-height: 800px;
   }
 }
+
+.grid-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.grid-list-module {
+  @include make-xs-column(6, 0);
+  @include make-sm-column(3, 0);
+  @include make-md-column(2, 0);
+
+  a {
+    padding: 2em 1.5em 0;
+    display: block;
+    height: 10em;
+    font-size: $font-size-small;
+
+    @media (min-width: $screen-xs-min) {
+      font-size: 1em;
+    }
+
+    .has-flexbox & {
+      padding: 1em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
