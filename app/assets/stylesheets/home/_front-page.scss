@@ -136,4 +136,23 @@
 .supporting-orgs-block {
   text-align: center;
 
+  .supporting-org {
+    background-size: 80%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+
+
+    h3 {
+      margin: 0;
+      font-size: $font-size-small;
+      font-weight: normal;
+      opacity: 0;
+
+      @media (min-width: $screen-xs-min) {
+        font-size: 1em;
+      }
+    }
+  }
 }
+
+@import "supporting_orgs";
