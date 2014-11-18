@@ -49,19 +49,19 @@ class MembersController < ApplicationController
           house: member.house,
           mpid: nil,
           id: nil
-        )
+        ).to_h
       return
     end
     if params[:dmp] && params[:display] == "allvotes"
-      redirect_to params.merge(only_path: true, display: nil)
+      redirect_to params.merge(only_path: true, display: nil).to_h
       return
     end
     if params[:display] == "summary" || params[:display] == "alldreams"
-      redirect_to params.merge(only_path: true, display: nil)
+      redirect_to params.merge(only_path: true, display: nil).to_h
       return
     end
     if params[:display] == "allvotes" || params[:showall] == "yes"
-      redirect_to params.merge(only_path: true, showall: nil, display: "everyvote")
+      redirect_to params.merge(only_path: true, showall: nil, display: "everyvote").to_h
     end
   end
 

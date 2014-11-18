@@ -1,6 +1,6 @@
 class ElectoratesController < ApplicationController
   def show_redirect
-    redirect_to params.merge(only_path: true, display: nil, dmp: nil, house: (params[:house] || "representatives"))
+    redirect_to params.merge(only_path: true, display: nil, dmp: nil, house: (params[:house] || "representatives")).to_h
   end
 
   def show
