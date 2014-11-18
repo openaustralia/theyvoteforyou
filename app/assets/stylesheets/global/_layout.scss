@@ -31,6 +31,8 @@
 
   @media (min-width: 18em) {
     width: 50%; // 6/12
+  @media (min-width: 30em) {
+    width: 33.3333%; // 4/12
   }
 
   @media (min-width: $screen-sm-min) {
