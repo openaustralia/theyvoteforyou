@@ -21,6 +21,9 @@
   padding: 0;
   list-style: none;
   font-size: 0;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
 }
 
 .grid-list-module {
@@ -31,6 +34,9 @@
 
   @media (min-width: 18em) {
     width: 50%; // 6/12
+    margin: 0;
+  }
+
   @media (min-width: 30em) {
     width: 33.3333%; // 4/12
   }
