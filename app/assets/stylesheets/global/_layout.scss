@@ -58,15 +58,23 @@
   }
 
   a {
-    padding: 2em 1.5em 0;
+    padding: 1em;
     display: block;
-    height: 8em;
+    height: 5em;
+
+    @media (min-width: 30em) {
+      padding: 2em 1.5em 0;
+    }
 
     .has-flexbox & {
-      padding: 1em;
+      padding: .5em;
       display: flex;
       justify-content: center;
       align-items: center;
+
+      @media (min-width: 30em) {
+        padding: 1em;
+      }
     }
   }
 }
