@@ -57,6 +57,7 @@ class PoliciesController < ApplicationController
     @policy = Policy.find(params[:id])
 
     if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+      AlertMailer.policy_updated(@policy.versions.last).deliver
       redirect_to @policy, notice: 'Policy updated.'
     else
       redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
