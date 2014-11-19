@@ -1,7 +1,7 @@
 .lazy {
-  display: none;
+  display: none !important;
 
-  .js & {
-    display: inherit;
+  .has-js & {
+    display: inherit !important;
   }
 }

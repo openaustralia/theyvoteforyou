@@ -132,3 +132,31 @@
     margin-top: 0;
   }
 }
+
+.supporting-orgs-block {
+  padding-bottom: 90px;
+
+  @media (min-width: $screen-sm-min) {
+    text-align: center;
+  }
+
+  h2 {
+    font-size: $font-size-h4;
+    font-weight: normal;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .supporting-org {
+    &:hover,
+    &:focus {
+      opacity: .5;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+}
