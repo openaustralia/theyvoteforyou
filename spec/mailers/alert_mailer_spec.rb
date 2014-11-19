@@ -1,4 +1,4 @@
-require "rails_helper"
+require "spec_helper"
 
 RSpec.describe AlertMailer, :type => :mailer do
   describe "policy_updated" do
