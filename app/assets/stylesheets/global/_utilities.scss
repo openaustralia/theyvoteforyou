@@ -2,6 +2,6 @@
   display: none !important;
 
   .has-js & {
-    display: inherit;
+    display: inherit !important;
   }
 }
