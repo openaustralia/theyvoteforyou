@@ -154,6 +154,10 @@
     &:focus {
       opacity: .5;
     }
+
+    img {
+      max-width: 100%;
+    }
   }
 }
 
