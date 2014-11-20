@@ -10,7 +10,7 @@
   -# TODO This title is just a stop-gap. Make it not suck.
   %h1.col-md-9= yield :title
 
-%ul.list-unstyled
+%ul.row.list-unstyled
   - PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc).each do |version|
     %li.object-item
       %p
