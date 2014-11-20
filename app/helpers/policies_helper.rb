@@ -171,6 +171,30 @@ module PoliciesHelper
     end
   end
 
+  def policy_division_version_sentence2(version, options)
+    actions = {"create" => "Connected", "destroy" => "Disconnected", "update" => "Changed"}
+    vote = policy_division_version_vote(version)
+    division = policy_division_version_division(version)
+
+    if options[:show_policy]
+      policy = Policy.find(version.policy_id)
+      "On policy ".html_safe + link_to(policy.name, policy) + " ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+    else
+      if version.event == "update"
+        actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division)) + ".".html_safe
+      elsif version.event == "create" || version.event == "destroy"
+        if version.event == "create"
+          tense = " set to "
+        else
+          tense = " was "
+        end
+        actions[version.event].html_safe + " division ".html_safe + content_tag(:em, link_to(division.name, division)) + ". Policy vote ".html_safe + tense + vote + ".".html_safe
+      else
+        raise
+      end
+    end
+  end
+
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)
@@ -191,7 +215,7 @@ module PoliciesHelper
     if version.item_type == "Policy"
       result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = content_tag(:p, policy_division_version_sentence(version, options))
+      result = content_tag(:p, policy_division_version_sentence2(version, options))
     end
     result
   end
