@@ -1,4 +1,4 @@
-We also maintain a legacy XML API which is used by [OpenAustralia.org](http://www.openaustralia.org) to
+We also maintain a legacy XML API which is used by [OpenAustralia.org](http://www.openaustralia.org.au) to
 access policy information. We plan to phase this API out as soon as is practical. We strongly recommend
 you use the modern REST API above for anything new.
 
