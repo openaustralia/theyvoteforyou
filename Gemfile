@@ -61,6 +61,7 @@ group :test do
   gem "database_cleaner"
   gem 'rspec-activemodel-mocks'
   gem 'webmock'
+  gem 'vcr'
 end
 
 group :development do
