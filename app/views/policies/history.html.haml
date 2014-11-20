@@ -13,8 +13,8 @@
 %ul.row.list-unstyled
   - PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc).each do |version|
     %li.object-item
-      %p
-        = version_sentence_no_attribution(version)
+      = version_sentence_no_attribution(version)
+      
       %p.small.object-primary.text-muted
         = version_author_link(version)
         = time_ago_in_words(version.created_at)
