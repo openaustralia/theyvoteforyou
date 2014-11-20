@@ -193,7 +193,7 @@ module PoliciesHelper
     if version.item_type == "Policy"
       result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = policy_division_version_sentence(version, options)
+      result = content_tag(:p, policy_division_version_sentence(version, options))
     end
     result
   end
