@@ -178,7 +178,7 @@ module PoliciesHelper
 
     if options[:show_policy]
       policy = Policy.find(version.policy_id)
-      "On policy ".html_safe + link_to(policy.name, policy) + " ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+      "On policy ".html_safe + link_to(policy.name, policy) + ": ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
     else
       if version.event == "update"
         actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division)) + ".".html_safe
