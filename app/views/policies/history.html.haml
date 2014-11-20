@@ -13,4 +13,9 @@
 %ul.list-unstyled
   - PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc).each do |version|
     %li.object-item
-      = version_sentence(version)
+      %p
+        = version_sentence_no_attribution(version)
+      %p.small.object-primary
+        = version_author_link(version)
+        made update
+        = time_ago_in_words(version.created_at)

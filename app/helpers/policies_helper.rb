@@ -133,6 +133,20 @@ module PoliciesHelper
     result
   end
 
+  def version_sentence_no_attribution(version, options = {})
+    if version.item_type == "Policy"
+      result = policy_version_sentence(version, options)
+    elsif version.item_type == "PolicyDivision"
+      result = policy_division_version_sentence(version, options)
+    end
+    result
+  end
+
+  def version_author_link(version)
+    user = User.find(version.whodunnit)
+    link_to(user.name, user)
+  end
+
   def capitalise_initial_character(text)
     text[0].upcase + text[1..-1]
   end
