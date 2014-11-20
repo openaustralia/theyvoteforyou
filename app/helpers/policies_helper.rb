@@ -37,7 +37,7 @@ module PoliciesHelper
   end
 
   def quote(word)
-    ("&ldquo;" + h(word) + "&rdquo;").html_safe
+    "“#{word}”"
   end
 
   def policy_version_sentence(version, options)
@@ -129,12 +129,10 @@ module PoliciesHelper
       if options[:show_policy]
         policy = version.reify
 
-        # TODO: make this output html_safe if that is secure
         result = changes.map do |change|
           content_tag(:p, "On policy " + link_to(policy.name, policy) + " changed " + change.to_s + ".")
         end.join
       else
-        # TODO: make this output html_safe if that is secure
         result = changes.map do |change|
           content_tag(:p, "Changed " + change + ".")
         end.join
