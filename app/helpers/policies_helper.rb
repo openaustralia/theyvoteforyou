@@ -89,6 +89,62 @@ module PoliciesHelper
     result.html_safe
   end
 
+  def policy_version_multiple_paragraphs(version, options)
+    if version.event == "create"
+      name = version.changeset["name"].second
+      description = version.changeset["description"].second
+      result = "Created"
+      result += version.changeset["private"].second == 2 ? " draft " : " "
+      if options[:show_policy]
+        policy = Policy.find(version.changeset["id"].second)
+        result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
+      else
+        result += "policy " + quote(name) + " with description " + quote(description)
+      end
+    elsif version.event == "update"
+      changes = []
+      if version.changeset.has_key?("name")
+        name1 = version.changeset["name"].first
+        name2 = version.changeset["name"].second
+        if options[:show_policy]
+          changes << "name to " + quote(name2)
+        else
+          changes << "name from " + quote(name1) + " to " + quote(name2)
+        end
+      end
+      if version.changeset.has_key?("description")
+        description1 = version.changeset["description"].first
+        description2 = version.changeset["description"].second
+        changes << "description from " + quote(description1) + " to " + quote(description2)
+      end
+      if version.changeset.has_key?("private")
+        if version.changeset["private"].second == 0
+          changes << "status to not draft"
+        elsif version.changeset["private"].second == 2
+          changes << "status to draft"
+        else
+          raise
+        end
+      end
+      if options[:show_policy]
+        policy = version.reify
+
+        # TODO: make this output html_safe if that is secure
+        result = changes.map do |change|
+          content_tag(:p, "On policy " + link_to(policy.name, policy) + " changed " + change.to_s + ".")
+        end.join
+      else
+        # TODO: make this output html_safe if that is secure
+        result = changes.map do |change|
+          content_tag(:p, "Changed " + change + ".")
+        end.join
+      end
+    else
+      raise
+    end
+    result.html_safe
+  end
+
   def policy_division_version_vote(version)
     if version.event == "create"
       content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
@@ -135,7 +191,7 @@ module PoliciesHelper
 
   def version_sentence_no_attribution(version, options = {})
     if version.item_type == "Policy"
-      result = policy_version_sentence(version, options)
+      result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
       result = policy_division_version_sentence(version, options)
     end
