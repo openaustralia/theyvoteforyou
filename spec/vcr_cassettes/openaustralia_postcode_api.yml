@@ -1,0 +1,138 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.openaustralia.org/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=0000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache/2.2.14 (Ubuntu)
+      X-Powered-By:
+      - PHP/5.3.2-1ubuntu4.28
+      Content-Type:
+      - text/javascript; charset=iso-8859-1
+      X-Url:
+      - /api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=0000
+      Content-Length:
+      - '30'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 20 Nov 2014 06:13:27 GMT
+      X-Varnish:
+      - '316333750'
+      Age:
+      - '0'
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '{"error":"Unknown postcode"}{}'
+    http_version: 
+  recorded_at: Thu, 20 Nov 2014 06:13:27 GMT
+- request:
+    method: get
+    uri: http://www.openaustralia.org/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2042
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache/2.2.14 (Ubuntu)
+      X-Powered-By:
+      - PHP/5.3.2-1ubuntu4.28
+      Content-Type:
+      - text/javascript; charset=iso-8859-1
+      X-Url:
+      - /api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=2042
+      Content-Length:
+      - '40'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 20 Nov 2014 06:17:13 GMT
+      X-Varnish:
+      - '316334457'
+      Age:
+      - '0'
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"name":"Grayndler"},{"name":"Sydney"}]'
+    http_version: 
+  recorded_at: Thu, 20 Nov 2014 06:17:12 GMT
+- request:
+    method: get
+    uri: http://www.openaustralia.org/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2088
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - '*/*'
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache/2.2.14 (Ubuntu)
+      X-Powered-By:
+      - PHP/5.3.2-1ubuntu4.28
+      Content-Type:
+      - text/javascript; charset=iso-8859-1
+      X-Url:
+      - /api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=2088
+      Content-Length:
+      - '22'
+      Accept-Ranges:
+      - bytes
+      Date:
+      - Thu, 20 Nov 2014 06:17:14 GMT
+      X-Varnish:
+      - '316334460'
+      Age:
+      - '0'
+      Via:
+      - 1.1 varnish
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"name":"Warringah"}]'
+    http_version: 
+  recorded_at: Thu, 20 Nov 2014 06:17:13 GMT
+recorded_with: VCR 2.9.0
