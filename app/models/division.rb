@@ -167,9 +167,9 @@ class Division < ActiveRecord::Base
   def oa_debate_url
     case house
     when "representatives"
-      "http://www.openaustralia.org/debates/?id=#{oa_debate_id}"
+      "http://www.openaustralia.org.au/debates/?id=#{oa_debate_id}"
     when "senate"
-      "http://www.openaustralia.org/senate/?id=#{oa_debate_id}"
+      "http://www.openaustralia.org.au/senate/?id=#{oa_debate_id}"
     else
       raise "unexexpected value"
     end
