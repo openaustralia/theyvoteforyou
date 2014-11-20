@@ -14,13 +14,13 @@ UK [Public Whip](http://www.publicwhip.org.uk/) project.
 
 ### [This is how we do it](https://www.youtube.com/watch?v=0hiUuL5uTKc) - process overview
 
-The [OpenAustralia.org](http://www.openaustralia.org) project
+The [OpenAustralia.org](http://www.openaustralia.org.au) project
 [parses](https://github.com/openaustralia/openaustralia-parser) the Australian
 Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
 due to it's history of being a fork of the UK
 [TheyWorkForYou](http://www.theyworkforyou.com/) project - more shoulders,
 giants). The debates XML files the parser creates, also available on
-[data.openaustralia.org](http://data.openaustralia.org/), contain voting data
+[data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data
 and we load this into a Rails application.
 
 ## Development
