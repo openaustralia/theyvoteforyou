@@ -10,12 +10,4 @@
   -# TODO This title is just a stop-gap. Make it not suck.
   %h1.col-md-9= yield :title
 
-%ul.row.list-unstyled
-  - @history.each do |version|
-    %li.object-item
-      = version_sentence_no_attribution(version)
-      
-      %p.small.object-primary.text-muted
-        = version_author_link(version)
-        = time_ago_in_words(version.created_at)
-        ago
+= render partial: "layouts/history_list"

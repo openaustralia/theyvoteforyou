@@ -7,9 +7,10 @@
           = link_to version.division.name, version.division
 
       - else
-        %p.change-policy-name
-          On policy
-          = link_to version_policy(version).name, version_policy(version)
+        - if !@policy
+          %p.change-policy-name
+            On policy
+            = link_to version_policy(version).name, version_policy(version)
 
         = version_sentence_no_attribution(version)
 
