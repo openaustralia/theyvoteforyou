@@ -40,55 +40,6 @@ module PoliciesHelper
     "“#{word}”"
   end
 
-  def policy_version_sentence(version, options)
-    if version.event == "create"
-      name = version.changeset["name"].second
-      description = version.changeset["description"].second
-      result = "Created"
-      result += version.changeset["private"].second == 2 ? " draft " : " "
-      if options[:show_policy]
-        policy = Policy.find(version.changeset["id"].second)
-        result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
-      else
-        result += "policy " + quote(name) + " with description " + quote(description)
-      end
-    elsif version.event == "update"
-      changes = []
-      if version.changeset.has_key?("name")
-        name1 = version.changeset["name"].first
-        name2 = version.changeset["name"].second
-        if options[:show_policy]
-          changes << "name to " + quote(name2)
-        else
-          changes << "name from " + quote(name1) + " to " + quote(name2)
-        end
-      end
-      if version.changeset.has_key?("description")
-        description1 = version.changeset["description"].first
-        description2 = version.changeset["description"].second
-        changes << "description from " + quote(description1) + " to " + quote(description2)
-      end
-      if version.changeset.has_key?("private")
-        if version.changeset["private"].second == 0
-          changes << "status to not draft"
-        elsif version.changeset["private"].second == 2
-          changes << "status to draft"
-        else
-          raise
-        end
-      end
-      if options[:show_policy]
-        policy = version.reify
-        result = "On policy " + link_to(policy.name, policy) + " changed " + changes.to_sentence
-      else
-        result = "Changed " + changes.to_sentence
-      end
-    else
-      raise
-    end
-    result.html_safe
-  end
-
   def policy_version_multiple_paragraphs(version, options)
     if version.event == "create"
       name = version.changeset["name"].second
