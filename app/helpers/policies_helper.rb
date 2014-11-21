@@ -130,11 +130,11 @@ module PoliciesHelper
         policy = version.reify
 
         result = changes.map do |change|
-          content_tag(:p, "On policy " + link_to(policy.name, policy) + " changed " + change.to_s + ".")
+          content_tag(:p, "On policy " + link_to(policy.name, policy) + " changed " + change.to_s + ".", class: 'change-action')
         end.join
       else
         result = changes.map do |change|
-          content_tag(:p, "Changed " + change + ".")
+          content_tag(:p, "Changed " + change + ".", class: 'change-action')
         end.join
       end
     else
@@ -219,7 +219,7 @@ module PoliciesHelper
     if version.item_type == "Policy"
       result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = content_tag(:p, policy_division_version_sentence2(version, options))
+      result = content_tag(:p, policy_division_version_sentence2(version, options), class: 'change-action')
     end
     result
   end
