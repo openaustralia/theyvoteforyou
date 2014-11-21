@@ -159,19 +159,6 @@ module PoliciesHelper
     Division.find(id)
   end
 
-  def policy_division_version_sentence(version, options)
-    actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
-
-    vote = policy_division_version_vote(version)
-    division = policy_division_version_division(version)
-    if options[:show_policy]
-      policy = Policy.find(version.policy_id)
-      "On policy ".html_safe + link_to(policy.name, policy) + " ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
-    else
-      actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
-    end
-  end
-
   def policy_division_version_sentence2(version, options)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
     vote = policy_division_version_vote(version)
