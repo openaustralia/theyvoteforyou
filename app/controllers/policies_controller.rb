@@ -67,4 +67,10 @@ class PoliciesController < ApplicationController
   def history
     @policy = Policy.find(params[:id])
   end
+
+  def watch
+    @policy = Policy.find(params[:id])
+    @policy.watches.create(user: current_user)
+    redirect_to @policy, notice: 'Eyes peeled - now watching!'
+  end
 end

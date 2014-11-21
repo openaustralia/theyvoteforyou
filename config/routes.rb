@@ -171,6 +171,7 @@ Publicwhip::Application.routes.draw do
     member do
       get 'detail'
       get 'history'
+      post 'watch'
     end
   end
 
