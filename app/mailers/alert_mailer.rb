@@ -7,9 +7,9 @@ class AlertMailer < ActionMailer::Base
   #
   #   en.alert_mailer.policy_updated.subject
   #
-  def policy_updated(version)
+  def policy_updated(version, user)
     @version = version
 
-    mail to: "to@example.org"
+    mail to: user.email
   end
 end

@@ -136,8 +136,10 @@ class Policy < ActiveRecord::Base
     current_members(policy_person_distances.never_voted)
   end
 
-  def alert_watchers
-    AlertMailer.policy_updated(versions.last).deliver
+  def alert_watches
+    watches.each do |watch|
+      AlertMailer.policy_updated(versions.last, watch.user).deliver
+    end
   end
 
   private
