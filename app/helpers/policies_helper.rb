@@ -184,9 +184,9 @@ module PoliciesHelper
         actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division)) + ".".html_safe
       elsif version.event == "create" || version.event == "destroy"
         if version.event == "create"
-          tense = " set to "
+          tense = "set to "
         else
-          tense = " was "
+          tense = "was "
         end
         actions[version.event].html_safe + " division ".html_safe + content_tag(:em, link_to(division.name, division)) + ". Policy vote ".html_safe + tense + vote + ".".html_safe
       else
