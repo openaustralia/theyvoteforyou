@@ -159,7 +159,7 @@ module PoliciesHelper
     Division.find(id)
   end
 
-  def policy_division_version_sentence2(version, options)
+  def policy_division_version_sentence(version, options)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
@@ -197,7 +197,7 @@ module PoliciesHelper
     if version.item_type == "Policy"
       result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = content_tag(:p, policy_division_version_sentence2(version, options), class: 'change-action')
+      result = content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
     end
     result
   end
