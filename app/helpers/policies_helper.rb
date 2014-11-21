@@ -23,6 +23,16 @@ module PoliciesHelper
     end
   end
 
+  def policy_division_vote_without_strong(vote)
+    if vote == 'aye3'
+      'aye'
+    elsif vote == 'no3'
+      'no'
+    else
+      vote
+    end
+  end
+
   # TODO This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges
     {
@@ -145,11 +155,11 @@ module PoliciesHelper
 
   def policy_division_version_vote(version)
     if version.event == "create"
-      content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
+      content_tag(:span, vote_display(version.changeset["vote"].second), class: "division-policy-statement-vote " + ("voted-" + policy_division_vote_without_strong(version.changeset["vote"].second)))
     elsif version.event == "destroy"
-      content_tag(:strong, vote_display(version.reify.vote).downcase)
+      content_tag(:span, vote_display(version.reify.vote), class: "division-policy-statement-vote " + ("voted-" + policy_division_vote_without_strong(version.reify.vote)))
     elsif version.event == "update"
-      content_tag(:strong, vote_display(version.changeset["vote"].first).downcase) + " to ".html_safe + content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
+      content_tag(:span, vote_display(version.changeset["vote"].first), class: "division-policy-statement-vote " + ("voted-" + policy_division_vote_without_strong(version.changeset["vote"].first))) + " to ".html_safe + content_tag(:span, vote_display(version.changeset["vote"].second), class: "division-policy-statement-vote " + ("voted-" + policy_division_vote_without_strong(version.changeset["vote"].second)))
     end
   end
 
