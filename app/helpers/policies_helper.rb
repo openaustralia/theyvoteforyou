@@ -195,6 +195,10 @@ module PoliciesHelper
     end
   end
 
+  def version_policy(version)
+    Policy.find(version.policy_id)
+  end
+
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)

@@ -19,4 +19,13 @@
           ago
     - else
       %li.object-item
-        = version_sentence(version, show_policy: true)
+        %p.change-policy-name
+          On policy
+          = link_to version_policy(version).name, version_policy(version)
+
+        = version_sentence_no_attribution(version)
+
+        %p.small.object-primary.text-muted
+          = version_author_link(version)
+          = time_ago_in_words(version.created_at)
+          ago
