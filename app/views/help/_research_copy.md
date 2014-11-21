@@ -6,7 +6,7 @@ When the system uploads a new division, it puts text taken from the parliamentar
 
 <%= inline_project_name %> lets anyone write a plain English summary of a division so that everyone can understand what Parliament is voting on. We provide useful links for you to research next to each division and a guide for division summaries below to help you begin writing. Feedback on ways to improve this guide is appreciated.
 
-Divisions can be marked as relevant to a pre-existing policy (see [Policies](http://publicwhip-rails.openaustraliafoundation.org.au/policies)) or one that you develop yourself.
+Divisions can be marked as relevant to a pre-existing policy (see [Policies](/policies)) or one that you develop yourself.
 
 ## Guide for division summaries
 ### Title
