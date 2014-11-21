@@ -6,6 +6,7 @@ class Policy < ActiveRecord::Base
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
+  has_many :watches, as: :watchable
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true

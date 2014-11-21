@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :wiki_motions
   has_many :policies
+  has_many :watches
 
   validates :name, presence: true, uniqueness: true
 
