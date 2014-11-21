@@ -101,6 +101,7 @@ module PoliciesHelper
       else
         result += "policy " + quote(name) + " with description " + quote(description)
       end
+      result = content_tag(:p, result + ".", class: 'change-action')
     elsif version.event == "update"
       changes = []
       if version.changeset.has_key?("name")
