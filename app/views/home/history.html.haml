@@ -7,25 +7,23 @@
 
 %ul.row.list-unstyled
   - history.each do |version|
-    - if version.kind_of?(WikiMotion)
-      %li.object-item
+    %li.object-item
+      - if version.kind_of?(WikiMotion)
         %p
           Changed text on
           = link_to version.division.name, version.division
 
-        %p.small.object-primary.text-muted
-          = link_to version.user.name, version.user
-          = time_ago_in_words(version.created_at)
-          ago
-    - else
-      %li.object-item
+      - else
         %p.change-policy-name
           On policy
           = link_to version_policy(version).name, version_policy(version)
 
         = version_sentence_no_attribution(version)
 
-        %p.small.object-primary.text-muted
+      %p.small.object-primary.text-muted
+        - if version.kind_of?(WikiMotion)
+          = link_to version.user.name, version.user
+        - else
           = version_author_link(version)
-          = time_ago_in_words(version.created_at)
-          ago
+        = time_ago_in_words(version.created_at)
+        ago
