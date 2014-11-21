@@ -74,7 +74,7 @@ class Policy < ActiveRecord::Base
         attribute = if policy_division.strong_vote?
           if member_vote == 'absent'
             :nvotesabsentstrong
-          elsif member_vote == policy_division.vote_without_strong
+          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessamestrong
           else
             :nvotesdifferstrong
@@ -82,7 +82,7 @@ class Policy < ActiveRecord::Base
         else
           if member_vote == 'absent'
             :nvotesabsent
-          elsif member_vote == policy_division.vote_without_strong
+          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessame
           else
             :nvotesdiffer

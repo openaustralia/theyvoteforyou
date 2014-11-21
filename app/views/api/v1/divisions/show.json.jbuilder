@@ -9,7 +9,7 @@ json.policy_divisions do
     json.policy do
       json.partial! "api/v1/policies/policy", policy: pd.policy
     end
-    json.vote pd.vote_without_strong
+    json.vote PolicyDivision.vote_without_strong(pd.vote)
     json.strong pd.strong_vote?
   end
 end
