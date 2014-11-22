@@ -84,11 +84,14 @@ module PoliciesHelper
 
   def policy_division_version_vote(version)
     if version.event == "create"
-      content_tag(:span, vote_display(version.changeset["vote"].second), class: "division-policy-statement-vote " + ("voted-" + PolicyDivision.vote_without_strong(version.changeset["vote"].second)))
+      policy_vote_display_with_class(version.changeset["vote"].second)
     elsif version.event == "destroy"
-      content_tag(:span, vote_display(version.reify.vote), class: "division-policy-statement-vote " + ("voted-" + PolicyDivision.vote_without_strong(version.reify.vote)))
+      policy_vote_display_with_class(version.reify.vote)
     elsif version.event == "update"
-      content_tag(:span, vote_display(version.changeset["vote"].first), class: "division-policy-statement-vote " + ("voted-" + PolicyDivision.vote_without_strong(version.changeset["vote"].first))) + " to ".html_safe + content_tag(:span, vote_display(version.changeset["vote"].second), class: "division-policy-statement-vote " + ("voted-" + PolicyDivision.vote_without_strong(version.changeset["vote"].second)))
+      text = policy_vote_display_with_class(version.changeset["vote"].first)
+      text += " to ".html_safe
+      text += policy_vote_display_with_class(version.changeset["vote"].second)
+      text
     end
   end
 
