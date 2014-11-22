@@ -52,6 +52,15 @@ module DivisionsHelper
     end
   end
 
+  def policy_vote_display_with_class(vote)
+    text = vote_display(vote)
+    pattern_class = "division-policy-statement-vote"
+    vote_class = ("voted-" + PolicyDivision.vote_without_strong(vote))
+    classes = pattern_class + " " + vote_class
+
+    content_tag(:span, text, class: classes )
+  end
+
   def majority_strength_in_words(division)
     if division.majority_fraction == 1.0
       "unanimously"
