@@ -50,16 +50,19 @@ module PoliciesHelper
       result = content_tag(:p, result + ".", class: 'change-action')
     elsif version.event == "update"
       changes = []
+
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
         changes << "name from " + quote(name1) + " to " + quote(name2)
       end
+
       if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
         changes << "description from " + quote(description1) + " to " + quote(description2)
       end
+      
       if version.changeset.has_key?("private")
         if version.changeset["private"].second == 0
           changes << "status to not draft"
