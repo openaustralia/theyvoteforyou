@@ -15,9 +15,6 @@
         = version_sentence_no_attribution(version)
 
       %p.small.object-primary.text-muted
-        - if version.kind_of?(WikiMotion)
-          = link_to version.user.name, version.user
-        - else
-          = version_author_link(version)
+        = version_author_link(version)
         = time_ago_in_words(version.created_at)
         ago

@@ -154,8 +154,12 @@ module PoliciesHelper
   end
 
   def version_author_link(version)
-    user = User.find(version.whodunnit)
-    link_to(user.name, user)
+    if version.kind_of?(WikiMotion)
+      link_to version.user.name, version.user
+    else
+      user = User.find(version.whodunnit)
+      link_to(user.name, user)
+    end
   end
 
   def capitalise_initial_character(text)
