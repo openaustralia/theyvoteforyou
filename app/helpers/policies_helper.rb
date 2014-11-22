@@ -46,23 +46,14 @@ module PoliciesHelper
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
-      if options[:show_policy]
-        policy = Policy.find(version.changeset["id"].second)
-        result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
-      else
-        result += "policy " + quote(name) + " with description " + quote(description)
-      end
+      result += "policy " + quote(name) + " with description " + quote(description)
       result = content_tag(:p, result + ".", class: 'change-action')
     elsif version.event == "update"
       changes = []
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        if options[:show_policy]
-          changes << "name to " + quote(name2)
-        else
-          changes << "name from " + quote(name1) + " to " + quote(name2)
-        end
+        changes << "name from " + quote(name1) + " to " + quote(name2)
       end
       if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
@@ -78,17 +69,10 @@ module PoliciesHelper
           raise
         end
       end
-      if options[:show_policy]
-        policy = version.reify
 
-        result = changes.map do |change|
-          content_tag(:p, "On policy " + link_to(policy.name, policy) + " changed " + change.to_s + ".", class: 'change-action')
-        end.join
-      else
-        result = changes.map do |change|
-          content_tag(:p, "Changed " + change + ".", class: 'change-action')
-        end.join
-      end
+      result = changes.map do |change|
+        content_tag(:p, "Changed " + change + ".", class: 'change-action')
+      end.join
     else
       raise
     end
