@@ -40,7 +40,7 @@ module PoliciesHelper
     "“#{word}”"
   end
 
-  def policy_version_multiple_paragraphs(version, options)
+  def policy_version_sentence(version, options)
     if version.event == "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
@@ -131,7 +131,7 @@ module PoliciesHelper
 
   def version_sentence(version, options = {})
     if version.item_type == "Policy"
-      result =  policy_version_multiple_paragraphs(version, options)
+      result =  policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
       result = content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
     end
