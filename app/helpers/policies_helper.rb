@@ -129,7 +129,7 @@ module PoliciesHelper
     ("by " + link_to(user.name, user) + ", " + time + " ago").html_safe
   end
 
-  def version_sentence_no_attribution(version, options = {})
+  def version_sentence(version, options = {})
     if version.item_type == "Policy"
       result =  policy_version_multiple_paragraphs(version, options)
     elsif version.item_type == "PolicyDivision"
