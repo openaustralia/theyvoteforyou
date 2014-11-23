@@ -24,6 +24,18 @@ class User < ActiveRecord::Base
     api_key
   end
 
+  def watching?(object)
+    !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
+  end
+
+  def toggle_policy_watch(policy)
+    if watch = policy.watches.find_by(user: self)
+      watch.destroy!
+    else
+      policy.watches.create!(user: self)
+    end
+  end
+
   def self.system_name
     "system"
   end

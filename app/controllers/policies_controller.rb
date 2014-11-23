@@ -70,7 +70,7 @@ class PoliciesController < ApplicationController
 
   def watch
     @policy = Policy.find(params[:id])
-    @policy.watches.create(user: current_user)
-    redirect_to @policy, notice: 'Eyes peeled - now watching!'
+    current_user.toggle_policy_watch(@policy)
+    redirect_to @policy
   end
 end
