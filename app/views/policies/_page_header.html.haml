@@ -10,7 +10,7 @@
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
   .header-secondary.col-sm-12
-    = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form" do
+    = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form " + (current_user && current_user.watching?(policy) ? "subscribe-button-form-unsubscribe" : "subscribe-button-form-subscribe") do
       = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
 
     %aside.social-share
