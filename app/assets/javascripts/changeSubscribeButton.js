@@ -21,8 +21,6 @@ function changeSubscribeButtons(new_text, new_class_name) {
     // change the button text
     copy.nodeValue = new_text;
 
-    // change the text value
-
     // add a class name to the form
     subscribe_forms[i].className += " " + new_class_name;
 
@@ -30,13 +28,11 @@ function changeSubscribeButtons(new_text, new_class_name) {
     button.onmouseover = function() {
       copy.nodeValue = original_text;
     };
-
     button.onfocus = button.onmouseover;
 
     button.onmouseout = function() {
       copy.nodeValue = new_text;
     };
-
     button.onblur = button.onmouseout;
   }
 }
