@@ -5,12 +5,13 @@
   %nav.header-actions.col-md-3.col-lg-2
     = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "btn btn-default btn-xs"
     = link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
-    = button_to (current_user && current_user.watching?(@policy) ? "Unwatch" : "Watch"), watch_policy_path(policy), class: "btn btn-default btn-xs"
   %h1.col-md-9.col-lg-10.long-title
     = yield :title
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
   .header-secondary.col-sm-12
+    = button_to (current_user && current_user.watching?(@policy) ? "Unwatch" : "Watch"), watch_policy_path(policy), class: "btn btn-default btn-xs"
+
     %aside.social-share
       %h2.social-share-heading.small.text-muted Share
 
