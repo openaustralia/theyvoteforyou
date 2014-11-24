@@ -10,7 +10,7 @@
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
   .header-secondary.col-sm-12
-    = button_to (current_user && current_user.watching?(@policy) ? "Unwatch" : "Watch"), watch_policy_path(policy), class: "btn btn-link"
+    = button_to (current_user && current_user.watching?(@policy) ? "Unsubscribe" : "Subscribe"), watch_policy_path(policy), class: "btn btn-link"
 
     %aside.social-share
       %h2.social-share-heading.small.text-muted Share
