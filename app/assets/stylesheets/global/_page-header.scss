@@ -40,6 +40,26 @@
     margin-top: 48px;
   }
 
+  .header-secondary .social-share {
+    display: none;
+    width: 100%;
+    text-align: center;
+
+    @media (min-width: 30em) {
+      text-align: left;
+      float: right;
+      width: auto;
+      display: inline-block;
+    }
+
+    @media (min-width: $screen-md-min) {
+      float: right !important;
+      margin-left: 0;
+    }
+
+    @include make-lg-column(4);
+  }
+
   + .social-share {
     display: none;
     width: 100%;
