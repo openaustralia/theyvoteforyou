@@ -1,3 +1,15 @@
-AlertMailer#policy_updated
+Policy Updated: <%= version_policy(@version).name %>
 
-<%= @greeting %>, find me in app/views/alert_mailer/policy_updated.text.erb
+<% # TODO: Include host in URL %>
+<%= url_for(version_policy(@version)) %>
+
+<% if @version.kind_of?(WikiMotion) %>
+  Changed text on related division: <%= @version.division.name %>
+  <%= url_for(@version.division) %>
+<% else %>
+  <% # TODO: Non-HTML version of this %>
+  <%= url_for(version_sentence(@version)) %>
+<% end %>
+
+<% # TODO: Non-HTML version of this %>
+<%= version_author_link(@version) %>
