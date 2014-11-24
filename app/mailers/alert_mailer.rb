@@ -1,5 +1,6 @@
 class AlertMailer < ActionMailer::Base
   default from: "from@example.com"
+  layout 'email'
   helper PoliciesHelper, DivisionsHelper, PathHelper
 
   # Subject can be set in your I18n file at config/locales/en.yml
