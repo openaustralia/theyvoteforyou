@@ -1,5 +1,5 @@
-- content_for :title, capitalise_initial_character(@policy.name_with_for)
-- set_meta_tags description: "Find out how people in parliament stand on #{@policy.name}."
+- content_for :title, capitalise_initial_character(policy.name_with_for)
+- set_meta_tags description: "Find out how people in parliament stand on #{policy.name}."
 
 .page-header.row
   %nav.header-actions.col-md-3.col-lg-2
@@ -10,7 +10,7 @@
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
   .header-secondary.col-sm-12
-    = button_to (current_user && current_user.watching?(@policy) ? "Unsubscribe" : "Subscribe"), watch_policy_path(policy), class: "btn btn-link", form_class: "subscribe-button-form"
+    = button_to (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe"), watch_policy_path(policy), class: "btn btn-link", form_class: "subscribe-button-form"
 
     %aside.social-share
       %h2.social-share-heading.small.text-muted Share
