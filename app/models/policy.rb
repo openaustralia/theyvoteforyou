@@ -142,6 +142,8 @@ class Policy < ActiveRecord::Base
     end
   end
 
+  handle_asynchronously :alert_watches
+
   private
 
   def current_members(policy_person_distances)
