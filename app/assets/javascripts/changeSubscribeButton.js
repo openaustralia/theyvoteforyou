@@ -31,8 +31,12 @@ function changeSubscribeButtons(new_text, new_class_name) {
       copy.nodeValue = original_text;
     };
 
+    button.onfocus = button.onmouseover;
+
     button.onmouseout = function() {
       copy.nodeValue = new_text;
     };
+
+    button.onblur = button.onmouseout;
   }
 }
