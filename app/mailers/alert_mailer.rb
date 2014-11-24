@@ -1,5 +1,5 @@
 class AlertMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: "#{Settings.project_name} <#{Settings.contact_email}>"
   layout 'email'
   helper PoliciesHelper, DivisionsHelper, PathHelper
 
