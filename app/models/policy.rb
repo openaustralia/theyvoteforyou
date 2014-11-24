@@ -136,9 +136,9 @@ class Policy < ActiveRecord::Base
     current_members(policy_person_distances.never_voted)
   end
 
-  def alert_watches
+  def alert_watches(version)
     watches.each do |watch|
-      AlertMailer.policy_updated(versions.last, watch.user).deliver
+      AlertMailer.policy_updated(version, watch.user).deliver
     end
   end
 
