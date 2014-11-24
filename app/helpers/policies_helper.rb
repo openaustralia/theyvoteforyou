@@ -37,7 +37,7 @@ module PoliciesHelper
   end
 
   def quote(word)
-    ("&ldquo;" + h(word) + "&rdquo;").html_safe
+    "“#{word}”"
   end
 
   def policy_version_sentence(version, options)
@@ -46,28 +46,23 @@ module PoliciesHelper
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
-      if options[:show_policy]
-        policy = Policy.find(version.changeset["id"].second)
-        result += "policy " + link_to(quote(name), policy) + " with description " + quote(description)
-      else
-        result += "policy " + quote(name) + " with description " + quote(description)
-      end
+      result += "policy " + quote(name) + " with description " + quote(description)
+      result = content_tag(:p, result + ".", class: 'change-action')
     elsif version.event == "update"
       changes = []
+
       if version.changeset.has_key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        if options[:show_policy]
-          changes << "name to " + quote(name2)
-        else
-          changes << "name from " + quote(name1) + " to " + quote(name2)
-        end
+        changes << "name from " + quote(name1) + " to " + quote(name2)
       end
+
       if version.changeset.has_key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
         changes << "description from " + quote(description1) + " to " + quote(description2)
       end
+      
       if version.changeset.has_key?("private")
         if version.changeset["private"].second == 0
           changes << "status to not draft"
@@ -77,12 +72,10 @@ module PoliciesHelper
           raise
         end
       end
-      if options[:show_policy]
-        policy = version.reify
-        result = "On policy " + link_to(policy.name, policy) + " changed " + changes.to_sentence
-      else
-        result = "Changed " + changes.to_sentence
-      end
+
+      result = changes.map do |change|
+        content_tag(:p, "Changed " + change + ".", class: 'change-action')
+      end.join
     else
       raise
     end
@@ -91,11 +84,14 @@ module PoliciesHelper
 
   def policy_division_version_vote(version)
     if version.event == "create"
-      content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
+      policy_vote_display_with_class(version.changeset["vote"].second)
     elsif version.event == "destroy"
-      content_tag(:strong, vote_display(version.reify.vote).downcase)
+      policy_vote_display_with_class(version.reify.vote)
     elsif version.event == "update"
-      content_tag(:strong, vote_display(version.changeset["vote"].first).downcase) + " to ".html_safe + content_tag(:strong, vote_display(version.changeset["vote"].second).downcase)
+      text = policy_vote_display_with_class(version.changeset["vote"].first)
+      text += " to ".html_safe
+      text += policy_vote_display_with_class(version.changeset["vote"].second)
+      text
     end
   end
 
@@ -106,15 +102,25 @@ module PoliciesHelper
 
   def policy_division_version_sentence(version, options)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
-
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    if options[:show_policy]
-      policy = Policy.find(version.policy_id)
-      "On policy ".html_safe + link_to(policy.name, policy) + " ".html_safe + actions[version.event].downcase.html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+
+    if version.event == "update"
+      actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division)) + ".".html_safe
+    elsif version.event == "create" || version.event == "destroy"
+      if version.event == "create"
+        tense = "set to "
+      else
+        tense = "was "
+      end
+      actions[version.event].html_safe + " division ".html_safe + content_tag(:em, link_to(division.name, division)) + ". Policy vote ".html_safe + tense + vote + ".".html_safe
     else
-      actions[version.event].html_safe + " ".html_safe + vote + " on ".html_safe + link_to(division.name, division)
+      raise
     end
+  end
+
+  def version_policy(version)
+    Policy.find(version.policy_id)
   end
 
   def version_attribution_sentence(version)
@@ -125,12 +131,20 @@ module PoliciesHelper
 
   def version_sentence(version, options = {})
     if version.item_type == "Policy"
-      result = policy_version_sentence(version, options)
+      result =  policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = policy_division_version_sentence(version, options)
+      result = content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
     end
-    result += " ".html_safe + version_attribution_sentence(version)
     result
+  end
+
+  def version_author_link(version)
+    if version.kind_of?(WikiMotion)
+      link_to version.user.name, version.user
+    else
+      user = User.find(version.whodunnit)
+      link_to(user.name, user)
+    end
   end
 
   def capitalise_initial_character(text)

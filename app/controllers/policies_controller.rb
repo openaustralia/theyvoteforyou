@@ -66,6 +66,7 @@ class PoliciesController < ApplicationController
 
   def history
     @policy = Policy.find(params[:id])
+    @history = PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc)
   end
 
   def watch

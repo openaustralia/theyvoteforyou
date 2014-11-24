@@ -3,17 +3,4 @@
 .page-header
   %h1 All edits made in the last week
 
-- history = (PaperTrail::Version.where("created_at > ?", 1.week.ago) + WikiMotion.where("edit_date > ?", 1.week.ago)).sort_by{|v| -v.created_at.to_i}
-
-%ul
-  - history.each do |version|
-    %li
-      - if version.kind_of?(WikiMotion)
-        Changed text on
-        = link_to version.division.name, version.division
-        by
-        #{link_to version.user.name, version.user},
-        = time_ago_in_words(version.created_at)
-        ago
-      - else
-        = version_sentence(version, show_policy: true)
+= render partial: "layouts/history_list"

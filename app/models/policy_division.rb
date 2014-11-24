@@ -11,11 +11,7 @@ class PolicyDivision < ActiveRecord::Base
 
   delegate :name, :house, :house_name, :date, :number, to: :division
 
-  def strong_vote?
-    vote == 'aye3' || vote == 'no3'
-  end
-
-  def vote_without_strong
+  def self.vote_without_strong(vote)
     case vote
     when 'aye3'
       'aye'
@@ -24,6 +20,10 @@ class PolicyDivision < ActiveRecord::Base
     else
       vote
     end
+  end
+
+  def strong_vote?
+    vote == 'aye3' || vote == 'no3'
   end
 
   private
