@@ -1,4 +1,14 @@
-%h1 Policy Updated
+%h1
+  Policy Updated:
+  = link_to version_policy(@version).name, version_policy(@version)
 
-%p
-  = version_sentence @version, show_policy: true
+- if @version.kind_of?(WikiMotion)
+  %p
+    Changed text on related division
+    = link_to @version.division.name, @version.division
+- else
+  = version_sentence(@version)
+
+%p.small.object-primary.text-muted
+  by
+  = version_author_link(@version)
