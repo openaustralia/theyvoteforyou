@@ -7,3 +7,6 @@ $ ->
       letterLimit: 10,
       prevLimit: 11
     })
+
+  if changeSubscribeButtons? && document.getElementsByClassName("subscribe-button-form-unsubscribe").length > 0
+    changeSubscribeButtons("Subscribed", "subscribe-button-active")
