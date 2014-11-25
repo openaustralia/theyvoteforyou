@@ -131,11 +131,10 @@ module PoliciesHelper
 
   def version_sentence(version, options = {})
     if version.item_type == "Policy"
-      result =  policy_version_sentence(version, options)
+      policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
-      result = content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
+      content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
     end
-    result
   end
 
   def version_author_link(version, options = {})
