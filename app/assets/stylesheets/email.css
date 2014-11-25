@@ -187,6 +187,10 @@ a {
   clear: both;
 }
 
+.text-muted {
+  color: #666666;
+}
+
 /* -------------------------------------
     ALERTS
     Change the class depending on warning email, good email or bad email
