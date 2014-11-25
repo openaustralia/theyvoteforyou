@@ -146,6 +146,15 @@ module PoliciesHelper
     end
   end
 
+  def version_author_link_text(version)
+    if version.kind_of?(WikiMotion)
+      "#{version.user.name}\n#{user_path(version.user, only_path: false)}"
+    else
+      user = User.find(version.whodunnit)
+      "#{user.name}\n#{user_path(user, only_path: false)}"
+    end
+  end
+
   def capitalise_initial_character(text)
     text[0].upcase + text[1..-1]
   end
