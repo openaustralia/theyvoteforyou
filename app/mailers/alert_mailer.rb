@@ -3,14 +3,9 @@ class AlertMailer < ActionMailer::Base
   layout 'email'
   helper PoliciesHelper, DivisionsHelper, PathHelper
 
-  # Subject can be set in your I18n file at config/locales/en.yml
-  # with the following lookup:
-  #
-  #   en.alert_mailer.policy_updated.subject
-  #
   def policy_updated(version, user)
     @version = version
 
-    mail to: user.email
+    mail to: user.email, subject: render_to_string(partial: 'policy_updated_subject')
   end
 end
