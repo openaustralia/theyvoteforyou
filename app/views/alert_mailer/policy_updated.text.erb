@@ -3,8 +3,8 @@ Policy Updated: <%= @policy.name %>
 <%= policy_path(@policy, only_path: false) %>
 
 <% if @version.kind_of?(WikiMotion) %>
-  Changed text on related division: <%= @version.division.name %>
-  <%= division_path(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
+Changed text on related division: <%= @version.division.name %>
+<%= division_path(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
 <% else %>
 <%= version_sentence_text(@version) %>
 <% end %>
