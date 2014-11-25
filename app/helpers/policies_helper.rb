@@ -82,6 +82,48 @@ module PoliciesHelper
     result.html_safe
   end
 
+  def policy_version_sentence_text(version)
+    if version.event == "create"
+      name = version.changeset["name"].second
+      description = version.changeset["description"].second
+      result = "Created"
+      result += version.changeset["private"].second == 2 ? " draft " : " "
+      result += "policy " + quote(name) + " with description " + quote(description)
+      result += "."
+    elsif version.event == "update"
+      changes = []
+
+      if version.changeset.has_key?("name")
+        name1 = version.changeset["name"].first
+        name2 = version.changeset["name"].second
+        changes << "name from " + quote(name1) + " to " + quote(name2)
+      end
+
+      if version.changeset.has_key?("description")
+        description1 = version.changeset["description"].first
+        description2 = version.changeset["description"].second
+        changes << "description from " + quote(description1) + " to " + quote(description2)
+      end
+
+      if version.changeset.has_key?("private")
+        if version.changeset["private"].second == 0
+          changes << "status to not draft"
+        elsif version.changeset["private"].second == 2
+          changes << "status to draft"
+        else
+          raise
+        end
+      end
+
+      result = changes.map do |change|
+        "* Changed " + change + "."
+      end.join("\n")
+    else
+      raise
+    end
+    result
+  end
+
   def policy_division_version_vote(version)
     if version.event == "create"
       policy_vote_display_with_class(version.changeset["vote"].second)
@@ -92,6 +134,16 @@ module PoliciesHelper
       text += " to ".html_safe
       text += policy_vote_display_with_class(version.changeset["vote"].second)
       text
+    end
+  end
+
+  def policy_division_version_vote_text(version)
+    if version.event == "create"
+      vote_display(version.changeset["vote"].second)
+    elsif version.event == "destroy"
+      vote_display(version.reify.vote)
+    elsif version.event == "update"
+      vote_display(version.changeset["vote"].first) + " to " + vote_display(version.changeset["vote"].second)
     end
   end
 
@@ -119,6 +171,25 @@ module PoliciesHelper
     end
   end
 
+  def policy_division_version_sentence_text(version)
+    actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
+    vote = policy_division_version_vote_text(version)
+    division = policy_division_version_division(version)
+
+    if version.event == "update"
+      actions[version.event] + " vote from " + vote + " on division " + division.name + ".\n" + division_path(division, only_path: false)
+    elsif version.event == "create" || version.event == "destroy"
+      if version.event == "create"
+        tense = "set to "
+      else
+        tense = "was "
+      end
+      actions[version.event] + " division " + division.name + ". Policy vote " + tense + vote + ".\n" + division_path(division, only_path: false)
+    else
+      raise
+    end
+  end
+
   def version_policy(version)
     Policy.find(version.policy_id)
   end
@@ -134,6 +205,14 @@ module PoliciesHelper
       policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
       content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
+    end
+  end
+
+  def version_sentence_text(version)
+    if version.item_type == "Policy"
+      policy_version_sentence_text(version)
+    elsif version.item_type == "PolicyDivision"
+      policy_division_version_sentence_text(version)
     end
   end
 

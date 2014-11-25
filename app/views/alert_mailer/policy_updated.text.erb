@@ -6,8 +6,7 @@ Policy Updated: <%= @policy.name %>
   Changed text on related division: <%= @version.division.name %>
   <%= division_path(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
 <% else %>
-  <% # TODO: Non-HTML version of this %>
-  <%= version_sentence(@version) %>
+<%= version_sentence_text(@version) %>
 <% end %>
 
 <%= version_author_link_text(@version) %>
