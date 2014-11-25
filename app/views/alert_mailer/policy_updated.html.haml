@@ -11,3 +11,4 @@
 
 %p.small.object-primary.text-muted
   = version_author_link(@version)
+  = @version.created_at.strftime("%I:%M%p - %d %b %Y")
