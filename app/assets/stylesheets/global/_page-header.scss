@@ -117,3 +117,12 @@
     text-decoration: none;
   }
 }
+
+.subscribe-button-active {
+  button {
+    &:hover,
+    &:focus {
+      color: $color-very-strongly-against;
+    }
+  }
+}
