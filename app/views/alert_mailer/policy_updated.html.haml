@@ -12,3 +12,12 @@
 %p.small.object-primary.text-muted
   = version_author_link(@version, only_path: false)
   = @version.created_at.strftime("%I:%M%p - %d %b %Y")
+
+%h2 Unsubscribe
+%p
+  Visit the
+  = link_to "policy page", policy_path(@policy, only_path: false)
+  to unsubscribe from this policy.
+%p
+  = link_to "Your subscriptions", user_subscriptions_path(@user, only_path: false)
+  shows all your email alerts.
