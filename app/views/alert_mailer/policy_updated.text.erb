@@ -11,3 +11,10 @@ Policy Updated: <%= @policy.name %>
 <% end %>
 
 <%= version_author_link_text(@version) %>
+
+
+Visit the polic page to unsubscribe from this policy:
+<%= policy_path(@policy, only_path: false) %>
+
+View all your subscriptions:
+<%= user_subscriptions_path(@user, only_path: false) %>
