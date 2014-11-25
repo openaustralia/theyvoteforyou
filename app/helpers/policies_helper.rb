@@ -138,12 +138,12 @@ module PoliciesHelper
     result
   end
 
-  def version_author_link(version)
+  def version_author_link(version, options = {})
     if version.kind_of?(WikiMotion)
-      link_to version.user.name, version.user
+      link_to version.user.name, user_path(version.user, options)
     else
       user = User.find(version.whodunnit)
-      link_to(user.name, user)
+      link_to user.name, user_path(user, options)
     end
   end
 
