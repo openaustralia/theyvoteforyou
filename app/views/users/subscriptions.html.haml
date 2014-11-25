@@ -1,0 +1,9 @@
+- content_for :title, @user.name
+
+%h2 Your subscriptions
+
+%h3 Policies
+
+%ul
+  - @user.policies_watched.each do |policy|
+    %li= link_to policy.name, policy

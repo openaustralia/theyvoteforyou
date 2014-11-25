@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     api_key
   end
 
+  def policies_watched
+    watches.where(watchable_type: 'Policy').map { |w| Policy.find(w.watchable_id)  }
+  end
+
   def watching?(object)
     !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
   end
