@@ -1,11 +1,11 @@
 %h1
   Policy Updated:
-  = link_to version_policy(@version).name, version_policy(@version)
+  = link_to version_policy(@version).name, policy_path(version_policy(@version), only_path: false)
 
 - if @version.kind_of?(WikiMotion)
   %p
     Changed text on related division
-    = link_to @version.division.name, @version.division
+    = link_to @version.division.name, division_path(@version.division, only_path: false)
 - else
   = version_sentence(@version)
 
