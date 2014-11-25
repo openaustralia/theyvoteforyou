@@ -1,5 +1,4 @@
-Policy Updated: <%= @policy.name %>
-
+<%= capitalise_initial_character(@policy.name_with_for) %>
 <%= policy_path(@policy, only_path: false) %>
 
 <% if @version.kind_of?(WikiMotion) %>
