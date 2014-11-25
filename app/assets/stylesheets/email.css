@@ -118,6 +118,12 @@ h4 {
   font-weight: 600;
 }
 
+.unstyled-heading {
+  font-size: 14px;
+  margin: 0 0 10px;
+  font-weight: normal;
+}
+
 p, ul, ol {
   margin-bottom: 10px;
   font-weight: normal;
