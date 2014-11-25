@@ -14,10 +14,9 @@
   %span.text-muted.small
     = @version.created_at.strftime("%l:%M%p - %d %b %Y")
 
-%p
+%p.small
   Visit the
-  = link_to "policy page", policy_path(@policy, only_path: false)
+  = link_to "policy page", policy_path(@policy, only_path: false), class: "small"
   to unsubscribe from this policy.
-%p
-  = link_to "Your subscriptions", user_subscriptions_path(@user, only_path: false)
-  shows all your email alerts.
+%p.small
+  = link_to "View all your subscriptions.", user_subscriptions_path(@user, only_path: false), class: "small"
