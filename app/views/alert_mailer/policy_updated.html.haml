@@ -7,7 +7,7 @@
     Changed text on related division
     = link_to @version.division.name, division_path(@version.division, only_path: false)
 - else
-  = version_sentence(@version)
+  = version_sentence(@version, Rails.application.config.action_mailer.default_url_options.merge(only_path: false))
 
 %p.small.object-primary.text-muted
   = version_author_link(@version)
