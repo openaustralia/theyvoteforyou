@@ -138,7 +138,7 @@ class Policy < ActiveRecord::Base
 
   def alert_watches(version)
     watches.each do |watch|
-      AlertMailer.policy_updated(version, watch.user).deliver
+      AlertMailer.policy_updated(self, version, watch.user).deliver
     end
   end
 

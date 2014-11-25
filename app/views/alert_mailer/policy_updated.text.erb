@@ -1,6 +1,6 @@
-Policy Updated: <%= version_policy(@version).name %>
+Policy Updated: <%= @policy.name %>
 
-<%= policy_path(version_policy(@version), only_path: false) %>
+<%= policy_path(@policy, only_path: false) %>
 
 <% if @version.kind_of?(WikiMotion) %>
   Changed text on related division: <%= @version.division.name %>

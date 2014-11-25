@@ -1,6 +1,6 @@
 %h1
   Policy Updated:
-  = link_to version_policy(@version).name, policy_path(version_policy(@version), only_path: false)
+  = link_to @policy.name, policy_path(@policy, only_path: false)
 
 - if @version.kind_of?(WikiMotion)
   %p
