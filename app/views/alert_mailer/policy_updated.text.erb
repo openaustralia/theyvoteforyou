@@ -5,7 +5,7 @@
 Changed text on related division: <%= @version.division.name %>
 <%= division_path(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
 <% else %>
-<%= version_sentence_text(@version) %>
+<%= version_sentence_text(@version, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
 <% end %>
 
 <%= version_attribution_text(@version) %>

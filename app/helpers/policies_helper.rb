@@ -171,20 +171,20 @@ module PoliciesHelper
     end
   end
 
-  def policy_division_version_sentence_text(version)
+  def policy_division_version_sentence_text(version, options)
     actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
 
     if version.event == "update"
-      actions[version.event] + " vote from " + vote + " on division " + division.name + ".\n" + division_path(division, only_path: false)
+      actions[version.event] + " vote from " + vote + " on division " + division.name + ".\n" + division_path(division, options)
     elsif version.event == "create" || version.event == "destroy"
       if version.event == "create"
         tense = "set to "
       else
         tense = "was "
       end
-      actions[version.event] + " division " + division.name + ". Policy vote " + tense + vote + ".\n" + division_path(division, only_path: false)
+      actions[version.event] + " division " + division.name + ". Policy vote " + tense + vote + ".\n" + division_path(division, options)
     else
       raise
     end
@@ -208,11 +208,11 @@ module PoliciesHelper
     end
   end
 
-  def version_sentence_text(version)
+  def version_sentence_text(version, options = {})
     if version.item_type == "Policy"
       policy_version_sentence_text(version)
     elsif version.item_type == "PolicyDivision"
-      policy_division_version_sentence_text(version)
+      policy_division_version_sentence_text(version, options)
     end
   end
 
