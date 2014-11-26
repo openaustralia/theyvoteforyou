@@ -6,10 +6,21 @@
     max-width: 44px;
     margin-right: 10px;
     float: left;
+
+    &.no-lazy {
+      margin-right: 10px;
+    }
   }
 
   .member-name {
     font-size: $font-size-h4;
+  }
+
+  // fix for change in bootstrap 3.3.1 that broke this
+  .media-body {
+    display: block;
+    overflow: hidden;
+    zoom: 1;
   }
 
   .no-js .media-body,
