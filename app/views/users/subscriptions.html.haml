@@ -11,7 +11,7 @@
   .col-md-8
     - if @user.policies_watched.any?
       %p
-        You have subscribed to recieve emails whenever the following
+        You have subscribed to receive emails whenever the following
         = pluralize(@user.policies_watched.size, "policy")
         or
         = @user.policies_watched.size == 1 ? "its" : "their"
