@@ -2,8 +2,11 @@
 
 %h2 Your subscriptions
 
-%p You get an email whenever these Policies or their related Divisions are updated.
-%p To unsubscribe, visit the Policy page and click <em>Unsubscribe</em>.
-%ul
-  - @user.policies_watched.each do |policy|
-    %li= link_to capitalise_initial_character(policy.name_with_for), policy
+- if @user.policies_watched.any?
+  %p You have subscribed to recieve emails whenever these policies or their related divisions are updated.
+  %p To unsubscribe, visit the Policy page and click <em>Unsubscribe</em>.
+  %ul
+    - @user.policies_watched.each do |policy|
+      %li= link_to capitalise_initial_character(policy.name_with_for), policy
+- else
+  %p Get email alerts whenever the policies that interest you are updated or voted on. Subscribe on the policy’s page.
