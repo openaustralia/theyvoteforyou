@@ -1,18 +1,10 @@
 - content_for :title, @user.name
 
 %h2
-  Policies which
-  = @you ? "you" : @user.name
-  made
+  - if @you
+    Your recent recent contributions
+  - else
+    Recent contributions by
+    = @user.name
 
-%ul
-- @user.policies.each do |policy|
-  %li
-    = link_to policy.name, policy
-    (#{policy.status})
-
-- if @you
-  %p
-    (
-    = link_to "make a new policy", new_policy_path
-    )
+= render partial: "layouts/history_list"
