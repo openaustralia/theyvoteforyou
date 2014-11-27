@@ -5,9 +5,10 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @you = (current_user && @user == current_user)
 
-    @history = PaperTrail::Version.where("created_at > ?", 1.week.ago).where(whodunnit: @user) +
-    WikiMotion.where("edit_date > ?", 1.week.ago).where(user: @user)
+    @history = PaperTrail::Version.where(whodunnit: @user).limit(20) +
+    WikiMotion.where(user: @user).limit(20)
     @history.sort_by! {|v| -v.created_at.to_i}
+    @history.take(20)
   end
 
   def subscriptions
