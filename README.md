@@ -128,3 +128,10 @@ The code is deployed using Capistrano. To deploy to production run:
 
 You'll need a local copy of `config/newrelic.yml` that includes your licence
 key to be able to record deployments to New Relic.
+
+## Other Credits
+
+This project uses some icons from the noun project under under creative commons licenses:
+
+* Check icon by useiconic.com from The Noun Project
+http://thenounproject.com/term/check/45904/
