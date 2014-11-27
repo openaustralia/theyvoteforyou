@@ -1,10 +1,11 @@
 - content_for :title, "Your subscriptions"
 - set_meta_tags description: "Keep an eye on the policies that matter to you"
 
-%h2 Your subscriptions
-
-%p.lead
-  Keep an eye on the policies that matter to you
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+      %p.lead Keep an eye on the policies that matter to you
 
 .row
   .col-md-8
