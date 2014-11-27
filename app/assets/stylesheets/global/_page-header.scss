@@ -124,14 +124,14 @@
     background-repeat: no-repeat;
     background-position: right center;
     // TOTO: get grunticon setup so this falls back nicely
-    background-image: url('/assets/check-green.svg');
+    background-image: url(image-path("check-green.svg"));
 
     &.subscribe-button-unsubscribing,
     &:hover,
     &:focus,
     &:active {
       color: $color-very-strongly-against;
-      background-image: url('/assets/cross-red.svg');
+      background-image: url(image-path("cross-red.svg"));
       padding-right: .95em;
       text-decoration: none;
     }
