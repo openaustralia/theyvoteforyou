@@ -34,5 +34,12 @@ function changeSubscribeButtons(new_text, new_class_name) {
       copy.nodeValue = new_text;
     };
     button.onblur = button.onmouseout;
+
+    button.onclick = function() {
+      copy.nodeValue = original_text;
+      button.onmouseout = "";
+      button.onblur = "";
+      button.className += " " + "subscribe-button-unsubscribing";
+    };
   }
 }

@@ -135,3 +135,5 @@ This project uses some icons from the noun project under under creative commons 
 
 * Check icon by useiconic.com from The Noun Project
 http://thenounproject.com/term/check/45904/
+* Delete icon by useiconic.com from The Noun Project
+http://thenounproject.com/term/delete/45301/
