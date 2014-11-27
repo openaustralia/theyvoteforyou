@@ -108,6 +108,11 @@ GEM
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.2.2)
+    factory_girl (4.5.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     ffi (1.9.6)
     formatador (0.2.5)
     foundation-icons-sass-rails (3.0.0)
@@ -223,7 +228,7 @@ GEM
       activesupport (= 4.1.8)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.3.2)
+    rake (10.4.0)
     ranker (1.1.4)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.5)
@@ -362,6 +367,7 @@ DEPENDENCIES
   devise
   devise-async
   diffy
+  factory_girl_rails
   foundation-icons-sass-rails
   fuubar
   guard

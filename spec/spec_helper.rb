@@ -38,6 +38,13 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
+
+    begin
+      DatabaseCleaner.start
+      FactoryGirl.lint
+    ensure
+      DatabaseCleaner.clean
+    end
   end
 
   # If true, the base class of anonymous controllers will be inferred
@@ -51,4 +58,5 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  config.include FactoryGirl::Syntax::Methods
 end
