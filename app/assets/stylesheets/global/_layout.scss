@@ -1,18 +1,34 @@
 .main-content {
   @media (min-width: $screen-sm-min) {
     min-height: 300px;
+
+    .section-header + & {
+      min-height: 100px;
+    }
   }
 
   @media (min-height: 750px) {
     min-height: 480px;
+
+    .section-header + & {
+      min-height: 200px;
+    }
   }
 
   @media (min-width: 1500px) {
     min-height: 600px;
+
+    .section-header + & {
+      min-height: 400px;
+    }
   }
 
   @media (min-width: 1800px) {
     min-height: 800px;
+
+    .section-header + & {
+      min-height: 600px;
+    }
   }
 }
 
