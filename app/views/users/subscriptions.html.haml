@@ -10,7 +10,12 @@
 .row
   .col-md-8
     - if @user.policies_watched.any?
-      %p You have subscribed to recieve emails whenever the following policies or their related divisions are updated.
+      %p
+        You have subscribed to recieve emails whenever the following
+        = pluralize(@user.policies_watched.size, "policy")
+        or
+        = @user.policies_watched.size == 1 ? "its" : "their"
+        related divisions are updated.
       %ul.object-list-compact.list-unstyled
         - @user.policies_watched.each do |policy|
           %li.object-item
