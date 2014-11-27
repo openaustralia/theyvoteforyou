@@ -2,6 +2,9 @@
 
 %h2 Your subscriptions
 
+%p.lead
+  Keep an eye on the policies that matter to you
+
 - if @user.policies_watched.any?
   %p You have subscribed to recieve emails whenever these policies or their related divisions are updated.
   %p To unsubscribe, visit the Policy page and click <em>Unsubscribe</em>.
