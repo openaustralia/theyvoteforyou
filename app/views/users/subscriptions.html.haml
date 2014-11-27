@@ -1,0 +1,10 @@
+- content_for :title, @user.name
+
+%h2 Your subscriptions
+
+%h3 Policies
+%p You get an email whenever these Policies or their related Divisions are updated.
+%p To unsubscribe, visit the Policy page and click <em>Unsubscribe</em>.
+%ul
+  - @user.policies_watched.each do |policy|
+    %li= link_to capitalise_initial_character(policy.name_with_for), policy

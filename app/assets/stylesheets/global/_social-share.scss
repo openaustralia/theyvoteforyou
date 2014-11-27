@@ -1,3 +1,10 @@
+%inline-icon {
+  margin-right: 3px;
+  display: inline-block;
+  font-size: 24px;
+  vertical-align: middle;
+}
+
 .social-share {
   z-index: 1;
   ul {
@@ -16,10 +23,7 @@
   color: #888;
 
   i {
-    margin-right: 3px;
-    vertical-align: middle;
-    font-size: 24px;
-    display: inline-block;
+    @extend %inline-icon;
     color: #aaa;
 
     &.fi-social-facebook {

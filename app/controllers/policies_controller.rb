@@ -57,6 +57,7 @@ class PoliciesController < ApplicationController
     @policy = Policy.find(params[:id])
 
     if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+      @policy.alert_watches(@policy.versions.last)
       redirect_to @policy, notice: 'Policy updated.'
     else
       redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
@@ -66,5 +67,11 @@ class PoliciesController < ApplicationController
   def history
     @policy = Policy.find(params[:id])
     @history = PaperTrail::Version.where(policy_id: @policy.id).order(created_at: :desc)
+  end
+
+  def watch
+    @policy = Policy.find(params[:id])
+    current_user.toggle_policy_watch(@policy)
+    redirect_to @policy
   end
 end

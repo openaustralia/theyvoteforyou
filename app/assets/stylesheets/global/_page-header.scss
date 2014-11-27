@@ -40,6 +40,28 @@
     margin-top: 48px;
   }
 
+  .header-secondary .social-share {
+    display: none;
+    width: 100%;
+    text-align: center;
+
+    @media (min-width: 30em) {
+      text-align: left;
+      float: right;
+      width: auto;
+      display: inline-block;
+    }
+
+    @media (min-width: $screen-md-min) {
+      float: right !important;
+      margin-left: 0;
+    }
+
+    .share-link {
+      padding-top: 3px;
+    }
+  }
+
   + .social-share {
     display: none;
     width: 100%;
@@ -75,6 +97,43 @@
 
     @media (min-width: $screen-sm-min) {
       margin-top: 5px;
+    }
+  }
+}
+
+.subscribe-button-form {
+  display: inline;
+
+  > div {
+    display: inline;
+  }
+
+  .fi-mail:before {
+    margin-top: -3px;
+    margin-right: 5px;
+    display: inline-block;
+    font-size: 23px;
+    vertical-align: middle;
+    text-decoration: none;
+  }
+}
+
+.subscribe-button-active {
+  button {
+    padding-right: 1.5em;
+    background-repeat: no-repeat;
+    background-position: right center;
+    // TOTO: get grunticon setup so this falls back nicely
+    background-image: url('/assets/check-green.svg');
+
+    &.subscribe-button-unsubscribing,
+    &:hover,
+    &:focus,
+    &:active {
+      color: $color-very-strongly-against;
+      background-image: url('/assets/cross-red.svg');
+      padding-right: .95em;
+      text-decoration: none;
     }
   }
 }

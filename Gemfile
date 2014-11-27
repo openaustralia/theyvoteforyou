@@ -62,6 +62,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'webmock'
   gem 'vcr'
+  gem 'factory_girl_rails'
 end
 
 group :development do

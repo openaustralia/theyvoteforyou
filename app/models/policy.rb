@@ -6,6 +6,7 @@ class Policy < ActiveRecord::Base
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
+  has_many :watches, as: :watchable
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
@@ -134,6 +135,14 @@ class Policy < ActiveRecord::Base
   def current_members_never_voted
     current_members(policy_person_distances.never_voted)
   end
+
+  def alert_watches(version)
+    watches.each do |watch|
+      AlertMailer.policy_updated(self, version, watch.user).deliver
+    end
+  end
+
+  handle_asynchronously :alert_watches
 
   private
 

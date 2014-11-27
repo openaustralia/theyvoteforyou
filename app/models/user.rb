@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :wiki_motions
   has_many :policies
+  has_many :watches
 
   validates :name, presence: true, uniqueness: true
 
@@ -21,6 +22,22 @@ class User < ActiveRecord::Base
     api_key = read_attribute(:api_key) || User.random_api_key
     update_attribute(:api_key, api_key)
     api_key
+  end
+
+  def policies_watched
+    watches.where(watchable_type: 'Policy').map { |w| Policy.find(w.watchable_id)  }
+  end
+
+  def watching?(object)
+    !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
+  end
+
+  def toggle_policy_watch(policy)
+    if watch = policy.watches.find_by(user: self)
+      watch.destroy!
+    else
+      policy.watches.create!(user: self)
+    end
   end
 
   def self.system_name

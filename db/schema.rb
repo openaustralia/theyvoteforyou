@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141021184859) do
+ActiveRecord::Schema.define(version: 20141121043312) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -275,6 +275,12 @@ ActiveRecord::Schema.define(version: 20141021184859) do
   add_index "votes", ["member_id"], name: "mp_id", using: :btree
   add_index "votes", ["teller"], name: "index_votes_on_teller", using: :btree
   add_index "votes", ["vote"], name: "index_votes_on_vote", using: :btree
+
+  create_table "watches", force: true do |t|
+    t.integer "watchable_id"
+    t.string  "watchable_type"
+    t.integer "user_id"
+  end
 
   create_table "whips", force: true do |t|
     t.integer  "division_id",                  null: false

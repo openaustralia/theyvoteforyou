@@ -7,10 +7,11 @@ class WikiMotion < ActiveRecord::Base
   attr_accessor :title, :description
   alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
+  after_create :alert_policy_watches
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date
-    Time.parse(read_attribute(:edit_date).strftime('%F %T'))
+    Time.parse(read_attribute(:edit_date).in_time_zone('UTC').strftime('%F %T'))
   end
 
   # FIXME: Stop this nonsense of storing local times in the DB to match PHP
@@ -20,7 +21,7 @@ class WikiMotion < ActiveRecord::Base
 
   # TODO Doing this horrible workaround to deal with storing local time in db
   def edit_date_without_timezone
-    edit_date.strftime('%F %T')
+    edit_date.in_time_zone('UTC').strftime('%F %T')
   end
 
   def previous_edit
@@ -67,5 +68,11 @@ class WikiMotion < ActiveRecord::Base
 
 (put thoughts and notes for other researchers here)
     RECORD
+  end
+
+  def alert_policy_watches
+    division.policies.each do |policy|
+      policy.alert_watches(self)
+    end
   end
 end

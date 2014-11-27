@@ -4,10 +4,9 @@
     = render 'layouts/history_notice', policy: @policy
 
 = render 'page_header', policy: @policy
-= render "social_share"
 
 - if @policy.divisions.count > 0
-  %p.lead.col-sm-7
+  %p.lead
     = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members

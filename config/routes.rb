@@ -171,10 +171,12 @@ Publicwhip::Application.routes.draw do
     member do
       get 'detail'
       get 'history'
+      post 'watch'
     end
   end
 
   get 'users/:id' => 'users#show', as: :user
+  get 'users/:id/subscriptions' => 'users#subscriptions', as: :user_subscriptions
 
   get 'feeds/mp-info' => 'feeds#mp_info', as: :mp_info_feed
   get 'feeds/mpdream-info' => 'feeds#mpdream_info', as: :mpdream_info_feed

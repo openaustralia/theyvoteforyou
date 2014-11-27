@@ -1,5 +1,5 @@
-- content_for :title, capitalise_initial_character(@policy.name_with_for)
-- set_meta_tags description: "Find out how people in parliament stand on #{@policy.name}."
+- content_for :title, capitalise_initial_character(policy.name_with_for)
+- set_meta_tags description: "Find out how people in parliament stand on #{policy.name}."
 
 .page-header.row
   %nav.header-actions.col-md-3.col-lg-2
@@ -9,3 +9,20 @@
     = yield :title
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
 
+  .header-secondary.col-sm-12
+    = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form " + (current_user && current_user.watching?(policy) ? "subscribe-button-form-unsubscribe" : "subscribe-button-form-subscribe") do
+      = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
+
+    %aside.social-share
+      %h2.social-share-heading.small.text-muted Share
+
+      %ul.list-inline.small
+        %li
+          = link_to "https://www.facebook.com/sharer/sharer.php?u=#{request.original_url}&t=", title: "Share on Facebook", class: 'share-link share-link-facebook' do
+            %i.fi-social-facebook
+            Facebook
+
+        %li.share-link.share-link-twitter
+          = link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=&via=#{Settings.project_twitter}", title: "Share on Twitter", class: 'share-link share-link-twitter'  do
+            %i.fi-social-twitter
+            Twitter
