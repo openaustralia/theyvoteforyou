@@ -39,6 +39,14 @@
   }
 }
 
+.object-secondary-inline {
+  display: inline;
+
+  & > div {
+    display: inline;
+  }
+}
+
 .object-data {
   text-transform: uppercase;
   font-size: $font-size-supporting;
