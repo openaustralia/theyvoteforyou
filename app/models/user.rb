@@ -40,6 +40,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def recent_changes(size)
+    changes = PaperTrail::Version.where(whodunnit: self).limit(size) +
+              WikiMotion.where(user: self).limit(size)
+    changes.sort_by {|v| -v.created_at.to_i}.take(size)
+  end
+
   def self.system_name
     "system"
   end
