@@ -15,7 +15,7 @@
         = pluralize(@user.policies_watched.size, "policy")
         or
         = @user.policies_watched.size == 1 ? "its" : "their"
-        related divisions are updated.
+        related divisions are updated:
       %ul.subscriptions-list.object-list-compact.list-unstyled
         - @user.policies_watched.each do |policy|
           %li.object-item{id: "policy" + policy.id.to_s}
