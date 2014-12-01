@@ -72,6 +72,9 @@ class PoliciesController < ApplicationController
   def watch
     @policy = Policy.find(params[:id])
     current_user.toggle_policy_watch(@policy)
-    redirect_to @policy
+    if !current_user.watching?(@policy)
+      flash[:notice] = 'Unsubscribed'
+    end
+    redirect_to :back
   end
 end
