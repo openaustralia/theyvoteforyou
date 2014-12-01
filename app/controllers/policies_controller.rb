@@ -75,6 +75,6 @@ class PoliciesController < ApplicationController
     if !current_user.watching?(@policy)
       flash[:notice] = 'Unsubscribed from email alerts'
     end
-    redirect_to @policy
+    redirect_to :back
   end
 end
