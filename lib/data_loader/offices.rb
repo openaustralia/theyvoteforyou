@@ -15,9 +15,9 @@ module DataLoader
 
         o = Office.find_or_initialize_by(id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
           person_id: person_id[/uk.org.publicwhip\/person\/(\d*)/, 1])
-        o.update!(dept: XML.escape_html(moffice[:dept]),
-          position: XML.escape_html(moffice[:position]),
-          responsibility: XML.escape_html(responsibility),
+        o.update!(dept: moffice[:dept],
+          position: moffice[:position],
+          responsibility: responsibility,
           from_date: moffice[:fromdate],
           to_date: moffice[:todate])
       end
