@@ -45,9 +45,7 @@
   padding: 0;
   list-style: none;
   font-size: 0;
-  flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 
 .grid-list-module {
@@ -74,25 +72,12 @@
   }
 
   a {
-    padding: 1em;
+    padding: .5em;
     display: block;
-    height: 5em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: auto;
 
     @media (min-width: 30em) {
       padding: 1em;
-    }
-
-    .has-no-flexbox & {
-      display: table-cell;
-      vertical-align: bottom;
-      padding: .5em;
-
-      @media (min-width: 30em) {
-        padding: 1em 1.5em 0;
-      }
     }
   }
 }
