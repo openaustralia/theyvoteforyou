@@ -115,15 +115,19 @@
     color: $text-color;
   }
 
-  .quote-avatar {
-    border-radius: 3px;
+  .quote-avatar-container {
     margin-right: 5px;
-    display: inline-block;
-    border: 0;
+    display: inline;    
 
     .no-js & {
       visibility: hidden;
     }
+
+  }
+
+  .quote-avatar {
+    border-radius: 3px;
+    border: 0;
   }
 }
 
