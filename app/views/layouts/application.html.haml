@@ -4,6 +4,9 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=edge")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
+    - if Settings.facebook_admins
+      - Settings.facebook_admins.each do |admin_id|
+        %meta(property="fb:admins" content="#{admin_id}")
     %title
       - if content_for? :title
         = yield :title
