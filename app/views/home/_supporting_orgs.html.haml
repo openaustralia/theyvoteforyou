@@ -10,6 +10,11 @@
       %noscript
         = image_tag(image_path("open-forum-logo.png"), alt: "Open Forum", width: "200", height: "110", title: "Open Forum")
   %li.grid-list-module
+    = link_to "https://www.efa.org.au/", class: "supporting-org org-op" do
+      = image_tag("", data: {original: image_path("efa-logo.png")}, class: "lazy" , alt: "Electronic Frontiers Australia", width: "200", height: "110", title: "Electronic Frontiers Australia")
+      %noscript
+        = image_tag(image_path("efa-logo.png"), alt: "Electronic Frontiers Australia", width: "200", height: "110", title: "Electronic Frontiers Australia")
+  %li.grid-list-module
     = link_to "https://mysociety.org", class: "supporting-org org-mysociety" do
       = image_tag("", data: {original: image_path("mysociety-logo.png")}, class: "lazy" , alt: "mySociety", width: "200", height: "110", title: "mySociety")
       %noscript
