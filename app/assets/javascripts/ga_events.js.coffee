@@ -29,3 +29,10 @@ $ ->
   $('.submit-division-edit').on 'click',  (e) ->
     ga('send', 'event', 'division', 'click submit')
 
+  # click signup
+  $('.link-signup').on 'click',  (e) ->
+    ga('send', 'event', 'user', 'click signup link')
+
+  # submit signup
+  $('.submit-signup').on 'click',  (e) ->
+    ga('send', 'event', 'user', 'click submit registration')
