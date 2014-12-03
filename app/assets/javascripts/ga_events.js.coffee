@@ -25,3 +25,7 @@ $ ->
   $('.link-division-edit').on 'click',  (e) ->
     ga('send', 'event', 'division', 'click edit link')
 
+  # submit division edit
+  $('.submit-division-edit').on 'click',  (e) ->
+    ga('send', 'event', 'division', 'click submit')
+
