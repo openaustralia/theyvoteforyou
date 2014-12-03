@@ -21,3 +21,7 @@ $ ->
   $('.submit-policy').on 'click',  (e) ->
     ga('send', 'event', 'policy', 'click submit')
 
+  # edit division
+  $('.link-division-edit').on 'click',  (e) ->
+    ga('send', 'event', 'division', 'click edit link')
+
