@@ -46,7 +46,7 @@
           %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
             = preserve(h(@division.motion)) if @division.edited?
 
-      %input.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save"}/
+      %input.submit-division-edit.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save"}/
       = link_to "Cancel", :back, class: "btn btn-default"
   .col-md-4
     = render "edit_help", markdown: @division.markdown

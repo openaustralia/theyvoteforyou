@@ -6,7 +6,7 @@
 .page-header.row
   %nav.header-actions.col-md-3
     =link_to_if(@policy, "Edit", edit_policy_path(@policy), title: "Change title and definition of policy", class: "btn btn-default btn-xs")
-    =link_to "New policy", new_policy_path, class: "btn btn-primary btn-xs"
+    =link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
   -# TODO This title is just a stop-gap. Make it not suck.
   %h1.col-md-9= yield :title
 
