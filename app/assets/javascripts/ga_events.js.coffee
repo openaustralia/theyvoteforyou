@@ -1,5 +1,5 @@
 # Adds google analytics event tracking
-# TODO: only run this is google analytics is loaded
+# TODO: only run this if google analytics is loaded
 $ ->
   # subscribe to policy
   $('.subscribe-button-form-subscribe .btn').on 'click',  (e) ->
