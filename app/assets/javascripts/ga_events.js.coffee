@@ -17,3 +17,7 @@ $ ->
   $('.link-policy-new').on 'click',  (e) ->
     ga('send', 'event', 'policy', 'click new link')
 
+  # submit policy
+  $('.submit-policy').on 'click',  (e) ->
+    ga('send', 'event', 'policy', 'click submit')
+
