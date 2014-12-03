@@ -20,4 +20,5 @@
 
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
     - member.person.members.order(entered_house: :desc).each do |member|
-      = render partial: 'divisions/division', locals: {member: member}, collection: member.free_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+      - if member.has_whip?
+        = render partial: 'divisions/division', locals: {member: member}, collection: member.free_divisions.order(date: :desc, clock_time: :desc, name: :asc)
