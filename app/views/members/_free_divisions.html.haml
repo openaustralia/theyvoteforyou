@@ -4,9 +4,9 @@
   %p
     = member.name_without_title
     has
-    - if member.person.free_votes > 0
+    - if member.person.free_votes_with_whip > 0
       taken part in
-      = pluralize(member.person.free_votes, "free vote")
+      = pluralize(member.person.free_votes_with_whip, "free vote")
     - else
       never taken part in a free vote
     since

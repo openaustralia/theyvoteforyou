@@ -11,8 +11,9 @@ class Person < ActiveRecord::Base
   end
 
   # total number of free votes across all members for the person
-  def free_votes
-    members.to_a.sum{ |m| m.free_divisions.size}
+  # while they were a member of a party with a whip
+  def free_votes_with_whip
+    members.to_a.sum{ |m| m.has_whip? ? m.free_divisions.size : 0}
   end
 
   # Total number of votes across all members for this person
