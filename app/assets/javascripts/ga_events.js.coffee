@@ -36,3 +36,11 @@ $ ->
   # submit signup
   $('.submit-signup').on 'click',  (e) ->
     ga('send', 'event', 'user', 'click submit registration')
+
+  # share on twitter
+  $('.share-link-twitter').on 'click',  (e) ->
+    ga('send', 'event', 'social', 'click share', 'twitter share')
+
+  # share on facebook
+  $('.share-link-facebook').on 'click',  (e) ->
+    ga('send', 'event', 'social', 'click share', 'facebook share')
