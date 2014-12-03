@@ -8,3 +8,12 @@ $ ->
   # unsubscribe to policy
   $('.subscribe-button-form-unsubscribe .btn').on 'click',  (e) ->
     ga('send', 'event', 'policy', 'unsubscribe')
+
+  # edit policy
+  $('.link-policy-edit').on 'click',  (e) ->
+    ga('send', 'event', 'policy', 'click edit link')
+
+  # new policy
+  $('.link-policy-new').on 'click',  (e) ->
+    ga('send', 'event', 'policy', 'click new link')
+
