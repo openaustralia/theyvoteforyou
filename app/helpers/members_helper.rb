@@ -20,6 +20,12 @@ module MembersHelper
     end
   end
 
+  def member_party_type_place_name(member)
+    result = member.party_name + " " + member.role + " " + member.name
+
+    member.currently_in_parliament? ? result : "Former " + result
+  end
+
   def member_type_party_place_sentence(member)
     # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
     if member.currently_in_parliament?
