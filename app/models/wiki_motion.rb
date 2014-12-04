@@ -21,7 +21,7 @@ class WikiMotion < ActiveRecord::Base
 
   # TODO Doing this horrible workaround to deal with storing local time in db
   def edit_date_without_timezone
-    edit_date.in_time_zone('UTC').strftime('%F %T')
+    edit_date.strftime('%F %T')
   end
 
   def previous_edit
