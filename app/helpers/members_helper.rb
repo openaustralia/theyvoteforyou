@@ -33,18 +33,6 @@ module MembersHelper
     content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
   end
 
-  def member_type_place_sentence(member)
-    # TODO: if not a senator, add the state after the electorate. e.g. Goldstein, Vic
-    if member.currently_in_parliament?
-      text = member_type(member.house) + " for " +
-        content_tag(:span, member.electorate, class: "electorate")
-    else
-      text = "Former " + member_type(member.house) + " for " +
-        content_tag(:span, member.electorate, class: 'electorate')
-    end
-    text.html_safe
-  end
-
   def member_type_party_place_date_sentence(member)
     text = member_type_party_place_sentence(member)
     if member.currently_in_parliament?
