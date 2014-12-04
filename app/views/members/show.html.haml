@@ -1,10 +1,11 @@
 - content_for :title, @member.full_name2
 - set_meta_tags description: "How #{@member.name_without_title} voted on issues in parliament."
 
-= render "member_page_header", member: @member
-= render "social_share"
-= render "summary", member: @member
-= render "external_links", member: @member
+.vcard
+  = render "member_page_header", member: @member
+  = render "social_share"
+  = render "summary", member: @member
+  = render "external_links", member: @member
 = render "policy_comparisons", member: @member
 - if @member.person.has_whip?
   = render "interesting_votes", member: @member

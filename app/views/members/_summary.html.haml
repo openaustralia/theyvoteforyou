@@ -3,7 +3,7 @@
     = member.name_without_title
     is
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
-    = member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."
+    %span.role= member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."
 
   - # TODO: add back in the rebellion and attendance rate for previous membership.
   - if member.person.members.size > 1

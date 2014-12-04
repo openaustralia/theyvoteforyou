@@ -25,12 +25,12 @@ module MembersHelper
     if member.currently_in_parliament?
       member_type_party_place_sentence_without_former(member)
     else
-      "Former #{member_type_party_place_sentence_without_former(member)}"
+      content_tag(:span, "Former #{member.party_name} #{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
     end.html_safe
   end
 
   def member_type_party_place_sentence_without_former(member)
-    "#{member.party_name} #{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}"
+    content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
   end
 
   def member_type_place_sentence(member)
