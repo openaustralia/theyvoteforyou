@@ -9,6 +9,13 @@
     image: @member.large_image_url,
     site_name: Settings.project_name
   }
+  set_meta_tags twitter: {
+    card: "summary",
+    site: "@" + Settings.project_twitter,
+    image: @member.large_image_url,
+    title: "How #{@member.name} votes",
+    description: "How does #{member_party_type_place_name(@member)} vote in the Australian Parliament?"
+  }
 
 .vcard
   = render "member_page_header", member: @member
