@@ -70,7 +70,13 @@
 
   + .social-share {
     @include make-lg-column(4);
+
+    padding-right: 0;
+    padding-left: 0;
+
     @media (min-width: $screen-sm-min) {
+      padding-right: inherit;
+      padding-left: inherit;
       display: inline-block;
       text-align: left;
       float: right;
