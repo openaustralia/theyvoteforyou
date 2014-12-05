@@ -40,7 +40,8 @@
     margin-top: 48px;
   }
 
-  .header-secondary .social-share {
+  .header-secondary .social-share,
+  + .social-share {
     display: none;
     width: 100%;
     font-size: 0.88em;
@@ -49,13 +50,18 @@
       text-align: left;
       float: right;
       width: auto;
-      display: inline-block;
     }
 
     @media (min-width: $screen-md-min) {
       float: right !important;
       margin-left: 0;
       font-size: inherit;
+    }
+  }
+
+  .header-secondary .social-share {
+    @media (min-width: 35em) {
+      display: inline-block;
     }
 
     .share-link {
@@ -64,23 +70,9 @@
   }
 
   + .social-share {
-    display: none;
-    width: 100%;
-    text-align: center;
-
     @media (min-width: $screen-sm-min) {
-      text-align: left;
-      float: right;
-      width: auto;
       display: inline-block;
-     }
-
-    @media (min-width: $screen-md-min) {
-      float: right !important;
-      margin-left: 0;
     }
-
-    // @include make-lg-column-offset(8);
     @include make-lg-column(4);
   }
 }
