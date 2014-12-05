@@ -69,8 +69,6 @@
   }
 
   + .social-share {
-    @include make-lg-column(4);
-
     padding-right: 0;
     padding-left: 0;
 
@@ -81,6 +79,10 @@
       text-align: left;
       float: right;
       width: auto;
+    }
+
+    @media (min-width: $screen-md-min) {
+      width: 33.3333%;
     }
   }
 }
