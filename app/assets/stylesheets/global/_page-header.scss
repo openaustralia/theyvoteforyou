@@ -69,13 +69,13 @@
   }
 
   + .social-share {
+    @include make-lg-column(4);
     @media (min-width: $screen-sm-min) {
       display: inline-block;
       text-align: left;
       float: right;
       width: auto;
     }
-    @include make-lg-column(4);
   }
 }
 
