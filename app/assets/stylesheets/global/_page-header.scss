@@ -46,12 +46,6 @@
     width: 100%;
     font-size: 0.88em;
 
-    @media (min-width: 35em) {
-      text-align: left;
-      float: right;
-      width: auto;
-    }
-
     @media (min-width: $screen-md-min) {
       float: right !important;
       margin-left: 0;
@@ -59,19 +53,27 @@
     }
   }
 
-  .header-secondary .social-share {
-    @media (min-width: 35em) {
-      display: inline-block;
-    }
+  .header-secondary {
+    .social-share {
+      @media (min-width: 35em) {
+        display: inline-block;
+        text-align: left;
+        float: right;
+        width: auto;
+      }
 
-    .share-link {
-      padding-top: 3px;
+      .share-link {
+        padding-top: 3px;
+      }
     }
   }
 
   + .social-share {
     @media (min-width: $screen-sm-min) {
       display: inline-block;
+      text-align: left;
+      float: right;
+      width: auto;
     }
     @include make-lg-column(4);
   }
