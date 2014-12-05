@@ -54,7 +54,10 @@
 
   .header-secondary {
     .social-share {
+      margin-top: 1em;
+
       @media (min-width: 35em) {
+        margin-top: 0;
         display: inline-block;
         text-align: left;
         float: right;
