@@ -53,6 +53,15 @@
   }
 
   .header-secondary {
+    .subscribe-block {
+      display: inline;
+
+      @media (min-width: 35em) {
+        display: inline-block;
+        float: left;
+      }
+    }
+
     .social-share {
       margin-top: 1em;
 
