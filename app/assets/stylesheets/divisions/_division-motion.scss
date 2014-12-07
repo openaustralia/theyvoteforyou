@@ -1,3 +1,11 @@
+.division-edit-notice.page-section {
+  margin-top: 1em;
+
+  @media (min-width: $screen-sm-min) {
+    margin-top: 0;
+  }
+}
+
 .motion-source-info {
   border-top: 1px solid #E7E7E7;
 }

@@ -40,49 +40,61 @@
     margin-top: 48px;
   }
 
-  .header-secondary .social-share {
-    display: none;
+  .header-secondary .social-share,
+  + .social-share {
     width: 100%;
-    text-align: center;
-
-    @media (min-width: 35em) {
-      font-size: 0.88em;
-      text-align: left;
-      float: right;
-      width: auto;
-      display: inline-block;
-    }
+    font-size: 0.88em;
 
     @media (min-width: $screen-md-min) {
       float: right !important;
       margin-left: 0;
       font-size: inherit;
     }
+  }
 
-    .share-link {
-      padding-top: 3px;
+  .header-secondary {
+    .subscribe-block {
+      display: inline;
+
+      @media (min-width: 35em) {
+        display: inline-block;
+        float: left;
+      }
+    }
+
+    .social-share {
+      margin-top: 1em;
+
+      @media (min-width: 35em) {
+        margin-top: 0;
+        display: inline-block;
+        text-align: left;
+        float: right;
+        width: auto;
+      }
+
+      .share-link {
+        padding-top: 3px;
+      }
     }
   }
 
   + .social-share {
-    display: none;
-    width: 100%;
-    text-align: center;
+    padding-right: 0;
+    padding-left: 0;
 
     @media (min-width: $screen-sm-min) {
+      padding-right: inherit;
+      padding-left: inherit;
+      display: inline-block;
       text-align: left;
       float: right;
       width: auto;
-      display: inline-block;
-     }
-
-    @media (min-width: $screen-md-min) {
-      float: right !important;
-      margin-left: 0;
     }
 
-    // @include make-lg-column-offset(8);
-    @include make-lg-column(4);
+    @media (min-width: $screen-md-min) {
+      width: 33.3333%;
+    }
   }
 }
 
