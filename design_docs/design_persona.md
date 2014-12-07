@@ -1,4 +1,4 @@
-# Parliamentary Vote Tracker Design Persona
+# *They Vote For You’s* Design Persona
 
 ## Overview
 *What is the character of the project in relation to it’s users?*
@@ -30,11 +30,11 @@ This section inspired by [Mailchimp’s helpful writing style guide](http://mail
 
 ## Voice
 
-The voice of the Parliamentary Vote Tracker is helpful, clear and human. Citizens’ know they are dealing with a tool made for them by people who respect them and empathise with their situation: trying to understand and document parliamentary process-hard work.
+The voice of *They Vote For You* is helpful, clear and human. Citizens’ know they are dealing with a tool made for them by people who respect them and empathise with their situation: trying to understand and document parliamentary process-hard work.
 
 The website is refreshingly non-government and non-corporate. It‘s not trying to sell you anything and knows you've got other things to get to. It knows that the value in the project comes from your reading, sharing and writing.
 
-When describing itself, the Parliamentary Vote Tracker uses a brief story to explain *why* it could be relevant to you and why you might contribute. The story makes the goals clear and relatable.
+When describing itself *They Vote For You* uses a brief story to explain *why* it could be relevant to you and why you might contribute. The story makes the goals clear and relatable.
 
 In interface and explanatory text it moves straight to the answer the citizen looking for.
 
