@@ -92,16 +92,8 @@ class Member < ActiveRecord::Base
     "#{title} #{name_without_title}".strip
   end
 
-  def original_name
-    "#{title} #{original_name_without_title}".strip
-  end
-
   def name_without_title
     "#{first_name} #{last_name}".strip
-  end
-
-  def original_name_without_title
-    "#{first_name} #{original_last_name}".strip
   end
 
   # Include electorate in the name
@@ -153,32 +145,6 @@ class Member < ActiveRecord::Base
     left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
   end
 
-  # Last name as it's stored in the database including horrible html entities
-  # which for some reason are in there
-  def original_last_name
-    read_attribute(:last_name)
-  end
-
-  # TODO Remove the entities transformation below because it's REALLY SLOW
-  def last_name
-    # I'm going to take a guess that this is slow in production
-    # For some reason some characters are stored in the database using html entities
-    # rather than using unicode.
-    HTMLEntities.new.decode(original_last_name)
-  end
-
-  add_method_tracer :last_name, 'Custom/Member/last_name'
-
-  def original_constituency
-    read_attribute(:constituency)
-  end
-
-  def constituency
-    # For some reason some characters are stored in the database using html entities
-    # rather than using unicode.
-    HTMLEntities.new.decode(original_constituency)
-  end
-
   # Long version of party name
   def party_name
     party_object.long_name
@@ -198,11 +164,11 @@ class Member < ActiveRecord::Base
   end
 
   def url_name
-    original_name_without_title.gsub(" ", "_")
+    name_without_title.gsub(" ", "_")
   end
 
   def url_electorate
-    original_constituency.gsub(" ", "_")
+    constituency.gsub(" ", "_")
   end
 
   def electorate
