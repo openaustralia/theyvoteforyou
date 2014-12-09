@@ -123,7 +123,7 @@ class Member < ActiveRecord::Base
 
   def role
     if senator?
-      "Senator  for #{electorate}"
+      "Senator for #{electorate}"
     else
       "Representative for #{electorate}"
     end
