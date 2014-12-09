@@ -100,6 +100,7 @@
 
 .header-actions {
   text-align: right;
+  z-index: 99;
 
   @media (min-width: $screen-sm-min) {
     float: right;
