@@ -7,7 +7,11 @@ class WikiMotion < ActiveRecord::Base
   attr_accessor :title, :description
   alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
-  after_create :alert_policy_watches
+  after_create do
+    alert_policy_watches
+    division.reindex
+  end
+
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date
