@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  searchkick if Settings.elasticsearch
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
@@ -185,46 +186,50 @@ class Member < ActiveRecord::Base
   end
 
   def self.find_by_search_query(query_string)
-    # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-    sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
-                        entered_house, left_house,
-                        entered_reason, left_reason,
-                        members.id AS mpid,
-                        rebellions, votes_attended, votes_possible
-                 FROM members
-                 LEFT JOIN member_infos ON member_infos.member_id = members.id
-                 WHERE 1=1"
+    if Settings.elasticsearch
+      self.search(query_string)
+    else
+      # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
+      sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
+                          entered_house, left_house,
+                          entered_reason, left_reason,
+                          members.id AS mpid,
+                          rebellions, votes_attended, votes_possible
+                   FROM members
+                   LEFT JOIN member_infos ON member_infos.member_id = members.id
+                   WHERE 1=1"
 
-    score_clause = "("
-    score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
-    placeholders = {query_string: query_string}
-    bitcount = 0
-    query_string.split.each do |querybit|
-      querybit = querybit.strip
-      placeholders["querybit_#{bitcount}".to_sym] = querybit
-      placeholders["querybit_wild_#{bitcount}".to_sym] = '%' + querybit + '%'
+      score_clause = "("
+      score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
+      placeholders = {query_string: query_string}
+      bitcount = 0
+      query_string.split.each do |querybit|
+        querybit = querybit.strip
+        placeholders["querybit_#{bitcount}".to_sym] = querybit
+        placeholders["querybit_wild_#{bitcount}".to_sym] = '%' + querybit + '%'
 
-      if !querybit.blank?
-        score_clause += '+ (lower(constituency) =:querybit_' + bitcount.to_s + ') * 10 +
-        (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-        (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-        (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
-        (lower(constituency) like :querybit_wild_' + bitcount.to_s + ') * 4 +';
-        score_clause += '(lower(last_name) like :querybit_wild_' + bitcount.to_s + ') * 4 +
-        (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
-        (lower(first_name) like :querybit_wild_' + bitcount.to_s + ') +';
-        score_clause += '(soundex(constituency) like concat(\'%\',soundex(:querybit_' + bitcount.to_s + '),\'%\'))'
+        if !querybit.blank?
+          score_clause += '+ (lower(constituency) =:querybit_' + bitcount.to_s + ') * 10 +
+          (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
+          (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
+          (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
+          (lower(constituency) like :querybit_wild_' + bitcount.to_s + ') * 4 +';
+          score_clause += '(lower(last_name) like :querybit_wild_' + bitcount.to_s + ') * 4 +
+          (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
+          (lower(first_name) like :querybit_wild_' + bitcount.to_s + ') +';
+          score_clause += '(soundex(constituency) like concat(\'%\',soundex(:querybit_' + bitcount.to_s + '),\'%\'))'
+        end
+        bitcount += 1
       end
-      bitcount += 1
+
+      score_clause += ")"
+
+      sql_query += " AND (#{score_clause} > 0)
+                     GROUP BY concat(first_name, ' ', last_name)
+                     ORDER BY #{score_clause} DESC, last_name"
+
+      Member.find_by_sql([sql_query, placeholders]).map { |m| m.person.latest_member }
     end
-
-    score_clause += ")"
-
-    sql_query += " AND (#{score_clause} > 0)
-                   GROUP BY concat(first_name, ' ', last_name)
-                   ORDER BY #{score_clause} DESC, last_name"
-
-    Member.find_by_sql([sql_query, placeholders]).map { |m| m.person.latest_member }
   end
 
   private
