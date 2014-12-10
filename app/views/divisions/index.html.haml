@@ -19,3 +19,9 @@
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 
 = render partial: "divisions", locals: {member: @member}, object: @divisions
+
+%nav.index-pagination
+  %ul.pagination
+    - @years.reverse.each do |year|
+      %li
+        = link_to year, divisions_path(year: year)
