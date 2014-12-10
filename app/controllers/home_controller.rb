@@ -34,7 +34,7 @@ class HomeController < ApplicationController
         end
       end
     elsif !params[:query].blank?
-      @mps = Member.search params[:query]
+      @mps = Member.find_by_search_query params[:query]
       @divisions = Division.find_by_search_query params[:query]
       @policies = Policy.find_by_search_query params[:query]
     end
