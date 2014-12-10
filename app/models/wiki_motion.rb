@@ -9,7 +9,7 @@ class WikiMotion < ActiveRecord::Base
   before_save :set_text_body, unless: :text_body
   after_create do
     alert_policy_watches
-    division.reindex
+    division.reindex if Settings.elasticsearch
   end
 
 
