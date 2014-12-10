@@ -1,5 +1,5 @@
 class Division < ActiveRecord::Base
-  searchkick
+  searchkick if Settings.elasticsearch
   has_one :division_info
   has_many :whips
   has_many :votes

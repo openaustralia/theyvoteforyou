@@ -1,5 +1,5 @@
 class Policy < ActiveRecord::Base
-  searchkick
+  searchkick if Settings.elasticsearch
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: Proc.new{|policy| policy.id} }
