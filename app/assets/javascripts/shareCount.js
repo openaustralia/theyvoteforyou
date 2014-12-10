@@ -24,7 +24,7 @@ function updateTooltip() {
 }
 
 function addToShareCount(val) {
-  if (val !== 0) {
+  if (val > 4) {
     $shareCountEls.addClass("js-sharecount-active");
 
     var hasRun = false;
