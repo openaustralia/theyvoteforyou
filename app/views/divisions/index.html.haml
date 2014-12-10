@@ -23,7 +23,7 @@
 %nav.index-pagination
   %ul.pagination
     - @years.reverse.each do |year|
-      - if @year && @year.to_i == year
+      - if @year && @year.to_i == year || @year == nil && year == @years.last
         %li.active
           = link_to year, divisions_path(year: year)
       - else
