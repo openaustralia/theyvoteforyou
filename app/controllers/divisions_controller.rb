@@ -26,6 +26,7 @@ class DivisionsController < ApplicationController
       @sort = params[:sort]
       @rdisplay = params[:rdisplay]
       @rdisplay = "2013" if @rdisplay.nil?
+      @year = params[:year]
       @house = params[:house]
       @date = params[:date]
 
@@ -61,7 +62,8 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.on_date(@date) if @date
-      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date
+      @divisions = @divisions.in_year(@year) if @year
+      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date || @year
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
