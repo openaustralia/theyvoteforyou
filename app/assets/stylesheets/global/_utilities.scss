@@ -5,3 +5,26 @@
     display: inherit !important;
   }
 }
+
+/**
+* Breakpoint definition for JS - see https://github.com/JoshBarr/on-media-query
+* used by onmediaquery.js
+*/
+
+body:after {
+  display: none;
+
+  content: 'small';
+
+  @media (min-width: $screen-md-min) {
+    content: 'wide';
+  }
+}
+
+html {
+  font-family: 'small';
+
+  @media (min-width: $screen-md-min) {
+    font-family: 'wide';
+  }
+}
