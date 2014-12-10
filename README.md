@@ -117,7 +117,7 @@ which is run daily at 09:15 by cron.
 ## Better Search
 
 You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
-Enable the setting in `config/settings.yml` then [Download](http://www.elasticsearch.org/download)
+Enable the setting in `config/settings.yml` then [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
