@@ -5,7 +5,7 @@
 var shareCount = 0,
 $shareLabel = $('.social-share-heading'),
 $shareCountEls = $('.js-sharecount'),
-page = window.location.protocol + "//" + window.location.host + "/" +  window.location.pathname,
+page = window.location.protocol + "//" + window.location.host + window.location.pathname,
 counts = {
   facebook: 'n/a',
   twitter: 'n/a'
