@@ -66,6 +66,10 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date || @year
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+
+      # TODO: Make this list of years dynamic.
+      # It should contain all years that we have divisions for.
+      @years = [2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014]
     end
   end
 
