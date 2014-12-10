@@ -1,4 +1,5 @@
 class Policy < ActiveRecord::Base
+  searchkick
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: Proc.new{|policy| policy.id} }
@@ -57,8 +58,12 @@ class Policy < ActiveRecord::Base
   end
 
   def self.find_by_search_query(query)
-    where('LOWER(convert(name using utf8)) LIKE :query
-           OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+    if Settings.elasticsearch
+      self.search(query)
+    else
+      where('LOWER(convert(name using utf8)) LIKE :query
+             OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+    end
   end
 
   def self.update_all!
