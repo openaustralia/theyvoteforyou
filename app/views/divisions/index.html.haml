@@ -23,5 +23,9 @@
 %nav.index-pagination
   %ul.pagination
     - @years.reverse.each do |year|
-      %li
-        = link_to year, divisions_path(year: year)
+      - if @year && @year.to_i == year
+        %li.active
+          = link_to year, divisions_path(year: year)
+      - else
+        %li
+          = link_to year, divisions_path(year: year)
