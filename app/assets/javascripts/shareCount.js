@@ -80,11 +80,11 @@ function getShareCounts() {
 
     $.getJSON(facebook_url, function(data) {
       var count = data[page].shares || 0;
-        counts.facebook = count;
-        addToShareCount(counts.facebook);
+      counts.facebook = count;
+      addToShareCount(counts.facebook);
     });
 
-    $.getJSON( twitter_url, function(data) {
+    $.getJSON(twitter_url, function(data) {
       var count = data.count || 0;
       counts.twitter = count;
       addToShareCount(counts.twitter);
