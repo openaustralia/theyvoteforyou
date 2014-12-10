@@ -39,3 +39,13 @@
     }
   }
 }
+
+.js-sharecount {
+  transition: all .3s ease;
+}
+
+.js-sharecount-active {
+  font-size: $font-size-base;
+  color: $text-color;
+  font-weight: bold;
+}
