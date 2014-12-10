@@ -33,4 +33,12 @@
   .object-data-attendance small {
     white-space: nowrap;
   }
+
+  .member-speeches-link {
+    padding-left: 2em;
+    background-repeat: no-repeat;
+    background-position: left center;
+    // TOTO: get grunticon setup so this falls back nicely
+    background-image: url(image-path("speech.svg"));
+  }
 }
