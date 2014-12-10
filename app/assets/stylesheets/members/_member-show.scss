@@ -28,4 +28,9 @@
     padding: 0;
     margin-right: 15px;
   }
+
+  .object-data-rebellion small,
+  .object-data-attendance small {
+    white-space: nowrap;
+  }
 }
