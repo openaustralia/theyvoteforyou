@@ -4,11 +4,6 @@
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
-  %nav.btn-group
-    - Parliament.all.each do |id, details|
-      = nav_button_link(details[:name], {rdisplay: (id == "2013" ? nil : id), house: params[:house], sort: params[:sort]}, "", rdisplay == id)
-    = nav_button_link("All Parliaments", {rdisplay: "all", house: params[:house], sort: params[:sort]}, "", rdisplay == "all")
-
   .dropdown.pull-right
     %button.btn.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "turnout"
