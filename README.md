@@ -146,3 +146,5 @@ This project uses some icons from the noun project under under creative commons 
 http://thenounproject.com/term/check/45904/
 * Delete icon by useiconic.com from The Noun Project
 http://thenounproject.com/term/delete/45301/
+* Speech Icon by Lissette Arias from the Noun Project
+http://thenounproject.com/term/lecturer/8076/
