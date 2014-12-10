@@ -27,23 +27,40 @@ function addToShareCount(val) {
   if (val !== 0) {
     $shareCountEls.addClass("js-sharecount-active");
 
-    // if (detect.isBreakpoint({min: 'tablet'})) {
-    var duration = 250,
-    updateStep = 25,
-    slices = duration / updateStep,
-    amountPerStep = val / slices,
-    currentSlice = 0,
-    interval = window.setInterval(function () {
-      incrementShareCount(amountPerStep);
-      if (++currentSlice === slices) {
-        window.clearInterval(interval);
+    var hasRun = false;
+    var queries = [
+      {
+        context: 'small',
+        match: function() {
+          if (hasRun === false) {
+            incrementShareCount(val);
+            hasRun = true;
+          }
+        }
+      },
+      {
+        context: 'wide',
+        match: function() {
+          if (hasRun === false) {
+            var duration = 250,
+            updateStep = 25,
+            slices = duration / updateStep,
+            amountPerStep = val / slices,
+            currentSlice = 0,
+            interval = window.setInterval(function () {
+              incrementShareCount(amountPerStep);
+              if (++currentSlice === slices) {
+                window.clearInterval(interval);
+              }
+            }, updateStep);
+            updateTooltip();
+            hasRun = true;
+          }
+        }
       }
-    }, updateStep);
-    // } else {
-    // incrementShareCount(val);
-    // }
+    ];
 
-    updateTooltip();
+    MQ.init(queries);
     updateShareText();
   }
 }
