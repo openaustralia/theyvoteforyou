@@ -2,7 +2,10 @@
   - if @party
     = @party
   - else
-    Divisions
+    - if @year && @year.to_i != @years.last
+      Divisions: #{@year}
+    - else
+      Divisions
 
 - set_meta_tags description: "A list of votes, called divisions, in parliament. These votes help shape legislation that affects us all."
 
