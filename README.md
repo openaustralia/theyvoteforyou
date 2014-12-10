@@ -114,11 +114,11 @@ necessary for the site to run. They should be self-explainatory.
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
 
-## Search
+## Better Search
 
-To use search you'll need to install [elasticsearch](https://www.elasticsearch.org/).
-[Download](http://www.elasticsearch.org/download) the `.deb` for Linux or on Mac,
-`brew install elasticsearch`.
+You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
+Enable the setting in `config/settings.yml` then [Download](http://www.elasticsearch.org/download)
+the `.deb` for Linux or on Mac run `brew install elasticsearch`.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.
