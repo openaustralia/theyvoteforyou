@@ -40,6 +40,10 @@
     margin-top: 48px;
   }
 
+  .media {
+    margin-bottom: 28px; // matches .lead
+  }
+
   .header-secondary .social-share,
   + .social-share {
     width: 100%;
@@ -53,12 +57,17 @@
   }
 
   .header-secondary {
-    .subscribe-block {
+    .header-secondary-primary-block {
       display: inline;
 
       @media (min-width: 35em) {
         display: inline-block;
         float: left;
+      }
+
+      .btn:before {
+        margin-right: 5px;
+        text-decoration: none;
       }
     }
 

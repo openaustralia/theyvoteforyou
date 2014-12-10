@@ -1,5 +1,5 @@
-.page-header
-  .media
+.page-header.row
+  .media.col-sm-12
     - if member.show_large_image?
       = link_to member, class: "pull-left" do
         = image_tag(member.large_image_url, alt: "Photo of #{member.name_without_title}", size: "88x115", class: "media-object photo")
@@ -32,3 +32,8 @@
                 -# link_to "explain...", help_faq_path(anchor: "clarify")
                 %small= link_to "explain attendance.", help_faq_path(anchor: "attendance")
 
+  .header-secondary.col-sm-12
+    .header-secondary-primary-block.subscribe-block
+      = link_to "Speeches in Parliament", "http://www.openaustralia.org.au/mp/?m=#{member.id}", class: "btn btn-sm btn-link fi-megaphone btn-lone-link"
+
+    = render "social_share"
