@@ -1,4 +1,4 @@
 $ ->
   $("img.lazy").lazyload()
 
-  getShareCounts() if getShareCounts?
+  getShareCounts() if getShareCounts? && MQ?
