@@ -16,7 +16,7 @@
 .list-house-switcher {
   margin-bottom: 15px;
 
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: 33em) {
     margin-bottom: 0;
     float: left;
     clear: left;
@@ -24,7 +24,7 @@
 }
 
 .list-sorter {
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: 33em) {
     float: right;
     clear: right;
   }
