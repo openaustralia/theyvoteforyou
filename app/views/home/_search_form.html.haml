@@ -1,4 +1,5 @@
 %form.form-inline.search{action: search_path, name: "pw"}
+  %label.sr-only Search
   %input.form-control#query{maxlength: "256", name: "query", size: "25", value: "#{params[:query] if !params[:query].blank?}"}/
   %input.btn.btn-default{name: "button", type: "submit", value: "Search"}/
   %p.help-block Example: "2042", "Tony Abbott", "Bennelong" or "Medicare"
