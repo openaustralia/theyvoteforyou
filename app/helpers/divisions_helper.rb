@@ -222,13 +222,7 @@ module DivisionsHelper
   end
 
   def divisions_short_description(division)
-    jurisdiction = "Australian"
-    if @division.house == "representatives"
-      house = "House of Representatives"
-    else
-      house = @division.house.capitalize
-    end
-
-    jurisdiction + " " + house + " vote " + division_outcome(division).downcase + ", " + division_date_and_time(@division)
+    "Australian #{division.full_house_name} vote " +
+    "#{division_outcome(division).downcase},  #{division_date_and_time(@division)}"
   end
 end
