@@ -3,14 +3,19 @@
     = @party
   - else
     Divisions
-    = "in #{@year}" if @year && @year.to_i != @years.last
 
 - set_meta_tags description: "Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all."
 
 - content_for :header do
   .section-header.clearfix
     .page-header.container
-      %h1= yield :title
+      %h1
+        = yield :title
+        - if @year
+          %small= @year
+        - else
+          %small= Parliament.all[@rdisplay][:name]
+
 
       %p.lead
         In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
