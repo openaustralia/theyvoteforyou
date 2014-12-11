@@ -220,4 +220,9 @@ module DivisionsHelper
     ]
     f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
+
+  def divisions_short_description(division)
+    "Australian #{division.full_house_name} vote " +
+    "#{division_outcome(division).downcase},  #{division_date_and_time(@division)}"
+  end
 end
