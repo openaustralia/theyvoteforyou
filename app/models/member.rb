@@ -187,7 +187,7 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     if Settings.elasticsearch
-      self.search(query_string)
+      self.search(query_string, boost_where: {left_reason: 'still_in_office'})
     else
       # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
       sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
