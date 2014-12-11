@@ -229,6 +229,6 @@ module DivisionsHelper
       house = @division.house.capitalize
     end
 
-    jurisdiction + " " + house + " vote " + division_date_and_time(@division)
+    jurisdiction + " " + house + " vote " + division_outcome(division).downcase + ", " + division_date_and_time(@division)
   end
 end
