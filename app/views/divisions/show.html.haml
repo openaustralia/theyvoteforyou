@@ -1,7 +1,7 @@
 - set_meta_tags description: "A vote in the #{@division.full_house_name} on #{formatted_date(@division.date)}. #{@division.name}."
 :ruby
   set_meta_tags og: {
-    title: "Australian " + (@division.house == "representatives" ? "House of Representatives" : @division.house_name) + " vote " + division_date_and_time(@division),
+    title: divisions_short_description(@division),
     description: "Division: " + truncate(@division.name, length: 189),
     type: "website",
     url: request.original_url,
@@ -10,7 +10,7 @@
   set_meta_tags twitter: {
     card: "summary",
     site: "@" + Settings.project_twitter,
-    title: "Australian " + (@division.house == "representatives" ? "House of Representatives" : @division.house_name) + " vote " + division_date_and_time(@division),
+    title: divisions_short_description(@division),
     description: "Division: " + truncate(@division.name, length: 189)
   }
 

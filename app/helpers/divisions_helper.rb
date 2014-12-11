@@ -220,4 +220,15 @@ module DivisionsHelper
     ]
     f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
+
+  def divisions_short_description(division)
+    jurisdiction = "Australian"
+    if @division.house == "representatives"
+      house = "House of Representatives"
+    else
+      house = @division.house.capitalize
+    end
+
+    jurisdiction + " " + house + " vote " + division_date_and_time(@division)
+  end
 end
