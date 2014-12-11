@@ -10,7 +10,7 @@
 
 .list-filters.clearfix
   %nav.list-house-switcher.btn-group
-    = nav_button_link("Both houses", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
+    = nav_button_link("All", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
 
