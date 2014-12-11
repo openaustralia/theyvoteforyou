@@ -1,6 +1,3 @@
-%p.search
-  Enter your postcode, MP name, electorate or
-  debate topic:
 %form.form-inline.search{action: search_path, name: "pw"}
   %input.form-control#query{maxlength: "256", name: "query", size: "25", value: "#{params[:query] if !params[:query].blank?}"}/
   %input.btn.btn-default{name: "button", type: "submit", value: "Search"}/
