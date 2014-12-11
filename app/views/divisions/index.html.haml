@@ -27,4 +27,4 @@
 %nav.index-pagination
   %ul.pagination
     - @years.reverse.each do |year|
-      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year && @year.to_i == year || @year == nil && year == @years.last))
+      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year.to_i == year))
