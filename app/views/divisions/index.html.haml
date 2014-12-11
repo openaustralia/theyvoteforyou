@@ -2,10 +2,8 @@
   - if @party
     = @party
   - else
-    - if @year && @year.to_i != @years.last
-      Divisions: #{@year}
-    - else
-      Divisions
+    Divisions
+    = "in #{@year}" if @year && @year.to_i != @years.last
 
 - set_meta_tags description: "Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all."
 
