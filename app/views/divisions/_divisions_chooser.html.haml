@@ -5,7 +5,7 @@
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
   .dropdown.pull-right
-    %button.btn.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
+    %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "turnout"
         Sorted by
         - if @party
