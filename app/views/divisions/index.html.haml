@@ -27,9 +27,4 @@
 %nav.index-pagination
   %ul.pagination
     - @years.reverse.each do |year|
-      - if @year && @year.to_i == year || @year == nil && year == @years.last
-        %li.active
-          = link_to year, divisions_path(year: year)
-      - else
-        %li
-          = link_to year, divisions_path(year: year)
+      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year && @year.to_i == year || @year == nil && year == @years.last))
