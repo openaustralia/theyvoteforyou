@@ -22,7 +22,7 @@
         Sorted by Date
       %span.caret
 
-    %ul.dropdown-menu.dropdown-menu-right{role: "menu", "aria-labelledby" => "dropdownMenu1"}
+    %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if @sort == 'turnout'}"}
         = link_to "#{@party + ' ' if @party}Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}

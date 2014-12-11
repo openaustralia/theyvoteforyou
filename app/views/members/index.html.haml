@@ -29,7 +29,7 @@
         Sorted by Attendance
       %span.caret
 
-    %ul.dropdown-menu.dropdown-menu-right{role: "menu", "aria-labelledby" => "dropdownMenu1"}
+    %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
         = link_to "Name", {sort: nil, house: params[:house]}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'constituency'}"}
