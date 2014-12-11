@@ -38,7 +38,9 @@ class DivisionsController < ApplicationController
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
 
-      raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
+      if @rdisplay != "all" && !Parliament.all.has_key?(@rdisplay) || (@house && !House.valid?(@house))
+        raise ActiveRecord::RecordNotFound
+      end
 
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
