@@ -33,7 +33,7 @@ class DivisionsController < ApplicationController
         @date = params[:date]
       end
       # Set the year to the lastest we have data for if it's not set
-      @year = @years.last if @rdisplay.nil? && @year.nil?
+      @year = @years.last if @rdisplay.nil? && @date.nil? && @year.nil?
       # This sets the parliament to display if it's not set. It's only here for legacy support
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
