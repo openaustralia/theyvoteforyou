@@ -53,7 +53,6 @@ function addToShareCount(val) {
                 window.clearInterval(interval);
               }
             }, updateStep);
-            updateTooltip();
             hasRun = true;
           }
         }
@@ -61,6 +60,7 @@ function addToShareCount(val) {
     ];
 
     MQ.init(queries);
+    updateTooltip();
     updateShareText();
   }
 }
