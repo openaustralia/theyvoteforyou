@@ -17,7 +17,8 @@
       %p.lead
         In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
 
-= render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
+- if @divisions.any?
+  = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
 
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 
