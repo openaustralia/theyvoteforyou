@@ -1,16 +1,11 @@
 .list-filters.clearfix
-  %nav.btn-group
-    = nav_button_link("Both houses", {house: nil, sort: params[:sort], rdisplay: params[:rdisplay]}, "All divisions", @house.nil?)
+  %nav.list-house-switcher.btn-group
+    = nav_button_link("All", {house: "all", sort: params[:sort], rdisplay: params[:rdisplay]}, "All divisions", @house.nil?)
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
-  %nav.btn-group
-    - Parliament.all.each do |id, details|
-      = nav_button_link(details[:name], {rdisplay: (id == "2013" ? nil : id), house: params[:house], sort: params[:sort]}, "", rdisplay == id)
-    = nav_button_link("All Parliaments", {rdisplay: "all", house: params[:house], sort: params[:sort]}, "", rdisplay == "all")
-
-  .dropdown.pull-right
-    %button.btn.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
+  .list-sorter.dropdown
+    %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "turnout"
         Sorted by
         - if @party
@@ -27,7 +22,7 @@
         Sorted by Date
       %span.caret
 
-    %ul.dropdown-menu.dropdown-menu-right{role: "menu", "aria-labelledby" => "dropdownMenu1"}
+    %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if @sort == 'turnout'}"}
         = link_to "#{@party + ' ' if @party}Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}

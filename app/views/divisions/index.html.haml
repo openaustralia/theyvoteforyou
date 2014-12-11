@@ -4,18 +4,30 @@
   - else
     Divisions
 
-- set_meta_tags description: "A list of votes, called divisions, in parliament. These votes help shape legislation that affects us all."
+- set_meta_tags description: "Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all."
 
 - content_for :header do
   .section-header.clearfix
     .page-header.container
-      %h1= yield :title
+      %h1
+        = yield :title
+        - if @year
+          %small= @year
+        - elsif @rdisplay != "all"
+          %small= Parliament.all[@rdisplay][:name]
+
 
       %p.lead
         In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
 
-= render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
+- if @divisions.any?
+  = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
 
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 
 = render partial: "divisions", locals: {member: @member}, object: @divisions
+
+%nav.index-pagination
+  %ul.pagination
+    - @years.reverse.each do |year|
+      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year.to_i == year))
