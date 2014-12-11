@@ -12,3 +12,20 @@
     }
   }
 }
+
+.list-house-switcher {
+  margin-bottom: 15px;
+
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 0;
+    float: left;
+    clear: left;
+  }
+}
+
+.list-sorter {
+  @media (min-width: $screen-sm-min) {
+    float: right;
+    clear: right;
+  }
+}
