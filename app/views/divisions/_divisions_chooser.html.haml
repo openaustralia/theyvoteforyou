@@ -1,10 +1,10 @@
 .list-filters.clearfix
-  %nav.btn-group
+  %nav.list-house-switcher.btn-group
     = nav_button_link("Both houses", {house: "all", sort: params[:sort], rdisplay: params[:rdisplay]}, "All divisions", @house.nil?)
     = nav_button_link("Representatives", {house: "representatives", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions for the House of Representatives", @house == "representatives")
     = nav_button_link("Senate", {house: "senate", sort: params[:sort], rdisplay: params[:rdisplay]}, "Divisions from the Senate", @house == 'senate')
 
-  .dropdown.pull-right
+  .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "turnout"
         Sorted by
