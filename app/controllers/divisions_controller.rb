@@ -27,7 +27,7 @@ class DivisionsController < ApplicationController
       @rdisplay = params[:rdisplay]
       @rdisplay = "2013" if @rdisplay.nil?
       @year = params[:year]
-      @house = params[:house]
+      @house = params[:house] unless params[:house] == "all"
       @date = params[:date]
 
       raise ActiveRecord::RecordNotFound unless @rdisplay == "all" || Parliament.all.has_key?(@rdisplay)
