@@ -42,13 +42,12 @@
           %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
           %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
 
-        %form{class: "site-header-search navbar-form navbar-right", action: search_path, method: "get", name: "pw", role: "search"}
+        = form_tag search_path, method: "get", name: "pw", role: "search", class: "site-header-search navbar-form navbar-right" do
           .input-group
-            %label.sr-only{for: "query"}
-              Search #{Settings.project_name}
-            %input.form-control.input-sm{maxlength: "256", name: "query", type: "search", placeholder: "Search"}
+            = label_tag :query, "Search #{Settings.project_name}", class: 'sr-only'
+            = search_field_tag :query, nil, maxlength: "256", name: "query", type: "search", placeholder: "Search", class: "form-control input-sm"
             .input-group-btn
-              %button.btn.btn-default.input-sm{type: "submit", value: "Submit"}
+              = button_tag value: 'Submit', class: 'btn btn-default input-sm' do
                 %span.sr-only
                   Submit
                 %span.glyphicon.glyphicon-search
