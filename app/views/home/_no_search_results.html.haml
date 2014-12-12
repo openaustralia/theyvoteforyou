@@ -1,0 +1,22 @@
+- if postcode
+  %h2
+    Postcode
+    %strong= postcode
+    not found
+
+  %p Sorry, we couldn't find that postcode.
+  %p
+    If you’re sure this postcode exists please
+    = mail_to Settings.contact_email, "contact us"
+    to let us know.
+- else
+  %h2 No results found
+  %p
+    Sorry, we couldn't find any people, policies or divisions relevant to your search term
+    %strong “#{params[:query]}”.
+  %p
+    Suggestions:
+
+  %ul
+    %li check the spelling
+    %li try some more general or alternate terms
