@@ -11,7 +11,8 @@
   .section-header.clearfix
     .page-header.container
       - if @postcode && !@postcode_error
-        %h1.long-title= yield :title
+        %h1.long-title
+          Choose from #{@mps.size.to_words} MPs that represent postcode #{@postcode}:
       - else
         %form.form-inline.search{action: search_path, name: "pw"}
           %h1.label-heading
