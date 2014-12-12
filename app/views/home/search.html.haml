@@ -1,19 +1,18 @@
 - set_meta_tags description: "Search for people, policies, and divisions on #{Settings.project_name}."
+
 - if @postcode && !@postcode_error
   - content_for :title, "Representatives for postcode #{@postcode}"
-
-  %h1.long-title= yield :title
-  = render "members/members", members: @mps, house: nil
-
+- elsif params[:query].blank?
+  - content_for :title, "Search"
 - else
-  - if params[:query].blank?
-    - content_for :title, "Search"
-  - else
-    - content_for :title, (@postcode && @postcode_error ? "Search results for: #{@postcode}" : "Search results for: #{params[:query]}")
+  - content_for :title, (@postcode && @postcode_error ? "Search results for: #{@postcode}" : "Search results for: #{params[:query]}")
 
-  - content_for :header do
-    .section-header.clearfix
-      .page-header.container
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      - if @postcode && !@postcode_error
+        %h1.long-title= yield :title
+      - else
         %form.form-inline.search{action: search_path, name: "pw"}
           %h1.label-heading
             %label{for: "query"} Search people, policies and divisions:
@@ -22,23 +21,29 @@
             .input-group-btn
               %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 
-  - if @postcode_error
-    = render "home/no_search_results.html.haml", postcode: @postcode
-  - elsif !params[:query].blank?
-    - if @mps.empty? && @divisions.empty? && @policies.empty?
-      = render "home/no_search_results.html.haml", postcode: nil
-    - if !@mps.empty?
-      %section.page-section#people
-        %h2= pluralize(@mps.count, "person")
-        = render "members/members", members: @mps, house: nil
-    - if !@policies.empty?
-      %section.page-section#policies
-        %h2= pluralize(@policies.count, "policy")
-        = render "policies", policies: @policies
-    - if !@divisions.empty?
-      %section.page-section#divisions
-        %h2= pluralize(@divisions.count, "division")
-        = render "divisions/divisions", member: @member, divisions: @divisions
-    %p
-      You could also try browsing the list of #{link_to "People", members_path},
-      #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.
+- if @postcode && !@postcode_error
+  = render "members/members", members: @mps, house: nil
+- elsif @postcode_error
+  = render "home/no_search_results.html.haml", postcode: @postcode
+- elsif !params[:query].blank?
+  - if @mps.empty? && @divisions.empty? && @policies.empty?
+    = render "home/no_search_results.html.haml", postcode: nil
+
+  - if !@mps.empty?
+    %section.page-section#people
+      %h2= pluralize(@mps.count, "person")
+      = render "members/members", members: @mps, house: nil
+
+  - if !@policies.empty?
+    %section.page-section#policies
+      %h2= pluralize(@policies.count, "policy")
+      = render "policies", policies: @policies
+
+  - if !@divisions.empty?
+    %section.page-section#divisions
+      %h2= pluralize(@divisions.count, "division")
+      = render "divisions/divisions", member: @member, divisions: @divisions
+
+  %p
+    You could also try browsing the list of #{link_to "People", members_path},
+    #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.
