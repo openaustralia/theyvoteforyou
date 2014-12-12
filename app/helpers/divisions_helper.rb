@@ -223,6 +223,6 @@ module DivisionsHelper
 
   def divisions_short_description(division)
     "Australian #{division.full_house_name} vote " +
-    "#{division_outcome(division).downcase},  #{division_date_and_time(@division)}"
+    "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
   end
 end
