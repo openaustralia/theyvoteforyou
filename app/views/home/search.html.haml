@@ -17,7 +17,7 @@
   - content_for :header do
     .section-header.clearfix
       .page-header.container
-        %h1= yield :title
+        %h1= "Search"
         = render 'search_form'
 
   - if !params[:query].blank?
