@@ -27,9 +27,17 @@
 
   - if !params[:query].blank?
     - if @mps.empty? && @divisions.empty? && @policies.empty?
+      %h2 No results found
       %p
-        We're sorry but we couldn't find any people or divisions for your search term.
-        Try your search again using some different terms.
+        Sorry, we couldn't find any people, policies or divisions relevant to your search term
+        %strong “#{params[:query]}”.
+      %p
+        Suggestions:
+
+      %ul
+        %li check the spelling
+        %li try some more general or alternate terms
+
     - if !@mps.empty?
       %section.page-section#people
         %h2= pluralize(@mps.count, "person")
@@ -43,5 +51,5 @@
         %h2= pluralize(@divisions.count, "division")
         = render "divisions/divisions", member: @member, divisions: @divisions
     %p
-      Also try browsing the list of #{link_to "People", members_path},
+      You could also try browsing the list of #{link_to "People", members_path},
       #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.
