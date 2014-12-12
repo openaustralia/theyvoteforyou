@@ -12,30 +12,44 @@
   - else
     = render "members/members", members: @mps, house: nil
 
-- elsif !params[:query].blank?
-  - content_for :title, "Search results for: #{params[:query]}"
-
-  %h1.long-title= yield :title
-  - if @mps.empty? && @divisions.empty? && @policies.empty?
-    %p
-      We're sorry but we couldn't find any people or divisions for your search term.
-      Try your search again using some different terms.
-  - if !@mps.empty?
-    %h2= pluralize(@mps.count, "person")
-    = render "members/members", members: @mps, house: nil
-  - if !@policies.empty?
-    %h2= pluralize(@policies.count, "policy")
-    = render "policies", policies: @policies
-  - if !@divisions.empty?
-    %h2= pluralize(@divisions.count, "division")
-    = render "divisions/divisions", member: @member, divisions: @divisions
-  %p
-    Also try browsing the list of #{link_to "People", members_path},
-    #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.
-  = render 'search_form'
 - else
-  - content_for :title, "Search"
-  - content_for :on_load, "givefocus('query')"
+  - content_for :title, (params[:query].blank? ? "Search" : "Search results for: #{params[:query]}")
+  - content_for :header do
+    .section-header.clearfix
+      .page-header.container
+        %form.form-inline.search{action: search_path, name: "pw"}
+          %h1.label-heading
+            %label{for: "query"} Search people, policies and divisions:
+          .input-group.col-sm-12.col-md-8.col-lg-7
+            %input.form-control#query{required: "required", type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
+            .input-group-btn
+              %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 
-  %h1= yield :title
-  = render 'search_form'
+  - if !params[:query].blank?
+    - if @mps.empty? && @divisions.empty? && @policies.empty?
+      %h2 No results found
+      %p
+        Sorry, we couldn't find any people, policies or divisions relevant to your search term
+        %strong “#{params[:query]}”.
+      %p
+        Suggestions:
+
+      %ul
+        %li check the spelling
+        %li try some more general or alternate terms
+
+    - if !@mps.empty?
+      %section.page-section#people
+        %h2= pluralize(@mps.count, "person")
+        = render "members/members", members: @mps, house: nil
+    - if !@policies.empty?
+      %section.page-section#policies
+        %h2= pluralize(@policies.count, "policy")
+        = render "policies", policies: @policies
+    - if !@divisions.empty?
+      %section.page-section#divisions
+        %h2= pluralize(@divisions.count, "division")
+        = render "divisions/divisions", member: @member, divisions: @divisions
+    %p
+      You could also try browsing the list of #{link_to "People", members_path},
+      #{link_to "Policies", policies_path}, or #{link_to "Divisions", divisions_path}.

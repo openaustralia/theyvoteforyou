@@ -56,36 +56,23 @@ Submit
 </nav>
 
 
-
-<div class="container main-content"><h1>Search</h1>
-<p class="search">
-Enter your postcode, MP name, electorate or
-debate topic:
-</p>
+<div class="section-header clearfix">
+<div class="page-header container">
 <form action="/search" class="form-inline search" name="pw">
-<input class="form-control" id="query" maxlength="256" name="query" size="25" value="" />
-<input class="btn btn-default" name="button" type="submit" value="Search" />
-<p class="help-block">Example: "2042", "Tony Abbott", "Bennelong" or "Medicare"</p>
-</form>
-<p class="search">
-<span class="ptitle">People:</span>
-You can enter a
-postcode to get a list of all MPs for that electorate, or else
-enter their name or part of their name. If you don't know exactly
-how to spell the name, write it as best you can like it sounds.
-</p>
-<p class="search">
-<span class="ptitle">Divisions:</span>
-To find
-divisions you are interested in, enter the name of a subject, such
-as "Pensions" or "Hunting". <em class="project-name">They Vote For You</em> will search the titles
-of the divisions and the text of the motion being debated. If you
-enter multiple words, it will only find entries where they appear
-next to each other as you enter them. You can enter part of a
-word.
-</p>
-
+<h1 class="label-heading">
+<label for="query">Search people, policies and divisions:</label>
+</h1>
+<div class="input-group col-sm-12 col-md-8 col-lg-7">
+<input autofocus="autofocus" autosave="They Vote For You" class="form-control" id="query" maxlength="256" name="query" required="required" type="search" value="" />
+<div class="input-group-btn">
+<input class="btn btn-primary" name="button" type="submit" value="Search" />
 </div>
+</div>
+</form>
+</div>
+</div>
+
+<div class="container main-content"></div>
 <footer class="site-footer">
 <div class="footer-main">
 <div class="container">
