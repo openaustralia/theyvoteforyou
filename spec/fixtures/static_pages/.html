@@ -79,11 +79,17 @@ or
 <strong>name</strong>
 </label>
 <div class="input-group">
-<input class="form-control" id="query" maxlength="256" name="query" placeholder="e.g. 0836 or Tony Abbott" type="search" />
+<input class="form-control" id="query" list="members-datalist" maxlength="256" name="query" placeholder="e.g. 0836 or Tony Abbott" type="search" />
 <span class="input-group-btn">
-<button class="btn btn-primary" name="button" type="submit" value="Submit">Search</button>
+<button class="btn btn-primary" name="button" type="submit" value="hero_search">Search</button>
 </span>
 </div>
+<datalist id="members-datalist">
+<option value="Tony Abbott"></option>
+<option value="John Alexander"></option>
+<option value="Christopher Back"></option>
+<option value="Christine Milne"></option>
+</datalist>
 </form>
 </div>
 </div>
