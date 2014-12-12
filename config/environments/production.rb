@@ -69,7 +69,7 @@ Publicwhip::Application.configure do
     host: 'theyvoteforyou.org.au'
   }
   config.action_mailer.smtp_settings = {
-     address: "localhost",
+     address: Rails.application.secrets.cuttlefish_server,
      port: 2525,
      user_name: Rails.application.secrets.cuttlefish_user_name,
      password: Rails.application.secrets.cuttlefish_password,
