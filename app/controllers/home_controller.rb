@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   end
 
   def search
+    @current_members = Member.current.map { |m| m.name_without_title }
     @mps = []
     @divisions = []
 
@@ -33,6 +34,8 @@ class HomeController < ApplicationController
           @mps << member unless member.nil?
         end
       end
+    elsif params[:button] == "hero_search" && @current_members.include?(params[:query])
+      redirect_to view_context.member_path(Member.with_name(params[:query]).first)
     elsif !params[:query].blank?
       @mps = Member.find_by_search_query params[:query]
       @divisions = Division.find_by_search_query params[:query]
