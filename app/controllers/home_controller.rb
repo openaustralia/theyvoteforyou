@@ -2,6 +2,7 @@ require 'open-uri'
 
 class HomeController < ApplicationController
   def index
+    @current_members = Member.current.order("last_name")
   end
 
   def about

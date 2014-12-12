@@ -34,7 +34,7 @@
           %span.input-group-btn
             %button.btn.btn-primary{name: "button", type: "submit", value: "hero_search"} Search
         %datalist#members-datalist
-          - Member.current.order("last_name").each do |member|
+          - @current_members.each do |member|
             %option{value: member.name_without_title}
 
 .front-panels-block.banner-section
