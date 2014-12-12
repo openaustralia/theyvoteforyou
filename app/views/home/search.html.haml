@@ -17,8 +17,13 @@
   - content_for :header do
     .section-header.clearfix
       .page-header.container
-        %h1= "Search"
-        = render 'search_form'
+        %form.form-inline.search{action: search_path, name: "pw"}
+          %h1.label-heading
+            %label{for: "query"} Search people, policies and divisions:
+          .input-group.col-sm-12.col-md-8.col-lg-7
+            %input.form-control#query{type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
+            .input-group-btn
+              %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 
   - if !params[:query].blank?
     - if @mps.empty? && @divisions.empty? && @policies.empty?
