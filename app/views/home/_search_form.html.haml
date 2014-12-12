@@ -1,4 +1,6 @@
 %form.form-inline.search{action: search_path, name: "pw"}
-  %label.sr-only{for: "query"} Search
-  %input.form-control#query{type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", size: "25", value: "#{params[:query] if !params[:query].blank?}"}/
-  %input.btn.btn-default{name: "button", type: "submit", value: "Search"}/
+  .input-group
+    %label.sr-only{for: "query"} Search
+    %input.form-control#query{type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", size: "25", value: "#{params[:query] if !params[:query].blank?}"}/
+    .input-group-btn
+      %input.btn.btn-default{name: "button", type: "submit", value: "Search"}/
