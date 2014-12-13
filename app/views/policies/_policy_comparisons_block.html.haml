@@ -1,7 +1,7 @@
 - unless members.empty?
   .policy-comparision-block.row{class: "position-#{title.parameterize}"}
-    %h3.policy-comparision-position.col-xs-12
-      %a.anchor{:id => title.parameterize, :href => "##{title.parameterize}" }
+    %h3.policy-comparision-position.col-xs-12{:id => title.parameterize}
+      %a.anchor{:href => "##{title.parameterize}"}
         %span.fi-link
       = title
       = policy.name
