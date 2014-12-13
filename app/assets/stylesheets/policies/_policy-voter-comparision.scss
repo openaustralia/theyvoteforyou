@@ -115,3 +115,18 @@
     padding: 14px  15px 0 0;
   }
 }
+
+.anchor {
+  position: absolute;
+  margin-left: -24px;
+  color: $text-color;
+  display: none;
+
+  :hover {
+    color: $text-color;
+  }
+}
+
+*:hover > .anchor {
+  display: block;
+}
