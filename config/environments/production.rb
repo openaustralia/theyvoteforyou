@@ -73,8 +73,6 @@ Publicwhip::Application.configure do
      port: 2525,
      user_name: Rails.application.secrets.cuttlefish_user_name,
      password: Rails.application.secrets.cuttlefish_password,
-     # The cuttlefish smtp server is currently using a self-signed certificate
-     openssl_verify_mode: "none",
      authentication: :plain
   }
 
