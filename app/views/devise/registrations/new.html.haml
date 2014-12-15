@@ -1,21 +1,23 @@
 - content_for :title, 'Sign up'
 
-%h1.long-title Help unlock Parliament
+.signup-page
+  .signup-intro
+    %h1.long-title Help unlock Parliament
 
-%p
-  Join the community building this free public resource.
-  %span.hidden-xs
-    Edit and improve policies and divisions and subscribe to updates about the policies that matter to you.
+    %p
+      Join the community building this free public resource.
+      %span.hidden-xs
+        Edit and improve policies and divisions and subscribe to updates about the policies that matter to you.
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup_form"}) do |f|
-  = f.error_notification
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup_form"}) do |f|
+    = f.error_notification
 
-  .form-group= f.input :email, as: :email, autofocus: true
-  .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits.", hint_html: {class: 'small'}
-  .form-group= f.input :password
+    .form-group= f.input :email, as: :email, autofocus: true
+    .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits.", hint_html: {class: 'small'}
+    .form-group= f.input :password
 
-  = f.button :submit, "Sign up", class: 'btn-primary submit-signup'
+    = f.button :submit, "Sign up", class: 'btn-primary submit-signup'
 
-  %p.small.help-block
-    %strong Privacy policy:
-    None of your information will ever be given to third parties.
+    %p.small.help-block
+      %strong Privacy policy:
+      None of your information will ever be given to third parties.
