@@ -9,7 +9,7 @@
       %span.hidden-xs
         Edit and improve policies and divisions and subscribe to updates about the policies that matter to you.
 
-  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup_form"}) do |f|
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f|
     = f.error_notification
 
     .form-group= f.input :email, as: :email, autofocus: true
