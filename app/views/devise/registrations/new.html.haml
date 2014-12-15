@@ -3,7 +3,9 @@
 %h1.long-title Help unlock Parliament
 
 %p
-  Join the community building this free public resource. Edit and improve policies and divisions and subscribe to updates about the policies that matter to you.
+  Join the community building this free public resource.
+  %span.hidden-xs
+    Edit and improve policies and divisions and subscribe to updates about the policies that matter to you.
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup_form"}) do |f|
   = f.error_notification
