@@ -2,13 +2,6 @@
 
 %h1= yield :title
 
-%p
-  Quickly fill in the information below, and we'll send you
-  a confirmation email.  You will then be able to edit division descriptions and policies.
-  %br
-  = link_to 'Log in to change settings if you already signed up', edit_user_registration_path
-%p What are you waiting for? It's free!
-
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
 
