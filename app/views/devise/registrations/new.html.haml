@@ -1,11 +1,13 @@
-- content_for :title, 'Sign up'
+- content_for :title, 'Help Unlock Parliament'
 
 %h1= yield :title
 
-%ul
-  %li Add the policies that are important to you
-  %li Edit and improve summaries so everybody knows what MPs are voting on
-  %li Join a community of people building this free public resource
+%p
+  Join a community of people building this free public resource:
+  %ul
+    %li Summarise divisions and improve existing summaries
+    %li Enhance policies or start your own
+    %li Get notified by email whenever changes are make to a policy you're interested in
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
