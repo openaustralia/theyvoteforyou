@@ -73,6 +73,7 @@ group :development do
 
   gem 'guard'
   gem 'guard-rspec'
+  gem 'guard-livereload', require: false
 
   gem 'better_errors'
   gem 'binding_of_caller'
