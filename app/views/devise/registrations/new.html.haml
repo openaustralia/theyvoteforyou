@@ -9,7 +9,7 @@
     %li Enhance policies or start your own
     %li Get notified by email whenever changes are make to a policy you're interested in
 
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+= form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup_form"}) do |f|
   = devise_error_messages!
 
   .form-group
