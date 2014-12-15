@@ -10,7 +10,7 @@
     = f.email_field :email, autofocus: true, class: "form-control", required: "required"
 
   .form-group
-    = f.label 'Username'
+    = f.label :username, for: :user_name
     = f.text_field :name, class: "form-control", required: "required"
     %small.help-block Your username is publicly displayed with your policy and division edits.
 
