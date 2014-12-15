@@ -12,9 +12,9 @@
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f|
     = f.error_notification
 
-    .form-group= f.input :email, as: :email, autofocus: true
+    .form-group= f.input :email, as: :email, autofocus: true, hint: "What’s your email address?", hint_html: {class: 'small'}
     .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits.", hint_html: {class: 'small'}
-    .form-group= f.input :password
+    .form-group= f.input :password, hint: "Minimum 8 characters long", hint_html: {class: 'small'}
 
     = f.button :submit, "Sign up", class: 'btn-primary submit-signup'
 
