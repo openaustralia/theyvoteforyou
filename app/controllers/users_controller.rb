@@ -10,4 +10,9 @@ class UsersController < ApplicationController
   def subscriptions
     @user = User.find(params[:id])
   end
+
+  def confirm
+    # Remove Devise flash
+    flash.delete(:notice)
+  end
 end
