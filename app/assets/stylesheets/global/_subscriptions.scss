@@ -43,6 +43,15 @@
   margin-right: -15px;
   margin-left: -15px;
 
+  .object-item a {
+    width: 80%;
+    display: inline-block;
+
+    @media (min-width: $screen-md-min) {
+      width: 75%;
+    }
+  }
+
   .btn-unsubscribe {
     color: $gray-light;
     float: right;
