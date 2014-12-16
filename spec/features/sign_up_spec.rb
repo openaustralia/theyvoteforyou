@@ -9,7 +9,7 @@ feature 'Signing up' do
     create :member
   end
 
-  scenario 'Signing up with valid details' do
+  scenario 'with valid details' do
     visit '/'
     click_link 'Sign up'
     expect(page).to have_content 'Sign up to help unlock parliament'
