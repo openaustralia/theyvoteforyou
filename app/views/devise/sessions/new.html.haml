@@ -1,20 +1,12 @@
-- content_for :title, "Login to #{Settings.project_name}"
+- content_for :title, "Log in"
 
-%h1 Login to #{inline_project_name}
+%h1= yield :title
 
-%p
-  Not got a login? #{link_to 'Register a new account', new_registration_path(resource_name)}
-  %br
-  Lost your password? #{link_to 'Reset your password here', new_password_path(resource_name)}
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
+  = f.error_notification
 
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .form-group
-    = f.label :email
-    = f.email_field :email, autofocus: true, class: "form-control"
-
-  .form-group
-    = f.label :password
-    = f.password_field :password, autocomplete: "off", class: "form-control"
+  .form-group= f.input :email, as: :email, autofocus: true
+  .form-group= f.input :password
 
   - if devise_mapping.rememberable?
     .checkbox
@@ -22,4 +14,8 @@
         = f.check_box :remember_me
         Remember me
 
-  = f.submit "Login to #{Settings.project_name}", class: "btn btn-default"
+  = f.submit "Log in", class: "btn btn-primary btn-wide"
+
+%ul.form-secondary.nav.nav-pills
+  %li= link_to 'Register a new account', new_registration_path(resource_name), class: "btn-xs"
+  %li= link_to 'Reset your password here', new_password_path(resource_name), class: "btn-xs"

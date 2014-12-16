@@ -54,6 +54,16 @@
   }
 }
 
-.form-terms {
+.form-secondary {
   margin-top: 30px;
+}
+
+.btn-wide {
+  width: 100%;
+  text-align: center;
+
+  @media (min-width: 25em) {
+    width: auto;
+    min-width: 8em;
+  }
 }
