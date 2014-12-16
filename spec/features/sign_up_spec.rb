@@ -20,5 +20,10 @@ feature 'Signing up' do
     end
     click_button 'Sign up'
     expect(page).to have_content 'now check your inbox'
+    expect(unread_emails_for('henare@oaf.org.au').size).to eql 1
+    open_last_email_for('henare@oaf.org.au')
+    expect(current_email).to have_subject('Confirm your email address')
+    click_email_link_matching /confirm/
+    expect(page).to have_content 'Your account was successfully confirmed'
   end
 end
