@@ -66,6 +66,7 @@ group :test do
   gem 'vcr'
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'email_spec'
 end
 
 group :development do
