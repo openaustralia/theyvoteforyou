@@ -10,4 +10,6 @@
       = f.email_field :email, autofocus: true, class: "form-control", required: "required"
 
     = f.submit "Resend confirmation", class: "btn btn-primary btn-wide"
-  = render "devise/shared/links"
+
+    %ul.form-secondary.nav.nav-pills
+      %li= link_to 'Back to Log in', new_user_session_path, class: "btn-xs"
