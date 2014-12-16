@@ -1,21 +1,22 @@
 - content_for :title, "Log in"
 
-%h1= yield :title
+.thin-page
+  %h1= yield :title
 
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
-  = f.error_notification
+  = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
+    = f.error_notification
 
-  .form-group= f.input :email, as: :email, autofocus: true
-  .form-group= f.input :password
+    .form-group= f.input :email, as: :email, autofocus: true
+    .form-group= f.input :password
 
-  - if devise_mapping.rememberable?
-    .checkbox
-      %label
-        = f.check_box :remember_me
-        Remember me
+    - if devise_mapping.rememberable?
+      .checkbox
+        %label
+          = f.check_box :remember_me
+          Remember me
 
-  = f.submit "Log in", class: "btn btn-primary btn-wide"
+    = f.submit "Log in", class: "btn btn-primary btn-wide"
 
-%ul.form-secondary.nav.nav-pills
-  %li= link_to 'Register a new account', new_registration_path(resource_name), class: "btn-xs"
-  %li= link_to 'Reset your password here', new_password_path(resource_name), class: "btn-xs"
+  %ul.form-secondary.nav.nav-pills
+    %li= link_to 'Register a new account', new_registration_path(resource_name), class: "btn-xs"
+    %li= link_to 'Reset your password here', new_password_path(resource_name), class: "btn-xs"
