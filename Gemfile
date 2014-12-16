@@ -65,6 +65,7 @@ group :test do
   gem 'webmock'
   gem 'vcr'
   gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
 group :development do
