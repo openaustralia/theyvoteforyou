@@ -87,3 +87,11 @@
   margin-left: auto;
   max-width: 26em;
 }
+
+.single-message {
+  margin-top: 45px;
+
+  @media (min-width: $screen-md-min) {
+    margin-top: 75px;
+  }
+}
