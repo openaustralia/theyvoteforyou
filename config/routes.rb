@@ -3,7 +3,7 @@ Publicwhip::Application.routes.draw do
   get '*path', to: redirect { |params, request| HTMLEntities.new.decode(params[:path]) },
                constraints: lambda { |request| URI.unescape(request.fullpath.force_encoding("utf-8")) != HTMLEntities.new.decode(URI.unescape(request.fullpath.force_encoding("utf-8"))) }
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   # Redirects
   get 'policies.php' => redirect('/policies')
@@ -177,6 +177,7 @@ Publicwhip::Application.routes.draw do
     end
   end
 
+  get 'users/confirm' => 'users#confirm', as: :user_confirm
   get 'users/:id' => 'users#show', as: :user
   get 'users/:id/subscriptions' => 'users#subscriptions', as: :user_subscriptions
 
