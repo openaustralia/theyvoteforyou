@@ -3,6 +3,8 @@
 .thin-page
   %h1.long-title= yield :title
 
+  %p We’ll send you an email to confirm address
+
   = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
     = devise_error_messages!
     .form-group
