@@ -12,4 +12,6 @@
       = f.email_field :email, autofocus: true, class: "form-control", required: "required"
 
     = f.submit "Reset password", class: "btn btn-primary btn-wide"
-  = render "devise/shared/links"
+
+  %ul.form-secondary.nav.nav-pills
+    %li= link_to 'Back to log in', new_user_session_path, class: "btn-xs"
