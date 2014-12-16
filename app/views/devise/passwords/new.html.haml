@@ -1,12 +1,14 @@
-- content_for :title, 'Forgot your password?'
+- content_for :title, 'Password reset'
 
-%h2= yield :title
+%h1.long-title= yield :title
+
+%p Enter your email and we’ll send you intructions to reset your password
 
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
   .form-group
     = f.label :email
-    = f.email_field :email, autofocus: true, class: "form-control"
+    = f.email_field :email, autofocus: true, class: "form-control", required: "required"
 
-  = f.submit "Send me reset password instructions", class: "btn btn-default"
+  = f.submit "Reset password", class: "btn btn-primary btn-wide"
 = render "devise/shared/links"
