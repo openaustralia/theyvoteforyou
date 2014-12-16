@@ -21,7 +21,9 @@
           %li.object-item{id: "policy" + policy.id.to_s}
             = link_to capitalise_initial_character(policy.name_with_for), policy
             = button_to watch_policy_path(policy), class: "btn btn-link btn-sm btn-unsubscribe", form_class: "object-secondary-inline" do
-              unsubscribe
+              %i.fi-x
+              %span.hidden-xs
+                unsubscribe
     - else
       %p Get email alerts whenever the policies that interest you are updated or voted on. Subscribe on the policy’s page.
 

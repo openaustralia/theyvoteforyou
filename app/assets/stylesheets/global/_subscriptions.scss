@@ -43,12 +43,31 @@
   margin-right: -15px;
   margin-left: -15px;
 
+  .object-item a {
+    width: 80%;
+    display: inline-block;
+
+    @media (min-width: $screen-md-min) {
+      width: 75%;
+    }
+  }
+
   .btn-unsubscribe {
     color: $gray-light;
+    float: right;
 
     &:hover,
     &:focus {
       color: $color-very-strongly-against;
+    }
+
+    i.fi-x {
+      font-size: 1.25em;
+      vertical-align: top;
+
+      @media (min-width: $screen-sm-min) {
+        display: none;
+      }
     }
   }
 }
