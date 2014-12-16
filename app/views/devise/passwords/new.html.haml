@@ -1,6 +1,6 @@
 - content_for :title, 'Password reset'
 
-%h2= yield :title
+%h1.long-title= yield :title
 
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
   = devise_error_messages!
