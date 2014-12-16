@@ -50,3 +50,15 @@ h2 {
 blockquote {
   font-size: 1em;
 }
+
+.loud {
+  font-size: 1.15em;
+
+  @media (min-width: $screen-sm-min) {
+    font-size: 1.25em;
+  }
+
+  @media (min-width: $screen-md-min) {
+    font-size: 1.5em;
+  }
+}
