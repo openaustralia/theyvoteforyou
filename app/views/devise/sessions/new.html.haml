@@ -1,6 +1,6 @@
-- content_for :title, "Login to #{Settings.project_name}"
+- content_for :title, "Log in"
 
-%h1 Log in
+%h1= yield :title
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
   - # TODO: This error isn't showing
