@@ -24,4 +24,21 @@ FactoryGirl.define do
     source_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
     debate_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
   end
+
+  factory :member do
+    id "100156"
+    gid "uk.org.publicwhip/lord/100156"
+    source_gid ""
+    first_name "Christine"
+    last_name "Milne"
+    title ""
+    constituency "Tasmania"
+    party "Australian Greens"
+    house "senate"
+    entered_house "2005-07-01"
+    left_house "9999-12-31"
+    entered_reason "general_election"
+    left_reason "still_in_office"
+    person_id "10458"
+  end
 end
