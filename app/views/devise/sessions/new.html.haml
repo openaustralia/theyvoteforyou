@@ -3,6 +3,7 @@
 %h1 Login
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
+  - # TODO: This error isn't showing
   = f.error_notification
 
   .form-group= f.input :email, as: :email, autofocus: true
