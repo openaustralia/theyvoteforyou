@@ -2,14 +2,11 @@
 
 %h1 Login
 
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .form-group
-    = f.label :email
-    = f.email_field :email, autofocus: true, class: "form-control"
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
+  = f.error_notification
 
-  .form-group
-    = f.label :password
-    = f.password_field :password, autocomplete: "off", class: "form-control"
+  .form-group= f.input :email, as: :email, autofocus: true
+  .form-group= f.input :password
 
   - if devise_mapping.rememberable?
     .checkbox
