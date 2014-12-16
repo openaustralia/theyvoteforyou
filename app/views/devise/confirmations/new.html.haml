@@ -1,12 +1,13 @@
 - content_for :title, 'Resend email confirmation'
 
-%h1.long-title= yield :title
+.thin-page
+  %h1.long-title= yield :title
 
-= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-  = devise_error_messages!
-  .form-group
-    = f.label :email
-    = f.email_field :email, autofocus: true, class: "form-control"
+  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    = devise_error_messages!
+    .form-group
+      = f.label :email
+      = f.email_field :email, autofocus: true, class: "form-control"
 
-  = f.submit "Resend confirmation instructions", class: "btn btn-default"
-= render "devise/shared/links"
+    = f.submit "Resend confirmation instructions", class: "btn btn-default"
+  = render "devise/shared/links"
