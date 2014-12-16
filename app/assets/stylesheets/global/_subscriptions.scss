@@ -45,10 +45,23 @@
 
   .btn-unsubscribe {
     color: $gray-light;
+    float: right;
 
     &:hover,
     &:focus {
       color: $color-very-strongly-against;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      span {
+        display: none;
+      }
+
+      i.fi-x {
+        font-size: 2em;
+        line-height: 1em;
+        vertical-align: top;
+      }
     }
   }
 }
