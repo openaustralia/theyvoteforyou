@@ -1,6 +1,6 @@
 - content_for :title, "Login to #{Settings.project_name}"
 
-%h1 Login
+%h1 Log in
 
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
   - # TODO: This error isn't showing
@@ -15,7 +15,7 @@
         = f.check_box :remember_me
         Remember me
 
-  = f.submit "Login", class: "btn btn-default"
+  = f.submit "Log in", class: "btn btn-default"
 
 %ul.form-secondary.nav.nav-pills
   %li= link_to 'Register a new account', new_registration_path(resource_name), class: "btn-xs"
