@@ -1,7 +1,7 @@
 - content_for :title, "Log in"
 
 .thin-page
-  %h1= yield :title
+  %h1.long-title= yield :title
 
   = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: "login-form"}) do |f|
     = f.error_notification
