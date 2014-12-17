@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def welcome
     @policies = Policy.order("updated_at DESC").limit(3)
+    # TODO: don't include policies that the user is already subscribed to
     # TODO: add a forth policy to @policies from a more random selection
   end
 end
