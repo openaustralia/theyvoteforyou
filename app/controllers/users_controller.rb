@@ -18,5 +18,6 @@ class UsersController < ApplicationController
 
   def welcome
     @policies = Policy.order("updated_at DESC").limit(3)
+    # TODO: add a forth policy to @policies from a more random selection
   end
 end
