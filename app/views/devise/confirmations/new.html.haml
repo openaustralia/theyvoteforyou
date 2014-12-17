@@ -5,13 +5,15 @@
 
   %p We’ll send you an email to confirm address
 
-  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-    = devise_error_messages!
-    .form-group
-      = f.label :email
-      = f.email_field :email, autofocus: true, class: "form-control", required: "required"
+  = simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    - if f.error :confirmation_token
+      .alert.alert-danger= "Confirmation token is invalid. Enter your email and we'll send you another confirmation."
+    - else
+      = f.error_notification
 
-    = f.submit "Resend confirmation", class: "btn btn-primary btn-wide"
+    .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
+
+    = f.button :submit, "Resend confirmation", class: "btn btn-primary btn-wide"
 
   %ul.form-secondary.nav.nav-pills
     %li= link_to 'Back to Log in', new_user_session_path, class: "btn-xs"
