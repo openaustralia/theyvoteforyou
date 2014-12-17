@@ -25,5 +25,6 @@ feature 'Signing up' do
     expect(current_email).to have_subject('Confirm your email address')
     click_email_link_matching /confirm/
     expect(page).to have_content 'Your account was successfully confirmed'
+    expect(find('.account-nav')).to have_content('Henare Degan')
   end
 end
