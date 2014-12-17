@@ -1,20 +1,20 @@
 - content_for :title, 'Welcome'
 
 .thin-page
-  %h1.long-title= yield :title
+  %h1= yield :title
 
-  %p You’ve successfully created an account. Now you can:
+  %p You’ve successfully created an account! Fantastic to have you on board.
+
+  %p One good way to get started is to keep an eye on the policies you’re interested in. Click on the policy and then hit the ”Subscribe” button to get email notifications when someone edits the policy or it’s related divisions.
+
+  %p You can also:
 
   %ul
     %li
       Add new
       = link_to "policies", policies_path
-      and connect policies to the divisions that relate to them;
+      and connect policies to the divisions that relate to them
     %li
       Help expand the resource by summarising
       = link_to "divisions", divisions_path
-      and improving existing summaries; and
-    %li
-      Subscribe to the
-      = link_to "policies", policies_path
-      that interest you to get updates when they are edited or new votes are added to them.
+      and improving existing summaries
