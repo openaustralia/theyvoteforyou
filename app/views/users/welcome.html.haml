@@ -7,18 +7,23 @@
   %p Thanks for creating an account.
 
   %section.page-section
-    %p
-      %strong
-        Get started by subscribing to keep track of changes to the policies that interest you:
+    - if @policies.empty?
+      %p
+        %strong
+          Let's get things started by #{link_to "creating the first policy", new_policy_path}.
+    - else
+      %p
+        %strong
+          Get started by subscribing to keep track of changes to the policies that interest you:
 
-    %ul.subscriptions-list.object-list-compact.list-unstyled
-      - @policies.each do |policy|
-        %li.object-item{id: "policy" + policy.id.to_s}
-          = link_to capitalise_initial_character(policy.name_with_for), policy
-          = button_to watch_policy_path(policy), class: "btn btn-primary btn-sm btn-subscribe", form_class: "object-secondary-inline-sm" do
-            Subscribe
+      %ul.subscriptions-list.object-list-compact.list-unstyled
+        - @policies.each do |policy|
+          %li.object-item{id: "policy" + policy.id.to_s}
+            = link_to capitalise_initial_character(policy.name_with_for), policy
+            = button_to watch_policy_path(policy), class: "btn btn-primary btn-sm btn-subscribe", form_class: "object-secondary-inline-sm" do
+              Subscribe
 
-    =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
+      =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
 
   %p You can also:
 
