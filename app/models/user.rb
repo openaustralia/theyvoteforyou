@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   end
 
   def policies_watched
-    watches.where(watchable_type: 'Policy').map { |w| Policy.find(w.watchable_id)  }
+    Policy.where(id: policy_ids_watched)
   end
 
   def unwatched_policies
