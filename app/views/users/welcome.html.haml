@@ -1,7 +1,8 @@
 - content_for :title, 'Welcome'
 
 .col-md-7
-  %h1= yield :title
+  %h1
+    %em #{yield :title}!
 
   %p Thanks for creating an account.
 
