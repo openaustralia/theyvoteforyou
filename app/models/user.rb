@@ -24,16 +24,16 @@ class User < ActiveRecord::Base
     api_key
   end
 
-  def policy_ids_watched
+  def watched_policy_ids
     watches.where(watchable_type: 'Policy').collect { |w| w.watchable_id }
   end
 
-  def policies_watched
-    Policy.where(id: policy_ids_watched)
+  def watched_policies
+    Policy.where(id: watched_policy_ids)
   end
 
   def unwatched_policies
-    Policy.where.not(id: policy_ids_watched)
+    Policy.where.not(id: watched_policy_ids)
   end
 
   def watching?(object)

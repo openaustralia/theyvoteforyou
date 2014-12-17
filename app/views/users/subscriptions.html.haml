@@ -9,15 +9,15 @@
 
 .row
   .col-md-8
-    - if @user.policies_watched.any?
+    - if @user.watched_policies.any?
       %p
         You have subscribed to receive emails whenever the following
-        = pluralize(@user.policies_watched.size, "policy")
+        = pluralize(@user.watched_policies.size, "policy")
         or
-        = @user.policies_watched.size == 1 ? "its" : "their"
+        = @user.watched_policies.size == 1 ? "its" : "their"
         related divisions are updated:
       %ul.subscriptions-list.subscriptions-list-removals.object-list-compact.list-unstyled
-        - @user.policies_watched.each do |policy|
+        - @user.watched_policies.each do |policy|
           %li.object-item{id: "policy" + policy.id.to_s}
             = link_to capitalise_initial_character(policy.name_with_for), policy
             = button_to watch_policy_path(policy), class: "btn btn-link btn-sm btn-unsubscribe", form_class: "object-secondary-inline" do
