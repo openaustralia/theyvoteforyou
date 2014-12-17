@@ -6,10 +6,14 @@
   %p You’ve successfully created an account! Fantastic to have you on board.
 
   %p
-    One good way to get started is to keep an eye on the policies you’re interested in. Select a policy from the policies page, enter the policy and then hit the ”Subscribe” button to get email notifications when someone edits the policy or it’s related divisions.
+    Get started by subscribing to keep track of the policies that interest you:
 
-  %p
-    = link_to "Go to the policies page.", policies_path
+  %ul.subscriptions-list.object-list-compact.list-unstyled
+    - @policies.each do |policy|
+      %li.object-item{id: "policy" + policy.id.to_s}
+        = link_to capitalise_initial_character(policy.name_with_for), policy
+
+  =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
 
   %p You can also:
 
