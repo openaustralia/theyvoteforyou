@@ -5,16 +5,17 @@
 
   %p You’ve successfully created an account! Fantastic to have you on board.
 
-  %p
-    %strong
-      Get started by subscribing to keep track of changes to the policies that interest you:
+  %section.page-section
+    %p
+      %strong
+        Get started by subscribing to keep track of changes to the policies that interest you:
 
-  %ul.subscriptions-list.object-list-compact.list-unstyled
-    - @policies.each do |policy|
-      %li.object-item{id: "policy" + policy.id.to_s}
-        = link_to capitalise_initial_character(policy.name_with_for), policy
+    %ul.subscriptions-list.object-list-compact.list-unstyled
+      - @policies.each do |policy|
+        %li.object-item{id: "policy" + policy.id.to_s}
+          = link_to capitalise_initial_character(policy.name_with_for), policy
 
-  =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
+    =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
 
   %p You can also:
 
