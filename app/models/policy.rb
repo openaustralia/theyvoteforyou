@@ -16,7 +16,6 @@ class Policy < ActiveRecord::Base
   scope :provisional, -> { where(private: 2) }
   # We can't call the scope public so we're calling it visible instead
   scope :visible, -> { where(private: 0) }
-  scope :not_watched_by, ->(user) { joins(:watches).where.not(watches: { user: user }) }
 
   def name_with_for
     "for #{name}"
