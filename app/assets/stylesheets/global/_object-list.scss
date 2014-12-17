@@ -47,6 +47,16 @@
   }
 }
 
+.object-secondary-inline-sm {
+  @media (min-width: $screen-sm-min) {
+    display: inline;
+
+    & > div {
+      display: inline;
+    }
+  }
+}
+
 .object-data {
   text-transform: uppercase;
   font-size: $font-size-supporting;
