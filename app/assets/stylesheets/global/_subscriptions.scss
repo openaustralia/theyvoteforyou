@@ -43,12 +43,14 @@
   margin-right: -15px;
   margin-left: -15px;
 
-  .object-item a {
-    width: 80%;
-    display: inline-block;
+  &.subscriptions-list-removals {
+    .object-item a {
+      width: 80%;
+      display: inline-block;
 
-    @media (min-width: $screen-md-min) {
-      width: 75%;
+      @media (min-width: $screen-md-min) {
+        width: 75%;
+      }
     }
   }
 
@@ -68,6 +70,15 @@
       @media (min-width: $screen-sm-min) {
         display: none;
       }
+    }
+  }
+
+  .btn-subscribe {
+    margin-top: .5em;
+    margin-bottom: 1em;
+
+    @media (min-width: $screen-sm-min) {
+      float: right;
     }
   }
 }
