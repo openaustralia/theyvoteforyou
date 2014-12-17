@@ -15,4 +15,7 @@ class UsersController < ApplicationController
     # Remove Devise flash
     flash.delete(:notice)
   end
+
+  def welcome
+  end
 end
