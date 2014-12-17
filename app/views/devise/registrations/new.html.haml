@@ -10,7 +10,13 @@
         Add new policies, edit and improve division summaries, and subscribe to updates about the policies that matter&nbsp;to&nbsp;you.
 
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f|
-    = f.error_notification
+    - if f.error(:email) =~ /already been taken/
+      .alert.alert-danger
+        %em= resource.email
+        has already been registered.
+        Would you like to #{link_to "sign in", new_user_session_path(:'user[email]' => resource.email)}?
+    - else
+      = f.error_notification
 
     .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
     .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
