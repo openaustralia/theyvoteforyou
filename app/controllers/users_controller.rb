@@ -17,5 +17,6 @@ class UsersController < ApplicationController
   end
 
   def welcome
+    @policies = Policy.order("RAND()").limit(3)
   end
 end
