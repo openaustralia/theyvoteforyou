@@ -26,14 +26,4 @@
 
       =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
 
-  %p You can also:
-
-  %ul
-    %li
-      Add new
-      = link_to "policies", policies_path
-      and connect policies to the divisions that relate to them
-    %li
-      Help expand the resource by summarising
-      = link_to "divisions", divisions_path
-      and improving existing summaries
+  %p or #{link_to "create a new policy", policies_path} or #{link_to "browse divisions", divisions_path}.
