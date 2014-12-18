@@ -41,4 +41,11 @@ FactoryGirl.define do
     left_reason "still_in_office"
     person_id "10458"
   end
+
+  factory :policy do
+    name 'the existence of test policies'
+    description 'there should be fabulous test policies'
+    private 0
+    user
+  end
 end
