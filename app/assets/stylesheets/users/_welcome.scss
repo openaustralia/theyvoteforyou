@@ -1,0 +1,11 @@
+.welcome-intro {
+  text-align: center;
+
+  @media (min-width: $screen-xs-min) {
+    margin-bottom: 30px;
+  }
+
+  @media (min-width: $screen-md-min) {
+    margin-top: 60px;
+  }
+}
