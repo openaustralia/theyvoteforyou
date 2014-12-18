@@ -29,12 +29,4 @@ describe PoliciesController, type: :request do
     it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: '', description: 'nuclear power is great.'}}, "_2" }
     it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: 'nuclear power', description: ''}}, "_3" }
   end
-
-  describe '#update', versioning: true do
-    it { compare_static '/policies/1', true, {submit: 'Save title and text', name: 'marriage inequality', description: 'access to marriage should be inequal', provisional: 'provisional'}, "", :put}
-    it { compare_static '/policies/2', true, {submit: 'Save title and text', name: 'onshore processing', description: 'refugees arrving by boat should be processed onshore'}, "", :put}
-
-    it { compare_static '/policies/2', true, {submit: 'Save title and text', name: '', description: 'a useful description'}, "_2", :put }
-    it { compare_static '/policies/2', true, {submit: 'Save title and text', name: 'A useful title', description: ''}, "_3", :put }
-  end
 end
