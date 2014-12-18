@@ -48,7 +48,7 @@
 }
 
 .object-secondary-inline-sm {
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: 30em) {
     display: inline;
 
     & > div {

@@ -75,7 +75,8 @@
     margin-top: .5em;
     margin-bottom: 1em;
 
-    @media (min-width: $screen-sm-min) {
+    @media (min-width: 30em) {
+      margin: 0 0 1em;
       float: right;
     }
   }
