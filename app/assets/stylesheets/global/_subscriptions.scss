@@ -43,14 +43,12 @@
   margin-right: -15px;
   margin-left: -15px;
 
-  &.subscriptions-list-removals {
-    .object-item a {
-      width: 80%;
-      display: inline-block;
+  .object-item a {
+    width: 75%;
+    display: inline-block;
 
-      @media (min-width: $screen-md-min) {
-        width: 75%;
-      }
+    @media (min-width: $screen-md-min) {
+      width: 75%;
     }
   }
 
