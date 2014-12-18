@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   def password_required?
-    name != User.system_name
+    name != User.system_name && (!persisted? || !password.nil? || !password_confirmation.nil?)
   end
 
   def email_required?
