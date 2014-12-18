@@ -19,7 +19,6 @@ feature 'User profile' do
       fill_in 'Password', with: user.password
     end
     click_button 'Log in'
-    expect(page).to have_content 'Signed in successfully.'
     expect(page).to have_content 'Welcome!'
     click_link 'Edit profile'
     within '#edit_user' do

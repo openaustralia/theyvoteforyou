@@ -18,5 +18,6 @@ class UsersController < ApplicationController
 
   def welcome
     @policies = current_user.unwatched_policies.visible.sample(3)
+    flash.delete(:notice)
   end
 end
