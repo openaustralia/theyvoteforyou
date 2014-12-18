@@ -7,4 +7,9 @@
     Recent contributions by
     = @user.name
 
-= render partial: "layouts/history_list"
+- if @history.empty?
+  %p No contributions… yet :)
+- else
+  = render partial: "layouts/history_list"
+
+%p See other #{link_to 'recent changes', history_path}.
