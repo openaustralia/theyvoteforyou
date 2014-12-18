@@ -1,3 +1,21 @@
+.welcome {
+  text-align: center;
+
+  .subscriptions-list-intro {
+    @media (max-width: $screen-md-max) {
+      text-align: left;
+    }
+  }
+
+  .subscriptions-list {
+    text-align: left;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: 30px;
+    }
+  }
+}
+
 .welcome-intro {
   text-align: center;
 
