@@ -1,5 +1,6 @@
-%h2
-  Edit your account
+- content_for :title, 'Edit your account'
+
+%h2= yield :title
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = f.error_notification
