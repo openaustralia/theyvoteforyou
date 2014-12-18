@@ -2,33 +2,21 @@
   Edit
   = resource_name.to_s.humanize
 
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = f.error_notification
 
-  .form-group
-    = f.label :email
-    = f.email_field :email, autofocus: true, class: "form-control"
+  .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter new email address if you'd like to change it", hint_html: {class: 'small hint-block-intime'}
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    %div
+    .alert.alert-danger
       Currently waiting confirmation for:
       = resource.unconfirmed_email
 
-  .form-group
-    = f.label :name
-    = f.text_field :name, class: "form-control"
+  .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
+  .form-group= f.input :password, hint: "Leave blank if you don't want to change it", hint_html: {class: 'small hint-block-intime'}
+  .form-group= f.input :current_password, hint: "We need your current password to confirm your changes", hint_html: {class: 'small'}
 
-  .form-group
-    = f.label :password
-    = f.password_field :password, autocomplete: "off", class: "form-control"
-    %span.help-block leave blank if you don't want to change it
-
-  .form-group
-    = f.label :current_password
-    = f.password_field :current_password, autocomplete: "off", class: "form-control"
-    %span.help-block we need your current password to confirm your changes
-
-  %div= f.submit "Update", class: "btn btn-primary"
+  = f.button :submit, "Update", class: 'btn-primary'
 
 %h3 Cancel my account
 

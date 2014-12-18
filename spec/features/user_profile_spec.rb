@@ -22,7 +22,7 @@ feature 'User profile' do
     expect(page).to have_content 'Signed in successfully.'
     click_link 'Edit profile'
     within '#edit_user' do
-      fill_in 'Name', with: 'Henare Degan, Esquire'
+      fill_in 'Username', with: 'Henare Degan, Esquire'
       fill_in 'Current password', with: user.password
     end
     click_button 'Update'
