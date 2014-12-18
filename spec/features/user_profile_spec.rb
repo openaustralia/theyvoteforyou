@@ -20,6 +20,7 @@ feature 'User profile' do
     end
     click_button 'Log in'
     expect(page).to have_content 'Signed in successfully.'
+    expect(page).to have_content 'Welcome!'
     click_link 'Edit profile'
     within '#edit_user' do
       fill_in 'Username', with: 'Henare Degan, Esquire'

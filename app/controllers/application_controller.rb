@@ -21,7 +21,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    stored_location_for(resource) || session[:previous_url] || root_path
+    path = stored_location_for(resource) || session[:previous_url]
+    path.nil? || path == root_path ? user_welcome_path : path
   end
 
   def after_sign_out_path_for(resource)
