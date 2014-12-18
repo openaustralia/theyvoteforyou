@@ -10,7 +10,7 @@
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     .alert.alert-danger
       Currently waiting confirmation for:
-      = resource.unconfirmed_email
+      %em= resource.unconfirmed_email
 
   .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
   .form-group= f.input :password, hint: "Leave blank if you don't want to change it", hint_html: {class: 'small hint-block-intime'}
