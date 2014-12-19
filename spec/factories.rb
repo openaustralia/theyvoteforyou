@@ -45,7 +45,7 @@ FactoryGirl.define do
   factory :policy do
     sequence(:name) { |n| "the existence of test policies #{n}" }
     description 'there should be fabulous test policies'
-    status 0
+    status 'provisional'
     user
   end
 end
