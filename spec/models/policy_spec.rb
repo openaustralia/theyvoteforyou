@@ -6,7 +6,7 @@ describe Policy, type: :model do
   describe '#status' do
     it 'private is 0' do
       subject.private = 0
-      expect(subject.status).to eql 'public'
+      expect(subject.status).to eql 'published'
     end
 
     it 'private is 1' do

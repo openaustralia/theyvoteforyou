@@ -37,7 +37,7 @@ class Policy < ActiveRecord::Base
   def status
     case private
     when 0
-      'public'
+      'published'
     when 1
       'legacy Dream MP'
     when 2
