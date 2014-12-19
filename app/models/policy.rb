@@ -13,6 +13,9 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true
 
+  enum private: [:published, 'legacy Dream MP', :provisional]
+  alias_attribute :status, :private
+
   scope :provisional, -> { where(private: 2) }
   # We can't call the scope public so we're calling it visible instead
   scope :visible, -> { where(private: 0) }
@@ -28,21 +31,6 @@ class Policy < ActiveRecord::Base
 
   def unedited_motions_count
     divisions.unedited.count
-  end
-
-  def provisional?
-    status == "provisional"
-  end
-
-  def status
-    case private
-    when 0
-      'published'
-    when 1
-      'legacy Dream MP'
-    when 2
-      'provisional'
-    end
   end
 
   def most_recent_version
