@@ -43,7 +43,7 @@ FactoryGirl.define do
   end
 
   factory :policy do
-    name 'the existence of test policies'
+    sequence(:name) { |n| "the existence of test policies #{n}" }
     description 'there should be fabulous test policies'
     private 0
     user
