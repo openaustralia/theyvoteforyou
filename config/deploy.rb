@@ -84,5 +84,5 @@ namespace :deploy do
 
   after :publishing, :restart
   after :restart, 'foreman:restart'
-  after :updated, "newrelic:notice_deployment"
+  after :restart, 'newrelic:notice_deployment'
 end
