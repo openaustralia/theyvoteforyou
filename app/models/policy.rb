@@ -16,8 +16,6 @@ class Policy < ActiveRecord::Base
   enum private: [:published, 'legacy Dream MP', :provisional]
   alias_attribute :status, :private
 
-  scope :provisional, -> { where(private: 2) }
-
   def name_with_for
     "for #{name}"
   end
