@@ -17,6 +17,7 @@
 
 
     = simple_form_for @policy do |f|
+      = f.error_notification
       = f.input :name, label: 'If you are for', placeholder: 'equal treatment of same-sex couples',label_html: { class: 'h4' }
       %p.small.help-block Complete the statement to provide a short, specific policy summary.
 
