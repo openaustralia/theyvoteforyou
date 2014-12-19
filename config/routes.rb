@@ -202,4 +202,8 @@ Publicwhip::Application.routes.draw do
       resources :divisions, only: [:index, :show]
     end
   end
+
+  ## Error pages
+  get '/404', to: 'home#error_404'
+  get '/500', to: 'home#error_500'
 end

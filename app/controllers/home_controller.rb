@@ -49,4 +49,12 @@ class HomeController < ApplicationController
                WikiMotion.where("edit_date > ?", 1.week.ago)
     @history.sort_by! {|v| -v.created_at.to_i}
   end
+
+  def error_404
+    render status: 404
+  end
+
+  def error_500
+    render status: 500
+  end
 end
