@@ -24,9 +24,4 @@ describe PoliciesController, type: :request do
     it { compare_static("/policy.php?id=2") }
     it { compare_static("/policy.php?id=2&display=motions") }
   end
-
-  describe '#add' do
-    it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: '', description: 'nuclear power is great.'}}, "_2" }
-    it { compare_static '/policies', true, {commit: 'Make Policy', policy: {name: 'nuclear power', description: ''}}, "_3" }
-  end
 end
