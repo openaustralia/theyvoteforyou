@@ -10,11 +10,10 @@ class Policy < ActiveRecord::Base
   has_many :watches, as: :watchable
   belongs_to :user
 
-  validates :name, :description, :user_id, :private, presence: true
+  validates :name, :description, :user_id, :status, presence: true
   validates :name, uniqueness: true
 
-  enum private: [:published, 'legacy Dream MP', :provisional]
-  alias_attribute :status, :private
+  enum status: [:published, 'legacy Dream MP', :provisional]
 
   def name_with_for
     "for #{name}"

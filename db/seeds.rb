@@ -1562,7 +1562,7 @@ Office.create!([
   {id: 1356, dept: "", position: "Shadow Parliamentary Secretary for Aged Care", responsibility: "", from_date: "2013-10-18", to_date: "9999-12-31", person_id: 10515}
 ])
 Policy.create!([
-  {id: 1, name: "dusty ponies that are covered in pony dust", user_id: 1, description: "Pony dust is magical and dusty ponies are dusty", private: 2}
+  {id: 1, name: "dusty ponies that are covered in pony dust", user_id: 1, description: "Pony dust is magical and dusty ponies are dusty", status: 2}
 ])
 PolicyDivision.create!([
   {id: 1, policy_id: 1, vote: "aye3", division_id: 2},

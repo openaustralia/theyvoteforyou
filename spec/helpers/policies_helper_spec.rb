@@ -8,9 +8,9 @@ describe PoliciesHelper, type: :helper do
 
   describe ".policies_list_sentence" do
     let(:user) { User.create!(email: "matthew@oaf.org.au", password: "foofoofoo", name: 'Matthew Landauer') }
-    let(:policy1) { Policy.create!(id: 1, name: "A nice policy", description: "nice", user: user, private: 0) }
-    let(:policy2) { Policy.create!(id: 2, name: "A provisional policy", description: "prov", user: user, private: 2) }
-    let(:policy3) { Policy.create!(id: 3, name: "<em>A</em> provisional policy", description: "prov", user: user, private: 2) }
+    let(:policy1) { Policy.create!(id: 1, name: "A nice policy", description: "nice", user: user, status: 0) }
+    let(:policy2) { Policy.create!(id: 2, name: "A provisional policy", description: "prov", user: user, status: 2) }
+    let(:policy3) { Policy.create!(id: 3, name: "<em>A</em> provisional policy", description: "prov", user: user, status: 2) }
 
     it { expect(helper.policies_list_sentence([policy1])).to eq '<a href="/policies/1">A nice policy</a>' }
     it { expect(helper.policies_list_sentence([policy2])).to eq '<a href="/policies/2">A provisional policy</a> <i>(draft)</i>'}
@@ -25,14 +25,14 @@ describe PoliciesHelper, type: :helper do
     end
 
     context "create provisional policy" do
-      let(:version) { double("version", item_type: "Policy", event: "create", changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 2], "id" => [nil, 3]}) }
+      let(:version) { double("version", item_type: "Policy", event: "create", changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "status" => [nil, 2], "id" => [nil, 3]}) }
 
       it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Created draft policy “A new policy” with description “Oh yes!”.</p>' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 
     context "create policy" do
-      let(:version) { double("version", item_type: "Policy", event: "create", changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "private" => [nil, 0], "id" => [nil, 3]}) }
+      let(:version) { double("version", item_type: "Policy", event: "create", changeset: {"name" => [nil, "A new policy"], "description" => [nil, "Oh yes!"], "status" => [nil, 0], "id" => [nil, 3]}) }
 
       it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Created policy “A new policy” with description “Oh yes!”.</p>' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
@@ -52,14 +52,14 @@ describe PoliciesHelper, type: :helper do
     end
 
     context "change status on policy" do
-      let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"private" => [2, 0]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
+      let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"status" => [2, 0]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
 
       it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Changed status to not draft.</p>' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 
     context "change everything on policy" do
-      let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"], "description" => ["Description A", "Description B"], "private" => [0, 2]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
+      let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {"name" => ["Version A", "Version B"], "description" => ["Description A", "Description B"], "status" => [0, 2]}, reify: mock_model(Policy, id: 3, name: "Version A")) }
 
       it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Name changed from “Version A” to “Version B”.</p><p class="change-action">Description changed from “Description A” to “Description B”.</p><p class="change-action">Changed status to draft.</p>' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
