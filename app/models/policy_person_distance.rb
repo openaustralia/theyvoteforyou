@@ -11,7 +11,7 @@ class PolicyPersonDistance < ActiveRecord::Base
   belongs_to :policy
   has_one :person, foreign_key: :id, primary_key: :person_id
 
-  scope :visible, -> { joins(:policy).merge(Policy.visible) }
+  scope :published, -> { joins(:policy).merge(Policy.published) }
   scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
   scope :strongly_for,          -> { where(distance_a: (0.05...0.15)) }
   scope :moderately_for,        -> { where(distance_a: (0.15...0.40)) }

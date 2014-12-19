@@ -19,7 +19,7 @@
         %optgroup(label="Draft policies")
           = options_from_collection_for_select(Policy.provisional.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
         %optgroup(label="Published policies")
-          = options_from_collection_for_select(Policy.visible.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
+          = options_from_collection_for_select(Policy.published.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
       would have
       %label voted
       = vote_select(f, nil, prompt: "Select vote")

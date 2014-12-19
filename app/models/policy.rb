@@ -17,8 +17,6 @@ class Policy < ActiveRecord::Base
   alias_attribute :status, :private
 
   scope :provisional, -> { where(private: 2) }
-  # We can't call the scope public so we're calling it visible instead
-  scope :visible, -> { where(private: 0) }
 
   def name_with_for
     "for #{name}"

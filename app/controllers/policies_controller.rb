@@ -2,7 +2,7 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :drafts, :show, :detail, :full, :history]
 
   def index
-    @policies = Policy.visible.order(:name)
+    @policies = Policy.published.order(:name)
   end
 
   def drafts
