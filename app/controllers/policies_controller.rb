@@ -44,7 +44,9 @@ class PoliciesController < ApplicationController
   end
 
   def create
-    @policy = Policy.new name: params[:policy][:name], description: params[:policy][:description], user: current_user, private: 2
+    @policy = Policy.new policy_params
+    @policy.user = current_user
+    @policy.private = 2
     if @policy.save
       redirect_to @policy, notice: 'Successfully made new policy'
     else
