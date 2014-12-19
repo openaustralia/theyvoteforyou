@@ -42,6 +42,8 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
 
+    Delayed::Worker.delay_jobs = false
+
     begin
       DatabaseCleaner.start
       FactoryGirl.lint
