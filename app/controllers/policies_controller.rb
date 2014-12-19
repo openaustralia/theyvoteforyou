@@ -56,11 +56,11 @@ class PoliciesController < ApplicationController
   def update
     @policy = Policy.find(params[:id])
 
-    if @policy.update name: params[:name], description: params[:description], private: (params[:provisional] ? 2 : 0)
+    if @policy.update policy_params
       @policy.alert_watches(@policy.versions.last)
       redirect_to @policy, notice: 'Policy updated.'
     else
-      redirect_to edit_policy_path(@policy), alert: 'Could not update policy.'
+      render :edit
     end
   end
 
@@ -76,5 +76,11 @@ class PoliciesController < ApplicationController
       flash[:notice] = 'Unsubscribed'
     end
     redirect_to :back
+  end
+
+  private
+
+  def policy_params
+    params.require(:policy).permit(:name, :description).merge(private: (params[:provisional] ? 2 : 0))
   end
 end

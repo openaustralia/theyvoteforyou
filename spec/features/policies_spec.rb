@@ -31,8 +31,10 @@ feature 'Policies' do
   scenario 'editing existing' do
     policy = create(:policy, name: 'test', description: 'testing')
     visit edit_policy_path(policy)
-    fill_in :name, with: 'test2'
-    fill_in :description, with: 'testing too'
+    within '.edit_policy' do
+      fill_in 'If you are for', with: 'test2'
+      fill_in 'you believe that', with: 'testing too'
+    end
     click_button 'Save title and text'
     policy.reload
     expect(policy.name).to eql 'test2'

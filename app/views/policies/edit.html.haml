@@ -8,16 +8,10 @@
 
 %h2 Policy title and text
 
-= form_for @policy do |f|
-  .form-group
-    %label If you are for
-    %input.form-control{maxlength: "50", name: "name", size: "40", type: "text", value: @policy.name}/
-  .form-group
-    %label you believe that
-    %textarea.form-control.policytext{cols: "80", name: "description", rows: "2"}
-      = @policy.description
-    %p.help-block
-      From the text, everyone should be able to agree which way the policy votes in each division
+= simple_form_for @policy do |f|
+  = f.error_notification
+  .form-group= f.input :name, label: 'If you are for'
+  .form-group= f.input :description, label: 'you believe that', hint: 'From the text, everyone should be able to agree which way the policy votes in each division'
   .checkbox
     %label
       %input#provisional{name: "provisional", type: "checkbox", value: "provisional", checked: @policy.provisional?}
