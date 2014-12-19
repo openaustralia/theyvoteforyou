@@ -45,7 +45,7 @@ module PoliciesHelper
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
-      result += version.changeset["status"].second == 2 ? " draft " : " "
+      result += version.changeset["private"].second == 2 ? " draft " : " "
       result += "policy " + quote(name) + " with description " + quote(description)
       result = content_tag(:p, result + ".", class: 'change-action')
     elsif version.event == "update"
@@ -63,10 +63,10 @@ module PoliciesHelper
         changes << "Description changed from " + quote(description1) + " to " + quote(description2)
       end
 
-      if version.changeset.has_key?("status")
-        if version.changeset["status"].second == 0
+      if version.changeset.has_key?("private")
+        if version.changeset["private"].second == 0
           changes << "Changed status to not draft"
-        elsif version.changeset["status"].second == 2
+        elsif version.changeset["private"].second == 2
           changes << "Changed status to draft"
         else
           raise
@@ -87,7 +87,7 @@ module PoliciesHelper
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
-      result += version.changeset["status"].second == 2 ? " draft " : " "
+      result += version.changeset["private"].second == 2 ? " draft " : " "
       result += "policy " + quote(name) + " with description " + quote(description)
       result += "."
     elsif version.event == "update"
@@ -105,10 +105,10 @@ module PoliciesHelper
         changes << "description from " + quote(description1) + " to " + quote(description2)
       end
 
-      if version.changeset.has_key?("status")
-        if version.changeset["status"].second == 0
+      if version.changeset.has_key?("private")
+        if version.changeset["private"].second == 0
           changes << "status to not draft"
-        elsif version.changeset["status"].second == 2
+        elsif version.changeset["private"].second == 2
           changes << "status to draft"
         else
           raise

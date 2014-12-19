@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141219013711) do
+ActiveRecord::Schema.define(version: 20141121043312) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -181,7 +181,7 @@ ActiveRecord::Schema.define(version: 20141219013711) do
     t.string   "name",        limit: 100, null: false
     t.integer  "user_id",                 null: false
     t.text     "description",             null: false
-    t.integer  "status",      limit: 1,   null: false
+    t.integer  "private",     limit: 1,   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

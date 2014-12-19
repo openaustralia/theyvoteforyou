@@ -46,7 +46,7 @@ class PoliciesController < ApplicationController
   def create
     @policy = Policy.new policy_params
     @policy.user = current_user
-    @policy.status = 2
+    @policy.private = 2
     if @policy.save
       redirect_to @policy, notice: 'Successfully made new policy'
     else
@@ -82,6 +82,6 @@ class PoliciesController < ApplicationController
   private
 
   def policy_params
-    params.require(:policy).permit(:name, :description).merge(status: (params[:provisional] ? 2 : 0))
+    params.require(:policy).permit(:name, :description).merge(private: (params[:provisional] ? 2 : 0))
   end
 end

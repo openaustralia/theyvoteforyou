@@ -3,7 +3,7 @@ one:
   name: marriage equality
   user_id: 1
   description: access to marriage should be equal
-  status: 0
+  private: 0
   created_at: <%= 1.day.ago %>
   updated_at: <%= 1.day.ago %>
 two:
@@ -11,7 +11,7 @@ two:
   name: offshore processing
   user_id: 1
   description: refugees arrving by boat should be processed offshore
-  status: 0
+  private: 0
   created_at: <%= 1.day.ago %>
   updated_at: <%= 1.day.ago %>
 three:
@@ -19,6 +19,6 @@ three:
   name: provisional policies
   user_id: 1
   description: A provisional policy
-  status: 2
+  private: 2
   created_at: <%= 1.day.ago %>
   updated_at: <%= 1.day.ago %>
