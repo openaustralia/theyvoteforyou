@@ -91,7 +91,8 @@ group :development do
   gem 'rvm1-capistrano3', require: false
   gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
 
-  gem 'mina'
+  # Use fork until this is merged: https://github.com/mina-deploy/mina/pull/275
+  gem 'mina', github: 'openaustralia/mina', ref: '86d1d6b'
 end
 
 group :test, :development do
