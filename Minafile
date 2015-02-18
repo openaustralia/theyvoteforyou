@@ -2,6 +2,7 @@
 require 'mina/bundler'
 require 'mina/rails'
 require 'mina/git'
+require 'mina/foreman'
 # require 'mina/rbenv'  # for rbenv support. (http://rbenv.org)
 # require 'mina/rvm'    # for rvm support. (http://rvm.io)
 
@@ -15,6 +16,8 @@ set :domain, 'theyvoteforyou.org.au.dev'
 set :deploy_to, '/srv/www'
 set :repository, 'https://github.com/openaustralia/publicwhip.git'
 set :branch, 'master'
+set :application, 'theyvoteforyou'
+set :foreman_procfile, 'Procfile.production'
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
@@ -61,6 +64,7 @@ task :deploy => :environment do
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
+    invoke :'foreman:export'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
     invoke :'deploy:cleanup'
@@ -68,6 +72,7 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
+      invoke :'foreman:restart'
     end
   end
 end
