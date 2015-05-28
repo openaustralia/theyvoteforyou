@@ -21,6 +21,8 @@ VCR.configure do |c|
   c.cassette_library_dir = 'spec/vcr_cassettes'
   c.hook_into :webmock
   # c.default_cassette_options = { record: :new_episodes }
+  # So that codeclimate-test-reporter can do its work
+  c.ignore_hosts 'codeclimate.com'
 end
 
 RSpec.configure do |config|
