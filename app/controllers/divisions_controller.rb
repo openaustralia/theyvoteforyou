@@ -29,11 +29,13 @@ class DivisionsController < ApplicationController
       @house = params[:house] unless params[:house] == "all"
       if params[:date] =~ /^\d{4}$/
         @year = params[:date]
+      elsif params[:date] =~/^\d{4}-\d{2}$/
+        @month = params[:date]
       else
         @date = params[:date]
       end
       # Set the year to the lastest we have data for if it's not set
-      @year = @years.last if @rdisplay.nil? && @date.nil? && @year.nil?
+      @year = @years.last if @rdisplay.nil? && @date.nil? && @month.nil? && @year.nil?
       # This sets the parliament to display if it's not set. It's only here for legacy support
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
@@ -72,6 +74,7 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.on_date(@date) if @date
+      @divisions = @divisions.in_month(@month) if @month
       @divisions = @divisions.in_year(@year) if @year
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date || @year
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party

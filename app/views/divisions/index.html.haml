@@ -11,8 +11,8 @@
     .page-header.container
       %h1
         = yield :title
-        - if @year || @date
-          %small= @year || formatted_date(Date.parse(@date))
+        - if @year || @month || @date
+          %small= @year || formatted_month(@month) || formatted_date(Date.parse(@date))
         - elsif @rdisplay != "all"
           %small= Parliament.all[@rdisplay][:name]
 

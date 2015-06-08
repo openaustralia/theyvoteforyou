@@ -11,6 +11,7 @@ class Division < ActiveRecord::Base
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
   scope :on_date, ->(date) { where(date: date) }
+  scope :in_month, ->(month) { where("date >= ? AND date < ?", "#{month}-01", next_month(month)) }
   scope :in_year, ->(year) { where("date >= ? AND date <= ?", "#{year}-01-01", "#{year}-12-31") }
   scope :in_house, ->(house) { where(house: house) }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
@@ -335,5 +336,9 @@ class Division < ActiveRecord::Base
 
   def sanitize_motion(text)
     ActionController::Base.helpers.sanitize(text, tags: %w(a b i p ol ul li blockquote br em sup sub dl dt dd), attributes: %w(href class pwmotiontext))
+  end
+
+  def self.next_month(month)
+    (Date.parse("#{month}-01") + 1.month).to_s
   end
 end
