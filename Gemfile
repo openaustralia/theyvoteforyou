@@ -68,6 +68,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'email_spec'
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :development do
