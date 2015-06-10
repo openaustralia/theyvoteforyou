@@ -225,4 +225,14 @@ module DivisionsHelper
     "Australian #{division.full_house_name} vote " +
     "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
   end
+
+  def divisions_period
+    if @year
+      return @year
+    elsif @month
+      return formatted_month(@month)
+    elsif @date
+      return formatted_date(Date.parse(@date))
+    end
+  end
 end

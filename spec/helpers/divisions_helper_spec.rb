@@ -32,4 +32,36 @@ describe DivisionsHelper, type: :helper do
       it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.9))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">large majority</span>" }
     end
   end
+
+  describe "#divisions_period" do
+    context "year specified" do
+      before do
+        helper.instance_variable_set("@year", "2014")
+      end
+
+      it "returns year when present" do
+        expect(helper.divisions_period).to eq "2014"
+      end
+    end
+
+    context "month specified" do
+      before do
+        helper.instance_variable_set("@month", "2014-06")
+      end
+
+      it "returns formatted month when present" do
+        expect(helper.divisions_period).to eq "June 2014"
+      end
+    end
+
+    context "date specified" do
+      before do
+        helper.instance_variable_set("@date", "2014-06-01")
+      end
+
+      it "returns formatted month when present" do
+        expect(helper.divisions_period).to eq "1st Jun 2014"
+      end
+    end
+  end
 end
