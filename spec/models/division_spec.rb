@@ -117,4 +117,10 @@ Yup (Read more about superannuation).
       EOF
     end
   end
+
+  describe "::next_month" do
+    it "returns the next month" do
+      expect(Division.next_month("2014-12")).to eq("2015-01-01")
+    end
+  end
 end
