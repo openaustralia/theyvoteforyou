@@ -12,7 +12,7 @@
       %h1
         = yield :title
         - if @year || @month || @date
-          %small= @year || formatted_month(@month) || formatted_date(Date.parse(@date))
+          %small= divisions_period
         - elsif @rdisplay != "all"
           %small= Parliament.all[@rdisplay][:name]
 

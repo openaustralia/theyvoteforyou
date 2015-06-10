@@ -85,10 +85,8 @@ module ApplicationHelper
     end
   end
 
-  def formatted_month(month, include_nbsp = false)
-    return nil unless month
-    date = Date.parse("#{month}-01")
-    include_nbsp ? date.strftime("%B&nbsp;%Y").html_safe : date.strftime("%B %Y")
+  def formatted_month(month)
+    Date.parse("#{month}-01").strftime("%B %Y")
   end
 
   def formatted_date(date, include_nbsp = false)
