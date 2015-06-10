@@ -228,11 +228,11 @@ module DivisionsHelper
 
   def divisions_period
     if @year
-      return @year
+      @year
     elsif @month
-      return formatted_month(@month)
+      formatted_month(@month)
     elsif @date
-      return formatted_date(Date.parse(@date))
+      formatted_date(Date.parse(@date))
     end
   end
 end
