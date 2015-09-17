@@ -40,6 +40,32 @@ module DataLoader
           member.person_id = m["person_id"][/\d+/]
           member.save!
         end
+      elsif vote_events = data["vote_events"]
+        Rails.logger.info "Loading #{vote_events.count} vote_events..."
+        vote_events.each do |v_e|
+          ActiveRecord::Base.transaction do
+            division = Division.find_or_initialize_by(id: v_e["identifier"])
+            division.date = DateTime.parse(v_e["start_date"]).strftime("%F")
+            division.number = v_e["identifier"]
+            division.house = "rada" # TODO: Remove hardcoded value
+            division.name = v_e["title"]
+            division.source_url = "TODO"
+            division.debate_url = "TODO"
+            division.motion = "TODO"
+            division.clock_time = DateTime.parse(v_e["start_date"]).strftime("%T")
+            division.source_gid = v_e["identifier"]
+            division.debate_gid = "TODO"
+            division.save!
+
+            votes = v_e["votes"]
+            Rails.logger.info "Loading #{votes.count} votes..."
+            votes.each do |v|
+              vote = division.votes.find_or_initialize_by(member_id: v["voter_id"])
+              vote.vote = v["option"]
+              vote.save!
+            end
+          end
+        end
       else
         raise "No loadable data found"
       end
