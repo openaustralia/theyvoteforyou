@@ -61,13 +61,35 @@ module DataLoader
             Rails.logger.info "Loading #{votes.count} votes..."
             votes.each do |v|
               vote = division.votes.find_or_initialize_by(member_id: v["voter_id"])
-              vote.vote = v["option"]
-              vote.save!
+              if option = popolo_to_publicwhip_vote(v["option"])
+                vote.vote = option
+                vote.save!
+              else
+                vote.destroy
+              end
             end
           end
         end
       else
         raise "No loadable data found"
+      end
+    end
+
+    # TODO: This shouldn't be a class method - move it somewhere more sensible
+    def self.popolo_to_publicwhip_vote(string)
+      case string
+      when "yes"
+        "aye"
+      when "no"
+        "no"
+      when "abstain"
+        "abstention"
+      when "absent"
+        nil
+      when "not voting"
+        nil
+      else
+        raise "Unknown vote option: #{string}"
       end
     end
   end
