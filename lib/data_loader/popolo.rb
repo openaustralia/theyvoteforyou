@@ -26,7 +26,8 @@ module DataLoader
           raise "Party not found: #{m["on_behalf_of_id"]}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
           raise "Area not found: #{m["area_id"]}" unless area = areas.find { |a| a["id"] == m["area_id"] }
           # TODO: Instead of reusing the person ID we need a unique ID for this member
-          member = Member.find_or_initialize_by(gid: m["person_id"][/\d+/])
+          member = Member.find_or_initialize_by(id: m["person_id"][/\d+/])
+          member.gid = m["person_id"][/\d+/]
           member.source_gid = m["person_id"]
           member.first_name = person["given_name"]
           member.last_name = person["family_name"]
