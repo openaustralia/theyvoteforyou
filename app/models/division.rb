@@ -173,6 +173,10 @@ class Division < ActiveRecord::Base
       "http://www.openaustralia.org.au/debates/?id=#{oa_debate_id}"
     when "senate"
       "http://www.openaustralia.org.au/senate/?id=#{oa_debate_id}"
+    # TODO: This is temporarily here to make division pages load for the Ukraine
+    # we should probably rename this method and do something to support multiple countries
+    when "rada"
+      nil
     else
       raise "unexexpected value"
     end
