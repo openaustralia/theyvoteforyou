@@ -10,6 +10,7 @@ module DataLoader
       if people = data["persons"]
         organizations = data["organizations"]
         areas = data["areas"]
+        events = data["events"]
 
         Rails.logger.info "Loading #{people.count} people..."
         people.each do |p|
@@ -25,8 +26,12 @@ module DataLoader
           raise "Person not found: #{m["person_id"]}" unless person = people.find { |p| p["id"] == m["person_id"] }
           raise "Party not found: #{m["on_behalf_of_id"]}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
           raise "Area not found: #{m["area_id"]}" unless area = areas.find { |a| a["id"] == m["area_id"] }
-          # TODO: Instead of reusing the person ID we need a unique ID for this member
-          member = Member.find_or_initialize_by(id: m["person_id"][/\d+/])
+          raise "Legislative period not found: #{m["legislative_period_id"]}" unless legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
+
+          # Default to the start of the legislative period if there no specific one set for this membership
+          start_date = m["start_date"] || legislative_period["start_date"]
+
+          member = Member.find_or_initialize_by(person_id: m["person_id"][/\d+/], entered_house: m["start_date"])
           member.gid = m["person_id"][/\d+/]
           member.source_gid = m["person_id"]
           member.first_name = person["given_name"]
@@ -36,8 +41,8 @@ module DataLoader
           member.party = party["name"]
           # TODO: Remove hardcoded house
           member.house = "rada"
-          # TODO: member.entered_house
-          # TODO: member.left_house
+          member.entered_house = start_date
+          member.left_house = m["end_date"] if m["end_date"]
           member.person_id = m["person_id"][/\d+/]
           member.save!
         end
