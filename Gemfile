@@ -93,6 +93,7 @@ group :development do
   gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
 
   gem 'mina'
+  gem 'mina-multistage', require: false
 end
 
 group :test, :development do
