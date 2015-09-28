@@ -29,9 +29,7 @@ and we load this into a Rails application.
 
 People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
 
-    bundle exec rake rake application:load:popolo[https://cdn.rawgit.com/everypolitician/everypolitician-data/2971101/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
-
-If you look closely you'll notice an ID in that URL. We still need to work out a way to automatically determine the [location of the latest data](https://github.com/everypolitician/viewer-sinatra/issues/707).
+    bundle exec rake rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
 
 Once the people data has been loaded you can start loading votes. These are scraped by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat format that can easily be converted to Popolo. The conversion is handled by a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another Rake task, e.g.:
 
