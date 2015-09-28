@@ -167,7 +167,7 @@ bundle exec mina ukraine-dev setup
 bundle exec mina ukraine-dev deploy
 
 # Now you can load people data
-bundle exec mina ukraine-dev rake[application:load:popolo[https://cdn.rawgit.com/everypolitician/everypolitician-data/2971101/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.
+bundle exec mina ukraine-dev rake[application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
 
 # And some vote data
 bundle exec mina ukraine-dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
