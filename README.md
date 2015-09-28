@@ -129,7 +129,9 @@ Add data to your index the first time with `bundle exec rake searchkick:reindex:
 
 * Memcached
 
-### Deployment
+### Australia
+
+#### Deployment
 
 The code is deployed using Capistrano. To deploy to production run:
 
@@ -137,6 +139,35 @@ The code is deployed using Capistrano. To deploy to production run:
 
 You'll need a local copy of `config/newrelic.yml` that includes your licence
 key to be able to record deployments to New Relic.
+
+### Ukraine
+
+#### Server provisioning
+
+Ukraine's server has its configuration management in [another repository](https://github.com/OPORA/publicwhip_server/). Once you've run the server provisioning tasks you can follow the instructions below to deploy the application.
+
+#### Deployment
+
+After provisioning your development server, set up and deploy using [Mina](http://mina-deploy.github.io/mina/):
+
+```
+bundle exec mina ukraine-dev setup
+bundle exec mina ukraine-dev deploy
+
+# Now you can load people data
+bundle exec mina ukraine-dev rake[application:load:popolo[https://cdn.rawgit.com/everypolitician/everypolitician-data/2971101/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.
+
+# And some vote data
+bundle exec mina ukraine-dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
+
+# Setup caches
+bundle exec mina ukraine-dev rake[application:cache:all_except_member_distances]
+
+# Then build the index so search works
+bundle exec mina ukraine-dev rake[searchkick:reindex:all]
+```
+
+To deploy to the **production** server, replace `ukraine-dev` with `ukraine-production` in the above commands.
 
 ## Other Credits
 
