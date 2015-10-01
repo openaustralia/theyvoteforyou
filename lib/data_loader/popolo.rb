@@ -55,12 +55,12 @@ module DataLoader
             division.number = v_e["identifier"]
             division.house = v_e["organization_id"]
             division.name = v_e["title"]
-            division.source_url = "TODO"
-            division.debate_url = "TODO"
-            division.motion = "TODO"
+            division.source_url = v_e["sources"].find { |s| s["note"] == "Source URL" }["url"]
+            division.debate_url = v_e["sources"].find { |s| s["note"] == "Debate URL" }["url"]
+            division.motion = v_e["motion"]["text"]
             division.clock_time = DateTime.parse(v_e["start_date"]).strftime("%T")
             division.source_gid = v_e["identifier"]
-            division.debate_gid = "TODO"
+            division.debate_gid = v_e["motion"]["identifier"]
             division.save!
 
             votes = v_e["votes"]
