@@ -53,7 +53,7 @@ module DataLoader
             division = Division.find_or_initialize_by(id: v_e["identifier"])
             division.date = DateTime.parse(v_e["start_date"]).strftime("%F")
             division.number = v_e["identifier"]
-            division.house = "rada" # TODO: Remove hardcoded value
+            division.house = v_e["organization_id"]
             division.name = v_e["title"]
             division.source_url = "TODO"
             division.debate_url = "TODO"
