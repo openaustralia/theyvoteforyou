@@ -167,18 +167,14 @@ class Division < ActiveRecord::Base
     last_edit.is_a?(PaperTrail::Version) ? User.find(last_edit.whodunnit) : last_edit.user
   end
 
-  def oa_debate_url
+  def debate_url
     case house
     when "representatives"
       "http://www.openaustralia.org.au/debates/?id=#{oa_debate_id}"
     when "senate"
       "http://www.openaustralia.org.au/senate/?id=#{oa_debate_id}"
-    # TODO: This is temporarily here to make division pages load for the Ukraine
-    # we should probably rename this method and do something to support multiple countries
-    when "rada"
-      nil
     else
-      raise "unexexpected value"
+      super
     end
   end
 

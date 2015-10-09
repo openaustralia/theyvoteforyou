@@ -16,7 +16,7 @@
     summary of what was voted on in #{link_to 'this division', @division, title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.house_name}", target: "_blank"}.
   %p
     Accurate, informed summaries draw on the
-    = link_to "debate leading up to the division", @division.oa_debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
+    = link_to "debate leading up to the division", @division.debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
     and our #{link_to 'research guide', help_research_path, target: "_blank"}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
 
   %p
