@@ -57,10 +57,10 @@ module DataLoader
             division.name = v_e["title"]
             division.source_url = v_e["sources"].find { |s| s["note"] == "Source URL" }["url"]
             division.debate_url = v_e["sources"].find { |s| s["note"] == "Debate URL" }["url"]
-            division.motion = v_e["motion"]["text"]
+            division.motion = ""
             division.clock_time = DateTime.parse(v_e["start_date"]).strftime("%T")
             division.source_gid = v_e["identifier"]
-            division.debate_gid = v_e["motion"]["identifier"]
+            division.debate_gid = ""
             division.save!
 
             votes = v_e["votes"]
