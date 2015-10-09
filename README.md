@@ -113,6 +113,8 @@ you're running an older branch (out of scope for this guide).
 
 ## Loading data
 
+### Australia
+
 These are the tasks you need to know about:
 
 * `application:load:members` loads members, offices and electorates. You always
@@ -125,6 +127,10 @@ necessary for the site to run. They should be self-explainatory.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
+
+### Popolo
+
+Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the `application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
 
 ## Better Search
 
