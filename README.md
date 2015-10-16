@@ -9,8 +9,7 @@ Yet you probably don't know how your MP votes. This isn't your fault.
 Parliamentary voting information is notoriously difficult to find and analyse.
 This project changes that by making it understandable and easy to use.
 
-We stand on the shoulders of giants: this project is an Australian fork of the
-UK [Public Whip](http://www.publicwhip.org.uk/) project.
+Over 10 years ago the pioneering [Public Whip](http://www.publicwhip.org.uk/) project was created in the UK. This is an evolution of that original PHP application into a modern Rails application.
 
 ### Process overview
 
@@ -20,8 +19,7 @@ The [OpenAustralia.org](http://www.openaustralia.org.au) project
 [parses](https://github.com/openaustralia/openaustralia-parser) the Australian
 Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
 due to it's history of being a fork of the UK
-[TheyWorkForYou](http://www.theyworkforyou.com/) project - more shoulders,
-giants). The debates XML files the parser creates, also available on
+[TheyWorkForYou](http://www.theyworkforyou.com/) project). The debates XML files the parser creates, also available on
 [data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data
 and we load this into a Rails application.
 
