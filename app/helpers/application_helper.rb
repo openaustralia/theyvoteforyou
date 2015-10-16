@@ -34,6 +34,8 @@ module ApplicationHelper
       "Senators"
     when "all"
       "Representatives and Senators"
+    when "rada"
+      "народний депутат"
     else
       raise
     end
@@ -58,6 +60,8 @@ module ApplicationHelper
       "Representative"
     when "senate"
       "Senator"
+    when "rada"
+      "Верхо́вна Ра́да Украї́ни"
     else
       raise
     end
@@ -71,6 +75,8 @@ module ApplicationHelper
       "Electorate"
     when "senate"
       "State"
+    when "rada"
+      "Обраний по"
     else
       raise
     end

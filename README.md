@@ -12,7 +12,9 @@ This project changes that by making it understandable and easy to use.
 We stand on the shoulders of giants: this project is an Australian fork of the
 UK [Public Whip](http://www.publicwhip.org.uk/) project.
 
-### [This is how we do it](https://www.youtube.com/watch?v=0hiUuL5uTKc) - process overview
+### Process overview
+
+#### Australia
 
 The [OpenAustralia.org](http://www.openaustralia.org.au) project
 [parses](https://github.com/openaustralia/openaustralia-parser) the Australian
@@ -22,6 +24,16 @@ due to it's history of being a fork of the UK
 giants). The debates XML files the parser creates, also available on
 [data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data
 and we load this into a Rails application.
+
+#### Ukraine
+
+People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
+
+    bundle exec rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
+
+Once the people data has been loaded you can start loading votes. These are scraped by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat format that can easily be converted to Popolo. The conversion is handled by a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another Rake task, e.g.:
+
+    bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]
 
 ## Development
 
@@ -101,6 +113,8 @@ you're running an older branch (out of scope for this guide).
 
 ## Loading data
 
+### Australia
+
 These are the tasks you need to know about:
 
 * `application:load:members` loads members, offices and electorates. You always
@@ -113,6 +127,10 @@ necessary for the site to run. They should be self-explainatory.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
+
+### Popolo
+
+Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the `application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
 
 ## Better Search
 
@@ -129,7 +147,9 @@ Add data to your index the first time with `bundle exec rake searchkick:reindex:
 
 * Memcached
 
-### Deployment
+### Australia
+
+#### Deployment
 
 The code is deployed using Capistrano. To deploy to production run:
 
@@ -137,6 +157,35 @@ The code is deployed using Capistrano. To deploy to production run:
 
 You'll need a local copy of `config/newrelic.yml` that includes your licence
 key to be able to record deployments to New Relic.
+
+### Ukraine
+
+#### Server provisioning
+
+Ukraine's server has its configuration management in [another repository](https://github.com/OPORA/publicwhip_server/). Once you've run the server provisioning tasks you can follow the instructions below to deploy the application.
+
+#### Deployment
+
+After provisioning your development server, set up and deploy using [Mina](http://mina-deploy.github.io/mina/):
+
+```
+bundle exec mina ukraine-dev setup
+bundle exec mina ukraine-dev deploy
+
+# Now you can load people data
+bundle exec mina ukraine-dev rake[application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
+
+# And some vote data
+bundle exec mina ukraine-dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
+
+# Setup caches
+bundle exec mina ukraine-dev rake[application:cache:all_except_member_distances]
+
+# Then build the index so search works
+bundle exec mina ukraine-dev rake[searchkick:reindex:all]
+```
+
+To deploy to the **production** server, replace `ukraine-dev` with `ukraine-production` in the above commands.
 
 ## Other Credits
 

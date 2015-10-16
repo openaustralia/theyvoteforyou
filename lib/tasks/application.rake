@@ -64,6 +64,11 @@ namespace :application do
       task('application:load:divisions').invoke(yesterday)
       task('application:cache:all').invoke
     end
+
+    desc "Load Popolo data from a URL"
+    task :popolo, [:url] => [:environment, :set_logger_to_stdout] do |t, args|
+      DataLoader::Popolo.load!(args[:url])
+    end
   end
 
   namespace :seed do

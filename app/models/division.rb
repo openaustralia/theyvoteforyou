@@ -167,14 +167,14 @@ class Division < ActiveRecord::Base
     last_edit.is_a?(PaperTrail::Version) ? User.find(last_edit.whodunnit) : last_edit.user
   end
 
-  def oa_debate_url
+  def debate_url
     case house
     when "representatives"
       "http://www.openaustralia.org.au/debates/?id=#{oa_debate_id}"
     when "senate"
       "http://www.openaustralia.org.au/senate/?id=#{oa_debate_id}"
     else
-      raise "unexexpected value"
+      super
     end
   end
 
