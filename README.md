@@ -23,6 +23,16 @@ due to it's history of being a fork of the UK
 [data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data
 and we load this into a Rails application.
 
+#### UK
+
+The UK Public Whip site still operates from the original PHP codebase however it's very possible for it to be upgraded to Rails in the future. During the development of [They Vote For You](https://theyvoteforyou.org.au/), the OpenAustralia Foundation was careful to ensure there is an upgrade path.
+
+To upgrade, checkout the `php-compatibility` branch and point the Rails application at a copy of the UK production database. Test the site out and fix any bugs - there are likely to be some UK-specific additions needed to the Rails application.
+
+Once the site is working you can then checkout a more recent version of the codebase and run `rake db:migrate` to upgrade the database schema. This also is likely to need some UK-specific changes.
+
+The final step is to customise the site language and interface. The best way to achieve this would be to develop some sort of theming system.
+
 #### Ukraine
 
 People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
