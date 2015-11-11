@@ -26,8 +26,8 @@
       %form{action: search_path, method: "get", name: "pw"}
         %label{for: "query"}
           Find your representative by
-          %strong postcode
-          or
+          -# %strong postcode
+          -# or
           %strong name
         .input-group
           %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. #{Member.random_postcode} or #{Member.random_current.name_without_title}", list: "members-datalist"}
