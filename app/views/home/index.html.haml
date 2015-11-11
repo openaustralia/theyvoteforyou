@@ -2,7 +2,7 @@
 
 :ruby
   set_meta_tags og: {
-    title: "How does your MP vote on the issues that matter to you?",
+    title: "Як депутати голосують за питання, які важливі для тебе?",
     description: "Forget what politicians say. What truly matters is what they do. And what they do is vote, to write our laws which affect us all.",
     type: "website",
     url: request.original_url,
@@ -13,14 +13,14 @@
     card: "summary",
     site: "@" + Settings.project_twitter,
     image: image_url("theyvoteforyou_logo_200x200.jpg"),
-    title: "How does your MP vote on the issues that matter to you?",
+    title: "Як депутати голосують за питання, які важливі для тебе?",
     description: "Forget what politicians say. What truly matters is what they do. And what they do is vote, to write our laws which affect us all."
   }
 
 - content_for :header do
   .site-introduction.banner-section.jumbotron
     %h1.banner-heading
-      How does your MP vote on the issues that matter to you?
+      Як депутати голосують за питання, які важливі для тебе?
 
     .banner-action
       %form{action: search_path, method: "get", name: "pw"}
