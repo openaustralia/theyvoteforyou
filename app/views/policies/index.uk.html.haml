@@ -1,0 +1,20 @@
+- content_for :title, 'Політики'
+- set_meta_tags description: "A list of policies available on #{Settings.project_name}. Політики - це перелік  голосувань за законопроект/пакет пов’язаних законопроектів, які у сукупності виступають за впровадження у дію конкретної позиції з певного питання. Ти можеш запропонувати свою власну політику."
+
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %nav.header-actions.col-md-3
+        =link_to "Нова політика", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
+      %h1= yield :title
+      %p.lead
+        Політики - це перелік  голосувань за законопроект/пакет пов’язаних законопроектів, які у сукупності виступають за впровадження у дію конкретної позиції з певного питання.
+        Ти можеш запропонувати свою власну політику.
+
+- if @policies
+  = render "policies_list", policies: @policies
+- else
+  %p
+    There are no published policies yet. Go ahead and #{link_to "make the first one", new_policy_path}.
+
+%p See also #{link_to "draft policies", drafts_policies_path}.

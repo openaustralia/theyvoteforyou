@@ -37,36 +37,36 @@
       - # Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
         %ul.nav.navbar-nav
-          %li= link_to "People", members_path, class: 'navlink-members', title: "All people currently in Federal Parliament"
-          %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyse MP's votes"
-          %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
-          %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
+          %li= link_to "Депутати", members_path, class: 'navlink-members', title: "All people currently in Federal Parliament"
+          %li= link_to "Політики", policies_path, class: 'navlink-policies', title: "Help to analyse MP's votes"
+          %li= link_to "Голосування", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
+          %li= link_to "Про нас", about_path, class: 'navlink-about', title: "Information about this website"
 
         = form_tag search_path, method: "get", name: "pw", role: "search", class: "site-header-search navbar-form navbar-right" do
           .input-group
-            = label_tag :query, "Search #{Settings.project_name}", class: 'sr-only'
-            = search_field_tag :query, nil, maxlength: "256", name: "query", type: "search", placeholder: "Search", class: "form-control input-sm"
+            = label_tag :query, "Пошук #{Settings.project_name}", class: 'sr-only'
+            = search_field_tag :query, nil, maxlength: "256", name: "query", type: "search", placeholder: "Пошук", class: "form-control input-sm"
             .input-group-btn
               = button_tag value: 'Submit', class: 'btn btn-default input-sm' do
                 %span.sr-only
                   Submit
                 %span.glyphicon.glyphicon-search
 
-        %ul.account-nav.nav.navbar-nav.navbar-right
-          - if user_signed_in?
-            %li.dropdown
-              %a.dropdown-toggle(href="#" data-toggle="dropdown")
-                = current_user.name || current_user.email
-              %ul.dropdown-menu(role="menu")
-                %li= link_to "Your page", current_user
-                %li= link_to "Your subscriptions", user_subscriptions_path(current_user)
-                %li= link_to "Edit profile", edit_user_registration_path
-                %li.divider
-                %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name || current_user.email}", method: :delete
-          - else
-            %li= link_to "Log in", new_user_session_path, title: "Log in to your account"
-            -if !current_page?(new_user_registration_path)
-              %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource", class: "link-signup"
+        -#%ul.account-nav.nav.navbar-nav.navbar-right
+        -#  - if user_signed_in?
+        -#    %li.dropdown
+        -#      %a.dropdown-toggle(href="#" data-toggle="dropdown")
+        -#        = current_user.name || current_user.email
+        -#      %ul.dropdown-menu(role="menu")
+        -#        %li= link_to "Your page", current_user
+        -#        %li= link_to "Your subscriptions", user_subscriptions_path(current_user)
+        -#        %li= link_to "Edit profile", edit_user_registration_path
+        -#        %li.divider
+        -#        %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name || current_user.email}", method: :delete
+        -#  - else
+        -#    %li= link_to "Log in", new_user_session_path, title: "Log in to your account"
+        -#    -if !current_page?(new_user_registration_path)
+        -#      %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource", class: "link-signup"
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice
