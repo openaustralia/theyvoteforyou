@@ -95,6 +95,8 @@ group :development do
 
   gem 'mina'
   gem 'mina-multistage', require: false
+
+  gem 'gettext', '>=3.0.2', require: false
 end
 
 group :test, :development do
