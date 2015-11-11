@@ -141,6 +141,7 @@ GEM
       railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    fast_gettext (0.7.0)
     ffi (1.9.6)
     foreman (0.77.0)
       dotenv (~> 1.0.2)
@@ -152,6 +153,8 @@ GEM
     fuubar (2.0.0)
       rspec (~> 3.0)
       ruby-progressbar (~> 1.4)
+    gettext_i18n_rails (0.9.4)
+      fast_gettext (>= 0.4.8)
     guard (2.10.2)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -435,6 +438,7 @@ DEPENDENCIES
   foreman
   foundation-icons-sass-rails
   fuubar
+  gettext_i18n_rails
   guard
   guard-livereload
   guard-rspec

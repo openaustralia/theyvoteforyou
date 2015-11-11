@@ -57,6 +57,7 @@ gem 'numbers_and_words', '~> 0.10.0'
 gem 'searchkick'
 gem 'typhoeus'
 gem 'foreman'
+gem 'gettext_i18n_rails'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
