@@ -66,7 +66,7 @@ Publicwhip::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = {
     protocol: 'https',
-    host: 'theyvoteforyou.org.au'
+    host: Settings.project_host
   }
   config.action_mailer.smtp_settings = {
      address: Rails.application.secrets.cuttlefish_server,

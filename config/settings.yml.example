@@ -12,6 +12,7 @@ elasticsearch_url: http://localhost:9200
 # Name of project to display thoughout the application
 project_name: They Vote For You
 project_twitter: TheyVote4You
+project_host: theyvoteforyou.org.au
 contact_email: contact@theyvoteforyou.org.au
 time_zone: Sydney
 facebook_admins:
