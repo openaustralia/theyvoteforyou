@@ -13,4 +13,5 @@
             %noscript
               = image_tag(member.large_image_url, alt: "Photo of #{member.name_without_title}", class: 'member-photo', width: 85, height: 114)
             %span.member-name.sr-only= member.name
-    =link_to "Something not right?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how to improve it.", class: 'policy-correction-notice small'
+    -# =link_to "Something not right?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how to improve it.", class: 'policy-correction-notice small'
+    =link_to "Щось не так?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how to improve it.", class: 'policy-correction-notice small'
