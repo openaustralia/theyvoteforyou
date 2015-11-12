@@ -31,6 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
+    FastGettext.reload! if Rails.env.development?
     I18n.locale = params[:locale] || I18n.default_locale
   end
 end
