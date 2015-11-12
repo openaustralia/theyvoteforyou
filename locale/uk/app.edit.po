@@ -19,7 +19,7 @@ msgstr ""
 "\n"
 
 msgid "Electorate / State"
-msgstr ""
+msgstr "Областю"
 
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
