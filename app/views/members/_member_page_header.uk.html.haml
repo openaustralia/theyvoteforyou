@@ -1,0 +1,39 @@
+.page-header.row
+  .media.col-sm-12
+    - if member.show_large_image?
+      = link_to member, class: "pull-left" do
+        = image_tag(member.large_image_url, alt: "Photo of #{member.name_without_title}", size: "88x115", class: "media-object photo")
+    .media-body
+      %h1.media-heading
+        %span.fn= link_to_unless_current member.name_without_title, member
+      %p.member-role.lead= member_type_party_place_date_sentence(member)
+
+      - if member.person.votes_attended > 0
+        - if member.person.has_whip?
+          %p.member-data.object-data
+            - if member.person.rebellions_fraction
+              %span.member-rebellions.object-data-rebellion
+                -if member.person.rebellions_fraction == 0
+                  Never rebels
+                -else
+                  -# TODO: Should this be an absolute count rather than percentage?
+                  -# Maybe it's good to show it as a percentage because it highlights rarity?
+                  Rebels
+                  = fraction_to_percentage_display(member.person.rebellions_fraction)
+                  of the time
+                  -# TODO: add helper tooltip for rebellions
+                  -# link_to "explain...", help_faq_path(anchor: "clarify")
+                %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+            - if member.person.attendance_fraction
+              %span.member-attendance.object-data-attendance
+                = fraction_to_percentage_display(member.person.attendance_fraction)
+                attendance
+                -# TODO: add helper tooltip for attendance
+                -# link_to "explain...", help_faq_path(anchor: "clarify")
+                %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
+
+  .header-secondary.col-sm-12
+    .header-secondary-primary-block
+      = link_to "Speeches in Parliament", "http://www.openaustralia.org.au/mp/?m=#{member.id}", class: "member-speeches-link btn btn-sm btn-link btn-lone-link"
+
+    = render "social_share"
