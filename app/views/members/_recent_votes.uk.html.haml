@@ -3,9 +3,10 @@
   -# %h2 Recent Votes
 
   %p
-    Recent votes in parliament that this
-    = member_type(member.house)
-    could have attended.
+    Останні голосування у парламенті, в яких депутат міг взяти участь.
+    -# Recent votes in parliament that this
+    -# = member_type(member.house)
+    -# could have attended.
 
   - member.person.members.order(entered_house: :desc).each do |member|
     = render "divisions/divisions", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(3)
