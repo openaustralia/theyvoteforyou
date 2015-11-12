@@ -9,11 +9,10 @@
         Народні представники, ті, хто голосують від твого імені у парламенті
 
 .list-filters.clearfix
-  %nav.list-house-switcher.btn-group
-    = nav_button_link("All", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
-    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
-    = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
-
+  -#%nav.list-house-switcher.btn-group
+  -#  = nav_button_link("All", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
+  -#  = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
+  -#  = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
   .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort.nil?
