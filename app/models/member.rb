@@ -164,6 +164,10 @@ class Member < ActiveRecord::Base
     house == "senate"
   end
 
+  def ukranian_list_mp?
+    electorate == "Загальнодержавному багатомандатному округу"
+  end
+
   def url_name
     name_without_title.gsub(" ", "_")
   end
