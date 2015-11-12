@@ -139,11 +139,11 @@ class Member < ActiveRecord::Base
   end
 
   def since
-    entered_house.strftime('%B %Y')
+    I18n.l(entered_house, format: "%B %Y")
   end
 
   def until
-    left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
+    left_house > Date.today ? 'today' : I18n.l(left_house, format: "%B %Y")
   end
 
   # Long version of party name
