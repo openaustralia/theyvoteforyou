@@ -14,7 +14,7 @@
             - if member.person.rebellions_fraction
               %span.member-rebellions.object-data-rebellion
                 -if member.person.rebellions_fraction == 0
-                  Never rebels
+                  = _("Never rebels")
                 -else
                   -# TODO: Should this be an absolute count rather than percentage?
                   -# Maybe it's good to show it as a percentage because it highlights rarity?
