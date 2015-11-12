@@ -4,18 +4,23 @@
 
   %p
     = member.name_without_title
-    has
+    -# has
     - if @member.person.rebellions > 0
-      voted against the majority of their party
-      = pluralize(@member.person.rebellions, "time")
+      голосував проти лінії фракції
+      -# TODO: is there a plural form of 'разів' that we can insert?
+      #{@member.person.rebellions} разів
+      -# voted against the majority of their party
+      -# = pluralize(@member.person.rebellions, "time")
     - else
-      never voted against the majority of their party
-    since
+      ніколи не голосував проти лінії фракції з
+      -# never voted against the majority of their party
+    -# since
     - # TODO get the data starting dates dynamically
     - if member.person.earliest_member.entered_house < (Date.new(2006,2,7))
       February 2006.
     -else
-      entering Parliament in #{member.person.earliest_member.since}.
+      часу набуття депутатських повноважень у #{member.person.earliest_member.since}.
+      -# entering Parliament in #{member.person.earliest_member.since}.
 
     %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
 
