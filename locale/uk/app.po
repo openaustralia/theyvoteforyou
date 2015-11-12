@@ -18,5 +18,8 @@ msgstr ""
 " && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "\n"
 
+msgid "Electorate / State"
+msgstr "Областю"
+
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"

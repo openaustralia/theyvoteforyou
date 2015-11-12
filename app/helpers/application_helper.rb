@@ -70,7 +70,7 @@ module ApplicationHelper
   def electorate_label(house)
     case house
     when nil
-      "Electorate / State"
+      _("Electorate / State")
     when "representatives"
       "Electorate"
     when "senate"
