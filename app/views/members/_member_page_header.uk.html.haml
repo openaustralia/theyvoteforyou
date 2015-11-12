@@ -27,7 +27,8 @@
                   -# of the time
                   -# TODO: add helper tooltip for rebellions
                   -# link_to "explain...", help_faq_path(anchor: "clarify")
-                %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+                -# %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+                %small= link_to "що таке “голосування проти лінії фракції”", help_faq_path(anchor: "rebellion")
             - if member.person.attendance_fraction
               %span.member-attendance.object-data-attendance
                 = fraction_to_percentage_display(member.person.attendance_fraction)
