@@ -1,0 +1,23 @@
+%section.page-section#rebellions
+  %h2 Rebel votes
+
+  %p
+    = member.name_without_title
+    has
+    - if @member.person.rebellions > 0
+      voted against the majority of their party
+      = pluralize(@member.person.rebellions, "time")
+    - else
+      never voted against the majority of their party
+    since
+    - # TODO get the data starting dates dynamically
+    - if member.person.earliest_member.entered_house < (Date.new(2006,2,7))
+      February 2006.
+    -else
+      entering Parliament in #{member.person.earliest_member.since}.
+
+    %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+
+  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
+    - member.person.members.order(entered_house: :desc).each do |member|
+      = render partial: 'divisions/division', locals: {member: member}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
