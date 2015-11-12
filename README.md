@@ -60,7 +60,7 @@ Before beginning, install MySQL, HTMLTidy and Ruby:
 
 ```
 # OS X ...
-brew install homebrew/dupes/tidy mysql rbenv ruby-build
+brew install tidy-html5 mysql rbenv ruby-build
 rbenv install $(cat .ruby-version)
 
 # ... or Linux (Debian)
