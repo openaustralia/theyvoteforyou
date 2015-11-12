@@ -1,12 +1,12 @@
 - content_for :title, @house ? members_type(@house) : members_type("all")
-- set_meta_tags description: "A list of the people who vote on your behalf in Parliament."
+- set_meta_tags description: "Народні представники, ті, хто голосують від твого імені у парламенті"
 
 - content_for :header do
   .section-header.clearfix
     .page-header.container
       %h1= yield :title
       %p.lead
-        The people who vote on your behalf in Parliament
+        Народні представники, ті, хто голосують від твого імені у парламенті
 
 .list-filters.clearfix
   %nav.list-house-switcher.btn-group
@@ -17,28 +17,28 @@
   .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort.nil?
-        Sorted by Name
+        Сортувати за Ім'ям
       - elsif @sort == "constituency"
-        Sorted by
+        Сортувати за
         = electorate_label(@house)
       - elsif @sort == "party"
-        Sorted by Party
+        Сортувати за Фракцією
       - elsif @sort == "rebellions"
-        Sorted by Rebellions
+        Сортувати за Дотриманням фракційної дисципліни
       - elsif @sort == "attendance"
-        Sorted by Attendance
+        Сортувати за Відвідуваністю
       %span.caret
 
     %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
-        = link_to "Name", {sort: nil, house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Ім'ям", {sort: nil, house: params[:house]}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'constituency'}"}
         = link_to electorate_label(@house), {sort: "constituency", house: params[:house]}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'party'}"}
-        = link_to "Party", {sort: "party", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Фракцією", {sort: "party", house: params[:house]}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}
-        = link_to "Rebellions", {sort: "rebellions", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Дотриманням фракційної дисципліни", {sort: "rebellions", house: params[:house]}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'attendance'}"}
-        = link_to "Attendance", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Відвідуваністю", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
 
 = render "members", members: @members, house: @house
