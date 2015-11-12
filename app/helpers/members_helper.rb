@@ -43,7 +43,7 @@ module MembersHelper
     text = member_type_party_place_sentence(member)
     if member.currently_in_parliament?
       text += (" " +
-        content_tag(:span, "since #{member.since}", class: 'member-period')).html_safe
+        content_tag(:span, _("since %{date}") % {date: member.since}, class: 'member-period')).html_safe
     else
       text += (" " +
         content_tag(:span, "#{member.since} – #{member.until}", class: 'member-period')).html_safe

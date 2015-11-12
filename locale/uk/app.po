@@ -23,3 +23,6 @@ msgstr "Областю"
 
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
+
+msgid "since %{date}"
+msgstr "з %{date}"
