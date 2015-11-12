@@ -17,11 +17,14 @@
                   -# Never rebels
                   100% фракційна дисципліна
                 -else
+                  Проти фракції у
+                  = fraction_to_percentage_display(member.person.rebellions_fraction)
+                  випадків
                   -# TODO: Should this be an absolute count rather than percentage?
                   -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  Rebels
-                  = fraction_to_percentage_display(member.person.rebellions_fraction)
-                  of the time
+                  -# Rebels
+                  -# = fraction_to_percentage_display(member.person.rebellions_fraction)
+                  -# of the time
                   -# TODO: add helper tooltip for rebellions
                   -# link_to "explain...", help_faq_path(anchor: "clarify")
                 %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
