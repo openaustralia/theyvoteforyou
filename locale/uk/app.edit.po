@@ -21,9 +21,6 @@ msgstr ""
 msgid "Electorate / State"
 msgstr "Областю"
 
-msgid "Never rebels"
-msgstr "100% фракційна дисципліна"
-
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
 
