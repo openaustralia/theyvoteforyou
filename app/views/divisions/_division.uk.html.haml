@@ -36,7 +36,8 @@
                 = @party
                 members
             - else
-              = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
+              = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "Ніколи не йшов проти лінії фракції(100% фракційна дисципліна)"
+              -# = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
           %span.division-attendance.object-data-attendance
             - if @party
               = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
