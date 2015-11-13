@@ -198,7 +198,9 @@ bundle exec mina ukraine-dev rake[application:cache:all_except_member_distances]
 bundle exec mina ukraine-dev rake[searchkick:reindex:all]
 ```
 
-To deploy to the **production** server, replace `ukraine-dev` with `ukraine-production` in the above commands.
+To deploy to the **production** server, replace `ukraine-dev` with `ukraine-production` in the `deploy` command:
+
+    bundle exec mina ukraine-production deploy
 
 ## Other Credits
 
