@@ -30,7 +30,8 @@
       = render 'policy_comparisons_block', policy: @policy, title: 'Ніколи не голосує', members: @policy.current_members_never_voted
 
   %section.page-section#divisions
-    %h2 Relevant divisions
+    %h2 Відповідні голосування
+    -# %h2 Relevant divisions
     %p
       = link_to "See detail", detail_policy_path(@policy), title: 'Shows all available division summaries'
     = render 'vote_table_leader', policy: @policy
