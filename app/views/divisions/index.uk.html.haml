@@ -20,7 +20,9 @@
 
 
       %p.lead
-        In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
+        -# In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
+        За допомогою цих голосів, народні обранці приймають закони, що впливає на всіх нас.
+        = link_to "Дізнатися більше...", help_faq_path(anchor: "division")
 
 - if @divisions.any?
   = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house, parties: @parties
