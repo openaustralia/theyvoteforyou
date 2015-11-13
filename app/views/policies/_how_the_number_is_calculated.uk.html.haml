@@ -1,0 +1,129 @@
+%section.page-section#ratioexpl
+  - if member.person.policy_person_distances.find_by(policy: policy).nil?
+    -# This person could never have voted on this policy so show nothing
+  - elsif member.person.policy_person_distances.find_by(policy: policy).number_of_votes == 0
+    %h2
+      How "never voted" is worked out
+
+    %p
+      Normally a person's votes count towards a score which is used to work out a simple
+      phrase to summarise their position on a policy. However in this case
+      = member.name
+      was absent during all divisions for this policy. So, it's impossible to say anything concrete other
+      than that they have "never voted" on this policy.
+  - else
+    %h2
+      How
+      "#{policy_agreement_summary_without_html(member.person.policy_person_distances.find_by(policy: policy))}"
+      is worked out
+
+    %p
+      The MP's votes count towards a weighted average where the most important votes get
+      #{pluralize(Distance.possible_points[:samestrong], "point")},
+      less important votes get
+      #{pluralize(Distance.possible_points[:same], "point")},
+      and less important votes for which the MP was absent get
+      #{pluralize(Distance.possible_points[:absent], "point")}.
+      In important votes the MP gets awarded the full
+      = pluralize(Distance.points[:samestrong], "point")
+      for voting the same as the policy,
+      = pluralize(Distance.points[:differstrong], "point")
+      for voting against the policy, and
+      = pluralize(Distance.points[:absentstrong], "point")
+      for not voting. In less important votes, the MP gets
+      = pluralize(Distance.points[:same], "point")
+      for voting with the policy,
+      = pluralize(Distance.points[:differ], "point")
+      for voting against, and
+      = Distance.points[:absent]
+      (out of #{Distance.possible_points[:absent]})
+      if absent.
+
+    %p
+      Then, the number gets converted to a simple english language phrase based on the range of values it's within.
+
+    - policy_member_distance = member.person.policy_person_distances.find_or_initialize_by(policy: policy)
+    %table.table
+      %thead
+        %tr.headings
+          %th
+          %th No of votes
+          %th Points
+          %th Out of
+      %tbody
+        %tr
+          %th Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
+          %td &nbsp;
+          %td &nbsp;
+          %td &nbsp;
+        %tr
+          %td MP voted with policy
+          %td= policy_member_distance.nvotessamestrong
+          %td= policy_member_distance.votes_same_strong_points
+          %td= policy_member_distance.possible_same_strong_points
+        %tr
+          %td MP voted against policy
+          %td= policy_member_distance.nvotesdifferstrong
+          %td= policy_member_distance.votes_differ_strong_points
+          %td= policy_member_distance.possible_differ_strong_points
+        %tr
+          %td MP absent
+          %td= policy_member_distance.nvotesabsentstrong
+          %td= policy_member_distance.votes_absent_strong_points
+          %td= policy_member_distance.possible_absent_strong_points
+        %tr
+          %th Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
+          %td &nbsp;
+          %td &nbsp;
+          %td &nbsp;
+        %tr
+          %td MP voted with policy
+          %td= policy_member_distance.nvotessame
+          %td= policy_member_distance.votes_same_points
+          %td= policy_member_distance.possible_same_points
+        %tr
+          %td MP voted against policy
+          %td= policy_member_distance.nvotesdiffer
+          %td= policy_member_distance.votes_differ_points
+          %td= policy_member_distance.possible_differ_points
+        %tr
+          %th Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
+          %td &nbsp;
+          %td &nbsp;
+          %td &nbsp;
+        %tr
+          %td MP absent*
+          %td= policy_member_distance.nvotesabsent
+          %td= policy_member_distance.votes_absent_points
+          %td= policy_member_distance.possible_absent_points
+        %tr
+          %th{colspan: "2"} Total:
+          %td= policy_member_distance.total_points
+          %td= policy_member_distance.possible_total_points
+        %tr
+          %td{colspan: "4"}
+            %p
+              *Pressure of other work means MPs or
+              Senators are not always available to vote – it does not always
+              indicate they have abstained. Therefore, being absent on a less
+              important vote makes a disproportionatly small
+              difference.
+    %p
+      Agreement score = MP's points / total points
+      \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
+      \=
+      = succeed "." do
+        %b= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
+
+    %p
+      And then
+
+    %ul
+      - ranges.each do |range|
+        %li
+          between
+          = fraction_to_percentage_display(range.first.min)
+          and
+          = fraction_to_percentage_display(range.first.max)
+          becomes
+          "#{range.second}"
