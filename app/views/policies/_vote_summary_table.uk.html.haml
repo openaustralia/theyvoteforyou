@@ -1,11 +1,14 @@
 %table.table.divisions-table
   %thead
     %tr
-      %th Division
+      %th Голосування
+      -# %th Division
       - if member
         %th= member.name
-      %th.policyvotehead Supporters vote
-      %th Division outcome
+      %th.policyvotehead Хто підтримав
+      -# %th.policyvotehead Supporters vote
+      %th Результати голосування
+      -# %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
     - divisions = divisions.possible_for_member(member) if member
