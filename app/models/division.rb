@@ -188,7 +188,11 @@ class Division < ActiveRecord::Base
   def clock_time
     text = read_attribute(:clock_time)
     if text.present?
-      I18n.l(Time.parse(text), format: "%l:%M %p")
+      if I18n.locale == :uk
+        I18n.l(Time.parse(text), format: "%H:%M")
+      else
+        Time.parse(text).strftime("%l:%M %p")
+      end
     end
   end
 
