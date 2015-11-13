@@ -16,8 +16,10 @@
     - if user_signed_in?
       .header-secondary-primary-block.subscribe-block
         = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form " + (current_user && current_user.watching?(policy) ? "subscribe-button-form-unsubscribe" : "subscribe-button-form-subscribe") do
-          = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
+          = (current_user && current_user.watching?(policy) ? "відмовитися" : "Підписатись")
+          -# = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
         - if policy.watches.count > 0
           %span.subscriber-count.small
-            = pluralize policy.watches.count, 'subscriber'
+            #{policy.watches.count} підписників
+            -# = pluralize policy.watches.count, 'subscriber'
     = render "social_share"
