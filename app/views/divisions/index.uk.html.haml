@@ -2,7 +2,8 @@
   - if @party
     = @party
   - else
-    Divisions
+    -# Divisions
+    Голосування
 
 - set_meta_tags description: "Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all."
 
@@ -10,7 +11,8 @@
   .section-header.clearfix
     .page-header.container
       %h1
-        = yield :title
+        -# = yield :title
+        #{yield :title} в парламенті
         - if @year || @month || @date
           %small= divisions_period
         - elsif @rdisplay != "all"
