@@ -142,9 +142,9 @@ necessary for the site to run. They should be self-explainatory.
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
 
-### Popolo
+### Ukraine
 
-Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the `application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
+The [Popolo](http://www.popoloproject.com/) data for Ukraine is loaded with the `application:load:popolo` Rake task. It will load people or vote data, depending on what it finds in the file.
 
 ## Better Search
 

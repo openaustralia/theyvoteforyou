@@ -14,7 +14,7 @@ module DataLoader
 
         Rails.logger.info "Loading #{people.count} people..."
         people.each do |p|
-          person = Person.find_or_initialize_by(id: p["id"][/\d+/])
+          person = Person.find_or_initialize_by(id: extract_rada_id_from_person(p))
           person.small_image_url = p["image"]
           person.large_image_url = p["image"]
           person.save!
@@ -27,13 +27,14 @@ module DataLoader
           raise "Party not found: #{m["on_behalf_of_id"]}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
           raise "Area not found: #{m["area_id"]}" unless area = areas.find { |a| a["id"] == m["area_id"] }
           raise "Legislative period not found: #{m["legislative_period_id"]}" unless legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
+          person["rada_id"] = extract_rada_id_from_person(person)
 
           # Default to the start of the legislative period if there no specific one set for this membership
           start_date = m["start_date"] || legislative_period["start_date"]
 
-          member = Member.find_or_initialize_by(person_id: m["person_id"][/\d+/], entered_house: start_date)
-          member.gid = m["person_id"][/\d+/]
-          member.source_gid = m["person_id"]
+          member = Member.find_or_initialize_by(person_id: person["rada_id"], entered_house: start_date)
+          member.gid = m["person_id"]
+          member.source_gid = person["rada_id"]
           member.first_name = person["given_name"]
           member.last_name = person["family_name"]
           member.title = ""
@@ -43,7 +44,7 @@ module DataLoader
           member.house = "rada"
           member.entered_house = start_date
           member.left_house = m["end_date"] if m["end_date"]
-          member.person_id = m["person_id"][/\d+/]
+          member.person_id = person["rada_id"]
           member.save!
         end
       elsif vote_events = data["vote_events"]
@@ -108,6 +109,11 @@ module DataLoader
       else
         raise "Unknown vote option: #{string}"
       end
+    end
+
+    # TODO: This shouldn't be a class method - move it somewhere more sensible
+    def self.extract_rada_id_from_person(person)
+      person["identifiers"].find { |i| i["scheme"] == "rada" }["identifier"]
     end
   end
 end
