@@ -4,8 +4,8 @@
 .page-header.row
   %nav.header-actions.col-md-3.col-lg-2
     - if user_signed_in?
-      = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
-      = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
+      = link_to_if policy, "Редагувати", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
+      = link_to "Нова політика", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
     -# = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
     -# = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
   %h1.col-md-9.col-lg-10.long-title
