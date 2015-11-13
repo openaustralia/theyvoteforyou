@@ -35,20 +35,6 @@ Once the people data has been loaded you can start loading votes. These are scra
 
     bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]
 
-#### View the site in Ukrainian
-
-To toggle the default language of the project add `default_locale` to your project
-settings file, e.g. `config/settings/development.local.yml` for your local
-development settings. Use `en` for
-English and `uk` for Ukrainian:
-
-```
-# Name of project to display thoughout the application
-project_name: Вони голосують для тебе
-# Optionally change default locale, e.g. uk for Ukrainian
-default_locale: en
-```
-
 ## Development
 
 If your machine is already set up to develop Rails applications with MySQL just
@@ -90,6 +76,19 @@ bundle exec rake
 
 # Start the server
 bundle exec rails server
+```
+
+### Change language to Ukrainian
+
+To change the default language of the project add `default_locale` to your project
+settings file, e.g. `config/settings/development.local.yml` for your local
+development settings. Use `en` for English and `uk` for Ukrainian:
+
+```
+# Name of project to display thoughout the application
+project_name: Вони голосують для тебе
+# Optionally change default locale, e.g. uk for Ukrainian
+default_locale: uk
 ```
 
 ### With Vagrant
