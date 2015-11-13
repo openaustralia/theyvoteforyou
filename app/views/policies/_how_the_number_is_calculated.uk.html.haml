@@ -13,9 +13,12 @@
       than that they have "never voted" on this policy.
   - else
     %h2
-      How
+      Як
       "#{policy_agreement_summary_without_html(member.person.policy_person_distances.find_by(policy: policy))}"
-      is worked out
+      була розроблена
+      -# How
+      -# "#{policy_agreement_summary_without_html(member.person.policy_person_distances.find_by(policy: policy))}"
+      -# is worked out
 
     %p
       The MP's votes count towards a weighted average where the most important votes get
