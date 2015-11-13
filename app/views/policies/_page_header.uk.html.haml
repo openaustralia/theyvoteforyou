@@ -1,0 +1,19 @@
+- content_for :title, capitalise_initial_character(policy.name_with_for)
+- set_meta_tags description: "Find out how people in parliament stand on #{policy.name}."
+
+.page-header.row
+  %nav.header-actions.col-md-3.col-lg-2
+    = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
+    = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
+  %h1.col-md-9.col-lg-10.long-title
+    = yield :title
+  .lead.policytext.col-md-12= capitalise_initial_character policy.description
+
+  .header-secondary.col-sm-12
+    .header-secondary-primary-block.subscribe-block
+      = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form " + (current_user && current_user.watching?(policy) ? "subscribe-button-form-unsubscribe" : "subscribe-button-form-subscribe") do
+        = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
+      - if policy.watches.count > 0
+        %span.subscriber-count.small
+          = pluralize policy.watches.count, 'subscriber'
+    = render "social_share"
