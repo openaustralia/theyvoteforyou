@@ -92,7 +92,7 @@ module ApplicationHelper
   end
 
   def formatted_month(month)
-    Date.parse("#{month}-01").strftime("%B %Y")
+    l(Date.parse("#{month}-01"), format: "%B %Y")
   end
 
   def formatted_date(date, include_nbsp = false)
