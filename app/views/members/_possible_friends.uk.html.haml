@@ -6,19 +6,20 @@
     -# Possible Friends
 
   %p
-    Shows which
-    = members_type(member.house)
-    voted most similarly to this one in the
+    Тут перераховані депутати, що голосують подібно.
+    -# Shows which
+    -# = members_type(member.house)
+    -# voted most similarly to this one in the
     -# TODO This displays the parliament when the MP entered the house, which
     -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
-    = Parliament.at_date(member.entered_house)[1][:name] if Parliament.at_date(member.entered_house)
+    -# = Parliament.at_date(member.entered_house)[1][:name] if Parliament.at_date(member.entered_house)
 
-    - if member.changed_party?
-      Parliament
-      <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
-      (whilst #{member.party_name})</span>.
-    - else
-      Parliament.
+    -# - if member.changed_party?
+    -#   Parliament
+    -#   <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
+    -#   (whilst #{member.party_name})</span>.
+    -# - else
+    -#   Parliament.
 
     This is measured from 0% agreement (never voted the
     same) to 100% (always voted the same). Only votes that both
