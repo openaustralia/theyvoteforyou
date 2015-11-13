@@ -35,10 +35,13 @@
   %table.table
     %thead
       %tr.headings
-        %th Agreement
-        %th Name
+        %th % Спільних голосувань
+        -# %th Agreement
+        %th Депутат
+        -# %th Name
         %th= electorate_label(member.house)
-        %th Party
+        %th Фракція
+        -# %th Party
     %tbody
       - if member.possible_friends.empty?
         %tr
