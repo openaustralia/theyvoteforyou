@@ -25,7 +25,8 @@
             - if member
               - # TODO Add the button style and disclosure behaviour as progressive enhancement through js
               - # Change the text to say 'hide detail' when open.
-              %span.btn.btn-link.btn-sm.btn-lone-link{type: 'button', data: {toggle: 'collapse', target: "#id_#{division.id}"}} Show detail
+              -# %span.btn.btn-link.btn-sm.btn-lone-link{type: 'button', data: {toggle: 'collapse', target: "#id_#{division.id}"}} Show detail
+              %span.btn.btn-link.btn-sm.btn-lone-link{type: 'button', data: {toggle: 'collapse', target: "#id_#{division.id}"}} Детальніше
               %article.motion.collapse{id: "id_#{division.id}"}= division.formatted_motion_text
 
           - if member
