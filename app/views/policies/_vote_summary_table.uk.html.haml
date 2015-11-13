@@ -1,0 +1,37 @@
+%table.table.divisions-table
+  %thead
+    %tr
+      %th Division
+      - if member
+        %th= member.name
+      %th.policyvotehead Supporters vote
+      %th Division outcome
+  %tbody
+    - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
+    - divisions = divisions.possible_for_member(member) if member
+    - if divisions.empty?
+      %tr
+        %td{colspan: 7} no votes listed
+    - else
+      - divisions.each do |division|
+        %tr{class: ('strong' if division.policy_vote_strong?(policy))}
+          %td
+            %h3.division-title.h4
+              %small.pre-title= division_date_and_time(division) + " – " + division.house_name
+              = member ? link_to(division.name, [member, division]) : link_to(division.name, division)
+            - if member
+              - # TODO Add the button style and disclosure behaviour as progressive enhancement through js
+              - # Change the text to say 'hide detail' when open.
+              %span.btn.btn-link.btn-sm.btn-lone-link{type: 'button', data: {toggle: 'collapse', target: "#id_#{division.id}"}} Show detail
+              %article.motion.collapse{id: "id_#{division.id}"}= division.formatted_motion_text
+
+          - if member
+            -# Find the member current at the time of this division
+            - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
+            - member = current_member || member
+            %td.division-member-vote{data: {member: "#{member.name}"}}
+              = vote_display(member.vote_on_division_without_tell(division))
+          %td.division-policy-vote
+            = vote_display(division.policy_vote(policy))
+          %td.division-outcome
+            = division_outcome_with_majority_strength(division)
