@@ -96,7 +96,11 @@ module ApplicationHelper
   end
 
   def formatted_date(date, include_nbsp = false)
-    include_nbsp ? date.strftime("#{date.day.ordinalize}&nbsp;%b&nbsp;%Y").html_safe : date.strftime("#{date.day.ordinalize} %b %Y")
+    if locale == :uk
+      l(date)
+    else
+      include_nbsp ? date.strftime("#{date.day.ordinalize}&nbsp;%b&nbsp;%Y").html_safe : date.strftime("#{date.day.ordinalize} %b %Y")
+    end
   end
 
   def inline_project_name
