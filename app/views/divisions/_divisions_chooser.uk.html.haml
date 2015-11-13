@@ -7,27 +7,41 @@
   .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "turnout"
-        Sorted by
+        -# Sorted by
+        Сортувати за
         - if @party
           = @party
-        Attendance
+        -# Attendance
+        Відвідуваністю
       - elsif @sort == "rebellions"
-        Sorted by
+        -# Sorted by
+        Сортувати за
         - if @party
           = @party
-        Rebellions
+        -# Rebellions
+        Дотриманням фракційної дисципліни
       - elsif @sort == "subject"
-        Sorted Alphabetically
+        -# Sorted Alphabetically
+        Сортувати за Алфавітом
       - elsif @sort.nil?
-        Sorted by Date
+        -# Sorted by Date
+        Сортувати за Датою
       %span.caret
 
     %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
+      -# %li{role: "presentation", class: "#{'disabled' if @sort == 'turnout'}"}
+      -#   = link_to "#{@party + ' ' if @party}Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
+      -# %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}
+      -#   = link_to "#{@party + ' ' if @party}Rebellions", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
+      -# %li{role: "presentation", class: "#{'disabled' if @sort == 'subject'}"}
+      -#   = link_to "Alphabetically", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject", role: "menuitem", tabindex: "-1"
+      -# %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
+      -#   = link_to "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'turnout'}"}
-        = link_to "#{@party + ' ' if @party}Attendance", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
+        = link_to "#{@party + ' ' if @party}Відвідуваністю", {sort: "turnout", rdisplay: params[:rdisplay], house: params[:house]}, title: "Сортувати за Відвідуваністю", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}
-        = link_to "#{@party + ' ' if @party}Rebellions", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
+        = link_to "#{@party + ' ' if @party}Дотриманням фракційної дисципліни", {sort: "rebellions", rdisplay: params[:rdisplay], house: params[:house]}, title: "Сортувати за Дотриманням фракційної дисципліни", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'subject'}"}
-        = link_to "Alphabetically", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by subject", role: "menuitem", tabindex: "-1"
+        = link_to "Алфавітом", {sort: "subject", rdisplay: params[:rdisplay], house: params[:house]}, title: "Сортувати за Алфавітом", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
-        = link_to "Date", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Sort by date", role: "menuitem", tabindex: "-1"
+        = link_to "Датою", {sort: nil, rdisplay: params[:rdisplay], house: params[:house]}, title: "Сортувати за Датою", role: "menuitem", tabindex: "-1"
