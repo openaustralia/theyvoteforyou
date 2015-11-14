@@ -11,10 +11,15 @@ counts = {
   twitter: 'n/a'
 };
 
+$sharesNoun = "shares";
+if ($shareLabel.attr('data-shares-noun') != undefined) {
+  $sharesNoun = $shareLabel.attr('data-shares-noun');
+}
+
 function updateShareText() {
-  if ($shareLabel.contents().last() !== " shares") {
+    if ($shareLabel.contents().last() !== (" " + $sharesNoun)) {
     $shareLabel.contents().last().remove();
-    $shareLabel.append(" shares");
+    $shareLabel.append(" " + $sharesNoun);
   }
 }
 
