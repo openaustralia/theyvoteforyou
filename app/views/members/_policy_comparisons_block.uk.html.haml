@@ -1,5 +1,5 @@
 - unless distances.empty?
-  .policy-comparision-block.col-md-7{class: "position-#{title.parameterize}"}
+  .policy-comparision-block.col-md-7{class: "position-#{position.parameterize}"}
     %h3.policy-comparision-position= title
     %ul.policy-comparision-list.object-list-compact.list-unstyled
       - distances.joins(:policy).order("policies.name").each do |ppd|
