@@ -66,7 +66,7 @@
             %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?), ('member-row-' + index.to_s)]}
               %th.cell-name
                 = link_to vote.member.name_without_title, vote.member
-                = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
+                %span.text-muted.member-electorate= vote.member.electorate
                 %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
               %td.cell-vote= vote_display vote.vote
               %td.cell-toggler
@@ -77,7 +77,7 @@
             %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + index.to_s)]}
               %th.cell-name
                 = link_to member.name_without_title, member
-                = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
+                %span.text-muted.member-electorate= member.electorate
                 %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
               %td.cell-vote Absent
               %td.cell-toggler
