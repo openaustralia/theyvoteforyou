@@ -16,14 +16,14 @@
       - else
         Nobody rebelled against their party.
 
-    - if @rebellions
-      %ul.list-unstyled.small
-        - @rebellions.each do |vote|
-          %li
-            = link_to vote.member.name, vote.member
-            voted
-            = vote_display vote.vote
-            against the majority of the #{vote.member.party}.
+    -# - if @rebellions
+    -#   %ul.list-unstyled.small
+    -#     - @rebellions.each do |vote|
+    -#       %li
+    -#         = link_to vote.member.name, vote.member
+    -#         voted
+    -#         = vote_display vote.vote
+    -#         against the majority of the #{vote.member.party}.
 
     %table.table
       %colgroup.column-name{span: 1}
