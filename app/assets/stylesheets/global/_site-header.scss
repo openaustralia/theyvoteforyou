@@ -9,9 +9,11 @@
   }
 
   .navbar-brand {
-    @media (min-width: $screen-sm-min) {
-      font-size: $font-size-base;
-    }
+    font-size: $font-size-base;
+
+    // @media (min-width: $screen-sm-min) {
+    //   font-size: $font-size-base;
+    // }
   }
 
   .navbar-toggle,
