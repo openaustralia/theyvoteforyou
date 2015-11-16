@@ -38,11 +38,15 @@
     = render 'vote_table_leader', policy: @policy
     = render 'vote_summary_table', member: @member, policy: @policy
     %p.alert.alert-postnote.small
-      If you know of other
-      = link_to 'divisions', divisions_path
-      that relate to this policy, you can add them in the
-      %strong Votes
-      section of that division‘s page.
+      -# If you know of other
+      -# = link_to 'divisions', divisions_path
+      -# that relate to this policy, you can add them in the
+      -# %strong Votes
+      -# section of that division‘s page.
+      Якщо Ти знаєш про інші
+      #{link_to 'голосування', divisions_path},
+      що стосуються цієї політики,
+      #{mail_to Settings.contact_email, "напиши нам"}.
 - else
   %p This policy isn't connected with any divisions just yet.
   = render 'division_edit_instructions'
