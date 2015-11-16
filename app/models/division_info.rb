@@ -10,7 +10,7 @@ class DivisionInfo < ActiveRecord::Base
   # a tie is 0.0. a unanimous vote is 1.0
   def majority_fraction
     # Don't calculate a fraction if the result came from upstream data. Is it right to set this to 0?
-    turnout > 0 && !division.result ? majority.to_f / turnout : 0
+    turnout > 0 && !division.try(:result) ? majority.to_f / turnout : 0
   end
 
   def self.update_all!
