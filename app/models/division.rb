@@ -91,6 +91,10 @@ class Division < ActiveRecord::Base
     whips.to_a.sum(&:no_tells)
   end
 
+  def abstention_votes
+    whips.to_a.sum(&:abstention_votes)
+  end
+
   def total_votes
     division_info.turnout
   end

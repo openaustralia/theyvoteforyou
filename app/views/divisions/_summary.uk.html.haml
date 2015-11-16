@@ -93,6 +93,10 @@
             %span{class: no_vote_total_class(division)}
               = division.no_votes_including_tells
               = vote_display "no"
+              –
+            %span
+              = division.abstention_votes
+              = vote_display "both"
           %td.cell-toggler
 
     %figcaption.panel-footer.small
