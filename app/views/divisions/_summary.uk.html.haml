@@ -54,6 +54,10 @@
                   %span{class: [abstention_vote_class(whip), ("zero-votes" if whip.abstention_votes == 0)]}
                     = whip.abstention_votes
                     = vote_display "both"
+                  –
+                  %span{class: [not_voting_vote_class(whip), ("zero-votes" if whip.not_voting_votes == 0)]}
+                    = whip.not_voting_votes
+                    = vote_display "not_voting"
                 - else
                   Absent
               %td.cell-toggler
@@ -97,6 +101,10 @@
             %span
               = division.abstention_votes
               = vote_display "both"
+              –
+            %span
+              = division.not_voting_votes
+              = vote_display "not_voting"
           %td.cell-toggler
 
     %figcaption.panel-footer.small

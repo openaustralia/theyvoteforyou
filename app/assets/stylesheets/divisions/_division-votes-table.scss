@@ -33,6 +33,10 @@
     @media (min-width: $screen-sm-min) {
       width: 13em;
     }
+
+    @media (min-width: $screen-md-min) {
+      width: 21em;
+    }
   }
 
   tbody {
