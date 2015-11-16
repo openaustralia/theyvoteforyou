@@ -18,6 +18,7 @@ class Whip < ActiveRecord::Base
         whip.no_tells = votes[["no", 1]] || 0
         whip.both_votes = votes[["both", 0]] || 0
         whip.abstention_votes = votes[["abstention", 0]] || 0
+        whip.not_voting_votes = votes[["not voting", 0]] || 0
       else
         whip.aye_votes = 0
         whip.aye_tells = 0
@@ -25,6 +26,7 @@ class Whip < ActiveRecord::Base
         whip.no_tells = 0
         whip.both_votes = 0
         whip.abstention_votes = 0
+        whip.not_voting_votes = 0
       end
 
       whip.possible_votes = possible_votes || 0
