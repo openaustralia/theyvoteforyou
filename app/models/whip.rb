@@ -37,17 +37,19 @@ class Whip < ActiveRecord::Base
     if whipless? || free_vote?
       "none"
     else
-      Whip.calc_whip_guess(aye_votes_including_tells, no_votes_including_tells, abstention_votes)
+      Whip.calc_whip_guess(aye_votes_including_tells, no_votes_including_tells, abstention_votes, not_voting_votes)
     end
   end
 
-  def self.calc_whip_guess(ayes, noes, abstentions)
-    if ayes > noes && ayes > abstentions
+  def self.calc_whip_guess(ayes, noes, abstentions, not_voting)
+    if ayes > noes && ayes > abstentions && ayes > not_voting
       "aye"
-    elsif noes > ayes && noes > abstentions
+    elsif noes > ayes && noes > abstentions && noes > not_voting
       "no"
-    elsif abstentions > ayes && abstentions > noes
+    elsif abstentions > ayes && abstentions > noes && abstentions > not_voting
       "abstention"
+    elsif not_voting > ayes && not_voting > noes && not_voting > abstentions
+      "not voting"
     else
       "unknown"
     end
