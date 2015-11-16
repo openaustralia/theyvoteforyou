@@ -65,6 +65,12 @@
   .party-row {
     cursor: pointer;
 
+    .cell-name {
+      @media (min-width: $screen-md-min) {
+        padding-right: 2em;
+      }
+    }
+
     .party-name {
       color: $color-blue;
 
