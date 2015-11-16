@@ -152,7 +152,7 @@ class Whip < ActiveRecord::Base
   end
 
   def total_votes
-    aye_votes_including_tells + no_votes_including_tells + both_votes + abstention_votes
+    aye_votes_including_tells + no_votes_including_tells + both_votes + abstention_votes + not_voting_votes
   end
 
   def aye_votes_including_tells
