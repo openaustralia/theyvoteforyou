@@ -7,6 +7,7 @@ one:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "no"
 
@@ -19,6 +20,7 @@ two:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "unknown"
 
@@ -31,6 +33,7 @@ three:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "no"
 
@@ -43,6 +46,7 @@ four:
   no_tells: 1
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 59
   whip_guess: "none"
 
@@ -55,6 +59,7 @@ five:
   no_tells: 0
   both_votes: 0 
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "unknown"
 
@@ -67,6 +72,7 @@ six:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "none"
 
@@ -79,6 +85,7 @@ seven:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 4
   whip_guess: "none"
 
@@ -91,6 +98,7 @@ eight:
   no_tells: 1
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 73
   whip_guess: "none"
 
@@ -103,6 +111,7 @@ nine:
   no_tells: 0
   both_votes: 0 
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 11
   whip_guess: "none"
 
@@ -115,6 +124,7 @@ ten:
   no_tells: 0
   both_votes: 0 
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: "unknown"
 
@@ -127,6 +137,7 @@ eleven:
   no_tells: 0
   both_votes: 0 
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 5
   whip_guess: 'no'
 
@@ -139,6 +150,7 @@ twelve:
   no_tells: 1
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 31
   whip_guess: 'no'
 
@@ -151,6 +163,7 @@ thirteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: 'unknown'
 
@@ -163,6 +176,7 @@ fourteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: 'aye'
 
@@ -175,6 +189,7 @@ fifteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: 'aye'
 
@@ -187,6 +202,7 @@ sixteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: 'none'
 
@@ -199,6 +215,7 @@ seventeen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 30
   whip_guess: 'no'
 
@@ -211,6 +228,7 @@ eighteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 5
   whip_guess: 'aye'
 
@@ -223,6 +241,7 @@ nineteen:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 1
   whip_guess: 'no'
 
@@ -235,6 +254,7 @@ twenty:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 5
   whip_guess: 'no'
 
@@ -247,6 +267,7 @@ twentyone:
   no_tells: 1
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 30
   whip_guess: 'no'
 
@@ -259,6 +280,7 @@ twentytwo:
   no_tells: 0
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 5
   whip_guess: 'aye'
 
@@ -271,5 +293,6 @@ twentythree:
   no_tells: 1
   both_votes: 0
   abstention_votes: 0
+  not_voting_votes: 0
   possible_votes: 30
   whip_guess: 'no'
