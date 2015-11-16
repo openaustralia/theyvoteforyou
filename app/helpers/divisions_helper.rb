@@ -42,7 +42,7 @@ module DivisionsHelper
     if whip.not_voting_votes == 0
       "normal"
     # Special case for free votes
-    elsif whip.whip_guess == "not_voting" || whip.free?
+    elsif whip.whip_guess == "not voting" || whip.free?
       "whip"
     else
       "rebel"
@@ -65,12 +65,10 @@ module DivisionsHelper
       "No (strong)"
     when "absent"
       "absent"
-    when "both"
+    when "both", "abstention"
       "Abstain"
     when "aye"
       "Yes"
-    when "not_voting"
-      "Not voting"
     else
       vote.capitalize
     end
