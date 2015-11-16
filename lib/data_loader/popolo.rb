@@ -62,6 +62,7 @@ module DataLoader
             division.clock_time = DateTime.parse(v_e["start_date"]).strftime("%T")
             division.source_gid = v_e["identifier"]
             division.debate_gid = ""
+            division.result = v_e["result"]
             division.save!
 
             votes = v_e["votes"]
