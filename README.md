@@ -35,6 +35,10 @@ Once the people data has been loaded you can start loading votes. These are scra
 
     bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]
 
+As with other countries you then need to update the caches:
+
+    bundle exec rake application:cache:all_except_member_distances
+
 ## Development
 
 If your machine is already set up to develop Rails applications with MySQL just
