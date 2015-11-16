@@ -121,7 +121,7 @@ module DivisionsHelper
 
   # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
-    division.passed? ? 'Passed' : 'Not passed'
+    division.passed? ? _('Passed') : _('Not passed')
   end
 
   def division_outcome_class(division)

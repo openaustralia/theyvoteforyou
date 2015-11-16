@@ -21,6 +21,12 @@ msgstr ""
 msgid "Electorate / State"
 msgstr "Областю"
 
+msgid "Not passed"
+msgstr "Не прийнятий"
+
+msgid "Passed"
+msgstr "Прийнятий"
+
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
 
