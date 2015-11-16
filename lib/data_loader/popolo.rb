@@ -105,7 +105,7 @@ module DataLoader
       when "absent"
         nil
       when "not voting"
-        nil
+        "not voting"
       else
         raise "Unknown vote option: #{string}"
       end
