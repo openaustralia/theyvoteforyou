@@ -29,6 +29,10 @@
 
   .column-vote {
     width: 10em;
+
+    @media (min-width: $screen-sm-min) {
+      width: 13em;
+    }
   }
 
   tbody {
