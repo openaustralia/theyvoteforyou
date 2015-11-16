@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116011937) do
+ActiveRecord::Schema.define(version: 20151116044403) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20151116011937) do
     t.boolean  "markdown",   default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "result"
   end
 
   add_index "divisions", ["date", "number", "house"], name: "division_date_2", unique: true, using: :btree
