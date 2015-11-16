@@ -65,7 +65,12 @@ class Division < ActiveRecord::Base
   end
 
   def passed?
-    tied? ? false : aye_majority >= 1
+    # If we have result data use that instead of calculating if this passed
+    if result
+      result == "pass"
+    else
+      tied? ? false : aye_majority >= 1
+    end
   end
 
   # Equal number of votes for the ayes and noes
