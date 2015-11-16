@@ -42,7 +42,7 @@
                 %span.party-name= whip.party_name
                 %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
               %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
-                - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
+                - if whip.aye_votes_including_tells + whip.no_votes_including_tells + whip.abstention_votes > 0
                   %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
                     = whip.aye_votes_including_tells
                     = vote_display "aye"
@@ -50,6 +50,10 @@
                   %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
                     = whip.no_votes_including_tells
                     = vote_display "no"
+                  –
+                  %span{class: [abstention_vote_class(whip), ("zero-votes" if whip.abstention_votes == 0)]}
+                    = whip.abstention_votes
+                    = vote_display "both"
                 - else
                   Absent
               %td.cell-toggler

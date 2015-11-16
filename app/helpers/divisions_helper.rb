@@ -27,6 +27,17 @@ module DivisionsHelper
     end
   end
 
+  def abstention_vote_class(whip)
+    if whip.abstention_votes == 0
+      "normal"
+    # Special case for free votes
+    elsif whip.whip_guess == "abstention" || whip.free?
+      "whip"
+    else
+      "rebel"
+    end
+  end
+
   def no_vote_total_class(division)
     division.no_votes >= division.aye_votes ? "whip" : "normal"
   end
