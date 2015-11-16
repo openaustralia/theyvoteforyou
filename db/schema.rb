@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617030311) do
+ActiveRecord::Schema.define(version: 20151116011937) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -295,6 +295,7 @@ ActiveRecord::Schema.define(version: 20150617030311) do
     t.string   "whip_guess",       limit: 10,  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "not_voting_votes"
   end
 
   add_index "whips", ["division_id", "party"], name: "division_id", unique: true, using: :btree
