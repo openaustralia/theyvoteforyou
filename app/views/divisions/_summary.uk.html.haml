@@ -46,15 +46,12 @@
                   %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
                     = whip.aye_votes_including_tells
                     = vote_display "aye"
-                  –
                   %span{class: [no_vote_class(whip), ("zero-votes" if whip.no_votes_including_tells == 0)]}
                     = whip.no_votes_including_tells
                     = vote_display "no"
-                  –
                   %span{class: [abstention_vote_class(whip), ("zero-votes" if whip.abstention_votes == 0)]}
                     = whip.abstention_votes
                     = vote_display "both"
-                  –
                   %span{class: [not_voting_vote_class(whip), ("zero-votes" if whip.not_voting_votes == 0)]}
                     = whip.not_voting_votes
                     = vote_display "not_voting"
@@ -93,15 +90,12 @@
             %span{class: aye_vote_total_class(division)}
               = division.aye_votes_including_tells
               = vote_display "aye"
-              –
             %span{class: no_vote_total_class(division)}
               = division.no_votes_including_tells
               = vote_display "no"
-              –
             %span
               = division.abstention_votes
               = vote_display "both"
-              –
             %span
               = division.not_voting_votes
               = vote_display "not_voting"

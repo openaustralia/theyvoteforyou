@@ -52,8 +52,13 @@
     padding-left: 0;
     text-align: center;
 
+    @media (min-width: $screen-md-min) {
+      text-align: left;
+    }
+
     span {
       display: inline-block;
+      padding-right: .5em;
     }
   }
 
