@@ -30,15 +30,16 @@
     color: $text-color;
   }
 
-  .division-datetime {
-    .display-house-all & {
-      &:after {
-        @media (min-width: 33em) {
-          content: " – "
-        }
-      }
-    }
-  }
+  // The house isn't displayed in Ukraine so we don't want this
+  // .division-datetime {
+  //   .display-house-all & {
+  //     &:after {
+  //       @media (min-width: 33em) {
+  //         content: " – "
+  //       }
+  //     }
+  //   }
+  // }
 
   .division-house {
     display: block;
