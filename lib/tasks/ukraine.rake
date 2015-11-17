@@ -3,7 +3,7 @@ namespace :application do
     namespace :ukraine do
       desc "Load latest Ukrainian People data from EveryPolitician"
       task people: [:environment, :set_logger_to_stdout] do
-        DataLoader::Ukraine::Popolo.load!(ENV["DEBUG_URL"] || "https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json")
+        DataLoader::Ukraine::People.load!
       end
 
       desc "Load Ukrainian vote_events for a date or range of dates"
