@@ -67,7 +67,7 @@ namespace :application do
 
     desc "Load Popolo data from a URL"
     task :popolo, [:url] => [:environment, :set_logger_to_stdout] do |t, args|
-      DataLoader::Popolo.load!(args[:url])
+      DataLoader::Ukraine::Popolo.load!(args[:url])
     end
 
     desc "Load Popolo for a date range, appending the date to a base url"
@@ -76,7 +76,7 @@ namespace :application do
       to_date = args[:to_date] ? Date.parse(args[:to_date]) : Date.today
 
       (from_date..to_date).each do |date|
-        DataLoader::Popolo.load!(args[:base_url] + date.to_s)
+        DataLoader::Ukraine::Popolo.load!(args[:base_url] + date.to_s)
       end
     end
   end
