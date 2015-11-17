@@ -33,7 +33,7 @@ People data is collected by a [morph.io scraper](https://morph.io/openaustralia/
 
 Once the people data has been loaded you can start loading votes. These are scraped by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat format that can easily be converted to Popolo. The conversion is handled by a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another Rake task, e.g.:
 
-    bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]
+    bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-06-17]
 
 As with other countries you then need to update the caches:
 
