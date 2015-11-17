@@ -18,7 +18,7 @@ namespace :application do
                   end
 
         (from_date..to_date).each do |date|
-          DataLoader::Ukraine::VoteEvents.load!(date)
+          DataLoader::Ukraine::VoteEvents.new(date).load!
         end
       end
     end

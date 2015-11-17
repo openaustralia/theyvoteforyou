@@ -3,10 +3,15 @@ module DataLoader
     class VoteEvents
       BASE_URL = ENV["DEBUG_URL"] || "https://arcane-mountain-8284.herokuapp.com/vote_events/"
 
-      def self.load!(date)
+      attr_accessor :data
+
+      def initialize(date)
         url = BASE_URL + date.to_s
-        data = DataLoader::Ukraine::Popolo.load(url)
-        vote_events = data["vote_events"]
+        @data = DataLoader::Ukraine::Popolo.load(url)
+      end
+
+      def load!
+        vote_events = @data["vote_events"]
 
         Rails.logger.info "Loading #{vote_events.count} vote_events..."
         vote_events.each do |v_e|
@@ -51,8 +56,7 @@ module DataLoader
         end
       end
 
-      # TODO: This shouldn't be a class method - move it somewhere more sensible
-      def self.popolo_to_publicwhip_vote(string)
+      def popolo_to_publicwhip_vote(string)
         case string
         when "yes"
           "aye"
