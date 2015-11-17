@@ -1,6 +1,11 @@
 namespace :application do
   namespace :load do
     namespace :ukraine do
+      desc "Load latest Ukrainian People data from EveryPolitician"
+      task people: [:environment, :set_logger_to_stdout] do
+        DataLoader::Ukraine::Popolo.load!(ENV["DEBUG_URL"] || "https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json")
+      end
+
       desc "Load Popolo data from a URL"
       task :popolo, [:url] => [:environment, :set_logger_to_stdout] do |t, args|
         DataLoader::Ukraine::Popolo.load!(args[:url])
