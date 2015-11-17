@@ -3,7 +3,7 @@ namespace :application do
     namespace :ukraine do
       desc "Load latest Ukrainian People data from EveryPolitician"
       task people: [:environment, :set_logger_to_stdout] do
-        DataLoader::Ukraine::People.load!
+        DataLoader::Ukraine::People.new.load!
       end
 
       desc "Load Ukrainian vote_events for a date or range of dates"

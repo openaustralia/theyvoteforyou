@@ -3,13 +3,17 @@ module DataLoader
     class People
       URL = ENV["DEBUG_URL"] || "https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json"
 
-      def self.load!
-        data = DataLoader::Ukraine::Popolo.load(URL)
+      attr_accessor :data
 
-        people = data["persons"]
-        organizations = data["organizations"]
-        areas = data["areas"]
-        events = data["events"]
+      def initialize
+        @data = DataLoader::Ukraine::Popolo.load(URL)
+      end
+
+      def load!
+        people = @data["persons"]
+        organizations = @data["organizations"]
+        areas = @data["areas"]
+        events = @data["events"]
 
         Rails.logger.info "Loading #{people.count} people..."
         people.each do |p|
@@ -19,7 +23,7 @@ module DataLoader
           person.save!
         end
 
-        members = data["memberships"]
+        members = @data["memberships"]
         Rails.logger.info "Loading #{members.count} memberships..."
         members.each do |m|
           raise "Person not found: #{m["person_id"]}" unless person = people.find { |p| p["id"] == m["person_id"] }
@@ -48,8 +52,7 @@ module DataLoader
         end
       end
 
-      # TODO: This shouldn't be a class method - move it somewhere more sensible
-      def self.extract_rada_id_from_person(person)
+      def extract_rada_id_from_person(person)
         person["identifiers"].find { |i| i["scheme"] == "rada" }["identifier"]
       end
     end
