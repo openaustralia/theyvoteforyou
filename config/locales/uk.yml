@@ -1,5 +1,12 @@
 ---
 uk:
+  views:
+    pagination:
+      first: "&laquo; First"
+      last: "Last &raquo;"
+      previous: "&lsaquo; попередня"
+      next: "наступна &rsaquo;"
+      truncate: "&hellip;"
   date:
     abbr_day_names:
     - нд.
