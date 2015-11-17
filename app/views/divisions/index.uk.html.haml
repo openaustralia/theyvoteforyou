@@ -15,8 +15,8 @@
         #{yield :title} в парламенті
         - if @year || @month || @date
           %small= divisions_period
-        - elsif @rdisplay != "all"
-          %small= Parliament.all[@rdisplay][:name]
+        -# - elsif @rdisplay != "all"
+        -#   %small= Parliament.all[@rdisplay][:name]
 
 
       %p.lead
