@@ -12,6 +12,7 @@ module DataLoader
 
       def load!
         vote_events = @data["vote_events"]
+        people = DataLoader::Ukraine::People.new
 
         Rails.logger.info "Loading #{vote_events.count} vote_events..."
         vote_events.each do |v_e|
@@ -33,7 +34,10 @@ module DataLoader
             votes = v_e["votes"]
             Rails.logger.info "Loading #{votes.count} votes..."
             votes.each do |v|
-              member = Member.current_on(division.date).find_by!(person_id: v["voter_id"])
+              party_name = people.party_name_from_id(v["group_id"])
+              member = Member.current_on(division.date).find_by(person_id: v["voter_id"], party: party_name) ||
+                       Member.find_by!(person_id: v["voter_id"], party: party_name) # Fallback when current_on isn't quite right
+
               vote = division.votes.find_or_initialize_by(member: member)
               if option = popolo_to_publicwhip_vote(v["option"])
                 vote.vote = option
