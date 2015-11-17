@@ -96,24 +96,6 @@ module DataLoader
       end
 
       # TODO: This shouldn't be a class method - move it somewhere more sensible
-      def self.popolo_to_publicwhip_vote(string)
-        case string
-        when "yes"
-          "aye"
-        when "no"
-          "no"
-        when "abstain"
-          "abstention"
-        when "absent"
-          nil
-        when "not voting"
-          "not voting"
-        else
-          raise "Unknown vote option: #{string}"
-        end
-      end
-
-      # TODO: This shouldn't be a class method - move it somewhere more sensible
       def self.extract_rada_id_from_person(person)
         person["identifiers"].find { |i| i["scheme"] == "rada" }["identifier"]
       end
