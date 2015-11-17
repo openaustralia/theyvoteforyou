@@ -52,6 +52,11 @@ module DataLoader
         end
       end
 
+      def party_name_from_id(id)
+        raise("Couldn't find party ID: #{id}") unless party = @organizations.find { |o| o["id"] == id.to_s }
+        party["name"]
+      end
+
       private
 
       def extract_rada_id_from_person(person)
