@@ -30,5 +30,8 @@ msgstr "Прийнятий"
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
 
+msgid "by a"
+msgstr "з"
+
 msgid "since %{date}"
 msgstr "з %{date}"
