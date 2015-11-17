@@ -34,8 +34,16 @@ class DivisionsController < ApplicationController
       else
         @date = params[:date]
       end
-      # Set the year to the lastest we have data for if it's not set
-      @year = @years.last if @rdisplay.nil? && @date.nil? && @month.nil? && @year.nil?
+
+      # Because the Rada has so many divisions, we want to paginate the divisions
+      # by small batches. This is the default navigation instead of the navigation
+      # by years. So in the Ukrainian version we don't want to default
+      # to the current year.
+      if locale != :uk
+        # Set the year to the lastest we have data for if it's not set
+        @year = @years.last if @rdisplay.nil? && @date.nil? && @month.nil? && @year.nil?
+      end
+
       # This sets the parliament to display if it's not set. It's only here for legacy support
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
