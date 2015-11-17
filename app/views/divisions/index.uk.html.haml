@@ -31,6 +31,8 @@
 
 = render partial: "divisions", locals: {member: @member}, object: @divisions
 
+= paginate @divisions, window: 2, outer_window: 3
+
 %nav.index-pagination
   %ul.pagination
     - @years.reverse.each do |year|

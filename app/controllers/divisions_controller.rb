@@ -70,7 +70,7 @@ class DivisionsController < ApplicationController
         ["date DESC", "clock_time DESC", "name", "number DESC"]
       end
 
-      @divisions = Division.order(order)
+      @divisions = Division.order(order).page(params[:page]).per(100)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.on_date(@date) if @date
