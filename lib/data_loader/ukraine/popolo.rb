@@ -5,7 +5,7 @@ module DataLoader
   module Ukraine
     class Popolo
       def self.load!(url)
-        Rails.logger.info "Loading Popolo data from #{url}..."
+        Rails.logger.info "Loading Ukraine Popolo data from #{url}..."
         data = JSON.parse(open(url).read)
 
         if people = data["persons"]
