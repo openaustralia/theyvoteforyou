@@ -52,6 +52,8 @@ module DataLoader
         end
       end
 
+      private
+
       def extract_rada_id_from_person(person)
         person["identifiers"].find { |i| i["scheme"] == "rada" }["identifier"]
       end

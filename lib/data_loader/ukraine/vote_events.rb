@@ -56,6 +56,8 @@ module DataLoader
         end
       end
 
+      private
+
       def popolo_to_publicwhip_vote(string)
         case string
         when "yes"
