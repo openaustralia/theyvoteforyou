@@ -58,6 +58,7 @@ gem 'searchkick'
 gem 'typhoeus'
 gem 'foreman'
 gem 'gettext_i18n_rails'
+gem 'kaminari'
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
