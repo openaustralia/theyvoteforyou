@@ -2,7 +2,6 @@
 :ruby
   set_meta_tags og: {
     title: divisions_short_description(@division),
-    # description: "Division: " + truncate(@division.name, length: 189),
     description: "голосування: " + truncate(@division.name, length: 189),
     type: "website",
     url: request.original_url,
@@ -12,7 +11,6 @@
     card: "summary",
     site: "@" + Settings.project_twitter,
     title: divisions_short_description(@division),
-    # description: "Division: " + truncate(@division.name, length: 189)
     description: "голосування: " + truncate(@division.name, length: 189)
   }
 
