@@ -91,11 +91,11 @@ module DivisionsHelper
     else
       _("by a") + " " + content_tag(:span, {class: 'has-tooltip', title: division_score(division)}) do
         if division.majority_fraction > 2.to_f / 3
-          "large majority"
+          _("large majority")
         elsif division.majority_fraction > 1.to_f / 3
           "modest majority"
         elsif division.majority_fraction > 0
-          "small majority"
+          _("small majority")
         end
       end
     end

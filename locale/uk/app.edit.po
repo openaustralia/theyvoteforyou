@@ -33,5 +33,11 @@ msgstr "Народні депутати України"
 msgid "by a"
 msgstr "з"
 
+msgid "large majority"
+msgstr ""
+
 msgid "since %{date}"
 msgstr "з %{date}"
+
+msgid "small majority"
+msgstr ""
