@@ -34,7 +34,7 @@
 .index-pagination
   = paginate @divisions, window: 2, outer_window: 3
 
-%nav.index-pagination
-  %ul.pagination
-    - @years.reverse.each do |year|
-      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year.to_i == year))
+-# %nav.index-pagination
+-#   %ul.pagination
+-#     - @years.reverse.each do |year|
+-#       = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year.to_i == year))
