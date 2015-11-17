@@ -2,6 +2,7 @@
   -# %h2.h5 External links
   %h2.h5 Додаткові посилання
   %ul.list-unstyled.object-list-compact
-    %li.object-item= link_to "Debate in Parliament", division.debate_url, title: "Links to debate shown at www.openaustralia.org"
+    -# %li.object-item= link_to "Debate in Parliament", division.debate_url, title: "Links to debate shown at www.openaustralia.org"
+    %li.object-item= link_to "Електронний протокол засідання ВРУ", division.debate_url, title: "Links to debate shown at www.openaustralia.org"
     - division.bills.each do |bill|
       %li.object-item= link_to bill.title, bill.url
