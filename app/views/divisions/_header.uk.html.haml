@@ -3,7 +3,8 @@
 
 .page-header.division-header.row
   %nav.header-actions.col-md-1.col-lg-2
-    = link_to "Edit", edit_division_path(@division), title: "Change title and summary of this division", class: "link-division-edit btn btn-default btn-xs"
+    -# = link_to "Edit", edit_division_path(@division), title: "Change title and summary of this division", class: "link-division-edit btn btn-default btn-xs"
+    = link_to "Редагувати", edit_division_path(@division), title: "Change title and summary of this division", class: "link-division-edit btn btn-default btn-xs"
 
   %h1.division-title.col-md-11.col-lg-10.long-title
     %small.pre-title= division_date_and_time(division)# + " – " + division.house_name
