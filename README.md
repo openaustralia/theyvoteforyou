@@ -29,11 +29,11 @@ and we load this into a Rails application.
 
 People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
 
-    bundle exec rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
+    bundle exec rake application:load:ukraine:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
 
 Once the people data has been loaded you can start loading votes. These are scraped by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat format that can easily be converted to Popolo. The conversion is handled by a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another Rake task, e.g.:
 
-    bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-06-17]
+    bundle exec rake application:load:ukraine:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-06-17]
 
 As with other countries you then need to update the caches:
 
@@ -147,7 +147,7 @@ which is run daily at 09:15 by cron.
 
 ### Ukraine
 
-The [Popolo](http://www.popoloproject.com/) data for Ukraine is loaded with the `application:load:popolo` Rake task. It will load people or vote data, depending on what it finds in the file.
+The [Popolo](http://www.popoloproject.com/) data for Ukraine is loaded with the `application:load:ukraine:popolo` Rake task. It will load people or vote data, depending on what it finds in the file.
 
 ## Better Search
 
@@ -190,10 +190,10 @@ bundle exec mina ukraine-dev setup
 bundle exec mina ukraine-dev deploy
 
 # Now you can load people data
-bundle exec mina ukraine-dev rake[application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
+bundle exec mina ukraine-dev rake[application:load:ukraine:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
 
 # And some vote data
-bundle exec mina ukraine-dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
+bundle exec mina ukraine-dev rake[application:load:ukraine:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
 
 # Setup caches
 bundle exec mina ukraine-dev rake[application:cache:all_except_member_distances]
