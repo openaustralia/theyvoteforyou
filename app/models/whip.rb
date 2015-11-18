@@ -2,7 +2,7 @@ class Whip < ActiveRecord::Base
   belongs_to :division
 
   def self.update_all!
-    all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
+    all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date <= members.left_house").group("divisions.id", :party).count
     all_votes = calc_all_votes_per_party2
 
     all_possible_votes.keys.each do |division_id, party|
