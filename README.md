@@ -157,6 +157,9 @@ optional and if omitted, allows you to load a single date. You can also use "tod
 * `application:cache` this namespace contains cache updating tasks that are
 necessary for the site to run. They should be self-explainatory.
 
+Votes can be updated daily by running `application:load:ukraine:vote_events` without arguments.
+It will try to fetch all votes since the most recent one in the database until the present day.
+
 ## Better Search
 
 You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
