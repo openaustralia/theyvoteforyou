@@ -3,7 +3,7 @@
     %article.division-item{class: division_edit_status_class(division) + " " + division_outcome_class(division)}
       .division-edit-notice.pull-right.text-muted
         - if division.edited?
-          edited
+          оновлено
           = relative_time division.wiki_motion.edit_date
       .division-meta
         %time.division-datetime{datetime: division.date}= division_date_and_time(division)
