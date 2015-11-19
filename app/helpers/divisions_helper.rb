@@ -244,8 +244,13 @@ module DivisionsHelper
   end
 
   def divisions_short_description(division)
-    "Australian #{division.full_house_name} vote " +
-    "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
+    # TODO: Can we translate this in a nicer way?
+    if locale == :uk
+      "#{division_outcome(division)} у Верховній Раді, #{division_date_and_time(@division)}"
+    else
+      "Australian #{division.full_house_name} vote " +
+      "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
+    end
   end
 
   def divisions_period
