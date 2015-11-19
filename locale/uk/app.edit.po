@@ -37,10 +37,10 @@ msgid "by a"
 msgstr "з"
 
 msgid "large majority"
-msgstr ""
+msgstr "абсолютною підтримкою"
 
 msgid "since %{date}"
 msgstr "з %{date}"
 
 msgid "small majority"
-msgstr ""
+msgstr "малою підтримкою"
