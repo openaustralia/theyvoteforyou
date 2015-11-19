@@ -208,7 +208,7 @@ module DivisionsHelper
   end
 
   def relative_time(time)
-    time < 1.month.ago ? formatted_date(time) : "#{time_ago_in_words(time)} ago"
+    time < 1.month.ago ? formatted_date(time) : _("%{time} ago") % {time: time_ago_in_words(time)}
   end
 
   def division_edit_status_class(division)
