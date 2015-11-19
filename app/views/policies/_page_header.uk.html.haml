@@ -6,8 +6,6 @@
     - if user_signed_in?
       = link_to_if policy, "Редагувати", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
       = link_to "Нова політика", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
-    -# = link_to_if policy, "Edit", edit_policy_path(policy), title: "Change title and definition of policy", class: "link-policy-edit btn btn-default btn-xs"
-    -# = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
   %h1.col-md-9.col-lg-10.long-title
     = yield :title
   .lead.policytext.col-md-12= capitalise_initial_character policy.description
@@ -17,9 +15,7 @@
       .header-secondary-primary-block.subscribe-block
         = button_to watch_policy_path(policy), class: "btn btn-link fi-mail", form_class: "subscribe-button-form " + (current_user && current_user.watching?(policy) ? "subscribe-button-form-unsubscribe" : "subscribe-button-form-subscribe") do
           = (current_user && current_user.watching?(policy) ? "відмовитися" : "Підписатись")
-          -# = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
         - if policy.watches.count > 0
           %span.subscriber-count.small
             #{policy.watches.count} підписників
-            -# = pluralize policy.watches.count, 'subscriber'
     = render "social_share"
