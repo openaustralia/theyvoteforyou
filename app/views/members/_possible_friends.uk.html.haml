@@ -35,4 +35,4 @@
   - unless all_friends
     = link_to "Більше друзів по голосуванню", friends_member_path(member), class: 'btn btn-default btn-sm'
   - if member.best_friends.count >= 5 && !all_friends
-    (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)
+    (#{pluralize(member.best_friends.count, "депутат", "депутатів")} голосували 100% синхронно з #{member.name_without_title})
