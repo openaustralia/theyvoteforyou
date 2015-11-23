@@ -46,7 +46,8 @@ module DataLoader
             Rails.logger.info "Loading #{bills.count} bills..."
             bills.each do |b|
               # We need to use create here because otherwise the association isn't saved
-              bill = division.bills.find_or_create_by(official_id: b["official_id"])
+              bill = Bill.find_or_create_by(official_id: b["official_id"])
+              bill.divisions << division
               bill.url = b["url"]
               bill.title = b["title"]
               bill.save!
