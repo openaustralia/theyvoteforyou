@@ -62,17 +62,19 @@ class Policy < ActiveRecord::Base
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-          if member_vote == 'absent' || member_vote == 'abstention' || member_vote == 'not voting'
+          case member_vote
+          when "absent", "abstention", "not voting"
             :nvotesabsentstrong
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+          when PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessamestrong
           else
             :nvotesdifferstrong
           end
         else
-          if member_vote == 'absent' || member_vote == 'abstention' || member_vote == 'not voting'
+          case member_vote
+          when "absent", "abstention", "not voting"
             :nvotesabsent
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+          when PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessame
           else
             :nvotesdiffer
