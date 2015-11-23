@@ -33,6 +33,7 @@ module DataLoader
 
             votes = v_e["votes"]
             Rails.logger.info "Loading #{votes.count} votes..."
+            division.votes.destroy_all
             votes.each do |v|
               party_name = people.party_name_from_id(v["group_id"])
               member = Member.current_on(division.date).find_by(person_id: v["voter_id"], party: party_name) ||
@@ -40,10 +41,7 @@ module DataLoader
 
               vote = division.votes.find_or_initialize_by(member: member)
               if option = popolo_to_publicwhip_vote(v["option"])
-                vote.vote = option
-                vote.save!
-              else
-                vote.destroy
+                division.votes.create!(member: member, vote: option)
               end
             end
 
