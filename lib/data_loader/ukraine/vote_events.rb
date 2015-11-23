@@ -12,7 +12,6 @@ module DataLoader
 
       def load!
         vote_events = @data["vote_events"]
-        people = DataLoader::Ukraine::People.new
 
         Rails.logger.info "Loading #{vote_events.count} vote_events..."
         vote_events.each do |v_e|
@@ -33,16 +32,10 @@ module DataLoader
 
             votes = v_e["votes"]
             Rails.logger.info "Loading #{votes.count} votes..."
+            possible_members = Member.current_on(division.date)
             division.votes.destroy_all
             votes.each do |v|
-              party_name = people.party_name_from_id(v["group_id"])
-              member = Member.current_on(division.date).find_by(person_id: v["voter_id"], party: party_name) ||
-                       Member.find_by(person_id: v["voter_id"], party: party_name) # Fallback when current_on isn't quite right
-
-              if !member
-                Rails.logger.warn "Couldn't find voter #{v["voter_id"]} in party #{party_name}"
-                member = Member.current_on(division.date).find_by!(person_id: v["voter_id"])
-              end
+              member = possible_members.find_by!(person_id: v["voter_id"])
 
               if option = popolo_to_publicwhip_vote(v["option"])
                 division.votes.create!(member: member, vote: option)
