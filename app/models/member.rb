@@ -3,7 +3,11 @@ class Member < ActiveRecord::Base
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
-  scope :current_on, ->(date) { where("? >= entered_house AND ? <= left_house", date, date) }
+  scope :current_on, ->(date) {
+    # Hack to filter duplicates in Ruby but still return ActiveRecord::Relation
+    # FIXME: Filter duplicates in ActiveRecord
+    where(id: Member.where("? >= entered_house AND ? <= left_house", date, date).order(left_house: :desc).to_a.uniq(&:person_id).map(&:id))
+  }
   scope :in_house, ->(house) { where(house: house) }
   scope :with_name, ->(name) {
     first_name, last_name = Member.parse_first_last_name(name)
