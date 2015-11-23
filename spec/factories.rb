@@ -26,7 +26,6 @@ FactoryGirl.define do
   end
 
   factory :member do
-    id "100156"
     gid "uk.org.publicwhip/lord/100156"
     source_gid ""
     first_name "Christine"
@@ -39,8 +38,10 @@ FactoryGirl.define do
     left_house "9999-12-31"
     entered_reason "general_election"
     left_reason "still_in_office"
-    person_id "10458"
+    person
   end
+
+  factory :person
 
   factory :policy do
     sequence(:name) { |n| "the existence of test policies #{n}" }
