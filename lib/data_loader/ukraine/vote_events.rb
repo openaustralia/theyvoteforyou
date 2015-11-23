@@ -37,9 +37,13 @@ module DataLoader
             votes.each do |v|
               party_name = people.party_name_from_id(v["group_id"])
               member = Member.current_on(division.date).find_by(person_id: v["voter_id"], party: party_name) ||
-                       Member.find_by!(person_id: v["voter_id"], party: party_name) # Fallback when current_on isn't quite right
+                       Member.find_by(person_id: v["voter_id"], party: party_name) # Fallback when current_on isn't quite right
 
-              vote = division.votes.find_or_initialize_by(member: member)
+              if !member
+                Rails.logger.warn "Couldn't find voter #{v["voter_id"]} in party #{party_name}"
+                member = Member.current_on(division.date).find_by!(person_id: v["voter_id"])
+              end
+
               if option = popolo_to_publicwhip_vote(v["option"])
                 division.votes.create!(member: member, vote: option)
               end
