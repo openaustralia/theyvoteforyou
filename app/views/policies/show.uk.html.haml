@@ -8,41 +8,25 @@
 - if @policy.divisions.count > 0
   %p.lead
     = link_to "#{@policy.divisions.count} відповідних голосувань", {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
-    -# = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members
     .policy-comparisions
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', members: @policy.current_members_very_strongly_for
       = render 'policy_comparisons_block', policy: @policy, title: 'Максимально голосує', position: 'Voted very strongly for', members: @policy.current_members_very_strongly_for
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', members: @policy.current_members_strongly_for
       = render 'policy_comparisons_block', policy: @policy, title: 'Послідовно голосує', position: 'Voted strongly for', members: @policy.current_members_strongly_for
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', members: @policy.current_members_moderately_for
       = render 'policy_comparisons_block', policy: @policy, title: 'Переважно голосує', position: 'Voted moderately for', members: @policy.current_members_moderately_for
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted a mixture of for and against', members: @policy.current_members_for_and_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Голосує', position: 'Voted a mixture of for and against', members: @policy.current_members_for_and_against
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately against', members: @policy.current_members_moderately_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Переважно не голосує', position: 'Voted moderately against', members: @policy.current_members_moderately_against
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', members: @policy.current_members_strongly_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Послідовно не голосує', position: 'Voted strongly against', members: @policy.current_members_strongly_against
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Максимально не голосує', position: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
-      -# = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', members: @policy.current_members_never_voted
       = render 'policy_comparisons_block', policy: @policy, title: 'Ніколи не голосує', position: 'Never voted on', members: @policy.current_members_never_voted
 
   %section.page-section#divisions
     %h2 Відповідні голосування
-    -# %h2 Relevant divisions
     %p
       = link_to "Детальніше", detail_policy_path(@policy), title: 'Shows all available division summaries'
-      -# = link_to "See detail", detail_policy_path(@policy), title: 'Shows all available division summaries'
     = render 'vote_table_leader', policy: @policy
     = render 'vote_summary_table', member: @member, policy: @policy
     %p.alert.alert-postnote.small
-      -# If you know of other
-      -# = link_to 'divisions', divisions_path
-      -# that relate to this policy, you can add them in the
-      -# %strong Votes
-      -# section of that division‘s page.
       Якщо Ти знаєш про інші
       #{link_to 'голосування', divisions_path},
       що стосуються цієї політики,
