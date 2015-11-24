@@ -4,5 +4,5 @@
     %ol
       - member.person.members.order(entered_house: :desc).offset(1).each do |member|
         %li
-          #{member.party_name},
+          = member.party_name
           = content_tag(:span, "#{member.since} – #{member.until}", class: 'member-period')

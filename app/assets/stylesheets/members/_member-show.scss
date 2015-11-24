@@ -50,5 +50,10 @@
   ol {
     list-style: none;
     padding: inherit;
+    .member-period {
+      font-weight: 300;
+      font-size: 16px;
+      color: $gray;
+    }
   }
 }
