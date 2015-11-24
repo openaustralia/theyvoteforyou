@@ -17,9 +17,9 @@
 = render "social_share"
 
 %p.col-sm-7
-  How
+  Як
   = link_to @member.name, @member
-  voted compared to someone who believes that
+  голосував у порівнянні з тими, хто вважає, що
   = link_to @policy.description, @policy
 
 = render 'vote_summary_table', member: @member, policy: @policy
