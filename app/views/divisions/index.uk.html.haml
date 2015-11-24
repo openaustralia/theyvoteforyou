@@ -2,7 +2,6 @@
   - if @party
     = @party
   - else
-    -# Divisions
     Голосування
 
 - set_meta_tags description: "Перелік голосувань у парламенті, результати яких впливають на всіх нас."
@@ -11,16 +10,11 @@
   .section-header.clearfix
     .page-header.container
       %h1
-        -# = yield :title
         #{yield :title} в парламенті
         - if @year || @month || @date
           %small= divisions_period
-        -# - elsif @rdisplay != "all"
-        -#   %small= Parliament.all[@rdisplay][:name]
-
 
       %p.lead
-        -# In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
         За допомогою цих голосів, народні обранці приймають закони, що впливає на всіх нас.
         = link_to "Дізнатися більше...", help_faq_path(anchor: "division")
 
@@ -33,8 +27,3 @@
 
 .index-pagination
   = paginate @divisions, window: 2, outer_window: 3
-
--# %nav.index-pagination
--#   %ul.pagination
--#     - @years.reverse.each do |year|
--#       = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@year.to_i == year))
