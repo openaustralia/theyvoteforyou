@@ -64,15 +64,15 @@ module DivisionsHelper
     when "no3"
       "No (strong)"
     when "absent"
-      "absent"
+      _("absent")
     when "both", "abstention"
-      "Abstain"
+      _("Abstain")
     when "aye"
-      "Yes"
+      _("Yes")
     when "no"
-      "No"
+      _("No")
     when "not voting"
-      "Not voting"
+      _("Not voting")
     else
       raise "Unknown vote option: #{vote}"
     end

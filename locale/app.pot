@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: app 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-24 16:42+1100\n"
-"PO-Revision-Date: 2015-11-24 16:42+1100\n"
+"POT-Creation-Date: 2015-11-24 16:56+1100\n"
+"PO-Revision-Date: 2015-11-24 16:56+1100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -21,16 +21,31 @@ msgstr ""
 msgid "%{time} ago"
 msgstr ""
 
+msgid "Abstain"
+msgstr ""
+
 msgid "Electorate / State"
 msgstr ""
 
+msgid "No"
+msgstr ""
+
 msgid "Not passed"
+msgstr ""
+
+msgid "Not voting"
 msgstr ""
 
 msgid "Passed"
 msgstr ""
 
 msgid "Representatives and Senators"
+msgstr ""
+
+msgid "Yes"
+msgstr ""
+
+msgid "absent"
 msgstr ""
 
 msgid "by a"

@@ -21,17 +21,32 @@ msgstr ""
 msgid "%{time} ago"
 msgstr "%{time} тому"
 
+msgid "Abstain"
+msgstr "Утрималися"
+
 msgid "Electorate / State"
 msgstr "Областю"
 
+msgid "No"
+msgstr "Ні"
+
 msgid "Not passed"
 msgstr "Не прийнятий"
+
+msgid "Not voting"
+msgstr "Не голосували"
 
 msgid "Passed"
 msgstr "Прийнятий"
 
 msgid "Representatives and Senators"
 msgstr "Народні депутати України"
+
+msgid "Yes"
+msgstr "Так"
+
+msgid "absent"
+msgstr "Відсутні"
 
 msgid "by a"
 msgstr "з"
