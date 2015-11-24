@@ -8,8 +8,8 @@
 
           %p.policy-data.object-secondary
             %span
-              - # TODO: What is the pluralized version of "голосувань" ?
-              = pluralize(policy.divisions.count, "голосувань")
+              = policy.divisions.count
+              = n_("division", "divisions", policy.divisions.count)
               - if policy.unedited_motions_count != 0
                 %em= "(#{policy.unedited_motions_count} у розробці)"
             %small.policy-edit-notice.text-muted

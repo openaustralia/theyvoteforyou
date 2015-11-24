@@ -36,6 +36,12 @@ msgstr "Народні депутати України"
 msgid "by a"
 msgstr "з"
 
+msgid "division"
+msgid_plural "divisions"
+msgstr[0] "голосування"
+msgstr[1] "голосування"
+msgstr[2] "голосувань"
+
 msgid "large majority"
 msgstr "абсолютною підтримкою"
 
