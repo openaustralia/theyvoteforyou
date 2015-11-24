@@ -1,7 +1,6 @@
 %section.page-section#voting-stace
   %h2 Як вони голосують?
-
-  - if member.person.policy_person_distances.empty?
+  - if member.person.policy_person_distances.published.empty?
     %ul
       %li
         Політик, які відповідають цьому голосуванню депутата, немає.
