@@ -49,7 +49,7 @@
                     = whip.not_voting_votes
                     = vote_display "not voting"
                 - else
-                  Absent
+                  Відсутні
               %td.cell-toggler
                 %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + index.to_s}}
                   %span.sr-only show members
@@ -72,7 +72,7 @@
                 = link_to member.name_without_title, member
                 %span.text-muted.member-electorate= member.electorate
                 %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
-              %td.cell-vote Absent
+              %td.cell-vote Відсутні
               %td.cell-toggler
 
         %tr
