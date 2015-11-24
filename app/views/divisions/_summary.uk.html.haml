@@ -11,7 +11,9 @@
     %p.division-rebellions-sentence
       - if division.rebellions > 0
         Відбулося
-        %span.rebel= pluralize(division.rebellions, 'rebellion')
+        %span.rebel
+          = division.rebellions
+          = n_("rebellion", "rebellions", division.rebellions)
         проти лінії фракції.
       - else
         Nobody rebelled against their party.

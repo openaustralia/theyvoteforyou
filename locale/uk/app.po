@@ -48,6 +48,12 @@ msgstr "абсолютною підтримкою"
 msgid "modest majority"
 msgstr "посередньою підтримкою"
 
+msgid "rebellion"
+msgid_plural "rebellions"
+msgstr[0] "голосування"
+msgstr[1] "голосування"
+msgstr[2] "голосувань"
+
 msgid "since %{date}"
 msgstr "з %{date}"
 
