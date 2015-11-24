@@ -4,9 +4,8 @@
   - if member.person.policy_person_distances.empty?
     %ul
       %li
-        No policies match this person's votes. You can
-        = link_to "edit or make a policy", policies_path
-        that will appear here.
+        Політик, які відповідають цьому голосуванню депутата, немає.
+        Ви можете #{link_to "запропонувати власну політику", policies_path}, яка з'явиться тут.
   - else
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.very_strongly_for, title: "Максимально голосує", position: "Voted very strongly for"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.strongly_for, title: "Послідовно голосує", position: "Voted strongly for"
