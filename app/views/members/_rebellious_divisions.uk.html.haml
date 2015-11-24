@@ -5,10 +5,9 @@
     = member.name_without_title
     - if @member.person.rebellions > 0
       голосував проти лінії фракції
-      -# TODO: is there a plural form of 'разів' that we can insert?
-      #{@member.person.rebellions} разів
-      -# voted against the majority of their party
-      -# = pluralize(@member.person.rebellions, "time")
+      = @member.person.rebellions
+      = n_("time", "times", 2)
+      з
     - else
       ніколи не голосував проти лінії фракції з
     - # TODO get the data starting dates dynamically

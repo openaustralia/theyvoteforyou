@@ -48,5 +48,11 @@ msgstr "з %{date}"
 msgid "small majority"
 msgstr "малою підтримкою"
 
+msgid "time"
+msgid_plural "times"
+msgstr[0] "раз"
+msgstr[1] "рази"
+msgstr[2] "разів"
+
 msgid "unanimously"
 msgstr "одноголосно"
