@@ -85,7 +85,7 @@ module DivisionsHelper
 
   def majority_strength_in_words(division)
     if division.majority_fraction == 1.0
-      "unanimously"
+      _("unanimously")
     elsif division.majority_fraction == 0.0
       ""
     else

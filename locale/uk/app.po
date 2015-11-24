@@ -47,3 +47,6 @@ msgstr "з %{date}"
 
 msgid "small majority"
 msgstr "малою підтримкою"
+
+msgid "unanimously"
+msgstr "одноголосно"
