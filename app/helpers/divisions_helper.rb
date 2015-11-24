@@ -69,8 +69,12 @@ module DivisionsHelper
       "Abstain"
     when "aye"
       "Yes"
+    when "no"
+      "No"
+    when "not voting"
+      "Not voting"
     else
-      vote.capitalize
+      raise "Unknown vote option: #{vote}"
     end
   end
 
