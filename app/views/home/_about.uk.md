@@ -1,33 +1,26 @@
-### A Parliamentary Democracy for Everybody
-In Australia, every 3 years or so, we all head to polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
+### Верховна Рада України працює від імені Українського народу
+27 листопада 2015 р.  нові [народні депутати](/members) Верховної Ради України VIIІ скликання набули своїх повноважень. Громадяни очікують від них захисту національних, суспільних інтересів та прийняття якісних законів. Цей сайт створений для Тебе, щоб Ти міг слідкувати та аналізувати, як кожен з народних обранців голосує за важливі  законопроекти, як виконує покладені на нього зобов’язання.
 
-### They vote for you
-Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
+### Вони голосують для Тебе
+Як добре Ти слідкуєш за тим, як Твій депутат захищає у парламенті Твої інтереси? Чи голосує він у згоді зі своєю фракцією/групою? Чи знаєш, як часто пропускає пленарні засідання та чи ігнорує голосування, які важливі для Тебе і Твого виборчого округу?
 
-### How your MP votes on issues you care about
-We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can [add your own](<%= new_policy_path() %>).
+### Як Твій депутат голосує за рішення, які важливі для Тебе
+На цьому сайті Ти маєш можливість власноруч прослідкувати, якими є політична позиція та  результати діяльності Твого депутата. Тут Ти можеш переглянути [увесь список політик](/policies). Якщо там немає політики, яка Тебе цікавить, [напиши нам](mailto:<%= Settings.contact_email %>) і запропонуй власну.
 
-### Find your MP
-It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
+### Знайди свого депутата
+Почни з [пошуку за ім’ям](/search) або прямуй до повного списку [народних депутатів України](/people).
 
-### Thanks for making this
+### Подяка
 
-<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
-[Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. We owe Julian and Francis a massive debt of gratitude for everything they've done.
+Портал “<%= inline_project_name %>” був розроблений [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), незалежною позапартійною неприбутковою організацією. Він заснований на новаторській платформі британського сайту [UK Public Whip site](http://www.publicwhip.org.uk/), створеного Френсісом Ірвінгом і Джуліан Тодд у 2003 році. Велика подяка [Google Australia](http://www.google.com.au), [National Democratic Institute (NDI)](https://www.ndi.org/),  чиї пожертви зробили можливим розвиток цього проекту.
 
-A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this project possible.
+“<%= inline_project_name %>” був  створений партнерамиГромадської мережі ОПОРА Henare Degan, Matthew Landauer, Luke Bacon, Katherine Szuminska за координації та консультацій Mario Mitre та Jean-Noé Landry. Адаптація сайту до українського контексту та його переклад з англійської здійснений Юрієм Лісовським та Оленою Рибій.
 
-<%= inline_project_name %> was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies before launch was done by the magnificent Micaela Ash and Natasha Burrows.
+### <a name='contribute'></a>Ти можеш допомогти
 
-### <a name='contribute'></a>You can help
+Ти можеш допомогти нам зробити цей сайт кращим, [запропонувавши власну політику](mailto:<%= Settings.contact_email %>) та [обговорюючи уже існуючі політики](/policies).
 
-Make this project better for everyone by [summarising divisions](/divisions) and [maintaining and discussing policies](/policies). You can also [make a tax deductible donation](https://www.openaustraliafoundation.org.au/donate/theyvoteforyou/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
-
-<%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
-
-<%= inline_project_name %> keeps getting better due to the efforts of
-
-<%= render "contributions" %>
+<%= inline_project_name %> - це відкритий проект. Це означає, що усі бажаючі можуть долучитися до підтримки та наповнення цього сайту.
 
 ### <a name='contact'></a>Contact
 
