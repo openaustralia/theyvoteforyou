@@ -33,7 +33,7 @@
             %tr.party-row{data: {toggle: 'collapse', target: '.member-row-' + index.to_s}}
               %th.cell-name
                 %span.party-name= whip.party_name
-                %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
+                %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' явки)'
               %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
                 - if whip.aye_votes_including_tells + whip.no_votes_including_tells + whip.abstention_votes > 0
                   %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
@@ -78,7 +78,7 @@
         %tr
           %th.whip
             Totals
-            %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
+            %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' явки)'
           %td.cell-vote
             %span{class: aye_vote_total_class(division)}
               = division.aye_votes_including_tells
