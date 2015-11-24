@@ -1,5 +1,4 @@
 %section.page-section#voting-stace
-  -# %h2 How do they vote?
   %h2 Як вони голосують?
 
   - if member.person.policy_person_distances.empty?
@@ -9,21 +8,13 @@
         = link_to "edit or make a policy", policies_path
         that will appear here.
   - else
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.very_strongly_for, title: "Voted very strongly for"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.very_strongly_for, title: "Максимально голосує", position: "Voted very strongly for"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.strongly_for, title: "Voted strongly for"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.strongly_for, title: "Послідовно голосує", position: "Voted strongly for"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.moderately_for, title: "Voted moderately for"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.moderately_for, title: "Переважно голосує", position: "Voted moderately for"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.for_and_against, title: "Voted a mixture of for and against"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.for_and_against, title: "Голосує", position: "Voted a mixture of for and against"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.moderately_against, title: "Voted moderately against"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.moderately_against, title: "Переважно не голосує", position: "Voted moderately against"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.strongly_against, title: "Voted strongly against"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.strongly_against, title: "Послідовно не  голосує", position: "Voted strongly against"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.very_strongly_against, title: "Voted very strongly against"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.very_strongly_against, title: "Максимально не голосує", position: "Voted very strongly against"
-    -# = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.never_voted, title: "Has never voted on"
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.never_voted, title: "Ніколи не голосує", position: "Has never voted on"
 
   %p.small.text-muted
