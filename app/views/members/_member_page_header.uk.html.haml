@@ -14,26 +14,20 @@
             - if member.person.rebellions_fraction
               %span.member-rebellions.object-data-rebellion
                 -if member.person.rebellions_fraction == 0
-                  -# Never rebels
                   100% фракційна дисципліна
                 -else
+                  -# TODO: Should this be an absolute count rather than percentage?
+                  -# Maybe it's good to show it as a percentage because it highlights rarity?
                   Проти фракції у
                   = fraction_to_percentage_display(member.person.rebellions_fraction)
                   випадків
-                  -# TODO: Should this be an absolute count rather than percentage?
-                  -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  -# Rebels
-                  -# = fraction_to_percentage_display(member.person.rebellions_fraction)
-                  -# of the time
                   -# TODO: add helper tooltip for rebellions
                   -# link_to "explain...", help_faq_path(anchor: "clarify")
-                -# %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
                 %small= link_to "що таке “голосування проти лінії фракції”", help_faq_path(anchor: "rebellion")
             - if member.person.attendance_fraction
               %span.member-attendance.object-data-attendance
                 = fraction_to_percentage_display(member.person.attendance_fraction)
                 Відвідуваність
-                -# attendance
                 -# TODO: add helper tooltip for attendance
                 -# link_to "explain...", help_faq_path(anchor: "clarify")
                 %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
@@ -41,6 +35,5 @@
   .header-secondary.col-sm-12
     .header-secondary-primary-block
       = link_to "Виступи в парламенті", "http://www.openaustralia.org.au/mp/?m=#{member.id}", class: "member-speeches-link btn btn-sm btn-link btn-lone-link"
-      -# = link_to "Speeches in Parliament", "http://www.openaustralia.org.au/mp/?m=#{member.id}", class: "member-speeches-link btn btn-sm btn-link btn-lone-link"
 
     = render "social_share"
