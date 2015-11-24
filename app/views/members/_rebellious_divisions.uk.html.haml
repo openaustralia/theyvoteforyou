@@ -6,7 +6,7 @@
     - if @member.person.rebellions > 0
       голосував проти лінії фракції
       = @member.person.rebellions
-      = n_("time", "times", 2)
+      = n_("time", "times", @member.person.rebellions)
       з
     - else
       ніколи не голосував проти лінії фракції з
