@@ -5,11 +5,11 @@
 
   %ul.list-inline.small
     %li
-      = link_to "https://www.facebook.com/sharer/sharer.php?u=#{request.original_url}&t=", title: "Share on Facebook", class: 'share-link share-link-facebook' do
+      = link_to "https://www.facebook.com/sharer/sharer.php?u=#{request.original_url}&t=", title: "Поширити у Facebook", class: 'share-link share-link-facebook' do
         %i.fi-social-facebook
         Facebook
 
     %li
-      = link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=&via=#{Settings.project_twitter}", title: "Share on Twitter", class: 'share-link share-link-twitter'  do
+      = link_to "https://twitter.com/intent/tweet?url=#{request.original_url}&text=&via=#{Settings.project_twitter}", title: "Поширити у Twitter", class: 'share-link share-link-twitter'  do
         %i.fi-social-twitter
         Twitter
