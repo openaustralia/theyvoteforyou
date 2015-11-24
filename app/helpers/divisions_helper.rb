@@ -93,7 +93,7 @@ module DivisionsHelper
         if division.majority_fraction > 2.to_f / 3
           _("large majority")
         elsif division.majority_fraction > 1.to_f / 3
-          "modest majority"
+          _("modest majority")
         elsif division.majority_fraction > 0
           _("small majority")
         end

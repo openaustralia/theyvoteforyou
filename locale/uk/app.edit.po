@@ -39,6 +39,9 @@ msgstr "з"
 msgid "large majority"
 msgstr "абсолютною підтримкою"
 
+msgid "modest majority"
+msgstr "посередньою підтримкою"
+
 msgid "since %{date}"
 msgstr "з %{date}"
 
