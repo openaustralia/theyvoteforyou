@@ -17,9 +17,10 @@ module DataLoader
       def load!
         Rails.logger.info "Loading #{@people.count} people..."
         @people.each do |p|
-          person = Person.find_or_initialize_by(id: extract_rada_id_from_person(p))
-          person.small_image_url = p["image"]
-          person.large_image_url = p["image"]
+          id = extract_rada_id_from_person(p)
+          person = Person.find_or_initialize_by(id: id)
+          person.small_image_url = image_url(id)
+          person.large_image_url = image_url(id)
           person.save!
         end
 
@@ -56,6 +57,10 @@ module DataLoader
 
       def extract_rada_id_from_person(person)
         person["identifiers"].find { |i| i["scheme"] == "rada" }["identifier"]
+      end
+
+      def image_url(id)
+        "https://raw.githubusercontent.com/OPORA/ukraine_verkhovna_rada_deputy_images/master/images/#{id}.jpg"
       end
     end
   end
