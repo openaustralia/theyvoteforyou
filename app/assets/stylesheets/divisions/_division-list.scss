@@ -68,6 +68,8 @@
     }
   }
 
+  // Ukrainian version is 'member-voted-Так'
+  .division-member-vote.member-voted-Так:before,
   .division-member-vote.member-voted-yes:before,
   &.division-outcome-passed .division-outcome:before {
     content: "\00a0\2192\00a0";
@@ -76,6 +78,8 @@
   }
 
 
+  // Ukrainian version is 'member-voted-Ні'
+  .division-member-vote.member-voted-Ні:before,
   .division-member-vote.member-voted-no:before,
    &.division-outcome-not-passed .division-outcome:before {
     content: "\00a0\2190\00a0";
