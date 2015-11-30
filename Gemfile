@@ -57,6 +57,7 @@ gem 'numbers_and_words', '~> 0.10.0'
 gem 'searchkick'
 gem 'typhoeus'
 gem 'foreman'
+gem 'rails-i18n', '~> 4.0.0'
 gem 'gettext_i18n_rails'
 gem 'kaminari'
 
