@@ -1,0 +1,7 @@
+- content_for :title do
+  Friends of
+  = @member.full_name
+- set_meta_tags description: "#{members_type(@member.house)} that voted similarly to #{@member.name_without_title}."
+
+= render "member_page_header", member: @member
+= render "possible_friends", member: @member, all_friends: true
