@@ -60,7 +60,7 @@ module DataLoader
       end
 
       def image_url(id)
-        "https://raw.githubusercontent.com/OPORA/ukraine_verkhovna_rada_deputy_images/master/images/#{id}.jpg"
+        "https://s3.amazonaws.com/ukraine-verkhovna-rada-deputy-images/#{id}.jpg"
       end
     end
   end
