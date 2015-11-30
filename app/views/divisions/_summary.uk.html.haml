@@ -52,7 +52,8 @@
                   Відсутні
               %td.cell-toggler
                 %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + index.to_s}}
-                  %span.sr-only show members
+                  -# %span.sr-only show members
+                  %span.sr-only показати усіх членів
 
           -# Show members in this party that are present in this division
           - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
