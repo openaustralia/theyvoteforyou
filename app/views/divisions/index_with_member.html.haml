@@ -14,7 +14,7 @@
     - if m[:division].present?
       = render m[:division], member: m[:member]
     - else
-      %li
+      %li.object-item
         No votes listed as
         = member_type_party_place_sentence(m[:member])
 
