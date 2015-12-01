@@ -32,6 +32,7 @@ gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce8
 gem 'safe_attributes'
 gem 'newrelic_rpm'
 gem 'devise'
+gem 'devise-i18n'
 gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'
