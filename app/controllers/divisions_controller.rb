@@ -20,6 +20,8 @@ class DivisionsController < ApplicationController
       if @member.nil?
         render 'members/member_not_found', status: 404
       else
+        @members = @member.person.members.order(entered_house: :desc)
+
         render 'index_with_member'
       end
     else
