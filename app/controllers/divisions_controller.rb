@@ -20,7 +20,17 @@ class DivisionsController < ApplicationController
       if @member.nil?
         render 'members/member_not_found', status: 404
       else
-        @members = @member.person.members.order(entered_house: :desc)
+        @divisions_or_nil_with_member = []
+        @member.person.members.order(entered_house: :desc).each do |member|
+          if member.divisions_possible.any?
+            member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
+              @divisions_or_nil_with_member << { division: division, member: member }
+            end
+          else
+            @divisions_or_nil_with_member << { division: nil, member: member }
+          end
+        end
+        @divisions_or_nil_with_member = Kaminari.paginate_array(@divisions_or_nil_with_member).page(params[:page]).per(100)
 
         render 'index_with_member'
       end
