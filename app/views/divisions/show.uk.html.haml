@@ -29,12 +29,26 @@
     -# %h2 Related divisions
     %h2 Пов'язані голосування
     %p
+      -# - if @division.related_divisions.size == 1
+      -#   Another division relating
+      -# - else
+      -#   = @division.related_divisions.size
+      -#   divisions relating
+      -# to the same
+      -# = @division.bills.count == 1 ? "bill" : "bills"
+      -# as this one:
       - if @division.related_divisions.size == 1
-        Another division relating
+        -# Another division
+        Інше голосування, пов'язане
       - else
         = @division.related_divisions.size
-        divisions relating
-      to the same
-      = @division.bills.count == 1 ? "bill" : "bills"
-      as this one:
+        -# 2-4 divisions
+        - if @division.related_divisions.size < 5
+          голосування,
+        - else
+          голосувань,
+        пов'язаних
+      з
+      -# = @division.bills.count == 1 ? "same bill" : "same bills"
+      = @division.bills.count == 1 ? "цими законопроектом:" : "цим законопроектами:"
     = render partial: "divisions", locals: {member: @member}, object: @division.related_divisions
