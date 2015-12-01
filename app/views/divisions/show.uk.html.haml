@@ -42,11 +42,8 @@
         Інше голосування, пов'язане
       - else
         = @division.related_divisions.size
-        -# 2-4 divisions
-        - if @division.related_divisions.size < 5
-          голосування,
-        - else
-          голосувань,
+        = succeed "," do
+          = n_("division", "divisions", @division.related_divisions.size)
         пов'язаних
       з
       -# = @division.bills.count == 1 ? "same bill" : "same bills"
