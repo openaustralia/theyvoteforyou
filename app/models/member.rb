@@ -105,6 +105,8 @@ class Member < ActiveRecord::Base
   def full_name
     if senator?
       name
+    elsif ukranian_list_mp?
+      "#{name} MP, #{party_name}"
     else
       "#{name} MP, #{electorate}"
     end
