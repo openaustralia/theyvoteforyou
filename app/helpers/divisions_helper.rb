@@ -181,7 +181,7 @@ module DivisionsHelper
       if division.vote_for(member) == "not voting"
         sentence += " " + _("did not vote")
       else
-        sentence += " проголосував/ла #{vote_display(division.vote_for(member))}"
+        sentence += " " + _("voted %{vote_type}") % {vote_type: vote_display(division.vote_for(member))}
       end
 
       if member.division_vote(division).rebellion?

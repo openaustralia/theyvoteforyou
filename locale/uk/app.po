@@ -89,3 +89,6 @@ msgstr[2] "разів"
 
 msgid "unanimously"
 msgstr "одноголосно"
+
+msgid "voted %{vote_type}"
+msgstr "проголосував/ла %{vote_type}"
