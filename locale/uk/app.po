@@ -51,6 +51,9 @@ msgstr "Відсутні"
 msgid "by a"
 msgstr "з"
 
+msgid "did not vote"
+msgstr "не голосував/ла"
+
 msgid "division"
 msgid_plural "divisions"
 msgstr[0] "голосування"

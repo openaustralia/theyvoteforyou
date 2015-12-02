@@ -178,7 +178,7 @@ module DivisionsHelper
     sentence = member.name_without_title
     if member.attended_division?(division)
       if division.vote_for(member) == "not voting"
-        sentence += " не голосував/ла"
+        sentence += " " + _("did not vote")
       else
         sentence += " проголосував/ла #{vote_display(division.vote_for(member))}"
       end
