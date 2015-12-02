@@ -175,8 +175,9 @@ module DivisionsHelper
   end
 
   def member_vote_with_type(member, division)
-    sentence = member.name_without_title
     if member.attended_division?(division)
+      sentence = member.name_without_title
+
       if division.vote_for(member) == "not voting"
         sentence += " " + _("did not vote")
       else
@@ -190,7 +191,8 @@ module DivisionsHelper
         sentence += " in this free vote"
       end
     else
-      sentence += " був/ла відусутній/ня"
+
+      sentence = "#{member.name_without_title} був/ла відусутній/ня"
     end
     sentence
   end
