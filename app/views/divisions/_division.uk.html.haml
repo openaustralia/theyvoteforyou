@@ -7,7 +7,6 @@
           = relative_time division.wiki_motion.edit_date
       .division-meta
         %time.division-datetime{datetime: division.date}= division_date_and_time(division)
-        -#%span.division-house.pre= division.house_name if @house.nil?
       %h2.division-title.panel-link-title
         = truncate(division.name, length: 180)
 
@@ -37,7 +36,6 @@
                 members
             - else
               = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "Ніколи не йшов проти лінії фракції(100% фракційна дисципліна)"
-              -# = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
           %span.division-attendance.object-data-attendance
             - if @party
               = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
