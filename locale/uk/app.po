@@ -24,6 +24,9 @@ msgstr "%{name} був/ла відусутній/ня"
 msgid "%{time} ago"
 msgstr "%{time} тому"
 
+msgid ", rebelling against the "
+msgstr " та виступив\\ла цим проти лінії своєї фракції "
+
 msgid "Abstain"
 msgstr "Утрималися"
 

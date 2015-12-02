@@ -185,7 +185,7 @@ module DivisionsHelper
       end
 
       if member.division_vote(division).rebellion?
-        sentence += " та виступив\ла цим проти лінії своєї фракції"
+        sentence += _(", rebelling against the ")
         sentence += " #{member.party_name}"
       elsif division.whip_for_party(member.party).free_vote?
         sentence += " in this free vote"
