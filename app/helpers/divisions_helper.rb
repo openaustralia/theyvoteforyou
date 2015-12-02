@@ -185,7 +185,7 @@ module DivisionsHelper
         sentence += " in this free vote"
       end
     else
-      sentence += " was absent"
+      sentence += " був/ла відусутній/ня"
     end
     sentence
   end
