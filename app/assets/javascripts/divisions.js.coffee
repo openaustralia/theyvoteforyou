@@ -10,3 +10,6 @@ $ ->
     letterLimit: 10,
     prevLimit: 11
   })
+
+  $(".voter-table-toggle-members").click ->
+    $( this ).toggleClass("voter-table-toggle-members-active")

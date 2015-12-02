@@ -88,6 +88,7 @@
     .btn {
       border: 0;
       padding-top: 0;
+      padding-bottom: 0;
       background: transparent;
     }
   }
@@ -120,6 +121,10 @@
 
 .voter-table-toggle-members {
   border-color: transparent;
+}
+
+.voter-table-toggle-members-active {
+    transform: rotate(180deg);
 }
 
 .division-policy {
