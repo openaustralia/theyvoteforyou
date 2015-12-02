@@ -175,17 +175,24 @@ module DivisionsHelper
   end
 
   def member_vote_with_type(member, division)
-    sentence = member.name_without_title
     if member.attended_division?(division)
-       sentence += " voted #{vote_display(division.vote_for(member))}"
+      sentence = member.name_without_title
+
+      if division.vote_for(member) == "not voting"
+        sentence += " " + _("did not vote")
+      else
+        sentence += " " + _("voted %{vote_type}") % {vote_type: vote_display(division.vote_for(member))}
+      end
+
       if member.division_vote(division).rebellion?
-        sentence += ", rebelling against"
-        sentence += " the #{member.party_name}"
+        sentence += _(", rebelling against the ")
+        sentence += "#{member.party_name}"
       elsif division.whip_for_party(member.party).free_vote?
         sentence += " in this free vote"
       end
     else
-      sentence += " was absent"
+
+      sentence = _("%{name} was absent") % {name: member.name_without_title}
     end
     sentence
   end

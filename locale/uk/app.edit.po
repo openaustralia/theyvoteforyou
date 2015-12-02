@@ -18,8 +18,14 @@ msgstr ""
 " && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "\n"
 
+msgid "%{name} was absent"
+msgstr "%{name} був/ла відусутній/ня"
+
 msgid "%{time} ago"
 msgstr "%{time} тому"
+
+msgid ", rebelling against the "
+msgstr " та виступив\ла цим проти лінії своєї фракції "
 
 msgid "Abstain"
 msgstr "Утрималися"
@@ -50,6 +56,9 @@ msgstr "Відсутні"
 
 msgid "by a"
 msgstr "з"
+
+msgid "did not vote"
+msgstr "не голосував/ла"
 
 msgid "division"
 msgid_plural "divisions"
@@ -83,3 +92,6 @@ msgstr[2] "разів"
 
 msgid "unanimously"
 msgstr "одноголосно"
+
+msgid "voted %{vote_type}"
+msgstr "проголосував/ла %{vote_type}"
