@@ -192,7 +192,7 @@ module DivisionsHelper
       end
     else
 
-      sentence = "#{member.name_without_title} був/ла відусутній/ня"
+      sentence = _("%{name} was absent") % {name: member.name_without_title}
     end
     sentence
   end
