@@ -58,7 +58,11 @@
 
     span {
       display: inline-block;
-      padding-right: .5em;
+      padding-right: .25em;
+
+      @media (min-width: $screen-md-min) {
+        padding-right: .5em;
+      }
     }
   }
 
