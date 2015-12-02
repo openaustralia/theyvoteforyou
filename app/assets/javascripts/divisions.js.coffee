@@ -11,5 +11,5 @@ $ ->
     prevLimit: 11
   })
 
-  $(".voter-table-toggle-members").click ->
-    $( this ).toggleClass("voter-table-toggle-members-active")
+  $(".party-row").click ->
+    $(this).find($(".voter-table-toggle-members")).toggleClass("voter-table-toggle-members-active")
