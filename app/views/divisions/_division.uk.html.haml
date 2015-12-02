@@ -36,7 +36,8 @@
                 members
             - else
               - if division.rebellions > 0
-                = pluralize(division.rebellions, 'rebellion')
+                = division.rebellions
+                = n_("rebellion", "rebellions", division.rebellions)
               - else
                 Ніколи не йшов проти лінії фракції(100% фракційна дисципліна)
           %span.division-attendance.object-data-attendance
