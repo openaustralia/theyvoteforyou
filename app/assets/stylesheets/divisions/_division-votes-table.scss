@@ -151,6 +151,22 @@
   }
 }
 
+.cell-vote span {
+  @media (min-width: $screen-md-min) {
+    &:first-child {
+      min-width: 4em;
+    }
+
+    &:nth-child(2) {
+      min-width: 3.2em;
+    }
+
+    &:nth-child(3) {
+      min-width: 7.7em;
+    }
+  }
+}
+
 .voter-table-toggle-members {
   border-color: transparent;
 }
