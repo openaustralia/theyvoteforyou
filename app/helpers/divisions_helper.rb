@@ -177,7 +177,7 @@ module DivisionsHelper
   def member_vote_with_type(member, division)
     sentence = member.name_without_title
     if member.attended_division?(division)
-       sentence += " voted #{vote_display(division.vote_for(member))}"
+       sentence += " проголосував/ла #{vote_display(division.vote_for(member))}"
       if member.division_vote(division).rebellion?
         sentence += ", rebelling against"
         sentence += " the #{member.party_name}"
