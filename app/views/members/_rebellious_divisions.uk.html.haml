@@ -18,7 +18,6 @@
       часу набуття депутатських повноважень у #{member.person.earliest_member.since} р.
 
     %small= link_to "що таке “голосування проти лінії фракції”", help_faq_path(anchor: "rebellion")
-    -# %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
 
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
     - member.person.members.order(entered_house: :desc).each do |member|
