@@ -171,7 +171,7 @@ class Member < ActiveRecord::Base
   end
 
   def ukranian_list_mp?
-    electorate == "Загальнодержавному багатомандатному округу"
+    constituency == "Загальнодержавному багатомандатному округу"
   end
 
   def url_name
@@ -183,7 +183,7 @@ class Member < ActiveRecord::Base
   end
 
   def electorate
-    constituency
+    ukranian_list_mp? ? "обраний в Раду за списком партії" : constituency
   end
 
   def possible_friends
