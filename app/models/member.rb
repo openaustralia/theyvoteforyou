@@ -255,8 +255,10 @@ class Member < ActiveRecord::Base
   def rebellious_vote
     whip = Whip.arel_table
     vote = Vote.arel_table
-    rebel_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("no"))
-    rebel_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("aye"))
-    whip[:party].eq(party).and(rebel_aye.or(rebel_no))
+    rebel_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("no").or(whip[:whip_guess].eq("abstention")).or(whip[:whip_guess].eq("not voting")))
+    rebel_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("aye").or(whip[:whip_guess].eq("abstention")).or(whip[:whip_guess].eq("not voting")))
+    rebel_abstention = vote[:vote].eq("abstention").and(whip[:whip_guess].eq("aye").or(whip[:whip_guess].eq("no")).or(whip[:whip_guess].eq("not voting")))
+    rebel_not_voting = vote[:vote].eq("not voting").and(whip[:whip_guess].eq("aye").or(whip[:whip_guess].eq("no")).or(whip[:whip_guess].eq("abstention")))
+    whip[:party].eq(party).and(rebel_aye.or(rebel_no).or(rebel_abstention).or(rebel_not_voting))
   end
 end
