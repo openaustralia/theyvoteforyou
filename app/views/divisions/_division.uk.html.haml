@@ -43,7 +43,6 @@
           %span.division-attendance.object-data-attendance
             - if @party
               = fraction_to_percentage_display(division.attendance_fraction_in_party(@party))
-              attendance
             - else
               = fraction_to_percentage_display(division.attendance_fraction)
-              attendance
+            Відвідуваність
