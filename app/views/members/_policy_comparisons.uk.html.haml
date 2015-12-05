@@ -16,4 +16,4 @@
     = render "policy_comparisons_block", member: member, distances: member.person.policy_person_distances.published.never_voted, title: "Ніколи не голосує", position: "Has never voted on"
 
   %p.small.text-muted
-    Please note that #{link_to 'our voting records start in 2006', help_faq_path(anchor: "timeperiod"), class: 'text-muted'}.
+    Увага: наші дані щодо голосувань охоплюють #{link_to 'період з листопада 2014 р.', help_faq_path(anchor: "timeperiod"), class: 'text-muted'}
