@@ -34,8 +34,12 @@
       = render m[:division], member: m[:member]
     - else
       %li.object-item
-        No votes listed as
-        = member_type_party_place_sentence(m[:member])
+        - if params[:filter] == "rebellions"
+          No rebellions listed as
+          = member_type_party_place_sentence(m[:member])
+        - else
+          No votes listed as
+          = member_type_party_place_sentence(m[:member])
 
 .index-pagination
   = paginate @divisions_or_nil_with_member, window: 2, outer_window: 3
