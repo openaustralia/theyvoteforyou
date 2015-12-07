@@ -32,8 +32,8 @@ module PathHelper
     Rails.application.routes.url_helpers.member_policy_path(member_params(member).merge(id: policy.id))
   end
 
-  def member_divisions_path(member)
-    Rails.application.routes.url_helpers.member_divisions_path(member_params(member))
+  def member_divisions_path(member, q = {})
+    Rails.application.routes.url_helpers.member_divisions_path(q.merge(member_params(member)))
   end
 
   def friends_member_path(member)
