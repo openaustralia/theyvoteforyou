@@ -11,7 +11,7 @@ class MembersController < ApplicationController
 
     members = Member.current
     if @house
-      raise ActiveRecord::RecordNotFound unless House.australian.include?(@house)
+      raise ActiveRecord::RecordNotFound unless House.valid?(@house)
       members = members.in_house(@house)
     end
     members = members.includes(:member_info, person: [members: :member_info] ).to_a
