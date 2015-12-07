@@ -179,7 +179,7 @@ class Member < ActiveRecord::Base
   end
 
   def url_electorate
-    constituency.gsub(" ", "_")
+    constituency.gsub(" ", "_").gsub(".", "")
   end
 
   def electorate
