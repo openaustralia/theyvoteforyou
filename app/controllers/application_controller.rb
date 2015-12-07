@@ -7,6 +7,17 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_filter :store_location
 
+  def electorate_param
+    if params[:mpc]
+      if params[:mpc][/Київ$/]
+        # HACK: Hardcode constituency that contains a "."
+        "м. Київ"
+      else
+        params[:mpc].gsub("_", " ")
+      end
+    end
+  end
+
   protected
 
   def configure_permitted_parameters
