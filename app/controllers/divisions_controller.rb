@@ -23,8 +23,14 @@ class DivisionsController < ApplicationController
         @divisions_or_nil_with_member = []
         @member.person.members.order(entered_house: :desc).each do |member|
           if member.divisions_possible.any?
-            member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
-              @divisions_or_nil_with_member << { division: division, member: member }
+            if params[:filter] == "rebellions"
+              member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
+                @divisions_or_nil_with_member << { division: division, member: member }
+              end
+            else
+              member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
+                @divisions_or_nil_with_member << { division: division, member: member }
+              end
             end
           else
             @divisions_or_nil_with_member << { division: nil, member: member }
