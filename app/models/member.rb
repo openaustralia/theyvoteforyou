@@ -124,7 +124,7 @@ class Member < ActiveRecord::Base
     if senator?
       "Senator #{name}"
     else
-      "#{name} MP, #{electorate}"
+      _("%{name} MP, %{electorate}") % {name: name, electorate: electorate}
     end
   end
 
