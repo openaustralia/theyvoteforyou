@@ -4,7 +4,7 @@ class ElectoratesController < ApplicationController
   end
 
   def show
-    electorate = params[:mpc].gsub("_", " ") if params[:mpc]
+    electorate = electorate_param
     house = params[:house]
 
     @members = Member.where(constituency: electorate).order(entered_house: :desc)
