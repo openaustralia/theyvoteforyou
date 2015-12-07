@@ -21,3 +21,5 @@
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
     - member.person.members.order(entered_house: :desc).each do |member|
       = render partial: 'divisions/division', locals: {member: member}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+
+  = link_to "View all rebellions", member_divisions_path(member, filter: "rebellions"), class: 'btn btn-default btn-sm'
