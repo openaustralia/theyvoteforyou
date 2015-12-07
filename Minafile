@@ -75,7 +75,7 @@ task :deploy => :environment do
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
       invoke :'foreman:export'
       invoke :'foreman:restart'
-      queue "#{rake} honeybadger:deploy"
+      queue "#{rake} honeybadger:deploy TO=production"
     end
   end
 end
