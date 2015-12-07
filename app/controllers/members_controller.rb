@@ -90,5 +90,17 @@ class MembersController < ApplicationController
     @member = @member.order(entered_house: :desc).first
 
     render 'member_not_found', status: 404 if @member.nil?
+
+    unless @member.nil?
+      @rebellions_or_nil_with_member = []
+      @member.person.members.order(entered_house: :desc).each do |member|
+        if member.divisions_possible.any?
+          member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
+            @rebellions_or_nil_with_member << { division: division, member: member }
+          end
+        end
+      end
+      @rebellions_or_nil_with_member = @rebellions_or_nil_with_member.first(3)
+    end
   end
 end

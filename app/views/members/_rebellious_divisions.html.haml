@@ -1,5 +1,9 @@
 %section.page-section#rebellions
-  %h2 Rebel votes
+  %h2
+    - if @member.person.rebellions > 3
+      Recent rebellions
+    - else
+      Rebel votes
 
   %p
     = member.name_without_title
@@ -19,8 +23,9 @@
     %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
 
   - if @member.person.rebellions > 0
-    %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
-      - member.person.members.order(entered_house: :desc).each do |member|
-        = render partial: 'divisions/division', locals: {member: member}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+    %ol.divisions-list.list-unstyled
+      - @rebellions_or_nil_with_member.each do |m|
+        - if m[:division].present?
+          = render m[:division], member: m[:member]
 
     = link_to "View all rebellions", member_divisions_path(member, filter: "rebellions"), class: 'btn btn-default btn-sm'
