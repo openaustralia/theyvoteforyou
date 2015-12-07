@@ -12,7 +12,7 @@
 
 = render "members/member_page_header", member: @member
 
-%h2#divisions All #{params[:filter] == "rebellions" ? "rebeliions" : "Votes"}
+%h2#divisions All #{params[:filter] == "rebellions" ? "rebellions" : "Votes"}
 
 - if params[:filter] == "rebellions"
   %p
