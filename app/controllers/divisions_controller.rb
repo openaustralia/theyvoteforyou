@@ -9,7 +9,7 @@ class DivisionsController < ApplicationController
 
   def index
     if params[:mpc] && params[:mpn]
-      electorate = params[:mpc].gsub("_", " ")
+      electorate = electorate_param
       name = params[:mpn].gsub("_", " ")
 
       @member = Member.with_name(name)
