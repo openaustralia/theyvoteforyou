@@ -9,8 +9,12 @@ Yet you probably don't know how your MP votes. This isn't your fault.
 Parliamentary voting information is notoriously difficult to find and analyse.
 This project changes that by making it understandable and easy to use.
 
-We stand on the shoulders of giants: this project is an Australian fork of the
+We stand on the shoulders of giants: this project is a Ukrainian fork of the
+Australian [They Vote For You](https://theyvoteforyou.org.au/) fork of the
 UK [Public Whip](http://www.publicwhip.org.uk/) project.
+The next big step for this project is to
+[get these changes merged back upstream](https://github.com/OPORA/publicwhip/issues/149)
+and properly localise the project without maintaining a separate fork.
 
 ### Process overview
 
