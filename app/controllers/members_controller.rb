@@ -81,8 +81,10 @@ class MembersController < ApplicationController
   end
 
   def show
-    electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")
+    electorate = params[:mpc].gsub("_", " ")
+    # HACK: Hardcode constituency that contains a "."
+    electorate = "м. Київ" if electorate[/Київ$/]
 
     @member = Member.with_name(name)
     @member = @member.in_house(params[:house])
