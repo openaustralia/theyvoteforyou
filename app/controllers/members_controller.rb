@@ -69,7 +69,7 @@ class MembersController < ApplicationController
   end
 
   def friends
-    electorate = params[:mpc].gsub("_", " ")
+    electorate = electorate_param
     name = params[:mpn].gsub("_", " ")
 
     @member = Member.with_name(name)

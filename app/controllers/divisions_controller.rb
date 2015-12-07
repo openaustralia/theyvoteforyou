@@ -139,7 +139,7 @@ class DivisionsController < ApplicationController
     # If a member is included
     if params[:mpn] && params[:mpc]
       name = params[:mpn].gsub("_", " ")
-      electorate = params[:mpc].gsub("_", " ")
+      electorate = electorate_param
       # TODO Also ensure that the member is current on the date of this division
       member = Member.in_house(house).with_name(name).
         where(constituency: electorate).first
