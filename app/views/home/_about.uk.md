@@ -22,8 +22,8 @@
 
 <%= inline_project_name %> - це відкритий проект. Це означає, що усі бажаючі можуть долучитися до підтримки та наповнення цього сайту.
 
-### <a name='contact'></a>Contact
+### <a name='contact'></a>Контакти
 
-Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
+Пиши нам на скриньку [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
-You can also read the [OpenAustralia Foundation Blog](https://www.openaustraliafoundation.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
+Більше інформації про парламент та моніторингові інструменти ОПОРИ Ти знайдеш на [rada.oporaua.org](http://rada.oporaua.org).
