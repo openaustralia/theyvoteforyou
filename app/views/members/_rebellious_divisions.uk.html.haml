@@ -29,4 +29,4 @@
         - if m[:division].present?
           = render m[:division], member: m[:member]
 
-    = link_to "View all rebellions", member_divisions_path(member, filter: "rebellions"), class: 'btn btn-default btn-sm'
+    = link_to "Дивитися усі голосування проти лінії фракції", member_divisions_path(member, filter: "rebellions"), class: 'btn btn-default btn-sm'
