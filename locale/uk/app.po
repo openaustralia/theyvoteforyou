@@ -81,6 +81,12 @@ msgstr "абсолютною підтримкою"
 msgid "modest majority"
 msgstr "посередньою підтримкою"
 
+msgid "point"
+msgid_plural "points"
+msgstr[0] "бал"
+msgstr[1] "бали"
+msgstr[2] "балів"
+
 msgid "rebellion"
 msgid_plural "rebellions"
 msgstr[0] "голосування"
