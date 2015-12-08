@@ -1,0 +1,28 @@
+%p
+  = inline_project_name + "’s"
+  voting and membership data extends back to
+  2006. New divisions are added as soon as possible after becoming
+  available. We give no warranty for the data so
+  = link_to 'let us know', about_path(anchor: 'contact')
+  if you find any factual
+  inaccuracies.
+%p
+  The project contains
+  %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
+  distinct Representatives and Senators from
+  %strong= number_with_delimiter(Member.select(:party).distinct.count)
+  parties who have voted across
+  %strong= number_with_delimiter(Division.count)
+  divisions. In total
+  %strong= number_with_delimiter(Vote.count)
+  votes were cast,
+  %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
+  were against the majority vote for their party giving an average rebellion rate of
+  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
+%p
+  %strong= User.count
+  contributors have created
+  %strong= Policy.count
+  policies and summarised
+  %strong= Division.edited.count
+  divisions.
