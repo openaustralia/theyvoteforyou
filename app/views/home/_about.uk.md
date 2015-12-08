@@ -12,9 +12,9 @@
 
 ### Подяка
 
-Портал “<%= inline_project_name %>” був розроблений [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), незалежною позапартійною неприбутковою організацією. Він заснований на новаторській платформі британського сайту [UK Public Whip site](http://www.publicwhip.org.uk/), створеного Френсісом Ірвінгом і Джуліан Тодд у 2003 році. Велика подяка [Google Australia](http://www.google.com.au), [National Democratic Institute (NDI)](https://www.ndi.org/),  чиї пожертви зробили можливим розвиток цього проекту.
+Портал “<%= inline_project_name %>” був розроблений [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), незалежною позапартійною неприбутковою організацією. Цей портал базується на ідеї та платформі австралійського проекту [They Vote For You](https://theyvoteforyou.org.au), який, у свою чергу, створений на основі британського сайту [UK Public Whip site](http://www.publicwhip.org.uk/) (започаткований Francis Irving та Julian Todd  у 2003 році). Велика подяка [National Democratic Institute (NDI)](https://www.ndi.org/), чиї пожертви зробили можливим розвиток української версії цього міжнародного проекту.
 
-“<%= inline_project_name %>” був  створений партнерамиГромадської мережі ОПОРА Henare Degan, Matthew Landauer, Luke Bacon, Katherine Szuminska за координації та консультацій Mario Mitre та Jean-Noé Landry. Адаптація сайту до українського контексту та його переклад з англійської здійснений Юрієм Лісовським та Оленою Рибій.
+“<%= inline_project_name %>” був створений партнерами Громадської мережі ОПОРА Henare Degan, Matthew Landauer, Luke Bacon, Katherine Szuminska за координації та консультацій Mario Mitre та Jean-Noé Landry. Адаптація сайту до українського контексту та його переклад з англійської здійснений Юрієм Лісовським та Оленою Рибій.
 
 ### <a name='contribute'></a>Ти можеш допомогти
 
