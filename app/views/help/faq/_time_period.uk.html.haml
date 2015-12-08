@@ -1,28 +1,30 @@
 %p
-  = inline_project_name + "’s"
-  voting and membership data extends back to
-  2006. New divisions are added as soon as possible after becoming
-  available. We give no warranty for the data so
-  = link_to 'let us know', about_path(anchor: 'contact')
-  if you find any factual
-  inaccuracies.
+  На порталі
+  = inline_project_name
+  зібрані всі голосування VIII скликання Ради, тобто з листопада 2014 року.
+  Нові голосування додаються одразу після їх публікації на офіційному порталі
+  Верхової Ради. Ми не надаємо гарантії, що ці дані офіційні та фінальні,
+  #{link_to 'тому повідом нас', about_path(anchor: 'contact')},
+  якщо знайдеш якісь фактологічні помилки.
 %p
-  The project contains
+  Проект охоплює
   %strong= number_with_delimiter(Member.select(:person_id).distinct.count)
-  distinct Representatives and Senators from
+  народних депутати з
   %strong= number_with_delimiter(Member.select(:party).distinct.count)
-  parties who have voted across
+  фракцій та
+  2 депутатських груп, які проголосували вже
   %strong= number_with_delimiter(Division.count)
-  divisions. In total
+  законопроектів. Загалом охоплено
   %strong= number_with_delimiter(Vote.count)
-  votes were cast,
+  поданих голосів депутатів,
   %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
-  were against the majority vote for their party giving an average rebellion rate of
+  були проти більшості їхньої фракції/групи, що дає можливість порахувати
+  рейтинг голосувань проти лінії фракцій/груп як
   <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
 %p
   %strong= User.count
-  contributors have created
+  авторів створили
   %strong= Policy.count
-  policies and summarised
+  політик та підсумували
   %strong= Division.edited.count
-  divisions.
+  голосувань.
