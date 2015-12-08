@@ -16,13 +16,13 @@
 
 “<%= inline_project_name %>” був створений партнерами Громадської мережі ОПОРА Henare Degan, Matthew Landauer, Luke Bacon, Katherine Szuminska за координації та консультацій Mario Mitre та Jean-Noé Landry. Адаптація сайту до українського контексту та його переклад з англійської здійснений Юрієм Лісовським та Оленою Рибій.
 
-<h2 class="h3"><a name='contribute'></a>Ти можеш допомогти</h2>
+<h2 class="h3" id="contribute">Ти можеш допомогти</h2>
 
 Ти можеш допомогти нам зробити цей сайт кращим, [запропонувавши власну політику](mailto:<%= Settings.contact_email %>) та [обговорюючи уже існуючі політики](/policies).
 
 <%= inline_project_name %> - це відкритий проект. Це означає, що усі бажаючі можуть долучитися до підтримки та наповнення цього сайту.
 
-<h2 class="h3"><a name='contact'></a>Контакти</h2>
+<h2 class="h3" id="contact">Контакти</h2>
 
 Пиши нам на скриньку [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
