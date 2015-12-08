@@ -18,15 +18,15 @@ class MembersController < ApplicationController
 
     @members = case @sort
     when "constituency"
-      members.sort_by { |m| [I18n.transliterate(m.constituency), I18n.transliterate(m.last_name), I18n.transliterate(m.first_name), I18n.transliterate(m.party), -m.entered_house.to_time.to_i] }
+      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
     when "party"
-      members.sort_by { |m| [I18n.transliterate(m.party), I18n.transliterate(m.last_name), I18n.transliterate(m.first_name), I18n.transliterate(m.constituency), -m.entered_house.to_time.to_i] }
+      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
     when "rebellions"
-      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), I18n.transliterate(m.last_name), I18n.transliterate(m.first_name), I18n.transliterate(m.constituency), I18n.transliterate(m.party), -m.entered_house.to_time.to_i] }
+      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     when "attendance"
-      members.sort_by { |m| [-(m.person.attendance_fraction || -1), I18n.transliterate(m.last_name), I18n.transliterate(m.first_name), I18n.transliterate(m.constituency), I18n.transliterate(m.party), -m.entered_house.to_time.to_i] }
+      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     else
-      members.sort_by { |m| [I18n.transliterate(m.last_name), I18n.transliterate(m.first_name), I18n.transliterate(m.constituency), I18n.transliterate(m.party), -m.entered_house.to_time.to_i] }
+      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     end
   end
 
