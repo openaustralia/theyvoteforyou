@@ -60,9 +60,9 @@ module DivisionsHelper
   def vote_display(vote)
     case vote
     when "aye3"
-      "Yes (strong)"
+      _("Yes (strong)")
     when "no3"
-      "No (strong)"
+      _("No (strong)")
     when "absent"
       _("absent")
     when "both", "abstention"

@@ -39,6 +39,9 @@ msgstr "Областю"
 msgid "No"
 msgstr "Ні"
 
+msgid "No (strong)"
+msgstr "Ні (тверде)"
+
 msgid "Not passed"
 msgstr "Не прийнятий"
 
@@ -53,6 +56,9 @@ msgstr "Народні депутати України"
 
 msgid "Yes"
 msgstr "Так"
+
+msgid "Yes (strong)"
+msgstr "Так (тверде)"
 
 msgid "absent"
 msgstr "Відсутні"
