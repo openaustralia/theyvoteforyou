@@ -1,9 +1,26 @@
-We didn’t. A person’s stance on a [Policy](#policies) is determined by how they voted in parliament in [Divisions](#division) that relate to that Policy. In other words—it doesn’t matter what they say, it’s how they voted that counts.
+Ми цього не вирішуємо. Позиція депутатів щодо
+[Політики](#policies)
+визначається тим, як вони голосують в
+Раді, під час [розгляду](#division)
+законопроектів, котрі стосуються Політики.
+Іншими словами — жодного значення не має те, що вони
+говорять, це лише підрахунок того, як вони голосують.
 
-However we might not have the full picture and you can help fix that. Here’s how it works:
+Однак, ми можемо не мати повної картини і ти можеш нам допомогти це виправити.
+Ось як це працює:
 
-1. After [creating a Policy](/policies/new) on <%= inline_project_name %>, we need to find [Divisions](/divisions) that relate to that [Policy](/policies) and work out how someone who supported it would have voted.
+1. Після [створення Політики](/policies/new) на <%= inline_project_name %>
+   нам потрібно знайти [Голосування](/divisions),
+   що відносяться до цієї [Політики](/policies)
+   та пропрацювати те, якщо хтось, хто її підтримує, міг би проголосувати.
 
-2. Once a Division is connected to a Policy, <%= inline_project_name %> uses each person’s vote to calculate a where they stand compared to how a supporter would have voted—you can easily see these details and get a technical explanation by clicking through to an individual person on a Policy’s page.
+2. Як тільки Голосування прикріплено до Політики, <%= inline_project_name %>
+   використовує голос кожної особи, щоб розрахувати де вони знаходяться
+   відносно того, як голосували ті, хто підтримує цю політику —
+   ти можеш легко знайти деталі та побачити технологічне пояснення натиснувши на
+   окремого депутата на сторінці Політики.
 
-There are thousands of Divisions on <%= inline_project_name %>. There are bound to be some we haven’t yet connected to Policies. You can help improve the accuracy of <%= inline_project_name %> by finding and classifing more Divisions for the Policies you care about.
+На Вони Голосують Для Тебе є тисячі Голосувань. Там обов'язково будуть такі, що
+ще не прикріплені до Політик. Ти можеш допомогти нам поліпшити точність проекту
+Вони Голосують Для Тебе, знаходячи й класифікуючи такі Голосування до тих
+Політик, які тебе найбільше зачіпають.
