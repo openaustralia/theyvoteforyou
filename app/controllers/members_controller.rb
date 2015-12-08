@@ -14,19 +14,21 @@ class MembersController < ApplicationController
       raise ActiveRecord::RecordNotFound unless House.valid?(@house)
       members = members.in_house(@house)
     end
-    members = members.includes(:member_info, person: [members: :member_info] ).to_a
+    members = members.includes(:member_info, person: [members: :member_info] )
 
     @members = case @sort
     when "constituency"
-      members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
+      members.order(:constituency, :last_name, :first_name, :party)
     when "party"
-      members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
+      members.order(:party, :last_name, :first_name, :constituency)
     when "rebellions"
-      members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+      # FIXME: Because this sort isn't done in the database the name won't correctly sort in some languages such as Ukrainian
+      members.to_a.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     when "attendance"
-      members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+      # FIXME: Because this sort isn't done in the database the name won't correctly sort in some languages such as Ukrainian
+      members.to_a.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
     else
-      members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+      members.order(:last_name, :first_name, :constituency, :party)
     end
   end
 
