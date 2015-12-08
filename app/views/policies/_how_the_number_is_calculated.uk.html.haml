@@ -21,29 +21,34 @@
       -# is worked out
 
     %p
-      The MP's votes count towards a weighted average where the most important votes get
-      #{pluralize(Distance.possible_points[:samestrong], "point")},
-      less important votes get
-      #{pluralize(Distance.possible_points[:same], "point")},
-      and less important votes for which the MP was absent get
-      #{pluralize(Distance.possible_points[:absent], "point")}.
-      In important votes the MP gets awarded the full
-      = pluralize(Distance.points[:samestrong], "point")
-      for voting the same as the policy,
-      = pluralize(Distance.points[:differstrong], "point")
-      for voting against the policy, and
-      = pluralize(Distance.points[:absentstrong], "point")
-      for not voting. In less important votes, the MP gets
-      = pluralize(Distance.points[:same], "point")
-      for voting with the policy,
-      = pluralize(Distance.points[:differ], "point")
-      for voting against, and
+      Голосування депутата рахуються як зважене середнє, де найважливіші голосування отримують
+      = Distance.possible_points[:samestrong]
+      #{n_("point", "points", Distance.possible_points[:samestrong])},
+      менш важливі
+      = Distance.possible_points[:same]
+      #{n_("point", "points", Distance.possible_points[:same])},
+      а ще менш важливі голосування на яких депутат був відсутній отримують
+      = Distance.possible_points[:absent]
+      #{n_("point", "points", Distance.possible_points[:absent])}.
+      Під час важливих голосувань депутат отримую повні
+      = Distance.points[:samestrong]
+      = n_("point", "points", Distance.points[:samestrong])
+      за голосування відповідно до політики,
+      = n_("point", "points", Distance.points[:differstrong])
+      за голосування проти i
+      = n_("point", "points", Distance.points[:absentstrong])
+      за неголосування. В менш важливих голосуваннях депутат отримує
+      = n_("point", "points", Distance.points[:same])
+      за голосування відповідно до політики,
+      = n_("point", "points", Distance.points[:differ])
+      за голосування проти і
       = Distance.points[:absent]
-      (out of #{Distance.possible_points[:absent]})
-      if absent.
+      (з #{Distance.possible_points[:absent]})
+      якщо відсутній.
 
     %p
-      Then, the number gets converted to a simple english language phrase based on the range of values it's within.
+      Після цього, цифри конвертуються в прості фрази на основі діапазону
+      значень в який потрапляє депутат.
 
     - policy_member_distance = member.person.policy_person_distances.find_or_initialize_by(policy: policy)
     %table.table
