@@ -1,7 +1,6 @@
-A division is a formal vote on a motion in the House of Representatives or the Senate. A motion is
-a formal proposal put to the House or Senate to take action of some kind.
+Голосування - це офіційний розгляд законопроекту у Верховній Раді України.
+Законопроект - це офіційна пропозиція внести зміни до якогось закону або вчинити
+інші дії.
 
-When a division is called on a particular motion, Members of Parliament (MPs) in the House of
-Representatives or Senators in the Senate divide themselves into two groups: one that votes
-Yes and one that votes No. Each political party has whips who try to persuade their members
-to vote along party lines.
+Під час голосування за окремий законопроект Рада умовно поділяється на 2 групи:
+ті, хто голосує За та ті, хто голосує Проти.
