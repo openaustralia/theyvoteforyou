@@ -1,0 +1,70 @@
+- content_for :title, "Help — Frequently Asked Questions"
+- set_meta_tags description: "Parliament's confusing jargon explained in plain English."
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+
+.row
+  .col-md-8
+    %ul
+      %li
+        = link_to "#how" do
+          How does #{inline_project_name} work?
+      %li= link_to "What time period does it cover?", "#timeperiod"
+
+    %ul
+      %li= link_to "What is a division?", "#division"
+      %li= link_to "When does a division occur?", "#division-occur"
+      %li
+        = link_to "#decisions" do
+          Why don’t all decisions made in Parliament appear on #{inline_project_name}?
+      %li= link_to "Why don’t all the divisions have edited summaries?", "#summaries"
+
+    %ul
+      %li= link_to "What are Policies and how do they work?", "#policies"
+      %li= link_to "How did you decide whether someone supports a policy or not?", "#stance"
+      %li= link_to "What are “Rebel Voters”?", "#rebel"
+      %li= link_to "What is a “Free Vote”?", "#free"
+      %li= link_to 'What do the "attendance" figures mean?', "#attendance"
+      %li= link_to 'What do the "rebellion" figures mean?', "#rebellion"
+      %li= link_to "What happens if a division is tied?", "#tied-division"
+
+    %h2#how How does #{inline_project_name} work?
+    = render "help/faq/how_does_it_work"
+
+    %h2#timeperiod What time period does it cover?
+    = render "help/faq/time_period"
+
+    %h2#division What is a division?
+    = render "help/faq/division"
+
+    %h2#division-occur When does a division occur?
+    = render "help/faq/when_division"
+
+    %h2#decisions Why don’t all decisions made in Parliament appear on #{inline_project_name}?
+    = render "help/faq/decisions"
+
+    %h2#summaries Why don’t all the divisions have edited summaries?
+    = render "help/faq/summaries"
+
+    %h2#policies What are Policies and how do they work?
+    = render "help/faq/policies"
+
+    %h2#stance How did you decide whether someone supports a policy or not?
+    = render "help/faq/stance"
+
+    %h2#rebel What are “Rebel Voters”?
+    = render "help/faq/rebel"
+
+    %h2#free What is a “Free Vote”?
+    = render "help/faq/free"
+
+    %h2#attendance What do the "attendance" figures mean?
+    = render "help/faq/attendance"
+
+    %h2#rebellion What do the "rebellion" figures mean?
+    = render "help/faq/rebellion"
+
+    %h2#tied-division What happens if a division is tied?
+    = render "help/faq/tied_divisions"
