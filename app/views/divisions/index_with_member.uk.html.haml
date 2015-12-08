@@ -7,9 +7,8 @@
 
 = render "members/member_page_header", member: @member
 
-%h2#divisions All #{params[:filter] == "rebellions" ? "rebellions" : "Votes"}
-
 - if params[:filter] == "rebellions"
+  %h2#divisions All rebellions
   %p
     = @member.name_without_title
     - if @member.person.rebellions > 0
@@ -28,6 +27,7 @@
 
     %small= link_to "що таке “голосування проти лінії фракції”", help_faq_path(anchor: "rebellion")
 - else
+  %h2#divisions All Votes
   %p All votes #{@member.full_name_no_electorate} could have attended.
 
 %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
