@@ -26,13 +26,13 @@ module PoliciesHelper
   # TODO This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges
     {
-      0.95..1.00 => "very strongly for",
-      0.85..0.95 => "strongly for",
-      0.60..0.85 => "moderately for",
-      0.40..0.60 => "a mixture of for and against",
-      0.15..0.40 => "moderately against",
-      0.05..0.15 => "strongly against",
-      0.00..0.05 => "very strongly against"
+      0.95..1.00 => _("very strongly for"),
+      0.85..0.95 => _("strongly for"),
+      0.60..0.85 => _("moderately for"),
+      0.40..0.60 => _("a mixture of for and against"),
+      0.15..0.40 => _("moderately against"),
+      0.05..0.15 => _("strongly against"),
+      0.00..0.05 => _("very strongly against")
     }
   end
 

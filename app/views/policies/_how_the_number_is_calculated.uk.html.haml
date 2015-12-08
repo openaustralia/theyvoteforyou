@@ -117,21 +117,21 @@
               important vote makes a disproportionatly small
               difference.
     %p
-      Agreement score = MP's points / total points
+      Узгоджений розрахунок = Бали депутата / Балів всього
       \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
       \=
       = succeed "." do
         %b= fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
 
     %p
-      And then
+      І потім
 
     %ul
       - ranges.each do |range|
         %li
-          between
+          між
           = fraction_to_percentage_display(range.first.min)
-          and
+          та
           = fraction_to_percentage_display(range.first.max)
-          becomes
+          означатиме
           "#{range.second}"

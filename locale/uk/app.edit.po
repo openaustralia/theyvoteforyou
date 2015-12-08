@@ -60,6 +60,9 @@ msgstr "Так"
 msgid "Yes (strong)"
 msgstr "Так (тверде)"
 
+msgid "a mixture of for and against"
+msgstr "Суміш за та проти"
+
 msgid "absent"
 msgstr "Відсутні"
 
@@ -77,6 +80,12 @@ msgstr[2] "голосувань"
 
 msgid "large majority"
 msgstr "абсолютною підтримкою"
+
+msgid "moderately against"
+msgstr "Переважно голосує проти"
+
+msgid "moderately for"
+msgstr "Переважно голосує за"
 
 msgid "modest majority"
 msgstr "посередньою підтримкою"
@@ -99,6 +108,12 @@ msgstr "з %{date}"
 msgid "small majority"
 msgstr "малою підтримкою"
 
+msgid "strongly against"
+msgstr "Послідовно голосує проти"
+
+msgid "strongly for"
+msgstr "Послідовно голосує за"
+
 msgid "time"
 msgid_plural "times"
 msgstr[0] "раз"
@@ -107,6 +122,12 @@ msgstr[2] "разів"
 
 msgid "unanimously"
 msgstr "одноголосно"
+
+msgid "very strongly against"
+msgstr "Максимально голосує проти"
+
+msgid "very strongly for"
+msgstr "Максимально голосує за"
 
 msgid "voted %{vote_type}"
 msgstr "проголосував/ла %{vote_type}"

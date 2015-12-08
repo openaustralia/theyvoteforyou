@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: app 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-08 17:05+1100\n"
-"PO-Revision-Date: 2015-12-08 17:05+1100\n"
+"POT-Creation-Date: 2015-12-08 17:44+1100\n"
+"PO-Revision-Date: 2015-12-08 17:44+1100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -60,6 +60,9 @@ msgstr ""
 msgid "Yes (strong)"
 msgstr ""
 
+msgid "a mixture of for and against"
+msgstr ""
+
 msgid "absent"
 msgstr ""
 
@@ -75,6 +78,12 @@ msgstr[0] ""
 msgstr[1] ""
 
 msgid "large majority"
+msgstr ""
+
+msgid "moderately against"
+msgstr ""
+
+msgid "moderately for"
 msgstr ""
 
 msgid "modest majority"
@@ -96,12 +105,24 @@ msgstr ""
 msgid "small majority"
 msgstr ""
 
+msgid "strongly against"
+msgstr ""
+
+msgid "strongly for"
+msgstr ""
+
 msgid "time"
 msgid_plural "times"
 msgstr[0] ""
 msgstr[1] ""
 
 msgid "unanimously"
+msgstr ""
+
+msgid "very strongly against"
+msgstr ""
+
+msgid "very strongly for"
 msgstr ""
 
 msgid "voted %{vote_type}"
