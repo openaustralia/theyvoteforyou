@@ -55,67 +55,74 @@
       %thead
         %tr.headings
           %th
-          %th No of votes
-          %th Points
-          %th Out of
+          %th Кількість голосувань
+          %th Балів
+          %th З можливих
       %tbody
         %tr
-          %th Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
+          %th
+            Найважливіші голосування
+            (#{Distance.possible_points[:samestrong]}
+            #{n_("point", "points", Distance.possible_points[:samestrong])})
           %td &nbsp;
           %td &nbsp;
           %td &nbsp;
         %tr
-          %td MP voted with policy
+          %td Голосувань відповідно політики
           %td= policy_member_distance.nvotessamestrong
           %td= policy_member_distance.votes_same_strong_points
           %td= policy_member_distance.possible_same_strong_points
         %tr
-          %td MP voted against policy
+          %td Голосувань проти політики
           %td= policy_member_distance.nvotesdifferstrong
           %td= policy_member_distance.votes_differ_strong_points
           %td= policy_member_distance.possible_differ_strong_points
         %tr
-          %td MP absent
+          %td Відсутній
           %td= policy_member_distance.nvotesabsentstrong
           %td= policy_member_distance.votes_absent_strong_points
           %td= policy_member_distance.possible_absent_strong_points
         %tr
-          %th Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
+          %th
+            Менш важливі голосування
+            (#{Distance.possible_points[:same]}
+            #{n_("point", "points", Distance.possible_points[:same])})
           %td &nbsp;
           %td &nbsp;
           %td &nbsp;
         %tr
-          %td MP voted with policy
+          %td Голосувань відповідно політики
           %td= policy_member_distance.nvotessame
           %td= policy_member_distance.votes_same_points
           %td= policy_member_distance.possible_same_points
         %tr
-          %td MP voted against policy
+          %td Голосувань проти політики
           %td= policy_member_distance.nvotesdiffer
           %td= policy_member_distance.votes_differ_points
           %td= policy_member_distance.possible_differ_points
         %tr
-          %th Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
+          %th
+            Відсутній на менш важливих
+            (#{Distance.possible_points[:absent]}
+            #{n_("point", "points", Distance.possible_points[:absent])})
           %td &nbsp;
           %td &nbsp;
           %td &nbsp;
         %tr
-          %td MP absent*
+          %td Відсутній*
           %td= policy_member_distance.nvotesabsent
           %td= policy_member_distance.votes_absent_points
           %td= policy_member_distance.possible_absent_points
         %tr
-          %th{colspan: "2"} Total:
+          %th{colspan: "2"} Всього:
           %td= policy_member_distance.total_points
           %td= policy_member_distance.possible_total_points
         %tr
           %td{colspan: "4"}
             %p
-              *Pressure of other work means MPs or
-              Senators are not always available to vote – it does not always
-              indicate they have abstained. Therefore, being absent on a less
-              important vote makes a disproportionatly small
-              difference.
+              *Виконуючи інші обов'язки депутат не завжди має можливість
+              голосувати - це не завжди відображає те, що він утримується.
+              Внаслідок цього відсутність на менш важливих голосуваннях робить різницю диспропорційно малою.
     %p
       Узгоджений розрахунок = Бали депутата / Балів всього
       \= #{policy_member_distance.total_points} / #{policy_member_distance.possible_total_points}
