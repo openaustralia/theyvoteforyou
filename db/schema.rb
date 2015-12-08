@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116044403) do
+ActiveRecord::Schema.define(version: 20151208041817) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
