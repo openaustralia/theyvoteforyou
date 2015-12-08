@@ -31,12 +31,22 @@ module MembersHelper
     if member.currently_in_parliament?
       member_type_party_place_sentence_without_former(member)
     else
-      content_tag(:span, "Former #{member.party_name} #{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+      # FIXME: Translate this in a nicer way
+      if I18n.locale == :uk
+        content_tag(:span, "Вибув #{member.party_name} у Верховній Раді України обраний по #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+      else
+        content_tag(:span, "Former #{member.party_name} #{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+      end
     end.html_safe
   end
 
   def member_type_party_place_sentence_without_former(member)
-    content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+    # FIXME: Translate this in a nicer way
+    if I18n.locale == :uk
+      content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "у Верховній Раді України обраний по #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+    else
+      content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+    end
   end
 
   def member_type_party_place_date_sentence(member)
