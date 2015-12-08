@@ -1,10 +1,8 @@
 - if params[:filter] == "rebellions"
-  - content_for :title do
-    Усі голосування проти фракції — #{@member.full_name2}
+  - content_for :title, "Усі голосування проти фракції — #{@member.full_name2}"
   - set_meta_tags description: "Список усіх голосувань у парламенті, під час яких #{@member.full_name_no_electorate} голосував/ла проти більшості своєї фракції."
 - else
-  - content_for :title do
-    Список голосувань — #{@member.full_name2}
+  - content_for :title, "Список голосувань — #{@member.full_name2}"
   - set_meta_tags description: "Список усіх голосувань у парламенті, під час яких #{@member.full_name_no_electorate} мав/мала бути присутнім/ня."
 
 = render "members/member_page_header", member: @member
