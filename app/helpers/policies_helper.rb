@@ -14,7 +14,7 @@ module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
-        "voted <strong>unknown about</strong>".html_safe
+      "voted <strong>unknown about</strong>".html_safe
     elsif policy_member_distance.number_of_votes == 0
       if I18n.locale == :uk
         "<strong>ніколи не голосував</strong>".html_safe
