@@ -17,7 +17,7 @@ class Policy < ActiveRecord::Base
   alias_attribute :status, :private
 
   def name_with_for
-    name
+    "for #{name}"
   end
 
   def vote_for_division(division)
