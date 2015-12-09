@@ -14,15 +14,15 @@
               %span.member-party.inline-post-title
                 - if !member.currently_in_parliament?
                   Former
-                = member.party_name
-              від
+                = member.party_name.gsub(/(Фракція|у Верховній Раді України)/,'')
+              обрано від
               - if member.ukranian_list_mp?
-                партії
+                -#партії
                 -# HACK: This gets the member's first faction, which is hopefully
                 -# the party they entered parliament on
-                = member.person.earliest_member.party
+                = member.person.earliest_member.party.gsub(/у Верховній Раді України/, '')
               - else
-                області
+                -#області
                 %span.member-electorate= member.electorate
 
             %p.member-data.object-data.object-secondary
