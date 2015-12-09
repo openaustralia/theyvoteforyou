@@ -17,7 +17,7 @@ module PoliciesHelper
         "voted <strong>unknown about</strong>".html_safe
     elsif policy_member_distance.number_of_votes == 0
       if I18n.locale == :uk
-        "<strong>ніколи не голосував/strong>".html_safe
+        "<strong>ніколи не голосував</strong>".html_safe
       else
         "has <strong>never voted</strong> on".html_safe
       end
