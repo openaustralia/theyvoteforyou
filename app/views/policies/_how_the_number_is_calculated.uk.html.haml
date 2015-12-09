@@ -3,14 +3,12 @@
     -# This person could never have voted on this policy so show nothing
   - elsif member.person.policy_person_distances.find_by(policy: policy).number_of_votes == 0
     %h2
-      How "never voted" is worked out
+      Що означає "ніколи не голосував/ла"
 
     %p
-      Normally a person's votes count towards a score which is used to work out a simple
-      phrase to summarise their position on a policy. However in this case
+      Щоб визначити позицію депутата щодо тієї або іншої політики, ми враховуємо його/її голосування за/проти/утримався під час проведення відповідних голосувань. Однак у цьому випадку,
       = member.name
-      was absent during all divisions for this policy. So, it's impossible to say anything concrete other
-      than that they have "never voted" on this policy.
+      був/була відсутній/ня або не голосував/ла за жодну зі складових відповідної політики. Таким чином, неможливо сказати що-небудь більш конкретне, окрім того, що депутат/ка ніколи "не голосував" за цю політику.
   - else
     %h2
       Як
