@@ -35,7 +35,11 @@ class MembersController < ApplicationController
       if params[:mpid]
         member = Member.find_by!(id: params[:mpid])
       elsif params[:id]
-        member = Member.find_by!(gid: params[:id])
+        member = begin
+                   Member.find_by!(gid: params[:id])
+                 rescue ActiveRecord::RecordNotFound
+                   Member.find_by!(gid: params[:id].gsub(/member/, 'lord'))
+                 end
       elsif params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
         member = Member.with_name(params[:mpn].gsub("_", " "))
         member = member.in_house(params[:house]) if params[:house]
