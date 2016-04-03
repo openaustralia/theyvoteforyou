@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.14.1'
+gem 'rails', '~> 4.1.14'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '>= 2.7.2'
 
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
@@ -31,7 +31,7 @@ gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce8
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
 gem 'newrelic_rpm'
-gem 'devise'
+gem 'devise', '>= 3.5.4'
 gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'
@@ -42,7 +42,7 @@ gem 'bootstrap-sass', '~> 3.3.1'
 gem 'autoprefixer-rails'
 gem 'rails_config'
 gem 'mechanize' # Used to download debates
-gem 'nokogiri' # Explicitly included as it's used directly when testing division loader
+gem 'nokogiri', '>= 1.6.7.2' # Explicitly included as it's used directly when testing division loader
 gem 'seed_dump'
 gem "redcarpet"
 gem "reverse_markdown"
