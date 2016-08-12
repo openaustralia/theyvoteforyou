@@ -9,10 +9,6 @@
 
   a {
     color: $color-blue;
-
-    @media (min-width: $screen-md-min) {
-      color: $color-blue-dark;
-    }
   }
 }
 
@@ -77,10 +73,6 @@
   font-size: $font-size-base;
   line-height: $line-height-base;
   transition: .2s color ease;
-
-  @media (min-width: $screen-md-min) {
-    color: $color-blue;
-  }
 }
 
 .author-project-description {
