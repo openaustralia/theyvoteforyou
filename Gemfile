@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.14'
+gem 'rails', '~> 4.1.16'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
