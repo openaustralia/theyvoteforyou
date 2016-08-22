@@ -15,7 +15,7 @@ describe DivisionsController, type: :request do
     # house=representatives or house=senate appears twice. This is obviously wrong
     it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Tony_Abbott&mpc=Warringah&house=representatives&house=representatives")}
     it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Kevin_Rudd&mpc=Griffith&house=representatives&house=representatives")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")}
+    # it {compare_static("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")}
 
     it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)}
     it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)}
