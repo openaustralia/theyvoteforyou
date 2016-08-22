@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.16'
+gem 'rails', '~> 4.2.7'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
@@ -37,7 +37,7 @@ gem 'attribute-defaults'
 gem 'diffy'
 gem 'ranker'
 gem 'honeybadger'
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '~> 4.0.3'
 gem 'bootstrap-sass', '~> 3.3.1'
 gem 'autoprefixer-rails'
 gem 'rails_config'
