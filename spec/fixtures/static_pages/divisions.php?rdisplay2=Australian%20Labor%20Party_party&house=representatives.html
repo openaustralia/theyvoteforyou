@@ -9,14 +9,14 @@ Divisions
 
 — They Vote For You
 </title>
-<link href="//code.cdn.mozilla.net/fonts/fira.css" media="screen" rel="stylesheet" />
-<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="//code.cdn.mozilla.net/fonts/fira.css" />
+<link rel="stylesheet" media="screen" href="/assets/application.css" />
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<meta content="Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all." name="description" />
+<meta name="description" content="Votes held in Australian in parliament. These votes, called divisions, help shape legislation that affects us all." />
 </head>
 <body class="divisions">
 <nav class="site-header navbar" role="navigation">
@@ -31,17 +31,17 @@ Divisions
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
-<li><a class="navlink-members" href="/people" title="All people currently in Federal Parliament">People</a></li>
-<li><a class="navlink-policies" href="/policies" title="Help to analyse MP&#39;s votes">Policies</a></li>
-<li><a class="navlink-divisions" href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
-<li><a class="navlink-about" href="/about" title="Information about this website">About</a></li>
+<li><a class="navlink-members" title="All people currently in Federal Parliament" href="/people">People</a></li>
+<li><a class="navlink-policies" title="Help to analyse MP&#39;s votes" href="/policies">Policies</a></li>
+<li><a class="navlink-divisions" title="List of all votes in Parliament" href="/divisions">Divisions</a></li>
+<li><a class="navlink-about" title="Information about this website" href="/about">About</a></li>
 </ul>
 <form accept-charset="UTF-8" action="/search" class="site-header-search navbar-form navbar-right" method="get" name="pw" role="search"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div>
 <div class="input-group">
 <label class="sr-only" for="query">Search They Vote For You</label>
-<input class="form-control input-sm" id="query" maxlength="256" name="query" placeholder="Search" type="search" />
+<input type="search" name="query" id="query" maxlength="256" placeholder="Search" class="form-control input-sm" />
 <div class="input-group-btn">
-<button class="btn btn-default input-sm" name="button" type="submit" value="Submit"><span class="sr-only">
+<button name="button" type="submit" value="Submit" class="btn btn-default input-sm"><span class="sr-only">
 Submit
 </span>
 <span class="glyphicon glyphicon-search"></span>
@@ -50,8 +50,8 @@ Submit
 </form>
 
 <ul class="account-nav nav navbar-nav navbar-right">
-<li><a href="/users/sign_in" title="Log in to your account">Log in</a></li>
-<li><a class="link-signup" href="/users/sign_up" title="Create an account to help improve this resource">Sign up</a></li>
+<li><a title="Log in to your account" href="/users/sign_in">Log in</a></li>
+<li><a title="Create an account to help improve this resource" class="link-signup" href="/users/sign_up">Sign up</a></li>
 </ul>
 </div>
 </nav>
@@ -72,9 +72,9 @@ In the Australian Parliament a vote is called a <em>division</em>. Through these
 
 <div class="container main-content"><div class="list-filters clearfix">
 <nav class="list-house-switcher btn-group">
-<a class="btn btn-sm btn-default" href="/parties/australian_labor_party/divisions/all" title="All divisions">All</a>
-<a class="btn btn-sm btn-default active" href="/parties/australian_labor_party/divisions/representatives" title="Divisions for the House of Representatives">Representatives</a>
-<a class="btn btn-sm btn-default" href="/parties/australian_labor_party/divisions/senate" title="Divisions from the Senate">Senate</a>
+<a title="All divisions" class="btn btn-sm btn-default" href="/parties/australian_labor_party/divisions/all">All</a>
+<a title="Divisions for the House of Representatives" class="btn btn-sm btn-default active" href="/parties/australian_labor_party/divisions/representatives">Representatives</a>
+<a title="Divisions from the Senate" class="btn btn-sm btn-default" href="/parties/australian_labor_party/divisions/senate">Senate</a>
 </nav>
 <div class="list-sorter dropdown">
 <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" type="button">
@@ -83,16 +83,16 @@ Sorted by Date
 </button>
 <ul aria-labelledby="dropdownMenu1" class="dropdown-menu" role="menu">
 <li class="" role="presentation">
-<a href="/parties/australian_labor_party/divisions/representatives?sort=turnout" role="menuitem" tabindex="-1" title="Sort by attendance">Attendance</a>
+<a title="Sort by attendance" role="menuitem" tabindex="-1" href="/parties/australian_labor_party/divisions/representatives?sort=turnout">Attendance</a>
 </li>
 <li class="" role="presentation">
-<a href="/parties/australian_labor_party/divisions/representatives?sort=rebellions" role="menuitem" tabindex="-1" title="Sort by rebellions">Rebellions</a>
+<a title="Sort by rebellions" role="menuitem" tabindex="-1" href="/parties/australian_labor_party/divisions/representatives?sort=rebellions">Rebellions</a>
 </li>
 <li class="" role="presentation">
-<a href="/parties/australian_labor_party/divisions/representatives?sort=subject" role="menuitem" tabindex="-1" title="Sort by subject">Alphabetically</a>
+<a title="Sort by subject" role="menuitem" tabindex="-1" href="/parties/australian_labor_party/divisions/representatives?sort=subject">Alphabetically</a>
 </li>
 <li class="disabled" role="presentation">
-<a href="/parties/australian_labor_party/divisions/representatives" role="menuitem" tabindex="-1" title="Sort by date">Date</a>
+<a title="Sort by date" role="menuitem" tabindex="-1" href="/parties/australian_labor_party/divisions/representatives">Date</a>
 </li>
 </ul>
 </div>
@@ -100,7 +100,7 @@ Sorted by Date
 
 <ol class="display-house-representatives divisions-list list-unstyled">
 <li>
-<a class="object-item panel-link" href="/divisions/representatives/2013-03-14/1" title="See full division page for test."><article class="division-item division-outcome-not-passed division-status-edited">
+<a class="object-item panel-link" title="See full division page for test." href="/divisions/representatives/2013-03-14/1"><article class="division-item division-outcome-not-passed division-status-edited">
 <div class="division-edit-notice pull-right text-muted">
 edited
 20th Oct 2013
@@ -129,14 +129,14 @@ attendance
 
 <nav class="index-pagination">
 <ul class="pagination">
-<li class="active"><a href="/divisions/representatives/2013" title="Divisions held in 2013">2013</a></li>
-<li><a href="/divisions/representatives/2012" title="Divisions held in 2012">2012</a></li>
-<li><a href="/divisions/representatives/2011" title="Divisions held in 2011">2011</a></li>
-<li><a href="/divisions/representatives/2010" title="Divisions held in 2010">2010</a></li>
-<li><a href="/divisions/representatives/2009" title="Divisions held in 2009">2009</a></li>
-<li><a href="/divisions/representatives/2008" title="Divisions held in 2008">2008</a></li>
-<li><a href="/divisions/representatives/2007" title="Divisions held in 2007">2007</a></li>
-<li><a href="/divisions/representatives/2006" title="Divisions held in 2006">2006</a></li>
+<li class="active"><a title="Divisions held in 2013" href="/divisions/representatives/2013">2013</a></li>
+<li><a title="Divisions held in 2012" href="/divisions/representatives/2012">2012</a></li>
+<li><a title="Divisions held in 2011" href="/divisions/representatives/2011">2011</a></li>
+<li><a title="Divisions held in 2010" href="/divisions/representatives/2010">2010</a></li>
+<li><a title="Divisions held in 2009" href="/divisions/representatives/2009">2009</a></li>
+<li><a title="Divisions held in 2008" href="/divisions/representatives/2008">2008</a></li>
+<li><a title="Divisions held in 2007" href="/divisions/representatives/2007">2007</a></li>
+<li><a title="Divisions held in 2006" href="/divisions/representatives/2006">2006</a></li>
 </ul>
 </nav>
 </div>
@@ -169,7 +169,7 @@ Twitter
 <p class="license-msg small">
 This data and software are
 <a href="/help/licencing">free and open source</a>
-<span class="issues-link"><a href="https://github.com/openaustralia/publicwhip/issues" title="Report a bug or contribute an idea">report an issue</a></span>
+<span class="issues-link"><a title="Report a bug or contribute an idea" href="https://github.com/openaustralia/publicwhip/issues">report an issue</a></span>
 </p>
 </div>
 </div>
