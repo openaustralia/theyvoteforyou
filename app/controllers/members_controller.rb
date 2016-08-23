@@ -49,26 +49,26 @@ class MembersController < ApplicationController
           return
         end
       end
-      redirect_to params.merge(
+      redirect_to params.to_unsafe_hash.merge(
           only_path: true,
           mpn: member.url_name,
           mpc: member.url_electorate,
           house: member.house,
           mpid: nil,
           id: nil
-        ).to_h
+        )
       return
     end
     if params[:dmp] && params[:display] == "allvotes"
-      redirect_to params.merge(only_path: true, display: nil).to_h
+      redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
       return
     end
     if params[:display] == "summary" || params[:display] == "alldreams"
-      redirect_to params.merge(only_path: true, display: nil).to_h
+      redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
       return
     end
     if params[:display] == "allvotes" || params[:showall] == "yes"
-      redirect_to params.merge(only_path: true, showall: nil, display: "everyvote").to_h
+      redirect_to params.to_unsafe_hash.merge(only_path: true, showall: nil, display: "everyvote")
     end
   end
 
