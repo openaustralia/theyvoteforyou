@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe WikiMotion, type: :model do
-  # TODO Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
   before :each do
     # TODO: Find a way to reliably return a specific WikiMotion from the DB and use that at L35
     WikiMotion.delete_all
