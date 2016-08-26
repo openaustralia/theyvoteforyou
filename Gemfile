@@ -31,7 +31,7 @@ gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce8
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
 gem 'newrelic_rpm'
-gem 'devise', '>= 3.5.4'
+gem 'devise', '~> 3.5'
 gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'

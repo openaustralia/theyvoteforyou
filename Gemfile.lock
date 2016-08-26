@@ -109,15 +109,15 @@ GEM
     delayed_job_active_record (4.0.3)
       activerecord (>= 3.0, < 5.0)
       delayed_job (>= 3.0, < 4.1)
-    devise (3.5.6)
+    devise (3.5.10)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-async (0.9.0)
-      devise (~> 3.2)
+    devise-async (0.10.2)
+      devise (>= 3.2, < 4.0)
     diff-lcs (1.2.5)
     diffy (3.0.7)
     docile (1.1.5)
@@ -236,7 +236,7 @@ GEM
       rake
     mina-multistage (1.0.1)
       mina (>= 0.2.1)
-    mini_portile2 (2.0.0)
+    mini_portile2 (2.1.0)
     minitest (5.9.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
@@ -247,8 +247,9 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
     newrelic_rpm (3.9.7.266)
-    nokogiri (1.6.7.2)
-      mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.8)
+      mini_portile2 (~> 2.1.0)
+      pkg-config (~> 1.1.7)
     ntlm-http (0.1.1)
     numbers_and_words (0.10.0)
       activesupport
@@ -258,6 +259,7 @@ GEM
     paper_trail (3.0.6)
       activerecord (>= 3.0, < 5.0)
       activesupport (>= 3.0, < 5.0)
+    pkg-config (1.1.7)
     polyglot (0.3.5)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -449,7 +451,7 @@ DEPENDENCIES
   dalli
   database_cleaner
   delayed_job_active_record (~> 4.0.3)
-  devise (>= 3.5.4)
+  devise (~> 3.5)
   devise-async
   diffy
   email_spec
