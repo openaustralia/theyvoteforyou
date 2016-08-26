@@ -69,6 +69,7 @@ group :test do
   gem 'capybara'
   gem 'email_spec'
   gem "codeclimate-test-reporter", group: :test, require: nil
+  gem "timecop"
 end
 
 group :development do
