@@ -15,8 +15,6 @@ describe WikiMotion, type: :model do
   end
 
   describe "#edit_date" do
-    # let(:wiki_motion) { create(:wiki_motion, edit_date: Time.new(2014,1,1,1,1,1)) }
-
     context "when the local time is 2016-08-23 17:41" do
       before do
         Timecop.freeze(Time.new(2016,8,23,17,41))
