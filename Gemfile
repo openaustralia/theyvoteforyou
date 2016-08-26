@@ -49,7 +49,7 @@ gem "reverse_markdown"
 gem 'paper_trail'
 # TODO This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
-gem 'simple_form', '3.1.0.rc2' # Ask for 3.1rc since it plays nicer with Bootstrap 3
+gem 'simple_form', '~> 3'
 gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
 gem 'meta-tags'

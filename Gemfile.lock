@@ -363,9 +363,9 @@ GEM
       activerecord (~> 4)
       activesupport (~> 4)
     sexp_processor (4.4.4)
-    simple_form (3.1.0.rc2)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
+    simple_form (3.3.0)
+      actionpack (> 4, < 5.1)
+      activemodel (> 4, < 5.1)
     simplecov (0.10.0)
       docile (~> 1.1.0)
       json (~> 1.8)
@@ -495,7 +495,7 @@ DEPENDENCIES
   sdoc
   searchkick
   seed_dump
-  simple_form (= 3.1.0.rc2)
+  simple_form (~> 3)
   therubyracer
   timecop
   turbolinks
