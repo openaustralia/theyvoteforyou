@@ -35,6 +35,22 @@ describe WikiMotion, type: :model do
 
         expect(raw_date_in_db).to eq "2016-08-23 17:41:00 UTC"
       end
+
+      it "matches what was written when read" do
+        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016,8,23,17,41))
+
+        expect(wiki_motion.edit_date).to eq Time.new(2016,8,23,17,41)
+      end
+
+      it "matches in value in the database without timezone when read" do
+        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016,8,23,17,41))
+
+        sql = "SELECT edit_date from wiki_motions;"
+        raw_date_in_db = ActiveRecord::Base.connection.execute(sql).first.first
+
+        expect(wiki_motion.edit_date.strftime('%F %T'))
+          .to eq raw_date_in_db.strftime('%F %T')
+      end
     end
   end
 
