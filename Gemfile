@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.16'
+gem 'rails', '~> 4.2.7'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
@@ -31,13 +31,13 @@ gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce8
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
 gem 'newrelic_rpm'
-gem 'devise', '>= 3.5.4'
+gem 'devise', '~> 3.5'
 gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'
 gem 'ranker'
 gem 'honeybadger'
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '~> 4.0.3'
 gem 'bootstrap-sass', '~> 3.3.1'
 gem 'autoprefixer-rails'
 gem 'rails_config'
@@ -49,7 +49,7 @@ gem "reverse_markdown"
 gem 'paper_trail'
 # TODO This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
-gem 'simple_form', '3.1.0.rc2' # Ask for 3.1rc since it plays nicer with Bootstrap 3
+gem 'simple_form', '~> 3'
 gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
 gem 'meta-tags'
@@ -98,7 +98,7 @@ group :development do
 end
 
 group :test, :development do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.5'
   gem 'fuubar'
 end
 

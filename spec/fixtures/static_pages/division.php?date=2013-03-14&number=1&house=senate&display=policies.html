@@ -9,8 +9,8 @@ Motions — Renewable Energy Certificates
 
 — They Vote For You
 </title>
-<link href="//code.cdn.mozilla.net/fonts/fira.css" media="screen" rel="stylesheet" />
-<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="//code.cdn.mozilla.net/fonts/fira.css" />
+<link rel="stylesheet" media="screen" href="/assets/application.css" />
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -31,17 +31,17 @@ Motions — Renewable Energy Certificates
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
-<li><a class="navlink-members" href="/people" title="All people currently in Federal Parliament">People</a></li>
-<li><a class="navlink-policies" href="/policies" title="Help to analyse MP&#39;s votes">Policies</a></li>
-<li><a class="navlink-divisions" href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
-<li><a class="navlink-about" href="/about" title="Information about this website">About</a></li>
+<li><a class="navlink-members" title="All people currently in Federal Parliament" href="/people">People</a></li>
+<li><a class="navlink-policies" title="Help to analyse MP&#39;s votes" href="/policies">Policies</a></li>
+<li><a class="navlink-divisions" title="List of all votes in Parliament" href="/divisions">Divisions</a></li>
+<li><a class="navlink-about" title="Information about this website" href="/about">About</a></li>
 </ul>
-<form accept-charset="UTF-8" action="/search" class="site-header-search navbar-form navbar-right" method="get" name="pw" role="search"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+<form name="pw" role="search" class="site-header-search navbar-form navbar-right" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
 <div class="input-group">
 <label class="sr-only" for="query">Search They Vote For You</label>
-<input class="form-control input-sm" id="query" maxlength="256" name="query" placeholder="Search" type="search" />
+<input type="search" name="query" id="query" maxlength="256" placeholder="Search" class="form-control input-sm" />
 <div class="input-group-btn">
-<button class="btn btn-default input-sm" name="button" type="submit" value="Submit"><span class="sr-only">
+<button name="button" type="submit" value="Submit" class="btn btn-default input-sm"><span class="sr-only">
 Submit
 </span>
 <span class="glyphicon glyphicon-search"></span>
@@ -59,7 +59,7 @@ Henare Degan
 <li><a href="/users/1/subscriptions">Your subscriptions</a></li>
 <li><a href="/users/edit">Edit profile</a></li>
 <li class="divider"></li>
-<li><a data-method="delete" href="/users/sign_out" rel="nofollow" title="Make your browser forget that you are logged into They Vote For You as Henare Degan">Logout</a></li>
+<li><a title="Make your browser forget that you are logged into They Vote For You as Henare Degan" rel="nofollow" data-method="delete" href="/users/sign_out">Logout</a></li>
 </ul>
 </li>
 </ul>
@@ -70,7 +70,7 @@ Henare Degan
 
 <div class="container main-content"><div class="page-header division-header row">
 <nav class="header-actions col-md-1 col-lg-2">
-<a class="link-division-edit btn btn-default btn-xs" href="/divisions/senate/2013-03-14/1/edit" title="Change title and summary of this division">Edit</a>
+<a title="Change title and summary of this division" class="link-division-edit btn btn-default btn-xs" href="/divisions/senate/2013-03-14/1/edit">Edit</a>
 </nav>
 <h1 class="division-title col-md-11 col-lg-10 long-title">
 <small class="pre-title">14th Mar 2013 – Senate</small>
@@ -82,44 +82,42 @@ Henare Degan
 <h2>Related Policies</h2>
 <ul class="division-policies-list list-unstyled">
 <li class="division-policy">
-<form accept-charset="UTF-8" action="/divisions/senate/2013-03-14/1/policies/2" class="simple_form division-policy-statement form-inline policyvote" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><label class="division-policy-statement">
+<form class="simple_form division-policy-statement form-inline policyvote" novalidate="novalidate" action="/divisions/senate/2013-03-14/1/policies/2" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><label class="division-policy-statement">
 People who are
 <a href="/policies/2">for offshore processing</a>
 would have voted
 </label>
-<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><optgroup label="A less important vote"><option value="aye">Yes</option>
+<select size="1" class="selectpicker" name="policy_division[vote]" id="policy_division_vote"><optgroup label="A less important vote"><option value="aye">Yes</option>
 <option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option selected="selected" value="no3">No (strong)</option></optgroup></select>
-<input class="btn btn-primary btn-xs" name="commit" type="submit" value="Update" />
+<input type="submit" name="commit" value="Update" class="btn btn-primary btn-xs" />
 </form>
-
-<form action="/divisions/senate/2013-03-14/1/policies/2/delete" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></div></form>
+<form class="button_to" method="post" action="/divisions/senate/2013-03-14/1/policies/2/delete"><input type="hidden" name="_method" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></form>
 </li>
 <li class="division-policy">
-<form accept-charset="UTF-8" action="/divisions/senate/2013-03-14/1/policies/3" class="simple_form division-policy-statement form-inline policyvote" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /><input name="_method" type="hidden" value="patch" /></div><label class="division-policy-statement">
+<form class="simple_form division-policy-statement form-inline policyvote" novalidate="novalidate" action="/divisions/senate/2013-03-14/1/policies/3" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="patch" /><label class="division-policy-statement">
 People who are
 <a href="/policies/3">for provisional policies</a>
 <em>(draft)</em>
 would have voted
 </label>
-<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><optgroup label="A less important vote"><option value="aye">Yes</option>
+<select size="1" class="selectpicker" name="policy_division[vote]" id="policy_division_vote"><optgroup label="A less important vote"><option value="aye">Yes</option>
 <option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option selected="selected" value="no3">No (strong)</option></optgroup></select>
-<input class="btn btn-primary btn-xs" name="commit" type="submit" value="Update" />
+<input type="submit" name="commit" value="Update" class="btn btn-primary btn-xs" />
 </form>
-
-<form action="/divisions/senate/2013-03-14/1/policies/3/delete" class="button_to" method="post"><div><input name="_method" type="hidden" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></div></form>
+<form class="button_to" method="post" action="/divisions/senate/2013-03-14/1/policies/3/delete"><input type="hidden" name="_method" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></form>
 </li>
 </ul>
 
 <h3>Make a new connection</h3>
-<form accept-charset="UTF-8" action="/divisions/senate/2013-03-14/1/policies/create" class="simple_form form-inline policyvote" id="new_policy_division" method="post" novalidate="novalidate"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div><legend class="small">
+<form class="simple_form form-inline policyvote" novalidate="novalidate" id="new_policy_division" action="/divisions/senate/2013-03-14/1/policies/create" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><legend class="small">
 <p>Connect this division with relevant policies.</p>
 <p>Please read policy definitions and the division’s description before altering list.</p>
 </legend>
 <fieldset>
 <label>People who are for</label>
-<select class="selectpicker" data-live-search="true" data-width="auto" id="policy_division_policy_id" name="policy_division[policy_id]" size="1"><option value="">Select related policy</option>
+<select size="1" class="selectpicker" data-width="auto" data-live-search="true" name="policy_division[policy_id]" id="policy_division_policy_id"><option value="">Select related policy</option>
 <optgroup label="Draft policies">
 <option disabled="disabled" value="3">provisional policies</option>
 </optgroup>
@@ -129,14 +127,13 @@ would have voted
 </optgroup>
 </select>would have
 <label>voted</label>
-<select class="selectpicker" id="policy_division_vote" name="policy_division[vote]" size="1"><option value="">Select vote</option>
+<select size="1" class="selectpicker" name="policy_division[vote]" id="policy_division_vote"><option value="">Select vote</option>
 <optgroup label="A less important vote"><option value="aye">Yes</option>
 <option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option value="no3">No (strong)</option></optgroup></select>
 </fieldset>
-<input class="btn btn-primary" name="commit" type="submit" value="Connect policy" />
+<input type="submit" name="commit" value="Connect policy" class="btn btn-primary" />
 </form>
-
 </div>
 <footer class="site-footer">
 <div class="footer-main">
@@ -167,7 +164,7 @@ Twitter
 <p class="license-msg small">
 This data and software are
 <a href="/help/licencing">free and open source</a>
-<span class="issues-link"><a href="https://github.com/openaustralia/publicwhip/issues" title="Report a bug or contribute an idea">report an issue</a></span>
+<span class="issues-link"><a title="Report a bug or contribute an idea" href="https://github.com/openaustralia/publicwhip/issues">report an issue</a></span>
 </p>
 </div>
 </div>

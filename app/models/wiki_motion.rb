@@ -20,7 +20,8 @@ class WikiMotion < ActiveRecord::Base
 
   # FIXME: Stop this nonsense of storing local times in the DB to match PHP
   def edit_date=(date)
-    write_attribute(:edit_date, date.strftime('%F %T'))
+    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone("UTC").formatted_offset}")
+    write_attribute(:edit_date, date_set_in_utc)
   end
 
   # TODO Doing this horrible workaround to deal with storing local time in db

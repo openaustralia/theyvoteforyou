@@ -8,14 +8,14 @@
 Representatives
 — They Vote For You
 </title>
-<link href="//code.cdn.mozilla.net/fonts/fira.css" media="screen" rel="stylesheet" />
-<link href="/assets/application.css" media="screen" rel="stylesheet" />
+<link rel="stylesheet" media="screen" href="//code.cdn.mozilla.net/fonts/fira.css" />
+<link rel="stylesheet" media="screen" href="/assets/application.css" />
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<meta content="A list of the people who vote on your behalf in Parliament." name="description" />
+<meta name="description" content="A list of the people who vote on your behalf in Parliament." />
 </head>
 <body class="members">
 <nav class="site-header navbar" role="navigation">
@@ -30,17 +30,17 @@ Representatives
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 <ul class="nav navbar-nav">
-<li><a class="navlink-members" href="/people" title="All people currently in Federal Parliament">People</a></li>
-<li><a class="navlink-policies" href="/policies" title="Help to analyse MP&#39;s votes">Policies</a></li>
-<li><a class="navlink-divisions" href="/divisions" title="List of all votes in Parliament">Divisions</a></li>
-<li><a class="navlink-about" href="/about" title="Information about this website">About</a></li>
+<li><a class="navlink-members" title="All people currently in Federal Parliament" href="/people">People</a></li>
+<li><a class="navlink-policies" title="Help to analyse MP&#39;s votes" href="/policies">Policies</a></li>
+<li><a class="navlink-divisions" title="List of all votes in Parliament" href="/divisions">Divisions</a></li>
+<li><a class="navlink-about" title="Information about this website" href="/about">About</a></li>
 </ul>
-<form accept-charset="UTF-8" action="/search" class="site-header-search navbar-form navbar-right" method="get" name="pw" role="search"><div style="display:none"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+<form name="pw" role="search" class="site-header-search navbar-form navbar-right" action="/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
 <div class="input-group">
 <label class="sr-only" for="query">Search They Vote For You</label>
-<input class="form-control input-sm" id="query" maxlength="256" name="query" placeholder="Search" type="search" />
+<input type="search" name="query" id="query" maxlength="256" placeholder="Search" class="form-control input-sm" />
 <div class="input-group-btn">
-<button class="btn btn-default input-sm" name="button" type="submit" value="Submit"><span class="sr-only">
+<button name="button" type="submit" value="Submit" class="btn btn-default input-sm"><span class="sr-only">
 Submit
 </span>
 <span class="glyphicon glyphicon-search"></span>
@@ -49,8 +49,8 @@ Submit
 </form>
 
 <ul class="account-nav nav navbar-nav navbar-right">
-<li><a href="/users/sign_in" title="Log in to your account">Log in</a></li>
-<li><a class="link-signup" href="/users/sign_up" title="Create an account to help improve this resource">Sign up</a></li>
+<li><a title="Log in to your account" href="/users/sign_in">Log in</a></li>
+<li><a title="Create an account to help improve this resource" class="link-signup" href="/users/sign_up">Sign up</a></li>
 </ul>
 </div>
 </nav>
@@ -67,9 +67,9 @@ The people who vote on your behalf in Parliament
 
 <div class="container main-content"><div class="list-filters clearfix">
 <nav class="list-house-switcher btn-group">
-<a class="btn btn-sm btn-default" href="/people?sort=party" title="Members of both Houses of the Federal Parliament">All</a>
-<a class="btn btn-sm btn-default active" href="/people/representatives?sort=party" title="Members of the House of Representatives">Representatives</a>
-<a class="btn btn-sm btn-default" href="/people/senate?sort=party" title="Senators">Senate</a>
+<a title="Members of both Houses of the Federal Parliament" class="btn btn-sm btn-default" href="/people?sort=party">All</a>
+<a title="Members of the House of Representatives" class="btn btn-sm btn-default active" href="/people/representatives?sort=party">Representatives</a>
+<a title="Senators" class="btn btn-sm btn-default" href="/people/senate?sort=party">Senate</a>
 </nav>
 <div class="list-sorter dropdown">
 <button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" type="button">
@@ -78,19 +78,19 @@ Sorted by Party
 </button>
 <ul aria-labelledby="dropdownMenu1" class="dropdown-menu" role="menu">
 <li class="" role="presentation">
-<a href="/people/representatives" role="menuitem" tabindex="-1">Name</a>
+<a role="menuitem" tabindex="-1" href="/people/representatives">Name</a>
 </li>
 <li class="" role="presentation">
-<a href="/people/representatives?sort=constituency" role="menuitem" tabindex="-1">Electorate</a>
+<a role="menuitem" tabindex="-1" href="/people/representatives?sort=constituency">Electorate</a>
 </li>
 <li class="disabled" role="presentation">
-<a href="/people/representatives?sort=party" role="menuitem" tabindex="-1">Party</a>
+<a role="menuitem" tabindex="-1" href="/people/representatives?sort=party">Party</a>
 </li>
 <li class="" role="presentation">
-<a href="/people/representatives?sort=rebellions" role="menuitem" tabindex="-1">Rebellions</a>
+<a role="menuitem" tabindex="-1" href="/people/representatives?sort=rebellions">Rebellions</a>
 </li>
 <li class="" role="presentation">
-<a href="/people/representatives?sort=attendance" role="menuitem" tabindex="-1">Attendance</a>
+<a role="menuitem" tabindex="-1" href="/people/representatives?sort=attendance">Attendance</a>
 </li>
 </ul>
 </div>
@@ -98,9 +98,9 @@ Sorted by Party
 <ol class="display-house-representatives list-unstyled members-list">
 <li>
 <a class="member-item object-item panel-link" href="/people/representatives/warringah/tony_abbott"><article class="media">
-<img alt="Photo of Tony Abbott" class="member-photo lazy" data-original="http://www.openaustralia.org/images/mps/10001.jpg" height="58" src="" width="44" />
+<img data-original="http://www.openaustralia.org/images/mps/10001.jpg" alt="Photo of Tony Abbott" class="member-photo lazy" width="44" height="58" src="" />
 <noscript>
-<img alt="Photo of Tony Abbott" class="member-photo" height="58" src="http://www.openaustralia.org/images/mps/10001.jpg" width="44" />
+<img alt="Photo of Tony Abbott" class="member-photo" width="44" height="58" src="http://www.openaustralia.org/images/mps/10001.jpg" />
 </noscript>
 <div class="media-body">
 <h2 class="media-heading member-name panel-link-title">Tony Abbott</h2>
@@ -124,9 +124,9 @@ attendance
 </a></li>
 <li>
 <a class="member-item object-item panel-link" href="/people/representatives/bennelong/john_alexander"><article class="media">
-<img alt="Photo of John Alexander" class="member-photo lazy" data-original="http://www.openaustralia.org/images/mps/10725.jpg" height="58" src="" width="44" />
+<img data-original="http://www.openaustralia.org/images/mps/10725.jpg" alt="Photo of John Alexander" class="member-photo lazy" width="44" height="58" src="" />
 <noscript>
-<img alt="Photo of John Alexander" class="member-photo" height="58" src="http://www.openaustralia.org/images/mps/10725.jpg" width="44" />
+<img alt="Photo of John Alexander" class="member-photo" width="44" height="58" src="http://www.openaustralia.org/images/mps/10725.jpg" />
 </noscript>
 <div class="media-body">
 <h2 class="media-heading member-name panel-link-title">John Alexander</h2>
@@ -177,7 +177,7 @@ Twitter
 <p class="license-msg small">
 This data and software are
 <a href="/help/licencing">free and open source</a>
-<span class="issues-link"><a href="https://github.com/openaustralia/publicwhip/issues" title="Report a bug or contribute an idea">report an issue</a></span>
+<span class="issues-link"><a title="Report a bug or contribute an idea" href="https://github.com/openaustralia/publicwhip/issues">report an issue</a></span>
 </p>
 </div>
 </div>
