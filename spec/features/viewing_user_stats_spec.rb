@@ -23,14 +23,14 @@ feature 'Viewing user stats' do
   end
 
   scenario 'successfully' do
-    visit users_path
+    visit user_stats_path
 
     expect(page).to have_content '3 people have signed up'
   end
 
   context 'when they have have subscriptions' do
     scenario 'successfully' do
-      visit users_path
+      visit user_stats_path
 
       expect(page).to have_content 'For shiny coins 3 subscribers'
       expect(page).to have_content 'For dusty ponies 2 subscriber'
