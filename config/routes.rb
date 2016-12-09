@@ -177,6 +177,7 @@ Publicwhip::Application.routes.draw do
     end
   end
 
+  get 'users/stats' => 'users#stats', as: :user_stats
   get 'users/welcome' => 'users#welcome', as: :user_welcome
   get 'users/confirm' => 'users#confirm', as: :user_confirm
   get 'users/:id' => 'users#show', as: :user

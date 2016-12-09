@@ -20,4 +20,9 @@ class UsersController < ApplicationController
     @policies = current_user.unwatched_policies.published.sample(3)
     flash.delete(:notice)
   end
+
+  def stats
+    @number_of_users = User.count
+    @policies = Policy.all.sort {|a,b| b.watches.count <=> a.watches.count }
+  end
 end

@@ -47,5 +47,9 @@ FactoryGirl.define do
     description 'there should be fabulous test policies'
     private 0
     user
+
+    factory :provisional_policy do
+      private 2
+    end
   end
 end
