@@ -3,6 +3,7 @@ class UsersController < ApplicationController
 
   def index
     @number_of_users = User.count
+    @policies = Policy.all.sort {|a,b| b.watches.count <=> a.watches.count }
   end
 
   def show
