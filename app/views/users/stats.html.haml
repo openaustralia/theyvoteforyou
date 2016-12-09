@@ -1,8 +1,16 @@
 - content_for :title do
   #{@number_of_users} people have signed up
 
-%h1= yield :title
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1.long-title= yield :title
+      %p.lead
+        People signed up to #{ inline_project_name } can subscribe to the
+        policies they care about and get an email when that policy is updated.
+        They can also edit policies and divisions.
 
+%h2 How many people subscribe to each policy?
 %ul.policies-list.list-unstyled
   - @policies.each do |policy|
     %li
