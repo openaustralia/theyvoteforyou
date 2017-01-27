@@ -20,6 +20,15 @@ describe Policy, type: :model do
     end
   end
 
+  describe '#name' do
+    it 'should validate name has less than 50 characters' do
+      policy = Policy.new
+      policy.name = 'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed'
+      policy.valid?
+      expect(policy.errors[:name]).to include("is too long (maximum is 50 characters)")
+    end
+  end
+
   describe '#provisional?' do
     it 'private is 2' do
       subject.private = 2
