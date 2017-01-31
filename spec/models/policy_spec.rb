@@ -5,11 +5,13 @@ describe Policy, type: :model do
 
   it 'is valid with a name longer than 50 characters' do
     policy = build(:policy, name:  'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed')
+
     expect(policy).to be_valid
   end
 
   it 'is not valid with a name longer than 100 characters' do
     policy = build(:policy, name: 'a-name-bigger-than-one-hundred-characters-is-such-a-long-name-for-a-policy-is-it-really-necessay? We’ll find out soon.')
+
     expect(policy).to be_invalid
     expect(policy.errors[:name]).to include("is too long (maximum is 100 characters)")
   end
