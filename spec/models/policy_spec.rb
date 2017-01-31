@@ -3,6 +3,13 @@ require 'spec_helper'
 describe Policy, type: :model do
   subject { create(:policy) }
 
+  it 'is not valid with a name longer than 50 characters' do
+    policy = Policy.new
+    policy.name = 'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed'
+    policy.valid?
+    expect(policy.errors[:name]).to include("is too long (maximum is 50 characters)")
+  end
+
   describe '#status' do
     it 'private is 0' do
       subject.private = 0
@@ -17,15 +24,6 @@ describe Policy, type: :model do
     it 'private is 2' do
       subject.private = 2
       expect(subject.status).to eql 'provisional'
-    end
-  end
-
-  describe '#name' do
-    it 'is not valid with a name longer than 50 characters' do
-      policy = Policy.new
-      policy.name = 'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed'
-      policy.valid?
-      expect(policy.errors[:name]).to include("is too long (maximum is 50 characters)")
     end
   end
 
