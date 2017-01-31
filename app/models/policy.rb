@@ -11,7 +11,7 @@ class Policy < ActiveRecord::Base
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
-  validates :name, uniqueness: true, length: { maximum: 50 }
+  validates :name, uniqueness: true, length: { maximum: 100 }
 
   enum private: [:published, 'legacy Dream MP', :provisional]
   alias_attribute :status, :private
