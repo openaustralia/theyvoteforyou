@@ -21,7 +21,7 @@ describe Policy, type: :model do
   end
 
   describe '#name' do
-    it 'should validate name has less than 50 characters' do
+    it 'is not valid with a name longer than 50 characters' do
       policy = Policy.new
       policy.name = 'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed'
       policy.valid?
