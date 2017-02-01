@@ -232,7 +232,7 @@ module DivisionsHelper
     elsif @month
       formatted_month(@month)
     elsif @date
-      formatted_date(Date.parse(@date))
+      formatted_date(@date)
     end
   end
 end

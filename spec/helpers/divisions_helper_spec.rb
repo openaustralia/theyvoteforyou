@@ -56,7 +56,7 @@ describe DivisionsHelper, type: :helper do
 
     context "date specified" do
       before do
-        helper.instance_variable_set("@date", "2014-06-01")
+        helper.instance_variable_set("@date", Date.parse("2014-06-01"))
       end
 
       it "returns formatted month when present" do
