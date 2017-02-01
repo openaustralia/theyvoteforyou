@@ -31,9 +31,9 @@ class DivisionsController < ApplicationController
         @year = params[:date]
       elsif params[:date] =~/^\d{4}-\d{2}$/
         @month = params[:date]
-      else
+      elsif params[:date]
         begin
-          @date = Date.parse(params[:date]) if params[:date]
+          @date = Date.parse(params[:date])
         rescue ArgumentError => e
           invalid_date = params[:date]
           Rails.logger.info "Invalid date #{invalid_date}"
