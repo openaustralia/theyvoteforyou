@@ -20,11 +20,11 @@ describe DivisionsController, :type => :controller do
 
         expect(response).to render_template "divisions/index"
         expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([@division, @other_division,])
+        expect(assigns(:divisions)).to eq([@division, @other_division])
       end
     end
 
-    context "when request has a date parameter that exists in the database" do
+    context "when request has a complete date parameter that exists in the database" do
       it "should return index page with selected divisions" do
         get :index, date: '2016-06-01', house: "representatives"
 
@@ -34,7 +34,27 @@ describe DivisionsController, :type => :controller do
       end
     end
 
-    context "when request has a date parameter that is not in database" do
+    context "when request has a year parameter that exists in the database" do
+      it "should return index page with selected divisions" do
+        get :index, date: '2016', house: "representatives"
+
+        expect(response).to render_template "divisions/index"
+        expect(response.status).to be 200
+        expect(assigns(:divisions)).to eq([@division, @other_division])
+      end
+    end
+
+    context "when request has a year-month parameter that exists in the database" do
+      it "should return index page with selected divisions" do
+        get :index, date: '2016-12', house: "representatives"
+
+        expect(response).to render_template "divisions/index"
+        expect(response.status).to be 200
+        expect(assigns(:divisions)).to eq([@division])
+      end
+    end
+
+    context "when request has a complete date parameter that doest not exists in database" do
       it "should return index page with empty divisions" do
         get :index, date: '2017-02-02', house: "representatives"
 
