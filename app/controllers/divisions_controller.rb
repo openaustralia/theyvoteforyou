@@ -37,7 +37,7 @@ class DivisionsController < ApplicationController
         rescue ArgumentError => e
           invalid_date = params[:date]
           Rails.logger.info "Invalid date #{invalid_date}"
-          render 'divisions/division_not_found', status: 404
+          render 'home/error_404', status: 404
         end
       end
       # Set the year to the lastest we have data for if it's not set
