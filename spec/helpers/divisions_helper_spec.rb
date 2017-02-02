@@ -59,7 +59,7 @@ describe DivisionsHelper, type: :helper do
         helper.instance_variable_set("@date", Date.parse("2014-06-01"))
       end
 
-      it "returns formatted month when present" do
+      it "returns formatted date when present" do
         expect(helper.divisions_period).to eq "1st Jun 2014"
       end
     end
