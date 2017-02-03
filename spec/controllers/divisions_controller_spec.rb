@@ -2,65 +2,18 @@ require 'spec_helper'
 
 describe DivisionsController, :type => :controller do
   describe "#index" do
-    before :each do
-      Division.delete_all
+    before { Division.delete_all }
 
-      @division = Division.create(id: 5, name: "hey jude", date: Date.new(2016,12,25),
-      number: 1, house: "representatives", source_url: "", debate_url: "", motion: "",
-      source_gid: "", debate_gid: "")
+    let!(:division)  { create(:division, date: Date.new(2016,12,25)) }
+    let!(:other_division)  { create(:division, date: Date.new(2016,06,01)) }
 
-      @other_division = Division.create(id: 6, name: "beautiful boy", date: Date.new(2016,06,01),
-      number: 1, house: "representatives", source_url: "", debate_url: "", motion: "",
-      source_gid: "", debate_gid: "")
-    end
-
-    context "when request has no parameters" do
-      it "should return index page with all divisions" do
+    context "when there are no parameters" do
+      it "should render index template with divisions of the same year as the last one stored" do
         get :index
 
         expect(response).to render_template "divisions/index"
         expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([@division, @other_division])
-      end
-    end
-
-    context "when request has a complete date parameter that exists in the database" do
-      it "should return index page with selected divisions" do
-        get :index, date: '2016-06-01', house: "representatives"
-
-        expect(response).to render_template "divisions/index"
-        expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([@other_division])
-      end
-    end
-
-    context "when request has a year parameter that exists in the database" do
-      it "should return index page with selected divisions" do
-        get :index, date: '2016', house: "representatives"
-
-        expect(response).to render_template "divisions/index"
-        expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([@division, @other_division])
-      end
-    end
-
-    context "when request has a year-month parameter that exists in the database" do
-      it "should return index page with selected divisions" do
-        get :index, date: '2016-12', house: "representatives"
-
-        expect(response).to render_template "divisions/index"
-        expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([@division])
-      end
-    end
-
-    context "when request has a complete date parameter that doest not exists in database" do
-      it "should return index page with empty divisions" do
-        get :index, date: '2017-02-02', house: "representatives"
-
-        expect(response).to render_template "divisions/index"
-        expect(response.status).to be 200
-        expect(assigns(:divisions)).to be_empty
+        expect(assigns(:divisions)).to eq([division, other_division])
       end
     end
 
@@ -71,6 +24,78 @@ describe DivisionsController, :type => :controller do
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
       end
+    end
+
+    describe "when the date parameter is a full date" do
+
+      context "and date matches divisions already stored" do
+        it "should render index template with selected divisions" do
+          get :index, date: '2016-06-01', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to eq([other_division])
+        end
+      end
+
+      context "and date does not match any divisions" do
+        it "should render index template with empty divisions" do
+          get :index, date: '2017-02-02', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to be_empty
+        end
+      end
+
+    end
+
+    describe "when the date parameter is just a year" do
+
+      context "and date matches divisions already stored" do
+        it "should render index template with selected divisions" do
+          get :index, date: '2016', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to eq([division, other_division])
+        end
+      end
+
+      context "and date does not match any divisions" do
+        it "should render index template with empty divisions" do
+          get :index, date: '2017', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to be_empty
+        end
+      end
+
+    end
+
+    describe "when the date parameter is just a year and a month (YYY-MM)" do
+
+      context "and date matches divisions already stored" do
+        it "should render index template with selected divisions" do
+          get :index, date: '2016-12', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to eq([division])
+        end
+      end
+
+      context "and date does not match any divisions" do
+        it "should render index template with empty divisions" do
+          get :index, date: '2016-05', house: "representatives"
+
+          expect(response).to render_template "divisions/index"
+          expect(response.status).to be 200
+          expect(assigns(:divisions)).to be_empty
+        end
+      end
+
     end
   end
 end

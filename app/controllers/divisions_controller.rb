@@ -35,7 +35,6 @@ class DivisionsController < ApplicationController
         begin
           @date = Date.parse(params[:date])
         rescue ArgumentError => e
-          invalid_date = params[:date]
           render 'home/error_404', status: 404
         end
       end
