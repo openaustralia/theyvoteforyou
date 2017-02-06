@@ -31,8 +31,12 @@ class DivisionsController < ApplicationController
         @year = params[:date]
       elsif params[:date] =~/^\d{4}-\d{2}$/
         @month = params[:date]
-      else
-        @date = params[:date]
+      elsif params[:date]
+        begin
+          @date = Date.parse(params[:date])
+        rescue ArgumentError => e
+          render 'home/error_404', status: 404
+        end
       end
       # Set the year to the lastest we have data for if it's not set
       @year = @years.last if @rdisplay.nil? && @date.nil? && @month.nil? && @year.nil?
