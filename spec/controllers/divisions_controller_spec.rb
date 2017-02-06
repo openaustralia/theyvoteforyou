@@ -5,8 +5,8 @@ describe DivisionsController, :type => :controller do
     # TODO: Remove this hack to delete fixtures
     before { Division.delete_all }
 
-    let!(:division)  { create(:division, date: Date.new(2016,12,25)) }
-    let!(:other_division)  { create(:division, date: Date.new(2016,06,01)) }
+    let!(:december_2016_division)  { create(:division, date: Date.new(2016,12,25)) }
+    let!(:june_2016_division)  { create(:division, date: Date.new(2016,06,01)) }
     let!(:older_division)  { create(:division, date: Date.new(2013,04,29)) }
 
     context "when there are no parameters" do
@@ -15,7 +15,7 @@ describe DivisionsController, :type => :controller do
 
         expect(response).to render_template "divisions/index"
         expect(response.status).to be 200
-        expect(assigns(:divisions)).to eq([division, other_division])
+        expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
       end
     end
 
@@ -35,7 +35,7 @@ describe DivisionsController, :type => :controller do
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
-          expect(assigns(:divisions)).to eq([other_division])
+          expect(assigns(:divisions)).to eq([june_2016_division])
         end
       end
 
@@ -57,7 +57,7 @@ describe DivisionsController, :type => :controller do
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
-          expect(assigns(:divisions)).to eq([division, other_division])
+          expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
         end
       end
 
@@ -79,7 +79,7 @@ describe DivisionsController, :type => :controller do
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
-          expect(assigns(:divisions)).to eq([division])
+          expect(assigns(:divisions)).to eq([december_2016_division])
         end
       end
 
