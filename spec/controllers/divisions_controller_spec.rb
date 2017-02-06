@@ -7,6 +7,7 @@ describe DivisionsController, :type => :controller do
 
     let!(:division)  { create(:division, date: Date.new(2016,12,25)) }
     let!(:other_division)  { create(:division, date: Date.new(2016,06,01)) }
+    let!(:older_division)  { create(:division, date: Date.new(2013,04,29)) }
 
     context "when there are no parameters" do
       it "should render index template with divisions of the same year as the last one stored" do
