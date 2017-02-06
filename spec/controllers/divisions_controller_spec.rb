@@ -27,7 +27,7 @@ describe DivisionsController, :type => :controller do
       end
     end
 
-    describe "when the date parameter is a full date" do
+    context "when the date parameter is a full date" do
 
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
@@ -51,7 +51,7 @@ describe DivisionsController, :type => :controller do
 
     end
 
-    describe "when the date parameter is just a year" do
+    context "when the date parameter is just a year" do
 
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
@@ -75,7 +75,7 @@ describe DivisionsController, :type => :controller do
 
     end
 
-    describe "when the date parameter is just a year and a month (YYY-MM)" do
+    context "when the date parameter is just a year and a month (YYY-MM)" do
 
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
