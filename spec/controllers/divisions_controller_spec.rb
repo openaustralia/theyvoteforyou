@@ -28,7 +28,6 @@ describe DivisionsController, :type => :controller do
     end
 
     context "when the date parameter is a full date" do
-
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, date: '2016-06-01', house: "representatives"
@@ -48,11 +47,9 @@ describe DivisionsController, :type => :controller do
           expect(assigns(:divisions)).to be_empty
         end
       end
-
     end
 
     context "when the date parameter is just a year" do
-
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, date: '2016', house: "representatives"
@@ -72,11 +69,9 @@ describe DivisionsController, :type => :controller do
           expect(assigns(:divisions)).to be_empty
         end
       end
-
     end
 
     context "when the date parameter is just a year and a month (YYY-MM)" do
-
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, date: '2016-12', house: "representatives"
@@ -96,7 +91,6 @@ describe DivisionsController, :type => :controller do
           expect(assigns(:divisions)).to be_empty
         end
       end
-
     end
   end
 end
