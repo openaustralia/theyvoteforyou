@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem "haml"
 gem "htmlentities"
-gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce85'
+gem 'marker', git: 'https://github.com/openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce85'
 # Necessary because we have a column called "valid" in the pw_divisions table.
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'

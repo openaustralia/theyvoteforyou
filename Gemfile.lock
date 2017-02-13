@@ -6,7 +6,7 @@ GIT
       capistrano (>= 3.0)
 
 GIT
-  remote: git://github.com/openaustralia/marker.git
+  remote: https://github.com/openaustralia/marker
   revision: aa7ce8589f3e2a26a0b78282fe82fce9fb85dfcb
   ref: aa7ce85
   branch: publicwhip
@@ -409,7 +409,7 @@ GEM
     timecop (0.8.1)
     timers (4.0.1)
       hitimes
-    treetop (1.5.3)
+    treetop (1.6.8)
       polyglot (~> 0.3)
     turbolinks (2.5.2)
       coffee-rails
@@ -506,4 +506,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.13.7
+   1.14.3
