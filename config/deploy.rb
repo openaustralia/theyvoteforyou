@@ -10,7 +10,7 @@ role :db,  %w{deploy@kedumba.openaustraliafoundation.org.au}
 
 set :rails_env, 'production'
 
-set :rvm_ruby_version, '2.0.0'
+set :rvm_ruby_version, '2.3.1'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
