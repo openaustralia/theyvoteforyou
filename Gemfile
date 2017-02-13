@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem "haml"
 gem "htmlentities"
-gem 'marker', github: 'openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce85'
+gem 'marker', git: 'https://github.com/openaustralia/marker', branch: 'publicwhip', ref: 'aa7ce85'
 # Necessary because we have a column called "valid" in the pw_divisions table.
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
@@ -40,7 +40,7 @@ gem 'honeybadger'
 gem 'delayed_job_active_record', '~> 4.0.3'
 gem 'bootstrap-sass', '~> 3.3.1'
 gem 'autoprefixer-rails'
-gem 'rails_config'
+gem 'config'
 gem 'mechanize' # Used to download debates
 gem 'nokogiri', '>= 1.6.7.2' # Explicitly included as it's used directly when testing division loader
 gem 'seed_dump'
@@ -88,10 +88,9 @@ group :development do
   gem 'rack-mini-profiler'
 
   gem 'capistrano', '~> 3.0', require: false
-  gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
-  gem 'rvm1-capistrano3', require: false
-  gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
+  gem 'capistrano-rails', '~> 1.1', require: false
+  gem 'capistrano-rvm'
+  gem 'capistrano-maintenance', '~> 1.0', require: false
 
   gem 'mina'
   gem 'mina-multistage', require: false

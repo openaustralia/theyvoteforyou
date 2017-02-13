@@ -30,5 +30,8 @@ module Publicwhip
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
+
+    # Opt in to new Rails behaviour
+    config.active_record.raise_in_transactional_callbacks = true
   end
 end
