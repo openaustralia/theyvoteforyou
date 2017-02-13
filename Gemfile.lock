@@ -178,7 +178,7 @@ GEM
     hitimes (1.2.2)
     honeybadger (1.16.5)
       json
-    htmlentities (4.3.2)
+    htmlentities (4.3.4)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
