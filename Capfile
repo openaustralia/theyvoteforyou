@@ -21,7 +21,7 @@ require 'capistrano/deploy'
 require 'capistrano/bundler'
 require 'capistrano/rails/assets'
 require 'capistrano/rails/migrations'
-require 'rvm1/capistrano3'
+require 'capistrano/rvm'
 require 'capistrano/honeybadger'
 require 'capistrano/maintenance'
 require "capistrano/scm/git"
