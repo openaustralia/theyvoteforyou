@@ -88,8 +88,7 @@ group :development do
   gem 'rack-mini-profiler'
 
   gem 'capistrano', '~> 3.0', require: false
-  gem 'capistrano-rails',   '~> 1.1', require: false
-  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-rails', '~> 1.1', require: false
   gem 'capistrano-rvm'
   gem 'capistrano-maintenance', '~> 1.0', require: false
 

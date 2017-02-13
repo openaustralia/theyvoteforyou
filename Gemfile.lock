@@ -442,7 +442,6 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.1)
   bootstrap-select-rails
   capistrano (~> 3.0)
-  capistrano-bundler (~> 1.1)
   capistrano-maintenance (~> 1.0)
   capistrano-rails (~> 1.1)
   capistrano-rvm
