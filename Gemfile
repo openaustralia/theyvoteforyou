@@ -91,7 +91,7 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'rvm1-capistrano3', require: false
-  gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
+  gem 'capistrano-maintenance', '~> 1.0', require: false
 
   gem 'mina'
   gem 'mina-multistage', require: false
