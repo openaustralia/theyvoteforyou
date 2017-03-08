@@ -5,11 +5,11 @@ class DivisionParameterParser
 
   def self.get_date_range(date)
     if date =~ YEAR_ONLY_REGEX
-      return get_year_range(date)
+      get_year_range(date)
     elsif date =~ YEAR_AND_MONTH_REGEX
-      return get_month_range(date)
+      get_month_range(date)
     elsif date =~ COMPLETE_DATE_REGEX
-      return get_day_range(date)
+      get_day_range(date)
     else
       raise ArgumentError, 'Not a valid date format'
     end
