@@ -10,7 +10,7 @@ class Division < ActiveRecord::Base
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
 
-  scope :on_date_range, ->(date_start, date_end) { where("date >= ? AND date < ?", date_start, date_end) }
+  scope :in_date_range, ->(date_start, date_end) { where("date >= ? AND date < ?", date_start, date_end) }
   scope :in_house, ->(house) { where(house: house) }
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :possible_for_member, ->(member) { where(house: member.house).where("date >= ? AND date < ?", member.entered_house, member.left_house) }

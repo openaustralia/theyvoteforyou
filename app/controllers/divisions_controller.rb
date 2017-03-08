@@ -31,7 +31,7 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(params[:date]) if params[:date]
         @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(@years.last.to_s) if @date_start.nil? && @date_end.nil? && @rdisplay.nil?
-      rescue ArgumentError => e
+      rescue ArgumentError
         render 'home/error_404', status: 404
       end
 
@@ -72,7 +72,7 @@ class DivisionsController < ApplicationController
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
-      @divisions = @divisions.on_date_range(@date_start, @date_end) if @date_start && @date_end
+      @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)

@@ -28,7 +28,7 @@ describe DivisionsController, :type => :controller do
       end
     end
 
-    context "when request has an date parameter with an incorret format" do
+    context "when request has an date parameter with an incorrect format" do
       it "should return generic 404 page" do
         get :index, date: '2017-12-222', house: "representatives"
 
