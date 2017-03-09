@@ -227,12 +227,15 @@ module DivisionsHelper
   end
 
   def divisions_period
-    if @year
-      @year
-    elsif @month
-      formatted_month(@month)
-    elsif @date
-      formatted_date(@date)
+    case @date_range
+    when :year
+      @date_start.year.to_s
+    when :month
+      @date_start.strftime("%B %Y")
+    when :day
+      formatted_date(@date_start)
+    else
+      raise ArgumentError, 'Not valid date'
     end
   end
 end

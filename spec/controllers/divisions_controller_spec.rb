@@ -21,7 +21,16 @@ describe DivisionsController, :type => :controller do
 
     context "when request has an invalid date as a parameter" do
       it "should return generic 404 page" do
-        get :index, date: '2017-02-0222', house: "representatives"
+        get :index, date: '2017-13-22', house: "representatives"
+
+        expect(response).to render_template "home/error_404"
+        expect(response.status).to be 404
+      end
+    end
+
+    context "when request has an date parameter with an incorrect format" do
+      it "should return generic 404 page" do
+        get :index, date: '2017-12-222', house: "representatives"
 
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
@@ -72,7 +81,7 @@ describe DivisionsController, :type => :controller do
       end
     end
 
-    context "when the date parameter is just a year and a month (YYY-MM)" do
+    context "when the date parameter is just a year and a month (YYYY-MM)" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, date: '2016-12', house: "representatives"

@@ -27,19 +27,14 @@ class DivisionsController < ApplicationController
       @sort = params[:sort]
       @rdisplay = params[:rdisplay]
       @house = params[:house] unless params[:house] == "all"
-      if params[:date] =~ /^\d{4}$/
-        @year = params[:date]
-      elsif params[:date] =~/^\d{4}-\d{2}$/
-        @month = params[:date]
-      elsif params[:date]
-        begin
-          @date = Date.parse(params[:date])
-        rescue ArgumentError => e
-          render 'home/error_404', status: 404
-        end
+
+      begin
+        @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(params[:date]) if params[:date]
+        @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(@years.last.to_s) if @date_start.nil? && @date_end.nil? && @rdisplay.nil?
+      rescue ArgumentError
+        render 'home/error_404', status: 404
       end
-      # Set the year to the lastest we have data for if it's not set
-      @year = @years.last if @rdisplay.nil? && @date.nil? && @month.nil? && @year.nil?
+
       # This sets the parliament to display if it's not set. It's only here for legacy support
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
@@ -77,10 +72,8 @@ class DivisionsController < ApplicationController
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
-      @divisions = @divisions.on_date(@date) if @date
-      @divisions = @divisions.in_month(@month) if @month
-      @divisions = @divisions.in_year(@year) if @year
-      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date || @year
+      @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
+      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
       @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
