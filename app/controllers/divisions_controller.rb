@@ -8,14 +8,27 @@ class DivisionsController < ApplicationController
   end
 
   def index
+    @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
+
     if params[:mpc] && params[:mpn]
       electorate = params[:mpc].gsub("_", " ")
       name = params[:mpn].gsub("_", " ")
 
+      @mpc = params[:mpc]
+      @mpn = params[:mpn]
+      @house = params[:house]
+
       @member = Member.with_name(name)
-      @member = @member.in_house(params[:house])
+      @member = @member.in_house(@house)
       @member = @member.where(constituency: electorate)
       @member = @member.order(entered_house: :desc).first
+
+      begin
+        @date_start, @date_end = get_date_range(params[:date]) if params[:date]
+        @date_start, @date_end = get_date_range(@years.last.to_s) if @date_start.nil? && @date_end.nil?
+      rescue ArgumentError
+        render 'home/error_404', status: 404
+      end
 
       if @member.nil?
         render 'members/member_not_found', status: 404
@@ -23,14 +36,13 @@ class DivisionsController < ApplicationController
         render 'index_with_member'
       end
     else
-      @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
       @sort = params[:sort]
       @rdisplay = params[:rdisplay]
       @house = params[:house] unless params[:house] == "all"
 
       begin
-        @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(params[:date]) if params[:date]
-        @date_start, @date_end, @date_range = DivisionParameterParser.get_date_range(@years.last.to_s) if @date_start.nil? && @date_end.nil? && @rdisplay.nil?
+        @date_start, @date_end, @date_range = get_date_range(params[:date]) if params[:date]
+        @date_start, @date_end, @date_range = get_date_range(@years.last.to_s) if @date_start.nil? && @date_end.nil? && @rdisplay.nil?
       rescue ArgumentError
         render 'home/error_404', status: 404
       end
@@ -193,5 +205,9 @@ class DivisionsController < ApplicationController
 
   def policy_division_params
     params.require(:policy_division).permit(:policy_id, :vote)
+  end
+
+  def get_date_range(date)
+    DivisionParameterParser.get_date_range(date)
   end
 end
