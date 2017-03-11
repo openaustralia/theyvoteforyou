@@ -9,5 +9,5 @@
 
 %p All votes #{@member.full_name_no_electorate} could have attended.
 
-= render "divisions", member: @member, divisions: @member.divisions_possible(@date_start, @date_end).order(date: :desc, clock_time: :desc, name: :asc)
+= render "divisions", member: @member, divisions: @divisions
 = render "pagination", years: @years, path: {house: (@house.nil? ? "all" : @house), mpc: @mpc, mpn: @mpn}, date_start: @date_start

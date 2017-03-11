@@ -12,7 +12,7 @@ describe DivisionsController, :type => :controller do
     let!(:june_2016_division)  { create(:division, date: Date.new(2016,06,01)) }
     let!(:older_division)  { create(:division, date: Date.new(2013,04,29)) }
 
-    let!(:senator) { create(:member) }
+    let!(:representative) { create(:member, house: "representatives", constituency: "Newtown") }
 
     context "when there are no parameters" do
       it "should render index template with divisions of the same year as the last one stored" do
@@ -111,25 +111,27 @@ describe DivisionsController, :type => :controller do
     context "when request to see votes from a member" do
       context "and no date is specified" do
         it "should get votes based on last year on divisions table" do
-          get :index, mpc: "tasmania", mpn: "christine_milne", house: "senate"
+          get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives"
 
           expect(response).to render_template "divisions/index_with_member"
           expect(response.status).to be 200
-          expect(assigns(:member)).to eq(senator)
+          expect(assigns(:member)).to eq(representative)
           expect(assigns(:date_start)).to eq(Date.new(2016, 01, 01))
           expect(assigns(:date_end)).to eq(Date.new(2017, 01, 01))
+          expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
         end
       end
 
       context "and a date is specified" do
         it "should get votes based on the date specified" do
-          get :index, mpc: "tasmania", mpn: "christine_milne", house: "senate", date: "2013"
+          get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013"
 
           expect(response).to render_template "divisions/index_with_member"
           expect(response.status).to be 200
-          expect(assigns(:member)).to eq(senator)
+          expect(assigns(:member)).to eq(representative)
           expect(assigns(:date_start)).to eq(Date.new(2013, 01, 01))
           expect(assigns(:date_end)).to eq(Date.new(2014, 01, 01))
+          expect(assigns(:divisions)).to eq([older_division])
         end
       end
     end

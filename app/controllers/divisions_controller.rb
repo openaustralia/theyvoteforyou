@@ -33,6 +33,7 @@ class DivisionsController < ApplicationController
       if @member.nil?
         render 'members/member_not_found', status: 404
       else
+        @divisions = @member.divisions_possible(@date_start, @date_end).order(date: :desc, clock_time: :desc, name: :asc)
         render 'index_with_member'
       end
     else
