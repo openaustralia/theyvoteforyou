@@ -118,6 +118,7 @@ describe DivisionsController, :type => :controller do
           expect(assigns(:member)).to eq(representative)
           expect(assigns(:date_start)).to eq(Date.new(2016, 01, 01))
           expect(assigns(:date_end)).to eq(Date.new(2017, 01, 01))
+          expect(assigns(:date_range)).to eq(:year)
           expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
         end
       end
@@ -131,6 +132,7 @@ describe DivisionsController, :type => :controller do
           expect(assigns(:member)).to eq(representative)
           expect(assigns(:date_start)).to eq(Date.new(2013, 01, 01))
           expect(assigns(:date_end)).to eq(Date.new(2014, 01, 01))
+          expect(assigns(:date_range)).to eq(:year)
           expect(assigns(:divisions)).to eq([older_division])
         end
       end

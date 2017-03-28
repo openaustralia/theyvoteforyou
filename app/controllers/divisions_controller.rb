@@ -18,7 +18,7 @@ class DivisionsController < ApplicationController
       @member = get_member
 
       begin
-        @date_start, @date_end = get_date_range(params[:date])
+        @date_start, @date_end, @date_range = get_date_range(params[:date])
       rescue ArgumentError
         render 'home/error_404', status: 404
       end

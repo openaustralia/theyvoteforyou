@@ -5,9 +5,11 @@
 
 = render "members/member_page_header", member: @member
 
-%h2#divisions All Votes
+%h2
+  #divisions List of Votes
+  %small #{divisions_period}
 
-%p All votes #{@member.full_name_no_electorate} could have attended.
+%p Votes #{@member.full_name_no_electorate} could have attended.
 
 = render "divisions", member: @member, divisions: @divisions
 = render "pagination", years: @years, path: {house: (@house.nil? ? "all" : @house), mpc: @mpc, mpn: @mpn}, date_start: @date_start
