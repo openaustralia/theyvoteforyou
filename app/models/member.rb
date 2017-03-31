@@ -59,7 +59,7 @@ class Member < ActiveRecord::Base
   end
 
   def divisions_they_could_have_attended
-    Division.possible_for_member(self)
+    Division.possible_for_member(self).order(date: :desc, clock_time: :desc, name: :asc)
   end
 
   def divisions_they_could_have_attended_between(date_start, date_end)
