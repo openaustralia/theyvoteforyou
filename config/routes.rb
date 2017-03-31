@@ -150,6 +150,7 @@ Publicwhip::Application.routes.draw do
   get '/people/:house/:mpc/:mpn/policies/:id' => 'policies#show', as: :member_policy
   get '/people/:house/:mpc/:mpn/friends' => 'members#friends', as: :friends_member
   get '/people/:house/:mpc/:mpn/divisions' => 'divisions#index', as: :member_divisions
+  get '/people/:house/:mpc/:mpn/divisions/:date' => 'divisions#index'
   get '/people/:house/:mpc/:mpn/divisions/:date/:number' => 'divisions#show', as: :member_division
 
   get '/divisions' => 'divisions#index', as: :divisions
