@@ -59,13 +59,12 @@ class Member < ActiveRecord::Base
   end
 
   # All divisions that this member could have attended
-  def divisions_possible(date_start = nil, date_end = nil)
-    if date_start && date_end
-      Division.possible_for_member(self)
-      .in_date_range(date_start, date_end)
-    else
-      Division.possible_for_member(self)
-    end
+  def divisions_possible
+    Division.possible_for_member(self)
+  end
+
+  def divisions_possible_between(date_start, date_end)
+    divisions_possible.in_date_range(date_start, date_end)
   end
 
   # Divisions that this member has voted on where either they were a rebel or voting

@@ -24,7 +24,7 @@ class DivisionsController < ApplicationController
       end
 
       if @member
-        @divisions = @member.divisions_possible(@date_start, @date_end)
+        @divisions = @member.divisions_possible_between(@date_start, @date_end)
                             .order(date: :desc, clock_time: :desc, name: :asc)
         render 'index_with_member'
       else
