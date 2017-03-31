@@ -26,8 +26,4 @@
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 
 = render partial: "divisions", locals: {member: @member}, object: @divisions
-
-%nav.index-pagination
-  %ul.pagination
-    - @years.reverse.each do |year|
-      = nav_link(year, {date: year, house: (@house.nil? ? "all" : @house)}, "Divisions held in #{year}", (@date_start && @date_start.year == year))
+= render "pagination", years: @years, path: {house: (@house.nil? ? "all" : @house)}, date_start: @date_start
