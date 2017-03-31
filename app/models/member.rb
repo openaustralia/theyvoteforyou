@@ -58,13 +58,12 @@ class Member < ActiveRecord::Base
     entered_reason == "changed_party" || left_reason == "changed_party"
   end
 
-  # All divisions that this member could have attended
-  def divisions_possible
+  def divisions_they_could_have_attended
     Division.possible_for_member(self)
   end
 
-  def divisions_possible_between(date_start, date_end)
-    divisions_possible.in_date_range(date_start, date_end)
+  def divisions_they_could_have_attended_between(date_start, date_end)
+    divisions_they_could_have_attended.in_date_range(date_start, date_end)
   end
 
   # Divisions that this member has voted on where either they were a rebel or voting

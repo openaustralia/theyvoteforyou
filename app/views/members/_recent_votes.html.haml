@@ -7,6 +7,6 @@
     could have attended.
 
   - member.person.members.order(entered_house: :desc).each do |member|
-    = render "divisions/divisions", member: member, divisions: member.divisions_possible.order(date: :desc, clock_time: :desc, name: :asc).limit(3)
+    = render "divisions/divisions", member: member, divisions: member.divisions_they_could_have_attended.order(date: :desc, clock_time: :desc, name: :asc).limit(3)
 
   =link_to "View all votes", [member, Division], class: 'btn btn-default btn-sm'
