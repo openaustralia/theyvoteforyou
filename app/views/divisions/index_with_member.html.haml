@@ -5,8 +5,8 @@
 
 = render "members/member_page_header", member: @member
 
-%h2
-  #divisions List of Votes
+%h2#divisions
+  List of Votes
   %small #{divisions_period}
 
 %p Votes #{@member.full_name_no_electorate} could have attended.
