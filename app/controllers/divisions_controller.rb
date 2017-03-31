@@ -215,8 +215,8 @@ class DivisionsController < ApplicationController
     name = @mpn.gsub("_", " ")
 
     Member.with_name(name)
-    .in_house(@house)
-    .where(constituency: electorate)
-    .order(entered_house: :desc).first
+          .in_house(@house)
+          .where(constituency: electorate)
+          .order(entered_house: :desc).first
   end
 end
