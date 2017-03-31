@@ -14,11 +14,13 @@
             - if member.person.rebellions_fraction
               %span.member-rebellions.object-data-rebellion
                 -if member.person.rebellions_fraction == 0
-                  Never rebels
+                  = "Never rebels" if member.currently_in_parliament?
+                  = "Never rebelled" if !member.currently_in_parliament?
                 -else
                   -# TODO: Should this be an absolute count rather than percentage?
                   -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  Rebels
+                  = "Rebels" if member.currently_in_parliament?
+                  = "Rebelled" if !member.currently_in_parliament?
                   = fraction_to_percentage_display(member.person.rebellions_fraction)
                   of the time
                   -# TODO: add helper tooltip for rebellions
