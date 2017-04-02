@@ -2,14 +2,16 @@
   = Diffy::CSS
 
 - content_for :title do
-  Division Description Changes —
-  = @division.original_name
-  —
-  = formatted_date(@division.date)
+  Division Description Changes
 - set_meta_tags description: "All changes made to the description and title of the division: #{@division.name}"
 
 .page-header
-  %h1= yield :title
+  %h1
+    = yield :title
+  %h2
+    = @division.original_name
+    %small.pre-title
+      = formatted_date(@division.date)
 
 %p
   All changes made to the description and title of this
@@ -41,3 +43,4 @@
           = Diffy::Diff.new(wiki_motion.previous_title.strip, wiki_motion.title.strip).to_s(:html).html_safe
           %p Description
           = Diffy::Diff.new(wiki_motion.previous_description, wiki_motion.description).to_s(:html).html_safe
+
