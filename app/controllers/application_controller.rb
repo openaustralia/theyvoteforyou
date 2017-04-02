@@ -26,6 +26,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource)
-    request.referer ? URI.parse(request.referer).path : root_path
+    root_path 'home#index'
   end
 end
