@@ -13,16 +13,9 @@
           %p.member-data.object-data
             - if member.person.rebellions_fraction
               %span.member-rebellions.object-data-rebellion
-                -if member.person.rebellions_fraction == 0
-                  = member.currently_in_parliament? ? "Never rebels" : "Never rebelled"
-                -else
-                  -# TODO: Should this be an absolute count rather than percentage?
-                  -# Maybe it's good to show it as a percentage because it highlights rarity?
-                  = member.currently_in_parliament? ? "Rebels" : "Rebelled"
-                  = fraction_to_percentage_display(member.person.rebellions_fraction)
-                  of the time
-                  -# TODO: add helper tooltip for rebellions
-                  -# link_to "explain...", help_faq_path(anchor: "clarify")
+                #{member_rebellion(member)}
+                -# TODO: add helper tooltip for rebellions
+                -# link_to "explain...", help_faq_path(anchor: "clarify")
                 %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
             - if member.person.attendance_fraction
               %span.member-attendance.object-data-attendance

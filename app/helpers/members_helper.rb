@@ -58,4 +58,15 @@ module MembersHelper
     end.to_sentence
     text.html_safe + "."
   end
+
+  def member_rebellion(member)
+    if member.person.rebellions_fraction == 0
+      text = member.currently_in_parliament? ? "Never rebels" : "Never rebelled"
+    else
+      # TODO: Should this be an absolute count rather than percentage?
+      # Maybe it's good to show it as a percentage because it highlights rarity?
+      text = (member.currently_in_parliament? ? "Rebels " : "Rebelled ") + fraction_to_percentage_display(member.person.rebellions_fraction) + " of the time"
+    end
+    text
+  end
 end
