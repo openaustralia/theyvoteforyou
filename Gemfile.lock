@@ -66,6 +66,9 @@ GEM
     bootstrap-select-rails (1.6.2)
     brakeman (3.6.1)
     builder (3.2.2)
+    bullet (5.5.1)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.10.0)
     capistrano (3.7.2)
       airbrussh (>= 1.0.0)
       capistrano-harrow
@@ -434,6 +437,7 @@ GEM
       unf_ext
     unf_ext (0.0.6)
     unicode-display_width (1.2.1)
+    uniform_notifier (1.10.0)
     vcr (2.9.0)
     warden (1.2.6)
       rack (>= 1.0)
