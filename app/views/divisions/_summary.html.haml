@@ -35,7 +35,7 @@
           %th.cell-vote Votes
           %th.cell-toggler
       %tbody
-        - division.whips.order(:party).each do |whip|
+        - @whips.each do |whip|
           - if !whip.whipless? && whip.possible_votes != 1
             %tr.party-row{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
               %th.cell-name
@@ -57,8 +57,8 @@
                   %span.sr-only show members
 
           -# Show members in this party that are present in this division
-          - division.votes.joins(:member).where(members: {party: whip.party}).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name").each do |vote|
-            %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?), ('member-row-' + whip.party.parameterize)]}
+          - @votes.select {|vote| vote.member.party == whip.party}.each do |vote|
+            %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('rebel' if vote.rebellion?(whip)), ('member-row-' + whip.party.parameterize)]}
               %th.cell-name
                 = link_to vote.member.name_without_title, vote.member
                 = link_to vote.member.electorate, electorate_path(vote.member), class: 'text-muted member-electorate'
@@ -68,7 +68,7 @@
 
           - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
           -# Show members in this party that are absent in this division
-          - members.where("votes.id IS NULL").where(party: whip.party).each do |member|
+          - @members_vote_null.select {|member| member.party == whip.party}.each do |member|
             %tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + whip.party.parameterize)]}
               %th.cell-name
                 = link_to member.name_without_title, member

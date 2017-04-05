@@ -33,6 +33,10 @@ class Vote < ActiveRecord::Base
     !free? && vote != whip_guess
   end
 
+  def rebellion?(w)
+    !w.free? && vote != w.whip_guess
+  end
+
   # TODO What if the vote is tied?
   def role
     if free?

@@ -109,8 +109,15 @@ class DivisionsController < ApplicationController
 
   def show
     house = params[:house]
-    @division = Division.in_house(house).find_by!(date: params[:date], number: params[:number])
+
+    @division = Division.in_house(house)
+    @division = @division.joins(:division_info, :whips)
+    @division = @division.includes(:division_info, :whips)
+    @division = @division.where!(date: params[:date], number: params[:number]).first!
+
     @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
+    @whips = @division.whips.order(:party)
+    @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 
     # If a member is included
     if params[:mpn] && params[:mpc]
@@ -124,6 +131,8 @@ class DivisionsController < ApplicationController
     @members = Member.in_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
+
+    @members_vote_null = @members.where("votes.id IS NULL")  
   end
 
   def show_policies
