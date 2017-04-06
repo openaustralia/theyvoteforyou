@@ -31,7 +31,7 @@ Publicwhip::Application.routes.draw do
     constraints: lambda {|r| r.query_parameters["mpid"] || r.query_parameters["id"]}
   get 'mp.php' => 'electorates#show_redirect',
     constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"] || r.query_parameters["house"].nil?)}
-  get 'mp.php' => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}"},
+  get 'mp.php' => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].to_s.downcase.gsub(' ', '_')}"},
     constraints: lambda {|r| r.query_parameters["mpn"].nil?}
   get 'mp.php' => 'members#show_redirect',
     constraints: lambda {|r| r.query_parameters["dmp"] && r.query_parameters["display"] == "allvotes"}
