@@ -29,12 +29,12 @@ class Vote < ActiveRecord::Base
     where("votes.vote = 'no'")
   end
 
-  def rebellion?
-    !free? && vote != whip_guess
-  end
-
-  def rebellion?(w)
-    !w.free? && vote != w.whip_guess
+  def rebellion?(whip=nil)
+    if whip.nil?
+      !free? && vote != whip_guess
+    else
+      !whip.free? && vote != whip.whip_guess
+    end
   end
 
   # TODO What if the vote is tied?
