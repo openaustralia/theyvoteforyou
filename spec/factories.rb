@@ -64,9 +64,9 @@ FactoryGirl.define do
     first_name "Christine"
     last_name "Milne"
     sequence(:title) { |n| "Title #{n}" }
-    constituency "Tasmania"
+    constituency "Newtown"
     party "Australian Greens"
-    house "senate"
+    house "representatives"
     entered_house "2005-07-01"
     left_house "9999-12-31"
     entered_reason "general_election"

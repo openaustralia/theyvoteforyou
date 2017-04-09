@@ -152,8 +152,11 @@ describe DivisionsController, :type => :controller do
 
   describe "#show" do
     before :each do
-      Division.delete_all
+      DivisionInfo.delete_all
+      Whip.delete_all
+      Vote.delete_all
       Member.delete_all
+      Division.delete_all
     end
 
     let!(:one_division)  { create(:division, date: Date.new(2017,04,06), house: "representatives", number: 100) }
@@ -166,6 +169,11 @@ describe DivisionsController, :type => :controller do
           expect(response).to render_template "divisions/show"
           expect(response.status).to be 200
           expect(assigns(:division)).to eq(one_division)
+          expect(assigns(:whips)).to eq(one_division.whips)
+          expect(assigns(:votes)).to eq(one_division.votes)
+          expect(assigns(:rebellions)).to eq(one_division.votes.rebellious)
+          expect(assigns(:members)).to eq([one_division.votes.first.member])
+          expect(assigns(:members_vote_null)).to eq([])
         end
       end
 

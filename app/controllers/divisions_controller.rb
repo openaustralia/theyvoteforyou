@@ -112,10 +112,7 @@ class DivisionsController < ApplicationController
     date = params[:date]
     number = params[:number]
 
-    @division = Division.in_house(house)
-    @division = @division.joins(:division_info, :whips)
-    @division = @division.includes(:division_info, :whips)
-    @division = @division.where(date: date, number: number).first
+    @division = get_division(house, date, number)
 
     if @division.nil?
       render 'home/error_404', status: 404
@@ -133,6 +130,7 @@ class DivisionsController < ApplicationController
         where(constituency: electorate).first
         @member = member.person.member_who_voted_on_division(@division)
       end
+
       @members = Member.in_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
@@ -234,5 +232,12 @@ class DivisionsController < ApplicationController
           .in_house(@house)
           .where(constituency: electorate)
           .order(entered_house: :desc).first
+  end
+
+  def get_division(house, date, number)
+    Division.in_house(house)
+    .joins(:division_info, :whips)
+    .includes(:division_info, :whips)
+    .where(date: date, number: number).first
   end
 end
