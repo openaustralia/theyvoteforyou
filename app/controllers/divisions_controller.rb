@@ -118,7 +118,7 @@ class DivisionsController < ApplicationController
     @division = @division.where(date: date, number: number).first
 
     if @division.nil?
-      render 'home/error_404', status: 404 unless @division
+      render 'home/error_404', status: 404
     else
       @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
       @whips = @division.whips.order(:party)
