@@ -109,30 +109,37 @@ class DivisionsController < ApplicationController
 
   def show
     house = params[:house]
+    date = params[:date]
+    number = params[:number]
 
     @division = Division.in_house(house)
     @division = @division.joins(:division_info, :whips)
     @division = @division.includes(:division_info, :whips)
-    @division = @division.where!(date: params[:date], number: params[:number]).first!
+    @division = @division.where(date: date, number: number).first
 
-    @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
-    @whips = @division.whips.order(:party)
-    @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
+    if @division.nil?
+      render 'home/error_404', status: 404 unless @division
+    else
+      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
+      @whips = @division.whips.order(:party)
+      @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 
-    # If a member is included
-    if params[:mpn] && params[:mpc]
-      name = params[:mpn].gsub("_", " ")
-      electorate = params[:mpc].gsub("_", " ")
-      # TODO Also ensure that the member is current on the date of this division
-      member = Member.in_house(house).with_name(name).
+      # If a member is included
+      if params[:mpn] && params[:mpc]
+        name = params[:mpn].gsub("_", " ")
+        electorate = params[:mpc].gsub("_", " ")
+        # TODO Also ensure that the member is current on the date of this division
+        member = Member.in_house(house).with_name(name).
         where(constituency: electorate).first
-      @member = member.person.member_who_voted_on_division(@division)
-    end
-    @members = Member.in_house(house).current_on(@division.date).
+        @member = member.person.member_who_voted_on_division(@division)
+      end
+      @members = Member.in_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
 
-    @members_vote_null = @members.where("votes.id IS NULL")  
+      @members_vote_null = @members.where("votes.id IS NULL")
+    end
+
   end
 
   def show_policies

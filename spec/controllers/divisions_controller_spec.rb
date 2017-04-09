@@ -149,4 +149,35 @@ describe DivisionsController, :type => :controller do
       end
     end
   end
+
+  describe "#show" do
+    before :each do
+      Division.delete_all
+      Member.delete_all
+    end
+
+    let!(:one_division)  { create(:division, date: Date.new(2017,04,06), house: "representatives", number: 100) }
+
+    context "when request a specific division" do
+      context "and parameters are match a division" do
+        it "should load it" do
+          get :show, house: "representatives", date: "2017-04-06", number: 100
+
+          expect(response).to render_template "divisions/show"
+          expect(response.status).to be 200
+          expect(assigns(:division)).to eq(one_division)
+        end
+      end
+
+      context "and parameters do not match a division" do
+        it "should display a 404 page" do
+          get :show, house: "representatives", date: "2017-04-06", number: 101
+
+          expect(response).to render_template "home/error_404"
+          expect(response.status).to be 404
+        end
+      end
+
+    end
+  end
 end

@@ -23,15 +23,47 @@ FactoryGirl.define do
     debate_url "http://parlinfo.aph.gov.au/bazbar"
     source_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
     debate_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
+
+    after(:create) do |division|
+      division.division_info create(:division_info, division: division)
+      division.whips = [create(:whip, division: division)]
+      division.votes = [create(:vote, division: division)]
+    end
+  end
+
+  factory :whip do
+    division
+    sequence(:party) { |n| "Party #{n}" }
+    aye_votes 5
+    aye_tells 5
+    no_votes 3
+    no_tells 3
+    both_votes 1
+    abstention_votes 0
+    possible_votes 20
+    whip_guess "guess"
+  end
+
+  factory :division_info do
+    division
+    rebellions 3
+    tells 4
+    turnout 5
+    possible_turnout 6
+    aye_majority 7
+  end
+
+  factory :vote do
+    member
+    division
   end
 
   factory :member do
-    id "100156"
     gid "uk.org.publicwhip/lord/100156"
     source_gid ""
     first_name "Christine"
     last_name "Milne"
-    title ""
+    sequence(:title) { |n| "Title #{n}" }
     constituency "Tasmania"
     party "Australian Greens"
     house "senate"
