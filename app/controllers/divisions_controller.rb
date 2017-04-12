@@ -238,6 +238,6 @@ class DivisionsController < ApplicationController
     Division.in_house(house)
     .joins(:division_info, :whips)
     .includes(:division_info, :whips)
-    .where(date: date, number: number).first
+    .find_by(date: date, number: number)
   end
 end
