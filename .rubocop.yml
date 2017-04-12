@@ -1,0 +1,47 @@
+# To keep things simple, we're using a whitelist approach
+# Add Cops gradually as needed
+AllCops:
+  DisabledByDefault: true
+
+Style/HashSyntax:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals
+  EnforcedStyle: ruby19
+
+Style/EmptyLines:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#two-or-more-empty-lines
+  Enabled: true
+
+Style/EmptyLineBetweenDefs:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-between-methods
+  Enabled: true
+
+Style/EmptyLinesAroundAccessModifier:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-access-modifier
+  Enabled: true
+
+Style/EmptyLinesAroundBeginBody:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/EmptyLinesAroundBlockBody:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/EmptyLinesAroundClassBody:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/EmptyLinesAroundExceptionHandlingKeywords:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/EmptyLinesAroundMethodBody:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/EmptyLinesAroundModuleBody:
+  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: true
