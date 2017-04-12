@@ -60,7 +60,7 @@ module MembersHelper
   end
 
   def member_rebellion_record_sentence(member)
-    if member.person.rebellions_fraction == 0
+    if member.person.rebellions_fraction.zero?
       member.currently_in_parliament? ? "Never rebels" : "Never rebelled"
     else
       # TODO: Should this be an absolute count rather than percentage?
