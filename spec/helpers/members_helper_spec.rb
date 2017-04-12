@@ -2,40 +2,40 @@ require 'spec_helper'
 
 describe MembersHelper, type: :helper do
   describe "#member_rebellion_record_sentence" do
-    context "Former member who not has rebelled" do
+    context "When the associated person has not rebelled" do
       let(:member) do
-        mock_model Member, person: mock_model(Person, rebellions_fraction: 0),
-                           currently_in_parliament?: false
+        mock_model Member, person: mock_model(Person, rebellions_fraction: 0)
       end
 
-      it { expect(helper.member_rebellion_record_sentence(member)).to eq "Never rebelled" }
+      context "and they are a former member" do
+        before { allow(member).to receive(:currently_in_parliament?).and_return false }
+
+        it { expect(helper.member_rebellion_record_sentence(member)).to eq "Never rebelled" }
+      end
+
+      context "and they are a current member" do
+        before { allow(member).to receive(:currently_in_parliament?).and_return true }
+
+        it { expect(helper.member_rebellion_record_sentence(member)).to eq "Never rebels" }
+      end
     end
 
-    context "Current member who does not rebel" do
+    context "When the associated person has rebelled" do
       let(:member) do
-        mock_model Member, person: mock_model(Person, rebellions_fraction: 0),
-                           currently_in_parliament?: true
+        mock_model Member, person: mock_model(Person, rebellions_fraction: 0.5)
       end
 
-      it { expect(helper.member_rebellion_record_sentence(member)).to eq "Never rebels" }
-    end
+      context "and they are a former member" do
+        before { allow(member).to receive(:currently_in_parliament?).and_return false }
 
-    context "Former member who has rebelled" do
-      let(:member) do
-        mock_model Member, person: mock_model(Person, rebellions_fraction: 0.5),
-                           currently_in_parliament?: false
+        it { expect(helper.member_rebellion_record_sentence(member)).to eq "Rebelled 50% of the time" }
       end
 
-      it { expect(helper.member_rebellion_record_sentence(member)).to eq "Rebelled 50% of the time" }
-    end
+      context "and they are a current member" do
+        before { allow(member).to receive(:currently_in_parliament?).and_return true }
 
-    context "Current member who rebels" do
-      let(:member) do
-        mock_model Member, person: mock_model(Person, rebellions_fraction: 0.5),
-                           currently_in_parliament?: true
+        it { expect(helper.member_rebellion_record_sentence(member)).to eq "Rebels 50% of the time" }
       end
-
-      it { expect(helper.member_rebellion_record_sentence(member)).to eq "Rebels 50% of the time" }
     end
   end
 end
