@@ -29,7 +29,7 @@ class Vote < ActiveRecord::Base
     where("votes.vote = 'no'")
   end
 
-  def rebellion?(whip=nil)
+  def rebellion?(whip = nil)
     if whip.nil?
       !free? && vote != whip_guess
     else
