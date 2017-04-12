@@ -20,17 +20,14 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = get_date_range(params[:date])
       rescue ArgumentError
-        render 'home/error_404', status: 404
-        return
+        return render 'home/error_404', status: 404
       end
 
       if @member
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-        render 'index_with_member'
-        return
+        return render 'index_with_member'
       else
-        render 'members/member_not_found', status: 404
-        return
+        return render 'members/member_not_found', status: 404
       end
     else
       @sort = params[:sort]
@@ -40,8 +37,7 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = get_date_range(params[:date], @rdisplay)
       rescue ArgumentError
-        render 'home/error_404', status: 404
-        return
+        return render 'home/error_404', status: 404
       end
 
       # This sets the parliament to display if it's not set. It's only here for legacy support
