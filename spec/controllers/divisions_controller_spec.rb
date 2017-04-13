@@ -124,16 +124,27 @@ describe DivisionsController, :type => :controller do
       end
 
       context "and a date is specified" do
-        it "should get votes based on the date specified" do
-          get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013"
+        context "and date is valid" do
+          it "should get votes based on the date specified" do
+            get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013"
 
-          expect(response).to render_template "divisions/index_with_member"
-          expect(response.status).to be 200
-          expect(assigns(:member)).to eq(representative)
-          expect(assigns(:date_start)).to eq(Date.new(2013, 01, 01))
-          expect(assigns(:date_end)).to eq(Date.new(2014, 01, 01))
-          expect(assigns(:date_range)).to eq(:year)
-          expect(assigns(:divisions)).to eq([older_division])
+            expect(response).to render_template "divisions/index_with_member"
+            expect(response.status).to be 200
+            expect(assigns(:member)).to eq(representative)
+            expect(assigns(:date_start)).to eq(Date.new(2013, 01, 01))
+            expect(assigns(:date_end)).to eq(Date.new(2014, 01, 01))
+            expect(assigns(:date_range)).to eq(:year)
+            expect(assigns(:divisions)).to eq([older_division])
+          end
+        end
+
+        context "and date is not valid" do
+          it "should return generic 404 page" do
+            get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15"
+
+            expect(response).to render_template "home/error_404"
+            expect(response.status).to be 404
+          end
         end
       end
     end
