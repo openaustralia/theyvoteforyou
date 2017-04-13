@@ -5,4 +5,8 @@
     .page-header.container
       %h1 All edits made in the last week
 
-= render partial: "layouts/history_list"
+- if @history.empty?
+  %p
+    None yet… but you’ll show up here when you help by #{link_to "summarising divisions", help_research_path} and by #{link_to "creating and maintaining policies", policies_path}.
+- else
+  = render partial: "layouts/history_list"
