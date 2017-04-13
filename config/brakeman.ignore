@@ -18,7 +18,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :showall => nil, :display => \"everyvote\")",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -38,7 +38,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -58,7 +58,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :house => \"representatives\")",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -78,7 +78,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :rdisplay2 => nil, :sort => \"rebellions\")",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -98,7 +98,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil, :dmp => nil, :house => ((params[:house] or \"representatives\")))",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -118,7 +118,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :sort => nil)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -138,7 +138,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :mpn => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_name, :mpc => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_electorate, :house => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).house, :mpid => nil, :id => nil)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -158,7 +158,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :mpc => Member.in_house(params[:house]).where(:first_name => params[:mpn].split(\"_\")[0], :last_name => params[:mpn].split(\"_\")[1]).first.url_electorate)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -178,7 +178,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Redirect",
@@ -198,7 +198,7 @@
       },
       "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
       "confidence": "High",
-      "note": ""
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
     },
     {
       "warning_type": "Cross Site Scripting",
@@ -217,9 +217,9 @@
       },
       "user_input": "(Unresolved Model).new",
       "confidence": "Medium",
-      "note": ""
+      "note": "This is a false positive. It's not possible to do a Cross Site Scripting, this was verified with manual testing."
     }
   ],
-  "updated": "2017-04-11 19:49:22 +1000",
+  "updated": "2017-04-13 19:14:24 +1000",
   "brakeman_version": "3.6.1"
 }
