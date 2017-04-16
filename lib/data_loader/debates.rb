@@ -39,8 +39,18 @@ module DataLoader
                 bill
               end
 
-              division = Division.find_or_initialize_by(date: d.date, number: d.number, house: d.house)
-              division.update!(valid: true,
+              house = case d.house
+                      when 'representatives'
+                        'commons'
+                      when 'senate'
+                        'lords'
+                      else
+                        raise "Unknown house #{d.house}"
+                      end
+
+              division = Division.find_or_initialize_by(date: d.date, number: d.number, house: house)
+              division.update!(house: d.house,
+                               valid: true,
                                name: d.name,
                                source_url: d.source_url,
                                debate_url: d.debate_url,
