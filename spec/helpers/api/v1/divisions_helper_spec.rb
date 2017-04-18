@@ -11,5 +11,4 @@ require 'spec_helper'
 #   end
 # end
 RSpec.describe Api::V1::DivisionsHelper, :type => :helper do
-
 end
