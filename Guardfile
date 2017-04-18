@@ -24,3 +24,7 @@ guard :rspec, cmd: 'bundle exec rspec' do
   watch('config/routes.rb')                           { "spec/routing" }
   watch('app/controllers/application_controller.rb')  { "spec/controllers" }
 end
+
+guard :rubocop, all_on_start: false do
+  watch(%r{.+\.rb$})
+end
