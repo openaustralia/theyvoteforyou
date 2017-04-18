@@ -1,0 +1,225 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "042a828671916c24b504008143ef4a3474bd45308f1a7646e4324dfa3e4eb7bb",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/members_controller.rb",
+      "line": 71,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :showall => nil, :display => \"everyvote\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MembersController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :showall => nil, :display => \"everyvote\")",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "29465364882e09d041edb71a8005ba675e8c4d14101f61040bb121b034c4e8ba",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/divisions_controller.rb",
+      "line": 93,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :display => nil))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DivisionsController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "393ef7f8207397e55e224cb5c5bb22f49bd08ae6cd168ea111016205c29aeb29",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/divisions_controller.rb",
+      "line": 97,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :house => \"representatives\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DivisionsController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :house => \"representatives\")",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "8c845b4d99688f76acf646d2628cf32611b09219883b7b7ff76704c306af7416",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/divisions_controller.rb",
+      "line": 6,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :rdisplay2 => nil, :sort => \"rebellions\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DivisionsController",
+        "method": "index_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :rdisplay2 => nil, :sort => \"rebellions\")",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "98f40a0a41985885c0891757e8972f101573f14deb2423f4e34934dfaa0706a8",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/electorates_controller.rb",
+      "line": 3,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :display => nil, :dmp => nil, :house => ((params[:house] or \"representatives\"))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ElectoratesController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil, :dmp => nil, :house => ((params[:house] or \"representatives\")))",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "c404a0f847b08447f4cb499b58abcd8491e34c6de43cd81d5949bd415a05573f",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/divisions_controller.rb",
+      "line": 89,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :sort => nil))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DivisionsController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :sort => nil)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "d49c9a44f74a5faea2f13f89cd8159f57c34991c002c91d16bae13dae3a9a836",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/members_controller.rb",
+      "line": 52,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :mpn => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_name, :mpc => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_electorate, :house => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).house, :mpid => nil, :id => nil))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MembersController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :mpn => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_name, :mpc => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).url_electorate, :house => (Member.find_by!(:id => params[:mpid]) or (begin\n  Member.find_by!(:gid => params[:id])\nrescue ActiveRecord::RecordNotFound\n  Member.find_by!(:gid => params[:id].gsub(/member/, \"lord\"))\nend or Member.with_name(params[:mpn].gsub(\"_\", \" \")).in_house(params[:house]).order(:entered_house => :desc).first)).house, :mpid => nil, :id => nil)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "d4cd3ef8eecff92b585b43ab25ff9fd3f15fbd914af3892299f2acd19e5f24e8",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/divisions_controller.rb",
+      "line": 106,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :mpc => Member.in_house(params[:house]).where(:first_name => params[:mpn].split(\"_\")[0], :last_name => params[:mpn].split(\"_\")[1]).first.url_electorate))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "DivisionsController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :mpc => Member.in_house(params[:house]).where(:first_name => params[:mpn].split(\"_\")[0], :last_name => params[:mpn].split(\"_\")[1]).first.url_electorate)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "eac3f3dc0bd589cb700e4ee1a9c4aecca49c1feef8634fd6bb521a62ffc727fd",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/members_controller.rb",
+      "line": 63,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :display => nil))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MembersController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "eac3f3dc0bd589cb700e4ee1a9c4aecca49c1feef8634fd6bb521a62ffc727fd",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/members_controller.rb",
+      "line": 67,
+      "link": "http://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params.to_unsafe_hash.merge(:only_path => true, :display => nil))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MembersController",
+        "method": "show_redirect"
+      },
+      "user_input": "params.to_unsafe_hash.merge(:only_path => true, :display => nil)",
+      "confidence": "High",
+      "note": "Redirect necessary to mantain compatibility with PHP urls from publicwhip. This redirect is safe, because it will always redirect to a specific URL, only changing the paramters (which are also safe)."
+    },
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "fc32d24f86789386fe1346a2eaa5eeb79f4b9bd936d18d99b2162800c19326f5",
+      "check_name": "LinkToHref",
+      "message": "Unsafe model attribute in link_to href",
+      "file": "app/views/layouts/_history_list.html.haml",
+      "line": 13,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(version_policy((Unresolved Model).new).name, version_policy((Unresolved Model).new))",
+      "render_path": [{"type":"controller","class":"UsersController","method":"show","line":8,"file":"app/controllers/users_controller.rb"},{"type":"template","name":"users/show","line":13,"file":"app/views/users/show.html.haml"}],
+      "location": {
+        "type": "template",
+        "template": "layouts/_history_list"
+      },
+      "user_input": "(Unresolved Model).new",
+      "confidence": "Medium",
+      "note": "This is a false positive. It's not possible to do a Cross Site Scripting, this was verified with manual testing."
+    }
+  ],
+  "updated": "2017-04-13 19:14:24 +1000",
+  "brakeman_version": "3.6.1"
+}

@@ -5,6 +5,7 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y tidy
 before_script:
+  - bundle exec brakeman -z
   - cp config/secrets.yml.example config/secrets.yml
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
