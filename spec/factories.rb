@@ -103,6 +103,38 @@ FactoryGirl.define do
     person_id "10458"
   end
 
+  factory :member_info do
+    member_id 1
+    rebellions 0
+    tells 0
+    votes_attended 1
+    votes_possible 2
+    aye_majority 1
+  end
+
+  factory :member_distance do
+    member1_id 1
+    member2_id 265
+    nvotessame 0
+    nvotesdiffer 0
+    nvotesabsent 0
+    distance_a -1.0
+    distance_b -1.0
+  end
+
+  factory :policy_person_distance do
+    policy_id 1
+    person_id 10552
+    nvotessame 0
+    nvotessamestrong 0
+    nvotesdiffer 1
+    nvotesdifferstrong 0
+    nvotesabsent 0
+    nvotesabsentstrong 0
+    distance_a 1.0
+    distance_b 1.0
+  end
+
   factory :person do
     small_image_url "http://www.openaustralia.org/images/mps/10458.jpg"
     large_image_url "http://www.openaustralia.org/images/mpsL/10458.jpg"
