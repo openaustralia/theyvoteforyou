@@ -5,8 +5,6 @@ feature 'Signing up' do
     # TODO: Remove this hack to delete fixtures
     Member.delete_all
     User.delete_all
-
-    create :member
   end
 
   scenario 'with valid details' do
