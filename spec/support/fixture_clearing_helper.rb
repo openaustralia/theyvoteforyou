@@ -10,6 +10,7 @@ module FixtureClearningHelpers
     User.delete_all
     Policy.delete_all
     PolicyDivision.delete_all
+    PolicyPersonDistance.delete_all
     WikiMotion.delete_all
   end
 end
