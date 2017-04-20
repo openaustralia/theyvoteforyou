@@ -3,26 +3,50 @@ require 'spec_helper'
 
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
+  before :each do
+    # DatabaseCleaner cleaner doesn't clean the fixture data
+    clear_db_of_fixture_data
+    # DatabaseCleaner.clean
+
+    create_users
+    create_people
+    create_members
+    create_policies
+    create_divisions
+    create_policy_divisions
+    create_whips
+    create_votes
+    create_wiki_motions
+  end
 
   describe "#show" do
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2")}
+    context "when user not signed in" do
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=senate")}
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2")}
 
-    it {compare_static("/division.php?date=2006-12-06&number=3&house=representatives")}
-    # house=representatives or house=senate appears twice. This is obviously wrong
-    it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Tony_Abbott&mpc=Warringah&house=representatives&house=representatives")}
-    it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Kevin_Rudd&mpc=Griffith&house=representatives&house=representatives")}
-    it {compare_static("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")}
+      it {compare_static("/division.php?date=2006-12-06&number=3&house=representatives")}
+      # house=representatives or house=senate appears twice. This is obviously wrong
+      it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Tony_Abbott&mpc=Warringah&house=representatives&house=representatives")}
+      it {compare_static("/division.php?date=2006-12-06&number=3&mpn=Kevin_Rudd&mpc=Griffith&house=representatives&house=representatives")}
+      it {compare_static("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate")}
+    end
 
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)}
-    it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)}
-    it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)}
-    it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)}
-    it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=1", true)}
-    it {compare_static("/division.php?date=2006-12-06&house=representatives&number=3&display=policies", true)}
+    context "when user signed in" do
+      before :all do
+        # TODO: We should setting a user here and passing it to compare_static
+        #       Currently it's set in compare_static, which is not what you'd expect
+        # create_users
+      end
+
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)}
+      it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)}
+      it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)}
+      it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true)}
+      it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=1", true)}
+      it {compare_static("/division.php?date=2006-12-06&house=representatives&number=3&display=policies", true)}
+    end
   end
 
   describe "#index" do
