@@ -3,8 +3,11 @@ Dir[Rails.root.join('spec/support/static_regression_test_data/*.rb')].each { |f|
 module StaticRegressionTestDataHelpers
   def create_data_for_static_regression_tests
     create_users
+    create_people
     create_members
+    create_policies
     create_divisions
+    create_policy_divisions
     create_whips
     create_votes
     create_wiki_motions

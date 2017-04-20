@@ -103,6 +103,12 @@ FactoryGirl.define do
     person_id "10458"
   end
 
+  factory :person do
+    small_image_url "http://www.openaustralia.org/images/mps/10458.jpg"
+    large_image_url "http://www.openaustralia.org/images/mpsL/10458.jpg"
+    id 10458
+  end
+
   factory :policy do
     sequence(:name) { |n| "the existence of test policies #{n}" }
     description 'there should be fabulous test policies'
@@ -112,5 +118,11 @@ FactoryGirl.define do
     factory :provisional_policy do
       private 2
     end
+  end
+
+  factory :policy_division do
+    division_id 1
+    policy_id 1
+    vote "aye"
   end
 end
