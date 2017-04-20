@@ -31,7 +31,7 @@ namespace :application do
     end
 
     desc 'Update cache of guessed whips'
-    task :policy_distances => :environment do
+    task policy_distances: :environment do
       puts "Updating policy distance cache..."
       Policy.update_all!
     end
