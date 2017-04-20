@@ -83,4 +83,6 @@ RSpec.configure do |config|
   #       # Equivalent to being in spec/controllers
   #     end
   config.infer_spec_type_from_file_location!
+
+  config.include FixtureClearningHelpers
 end

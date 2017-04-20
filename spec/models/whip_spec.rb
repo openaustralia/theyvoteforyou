@@ -1,13 +1,8 @@
 require 'spec_helper'
 
 describe Whip, type: :model do
-  # TODO Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
   before :each do
-    Member.delete_all
-    Division.delete_all
-    Vote.delete_all
-    Whip.delete_all
+    clear_db_of_fixture_data
   end
 
   describe "#free_vote?" do

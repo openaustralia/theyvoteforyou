@@ -3,8 +3,7 @@ require 'spec_helper'
 feature 'User profile' do
   background do
     # TODO: Remove this hack to delete fixtures
-    Member.delete_all
-    User.delete_all
+    clear_db_of_fixture_data
 
     create :member
   end

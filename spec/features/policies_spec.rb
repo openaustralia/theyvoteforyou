@@ -5,8 +5,7 @@ feature 'Policies' do
 
   background do
     # TODO: Remove this hack to delete fixtures
-    Member.delete_all
-    User.delete_all
+    clear_db_of_fixture_data
 
     visit new_user_session_path
     within '#new_user' do

@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe HomeHelper, type: :helper do
+  # TODO: Remove this hack to delete fixtures
+  before do
+    clear_db_of_fixture_data
+  end
+
   describe "#search_people_form_placeholder_text" do
     context "when there are no people" do
       it "is nil" do

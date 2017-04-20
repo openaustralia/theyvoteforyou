@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe PoliciesHelper, type: :helper do
   before :each do
-    User.delete_all
-    Policy.delete_all
+    clear_db_of_fixture_data
   end
 
   describe ".policies_list_sentence" do

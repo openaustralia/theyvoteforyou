@@ -11,8 +11,7 @@ feature 'Viewing user stats' do
 
   background do
     # TODO: Remove this hack to delete fixtures
-    User.delete_all
-    Policy.delete_all
+    clear_db_of_fixture_data
 
     policy1.watches.create!(user: user1)
     policy1.watches.create!(user: user2)
