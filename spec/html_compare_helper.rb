@@ -137,11 +137,17 @@ module HTMLCompareHelper
   end
 
   def create_user
-    FactoryGirl.create(
-      :user,
-      id: 1,
-      name: "Henare Degan",
-      confirmed_at: DateTime.parse("2013-10-20 10:10:53")
-    )
+    # TODO: We should setting a user in the spec files passing it to compare_static
+    #       This is a really unexpected hack
+    if User.any?
+      User.last
+    else
+      FactoryGirl.create(
+        :user,
+        id: 1,
+        name: "Henare Degan",
+        confirmed_at: DateTime.parse("2013-10-20 10:10:53")
+      )
+    end
   end
 end
