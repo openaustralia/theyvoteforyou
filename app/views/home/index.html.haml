@@ -23,19 +23,7 @@
       How does your MP vote on the issues that matter to you?
 
     .banner-action
-      %form{action: search_path, method: "get", name: "pw"}
-        %label{for: "query"}
-          Find your representative by
-          %strong postcode
-          or
-          %strong name
-        .input-group
-          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. #{Member.random_postcode} or #{Member.random_current.name_without_title}", list: "members-datalist"}
-          %span.input-group-btn
-            %button.btn.btn-primary{name: "button", type: "submit", value: "hero_search"} Search
-        %datalist#members-datalist
-          - @current_members.each do |member|
-            %option{value: member.name_without_title}
+      = render 'search_people_form'
 
 .front-panels-block.banner-section
   .container
