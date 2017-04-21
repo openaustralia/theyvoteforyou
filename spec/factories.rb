@@ -1,4 +1,13 @@
 FactoryGirl.define do
+  factory :electorate do
+    id 1
+    name "Warringah"
+    main_name "true"
+    from_date "1000-1-1"
+    to_date "9999-12-31"
+    house "representatives"
+  end
+
   factory :wiki_motion do
     title "An edited division"
     description "This division relates to all sorts of interesting things."
