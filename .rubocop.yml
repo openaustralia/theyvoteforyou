@@ -1,8 +1,9 @@
 # To keep things simple, we're using a whitelist approach
 # Add Cops gradually as needed
-# TODO: Exclude the generated db/schema.rb file
 AllCops:
   DisabledByDefault: true
+  Exclude:
+    -  db/schema.rb
 
 Style/HashSyntax:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals
