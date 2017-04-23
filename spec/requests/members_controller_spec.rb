@@ -3,10 +3,15 @@ require 'spec_helper'
 
 describe MembersController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
 
-  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#index" do
+    before(:each) do
+      clear_db_of_fixture_data
+      create_people
+      create_members
+      create_member_infos
+    end
+
     it {compare_static("/mps.php?house=representatives")}
     it {compare_static("/mps.php?house=representatives&sort=constituency")}
     it {compare_static("/mps.php?house=representatives&sort=party")}
@@ -22,6 +27,8 @@ describe MembersController, type: :request do
 
   # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#show" do
+    fixtures :all
+
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate")}
