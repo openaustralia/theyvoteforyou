@@ -32,7 +32,6 @@ describe HomeController, type: :request do
     it { compare_static("/faq.php") }
   end
 
-  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#search" do
     # TODO: Do we really need this test?
     #       The redirect is already covered in spec/routing/redirects_spec.rb:246
@@ -40,7 +39,22 @@ describe HomeController, type: :request do
     it {compare_static("/search.php")}
 
     describe "postcode lookups" do
-      fixtures :all
+      before do
+        clear_db_of_fixture_data
+        create_people
+        create_members
+        create_offices
+        create_member_infos
+        create_member_distances
+
+        create_policies
+        create_policy_person_distances
+
+        create_divisions
+        create_votes
+        create_whips
+        create_wiki_motions
+      end
 
       # Goes direct to MP page (only one MP covered by this postcode)
       it do
