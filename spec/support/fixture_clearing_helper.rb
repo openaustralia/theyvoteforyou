@@ -16,5 +16,6 @@ module FixtureClearningHelpers
     PolicyPersonDistance.delete_all
     WikiMotion.delete_all
     Office.delete_all
+    Electorate.delete_all
   end
 end
