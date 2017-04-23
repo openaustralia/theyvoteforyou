@@ -4,7 +4,10 @@ module FixtureClearningHelpers
   def clear_db_of_fixture_data
     Person.delete_all
     Member.delete_all
+    MemberInfo.delete_all
+    MemberDistance.delete_all
     Division.delete_all
+    DivisionInfo.delete_all
     Vote.delete_all
     Whip.delete_all
     User.delete_all
@@ -12,5 +15,6 @@ module FixtureClearningHelpers
     PolicyDivision.delete_all
     PolicyPersonDistance.delete_all
     WikiMotion.delete_all
+    Office.delete_all
   end
 end
