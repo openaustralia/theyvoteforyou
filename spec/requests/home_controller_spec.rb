@@ -3,7 +3,6 @@ require 'spec_helper'
 
 describe HomeController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
 
   # TODO: Do we really need this test?
   #       The homepage was written from scratch
@@ -19,12 +18,23 @@ describe HomeController, type: :request do
   #       The only dynamic content on this page is the paragraph with
   #       summary data. We could extract that to a helper and write specific
   #       tests to guard from regression.
-  it "#faq" do
-    compare_static("/faq.php")
+  describe "#faq" do
+    before do
+      clear_db_of_fixture_data
+      create_members
+      create_divisions
+      create_votes
+      create_users
+      create_policies
+      create_wiki_motions
+    end
+
+    it { compare_static("/faq.php") }
   end
 
   # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#search" do
+    fixtures :all
     # TODO: Do we really need this test?
     #       The redirect is already covered in spec/routing/redirects_spec.rb:246
     #       Aside from that, this is a static page with no complex logic to regress.
