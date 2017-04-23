@@ -166,4 +166,14 @@ FactoryGirl.define do
     policy_id 1
     vote "aye"
   end
+
+  factory :office do
+    id 123
+    position "Minister for Silly Walks"
+    from_date "2015-08-03"
+    to_date "2017-04-23"
+    person_id 10001
+    dept ""
+    responsibility ""
+  end
 end
