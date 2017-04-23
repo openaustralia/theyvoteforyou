@@ -3,10 +3,15 @@ require 'spec_helper'
 
 describe PoliciesController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
 
   before(:each) do
+    clear_db_of_fixture_data
     DatabaseCleaner.start
+
+    create_divisions
+    create_policies
+    create_policy_divisions
+    create_wiki_motions
   end
 
   after(:each) do
@@ -18,6 +23,7 @@ describe PoliciesController, type: :request do
   end
 
   describe "#show" do
+    fixtures :all
     it { compare_static("/policy.php?id=1") }
     it { compare_static("/policy.php?id=1&display=motions") }
 
