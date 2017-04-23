@@ -207,7 +207,7 @@ module StaticRegressionTestDataHelpers
       last_name: "Price",
       title: '',
       constituency: "Chifley",
-      party: "australian labor party",
+      party: "Australian Labor Party",
       house: "representatives",
       entered_house: "1984-12-01",
       left_house: "2010-08-21",
