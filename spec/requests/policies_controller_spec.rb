@@ -8,10 +8,22 @@ describe PoliciesController, type: :request do
     clear_db_of_fixture_data
     DatabaseCleaner.start
 
+    create_people
+    create_members
+    create_member_infos
+
     create_divisions
+    create_whips
+    create_votes
+    create_wiki_motions
+
     create_policies
     create_policy_divisions
-    create_wiki_motions
+    # We want to feed specific PolicyPersonDistance records here,
+    # so we need to clear out the ones generated when the PolicyDivisions
+    # are created/the callback is triggered.
+    PolicyPersonDistance.delete_all
+    create_policy_person_distances
   end
 
   after(:each) do
@@ -23,7 +35,6 @@ describe PoliciesController, type: :request do
   end
 
   describe "#show" do
-    fixtures :all
     it { compare_static("/policy.php?id=1") }
     it { compare_static("/policy.php?id=1&display=motions") }
 
