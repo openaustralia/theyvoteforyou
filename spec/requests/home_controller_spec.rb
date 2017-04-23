@@ -56,19 +56,25 @@ describe HomeController, type: :request do
         create_wiki_motions
       end
 
+      around do |spec|
+        VCR.use_cassette('openaustralia_postcode_api') do
+          spec.run
+        end
+      end
+
       # Goes direct to MP page (only one MP covered by this postcode)
       it do
-        VCR.use_cassette('openaustralia_postcode_api') {compare_static("/search.php?query=2088&button=Search")}
+        compare_static("/search.php?query=2088&button=Search")
       end
 
       # Two electorates cover this postcode
       it do
-        VCR.use_cassette('openaustralia_postcode_api') {compare_static("/search.php?query=2042&button=Search")}
+        compare_static("/search.php?query=2042&button=Search")
       end
 
       # Bad postcode
       it do
-        VCR.use_cassette('openaustralia_postcode_api') {compare_static("/search.php?query=0000&button=Search")}
+        compare_static("/search.php?query=0000&button=Search")
       end
     end
   end
