@@ -62,6 +62,13 @@ describe HomeController, type: :request do
         end
       end
 
+      # TODO: These tests cover too much behaviour and should be more focused:
+      #       They're currently testing:
+      #         * the php redirects
+      #         * the postcode lookup controller behaviour
+      #         * that each page rendered matches the static regression fixture copy
+      #       Some of this is covered in other tests and we should write isolated tests
+      #       for the rest, and an integration test if it's needed.
       context "when one MP is covered by the postcode" do
         it "goes direct to MP page" do
           compare_static("/search.php?query=2088&button=Search")
