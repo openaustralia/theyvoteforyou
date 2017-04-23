@@ -10,6 +10,8 @@ describe HomeController, type: :request do
   #       at the end of the rails upgrade and doesn't include complex
   #       behaviour that could easily regress.
   it "#index" do
+    clear_db_of_fixture_data
+    create_members
     compare_static("/")
   end
 
