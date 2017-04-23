@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe "routing redirects", type: :request do
-  fixtures :all
+  before :each do
+    clear_db_of_fixture_data
+  end
 
   it "/account/changepass.php -> /account/edit" do
     get "/account/changepass.php"
@@ -64,20 +66,46 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to("/people/representatives?sort=rebellions")
   end
 
-  it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
-    get "/mp.php?mpid=1&dmp=1"
-    expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+  context "when Tony Abbot has id 1" do
+    before do
+      create(
+        :member,
+        id: 1,
+        constituency: "Warringah",
+        first_name: "Tony",
+        last_name: "Abbott",
+        house: "representatives"
+      )
+    end
+
+    it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
+      get "/mp.php?mpid=1&dmp=1"
+      expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+    end
+  end
+
+  context "when Tony Abbot has gid 'uk.org.publicwhip/member/1'" do
+    before do
+      create(
+        :member,
+        gid: "uk.org.publicwhip/member/1",
+        constituency: "Warringah",
+        first_name: "Tony",
+        last_name: "Abbott",
+        house: "representatives"
+      )
+    end
+
+    it "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1 -> /mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
+      get "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1"
+      expect(response).to redirect_to("/mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+    end
   end
 
   # showall=yes means the same thing as display=allvotes. allvotes has been removed in favour of everyvote
   it "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&showall=yes -> /mp.php?display=everyvote&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
     get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&showall=yes"
     expect(response).to redirect_to("/mp.php?display=everyvote&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
-  end
-
-  it "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1 -> /mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
-    get "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1"
-    expect(response).to redirect_to("/mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
 
   it "/mp.php?display=summary&house=representatives&mpc=Warringah&mpn=Tony_Abbott -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
@@ -117,19 +145,43 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to "/mp.php?house=senate&mpc=Tasmania&mpn=Eric_Abetz"
   end
 
-  it do
-    get "/mp.php?house=senate&mpc=Senate&mpn=Judith_Adams"
-    expect(response).to redirect_to "/mp.php?house=senate&mpc=WA&mpn=Judith_Adams"
+  context "when Judith Adams is a WA Senator" do
+    before do
+      create(
+        :member,
+        first_name: "Judith",
+        last_name: "Adams",
+        constituency: "WA",
+        house: "senate",
+      )
+    end
+
+    it do
+      get "/mp.php?house=senate&mpc=Senate&mpn=Judith_Adams"
+      expect(response).to redirect_to "/mp.php?house=senate&mpc=WA&mpn=Judith_Adams"
+    end
   end
 
-  it do
-    get "/mp.php?house=representatives&mpn=Tony_Abbott"
-    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
-  end
+  context "when Tony Abbot has is the MP for Warringah" do
+    before do
+      create(
+        :member,
+        constituency: "Warringah",
+        first_name: "Tony",
+        last_name: "Abbott",
+        house: "representatives"
+      )
+    end
 
-  it do
-    get "/mp.php?mpn=Tony_Abbott"
-    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
+    it do
+      get "/mp.php?house=representatives&mpn=Tony_Abbott"
+      expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
+    end
+
+    it do
+      get "/mp.php?mpn=Tony_Abbott"
+      expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
+    end
   end
 
   it do
@@ -182,9 +234,21 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to "/divisions.php?house=senate&rdisplay=2010&sort=rebellions"
   end
 
-  it do
-    get "/division.php?date=2014-09-04&house=senate&mpc=Senate&mpn=Christine_Milne&number=4"
-    expect(response).to redirect_to "/division.php?date=2014-09-04&house=senate&mpc=Tasmania&mpn=Christine_Milne&number=4"
+  context "when Christine Milne is a Tasmanian Senator" do
+    before do
+      create(
+        :member,
+        first_name: "Christine",
+        last_name: "Milne",
+        constituency: "Tasmania",
+        house: "senate",
+      )
+    end
+
+    it do
+      get "/division.php?date=2014-09-04&house=senate&mpc=Senate&mpn=Christine_Milne&number=4"
+      expect(response).to redirect_to "/division.php?date=2014-09-04&house=senate&mpc=Tasmania&mpn=Christine_Milne&number=4"
+    end
   end
 
   it do
