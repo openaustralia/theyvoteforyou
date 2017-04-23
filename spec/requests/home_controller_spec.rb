@@ -34,13 +34,14 @@ describe HomeController, type: :request do
 
   # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#search" do
-    fixtures :all
     # TODO: Do we really need this test?
     #       The redirect is already covered in spec/routing/redirects_spec.rb:246
     #       Aside from that, this is a static page with no complex logic to regress.
     it {compare_static("/search.php")}
 
     describe "postcode lookups" do
+      fixtures :all
+
       # Goes direct to MP page (only one MP covered by this postcode)
       it do
         VCR.use_cassette('openaustralia_postcode_api') {compare_static("/search.php?query=2088&button=Search")}
