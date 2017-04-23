@@ -62,19 +62,20 @@ describe HomeController, type: :request do
         end
       end
 
-      # Goes direct to MP page (only one MP covered by this postcode)
-      it do
-        compare_static("/search.php?query=2088&button=Search")
+      context "when one MP is covered by the postcode" do
+        it "goes direct to MP page" do
+          compare_static("/search.php?query=2088&button=Search")
+        end
       end
 
-      # Two electorates cover this postcode
-      it do
-        compare_static("/search.php?query=2042&button=Search")
+      context "when two electorates cover this postcode" do
+        it "presents options to the searcher" do
+          compare_static("/search.php?query=2042&button=Search")
+        end
       end
 
-      # Bad postcode
-      it do
-        compare_static("/search.php?query=0000&button=Search")
+      context "when the postcode is not a real postcode" do
+        it { compare_static("/search.php?query=0000&button=Search") }
       end
     end
   end
