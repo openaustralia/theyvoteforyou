@@ -13,11 +13,11 @@ describe FeedsController, type: :request do
       create_member_infos
     end
 
-    context "for all MPs" do
+    context "for representatives" do
       it { compare_static '/feeds/mp-info.xml' }
     end
 
-    context "for only the senate" do
+    context "for senators" do
       it { compare_static '/feeds/mp-info.xml?house=senate' }
     end
   end
