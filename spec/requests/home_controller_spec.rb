@@ -21,6 +21,7 @@ describe HomeController, type: :request do
     compare_static("/faq.php")
   end
 
+  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#search" do
     # TODO: Do we really need this test?
     #       The redirect is already covered in spec/routing/redirects_spec.rb:246

@@ -5,6 +5,7 @@ describe MembersController, type: :request do
   include HTMLCompareHelper
   fixtures :all
 
+  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#index" do
     it {compare_static("/mps.php?house=representatives")}
     it {compare_static("/mps.php?house=representatives&sort=constituency")}
@@ -19,6 +20,7 @@ describe MembersController, type: :request do
     it {compare_static("/mps.php?house=senate&sort=attendance")}
   end
 
+  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#show" do
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")}
@@ -58,6 +60,7 @@ describe MembersController, type: :request do
 
       it { compare_static("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
 
+      # TODO: Should this be in spec/routing/redirects_spec.rb ?
       it "should redirect to the senator's page even if the id param incorrectly identifies a member as a senator and vice versa" do
         # Barnaby has been set up above as a member and a senator.
         # Let's refer to his senator record but incorrectly using `member` instead of `lord`
@@ -67,11 +70,14 @@ describe MembersController, type: :request do
       end
     end
 
+    # TODO: Should this be in spec/controllers/members_controller_spec.rb ?
     it "should 404 with an unknown person" do
       get "/mp.php?mpn=Foo_Bar"
       expect(response.status).to eq 404
     end
 
+    # TODO: Add specific test setup so this doesn't use the fixture data
+    # TODO: Should this be in spec/controllers/members_controller_spec.rb ?
     it "should 404 when the wrong name is given for a correct electorate" do
       get "/people/representatives/warringah/foo_bar"
       expect(response.status).to eq(404)
