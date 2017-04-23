@@ -33,6 +33,7 @@ module StaticRegressionTestDataHelpers
 
     create(
       :member_info,
+      member_id: 265,
       rebellions: 0,
       tells: 0,
       votes_attended: 0,
