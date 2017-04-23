@@ -25,9 +25,23 @@ describe MembersController, type: :request do
     it {compare_static("/mps.php?house=senate&sort=attendance")}
   end
 
-  # TODO: Add specific test setup so this doesn't use the fixture data
   describe "#show" do
-    fixtures :all
+    before(:each) do
+      clear_db_of_fixture_data
+      create_people
+      create_members
+      create_offices
+      create_member_infos
+      create_member_distances
+
+      create_policies
+      create_policy_person_distances
+
+      create_divisions
+      create_votes
+      create_whips
+      create_wiki_motions
+    end
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")}
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives")}
@@ -41,15 +55,27 @@ describe MembersController, type: :request do
     it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allfriends")}
     it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=allfriends")}
 
-    it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1")}
-    it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1")}
-    it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1")}
+    context "with policy" do
+      before :each do
+        create_policy_divisions
+      end
+
+      it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1")}
+      it {compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1")}
+      it {compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1")}
+    end
 
     # Test free teller under Interesting Votes
     it {compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives")}
 
     context "Barnaby Joyce" do
       before :each do
+        clear_db_of_fixture_data
+        create_divisions
+        create_votes
+        create_whips
+        create_wiki_motions
+
         Person.create(id: 10350, large_image_url: "http://www.openaustralia.org/images/mpsL/10350.jpg")
         Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
           first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
@@ -83,7 +109,6 @@ describe MembersController, type: :request do
       expect(response.status).to eq 404
     end
 
-    # TODO: Add specific test setup so this doesn't use the fixture data
     # TODO: Should this be in spec/controllers/members_controller_spec.rb ?
     it "should 404 when the wrong name is given for a correct electorate" do
       get "/people/representatives/warringah/foo_bar"
