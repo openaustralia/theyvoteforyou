@@ -12,6 +12,9 @@ class PolicyPersonDistance < ActiveRecord::Base
   has_one :person, foreign_key: :id, primary_key: :person_id
 
   scope :published, -> { joins(:policy).merge(Policy.published) }
+  # TODO: It's not clear how these are sorted, though it seems very important.
+  #       The order of the members in a group implies the relative strength of
+  #       their voting record.
   scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
   scope :strongly_for,          -> { where(distance_a: (0.05...0.15)) }
   scope :moderately_for,        -> { where(distance_a: (0.15...0.40)) }
