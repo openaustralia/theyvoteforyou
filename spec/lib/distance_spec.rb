@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe Distance do
   describe ".distance_b" do
+    # FIXME: It's confusing that these tests are so focused on members,
+    #       This class is not only used to measure the distance between two members,
+    #       but also between members and policies by PolicyPersonDistance.
+    #       This is because of the 'Dream MP' concept where policies are
+    #       conceptualised as a member--but the app is moving away from that as it's
+    #       very confusing for users and developers.
     context "two members that have never voted on the same thing" do
       it { expect(Distance.distance_b(0, 0)).to eq -1 }
     end
