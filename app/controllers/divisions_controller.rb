@@ -137,7 +137,6 @@ class DivisionsController < ApplicationController
 
       @members_vote_null = @members.where("votes.id IS NULL")
     end
-
   end
 
   def show_policies
