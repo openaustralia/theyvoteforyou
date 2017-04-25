@@ -96,6 +96,7 @@ group :development do
   gem 'mina'
   gem 'mina-multistage', require: false
   gem 'brakeman', require: false
+end
 
 group :test, :development do
   gem 'rspec-rails', '~> 3.5'
