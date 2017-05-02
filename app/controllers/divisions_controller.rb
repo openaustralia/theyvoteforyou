@@ -109,21 +109,34 @@ class DivisionsController < ApplicationController
 
   def show
     house = params[:house]
-    @division = Division.in_house(house).find_by!(date: params[:date], number: params[:number])
-    @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
+    date = params[:date]
+    number = params[:number]
 
-    # If a member is included
-    if params[:mpn] && params[:mpc]
-      name = params[:mpn].gsub("_", " ")
-      electorate = params[:mpc].gsub("_", " ")
-      # TODO Also ensure that the member is current on the date of this division
-      member = Member.in_house(house).with_name(name).
+    @division = get_division(house, date, number)
+
+    if @division.nil?
+      render 'home/error_404', status: 404
+    else
+      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
+      @whips = @division.whips.order(:party)
+      @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
+
+      # If a member is included
+      if params[:mpn] && params[:mpc]
+        name = params[:mpn].gsub("_", " ")
+        electorate = params[:mpc].gsub("_", " ")
+        # TODO Also ensure that the member is current on the date of this division
+        member = Member.in_house(house).with_name(name).
         where(constituency: electorate).first
-      @member = member.person.member_who_voted_on_division(@division)
-    end
-    @members = Member.in_house(house).current_on(@division.date).
+        @member = member.person.member_who_voted_on_division(@division)
+      end
+
+      @members = Member.in_house(house).current_on(@division.date).
       joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
       order("members.party", "vote", "members.last_name", "members.first_name")
+
+      @members_vote_null = @members.where("votes.id IS NULL")
+    end
   end
 
   def show_policies
@@ -218,5 +231,12 @@ class DivisionsController < ApplicationController
           .in_house(@house)
           .where(constituency: electorate)
           .order(entered_house: :desc).first
+  end
+
+  def get_division(house, date, number)
+    Division.in_house(house)
+    .joins(:division_info, :whips)
+    .includes(:division_info, :whips)
+    .find_by(date: date, number: number)
   end
 end

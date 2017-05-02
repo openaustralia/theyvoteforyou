@@ -95,7 +95,6 @@ group :development do
 
   gem 'mina'
   gem 'mina-multistage', require: false
-
   gem 'brakeman', require: false
 end
 

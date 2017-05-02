@@ -238,4 +238,15 @@ module DivisionsHelper
       raise ArgumentError, 'Not valid date'
     end
   end
+
+  def rebellion?(vote, whip)
+    !whip.free? && vote.vote != whip.whip_guess
+  end
+
+  def member_row_class(vote, whip)
+    classes = []
+    classes << 'collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1
+    classes << 'rebel' if rebellion?(vote, whip)
+    classes << 'member-row-' + whip.party.parameterize
+  end
 end
