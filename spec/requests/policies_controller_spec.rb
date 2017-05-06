@@ -27,6 +27,7 @@ describe PoliciesController, type: :request do
   end
 
   after(:each) do
+    clear_db_of_fixture_data
     DatabaseCleaner.clean
   end
 
