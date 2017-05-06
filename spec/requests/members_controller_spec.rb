@@ -25,6 +25,9 @@ describe MembersController, type: :request do
   end
 
   describe "#show" do
+    # TODO: Break this setup down into just what's needed for each example.
+    #       This will speed up the tests, and also help us replace them with
+    #       more specific and isolated tests.
     before(:each) do
       create_people
       create_members
