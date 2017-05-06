@@ -4,9 +4,7 @@ require 'spec_helper'
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
   before :each do
-    # DatabaseCleaner cleaner doesn't clean the fixture data
     clear_db_of_fixture_data
-    # DatabaseCleaner.clean
 
     create_users
     create_people

@@ -5,7 +5,6 @@ describe DataLoader::DebatesXML do
   context 'actual division 1 from representatives on 2009-11-25' do
     after(:each) do
       clear_db_of_fixture_data
-      DatabaseCleaner.clean
     end
 
     subject(:division) do

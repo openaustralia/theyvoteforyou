@@ -6,7 +6,6 @@ describe PoliciesController, type: :request do
 
   before(:each) do
     clear_db_of_fixture_data
-    DatabaseCleaner.start
 
     create_people
     create_members
@@ -28,7 +27,6 @@ describe PoliciesController, type: :request do
 
   after(:each) do
     clear_db_of_fixture_data
-    DatabaseCleaner.clean
   end
 
   it "#index" do

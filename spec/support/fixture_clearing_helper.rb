@@ -17,5 +17,7 @@ module FixtureClearningHelpers
     WikiMotion.delete_all
     Office.delete_all
     Electorate.delete_all
+
+    DatabaseCleaner.clean
   end
 end
