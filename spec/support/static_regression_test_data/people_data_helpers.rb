@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_people
+  def create_people_for_regression_tests
     create(
       :person,
       small_image_url: "http://www.openaustralia.org/images/mps/10001.jpg",

@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_member_distances
+  def create_member_distances_for_regression_tests
     create(
       :member_distance,
       member1_id: 1,

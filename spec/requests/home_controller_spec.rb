@@ -9,7 +9,7 @@ describe HomeController, type: :request do
   #       at the end of the rails upgrade and doesn't include complex
   #       behaviour that could easily regress.
   it "#index" do
-    create_members
+    create_members_for_regression_tests
     compare_static("/")
   end
 
@@ -19,12 +19,12 @@ describe HomeController, type: :request do
   #       tests to guard from regression.
   describe "#faq" do
     before do
-      create_members
-      create_divisions
-      create_votes
-      create_users
-      create_policies
-      create_wiki_motions
+      create_members_for_regression_tests
+      create_divisions_for_regression_tests
+      create_votes_for_regression_tests
+      create_users_for_regression_tests
+      create_policies_for_regression_tests
+      create_wiki_motions_for_regression_tests
     end
 
     it { compare_static("/faq.php") }
@@ -38,19 +38,19 @@ describe HomeController, type: :request do
 
     describe "postcode lookups" do
       before do
-        create_people
-        create_members
-        create_offices
-        create_member_infos
-        create_member_distances
+        create_people_for_regression_tests
+        create_members_for_regression_tests
+        create_offices_for_regression_tests
+        create_member_infos_for_regression_tests
+        create_member_distances_for_regression_tests
 
-        create_policies
-        create_policy_person_distances
+        create_policies_for_regression_tests
+        create_policy_person_distances_for_regression_tests
 
-        create_divisions
-        create_votes
-        create_whips
-        create_wiki_motions
+        create_divisions_for_regression_tests
+        create_votes_for_regression_tests
+        create_whips_for_regression_tests
+        create_wiki_motions_for_regression_tests
       end
 
       around do |spec|

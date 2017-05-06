@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_divisions
+  def create_divisions_for_regression_tests
     create(
       :division,
       id: 1,

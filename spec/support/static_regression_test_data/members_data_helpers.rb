@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_members
+  def create_members_for_regression_tests
     create(
       :member,
       id: 1,

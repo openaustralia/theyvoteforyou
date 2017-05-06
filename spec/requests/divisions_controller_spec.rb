@@ -6,15 +6,15 @@ describe DivisionsController, type: :request do
   describe "#show" do
     context "when user not signed in" do
       before :each do
-        create_users
-        create_people
-        create_members
-        create_policies
-        create_divisions
-        create_policy_divisions
-        create_whips
-        create_votes
-        create_wiki_motions
+        create_users_for_regression_tests
+        create_people_for_regression_tests
+        create_members_for_regression_tests
+        create_policies_for_regression_tests
+        create_divisions_for_regression_tests
+        create_policy_divisions_for_regression_tests
+        create_whips_for_regression_tests
+        create_votes_for_regression_tests
+        create_wiki_motions_for_regression_tests
       end
 
       it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
@@ -31,14 +31,14 @@ describe DivisionsController, type: :request do
 
     context "when user signed in" do
       before :each do
-        create_users
-        create_members
-        create_policies
-        create_divisions
-        create_policy_divisions
-        create_whips
-        create_votes
-        create_wiki_motions
+        create_users_for_regression_tests
+        create_members_for_regression_tests
+        create_policies_for_regression_tests
+        create_divisions_for_regression_tests
+        create_policy_divisions_for_regression_tests
+        create_whips_for_regression_tests
+        create_votes_for_regression_tests
+        create_wiki_motions_for_regression_tests
       end
 
       it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)}
@@ -52,9 +52,9 @@ describe DivisionsController, type: :request do
 
   describe "#index" do
     before :each do
-      create_divisions
-      create_whips
-      create_wiki_motions
+      create_divisions_for_regression_tests
+      create_whips_for_regression_tests
+      create_wiki_motions_for_regression_tests
     end
 
     it {compare_static("/divisions.php")}
@@ -130,10 +130,10 @@ describe DivisionsController, type: :request do
 
   describe '#edit' do
     before :each do
-      create_users
+      create_users_for_regression_tests
       # TODO: surely we don't need to create all these division to show one?
-      create_divisions
-      create_wiki_motions
+      create_divisions_for_regression_tests
+      create_wiki_motions_for_regression_tests
     end
 
     it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true }
@@ -142,7 +142,7 @@ describe DivisionsController, type: :request do
 
   describe '#update' do
     before :each do
-      create_members
+      create_members_for_regression_tests
       # TODO: only specify the data needed for this test
       create(
         :division,
@@ -168,8 +168,8 @@ describe DivisionsController, type: :request do
           aye_majority: -31
         )
       )
-      create_votes
-      create_whips
+      create_votes_for_regression_tests
+      create_whips_for_regression_tests
     end
 
     it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }

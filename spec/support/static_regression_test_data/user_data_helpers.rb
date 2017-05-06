@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_users
+  def create_users_for_regression_tests
     create(
       :user,
       id: 1,

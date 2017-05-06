@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_votes
+  def create_votes_for_regression_tests
     create(
       :vote,
       division_id: 1,

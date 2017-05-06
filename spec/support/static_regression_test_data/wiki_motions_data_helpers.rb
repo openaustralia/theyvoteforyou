@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_wiki_motions
+  def create_wiki_motions_for_regression_tests
     create(
       :wiki_motion,
       id: 1,

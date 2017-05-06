@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_whips
+  def create_whips_for_regression_tests
     create(
       :whip,
       division_id: 1,

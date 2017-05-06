@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_offices
+  def create_offices_for_regression_tests
     create(
       :office,
       id: 504,

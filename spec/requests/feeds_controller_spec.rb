@@ -5,10 +5,10 @@ describe FeedsController, type: :request do
 
   describe '#mp-info' do
     before :each do
-      create_divisions
-      create_people
-      create_members
-      create_member_infos
+      create_divisions_for_regression_tests
+      create_people_for_regression_tests
+      create_members_for_regression_tests
+      create_member_infos_for_regression_tests
     end
 
     context "for representatives" do
@@ -22,9 +22,9 @@ describe FeedsController, type: :request do
 
   describe '#mpdream-info' do
     before do
-      create_members
-      create_policies
-      create_policy_person_distances
+      create_members_for_regression_tests
+      create_policies_for_regression_tests
+      create_policy_person_distances_for_regression_tests
     end
 
     it { compare_static '/feeds/mpdream-info.xml?id=1' }

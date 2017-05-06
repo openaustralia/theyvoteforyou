@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_policy_person_distances
+  def create_policy_person_distances_for_regression_tests
     create(
       :policy_person_distance,
       id: 3,

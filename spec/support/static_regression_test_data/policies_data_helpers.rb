@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_policies
+  def create_policies_for_regression_tests
     create(
       :policy,
       id: 1,
@@ -34,7 +34,7 @@ module StaticRegressionTestDataHelpers
     )
   end
 
-  def create_policy_divisions
+  def create_policy_divisions_for_regression_tests
     create(
       :policy_division,
       division_id: 1,

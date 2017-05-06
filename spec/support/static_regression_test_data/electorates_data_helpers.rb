@@ -1,5 +1,5 @@
 module StaticRegressionTestDataHelpers
-  def create_electorates
+  def create_electorates_for_regression_tests
     create(
       :electorate,
       id: 1,

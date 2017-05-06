@@ -6,9 +6,9 @@ describe MembersController, type: :request do
 
   describe "#index" do
     before(:each) do
-      create_people
-      create_members
-      create_member_infos
+      create_people_for_regression_tests
+      create_members_for_regression_tests
+      create_member_infos_for_regression_tests
     end
 
     it {compare_static("/mps.php?house=representatives")}
@@ -29,19 +29,19 @@ describe MembersController, type: :request do
     #       This will speed up the tests, and also help us replace them with
     #       more specific and isolated tests.
     before(:each) do
-      create_people
-      create_members
-      create_offices
-      create_member_infos
-      create_member_distances
+      create_people_for_regression_tests
+      create_members_for_regression_tests
+      create_offices_for_regression_tests
+      create_member_infos_for_regression_tests
+      create_member_distances_for_regression_tests
 
-      create_policies
-      create_policy_person_distances
+      create_policies_for_regression_tests
+      create_policy_person_distances_for_regression_tests
 
-      create_divisions
-      create_votes
-      create_whips
-      create_wiki_motions
+      create_divisions_for_regression_tests
+      create_votes_for_regression_tests
+      create_whips_for_regression_tests
+      create_wiki_motions_for_regression_tests
     end
 
     it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives")}
@@ -58,7 +58,7 @@ describe MembersController, type: :request do
 
     context "with policy" do
       before :each do
-        create_policy_divisions
+        create_policy_divisions_for_regression_tests
       end
 
       it {compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1")}
@@ -72,10 +72,10 @@ describe MembersController, type: :request do
 
   describe "#show for Barnaby Joyce" do
     before :each do
-      create_divisions
-      create_votes
-      create_whips
-      create_wiki_motions
+      create_divisions_for_regression_tests
+      create_votes_for_regression_tests
+      create_whips_for_regression_tests
+      create_wiki_motions_for_regression_tests
 
       Person.create(id: 10350, large_image_url: "http://www.openaustralia.org/images/mpsL/10350.jpg")
       Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",

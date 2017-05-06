@@ -1,6 +1,6 @@
 module StaticRegressionTestDataHelpers
   # TODO don't know what aye_majority does yet
-  def create_member_infos
+  def create_member_infos_for_regression_tests
     create(
       :member_info,
       member_id: 1,
