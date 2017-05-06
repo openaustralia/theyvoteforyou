@@ -3,20 +3,20 @@ require 'spec_helper'
 
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
-  before :each do
-    create_users
-    create_people
-    create_members
-    create_policies
-    create_divisions
-    create_policy_divisions
-    create_whips
-    create_votes
-    create_wiki_motions
-  end
-
   describe "#show" do
     context "when user not signed in" do
+      before :each do
+        create_users
+        create_people
+        create_members
+        create_policies
+        create_divisions
+        create_policy_divisions
+        create_whips
+        create_votes
+        create_wiki_motions
+      end
+
       it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives")}
       it {compare_static("/division.php?date=2013-03-14&number=1&house=senate")}
       it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2")}
@@ -30,6 +30,17 @@ describe DivisionsController, type: :request do
     end
 
     context "when user signed in" do
+      before :each do
+        create_users
+        create_members
+        create_policies
+        create_divisions
+        create_policy_divisions
+        create_whips
+        create_votes
+        create_wiki_motions
+      end
+
       before :all do
         # TODO: We should setting a user here and passing it to compare_static
         #       Currently it's set in compare_static, which is not what you'd expect
@@ -46,6 +57,12 @@ describe DivisionsController, type: :request do
   end
 
   describe "#index" do
+    before :each do
+      create_divisions
+      create_whips
+      create_wiki_motions
+    end
+
     it {compare_static("/divisions.php")}
     it {compare_static("/divisions.php?rdisplay=2007")}
     it {compare_static("/divisions.php?rdisplay=2004")}
@@ -118,11 +135,27 @@ describe DivisionsController, type: :request do
   end
 
   describe '#edit' do
+    before :each do
+      create_users
+      # TODO: surely we don't need to create all these division to show one?
+      create_divisions
+      create_wiki_motions
+    end
+
     it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true }
     it { compare_static '/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives', true }
   end
 
   describe '#update' do
+    before :each do
+      create_members
+      # TODO: surely we don't need to create all these division to show one?
+      create_divisions
+      create_votes
+      create_whips
+      create_wiki_motions
+    end
+
     it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
   end
 end
