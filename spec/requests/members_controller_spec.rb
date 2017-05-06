@@ -6,7 +6,6 @@ describe MembersController, type: :request do
 
   describe "#index" do
     before(:each) do
-      clear_db_of_fixture_data
       create_people
       create_members
       create_member_infos
@@ -27,7 +26,6 @@ describe MembersController, type: :request do
 
   describe "#show" do
     before(:each) do
-      clear_db_of_fixture_data
       create_people
       create_members
       create_offices
