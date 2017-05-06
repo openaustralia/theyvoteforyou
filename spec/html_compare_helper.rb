@@ -137,8 +137,8 @@ module HTMLCompareHelper
   end
 
   def create_user
-    # TODO: We should setting a user in the spec files passing it to compare_static
-    #       This is a really unexpected hack
+    # TODO: We should setting a user in the spec files passing it to compare_static.
+    #       This introduces the 'mystery guest' test smell.
     if User.any?
       User.last
     else

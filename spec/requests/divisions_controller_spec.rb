@@ -41,12 +41,6 @@ describe DivisionsController, type: :request do
         create_wiki_motions
       end
 
-      before :all do
-        # TODO: We should setting a user here and passing it to compare_static
-        #       Currently it's set in compare_static, which is not what you'd expect
-        # create_users
-      end
-
       it {compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true)}
       it {compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true)}
       it {compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true)}
