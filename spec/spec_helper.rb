@@ -45,6 +45,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
+    DatabaseCleaner.strategy = :truncation, {pre_count: true, reset_ids: true}
+
     Delayed::Worker.delay_jobs = false
 
     begin
