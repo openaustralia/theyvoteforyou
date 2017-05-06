@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe DivisionsController, type: :controller do
   describe "#index" do
-    # TODO: Remove this hack to delete fixtures
-    before :each do
-      clear_db_of_fixture_data
-    end
-
     let!(:december_2016_division)  { create(:division, date: Date.new(2016,12,25)) }
     let!(:june_2016_division)  { create(:division, date: Date.new(2016,06,01)) }
     let!(:older_division)  { create(:division, date: Date.new(2013,04,29)) }

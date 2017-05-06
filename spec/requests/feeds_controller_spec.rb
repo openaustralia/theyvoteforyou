@@ -5,8 +5,6 @@ describe FeedsController, type: :request do
 
   describe '#mp-info' do
     before :each do
-      clear_db_of_fixture_data
-
       create_divisions
       create_people
       create_members
@@ -24,8 +22,6 @@ describe FeedsController, type: :request do
 
   describe '#mpdream-info' do
     before do
-      clear_db_of_fixture_data
-
       create_members
       create_policies
       create_policy_person_distances

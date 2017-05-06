@@ -1,12 +1,7 @@
 require 'spec_helper'
 
 describe MemberDistance, type: :model do
-  # TODO Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
-  before :each do
-    clear_db_of_fixture_data
-  end
-
+  # TODO: This probably isn't needed anymore
   # Just making sure we're not loading any fixtures
   it { expect(Member.all).to be_empty }
 

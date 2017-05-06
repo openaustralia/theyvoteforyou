@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe Whip, type: :model do
-  before :each do
-    clear_db_of_fixture_data
-  end
-
   describe "#free_vote?" do
     it do
       division = Division.new(house: 'senate', date: '2006-02-09', number: 3)

@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe WikiMotion, type: :model do
-  before :each do
-    clear_db_of_fixture_data
-  end
-
   describe 'storing edit_date in local time zone' do
     it "magical high level test" do
       wiki_motion = create(:wiki_motion, edit_date: Time.new(2014,1,1,1,1,1))

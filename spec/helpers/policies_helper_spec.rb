@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe PoliciesHelper, type: :helper do
-  before :each do
-    clear_db_of_fixture_data
-  end
-
   describe ".policies_list_sentence" do
     let(:user) { User.create!(email: "matthew@oaf.org.au", password: "foofoofoo", name: 'Matthew Landauer') }
     let(:policy1) { Policy.create!(id: 1, name: "A nice policy", description: "nice", user: user, private: 0) }

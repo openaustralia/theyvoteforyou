@@ -4,9 +4,6 @@ feature 'Policies' do
   given(:user) { create(:user, confirmed_at: Time.now) }
 
   background do
-    # TODO: Remove this hack to delete fixtures
-    clear_db_of_fixture_data
-
     visit new_user_session_path
     within '#new_user' do
       fill_in 'Email', with: user.email

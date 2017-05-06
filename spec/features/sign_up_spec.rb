@@ -1,11 +1,6 @@
 require 'spec_helper'
 
 feature 'Signing up' do
-  background do
-    # TODO: Remove this hack to delete fixtures
-    clear_db_of_fixture_data
-  end
-
   scenario 'with valid details' do
     visit '/'
     click_link 'Sign up'

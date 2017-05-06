@@ -3,10 +3,6 @@ require 'nokogiri'
 
 describe DataLoader::DebatesXML do
   context 'actual division 1 from representatives on 2009-11-25' do
-    after(:each) do
-      clear_db_of_fixture_data
-    end
-
     subject(:division) do
       xml_document = Nokogiri.parse(File.read(File.expand_path('../../../fixtures/2009-11-25.xml', __FILE__)))
       DataLoader::DebatesXML.new(xml_document, 'representatives').divisions.first

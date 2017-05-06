@@ -5,8 +5,6 @@ describe PoliciesController, type: :request do
   include HTMLCompareHelper
 
   before(:each) do
-    clear_db_of_fixture_data
-
     create_people
     create_members
     create_member_infos
@@ -23,10 +21,6 @@ describe PoliciesController, type: :request do
     # are created/the callback is triggered.
     PolicyPersonDistance.delete_all
     create_policy_person_distances
-  end
-
-  after(:each) do
-    clear_db_of_fixture_data
   end
 
   it "#index" do

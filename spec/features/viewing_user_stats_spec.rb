@@ -10,9 +10,6 @@ feature 'Viewing user stats' do
   given(:policy3) { create(:provisional_policy, user: user3, name: 'more libraries') }
 
   background do
-    # TODO: Remove this hack to delete fixtures
-    clear_db_of_fixture_data
-
     policy1.watches.create!(user: user1)
     policy1.watches.create!(user: user2)
     policy1.watches.create!(user: user3)

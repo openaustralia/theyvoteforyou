@@ -4,8 +4,6 @@ require 'spec_helper'
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
   before :each do
-    clear_db_of_fixture_data
-
     create_users
     create_people
     create_members

@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe "routing redirects", type: :request do
-  before :each do
-    clear_db_of_fixture_data
-  end
-
   it "/account/changepass.php -> /account/edit" do
     get "/account/changepass.php"
     expect(response).to redirect_to("/users/edit")
