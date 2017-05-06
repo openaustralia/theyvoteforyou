@@ -93,6 +93,9 @@ class Policy < ActiveRecord::Base
     end
   end
 
+  # FIXME: It's not clear how these are sorted, though it seems very important.
+  #        The order of the members in a group implies the relative strength of
+  #        their voting record.
   def current_members_very_strongly_for
     current_members(policy_person_distances.very_strongly_for)
   end
