@@ -149,11 +149,33 @@ describe DivisionsController, type: :request do
   describe '#update' do
     before :each do
       create_members
-      # TODO: surely we don't need to create all these division to show one?
-      create_divisions
+      # TODO: only specify the data needed for this test
+      create(
+        :division,
+        id: 2037,
+        date: "2009-11-25",
+        clock_time: "016:13:00",
+        number: 8,
+        house: "senate",
+        name: 'Carbon Pollution Reduction Scheme Legislation',
+        source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
+        debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
+        motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>',
+        source_gid: "uk.org.publicwhip/lords/2009-11-25.77.1",
+        debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2",
+        markdown: false,
+        division_info: create(
+          :division_info,
+          division_id: 2037,
+          rebellions: 11,
+          tells: 2,
+          turnout: 65,
+          possible_turnout: 76,
+          aye_majority: -31
+        )
+      )
       create_votes
       create_whips
-      create_wiki_motions
     end
 
     it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
