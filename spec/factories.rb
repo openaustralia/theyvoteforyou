@@ -162,8 +162,8 @@ FactoryGirl.define do
   end
 
   factory :policy_division do
-    division_id 1
-    policy_id 1
+    division
+    policy
     vote "aye"
   end
 
