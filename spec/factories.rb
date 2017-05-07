@@ -78,7 +78,7 @@ FactoryGirl.define do
 
   factory :vote do
     division
-    member_id "100156"
+    member_id 100156
     vote 'yes'
     teller false
   end
