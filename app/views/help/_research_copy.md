@@ -6,6 +6,8 @@ Many people use <%= inline_project_name %> to research their area of special int
 
 Divisions can be marked as relevant to a pre-existing policy (see [Policies](/policies)) or one that you develop yourself.
 
+You can find divisions to summarise on the <%= link_to "Divisions page", divisions_path, title: "View the latest Divisions in Australia’s Federal Parliament" %>.
+
 ## Guide for division summaries
 ### Title
 Division titles are currently made up of three parts that are separated by a dash.
