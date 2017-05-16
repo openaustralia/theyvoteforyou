@@ -5,4 +5,7 @@
     .page-header.container
       %h1 All edits made in the last week
 
-= render partial: "layouts/history_list"
+- if @history.empty?
+  %p None yet… you can kick things off and see your name here by #{link_to "summarising divisions", help_research_path}.
+- else
+  = render partial: "layouts/history_list"
