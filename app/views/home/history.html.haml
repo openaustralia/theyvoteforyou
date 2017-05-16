@@ -6,7 +6,6 @@
       %h1 All edits made in the last week
 
 - if @history.empty?
-  %p
-    None yet… you can kick things off by #{link_to "summarising divisions", help_research_path}.
+  %p None yet… you can kick things off by #{link_to "summarising divisions", help_research_path}.
 - else
   = render partial: "layouts/history_list"
