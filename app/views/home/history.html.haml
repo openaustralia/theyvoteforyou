@@ -7,6 +7,6 @@
 
 - if @history.empty?
   %p
-    None yet… you can kick things off by #{link_to "summarising divisions", help_research_path} or by #{link_to "creating and maintaining policies", policies_path}.
+    None yet… you can kick things off by #{link_to "summarising divisions", help_research_path}.
 - else
   = render partial: "layouts/history_list"
