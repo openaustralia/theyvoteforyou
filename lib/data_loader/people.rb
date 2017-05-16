@@ -2,7 +2,6 @@ require 'mechanize'
 
 module DataLoader
   class People
-
     def self.member_to_person
       @member_to_person ||= load_people
     end

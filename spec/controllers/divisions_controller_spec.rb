@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe DivisionsController, :type => :controller do
+describe DivisionsController, type: :controller do
   describe "#index" do
     # TODO: Remove this hack to delete fixtures
     before :each do

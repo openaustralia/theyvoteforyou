@@ -10,6 +10,5 @@ require 'spec_helper'
 #     end
 #   end
 # end
-RSpec.describe Api::V1::PoliciesHelper, :type => :helper do
-
+RSpec.describe Api::V1::PoliciesHelper, type: :helper do
 end

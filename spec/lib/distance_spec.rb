@@ -115,5 +115,4 @@ describe Distance do
     it { expect(distance.possible_votes_points(:differstrong)).to eq 0}
     it { expect(distance.possible_votes_points(:absentstrong)).to eq 0}
   end
-
 end

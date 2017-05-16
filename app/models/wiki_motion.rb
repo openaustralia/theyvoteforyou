@@ -12,7 +12,6 @@ class WikiMotion < ActiveRecord::Base
     division.reindex if Settings.elasticsearch
   end
 
-
   # Strip timezone as it's stored in the DB as local time
   def edit_date
     Time.parse(read_attribute(:edit_date).in_time_zone('UTC').strftime('%F %T'))

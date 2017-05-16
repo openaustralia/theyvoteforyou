@@ -75,7 +75,6 @@ describe MemberDistance, type: :model do
       it { check_vote_combination("no",     true,  "no",     false, 1, 0, 0) }
       it { check_vote_combination("no",     true,  "aye",    true,  0, 1, 0) }
       it { check_vote_combination("no",     true,  "no",     true,  1, 0, 0) }
-
     end
 
     context "with votes on five divisions" do

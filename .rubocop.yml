@@ -2,6 +2,8 @@
 # Add Cops gradually as needed
 AllCops:
   DisabledByDefault: true
+  Exclude:
+    -  db/schema.rb
 
 Style/HashSyntax:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals

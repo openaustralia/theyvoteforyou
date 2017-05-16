@@ -81,6 +81,7 @@ group :development do
   gem 'guard-rspec'
   gem 'guard-livereload', require: false
   gem 'rack-livereload'
+  gem 'guard-rubocop'
 
   gem 'better_errors'
   gem 'binding_of_caller'
