@@ -61,35 +61,6 @@ FactoryGirl.define do
     division
   end
 
-  factory :division_info do
-    division
-    rebellions 0
-    tells 0
-    turnout 136
-    possible_turnout 150
-    aye_majority -1
-  end
-
-  factory :vote do
-    division
-    member_id 100156
-    vote 'yes'
-    teller false
-  end
-
-  factory :whip do
-    division
-    party "Australian Labor Party"
-    aye_votes 0
-    aye_tells 0
-    no_votes 1
-    no_tells 0
-    both_votes 0
-    abstention_votes 0
-    possible_votes 1
-    whip_guess "no"
-  end
-
   factory :member do
     gid "uk.org.publicwhip/lord/100156"
     source_gid ""
