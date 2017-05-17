@@ -32,12 +32,6 @@ FactoryGirl.define do
     debate_url "http://parlinfo.aph.gov.au/bazbar"
     source_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
     debate_gid "uk.org.publicwhip/representatives/2014-01-1.1.1"
-
-    after(:create) do |division|
-      division.division_info create(:division_info, division: division)
-      division.whips = [create(:whip, division: division)]
-      division.votes = [create(:vote, division: division)]
-    end
   end
 
   factory :whip do
