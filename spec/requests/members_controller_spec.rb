@@ -115,5 +115,4 @@ describe MembersController, type: :request do
     get "/people/representatives/warringah/foo_bar"
     expect(response.status).to eq(404)
   end
-
 end
