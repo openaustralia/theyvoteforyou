@@ -197,7 +197,7 @@ class Member < ActiveRecord::Base
       when "TAS", "Tas", "tas"
         "Tasmania"
       when "VIC", "Vic", "vic"
-        "Tasmania"
+        "Victoria"
       when "WA", "wa"
         "Western Australia"
       else
