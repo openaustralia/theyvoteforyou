@@ -5,7 +5,7 @@ json.latest_member do
     json.first person.latest_member.first_name
     json.last person.latest_member.last_name
   end
-  json.electorate person.latest_member.electorate
+  json.electorate person.latest_member.electorate_long
   json.house person.latest_member.house
   json.party person.latest_member.party
 end

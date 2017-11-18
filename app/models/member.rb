@@ -105,7 +105,7 @@ class Member < ActiveRecord::Base
     if senator?
       name
     else
-      "#{name} MP, #{electorate}"
+      "#{name} MP, #{electorate_long}"
     end
   end
 
@@ -121,15 +121,15 @@ class Member < ActiveRecord::Base
     if senator?
       "Senator #{name}"
     else
-      "#{name} MP, #{electorate}"
+      "#{name} MP, #{electorate_long}"
     end
   end
 
   def role
     if senator?
-      "Senator for #{electorate}"
+      "Senator for #{electorate_long}"
     else
-      "Representative for #{electorate}"
+      "Representative for #{electorate_long}"
     end
   end
 
@@ -177,6 +177,32 @@ class Member < ActiveRecord::Base
 
   def electorate
     constituency
+  end
+
+  def electorate_long
+    # long name of electorate for senators
+    electorate unless senator?
+
+    case electorate
+      when "ACT", "act"
+        "Australian Capital Territory"
+      when "NSW", "nsw"
+        "New South Wales"
+      when "NT", "nt"
+        "Northern Territory"
+      when "QLD", "Qld", "qld"
+        "Queensland"
+      when "SA", "sa"
+        "South Australia"
+      when "TAS", "Tas", "tas"
+        "Tasmania"
+      when "VIC", "Vic", "vic"
+        "Tasmania"
+      when "WA", "wa"
+        "Western Australia"
+      else
+        electorate
+    end
   end
 
   def possible_friends

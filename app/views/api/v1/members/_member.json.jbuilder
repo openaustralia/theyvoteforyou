@@ -4,5 +4,5 @@ json.person do
 end
 json.first_name member.first_name
 json.last_name member.last_name
-json.electorate member.electorate
+json.electorate member.electorate_long
 json.party member.party

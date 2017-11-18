@@ -44,7 +44,7 @@
           %tr
             %td= fraction_to_percentage_display(member_distance.agreement_fraction)
             %td= link_to member_distance.member2.name_without_title, member_distance.member2
-            %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate, electorate_path(member_distance.member2)
+            %td= link_to_unless member_distance.member2.senator?, member_distance.member2.electorate_long, electorate_path(member_distance.member2)
             %td= party_long2(member_distance.member2)
   - unless all_friends
     = link_to "More possible friends", friends_member_path(member), class: 'btn btn-default btn-sm'
