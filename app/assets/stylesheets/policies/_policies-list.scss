@@ -2,6 +2,33 @@
   .policy-title {
     font-weight: normal;
     padding-left: 0;
+
+    .policy-details {
+      margin-top:7px;
+
+      .policy-most-recent-division {
+        &:before {
+          content: "\00a0\25CF\00a0";
+          color: #aaa;
+        }
+      }
+    }
+  }
+
+  .policy-detail-large-screen {
+    @media (max-width: $screen-md-min) {
+      display: none;
+    }
+  }
+
+  .policy-detail-small-screen{
+    @media (min-width: $screen-md-min) {
+      display: none;
+    }
+    &:before {
+      content: "\00a0\25CF\00a0";
+      color: #aaa;
+    }
   }
 
   .policy-division-count {
