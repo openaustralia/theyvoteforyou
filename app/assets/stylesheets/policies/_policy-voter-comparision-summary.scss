@@ -1,0 +1,58 @@
+.policy-comparision-summary {
+
+  .policy-comparision-summary-position {
+
+  }
+
+  .policy-comparision-summary-bars {
+    padding-top: 7px;
+
+    .policy-comparision-summary-bar {
+      height: 20px;
+      float: left;
+      margin-right: 1px;
+
+      &.very-strongly-for {
+        background-color: $color-very-strongly-for;
+      }
+
+      &.strongly-for {
+        background-color: $color-strongly-for;
+      }
+
+      &.moderately-for {
+        background-color: $color-moderately-for;
+      }
+
+      &.mixed-position {
+        background-color: $color-mixed-position;
+      }
+
+      &.moderately-against {
+        background-color: $color-moderately-against;
+      }
+
+      &.strongly-against {
+        background-color: $color-strongly-against;
+      }
+
+      &.very-strongly-against {
+        background-color: $color-very-strongly-against;
+      }
+
+      &.never-voted {
+        background-color: #444;
+      }
+
+    }
+
+  }
+
+  .policy-comparision-summary-percent {
+
+  }
+
+  .policy-comparision-summary-description {
+
+  }
+}

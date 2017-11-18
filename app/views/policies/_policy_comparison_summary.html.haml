@@ -1,0 +1,91 @@
+- policy_counts = policy.current_members_vote_counts
+
+%p.lead
+  How they voted
+  %span.small
+    = surround "(", ")" do
+      = "total of #{pluralize(policy_counts['total_count'], 'voter')}"
+
+
+.policy-comparision-summary.row
+  .policy-comparision-summary-position.col-md-1.col-xs-2
+    For
+
+  .policy-comparision-summary-bars.col-md-3.col-xs-8
+    .policy-comparision-summary-bar.very-strongly-for{style: "width: #{[policy_counts['very_strongly_for_count'] * 2, 1].max}px;"}
+    .policy-comparision-summary-bar.strongly-for{style: "width: #{[policy_counts['strongly_for_count'] * 2, 1].max}px;"}
+    .policy-comparision-summary-bar.moderately-for{style: "width: #{[policy_counts['moderately_for_count'] * 2, 1].max}px;"}
+
+  .policy-comparision-summary-percent.col-md-1.col-xs-2
+    = number_to_percentage(policy_counts['for_percent'], precision: 1)
+
+  .policy-comparision-summary-description.col-md-7.col-sm-12
+    = policy_counts['for_count']
+    in favour
+    = precede "(" do
+      = policy_counts['very_strongly_for_count']
+    = succeed "," do
+      = link_to "very strongly for", "#" + "Voted very strongly for".parameterize
+    = policy_counts['strongly_for_count']
+    = succeed "," do
+      = link_to "strongly for", "#" + "Voted strongly for".parameterize
+    = policy_counts['moderately_for_count']
+    = succeed ")" do
+      = link_to "moderately for", "#" + "Voted moderately for".parameterize
+
+.policy-comparision-summary.row
+  .policy-comparision-summary-position.col-md-1.col-xs-2
+    Against
+
+  .policy-comparision-summary-bars.col-md-3.col-xs-8
+    .policy-comparision-summary-bar.very-strongly-against{style: "width: #{[policy_counts['very_strongly_against_count'] * 2, 1].max}px;"}
+    .policy-comparision-summary-bar.strongly-against{style: "width: #{[policy_counts['strongly_against_count'] * 2, 1].max}px;"}
+    .policy-comparision-summary-bar.moderately-against{style: "width: #{[policy_counts['moderately_against_count'] * 2, 1].max}px;"}
+
+  .policy-comparision-summary-percent.col-md-1.col-xs-2
+    = number_to_percentage(policy_counts['against_percent'], precision: 1)
+
+  .policy-comparision-summary-description.col-md-7.col-sm-12
+    = policy_counts['against_count']
+    against
+    = precede "(" do
+      = policy_counts['very_strongly_against_count']
+    = succeed "," do
+      = link_to "very strongly against", "#" + "Voted very strongly against".parameterize
+    = policy_counts['strongly_against_count']
+    = succeed "," do
+      = link_to "strongly against", "#" + "Voted strongly against".parameterize
+    = policy_counts['moderately_against_count']
+    = succeed ")" do
+      = link_to "moderately against", "#" + "Voted moderately against".parameterize
+
+
+.policy-comparision-summary.row
+  .policy-comparision-summary-position.col-md-1.col-xs-2
+    Mixed
+
+  .policy-comparision-summary-bars.col-md-3.col-xs-8
+    .policy-comparision-summary-bar.mixed-position{style: "width: #{[policy_counts['for_and_against_count'] * 2, 1].max}px;"}
+
+  .policy-comparision-summary-percent.col-md-1.col-xs-2
+    = number_to_percentage(policy_counts['for_and_against_percent'], precision: 1)
+
+  .policy-comparision-summary-description.col-md-7.col-sm-12
+    = policy_counts['for_and_against_count']
+    = link_to "mixed", "#" + "Voted a mixture of for and against".parameterize
+    for and against
+
+.policy-comparision-summary.row
+  .policy-comparision-summary-position.col-md-1.col-xs-2
+    Never
+
+  .policy-comparision-summary-bars.col-md-3.col-xs-8
+    .policy-comparision-summary-bar.never-voted{style: "width: #{[policy_counts['never_count'] * 2, 1].max}px;"}
+
+  .policy-comparision-summary-percent.col-md-1.col-xs-2
+    = number_to_percentage(policy_counts['never_percent'], precision: 1)
+
+  .policy-comparision-summary-description.col-md-7.col-sm-12
+    = policy_counts['never_count']
+    = link_to "never", "#" + "Never voted on".parameterize
+    voted on this issue

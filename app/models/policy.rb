@@ -125,6 +125,47 @@ class Policy < ActiveRecord::Base
     current_members(policy_person_distances.never_voted)
   end
 
+  def current_members_vote_counts
+    very_strongly_for_count = current_members_very_strongly_for.count || 0
+    strongly_for_count = current_members_strongly_for.count || 0
+    moderately_for_count = current_members_moderately_for.count || 0
+    for_count = very_strongly_for_count + strongly_for_count + moderately_for_count
+
+    very_strongly_against_count = current_members_very_strongly_against.count || 0
+    strongly_against_count = current_members_strongly_against.count || 0
+    moderately_against_count = current_members_moderately_against.count || 0
+    against_count = very_strongly_against_count + strongly_against_count + moderately_against_count
+
+    for_and_against_count = current_members_for_and_against.count || 0
+    never_count = current_members_never_voted.count || 0
+
+    # total count must be at least 1 to prevent div by 0 errors
+    total_count = [1, for_count + against_count + for_and_against_count + never_count].max
+
+    for_percent = (for_count.to_f / total_count.to_f) * 100
+    against_percent = (against_count.to_f / total_count.to_f) * 100
+    for_and_against_percent = (for_and_against_count.to_f / total_count.to_f) * 100
+    never_percent = (never_count.to_f / total_count.to_f) * 100
+
+    {
+      "very_strongly_for_count" => very_strongly_for_count,
+      "strongly_for_count" => strongly_for_count,
+      "moderately_for_count" => moderately_for_count,
+      "for_count" => for_count,
+      "for_percent" => for_percent,
+      "very_strongly_against_count" => very_strongly_against_count,
+      "strongly_against_count" => strongly_against_count,
+      "moderately_against_count" => moderately_against_count,
+      "against_count" => against_count,
+      "against_percent" => against_percent,
+      "for_and_against_count" => for_and_against_count,
+      "for_and_against_percent" => for_and_against_percent,
+      "never_count" => never_count,
+      "never_percent" => never_percent,
+      "total_count" => total_count,
+    }
+  end
+
   def alert_watches(version)
     watches.each do |watch|
       AlertMailer.policy_updated(self, version, watch.user).deliver
