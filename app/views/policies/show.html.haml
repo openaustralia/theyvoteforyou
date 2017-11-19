@@ -7,7 +7,18 @@
 
 - if @policy.divisions.count > 0
   %p.lead
-    = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+    Of
+    = succeed "," do
+      = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+    - division_policy_support = divisions_outcome_policy_support_split(@policy, @policy.divisions)
+    = division_policy_support['support_count']
+    = "(#{number_to_percentage(division_policy_support['support_percent'], precision: 0)})"
+    support the policy and
+    = division_policy_support['oppose_count']
+    = "(#{number_to_percentage(division_policy_support['oppose_percent'], precision: 0)})"
+    = division_policy_support['oppose_count'] == 1 ? "does" : "do"
+    not.
+
 
   %section.page-section#members
     .policy-comparisions

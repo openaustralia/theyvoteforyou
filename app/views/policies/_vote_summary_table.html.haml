@@ -6,6 +6,7 @@
         %th= member.name
       %th.policyvotehead Supporters vote
       %th Division outcome
+      %th Outcome supports policy
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
     - divisions = divisions.possible_for_member(member) if member
@@ -35,3 +36,5 @@
             = vote_display(division.policy_vote(policy))
           %td.division-outcome
             = division_outcome_with_majority_strength(division)
+          %td.division-supports-policy
+            = division_outcome_supports_policy?(policy, division) ? "Yes" : "No"

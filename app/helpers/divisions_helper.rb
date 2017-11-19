@@ -83,6 +83,40 @@ module DivisionsHelper
     "#{division_outcome(division)} #{majority_strength_in_words(division)}".html_safe
   end
 
+
+  def division_outcome_supports_policy?(policy, division)
+    supporters_vote = PolicyDivision.vote_without_strong(division.policy_vote(policy))
+    supporters_vote_for = supporters_vote == 'aye'
+    division_outcome_for = division.passed?
+
+    supporters_vote_for == division_outcome_for
+  end
+
+  def divisions_outcome_policy_support_split(policy, divisions)
+    support_count = 0
+    oppose_count = 0
+
+    divisions.each {|division|
+      if division_outcome_supports_policy?(policy, division)
+        support_count += 1
+      else
+        oppose_count += 1
+      end
+    }
+
+    total_count = [1, support_count + oppose_count].max
+    support_percent = (support_count.to_f / total_count.to_f) * 100
+    oppose_percent = (oppose_count.to_f / total_count.to_f) * 100
+
+    {
+        "support_count" => support_count,
+        "support_percent" => support_percent,
+        "oppose_count" => oppose_count,
+        "oppose_percent" => oppose_percent,
+        "total_count" => total_count,
+    }
+  end
+
   def whip_guess_with_strength_in_words(whip)
     if whip.majority_fraction == 1.0
       "unanimously voted " + whip.whip_guess

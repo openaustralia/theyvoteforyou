@@ -2,15 +2,15 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :drafts, :show, :detail, :full, :history]
 
   def index
-    @policies = Policy.published.order(:name)
+    @policies = Policy.published.order(:name).includes(:divisions)
   end
 
   def drafts
-    @policies = Policy.provisional.order(:name)
+    @policies = Policy.provisional.order(:name).includes(:divisions)
   end
 
   def show
-    @policy = Policy.find(params[:id])
+    @policy = Policy.includes(:divisions).find(params[:id])
 
     if params[:mpc] && params[:mpn]
       electorate = params[:mpc].gsub("_", " ")
