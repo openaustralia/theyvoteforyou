@@ -49,4 +49,12 @@
       }
     }
   }
+
+  .division-supports-policy {
+    &:before {
+      @media (max-width: $screen-xs-max) {
+        content: "Outcome supports policy: "
+      }
+    }
+  }
 }
