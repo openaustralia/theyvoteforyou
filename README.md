@@ -54,7 +54,7 @@ Before beginning, install MySQL, HTMLTidy and Ruby:
 
 ```
 # OS X ...
-brew install homebrew/dupes/tidy mysql rbenv ruby-build
+brew install tidy-html5 mysql rbenv ruby-build
 rbenv install $(cat .ruby-version)
 
 # ... or Linux (Debian)
@@ -65,6 +65,9 @@ sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
 Steps required to configure, install and start the Rails application:
 
 ```
+# Install bundle
+bundle install
+
 # Copy the default config files over.
 # (Edit config/database.yml and fill in your username, password and database settings.)
 bundle exec rake application:config:dev
@@ -72,9 +75,6 @@ cp config/database.yml.example config/database.yml
 
 # Copy secrets config
 cp config/secrets.yml.example config/secrets.yml
-
-# Install bundle
-bundle install
 
 # Set up your database (including seed data)
 bundle exec rake db:setup
