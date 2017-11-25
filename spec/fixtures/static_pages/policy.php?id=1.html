@@ -90,9 +90,26 @@ Twitter
 </div>
 </div>
 
+<div class="row">
+<div class="col-md-6">
+<div class="input-group input-group-sm">
+<input class="form-control" id="policy-filter-input" placeholder="Search by name or electorate" type="text" />
+<span class="input-group-btn">
+<button class="btn btn-default" id="policy-filter-search" type="button">
+Search
+</button>
+<button class="btn btn-default" id="policy-filter-clear" type="button">
+Clear
+</button>
+</span>
+</div>
+</div>
+<div class="col-md-6 text-right">
 <p class="lead">
 <a title="Skip to Relevant Divisions for this policy." href="/policies/1#divisions">1 relevant division</a>
 </p>
+</div>
+</div>
 <section class="page-section" id="members">
 <div class="policy-comparisions">
 
@@ -111,14 +128,14 @@ Never voted on
 marriage equality
 </h3>
 <ul class="policy-comparision-list list-unstyled col-xs-12">
-<li class="policy-comparision-member member-item">
+<li class="policy-comparision-member member-item" data-member-electorate="Bennelong" data-member-first="John" data-member-last="Alexander">
 <a class="policy-comparision-member member-link has-tooltip" title="John Alexander" href="/people/representatives/bennelong/john_alexander/policies/1"><img data-original="http://www.openaustralia.org/images/mpsL/10725.jpg" alt="Photo of John Alexander" class="lazy member-photo" width="85" height="114" src="" />
 <noscript>
 <img alt="Photo of John Alexander" class="member-photo" width="85" height="114" src="http://www.openaustralia.org/images/mpsL/10725.jpg" />
 </noscript>
 <span class="member-name sr-only">John Alexander</span>
 </a></li>
-<li class="policy-comparision-member member-item">
+<li class="policy-comparision-member member-item" data-member-electorate="Warringah" data-member-first="Tony" data-member-last="Abbott">
 <a class="policy-comparision-member member-link has-tooltip" title="Tony Abbott" href="/people/representatives/warringah/tony_abbott/policies/1"><img data-original="http://www.openaustralia.org/images/mpsL/10001.jpg" alt="Photo of Tony Abbott" class="lazy member-photo" width="85" height="114" src="" />
 <noscript>
 <img alt="Photo of Tony Abbott" class="member-photo" width="85" height="114" src="http://www.openaustralia.org/images/mpsL/10001.jpg" />
@@ -127,6 +144,20 @@ marriage equality
 </a></li>
 </ul>
 <a title="Is this information inaccurate? Find out how to improve it." class="policy-correction-notice small" href="/help/faq#stance">Something not right?</a>
+</div>
+
+<div class="policy-comparision-block policy-comparision-no-matches position-no-members-to-display row">
+<h3 class="policy-comparision-position col-xs-12" id="no-members-to-display">
+<a class="anchor" href="#no-members-to-display">
+<span class="fi-link"></span>
+</a>
+No members to display
+</h3>
+<p class="policy-comparision-list list-unstyled col-xs-12 small text-muted">
+No members match the current search. Try a different search or
+<a href="#" id="policy-filter-clear-no-matches">clear</a>
+the search.
+</p>
 </div>
 
 </div>

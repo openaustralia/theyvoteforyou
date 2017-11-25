@@ -7,7 +7,7 @@
       = policy.name
     %ul.policy-comparision-list.list-unstyled.col-xs-12
       - members.each do |member|
-        %li.policy-comparision-member.member-item
+        %li.policy-comparision-member.member-item{data: {'member-first' => member.first_name, 'member-last' => member.last_name, 'member-electorate' => member.electorate}}
           = link_to [member, policy], class: 'policy-comparision-member member-link has-tooltip', title: member.name do
             = image_tag("", :data => {original: "#{member.large_image_url}"}, alt: "Photo of #{member.name_without_title}", class: 'lazy member-photo', width: 85, height: 114)
             %noscript

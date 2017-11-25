@@ -6,8 +6,18 @@
 = render 'page_header', policy: @policy
 
 - if @policy.divisions.count > 0
-  %p.lead
-    = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+  .row
+    .col-md-6
+      .input-group.input-group-sm
+        %input#policy-filter-input.form-control{type:'text', placeholder: 'Search by name or electorate'}
+        %span.input-group-btn
+          %button#policy-filter-search.btn.btn-default{type:'button'}
+            Search
+          %button#policy-filter-clear.btn.btn-default{type:'button'}
+            Clear
+    .col-md-6.text-right
+      %p.lead
+        = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
 
   %section.page-section#members
     .policy-comparisions
@@ -19,6 +29,8 @@
       = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', members: @policy.current_members_strongly_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
       = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', members: @policy.current_members_never_voted
+      = render 'policy_comparisons_block_no_match', title: 'No members to display'
+
 
   %section.page-section#divisions
     %h2 Relevant divisions

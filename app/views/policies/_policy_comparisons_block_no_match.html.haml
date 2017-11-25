@@ -1,0 +1,9 @@
+.policy-comparision-block.policy-comparision-no-matches.row{class: "position-#{title.parameterize}"}
+  %h3.policy-comparision-position.col-xs-12{:id => title.parameterize}
+    %a.anchor{:href => "##{title.parameterize}"}
+      %span.fi-link
+    = title
+  %p.policy-comparision-list.list-unstyled.col-xs-12.small.text-muted
+    No members match the current search. Try a different search or
+    %a#policy-filter-clear-no-matches{href:'#'} clear
+    the search.
