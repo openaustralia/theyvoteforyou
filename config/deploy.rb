@@ -82,3 +82,28 @@ namespace :deploy do
   after 'foreman:export', 'foreman:restart'
   after :restart, 'newrelic:notice_deployment'
 end
+
+namespace :app do
+  namespace :db do
+    desc 'Seed the database with some test values'
+    task :seed do
+      on roles(:app) do
+        within current_path do
+          execute :bundle, :exec, :rake, 'db:seed', 'RAILS_ENV=production'
+        end
+      end
+    end
+  end
+  namespace :searchkick do
+    namespace :reindex do
+      desc 'Reindex the search database'
+      task :all do
+        on roles(:app) do
+          within current_path do
+            execute :bundle, :exec, :rake, 'searchkick:reindex:all', 'RAILS_ENV=production'
+          end
+        end
+      end
+    end
+  end
+end
