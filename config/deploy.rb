@@ -3,10 +3,6 @@ lock '3.7.2'
 set :application, 'theyvoteforyou.org.au'
 set :repo_url, 'https://github.com/openaustralia/publicwhip.git'
 
-role :app, %w{deploy@kedumba.openaustraliafoundation.org.au}
-role :web, %w{deploy@kedumba.openaustraliafoundation.org.au}
-role :db,  %w{deploy@kedumba.openaustraliafoundation.org.au}
-
 set :rails_env, 'production'
 
 set :rvm_ruby_version, '2.3.1'
@@ -46,7 +42,7 @@ namespace :foreman do
   task :export do
     on roles(:app) do
       within current_path do
-        execute :sudo, :foreman, :export, :upstart, "/etc/init -u deploy -a publicwhip -f Procfile.production -l #{shared_path}/log --root #{current_path}"
+        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou -f Procfile.production -l #{shared_path}/log --root #{current_path}"
       end
     end
   end
@@ -54,21 +50,21 @@ namespace :foreman do
   desc "Start the application services"
   task :start do
     on roles(:app) do
-      execute :sudo, :service, :publicwhip, :start
+      execute :systemctl, :start, 'theyvoteforyou.target'
     end
   end
 
   desc "Stop the application services"
   task :stop do
     on roles(:app) do
-      execute :sudo, :service, :publicwhip, :stop
+      execute :sudo, :systemctl, :stop, 'theyvoteforyou.target'
     end
   end
 
   desc "Restart the application services"
   task :restart do
     on roles(:app) do
-      execute :sudo, :service, :publicwhip, :restart
+      execute :sudo, :systemctl, :restart, 'theyvoteforyou.target'
     end
   end
 end
@@ -82,6 +78,7 @@ namespace :deploy do
   end
 
   after :publishing, :restart
-  after :restart, 'foreman:restart'
+  after :restart, 'foreman:export'
+  after 'foreman:export', 'foreman:restart'
   after :restart, 'newrelic:notice_deployment'
 end
