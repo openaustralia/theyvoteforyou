@@ -67,6 +67,14 @@ namespace :foreman do
       execute :sudo, :systemctl, :restart, 'theyvoteforyou.target'
     end
   end
+
+  # This only strictly needs to get run on the first deploy
+  desc "Enable the application services"
+  task :enable do
+    on roles(:app) do
+      execute :sudo, :systemctl, :enable, 'theyvoteforyou.target'
+    end
+  end
 end
 
 namespace :deploy do
@@ -79,7 +87,8 @@ namespace :deploy do
 
   after :publishing, :restart
   after :restart, 'foreman:export'
-  after 'foreman:export', 'foreman:restart'
+  after 'foreman:export', 'foreman:enable'
+  after 'foreman:enable', 'foreman:restart'
   after :restart, 'newrelic:notice_deployment'
 end
 
