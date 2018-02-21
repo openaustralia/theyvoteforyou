@@ -126,12 +126,12 @@ you're running an older branch (out of scope for this guide).
 These are the tasks you need to know about:
 
 * `application:load:members` loads members, offices and electorates. You always
-need this to run the site. Stictly speaking it only needs to run when details
+need this to run the site. Strictly speaking it only needs to run when details
 need updating but can be run as often as you like as it only updates data.
 * `application:load:divisions[from_date,to_date]` load division[s]. `to_date` is
 optional and if omitted, allows you to load a single date.
 * `application:cache` this namespace contains cache updating tasks that are
-necessary for the site to run. They should be self-explainatory.
+necessary for the site to run. They should be self-explanatory.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
