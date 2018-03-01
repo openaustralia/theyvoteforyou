@@ -45,22 +45,50 @@ Once the people data has been loaded you can start loading votes. These are scra
 
 ## Development
 
-If your machine is already set up to develop Rails applications with MySQL just
-carry out the following steps and you should be good to go. Developing with
-[Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
-mainly useful with the retired PHP application.
+Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
+mainly useful with the retired PHP application. The remainder of this section assumes you'll be developing locally.
 
-Before beginning, install MySQL, HTMLTidy and Ruby:
+### Requirements
+
+Before beginning, install HTMLTidy and Ruby:
 
 ```
 # OS X ...
-brew install tidy-html5 mysql rbenv ruby-build
+brew install tidy-html5 rbenv ruby-build
 rbenv install $(cat .ruby-version)
 
 # ... or Linux (Debian)
-sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
+sudo apt-get install tidy
 # then follow: https://github.com/sstephenson/rbenv#basic-github-checkout to get rbenv and ruby-build
 ```
+
+### Optional Requirements
+
+If you already have mysql installed, or if you don't plan to be using mysql locally, you can skip this step.
+
+```
+# OS X
+brew install mysql
+
+# ... or Linux (Debian)
+sudo apt-get install mysql-server mysql-client libmysqlclient-dev
+```
+
+### Development install
+
+```
+bundle install --without production
+```
+
+will install all the requirements except mysql and dalli. If you do want to use mysql for development, you can
+
+```
+gem install mysql
+```
+
+to get that extra component
+
+### Rails
 
 Steps required to configure, install and start the Rails application:
 

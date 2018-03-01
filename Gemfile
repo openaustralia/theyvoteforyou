@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2.7'
-gem 'mysql2'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
@@ -106,6 +105,7 @@ end
 
 group :production do
   gem 'dalli'
+  gem 'mysql2'
 end
 
 group :doc do
