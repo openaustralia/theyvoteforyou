@@ -1,0 +1,7 @@
+%tr.member-row{class: [('collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1), ('member-row-' + whip.party.parameterize)]}
+  %th.cell-name
+    = link_to member.name_without_title, member
+    = link_to member.electorate, electorate_path(member), class: 'text-muted member-electorate'
+    %small.post-title.text-muted= member.party_name if whip.whipless? || whip.possible_votes == 1
+  %td.cell-vote Absent
+  %td.cell-toggler
