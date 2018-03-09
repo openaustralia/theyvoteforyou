@@ -160,7 +160,7 @@ class Member < ActiveRecord::Base
   end
 
   def party_object
-    Party.new(name: party)
+    @party_object ||= Party.new(name: party)
   end
 
   def senator?
