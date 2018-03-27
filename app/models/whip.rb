@@ -101,6 +101,14 @@ class Whip < ActiveRecord::Base
       # Same sex marriage
       elsif division.date == Date.new(2013,6,20) && division.number == 2
         party == 'Australian Labor Party'
+      # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
+      elsif division.date == Date.new(2017,11,28) && [1, 2, 4, 5, 6, 7, 9].include?(division.number)
+        # Assuming that only the two major parties had a free vote
+        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
+      # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
+      elsif division.date == Date.new(2017,11,29) && [1, 2, 4, 7].include?(division.number)
+        # Assuming that only the two major parties had a free vote
+        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
       end
     end
   end
