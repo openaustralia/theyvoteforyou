@@ -87,6 +87,10 @@ class Whip < ActiveRecord::Base
       # Same sex marriage
       elsif division.date == Date.new(2012,9,19) && division.number == 1
         party == 'Australian Labor Party'
+      # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
+      elsif division.date == Date.new(2017,12,7)
+        # Assuming that only the two major parties had a free vote
+        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
       end
     elsif division.house == "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
