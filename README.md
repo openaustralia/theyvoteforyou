@@ -15,7 +15,7 @@ Over 10 years ago the pioneering [Public Whip](http://www.publicwhip.org.uk/) pr
 
 #### Australia
 
-The [OpenAustralia.org](http://www.openaustralia.org.au) project
+The [OpenAustralia.org](https://www.openaustralia.org.au) project
 [parses](https://github.com/openaustralia/openaustralia-parser) the Australian
 Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
 due to it's history of being a fork of the UK
