@@ -12,7 +12,7 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 ### Thanks for making this
 
-<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.openaustraliafoundation.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
+<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. We owe Julian and Francis a massive debt of gratitude for everything they've done.
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this project possible.
@@ -21,7 +21,7 @@ A huge thank you to [Google Australia](http://www.google.com.au) whose donation 
 
 ### <a name='contribute'></a>You can help
 
-Make this project better for everyone by [summarising divisions](/help/research) and [maintaining and discussing policies](/policies). You can also [make a tax deductible donation](https://www.openaustraliafoundation.org.au/donate/theyvoteforyou/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
+Make this project better for everyone by [summarising divisions](/help/research) and [maintaining and discussing policies](/policies). You can also [make a tax deductible donation](https://www.oaf.org.au/donate/theyvoteforyou/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
 
 <%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/publicwhip), where you can find out how to contribute yourself.
 
@@ -33,4 +33,4 @@ Make this project better for everyone by [summarising divisions](/help/research)
 
 Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
-You can also read the [OpenAustralia Foundation Blog](https://www.openaustraliafoundation.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
+You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
