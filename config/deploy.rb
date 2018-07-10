@@ -42,7 +42,7 @@ namespace :foreman do
   task :export do
     on roles(:app) do
       within current_path do
-        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou -f Procfile.production -l #{shared_path}/log --root #{current_path}"
+        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path}"
       end
     end
   end
