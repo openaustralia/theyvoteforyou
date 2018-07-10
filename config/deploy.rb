@@ -50,21 +50,21 @@ namespace :foreman do
   desc "Start the application services"
   task :start do
     on roles(:app) do
-      execute :systemctl, :start, 'theyvoteforyou.target'
+      execute :systemctl, :start, 'theyvoteforyou-#{fetch(:stage)}.target'
     end
   end
 
   desc "Stop the application services"
   task :stop do
     on roles(:app) do
-      execute :sudo, :systemctl, :stop, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :stop, 'theyvoteforyou-#{fetch(:stage)}.target'
     end
   end
 
   desc "Restart the application services"
   task :restart do
     on roles(:app) do
-      execute :sudo, :systemctl, :restart, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :restart, 'theyvoteforyou-#{fetch(:stage)}.target'
     end
   end
 
@@ -72,7 +72,7 @@ namespace :foreman do
   desc "Enable the application services"
   task :enable do
     on roles(:app) do
-      execute :sudo, :systemctl, :enable, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :enable, 'theyvoteforyou-#{fetch(:stage)}.target'
     end
   end
 end
