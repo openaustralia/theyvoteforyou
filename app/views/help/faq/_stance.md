@@ -10,3 +10,10 @@ We give the strength option as a way to distinguish between important and less i
 For an MP or Senator to be marked as "voted very strongly for" a particular policy, they need to have almost always voted in a way that supports the policy (they may have voted against it once or twice, but usually only in a less important vote) and they need to have been present for almost every vote (too many absences will count against them and may even push them into the "voted against" categories since in our Parliament, not voting ultimately has the same effect as voting against something).
 
 If you click into one of your [representatives' voting cards](https://theyvoteforyou.org.au/people) and click on a particular policy, we have an explanation of exactly how their voting position is worked out near the bottom of the page. For example, see how Senator Penny Wong [votes on marriage equality](https://theyvoteforyou.org.au/people/senate/sa/penny_wong/policies/1) and scroll down to the heading "How "voted moderately for" is worked out".
+
+There are thousands of Divisions on <%= inline_project_name %>. There are bound to be some we haven’t yet connected to Policies. You can help improve the accuracy of <%= inline_project_name %> by finding and classifing more Divisions for the Policies you care about:
+
+1. After [creating a Policy](/policies/new) on <%= inline_project_name %>, we need to find [Divisions](/divisions) that relate to that [Policy](/policies) and work out how someone who supported it would have voted.
+
+2. Once a Division is connected to a Policy, <%= inline_project_name %> uses each person’s vote to calculate a where they stand compared to how a supporter would have voted. You can easily see these details and get a technical explanation by clicking through to an individual person on a Policy’s page.
+
