@@ -113,6 +113,10 @@ class Whip < ActiveRecord::Base
       elsif division.date == Date.new(2017,11,29) && [1, 2, 4, 7].include?(division.number)
         # Assuming that only the two major parties had a free vote
         ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
+      elsif division.date == Date.new(2018,8,15) && division.number == 8
+        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Pauline Hanson\'s One Nation Party' ].include?(party)
+      elsif division.date == Date.new(2018,12,4) && division.number == 12
+        party = 'Liberal Party'
       end
     end
   end
