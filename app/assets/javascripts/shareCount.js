@@ -8,7 +8,7 @@ $shareCountEls = $('.js-sharecount'),
 page = window.location.protocol + "//" + window.location.host + window.location.pathname,
 counts = {
   facebook: 'n/a',
-  twitter: 'n/a'
+  twitter: 'unknown'
 };
 
 function updateShareText() {
@@ -76,18 +76,11 @@ function incrementShareCount(amount) {
 function getShareCounts() {
   if ($shareCountEls.length) {
     facebook_url = "https://graph.facebook.com/?ids=" + page +"&callback=?";
-    twitter_url = "https://cdn.api.twitter.com/1/urls/count.json?url=" + page + "&callback=?";
 
     $.getJSON(facebook_url, function(data) {
       var count = data[page].shares || 0;
       counts.facebook = count;
       addToShareCount(counts.facebook);
-    });
-
-    $.getJSON(twitter_url, function(data) {
-      var count = data.count || 0;
-      counts.twitter = count;
-      addToShareCount(counts.twitter);
     });
   }
 }
