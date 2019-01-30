@@ -78,7 +78,7 @@ function getShareCounts() {
     facebook_url = "https://graph.facebook.com/?ids=" + page +"&callback=?";
 
     $.getJSON(facebook_url, function(data) {
-      var count = data[page].shares || 0;
+      var count = data[page].share.share_count || 0;
       counts.facebook = count;
       addToShareCount(counts.facebook);
     });
