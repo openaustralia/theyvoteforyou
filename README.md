@@ -146,6 +146,10 @@ You can enable [elasticsearch](https://www.elasticsearch.org/) for a better sear
 Enable the setting in `config/settings.yml` then [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
 
+We're currently using a very old version of ElasticSearch in production,
+version 1.4.0, so we can't use the latest versions of the searchkick gem
+either.
+
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.
 

@@ -513,7 +513,7 @@ DEPENDENCIES
   safe_attributes
   sass-rails (~> 4.0.0)
   sdoc
-  searchkick
+  searchkick (<= 1.5.1)
   seed_dump
   simple_form (~> 3)
   therubyracer
