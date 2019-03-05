@@ -123,7 +123,12 @@ you're running an older branch (out of scope for this guide).
 
 ### Australia
 
-These are the tasks you need to know about:
+These rake tasks are the ones you're most likely to need to run. You
+can run them as the `deploy` user in `/srv/www/production/current`, for instance:
+
+```
+deploy@ip-172-31-37-36:/srv/www/production/current$ RAILS_ENV=production bundle exec rake application:load:divisions[2018-10-18]
+```
 
 * `application:load:members` loads members, offices and electorates. You always
 need this to run the site. Strictly speaking it only needs to run when details
