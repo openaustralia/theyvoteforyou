@@ -12,7 +12,7 @@ describe DivisionsController, type: :controller do
     let!(:june_2016_division)  { create(:division, date: Date.new(2016,06,01)) }
     let!(:older_division)  { create(:division, date: Date.new(2013,04,29)) }
 
-    let!(:representative) { create(:member, house: "representatives", constituency: "Newtown") }
+    let!(:representative) { create(:member, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo") }
 
     context "when there are no parameters" do
       it "should render index template with divisions of the same year as the last one stored" do
@@ -111,7 +111,7 @@ describe DivisionsController, type: :controller do
     context "when request to see votes from a member" do
       context "and no date is specified" do
         it "should get votes based on last year on divisions table" do
-          get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives"
+          get :index, mpc: "newtown", mpn: "jane_lo", house: "representatives"
 
           expect(response).to render_template "divisions/index_with_member"
           expect(response.status).to be 200
@@ -126,7 +126,7 @@ describe DivisionsController, type: :controller do
       context "and a date is specified" do
         context "and date is valid" do
           it "should get votes based on the date specified" do
-            get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013"
+            get :index, mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013"
 
             expect(response).to render_template "divisions/index_with_member"
             expect(response.status).to be 200
