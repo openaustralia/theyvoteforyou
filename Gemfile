@@ -68,7 +68,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'webmock'
   gem 'vcr'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails', "~> 4.9"
   gem 'capybara'
   gem 'email_spec'
   gem "codeclimate-test-reporter", group: :test, require: nil

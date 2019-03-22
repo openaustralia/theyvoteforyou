@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :wiki_motion do
     title "An edited division"
     description "This division relates to all sorts of interesting things."
