@@ -26,7 +26,7 @@ set :rvm_ruby_version, '2.3.1'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml}
+set :linked_files, %w{config/database.yml config/settings.yml config/secrets.yml}
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []) + %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -89,7 +89,6 @@ namespace :deploy do
   after :restart, 'foreman:export'
   after 'foreman:export', 'foreman:enable'
   after 'foreman:enable', 'foreman:restart'
-  after :restart, 'newrelic:notice_deployment'
 end
 
 namespace :app do
