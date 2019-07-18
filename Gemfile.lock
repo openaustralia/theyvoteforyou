@@ -260,7 +260,6 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.0.1)
-    newrelic_rpm (3.18.1.330)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     ntlm-http (0.1.1)
@@ -496,7 +495,6 @@ DEPENDENCIES
   mina
   mina-multistage
   mysql2
-  newrelic_rpm
   nokogiri (>= 1.6.7.2)
   numbers_and_words (~> 0.10.0)
   paper_trail
@@ -525,4 +523,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.17.1
+   1.17.3
