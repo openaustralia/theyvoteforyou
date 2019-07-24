@@ -29,7 +29,7 @@ set :foreman_location, '/etc/systemd/system'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, %w{config/database.yml config/settings.yml config/secrets.yml log}
+set :shared_paths, %w{config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml log}
 
 # Optional settings:
 set :user, 'deploy'    # Username in the server to SSH to.

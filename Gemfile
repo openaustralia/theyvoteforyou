@@ -30,6 +30,7 @@ gem 'marker', git: 'https://github.com/openaustralia/marker', branch: 'publicwhi
 # Necessary because we have a column called "valid" in the pw_divisions table.
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
+gem 'newrelic_rpm'
 gem 'devise', '~> 3.5'
 gem 'devise-async'
 gem 'attribute-defaults'
