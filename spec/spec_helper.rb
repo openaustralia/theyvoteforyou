@@ -52,7 +52,7 @@ RSpec.configure do |config|
 
     begin
       DatabaseCleaner.start
-      FactoryGirl.lint
+      FactoryBot.lint
     ensure
       DatabaseCleaner.clean
     end
@@ -69,7 +69,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers

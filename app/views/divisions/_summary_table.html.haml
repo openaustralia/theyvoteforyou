@@ -1,0 +1,26 @@
+%table.table
+  %colgroup.column-name{span: 1}
+  %colgroup.column-vote{span: 1}
+  %colgroup.column-toggler{span: 1}
+  %thead
+    %tr
+      %th Party
+      %th.cell-vote Votes
+      %th.cell-toggler
+  %tbody
+    - @whips.each do |whip|
+      = render 'summary_whip', whip: whip
+
+    %tr
+      %th.whip
+        Totals
+        %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
+      %td.cell-vote
+        %span{class: aye_vote_total_class(division)}
+          = division.aye_votes_including_tells
+          = vote_display "aye"
+          –
+        %span{class: no_vote_total_class(division)}
+          = division.no_votes_including_tells
+          = vote_display "no"
+      %td.cell-toggler

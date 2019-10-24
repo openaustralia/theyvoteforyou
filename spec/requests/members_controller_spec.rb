@@ -41,7 +41,7 @@ describe MembersController, type: :request do
 
     context "Barnaby Joyce" do
       before :each do
-        Person.create(id: 10350, large_image_url: "http://www.openaustralia.org/images/mpsL/10350.jpg")
+        Person.create(id: 10350, large_image_url: "https://www.openaustralia.org.au/images/mpsL/10350.jpg")
         Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",
           first_name: "Barnaby", last_name: "Joyce", title: "", person_id: 10350,
           party: "National Party",

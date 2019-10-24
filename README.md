@@ -15,7 +15,7 @@ Over 10 years ago the pioneering [Public Whip](http://www.publicwhip.org.uk/) pr
 
 #### Australia
 
-The [OpenAustralia.org](http://www.openaustralia.org.au) project
+The [OpenAustralia.org](https://www.openaustralia.org.au) project
 [parses](https://github.com/openaustralia/openaustralia-parser) the Australian
 Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
 due to it's history of being a fork of the UK
@@ -54,7 +54,7 @@ Before beginning, install MySQL, HTMLTidy and Ruby:
 
 ```
 # OS X ...
-brew install homebrew/dupes/tidy mysql rbenv ruby-build
+brew install tidy-html5 mysql rbenv ruby-build
 rbenv install $(cat .ruby-version)
 
 # ... or Linux (Debian)
@@ -65,6 +65,9 @@ sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
 Steps required to configure, install and start the Rails application:
 
 ```
+# Install bundle
+bundle install
+
 # Copy the default config files over.
 # (Edit config/database.yml and fill in your username, password and database settings.)
 bundle exec rake application:config:dev
@@ -72,9 +75,6 @@ cp config/database.yml.example config/database.yml
 
 # Copy secrets config
 cp config/secrets.yml.example config/secrets.yml
-
-# Install bundle
-bundle install
 
 # Set up your database (including seed data)
 bundle exec rake db:setup
@@ -123,15 +123,20 @@ you're running an older branch (out of scope for this guide).
 
 ### Australia
 
-These are the tasks you need to know about:
+These rake tasks are the ones you're most likely to need to run. You
+can run them as the `deploy` user in `/srv/www/production/current`, for instance:
+
+```
+deploy@ip-172-31-37-36:/srv/www/production/current$ RAILS_ENV=production bundle exec rake application:load:divisions[2018-10-18]
+```
 
 * `application:load:members` loads members, offices and electorates. You always
-need this to run the site. Stictly speaking it only needs to run when details
+need this to run the site. Strictly speaking it only needs to run when details
 need updating but can be run as often as you like as it only updates data.
 * `application:load:divisions[from_date,to_date]` load division[s]. `to_date` is
 optional and if omitted, allows you to load a single date.
 * `application:cache` this namespace contains cache updating tasks that are
-necessary for the site to run. They should be self-explainatory.
+necessary for the site to run. They should be self-explanatory.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
 which is run daily at 09:15 by cron.
@@ -145,6 +150,10 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
 Enable the setting in `config/settings.yml` then [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
+
+We're currently using a very old version of ElasticSearch in production,
+version 1.4.0, so we can't use the latest versions of the searchkick gem
+either.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.

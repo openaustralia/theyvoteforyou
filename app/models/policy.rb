@@ -137,6 +137,6 @@ class Policy < ActiveRecord::Base
 
   def current_members(policy_person_distances)
     members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
-    members.select { |m| m.currently_in_parliament? }
+    members.select { |m| m.currently_in_parliament? }.sort_by { |m| [m.last_name, m.first_name] }
   end
 end

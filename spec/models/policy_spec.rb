@@ -4,7 +4,8 @@ describe Policy, type: :model do
   subject { create(:policy) }
 
   it 'is valid with a name longer than 50 characters' do
-    policy = build(:policy, name:  'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed')
+    user = create(:user)
+    policy = build(:policy, user: user, name:  'a-name-much-bigger-than-fifty-characters-a-very-long-name-indeed')
 
     expect(policy).to be_valid
   end

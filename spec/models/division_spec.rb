@@ -67,8 +67,8 @@ Hmm.. yes.[3] And then some
 Yup [4].
 
 ''References''
-* [1] A footnote for sure [http://www.openaustralia.org/senate/?gid=2014-09-02.4.3 here].
-* [2] Yup. No kidding. [http://www.openaustralia.org/debates/?id=2014-09-01.34.2 here]. It's a link.
+* [1] A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].
+* [2] Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.
 * [3] Read more
 * [4] Read more about superannuation
       EOF
@@ -76,8 +76,8 @@ Yup [4].
 
     it ".footnotes" do
       expect(Division.footnotes(text)).to eq ({
-        "1" => "A footnote for sure [http://www.openaustralia.org/senate/?gid=2014-09-02.4.3 here].",
-        "2" => "Yup. No kidding. [http://www.openaustralia.org/debates/?id=2014-09-01.34.2 here]. It's a link.",
+        "1" => "A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].",
+        "2" => "Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.",
         "3" => "Read more",
         "4" => "Read more about superannuation"
       })
@@ -104,11 +104,11 @@ Yup [4].
       expect(Division.inline_footnotes(text)).to eq <<-EOF
 A paragraph.
 
-A paragraph with a footnote.(A footnote for sure [http://www.openaustralia.org/senate/?gid=2014-09-02.4.3 here].)
+A paragraph with a footnote.(A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].)
 
 ''Background to the bill''
 
-Something else with a footnote.(Yup. No kidding. [http://www.openaustralia.org/debates/?id=2014-09-01.34.2 here]. It's a link.)
+Something else with a footnote.(Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.)
 
 Hmm.. yes.(Read more) And then some
 

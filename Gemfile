@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.2.7'
+gem 'rails', '4.2.11.1'
 gem 'mysql2'
 
 # Use SCSS for stylesheets
@@ -54,7 +54,9 @@ gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
 gem 'meta-tags'
 gem 'numbers_and_words', '~> 0.10.0'
-gem 'searchkick'
+# We can't use the latest searchkick because production is currently
+# using ElasticSearch 1.4.0 which is very old.
+gem 'searchkick', "<= 1.5.1"
 gem 'typhoeus'
 gem 'foreman'
 gem 'rubocop', require: false
@@ -66,7 +68,7 @@ group :test do
   gem 'rspec-activemodel-mocks'
   gem 'webmock'
   gem 'vcr'
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'capybara'
   gem 'email_spec'
   gem "codeclimate-test-reporter", group: :test, require: nil
