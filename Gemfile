@@ -54,8 +54,6 @@ gem 'bootstrap-select-rails'
 gem 'foundation-icons-sass-rails'
 gem 'meta-tags'
 gem 'numbers_and_words', '~> 0.10.0'
-# We can't use the latest searchkick because production is currently
-# using ElasticSearch 1.4.0 which is very old.
 gem 'searchkick', "<= 1.5.1"
 gem 'typhoeus'
 gem 'foreman'
