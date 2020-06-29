@@ -58,7 +58,8 @@ gem 'rubocop', require: false
 
 gem 'rack-cors'
 
-gem 'mini_racer'
+# TODO: last version of mini_racer that supports ruby 2.3
+gem 'mini_racer', "0.2.9"
 
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see

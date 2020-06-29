@@ -251,8 +251,8 @@ GEM
       mina (>= 0.2.1)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.14)
-      libv8 (> 7.3)
+    mini_racer (0.2.9)
+      libv8 (>= 6.9.411)
     minitest (5.14.0)
     multi_json (1.14.1)
     multipart-post (2.1.1)
@@ -495,7 +495,7 @@ DEPENDENCIES
   meta-tags
   mina
   mina-multistage
-  mini_racer
+  mini_racer (= 0.2.9)
   mysql2
   newrelic_rpm
   nokogiri (>= 1.6.7.2)
