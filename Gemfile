@@ -58,6 +58,8 @@ gem 'rubocop', require: false
 
 gem 'rack-cors'
 
+gem 'mini_racer'
+
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
@@ -105,8 +107,6 @@ end
 
 group :production do
   gem 'dalli'
-
-  gem 'mini_racer'
 end
 
 group :doc do
