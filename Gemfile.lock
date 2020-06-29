@@ -283,6 +283,8 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     rack (1.6.11)
+    rack-cors (1.0.6)
+      rack (>= 1.6.0)
     rack-livereload (0.3.15)
       rack
     rack-mini-profiler (0.10.2)
@@ -499,6 +501,7 @@ DEPENDENCIES
   nokogiri (>= 1.6.7.2)
   numbers_and_words (~> 0.10.0)
   paper_trail
+  rack-cors
   rack-livereload
   rack-mini-profiler
   rails (= 4.2.11.1)

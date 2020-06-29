@@ -56,6 +56,8 @@ gem 'typhoeus'
 gem 'foreman'
 gem 'rubocop', require: false
 
+gem 'rack-cors'
+
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
