@@ -209,7 +209,7 @@ GEM
     json (1.8.6)
     launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.19)
+    libv8 (7.3.492.27.1)
     listen (2.8.3)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
@@ -251,6 +251,8 @@ GEM
       mina (>= 0.2.1)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
+    mini_racer (0.2.14)
+      libv8 (> 7.3)
     minitest (5.14.0)
     multi_json (1.14.1)
     multipart-post (2.1.1)
@@ -322,7 +324,6 @@ GEM
     rdoc (4.1.2)
       json (~> 1.4)
     redcarpet (3.3.2)
-    ref (1.0.5)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
     reverse_markdown (0.6.0)
@@ -412,9 +413,6 @@ GEM
     sshkit (1.12.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    therubyracer (0.12.1)
-      libv8 (~> 3.16.14.0)
-      ref
     thin (1.5.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -495,6 +493,7 @@ DEPENDENCIES
   meta-tags
   mina
   mina-multistage
+  mini_racer
   mysql2
   newrelic_rpm
   nokogiri (>= 1.6.7.2)
@@ -516,7 +515,6 @@ DEPENDENCIES
   searchkick (<= 1.5.1)
   seed_dump
   simple_form (~> 3)
-  therubyracer
   timecop
   turbolinks
   typhoeus
