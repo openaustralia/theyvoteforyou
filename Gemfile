@@ -61,6 +61,8 @@ gem 'rack-cors'
 # TODO: last version of mini_racer that supports ruby 2.3
 gem 'mini_racer', "0.2.9"
 
+gem 'invisible_captcha'
+
 group :test do
   # We can't use transactional fixtures as the php app and the rails app need to see
   # the same database. So, using database_cleaner instead
