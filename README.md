@@ -46,9 +46,13 @@ Once the people data has been loaded you can start loading votes. These are scra
 ## Development
 
 If your machine is already set up to develop Rails applications with MySQL just
-carry out the following steps and you should be good to go. Developing with
-[Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
-mainly useful with the retired PHP application.
+carry out the following steps and you should be good to go. 
+
+Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
+mainly useful with the retired PHP application. A new Vagrant setup can be found in the
+[OpenAustralia/Infrastructure](https://github.com/openaustralia/infrastructure#provisioning-local-development-servers-using-vagrant)
+repository, however this is primarily intended as a "production-like" test environment
+rather than providing a development environment.
 
 Before beginning, install MySQL, HTMLTidy and Ruby:
 
