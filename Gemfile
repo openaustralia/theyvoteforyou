@@ -3,6 +3,11 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.11.1'
 gem 'mysql2'
 
+# No direct dependency on this. Just locking version of sprocket-rails for
+# use with this version of rails.
+# TODO: Get rid of this once we upgrade to rails > 4.2
+gem 'sprockets-rails', '2.3.3'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
 

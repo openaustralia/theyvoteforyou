@@ -527,6 +527,7 @@ DEPENDENCIES
   searchkick (<= 1.5.1)
   seed_dump
   simple_form (~> 3)
+  sprockets-rails (= 2.3.3)
   timecop
   turbolinks
   typhoeus
