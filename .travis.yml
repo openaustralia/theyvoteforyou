@@ -13,5 +13,9 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
 
+after_script:
+  # See https://github.com/codeclimate/ruby-test-reporter/blob/master/CHANGELOG.md#v100-2016-11-03
+  - bundle exec codeclimate-test-reporter
+
 services:
   - mysql
