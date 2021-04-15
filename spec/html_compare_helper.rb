@@ -43,7 +43,7 @@ module HTMLCompareHelper
     compare_text(text, response.body, path)
   end
 
-  def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post)
+  def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post, format = "html")
     login_as(users(:one), scope: :user) if signed_in
 
     if form_params
@@ -64,14 +64,12 @@ module HTMLCompareHelper
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
 
-    compare_text(text, response.body, path, suffix)
+    compare_text(text, response.body, path, suffix, format)
   end
 
   private
 
-  def compare_text(old_text, new_text, path, suffix = "")
-    format = 'xml'
-
+  def compare_text(old_text, new_text, path, suffix = "", format = "html")
     n = normalise(new_text, format)
     o = normalise(old_text, format)
 
