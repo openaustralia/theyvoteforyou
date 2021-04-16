@@ -33,7 +33,7 @@ gem 'marker', git: 'https://github.com/openaustralia/marker', branch: 'publicwhi
 # TODO Change the name of the column with a migration and remove this gem
 gem 'safe_attributes'
 gem 'newrelic_rpm'
-gem 'devise', '~> 3.5'
+gem 'devise'
 # TODO: Re-add devise-async once upgraded Devise to 4.x and Rails to 5.x
 # gem 'devise-async'
 gem 'attribute-defaults'
