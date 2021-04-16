@@ -66,8 +66,7 @@ gem 'rubocop', require: false
 
 gem 'rack-cors'
 
-# TODO: last version of mini_racer that supports ruby 2.3
-gem 'mini_racer', "0.2.9"
+gem 'mini_racer'
 
 gem 'invisible_captcha'
 

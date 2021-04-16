@@ -254,7 +254,7 @@ GEM
     json (2.5.1)
     launchy (2.5.0)
       addressable (~> 2.7)
-    libv8 (8.4.255.0)
+    libv8-node (15.14.0.0)
     listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -296,8 +296,8 @@ GEM
       mina (~> 1.0)
     mini_mime (1.1.0)
     mini_portile2 (2.5.0)
-    mini_racer (0.2.9)
-      libv8 (>= 6.9.411)
+    mini_racer (0.4.0)
+      libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
     multi_json (1.15.0)
     multipart-post (2.1.1)
@@ -560,7 +560,7 @@ DEPENDENCIES
   meta-tags
   mina
   mina-multistage
-  mini_racer (= 0.2.9)
+  mini_racer
   mysql2
   newrelic_rpm
   nokogiri (>= 1.6.7.2)
