@@ -34,7 +34,8 @@ gem 'marker', git: 'https://github.com/openaustralia/marker', branch: 'publicwhi
 gem 'safe_attributes'
 gem 'newrelic_rpm'
 gem 'devise', '~> 3.5'
-gem 'devise-async'
+# TODO: Re-add devise-async once upgraded Devise to 4.x and Rails to 5.x
+# gem 'devise-async'
 gem 'attribute-defaults'
 gem 'diffy'
 gem 'ranker'

@@ -1,8 +1,11 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  # TODO: Re-enable :async when upgraded Devise to 4.x and Rails to 5.x
+  # devise :database_authenticatable, :registerable, :confirmable,
+  #        :recoverable, :rememberable, :trackable, :validatable, :async
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :async
+         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :wiki_motions
   has_many :policies

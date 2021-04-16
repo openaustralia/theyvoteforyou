@@ -125,8 +125,6 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-async (0.10.2)
-      devise (>= 3.2, < 4.0)
     diff-lcs (1.4.4)
     diffy (3.4.0)
     docile (1.1.5)
@@ -533,7 +531,6 @@ DEPENDENCIES
   database_cleaner
   delayed_job_active_record (~> 4.0.3)
   devise (~> 3.5)
-  devise-async
   diffy
   email_spec
   factory_bot_rails
