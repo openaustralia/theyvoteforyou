@@ -32,9 +32,9 @@ feature 'Viewing user stats' do
     scenario 'successfully' do
       visit user_stats_path
 
-      expect(page).to have_content 'For shiny coins 3 subscribers'
-      expect(page).to have_content 'For dusty ponies 2 subscriber'
-      expect(page).to have_content 'For more libraries 1 subscriber'
+      expect(page).to have_content "For shiny coins\n3 subscribers"
+      expect(page).to have_content "For dusty ponies\n2 subscriber"
+      expect(page).to have_content "For more libraries\n1 subscriber"
     end
   end
 end
