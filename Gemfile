@@ -9,7 +9,7 @@ gem 'mysql2'
 gem 'sprockets-rails', '2.3.3'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'sass-rails'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 2.7.2'
@@ -41,7 +41,8 @@ gem 'diffy'
 gem 'ranker'
 gem 'honeybadger'
 gem 'delayed_job_active_record'
-gem 'bootstrap-sass', '~> 3.3.1'
+# TODO: Display of /people is broken when we upgrade to 3.3.5
+gem 'bootstrap-sass', '3.3.1.0'
 gem 'autoprefixer-rails'
 gem 'config'
 gem 'mechanize' # Used to download debates
