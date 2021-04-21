@@ -318,9 +318,10 @@ GEM
       i18n
     open4 (1.3.4)
     orm_adapter (0.5.0)
-    paper_trail (3.0.9)
-      activerecord (>= 3.0, < 5.0)
-      activesupport (>= 3.0, < 5.0)
+    paper_trail (4.2.0)
+      activerecord (>= 3.0, < 6.0)
+      activesupport (>= 3.0, < 6.0)
+      request_store (~> 1.1)
     parallel (1.20.1)
     parser (3.0.1.0)
       ast (~> 2.4.1)
@@ -374,6 +375,8 @@ GEM
     rdoc (6.3.0)
     redcarpet (3.5.1)
     regexp_parser (2.1.1)
+    request_store (1.5.0)
+      rack (>= 1.4)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
       railties (>= 4.2.0, < 6.0)
@@ -562,7 +565,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (>= 1.6.7.2)
   numbers_and_words (~> 0.10.0)
-  paper_trail (~> 3)
+  paper_trail (~> 4)
   rack-cors
   rack-livereload
   rack-mini-profiler

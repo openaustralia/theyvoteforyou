@@ -29,6 +29,8 @@ feature 'Policies' do
   end
 
   scenario 'editing existing' do
+    PaperTrail.whodunnit = user.id
+
     policy = create(:policy, name: 'test', description: 'testing')
     visit edit_policy_path(policy)
     within '.edit_policy' do
