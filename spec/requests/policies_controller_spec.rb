@@ -7,6 +7,7 @@ describe PoliciesController, type: :request do
 
   before(:each) do
     DatabaseCleaner.start
+    PaperTrail.whodunnit = create(:user).id
   end
 
   after(:each) do
