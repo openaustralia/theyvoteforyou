@@ -40,7 +40,7 @@ class User < ApplicationRecord
   end
 
   def watching?(object)
-    !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
+    !!watches.find_by(watchable_type: object.class.to_s, watchable_id: object.id)
   end
 
   def toggle_policy_watch(policy)
