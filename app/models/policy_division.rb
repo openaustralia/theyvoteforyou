@@ -1,4 +1,4 @@
-class PolicyDivision < ActiveRecord::Base
+class PolicyDivision < ApplicationRecord
   # Using proc form of meta so that associated IDs are set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: Proc.new{|pd| pd.policy_id}, division_id: Proc.new{|pd| pd.division_id} }

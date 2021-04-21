@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   has_many :members, -> {order(entered_house: :desc)}
   has_many :policy_person_distances
   has_many :offices

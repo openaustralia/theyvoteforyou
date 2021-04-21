@@ -1,2 +1,2 @@
-class Electorate < ActiveRecord::Base
+class Electorate < ApplicationRecord
 end

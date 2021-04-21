@@ -1,4 +1,4 @@
-class PolicyPersonDistance < ActiveRecord::Base
+class PolicyPersonDistance < ApplicationRecord
   attr_defaults nvotessame: 0.0,
                 nvotessamestrong: 0.0,
                 nvotesdiffer: 0.0,

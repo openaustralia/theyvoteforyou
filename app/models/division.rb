@@ -1,4 +1,4 @@
-class Division < ActiveRecord::Base
+class Division < ApplicationRecord
   searchkick if Settings.elasticsearch
   has_one :division_info
   has_many :whips

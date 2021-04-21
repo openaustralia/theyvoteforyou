@@ -1,4 +1,4 @@
-class MemberInfo < ActiveRecord::Base
+class MemberInfo < ApplicationRecord
   belongs_to :member, touch: true
 
   def self.update_all!

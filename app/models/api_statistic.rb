@@ -1,4 +1,4 @@
-class ApiStatistic < ActiveRecord::Base
+class ApiStatistic < ApplicationRecord
   belongs_to :user
 
   def self.log(request)

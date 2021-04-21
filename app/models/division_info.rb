@@ -1,4 +1,4 @@
-class DivisionInfo < ActiveRecord::Base
+class DivisionInfo < ApplicationRecord
   belongs_to :division
 
   # TODO Fix duplication between this class and MemberInfo

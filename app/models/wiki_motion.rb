@@ -1,4 +1,4 @@
-class WikiMotion < ActiveRecord::Base
+class WikiMotion < ApplicationRecord
   belongs_to :user
   belongs_to :division
 

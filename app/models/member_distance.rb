@@ -1,5 +1,5 @@
 # This provides a cache for several distance measures between members
-class MemberDistance < ActiveRecord::Base
+class MemberDistance < ApplicationRecord
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
 
