@@ -25,7 +25,7 @@ FactoryBot.define do
     debate_gid { "uk.org.publicwhip/representatives/2014-01-1.1.1" }
 
     after(:create) do |division|
-      division.division_info create(:division_info, division: division)
+      division.division_info = create(:division_info, division: division)
       division.whips = [create(:whip, division: division)]
       division.votes = [create(:vote, division: division)]
     end
