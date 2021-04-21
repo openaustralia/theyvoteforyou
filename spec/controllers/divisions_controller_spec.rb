@@ -26,7 +26,7 @@ describe DivisionsController, type: :controller do
 
     context "when request has an invalid date as a parameter" do
       it "should return generic 404 page" do
-        get :index, date: '2017-13-22', house: "representatives"
+        get :index, params: {date: '2017-13-22', house: "representatives"}
 
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
@@ -35,7 +35,7 @@ describe DivisionsController, type: :controller do
 
     context "when request has an date parameter with an incorrect format" do
       it "should return generic 404 page" do
-        get :index, date: '2017-12-222', house: "representatives"
+        get :index, params: {date: '2017-12-222', house: "representatives"}
 
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
@@ -45,7 +45,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is a full date" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, date: '2016-06-01', house: "representatives"
+          get :index, params: {date: '2016-06-01', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -55,7 +55,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, date: '2017-02-02', house: "representatives"
+          get :index, params: {date: '2017-02-02', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -67,7 +67,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is just a year" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, date: '2016', house: "representatives"
+          get :index, params: {date: '2016', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -77,7 +77,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, date: '2017', house: "representatives"
+          get :index, params: {date: '2017', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -89,7 +89,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is just a year and a month (YYYY-MM)" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, date: '2016-12', house: "representatives"
+          get :index, params: {date: '2016-12', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -99,7 +99,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, date: '2016-05', house: "representatives"
+          get :index, params: {date: '2016-05', house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -111,7 +111,7 @@ describe DivisionsController, type: :controller do
     context "when request to see votes from a member" do
       context "and no date is specified" do
         it "should get votes based on last year on divisions table" do
-          get :index, mpc: "newtown", mpn: "jane_lo", house: "representatives"
+          get :index, params: {mpc: "newtown", mpn: "jane_lo", house: "representatives"}
 
           expect(response).to render_template "divisions/index_with_member"
           expect(response.status).to be 200
@@ -126,7 +126,7 @@ describe DivisionsController, type: :controller do
       context "and a date is specified" do
         context "and date is valid" do
           it "should get votes based on the date specified" do
-            get :index, mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013"
+            get :index, params: {mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013"}
 
             expect(response).to render_template "divisions/index_with_member"
             expect(response.status).to be 200
@@ -140,7 +140,7 @@ describe DivisionsController, type: :controller do
 
         context "and date is not valid" do
           it "should return generic 404 page" do
-            get :index, mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15"
+            get :index, params: {mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15"}
 
             expect(response).to render_template "home/error_404"
             expect(response.status).to be 404
@@ -164,7 +164,7 @@ describe DivisionsController, type: :controller do
     context "when request a specific division" do
       context "and parameters are match a division" do
         it "should load it" do
-          get :show, house: "representatives", date: "2017-04-06", number: 100
+          get :show, params: {house: "representatives", date: "2017-04-06", number: 100}
 
           expect(response).to render_template "divisions/show"
           expect(response.status).to be 200
@@ -179,7 +179,7 @@ describe DivisionsController, type: :controller do
 
       context "and parameters do not match a division" do
         it "should display a 404 page" do
-          get :show, house: "representatives", date: "2017-04-06", number: 101
+          get :show, params: {house: "representatives", date: "2017-04-06", number: 101}
 
           expect(response).to render_template "home/error_404"
           expect(response.status).to be 404

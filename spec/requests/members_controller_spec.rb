@@ -61,19 +61,19 @@ describe MembersController, type: :request do
       it "should redirect to the senator's page even if the id param incorrectly identifies a member as a senator and vice versa" do
         # Barnaby has been set up above as a member and a senator.
         # Let's refer to his senator record but incorrectly using `member` instead of `lord`
-        get "/mp.php?id=uk.org.publicwhip/member/100114"
+        get "/mp.php?id=uk.org.publicwhip/member/100114", params: {}
         expect(response.status).to eq 302
         expect(response.headers["location"]).to eq "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
       end
     end
 
     it "should 404 with an unknown person" do
-      get "/mp.php?mpn=Foo_Bar"
+      get "/mp.php?mpn=Foo_Bar", params: {}
       expect(response.status).to eq 404
     end
 
     it "should 404 when the wrong name is given for a correct electorate" do
-      get "/people/representatives/warringah/foo_bar"
+      get "/people/representatives/warringah/foo_bar", params: {}
       expect(response.status).to eq(404)
     end
   end

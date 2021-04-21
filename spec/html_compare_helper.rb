@@ -48,18 +48,22 @@ module HTMLCompareHelper
 
     if form_params
       if method == :post
-        post(path, form_params)
+        post(path, params: form_params)
       elsif method == :put
-        put(path, form_params)
+        put(path, params: form_params)
       else
         raise "Unexpected value for method"
       end
     else
-      get(path)
+      # Adding empty parameter to stop deprecation warnings under Rails 5.0
+      # TODO: Remove once upgrade to rails 5.1
+      get(path, params: {})
     end
     # Follow multiple redirects
     while response.headers['Location']
-      get response.headers['Location']
+      # Adding empty parameter to stop deprecation warnings under Rails 5.0
+      # TODO: Remove once upgrade to rails 5.1
+      get(response.headers['Location'], params: {})
     end
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
