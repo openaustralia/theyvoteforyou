@@ -90,9 +90,8 @@ would have voted
 <select size="1" class="selectpicker" name="policy_division[vote]" id="policy_division_vote"><optgroup label="A less important vote"><option selected="selected" value="aye">Yes</option>
 <option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option value="no3">No (strong)</option></optgroup></select>
-<input type="submit" name="commit" value="Update" class="btn btn-primary btn-xs" />
-</form>
-<form class="button_to" method="post" action="/divisions/representatives/2013-03-14/1/policies/1/delete"><input type="hidden" name="_method" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></form>
+<input type="submit" name="commit" value="Update" class="btn btn-primary btn-xs" data-disable-with="Update" />
+</form><form class="button_to" method="post" action="/divisions/representatives/2013-03-14/1/policies/1/delete"><input type="hidden" name="_method" value="delete" /><input class="btn btn-sm btn-link" type="submit" value="remove" /></form>
 </li>
 </ul>
 
@@ -118,9 +117,8 @@ would have voted
 <option value="no">No</option></optgroup><optgroup label="An important vote"><option value="aye3">Yes (strong)</option>
 <option value="no3">No (strong)</option></optgroup></select>
 </fieldset>
-<input type="submit" name="commit" value="Connect policy" class="btn btn-primary" />
-</form>
-</div>
+<input type="submit" name="commit" value="Connect policy" class="btn btn-primary" data-disable-with="Connect policy" />
+</form></div>
 <footer class='site-footer'>
 <div class='footer-main'>
 <div class='container'>

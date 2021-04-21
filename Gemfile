@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.7.2'
 gem 'mysql2'
 
+# TODO: Sprockets 4 is causing trouble for the time being
+gem 'sprockets', "< 4"
+
 # Use SCSS for stylesheets
 gem 'sass-rails'
 
@@ -77,6 +80,7 @@ group :test do
   gem 'email_spec'
   gem "codeclimate-test-reporter", group: :test, require: nil
   gem "timecop"
+  gem "rails-controller-testing"
 end
 
 group :development do
