@@ -6,7 +6,8 @@ before_install:
   - gem install bundler:1.17.3
 
 before_script:
-  - bundle exec brakeman -z
+  # TODO: Reinstate brakeman as soon as we've upgrade to rails 5.2
+  # - bundle exec brakeman -z
   - cp config/secrets.yml.example config/secrets.yml
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
