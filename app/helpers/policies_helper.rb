@@ -69,7 +69,7 @@ module PoliciesHelper
         elsif version.changeset["private"].second == 2
           changes << "Changed status to draft"
         else
-          raise
+          raise "Unexpected value for private: #{version.changeset['private'].second}"
         end
       end
 
