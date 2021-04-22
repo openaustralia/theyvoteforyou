@@ -69,13 +69,15 @@ GEM
     bootstrap-select-rails (1.13.8)
     brakeman (5.0.0)
     builder (3.2.4)
-    capistrano (3.16.0)
+    capistrano (3.7.2)
       airbrussh (>= 1.0.0)
+      capistrano-harrow
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
     capistrano-bundler (2.0.1)
       capistrano (~> 3.1)
+    capistrano-harrow (0.5.3)
     capistrano-maintenance (1.2.1)
       capistrano (>= 3.0)
     capistrano-rails (1.6.1)
@@ -551,7 +553,7 @@ DEPENDENCIES
   bootstrap-sass (= 3.3.1.0)
   bootstrap-select-rails
   brakeman
-  capistrano (~> 3.0)
+  capistrano (= 3.7.2)
   capistrano-maintenance (~> 1.0)
   capistrano-rails (~> 1.1)
   capistrano-rvm
