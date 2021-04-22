@@ -65,9 +65,9 @@ module PoliciesHelper
 
       if version.changeset.has_key?("private")
         case version.changeset["private"].second
-        when 0
+        when 0, "published"
           changes << "Changed status to not draft"
-        when 2
+        when 2, "provisional"
           changes << "Changed status to draft"
         else
           raise "Unexpected value for private: #{version.changeset['private'].second}"
