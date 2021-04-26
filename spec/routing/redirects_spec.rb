@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe "routing redirects", type: :request do
-  fixtures :all
-
   it "/account/changepass.php -> /account/edit" do
     get "/account/changepass.php", params: {}
     expect(response).to redirect_to("/users/edit")

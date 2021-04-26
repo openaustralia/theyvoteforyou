@@ -69,9 +69,6 @@ gem 'mini_racer'
 gem 'invisible_captcha'
 
 group :test do
-  # We can't use transactional fixtures as the php app and the rails app need to see
-  # the same database. So, using database_cleaner instead
-  gem "database_cleaner"
   gem 'rspec-activemodel-mocks'
   gem 'webmock'
   gem 'vcr'
