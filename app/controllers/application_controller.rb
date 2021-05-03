@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  # For reason for "prepend: true" see
+  # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#protect-from-forgery-now-defaults-to-prepend-false
+  protect_from_forgery prepend: true, with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
