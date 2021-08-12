@@ -8,41 +8,6 @@ module HTMLCompareHelper
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  def compare(path, signed_in = false)
-    raise 'Function deprecated. All comparisons should use compare_static now.'
-    if signed_in
-      login_as(users(:one), scope: :user)
-
-      connection = Net::HTTP.new php_server
-      text = connection.get(path, {'Cookie' => 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'}).body
-    else
-      text = Net::HTTP.get(php_server, path)
-    end
-
-    get path
-    text.force_encoding(Encoding::UTF_8)
-    compare_text(text, response.body, path)
-  end
-
-  def compare_post(path, signed_in, form_params)
-    raise 'Function deprecated. All comparisons should use compare_static now.'
-    agent = Mechanize.new
-    headers = {}
-    if signed_in
-      login_as(users(:one), scope: :user)
-      headers['Cookie'] = 'user_name=henare; id_hash=eafc72bcea49e39de90363fcde8f749f'
-    end
-
-    post path, form_params
-    # Follow redirect
-    get response.headers['Location'] if response.headers['Location']
-
-    text = agent.post("http://#{php_server}#{path}", form_params, headers).body
-    text.force_encoding(Encoding::UTF_8)
-
-    compare_text(text, response.body, path)
-  end
-
   def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post, format = "html")
     login_as(users(:one), scope: :user) if signed_in
 
@@ -121,10 +86,6 @@ module HTMLCompareHelper
     # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp")
     r.gsub("--><", "-->\n<")
-  end
-
-  def php_server
-    ENV['PHP_SERVER'] || 'dev.publicwhip.org.au'
   end
 
   def tidy_path
