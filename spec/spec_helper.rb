@@ -42,11 +42,20 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   # Disabled so emails in acceptance tests work
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+
     Delayed::Worker.delay_jobs = false
-    # FactoryBot.lint
+
+    begin
+      DatabaseCleaner.start
+      FactoryBot.lint
+    ensure
+      DatabaseCleaner.clean
+    end
   end
 
   # If true, the base class of anonymous controllers will be inferred

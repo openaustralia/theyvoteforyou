@@ -3,22 +3,15 @@ require 'spec_helper'
 
 describe PoliciesController, type: :request do
   include HTMLCompareHelper
-
-  let(:user) { create(:user, id: 1, name: "Henare Degan") }
+  fixtures :all
 
   before(:each) do
-    # To workaround paper trail and fixtures problems we're deleting the static
-    # fixtures data and recreating here in such a way that the versions in paper
-    # trail are setup the way we want
-    Policy.delete_all
-    PaperTrail::Version.delete_all
-    User.delete_all
+    DatabaseCleaner.start
+    PaperTrail.whodunnit = create(:user).id
+  end
 
-    PaperTrail.whodunnit = user.id
-    Timecop.freeze(25.hours.ago) do
-      create(:policy, id: 1, name: "marriage equality", description: "access to marriage should be equal")
-      create(:policy, id: 2, name: "offshore processing", description: "refugees arrving by boat should be processed offshore")
-    end
+  after(:each) do
+    DatabaseCleaner.clean
   end
 
   it "#index" do
