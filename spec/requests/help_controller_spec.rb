@@ -3,7 +3,6 @@ require 'spec_helper'
 
 describe HelpController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
 
   it "#research" do
     compare_static("/project/research.php")
