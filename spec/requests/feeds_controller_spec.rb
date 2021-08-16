@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe FeedsController, type: :request do
   include HTMLCompareHelper
+  fixtures :all
 
   describe '#mp-info' do
     it { compare_static('/feeds/mp-info.xml', false, false, "", :post, "xml") }

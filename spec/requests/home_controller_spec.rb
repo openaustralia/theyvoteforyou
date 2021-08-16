@@ -3,6 +3,7 @@ require 'spec_helper'
 
 describe HomeController, type: :request do
   include HTMLCompareHelper
+  fixtures :all
 
   it "#index" do
     compare_static("/")
