@@ -17,3 +17,5 @@
         %span.subscriber-count.small
           = pluralize policy.watches.count, 'subscriber'
     = render "social_share"
+
+= render "draft_warning", policy: policy
