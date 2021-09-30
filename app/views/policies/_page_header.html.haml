@@ -16,6 +16,8 @@
       - if policy.watches.count > 0
         %span.subscriber-count.small
           = pluralize policy.watches.count, 'subscriber'
-    = render "social_share"
+    -# We don't want people sharing incomplete policies
+    - if policy.published?
+      = render "social_share"
 
 = render "draft_warning", policy: policy

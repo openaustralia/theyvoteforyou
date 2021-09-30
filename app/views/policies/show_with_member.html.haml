@@ -16,7 +16,9 @@
           = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
           = link_to @policy.name, @policy
   .header-secondary.col-sm-12
-    = render "social_share"
+    -# We don't want people sharing incomplete policies
+    - if @policy.published?
+      = render "social_share"
 
 = render "draft_warning", policy: @policy
 
