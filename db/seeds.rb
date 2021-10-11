@@ -188,14 +188,14 @@ Member.create!([
   {id: 100013, gid: "uk.org.publicwhip/lord/100013", source_gid: "", first_name: "Cory", last_name: "Bernardi", title: "", constituency: "SA", party: "Liberal Party", house: "senate", entered_house: "2006-05-04", left_house: "9999-12-31", entered_reason: "section_15", left_reason: "still_in_office", person_id: 10038}
 ])
 MemberDistance.create!([
-  {id: 1, member1_id: 1, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {id: 2, member1_id: 1, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {id: 3, member1_id: 6, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {id: 4, member1_id: 6, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {id: 5, member1_id: 100001, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0, distance_b: -1.0},
-  {id: 6, member1_id: 100001, member2_id: 100013, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
-  {id: 7, member1_id: 100013, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5, distance_b: -1.0},
-  {id: 8, member1_id: 100013, member2_id: 100013, nvotessame: 1, nvotesdiffer: 0, nvotesabsent: 0, distance_a: 0.0, distance_b: 0.0}
+  {id: 1, member1_id: 1, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0},
+  {id: 2, member1_id: 1, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0},
+  {id: 3, member1_id: 6, member2_id: 1, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0},
+  {id: 4, member1_id: 6, member2_id: 6, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0},
+  {id: 5, member1_id: 100001, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 0, distance_a: -1.0},
+  {id: 6, member1_id: 100001, member2_id: 100013, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5},
+  {id: 7, member1_id: 100013, member2_id: 100001, nvotessame: 0, nvotesdiffer: 0, nvotesabsent: 1, distance_a: 0.5},
+  {id: 8, member1_id: 100013, member2_id: 100013, nvotessame: 1, nvotesdiffer: 0, nvotesabsent: 0, distance_a: 0.0}
 ])
 MemberInfo.create!([
   {id: 1, member_id: 100001, rebellions: 0, tells: 0, votes_attended: 0, votes_possible: 2, aye_majority: 0},
@@ -1569,8 +1569,8 @@ PolicyDivision.create!([
   {id: 2, policy_id: 1, vote: "no", division_id: 1}
 ])
 PolicyPersonDistance.create!([
-  {id: 1, policy_id: 1, person_id: 10003, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5, distance_b: -1.0},
-  {id: 2, policy_id: 1, person_id: 10038, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5, distance_b: -1.0}
+  {id: 1, policy_id: 1, person_id: 10003, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5},
+  {id: 2, policy_id: 1, person_id: 10038, nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0, nvotesabsent: 1, nvotesabsentstrong: 1, distance_a: 0.5}
 ])
 Person.create!([
   {id: 10001, small_image_url: "https://www.openaustralia.org.au/images/mps/10001.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10001.jpg"},

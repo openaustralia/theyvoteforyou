@@ -112,13 +112,11 @@ describe MemberDistance, type: :model do
 
       it ".calculate_distances" do
         expect(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
-        expect(Distance).to receive(:distance_b).with(2, 1).and_return(0.2)
         expect(MemberDistance.calculate_distances(membera, memberb)).to eq({
           nvotessame: 2,
           nvotesdiffer: 1,
           nvotesabsent: 2,
-          distance_a: 0.1,
-          distance_b: 0.2
+          distance_a: 0.1
         })
       end
     end

@@ -15,7 +15,7 @@ class FeedsController < ApplicationController
     @policy = Policy.find(params[:id])
 
     # FIXME: Using SQL to match PHP, see #211 for detailed description
-    sql = "select policy_person_distances.person_id, distance_a, distance_b, members.id as member_id,
+    sql = "select policy_person_distances.person_id, distance_a, members.id as member_id,
            (nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) as both_voted,
            (nvotesabsent + nvotesabsentstrong) as absent
            from policy_person_distances, members

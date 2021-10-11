@@ -1,12 +1,12 @@
 class PolicyPersonDistance < ApplicationRecord
+  # TODO: Remove distance_b from database schema
   attr_defaults nvotessame: 0.0,
                 nvotessamestrong: 0.0,
                 nvotesdiffer: 0.0,
                 nvotesdifferstrong: 0.0,
                 nvotesabsent: 0.0,
                 nvotesabsentstrong: 0.0,
-                distance_a: 0.0,
-                distance_b: 0.0
+                distance_a: 0.0
 
   belongs_to :policy
   has_one :person, foreign_key: :id, primary_key: :person_id
