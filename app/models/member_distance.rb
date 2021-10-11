@@ -7,10 +7,6 @@ class MemberDistance < ApplicationRecord
     1 - distance_a
   end
 
-  def agreement_fraction_without_abstentions
-    1 - distance_b
-  end
-
   def self.update_all!
     Member.all.find_each do |member1|
       puts "Updating distances for #{member1.name}..."
