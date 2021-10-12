@@ -156,20 +156,6 @@ Style/CaseLikeIf:
     - 'lib/tasks/application.rake'
     - 'spec/html_compare_helper.rb'
 
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'app/controllers/api/v1/application_controller.rb'
-    - 'app/controllers/api/v1/divisions_controller.rb'
-    - 'app/controllers/api/v1/people_controller.rb'
-    - 'app/controllers/api/v1/policies_controller.rb'
-    - 'app/helpers/api/v1/divisions_helper.rb'
-    - 'app/helpers/api/v1/people_helper.rb'
-    - 'app/helpers/api/v1/policies_helper.rb'
-
 # Offense count: 27
 # Configuration parameters: MaxUnannotatedPlaceholdersAllowed, IgnoredMethods.
 # SupportedStyles: annotated, template, unannotated
