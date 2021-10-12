@@ -48,9 +48,9 @@ gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when te
 gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
-# TODO Update to a not ancient version of paper_trail
+# TODO: Update to a not ancient version of paper_trail
 gem "paper_trail", "~> 4"
-# TODO This is using a fairly old version of the marked js lib. Update this gem
+# TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
 gem "simple_form", "~> 3"
 gem "bootstrap-select-rails"
