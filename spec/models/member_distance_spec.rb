@@ -16,10 +16,12 @@ describe MemberDistance, type: :model do
   describe "calculating cache values" do
     let(:membera) { Member.create(id: 1, first_name: "Member", last_name: "A", gid: "A", source_gid: "A",
       title: "", constituency: "foo", party: "Party", house: "commons",
-      entered_house: Date.new(1990,1,1), left_house: Date.new(2001,1,1)) }
+      entered_house: Date.new(1990,1,1), left_house: Date.new(2001,1,1))
+    }
     let(:memberb) { Member.create(id: 2, first_name: "Member", last_name: "B", gid: "B", source_gid: "B",
       title: "", constituency: "bar", party: "Party", house: "commons",
-      entered_house: Date.new(1999,1,1), left_house: Date.new(2010,1,1)) }
+      entered_house: Date.new(1999,1,1), left_house: Date.new(2010,1,1))
+    }
 
     it { expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
     it { expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0}
@@ -36,7 +38,8 @@ describe MemberDistance, type: :model do
     context "with votes in one division that only member A could vote on" do
       let(:division) { Division.create(name: "1", date: Date.new(1995,1,1),
       number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-      source_gid: "", debate_gid: "") }
+      source_gid: "", debate_gid: "")
+      }
 
       it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
       it { check_vote_combination("aye",    false, "absent", false, 0, 0, 0) }
@@ -48,7 +51,8 @@ describe MemberDistance, type: :model do
     context "with votes in one division that both members could vote on" do
       let(:division) { Division.create(name: "1", date: Date.new(2000,1,1),
       number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-      source_gid: "", debate_gid: "") }
+      source_gid: "", debate_gid: "")
+      }
 
       it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
       it { check_vote_combination("absent", false, "aye",    false, 0, 0, 1) }

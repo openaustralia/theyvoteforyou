@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe "path helpers", type: :helper do
   let(:member) { mock_model(Member, url_name: "Foo_Bar", url_electorate: "Twist",
-    house: "representatives") }
+    house: "representatives")
+  }
   let(:policy) { mock_model(Policy, id: 123) }
   let(:division) { mock_model(Division, house: "representatives", date: Date.new(2001,1,1), number: 3) }
   let(:party) { double("party", url_name: "foo_bar") }

@@ -8,4 +8,4 @@ describe HelpController, type: :request do
   it "#research" do
     compare_static("/project/research.php")
   end
- end
+end
