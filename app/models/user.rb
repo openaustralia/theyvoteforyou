@@ -44,7 +44,8 @@ class User < ApplicationRecord
   end
 
   def toggle_policy_watch(policy)
-    if watch = policy.watches.find_by(user: self)
+    watch = policy.watches.find_by(user: self)
+    if watch
       watch.destroy!
     else
       policy.watches.create!(user: self)

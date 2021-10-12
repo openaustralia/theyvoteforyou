@@ -6,8 +6,10 @@ module DataLoader
     def self.load!(url)
       Rails.logger.info "Loading Popolo data from #{url}..."
       data = JSON.parse(open(url).read)
+      people = data["persons"]
+      vote_events = data["vote_events"]
 
-      if people = data["persons"]
+      if people
         organizations = data["organizations"]
         areas = data["areas"]
         events = data["events"]
@@ -23,10 +25,17 @@ module DataLoader
         members = data["memberships"]
         Rails.logger.info "Loading #{members.count} memberships..."
         members.each do |m|
-          raise "Person not found: #{m['person_id']}" unless person = people.find { |p| p["id"] == m["person_id"] }
-          raise "Party not found: #{m['on_behalf_of_id']}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
-          raise "Area not found: #{m['area_id']}" unless area = areas.find { |a| a["id"] == m["area_id"] }
-          raise "Legislative period not found: #{m['legislative_period_id']}" unless legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
+          person = people.find { |p| p["id"] == m["person_id"] }
+          raise "Person not found: #{m['person_id']}" unless person
+
+          party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
+          raise "Party not found: #{m['on_behalf_of_id']}" unless party
+
+          area = areas.find { |a| a["id"] == m["area_id"] }
+          raise "Area not found: #{m['area_id']}" unless area
+
+          legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
+          raise "Legislative period not found: #{m['legislative_period_id']}" unless legislative_period
 
           # Default to the start of the legislative period if there no specific one set for this membership
           start_date = m["start_date"] || legislative_period["start_date"]
@@ -46,7 +55,7 @@ module DataLoader
           member.person_id = m["person_id"][/\d+/]
           member.save!
         end
-      elsif vote_events = data["vote_events"]
+      elsif vote_events
         Rails.logger.info "Loading #{vote_events.count} vote_events..."
         vote_events.each do |v_e|
           ActiveRecord::Base.transaction do
@@ -68,7 +77,8 @@ module DataLoader
             votes.each do |v|
               member = Member.current_on(division.date).find_by!(person_id: v["voter_id"])
               vote = division.votes.find_or_initialize_by(member: member)
-              if option = popolo_to_publicwhip_vote(v["option"])
+              option = popolo_to_publicwhip_vote(v["option"])
+              if option
                 vote.vote = option
                 vote.save!
               else
