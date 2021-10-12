@@ -21,9 +21,9 @@ module MembersHelper
   end
 
   def member_party_type_place_name(member)
-    result = member.party_name + " " + member.role + " " + member.name
+    result = "#{member.party_name} #{member.role} #{member.name}"
 
-    member.currently_in_parliament? ? result : "Former " + result
+    member.currently_in_parliament? ? result : "Former #{result}"
   end
 
   def member_type_party_place_sentence(member)
@@ -36,17 +36,19 @@ module MembersHelper
   end
 
   def member_type_party_place_sentence_without_former(member)
-    content_tag(:span, member.party_name, class: "org") + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: 'electorate')}".html_safe, class: "title")
+    text = content_tag(:span, member.party_name, class: "org")
+    text += " "
+    text += content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: 'electorate')}".html_safe, class: "title")
+    text
   end
 
   def member_type_party_place_date_sentence(member)
     text = member_type_party_place_sentence(member)
+    text += " "
     text += if member.currently_in_parliament?
-              (" " +
-                content_tag(:span, "since #{member.since}", class: "member-period")).html_safe
+              content_tag(:span, "since #{member.since}", class: "member-period").html_safe
             else
-              (" " +
-                content_tag(:span, "#{member.since} – #{member.until}", class: "member-period")).html_safe
+              content_tag(:span, "#{member.since} – #{member.until}", class: "member-period").html_safe
             end
     text
   end
@@ -54,9 +56,13 @@ module MembersHelper
   def member_history_sentence(member)
     text = "Before being #{member_type_party_place_sentence_without_former(member)}, #{member.name_without_title} was "
     text += member.person.members.order(entered_house: :desc).offset(1).map do |member, _i|
-      member.party_name + " " + member_type(member.house) + " for " + content_tag(:span, member.electorate, class: "electorate")
+      s = "#{member.party_name} #{member_type(member.house)} for "
+      s += content_tag(:span, member.electorate, class: "electorate")
+      s
     end.to_sentence
-    text.html_safe + "."
+    text = text.html_safe
+    text += "."
+    text
   end
 
   def member_rebellion_record_sentence(member)
@@ -65,7 +71,9 @@ module MembersHelper
     else
       # TODO: Should this be an absolute count rather than percentage?
       # Maybe it's good to show it as a percentage because it highlights rarity?
-      (member.currently_in_parliament? ? "Rebels " : "Rebelled ") + fraction_to_percentage_display(member.person.rebellions_fraction) + " of the time"
+      rebel_text = member.currently_in_parliament? ? "Rebels" : "Rebelled"
+      percentage = fraction_to_percentage_display(member.person.rebellions_fraction)
+      "#{rebel_text} #{percentage} of the time"
     end
   end
 end
