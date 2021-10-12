@@ -16,26 +16,6 @@ Bundler/OrderedGems:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: outdent, indent
-Layout/AccessModifierIndentation:
-  Exclude:
-    - 'app/models/division_parameter_parser.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_argument, with_fixed_indentation
-Layout/ArgumentAlignment:
-  Exclude:
-    - 'app/models/division.rb'
-    - 'app/models/policy.rb'
-    - 'bin/rspec'
-    - 'db/migrate/20140616050401_add_devise_to_users.rb'
-    - 'db/migrate/20140923073138_remove_unused_columns_in_users.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 # Configuration parameters: IndentationWidth.
 Layout/AssignmentIndentation:
   Exclude:

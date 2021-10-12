@@ -2,7 +2,8 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
-    -  db/schema.rb
+    - db/schema.rb
+    - bin/*
 
 Gemspec/DateAssignment: # (new in 1.10)
   Enabled: true

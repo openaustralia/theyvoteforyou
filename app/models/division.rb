@@ -259,7 +259,7 @@ class Division < ApplicationRecord
 
     # This is a small hack to make links to an old site point to the new site
     text.gsub!(/<a href="http:\/\/publicwhip-(test|rails).openaustraliafoundation.org.au/,
-      "<a href=\"https://theyvoteforyou.org.au")
+               "<a href=\"https://theyvoteforyou.org.au")
 
     text.html_safe
   end
