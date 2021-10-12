@@ -15,27 +15,47 @@ class Distance
     1 - agreement
   end
 
-  # Points system is picked to ensure it has the properties we want and that the points
-  # are the smallest they can be while still all being integers
-  def self.points
+  # Weights are picked to ensure they have the properties we want and that the
+  # points are the smallest they can be while still all being integers
+  def self.weights
     {
-      same:         2 * ABSENT_FACTOR,
-      differ:       0,
+      # Regular votes are weighted STRONG_FACTOR less than strong votes
+      same:         ABSENT_FACTOR,
+      differ:       ABSENT_FACTOR,
+      # With the exception of regular absent votes which are weighted less
+      # again by a factor of ABSENT_FACTOR
       absent:       1,
-      samestrong:   2 * STRONG_FACTOR * ABSENT_FACTOR,
-      differstrong: 0,
-      absentstrong: 1 * STRONG_FACTOR * ABSENT_FACTOR
+      # Strong votes are weighted the same but are more important by
+      # a factor of STRONG_FACTOR than regular votes
+      samestrong:   STRONG_FACTOR * ABSENT_FACTOR,
+      differstrong: STRONG_FACTOR * ABSENT_FACTOR,
+      absentstrong: STRONG_FACTOR * ABSENT_FACTOR
+    }
+  end
+
+  def self.points
+    # On a scale between 0 and 2, 0 is voting differently, 1 is when
+    # one of two sides is absent and 2 is voting the same.
+    {
+      same:         2 * weights[:same],
+      differ:       0 * weights[:differ],
+      absent:       1 * weights[:absent],
+      samestrong:   2 * weights[:samestrong],
+      differstrong: 0 * weights[:differstrong],
+      absentstrong: 1 * weights[:absentstrong]
     }
   end
 
   def self.possible_points
+    # 2 is the maximum we can get but it's all weighted by the same amounts
+    # used in self.points above
     {
-      same:         2 * ABSENT_FACTOR,
-      differ:       2 * ABSENT_FACTOR,
-      absent:       2,
-      samestrong:   2 * STRONG_FACTOR * ABSENT_FACTOR,
-      differstrong: 2 * STRONG_FACTOR * ABSENT_FACTOR,
-      absentstrong: 2 * STRONG_FACTOR * ABSENT_FACTOR
+      same:         2 * weights[:same],
+      differ:       2 * weights[:differ],
+      absent:       2 * weights[:absent],
+      samestrong:   2 * weights[:samestrong],
+      differstrong: 2 * weights[:differstrong],
+      absentstrong: 2 * weights[:absentstrong]
     }
   end
 
