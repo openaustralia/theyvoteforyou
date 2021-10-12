@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Whip < ApplicationRecord
   belongs_to :division
 

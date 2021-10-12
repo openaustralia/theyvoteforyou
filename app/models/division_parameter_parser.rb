@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DivisionParameterParser
   YEAR_ONLY_REGEX = /^\d{4}$/
   YEAR_AND_MONTH_REGEX = /^\d{4}-\d{1,2}$/

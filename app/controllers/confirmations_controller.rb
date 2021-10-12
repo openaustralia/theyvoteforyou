@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConfirmationsController < Devise::ConfirmationsController
   # Override Devise to automatically sign in the user
   # GET /resource/confirmation?confirmation_token=abcdef

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lock "3.7.2"
 
 set :application, "theyvoteforyou.org.au"

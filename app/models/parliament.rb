@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Store this in the database
 class Parliament
   class << self

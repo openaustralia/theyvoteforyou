@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DivisionInfo < ApplicationRecord
   belongs_to :division
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 set :branch, :test
 set :deploy_to, "/srv/www/staging"
 

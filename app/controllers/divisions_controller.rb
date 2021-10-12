@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DivisionsController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update create_policy_division update_policy_division destroy_policy_division]
 

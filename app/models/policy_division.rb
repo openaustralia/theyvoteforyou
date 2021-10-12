@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PolicyDivision < ApplicationRecord
   # Using proc form of meta so that associated IDs are set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details

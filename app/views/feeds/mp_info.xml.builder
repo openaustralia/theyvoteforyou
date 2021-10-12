@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.instruct! :xml, version: "1.0", encoding: "ISO-8859-1"
 xml.publicwhip do
   @members.each do |member|

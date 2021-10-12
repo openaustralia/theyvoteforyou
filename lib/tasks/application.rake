@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :application do
   namespace :cache do
     desc "Update all the caches"

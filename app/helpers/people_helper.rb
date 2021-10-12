@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PeopleHelper
   # If this person has been a member of only one house then call them a "Senator" or a "Representative"
   # otherwise just call them "person"

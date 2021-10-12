@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 InvisibleCaptcha.setup do |config|
   # Set this to true for development so a human can see
   # the honeypot field

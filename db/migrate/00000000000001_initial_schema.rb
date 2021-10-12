@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InitialSchema < ActiveRecord::Migration
   def change
     create_table "pw_cache_attendrank_today", id: false, force: true do |t|

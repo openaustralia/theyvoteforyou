@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlertMailer < ActionMailer::Base
   default from: "#{Settings.project_name} <#{Settings.contact_email}>"
   layout "email"

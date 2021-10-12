@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddFurtherIndexToDivisions < ActiveRecord::Migration
   def change
     change_column :divisions, :clock_time, :string

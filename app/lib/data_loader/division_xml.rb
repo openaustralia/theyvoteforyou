@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DataLoader
   class DivisionXML
     MAXIMUM_MOTION_TEXT_SIZE = 15000

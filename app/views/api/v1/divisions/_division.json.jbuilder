@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id division.id
 json.house division.house
 json.name division.name

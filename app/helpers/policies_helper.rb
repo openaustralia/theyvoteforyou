@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PoliciesHelper
   def policies_list_sentence(policies)
     policies.map do |policy|

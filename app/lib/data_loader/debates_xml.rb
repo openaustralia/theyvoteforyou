@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DataLoader
   class DebatesXML
     def initialize(xml_document, house)

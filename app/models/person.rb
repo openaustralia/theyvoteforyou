@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Person < ApplicationRecord
   has_many :members, -> { order(entered_house: :desc) }
   has_many :policy_person_distances

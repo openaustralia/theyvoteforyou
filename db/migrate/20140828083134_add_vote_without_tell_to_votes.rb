@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVoteWithoutTellToVotes < ActiveRecord::Migration
   def change
     add_column :votes, :vote_without_tell, :string, limit: 10

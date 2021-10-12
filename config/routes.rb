@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Publicwhip::Application.routes.draw do
   # Strip HTML entities from requests
   get "*path", to: redirect { |params, _request| HTMLEntities.new.decode(params[:path]) },

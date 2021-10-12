@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Party
   attr_accessor :name
 

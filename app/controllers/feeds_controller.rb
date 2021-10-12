@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FeedsController < ApplicationController
   def mp_info
     @members = Member.in_house(params[:house] || "representatives").joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)

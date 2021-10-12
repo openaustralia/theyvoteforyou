@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Distance
   # What this means is that 5 absent votes is as important as one aye or no vote
   ABSENT_FACTOR = 5

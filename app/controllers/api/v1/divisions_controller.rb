@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::DivisionsController < Api::V1::ApplicationController
   def index
     @divisions = Division.order(date: :desc, house: :desc, number: :desc).includes(:wiki_motions, :whips, :division_info).limit(100)

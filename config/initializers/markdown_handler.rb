@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "redcarpet"
 
 class BootstrapTableRenderer < Redcarpet::Render::HTML

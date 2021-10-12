@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This provides a cache for several distance measures between members
 class MemberDistance < ApplicationRecord
   # TODO: Remove distance_b from database schema

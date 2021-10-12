@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WikiMotion < ApplicationRecord
   belongs_to :user
   belongs_to :division

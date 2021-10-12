@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::ApplicationController < ApplicationController
   before_action :require_key
   after_action :log_api_request

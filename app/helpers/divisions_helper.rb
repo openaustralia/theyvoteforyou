@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DivisionsHelper
   def division_date_and_time(division)
     text = formatted_date(division.date)

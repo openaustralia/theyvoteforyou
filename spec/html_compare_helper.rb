@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Originally from https://raw.github.com/openaustralia/planningalerts-app/d5b1ead73f220b7e56ef402bb833f51b2e5144d3/spec/html_compare_helper.rb
 
 require "open-uri"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveDivisionDateNumberHouseFromWikiMotions < ActiveRecord::Migration
   def change
     remove_column :wiki_motions, :division_date, :date, null: false

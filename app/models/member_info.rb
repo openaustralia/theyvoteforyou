@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MemberInfo < ApplicationRecord
   belongs_to :member, touch: true
 

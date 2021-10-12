@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module PathHelper
   def electorate_path(member)
     Rails.application.routes.url_helpers.electorate_path(electorate_params(member))

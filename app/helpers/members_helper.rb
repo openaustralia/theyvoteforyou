@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MembersHelper
   # Also say "whilst Independent" if they used to be in a different party
   def party_long2(member)

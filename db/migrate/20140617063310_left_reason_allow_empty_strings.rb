@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LeftReasonAllowEmptyStrings < ActiveRecord::Migration
   def self.up
     # Active record doesn't natively support enums, have to do it manually.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Member < ApplicationRecord
   searchkick if Settings.elasticsearch
   has_one :member_info, dependent: :destroy

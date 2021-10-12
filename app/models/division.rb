@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Division < ApplicationRecord
   searchkick if Settings.elasticsearch
   has_one :division_info

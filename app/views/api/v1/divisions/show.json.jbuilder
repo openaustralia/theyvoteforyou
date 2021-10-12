@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! "division", division: @division
 
 # Extra information that isn't in the summary

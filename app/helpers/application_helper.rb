@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def default_meta_description
     "Discover how your MP votes on the issues that matter to you."

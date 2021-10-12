@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! "person", person: @person
 
 # Extra information that's not on the index action

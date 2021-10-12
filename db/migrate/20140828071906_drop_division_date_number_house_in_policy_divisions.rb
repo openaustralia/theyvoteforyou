@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropDivisionDateNumberHouseInPolicyDivisions < ActiveRecord::Migration
   def change
     remove_index :policy_divisions, name: "division_date_2"

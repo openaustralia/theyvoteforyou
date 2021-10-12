@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PolicyPersonDistance < ApplicationRecord
   # TODO: Remove distance_b from database schema
   attr_defaults nvotessame: 0.0,

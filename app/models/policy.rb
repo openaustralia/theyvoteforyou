@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Policy < ApplicationRecord
   searchkick if Settings.elasticsearch
   # Using proc form of meta so that policy_id is set on create as well
