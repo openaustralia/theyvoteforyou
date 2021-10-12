@@ -69,6 +69,7 @@ class Whip < ApplicationRecord
   end
 
   # TODO: Move the info about which votes are free to the database
+  # rubocop:disable Lint/DuplicateBranch
   def free_vote?
     # Free votes from 2006 and onwards. This list from Appendix 3 of
     # http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
@@ -122,6 +123,7 @@ class Whip < ApplicationRecord
         party = "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
       end
     end
+    # rubocop:enable Lint/DuplicateBranch
   end
 
   # TODO: combine methods free? and free_votes? into one. They do pretty much the same thing.

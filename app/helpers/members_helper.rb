@@ -11,9 +11,7 @@ module MembersHelper
   end
 
   def vote_class(vote)
-    if vote.nil?
-      ""
-    elsif vote.rebellion?
+    if vote&.rebellion?
       "rebel"
     else
       ""

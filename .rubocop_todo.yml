@@ -6,14 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 7
-# Configuration parameters: IgnoreLiteralBranches, IgnoreConstantBranches.
-Lint/DuplicateBranch:
-  Exclude:
-    - 'app/helpers/members_helper.rb'
-    - 'app/lib/data_loader/popolo.rb'
-    - 'app/models/whip.rb'
-
 # Offense count: 2
 Lint/DuplicateMethods:
   Exclude:
