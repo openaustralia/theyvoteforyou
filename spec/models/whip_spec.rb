@@ -26,13 +26,13 @@ describe Whip, type: :model do
   end
 
   describe ".calc_whip_guess" do
-    context "no abstentions" do
+    context "when no abstentions" do
       it { expect(Whip.calc_whip_guess(10, 5, 0)).to eq "aye" }
       it { expect(Whip.calc_whip_guess(5, 10, 0)).to eq "no" }
       it { expect(Whip.calc_whip_guess(5, 5, 0)).to eq "unknown" }
     end
 
-    context "10 abstentions" do
+    context "when 10 abstentions" do
       it { expect(Whip.calc_whip_guess(5, 5, 10)).to eq "abstention" }
       it { expect(Whip.calc_whip_guess(5, 10, 10)).to eq "unknown" }
       it { expect(Whip.calc_whip_guess(5, 15, 10)).to eq "no" }
@@ -83,7 +83,7 @@ describe Whip, type: :model do
                     entered_house: Date.new(1998, 1, 1), left_house: Date.new(1999, 1, 1))
     end
 
-    context "one aye vote in party A" do
+    context "when one aye vote in party A" do
       before :each do
         division.votes.create(member: member1, vote: "aye")
       end
@@ -113,7 +113,7 @@ describe Whip, type: :model do
         expect(w.whip_guess).to eq "unknown"
       end
 
-      context "free vote" do
+      context "when free vote" do
         it do
           # TODO: get rid of use of any_instance. It's a code smell.
           allow_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
@@ -123,7 +123,7 @@ describe Whip, type: :model do
         end
       end
 
-      context "whipless party vote" do
+      context "when whipless party vote" do
         it do
           allow_any_instance_of(Whip).to receive(:whipless?).and_return(true)
           Whip.update_all!
@@ -132,7 +132,7 @@ describe Whip, type: :model do
         end
       end
 
-      context "and 2 aye votes in party B" do
+      context "when 2 aye votes in party B" do
         before :each do
           division.votes.create(member: member2, vote: "aye")
           division.votes.create(member: member3, vote: "aye")
@@ -164,7 +164,7 @@ describe Whip, type: :model do
         end
       end
 
-      context "and 1 aye vote and 1 no vote in party B" do
+      context "when 1 aye vote and 1 no vote in party B" do
         before :each do
           division.votes.create(member: member2, vote: "aye")
           division.votes.create(member: member3, vote: "no")

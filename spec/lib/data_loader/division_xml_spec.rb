@@ -4,7 +4,7 @@ require "spec_helper"
 require "nokogiri"
 
 describe DataLoader::DebatesXML do
-  context "actual division 1 from representatives on 2009-11-25" do
+  context "with actual division 1 from representatives on 2009-11-25" do
     subject(:division) do
       xml_document = Nokogiri.parse(File.read(File.expand_path("../../fixtures/2009-11-25.xml", __dir__)))
       DataLoader::DebatesXML.new(xml_document, "representatives").divisions.first
@@ -23,7 +23,7 @@ describe DataLoader::DebatesXML do
     it { expect(division.bills).to eq([{ id: "r5327", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327", title: "A bill to support mongeese" }]) }
   end
 
-  context "actual division 1 from senate on 2007-09-11" do
+  context "with actual division 1 from senate on 2007-09-11" do
     subject(:division) do
       xml_document = Nokogiri.parse(File.read(File.expand_path("../../fixtures/2007-09-11.xml", __dir__)))
       DataLoader::DebatesXML.new(xml_document, "senate").divisions.first

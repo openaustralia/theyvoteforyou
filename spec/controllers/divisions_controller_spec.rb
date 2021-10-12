@@ -45,7 +45,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when the date parameter is a full date" do
-      context "and date matches divisions already stored" do
+      context "when date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, params: { date: "2016-06-01", house: "representatives" }
 
@@ -55,7 +55,7 @@ describe DivisionsController, type: :controller do
         end
       end
 
-      context "and date does not match any divisions" do
+      context "when date does not match any divisions" do
         it "should render index template with empty divisions" do
           get :index, params: { date: "2017-02-02", house: "representatives" }
 
@@ -67,7 +67,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when the date parameter is just a year" do
-      context "and date matches divisions already stored" do
+      context "when date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, params: { date: "2016", house: "representatives" }
 
@@ -77,7 +77,7 @@ describe DivisionsController, type: :controller do
         end
       end
 
-      context "and date does not match any divisions" do
+      context "when date does not match any divisions" do
         it "should render index template with empty divisions" do
           get :index, params: { date: "2017", house: "representatives" }
 
@@ -89,7 +89,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when the date parameter is just a year and a month (YYYY-MM)" do
-      context "and date matches divisions already stored" do
+      context "when date matches divisions already stored" do
         it "should render index template with selected divisions" do
           get :index, params: { date: "2016-12", house: "representatives" }
 
@@ -99,7 +99,7 @@ describe DivisionsController, type: :controller do
         end
       end
 
-      context "and date does not match any divisions" do
+      context "when date does not match any divisions" do
         it "should render index template with empty divisions" do
           get :index, params: { date: "2016-05", house: "representatives" }
 
@@ -111,7 +111,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when request to see votes from a member" do
-      context "and no date is specified" do
+      context "when no date is specified" do
         it "should get votes based on last year on divisions table" do
           get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives" }
 
@@ -125,8 +125,8 @@ describe DivisionsController, type: :controller do
         end
       end
 
-      context "and a date is specified" do
-        context "and date is valid" do
+      context "when a date is specified" do
+        context "when date is valid" do
           it "should get votes based on the date specified" do
             get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013" }
 
@@ -140,7 +140,7 @@ describe DivisionsController, type: :controller do
           end
         end
 
-        context "and date is not valid" do
+        context "when date is not valid" do
           it "should return generic 404 page" do
             get :index, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
 
@@ -164,7 +164,7 @@ describe DivisionsController, type: :controller do
     let!(:one_division) { create(:division, date: Date.new(2017, 0o4, 0o6), house: "representatives", number: 100) }
 
     context "when request a specific division" do
-      context "and parameters are match a division" do
+      context "when parameters match a division" do
         it "should load it" do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 100 }
 
@@ -179,7 +179,7 @@ describe DivisionsController, type: :controller do
         end
       end
 
-      context "and parameters do not match a division" do
+      context "when parameters do not match a division" do
         it "should display a 404 page" do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 101 }
 

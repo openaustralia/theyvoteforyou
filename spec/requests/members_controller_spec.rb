@@ -41,7 +41,7 @@ describe MembersController, type: :request do
     # Test free teller under Interesting Votes
     it { compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives") }
 
-    context "Barnaby Joyce" do
+    context "with Barnaby Joyce" do
       before :each do
         Person.create(id: 10350, large_image_url: "https://www.openaustralia.org.au/images/mpsL/10350.jpg")
         Member.create(id: 664, gid: "uk.org.publicwhip/member/664", source_gid: "",

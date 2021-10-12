@@ -154,22 +154,6 @@ RSpec/Capybara/FeatureMethods:
     - 'spec/features/user_profile_spec.rb'
     - 'spec/features/viewing_user_stats_spec.rb'
 
-# Offense count: 65
-# Configuration parameters: Prefixes.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/controllers/divisions_controller_spec.rb'
-    - 'spec/helpers/divisions_helper_spec.rb'
-    - 'spec/helpers/members_helper_spec.rb'
-    - 'spec/helpers/policies_helper_spec.rb'
-    - 'spec/lib/check_resource_exists_spec.rb'
-    - 'spec/lib/data_loader/division_xml_spec.rb'
-    - 'spec/lib/distance_spec.rb'
-    - 'spec/models/division_spec.rb'
-    - 'spec/models/whip_spec.rb'
-    - 'spec/requests/members_controller_spec.rb'
-
 # Offense count: 134
 # Cop supports --auto-correct.
 # Configuration parameters: SkipBlocks, EnforcedStyle.

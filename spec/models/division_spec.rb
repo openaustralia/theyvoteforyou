@@ -14,7 +14,7 @@ describe Division, type: :model do
     end
 
     describe "update old site links" do
-      context "publicwhip-test" do
+      context "when link points to publicwhip-test" do
         subject(:division) { Division.new(motion: "<a href=\"http://publicwhip-test.openaustraliafoundation.org.au\">Foobar</a>") }
 
         it do
@@ -28,7 +28,7 @@ describe Division, type: :model do
         end
       end
 
-      context "publicwhip-rails" do
+      context "when link points to publicwhip-rails" do
         subject(:division) { Division.new(motion: "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a>") }
 
         it do

@@ -4,22 +4,22 @@ require "spec_helper"
 
 describe Distance do
   describe ".distance_a" do
-    context "no absent votes" do
-      context "two members that have never voted on the same thing" do
+    context "when no absent votes" do
+      context "when two members that have never voted on the same thing" do
         it { expect(Distance.distance_a(0, 0, 0)).to eq(-1) }
       end
 
-      context "two members always agreeing" do
+      context "with two members always agreeing" do
         it { expect(Distance.distance_a(3, 0, 0)).to eq 0 }
         it { expect(Distance.distance_a(10, 0, 0)).to eq 0 }
       end
 
-      context "two members always disagreeing" do
+      context "with two members always disagreeing" do
         it { expect(Distance.distance_a(0, 3, 0)).to eq 1 }
         it { expect(Distance.distance_a(0, 10, 0)).to eq 1 }
       end
 
-      context "two members agreeing half the time" do
+      context "with two members agreeing half the time" do
         it { expect(Distance.distance_a(3, 3, 0)).to eq 0.5 }
         it { expect(Distance.distance_a(10, 10, 0)).to eq 0.5 }
       end
@@ -27,7 +27,7 @@ describe Distance do
       it { expect(Distance.distance_a(3, 1, 0)).to eq 0.25 }
     end
 
-    context "only absent votes" do
+    context "when only absent votes" do
       it "should see them as neither agreeing or disagreeing" do
         expect(Distance.distance_a(0, 0, 3)).to eq 0.5
       end
@@ -41,35 +41,35 @@ describe Distance do
   end
 
   describe ".agreement" do
-    context "only strongly agreeing" do
+    context "when only strongly agreeing" do
       it { expect(Distance.new(0, 3, 0, 0, 0, 0).agreement).to eq 1.0 }
       it { expect(Distance.new(0, 10, 0, 0, 0, 0).agreement).to eq 1.0 }
     end
 
-    context "only strongly disagreeing" do
+    context "when only strongly disagreeing" do
       it { expect(Distance.new(0, 0, 0, 3, 0, 0).agreement).to eq 0.0 }
       it { expect(Distance.new(0, 0, 0, 10, 0, 0).agreement).to eq 0.0 }
     end
 
-    context "only strongly absent" do
+    context "when only strongly absent" do
       it { expect(Distance.new(0, 0, 0, 0, 0, 3).agreement).to eq 0.5 }
       it { expect(Distance.new(0, 0, 0, 0, 0, 10).agreement).to eq 0.5 }
     end
 
-    context "equal number of strong agreements and strong disagreements" do
+    context "when equal number of strong agreements and strong disagreements" do
       it { expect(Distance.new(0, 3, 0, 3, 0, 0).agreement).to eq 0.5 }
       it { expect(Distance.new(0, 10, 0, 10, 0, 0).agreement).to eq 0.5 }
     end
 
-    context "1 strong agreement and 5 regular disagreements" do
+    context "when 1 strong agreement and 5 regular disagreements" do
       it { expect(Distance.new(0, 1, 5, 0, 0, 0).agreement).to eq 0.5 }
     end
 
-    context "5 agreements and 1 strong disagreement" do
+    context "when 5 agreements and 1 strong disagreement" do
       it { expect(Distance.new(5, 0, 0, 1, 0, 0).agreement).to eq 0.5 }
     end
 
-    context "5 agreements and 1 strong absent" do
+    context "when 5 agreements and 1 strong absent" do
       it { expect(Distance.new(5, 0, 0, 0, 0, 1).agreement).to eq 0.75 }
     end
   end
