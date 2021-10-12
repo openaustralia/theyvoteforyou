@@ -30,6 +30,12 @@ Style/NumericLiterals:
 Style/Documentation:
   Enabled: false
 
+# Would be good to structure the Gemfile a bit more and order it nicely
+# TODO: Enable this
+Bundler/OrderedGems:
+  Exclude:
+    - 'Gemfile'
+
 Gemspec/DateAssignment: # (new in 1.10)
   Enabled: true
 Layout/SpaceBeforeBrackets: # (new in 1.7)
