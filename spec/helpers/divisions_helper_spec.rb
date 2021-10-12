@@ -17,19 +17,31 @@ describe DivisionsHelper, type: :helper do
     end
 
     context "Motion with everyone voting one way" do
-      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 1.0))).to eq "unanimously" }
+      it do
+        division = mock_model(Division, majority_fraction: 1.0, unanimous?: true, tied?: false)
+        expect(helper.majority_strength_in_words(division)).to eq "unanimously"
+      end
     end
 
     context "Motion with a slight majority" do
-      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.2))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">small majority</span>" }
+      it do
+        division = mock_model(Division, majority_fraction: 0.2, unanimous?: false, tied?: false)
+        expect(helper.majority_strength_in_words(division)).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">small majority</span>"
+      end
     end
 
     context "Motion with a modest majority" do
-      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.5))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">modest majority</span>" }
+      it do
+        division = mock_model(Division, majority_fraction: 0.5, unanimous?: false, tied?: false)
+        expect(helper.majority_strength_in_words(division)).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">modest majority</span>"
+      end
     end
 
     context "Motion with a large majority" do
-      it { expect(helper.majority_strength_in_words(mock_model(Division, majority_fraction: 0.9))).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">large majority</span>" }
+      it do
+        division = mock_model(Division, majority_fraction: 0.9, unanimous?: false, tied?: false)
+        expect(helper.majority_strength_in_words(division)).to eq "by a <span class=\"has-tooltip\" title=\"1 Aye – 0 No\">large majority</span>"
+      end
     end
   end
 

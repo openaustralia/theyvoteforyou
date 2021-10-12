@@ -169,6 +169,14 @@ class Whip < ApplicationRecord
     end
   end
 
+  def unanimous?
+    majority_fraction == 1.0
+  end
+
+  def tied?
+    majority_fraction == 0.0
+  end
+
   def total_votes
     aye_votes_including_tells + no_votes_including_tells + both_votes + abstention_votes
   end

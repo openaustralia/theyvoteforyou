@@ -71,6 +71,11 @@ class Division < ApplicationRecord
     aye_majority == 0
   end
 
+  # Did everyone vote the same way?
+  def unanimous?
+    majority_fraction == 1.0
+  end
+
   # Using whips cache to calculate this. Is this the best way?
   # TODO No. should use values from division_info
   def aye_votes

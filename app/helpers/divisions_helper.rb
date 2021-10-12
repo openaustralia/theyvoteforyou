@@ -62,9 +62,9 @@ module DivisionsHelper
   end
 
   def majority_strength_in_words(division)
-    if division.majority_fraction == 1.0
+    if division.unanimous?
       "unanimously"
-    elsif division.majority_fraction == 0.0
+    elsif division.tied?
       ""
     else
       "by a " + content_tag(:span, { class: "has-tooltip", title: division_score(division) }) do
@@ -84,9 +84,9 @@ module DivisionsHelper
   end
 
   def whip_guess_with_strength_in_words(whip)
-    if whip.majority_fraction == 1.0
+    if whip.unanimous?
       "unanimously voted " + whip.whip_guess
-    elsif whip.majority_fraction == 0.0
+    elsif whip.tied?
       "split"
     elsif whip.majority_fraction > 2.to_f / 3
       "large majority voted " + whip.whip_guess
