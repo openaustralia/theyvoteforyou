@@ -1,5 +1,9 @@
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - db/schema.rb
@@ -95,4 +99,8 @@ Style/RedundantArgument: # (new in 1.4)
 Style/StringChars: # (new in 1.12)
   Enabled: true
 Style/SwapValues: # (new in 1.1)
+  Enabled: true
+RSpec/IdenticalEqualityAssertion: # (new in 2.4)
+  Enabled: true
+RSpec/Rails/AvoidSetupHook: # (new in 2.4)
   Enabled: true
