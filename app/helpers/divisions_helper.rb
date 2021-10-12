@@ -67,7 +67,7 @@ module DivisionsHelper
     elsif division.majority_fraction == 0.0
       ""
     else
-      "by a " + content_tag(:span, {class: 'has-tooltip', title: division_score(division)}) do
+      "by a " + content_tag(:span, {class: "has-tooltip", title: division_score(division)}) do
         if division.majority_fraction > 2.to_f / 3
           "large majority"
         elsif division.majority_fraction > 1.to_f / 3
@@ -99,11 +99,11 @@ module DivisionsHelper
 
   # TODO We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
-    division.passed? ? 'Passed' : 'Not passed'
+    division.passed? ? "Passed" : "Not passed"
   end
 
   def division_outcome_class(division)
-    division.passed? ? 'division-outcome-passed' : 'division-outcome-not-passed'
+    division.passed? ? "division-outcome-passed" : "division-outcome-not-passed"
   end
 
   def division_score(division)
@@ -209,13 +209,13 @@ module DivisionsHelper
 
   def vote_select(f, value, options = {})
     select_options = [
-      ['A less important vote', [
-        [vote_display('aye'), 'aye'],
-        [vote_display('no'), 'no']
+      ["A less important vote", [
+        [vote_display("aye"), "aye"],
+        [vote_display("no"), "no"]
       ]],
-      ['An important vote', [
-        [vote_display('aye3'), 'aye3'],
-        [vote_display('no3'), 'no3']
+      ["An important vote", [
+        [vote_display("aye3"), "aye3"],
+        [vote_display("no3"), "no3"]
       ]]
     ]
     f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
@@ -235,7 +235,7 @@ module DivisionsHelper
     when :day
       formatted_date(@date_start)
     else
-      raise ArgumentError, 'Not valid date'
+      raise ArgumentError, "Not valid date"
     end
   end
 
@@ -245,8 +245,8 @@ module DivisionsHelper
 
   def member_row_class(vote, whip)
     classes = []
-    classes << 'collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1
-    classes << 'rebel' if rebellion?(vote, whip)
-    classes << 'member-row-' + whip.party.parameterize
+    classes << "collapse party-member-row" unless whip.whipless? || whip.possible_votes == 1
+    classes << "rebel" if rebellion?(vote, whip)
+    classes << "member-row-" + whip.party.parameterize
   end
 end

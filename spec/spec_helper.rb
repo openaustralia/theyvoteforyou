@@ -1,14 +1,14 @@
-require 'simplecov'
+require "simplecov"
 SimpleCov.start
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'capybara/rspec'
-require 'email_spec'
-require 'html_compare_helper'
-require 'webmock/rspec'
+require "rspec/rails"
+require "capybara/rspec"
+require "email_spec"
+require "html_compare_helper"
+require "webmock/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -19,11 +19,11 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 VCR.configure do |c|
-  c.cassette_library_dir = 'spec/vcr_cassettes'
+  c.cassette_library_dir = "spec/vcr_cassettes"
   c.hook_into :webmock
   # c.default_cassette_options = { record: :new_episodes }
   # So that codeclimate-test-reporter can do its work
-  c.ignore_hosts 'codeclimate.com'
+  c.ignore_hosts "codeclimate.com"
 end
 
 RSpec.configure do |config|

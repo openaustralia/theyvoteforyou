@@ -28,7 +28,7 @@ class User < ApplicationRecord
   end
 
   def watched_policy_ids
-    watches.where(watchable_type: 'Policy').collect { |w| w.watchable_id }
+    watches.where(watchable_type: "Policy").collect { |w| w.watchable_id }
   end
 
   def watched_policies

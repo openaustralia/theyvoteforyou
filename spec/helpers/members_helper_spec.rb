@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe MembersHelper, type: :helper do
   describe "#member_rebellion_record_sentence" do

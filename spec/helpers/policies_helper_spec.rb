@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe PoliciesHelper, type: :helper do
   before :each do
@@ -7,7 +7,7 @@ describe PoliciesHelper, type: :helper do
   end
 
   describe ".policies_list_sentence" do
-    let(:user) { User.create!(email: "matthew@oaf.org.au", password: "foofoofoo", name: 'Matthew Landauer') }
+    let(:user) { User.create!(email: "matthew@oaf.org.au", password: "foofoofoo", name: "Matthew Landauer") }
     let(:policy1) { Policy.create!(id: 1, name: "A nice policy", description: "nice", user: user, private: 0) }
     let(:policy2) { Policy.create!(id: 2, name: "A provisional policy", description: "prov", user: user, private: 2) }
     let(:policy3) { Policy.create!(id: 3, name: "<em>A</em> provisional policy", description: "prov", user: user, private: 2) }

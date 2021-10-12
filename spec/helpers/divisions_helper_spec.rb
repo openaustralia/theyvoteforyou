@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe DivisionsHelper, type: :helper do
   describe "#division_outcome" do
@@ -13,7 +13,7 @@ describe DivisionsHelper, type: :helper do
 
   describe "#majority_strength_in_words" do
     before :each do
-      allow(helper).to receive(:division_score).and_return('1 Aye – 0 No')
+      allow(helper).to receive(:division_score).and_return("1 Aye – 0 No")
     end
 
     context "Motion with everyone voting one way" do
@@ -37,7 +37,7 @@ describe DivisionsHelper, type: :helper do
     context "year specified" do
       before do
         helper.instance_variable_set("@date_range", :year)
-        helper.instance_variable_set("@date_start", Date.parse('2014-01-01'))
+        helper.instance_variable_set("@date_start", Date.parse("2014-01-01"))
       end
 
       it "returns year when present" do
@@ -48,7 +48,7 @@ describe DivisionsHelper, type: :helper do
     context "month specified" do
       before do
         helper.instance_variable_set("@date_range", :month)
-        helper.instance_variable_set("@date_start", Date.parse('2014-06-01'))
+        helper.instance_variable_set("@date_start", Date.parse("2014-06-01"))
       end
 
       it "returns formatted month when present" do
@@ -59,7 +59,7 @@ describe DivisionsHelper, type: :helper do
     context "date specified" do
       before do
         helper.instance_variable_set("@date_range", :day)
-        helper.instance_variable_set("@date_start", Date.parse('2014-06-01'))
+        helper.instance_variable_set("@date_start", Date.parse("2014-06-01"))
       end
 
       it "returns formatted date when present" do

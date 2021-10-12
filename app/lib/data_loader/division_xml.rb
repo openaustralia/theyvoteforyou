@@ -18,14 +18,14 @@ module DataLoader
 
     def name
       text = if !major_heading.blank? && !minor_heading.blank?
-               title_case(major_heading) + ' &#8212; ' + title_case(minor_heading)
+               title_case(major_heading) + " &#8212; " + title_case(minor_heading)
              elsif !major_heading.blank?
                title_case(major_heading)
              elsif !minor_heading.blank?
                title_case(minor_heading)
              end
 
-      text.gsub('—', ' &#8212; ')
+      text.gsub("—", " &#8212; ")
     end
 
     def source_url
@@ -60,7 +60,7 @@ module DataLoader
 
       if time !~ /^\d\d\d:\d\d:\d\d$/
         Rails.logger.warn "Clock time '#{time}' not in right format"
-        ''
+        ""
       else
         time
       end
@@ -69,9 +69,9 @@ module DataLoader
     # Returns a hash of votes in the form of member gid => [vote, teller]
     # TODO Make it an array of hashes like {gid: ..., vote: ..., teller: ...}
     def votes
-      votes = division_xml.xpath('memberlist/member').map do |vote_xml|
+      votes = division_xml.xpath("memberlist/member").map do |vote_xml|
         gid = vote_xml.attr(:id)
-        teller = vote_xml.attr(:teller) == 'yes'
+        teller = vote_xml.attr(:teller) == "yes"
         vote = vote_xml.attr(:vote)
         vote_without_tell =
           [gid, [vote, teller]]
@@ -88,7 +88,7 @@ module DataLoader
     private
 
     def preceeding_major_heading_element
-      find_previous('major-heading')
+      find_previous("major-heading")
     end
 
     def major_heading
@@ -96,7 +96,7 @@ module DataLoader
     end
 
     def preceeding_minor_heading_element
-      find_previous('minor-heading')
+      find_previous("minor-heading")
     end
 
     def minor_heading
@@ -114,8 +114,8 @@ module DataLoader
     def pwmotiontexts
       previous_element = division_xml.previous_element
       pwmotiontexts = []
-      while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
-        pwmotiontexts << previous_element.xpath('p[@pwmotiontext]') unless previous_element.xpath('p[@pwmotiontext]').empty?
+      while previous_element && !previous_element.name.include?("heading") && !previous_element.name.include?("division")
+        pwmotiontexts << previous_element.xpath("p[@pwmotiontext]") unless previous_element.xpath("p[@pwmotiontext]").empty?
         previous_element = previous_element.previous_element
       end
       pwmotiontexts.reverse
@@ -124,8 +124,8 @@ module DataLoader
     def previous_speeches
       previous_element = division_xml.previous_element
       speeches = []
-      while previous_element && !previous_element.name.include?('heading') && !previous_element.name.include?('division')
-        speeches << previous_element if previous_element.name == 'speech'
+      while previous_element && !previous_element.name.include?("heading") && !previous_element.name.include?("division")
+        speeches << previous_element if previous_element.name == "speech"
         previous_element = previous_element.previous_element
       end
       speeches.reverse
@@ -134,11 +134,11 @@ module DataLoader
     def speech_text(speech)
       speaker = speech_speaker(speech)
       speech = speech.children.to_html # to_html oddly gets us closest to PHP's output
-      speech.gsub!("\n", '') # Except that Nokogiri is adding newlines :(
-      speech.gsub!('</p>', "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
+      speech.gsub!("\n", "") # Except that Nokogiri is adding newlines :(
+      speech.gsub!("</p>", "</p>\n\n") # PHP loader does this "so that the website formatter doesn't do strange things"
 
       if speaker
-        speaker.gsub!("'", '&#39;')
+        speaker.gsub!("'", "&#39;")
         "<p class=\"speaker\">#{speaker}</p>\n\n#{speech}"
       else
         "\n\n#{speech}"
@@ -147,7 +147,7 @@ module DataLoader
 
     def truncate_for_motion(elements)
       truncation_text = "<p class='motion-notice motion-notice-truncated'>Long debate text truncated.</p>"
-      output_text = ''
+      output_text = ""
 
       elements.each do |element|
         if (output_text + element).size > (MAXIMUM_MOTION_TEXT_SIZE - truncation_text.size)
@@ -164,15 +164,15 @@ module DataLoader
 
     # Encode certain HTML entities as found in PHP loader
     def encode_html_entities(text)
-      text.gsub!('—', '&#8212;') # em dash
-      text.gsub!('‘', '&#8216;')
-      text.gsub!('’', '&#8217;')
-      text.gsub!('“', '&#8220;')
-      text.gsub!('”', '&#8221;')
-      text.gsub!('½', '&#189;')
-      text.gsub!('…', '&#8230;')
-      text.gsub!('£', '&#163;')
-      text.gsub(' ', '&#160;') # nbsp
+      text.gsub!("—", "&#8212;") # em dash
+      text.gsub!("‘", "&#8216;")
+      text.gsub!("’", "&#8217;")
+      text.gsub!("“", "&#8220;")
+      text.gsub!("”", "&#8221;")
+      text.gsub!("½", "&#189;")
+      text.gsub!("…", "&#8230;")
+      text.gsub!("£", "&#163;")
+      text.gsub(" ", "&#160;") # nbsp
     end
 
     def speech_speaker(speech)
@@ -197,7 +197,7 @@ module DataLoader
       title.split.map.with_index do |w, i|
         # Never lower case the first word
         i != 0 && skip_words.include?(w.downcase) ? w.downcase : w
-      end.join(' ')
+      end.join(" ")
     end
   end
 end

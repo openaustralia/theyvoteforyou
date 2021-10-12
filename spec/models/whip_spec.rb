@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Whip, type: :model do
   # TODO Figure out why we need to do this horrible hack to remove the fixtures
@@ -12,13 +12,13 @@ describe Whip, type: :model do
 
   describe "#free_vote?" do
     it do
-      division = Division.new(house: 'senate', date: '2006-02-09', number: 3)
-      expect(Whip.new(division: division, party: 'Liberal Party').free_vote?).to be_truthy
+      division = Division.new(house: "senate", date: "2006-02-09", number: 3)
+      expect(Whip.new(division: division, party: "Liberal Party").free_vote?).to be_truthy
     end
 
     it do
-      division = Division.new(house: 'senate', date: '2001-01-01', number: 1)
-      whip = Whip.new(division: division, party: 'Liberal Party')
+      division = Division.new(house: "senate", date: "2001-01-01", number: 1)
+      whip = Whip.new(division: division, party: "Liberal Party")
       expect(whip.free_vote?).to be_falsy
     end
   end

@@ -47,7 +47,7 @@ module PoliciesHelper
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
       result += "policy " + quote(name) + " with description " + quote(description)
-      result = content_tag(:p, result + ".", class: 'change-action')
+      result = content_tag(:p, result + ".", class: "change-action")
     elsif version.event == "update"
       changes = []
 
@@ -75,7 +75,7 @@ module PoliciesHelper
       end
 
       result = changes.map do |change|
-        content_tag(:p, change + ".", class: 'change-action')
+        content_tag(:p, change + ".", class: "change-action")
       end.join
     else
       raise
@@ -205,7 +205,7 @@ module PoliciesHelper
     if version.item_type == "Policy"
       policy_version_sentence(version, options)
     elsif version.item_type == "PolicyDivision"
-      content_tag(:p, policy_division_version_sentence(version, options), class: 'change-action')
+      content_tag(:p, policy_division_version_sentence(version, options), class: "change-action")
     end
   end
 

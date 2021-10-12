@@ -1,4 +1,4 @@
-require 'mechanize'
+require "mechanize"
 
 module DataLoader
   class People

@@ -1,6 +1,6 @@
 module ApplicationHelper
   def default_meta_description
-    'Discover how your MP votes on the issues that matter to you.'
+    "Discover how your MP votes on the issues that matter to you."
   end
 
   def nav_link(name, path, title, current)
@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def body_class
-    if current_page?(controller: '/home', action: 'about')
+    if current_page?(controller: "/home", action: "about")
       "about"
     else
       controller.controller_path
@@ -87,7 +87,7 @@ module ApplicationHelper
       percentage = fraction * 100
       number_to_percentage(percentage, options)
     else
-      'n/a'
+      "n/a"
     end
   end
 
@@ -100,6 +100,6 @@ module ApplicationHelper
   end
 
   def inline_project_name
-    content_tag(:em, Settings.project_name, class: 'project-name')
+    content_tag(:em, Settings.project_name, class: "project-name")
   end
 end

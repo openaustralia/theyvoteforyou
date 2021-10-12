@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Parliament, type: :model do
   describe "#latest" do

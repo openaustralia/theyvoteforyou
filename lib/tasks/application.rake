@@ -1,18 +1,18 @@
 namespace :application do
   namespace :cache do
-    desc 'Update all the caches'
+    desc "Update all the caches"
     task all: [:whip, :member, :division, :policy_distances, :member_distances]
 
-    desc 'Update all the caches, excluding member_distances (as they take ages)'
+    desc "Update all the caches, excluding member_distances (as they take ages)"
     task all_except_member_distances: [:whip, :member, :division, :policy_distances]
 
-    desc 'Rebuilds the whole cache of agreement between members'
+    desc "Rebuilds the whole cache of agreement between members"
     task member_distances: :environment do
       puts "Updating member distance cache..."
       MemberDistance.update_all!
     end
 
-    desc 'Update cache of guessed whips'
+    desc "Update cache of guessed whips"
     task whip: :environment do
       puts "Updating cache of guessed whips..."
       Whip.update_all!
@@ -30,7 +30,7 @@ namespace :application do
       DivisionInfo.update_all!
     end
 
-    desc 'Update cache of guessed whips'
+    desc "Update cache of guessed whips"
     task policy_distances: :environment do
       puts "Updating policy distance cache..."
       Policy.update_all!
@@ -38,7 +38,7 @@ namespace :application do
   end
 
   namespace :load do
-    desc 'Reloads members, offices and electorates from XML files and updates people images'
+    desc "Reloads members, offices and electorates from XML files and updates people images"
     task members: [:environment, :set_logger_to_stdout] do
       DataLoader::Electorates.load!
       DataLoader::Offices.load!
@@ -46,7 +46,7 @@ namespace :application do
       DataLoader::People.load_missing_images!
     end
 
-    desc 'Load divisions from XML for a specified date'
+    desc "Load divisions from XML for a specified date"
     task :divisions, [:from_date, :to_date] => [:environment, :set_logger_to_stdout] do |t, args|
       if args[:to_date]
         DataLoader::Debates.load!(Date.parse(args[:from_date]), Date.parse(args[:to_date]))
@@ -60,9 +60,9 @@ namespace :application do
       # Get yesterday's system date to avoid Rails UTC timezone
       yesterday = Time.now.yesterday.to_date.to_s
 
-      task('application:load:members').invoke
-      task('application:load:divisions').invoke(yesterday)
-      task('application:cache:all').invoke
+      task("application:load:members").invoke
+      task("application:load:divisions").invoke(yesterday)
+      task("application:cache:all").invoke
     end
 
     desc "Load Popolo data from a URL"
@@ -72,7 +72,7 @@ namespace :application do
   end
 
   namespace :seed do
-    desc ' WARNING deletes data: Create db/seed.rb sample data to make the life of the developer a joyous one'
+    desc " WARNING deletes data: Create db/seed.rb sample data to make the life of the developer a joyous one"
     task create: :environment do
       FileUtils.rm_rf("db/seeds.rb")
       Rake::Task["db:reset"].invoke
@@ -90,7 +90,7 @@ namespace :application do
         f.write("PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
       end
       [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
-        SeedDump.dump(records.all, file: 'db/seeds.rb', append: true, exclude: [:created_at, :updated_at])
+        SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: [:created_at, :updated_at])
       end
     end
   end
@@ -116,7 +116,7 @@ namespace :application do
   end
 
   namespace :divisions do
-    desc 'Convert all divisions motion text to markdown if possible'
+    desc "Convert all divisions motion text to markdown if possible"
     task markdown: :environment do
       include PathHelper
 

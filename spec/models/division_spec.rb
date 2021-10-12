@@ -1,7 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Division, type: :model do
-  describe '#formatted_motion_text' do
+  describe "#formatted_motion_text" do
     it do
       division = Division.new(motion: "A bill [No. 2] and votes")
       expect(division.formatted_motion_text).to eq("<p>A bill [No. 2] and votes</p>\n")
@@ -11,8 +11,8 @@ describe Division, type: :model do
       expect(division.formatted_motion_text).to eq("<p>This remark<sup class=\"sup-1\"><a class=\"sup\" href='#footnote-1' onclick=\"ClickSup(1); return false;\">[1]</a></sup> deserves a footnote</p>\n")
     end
 
-    describe 'update old site links' do
-      context 'publicwhip-test' do
+    describe "update old site links" do
+      context "publicwhip-test" do
         subject(:division) { Division.new(motion: "<a href=\"http://publicwhip-test.openaustraliafoundation.org.au\">Foobar</a>") }
 
         it do
@@ -26,7 +26,7 @@ describe Division, type: :model do
         end
       end
 
-      context 'publicwhip-rails' do
+      context "publicwhip-rails" do
         subject(:division) { Division.new(motion: "<a href=\"http://publicwhip-rails.openaustraliafoundation.org.au\">Foobar</a>") }
 
         it do
@@ -42,7 +42,7 @@ describe Division, type: :model do
     end
   end
 
-  describe '#passed?' do
+  describe "#passed?" do
     subject(:division) { Division.new }
 
     it "should not be passed when there's a draw" do

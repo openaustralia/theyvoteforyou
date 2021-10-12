@@ -11,7 +11,7 @@ class DivisionParameterParser
     elsif date =~ COMPLETE_DATE_REGEX
       get_day_range(date)
     else
-      raise ArgumentError, 'Not a valid date format'
+      raise ArgumentError, "Not a valid date format"
     end
   end
 
@@ -24,14 +24,14 @@ class DivisionParameterParser
   end
 
   def self.get_month_range(partial_date)
-    year, month = partial_date.split('-')
+    year, month = partial_date.split("-")
     date = Date.parse("#{year}-#{month}-01")
 
     [date, date + 1.month, :month]
   end
 
   def self.get_day_range(complete_date)
-    year, month, day = complete_date.split('-')
+    year, month, day = complete_date.split("-")
     date = Date.parse("#{year}-#{month}-#{day}")
 
     [date, date + 1.day, :day]

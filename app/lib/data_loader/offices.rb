@@ -1,4 +1,4 @@
-require 'mechanize'
+require "mechanize"
 
 module DataLoader
   class Offices
@@ -12,7 +12,7 @@ module DataLoader
         person_id = People.member_to_person[moffice[:matchid]]
         raise "MP #{moffice[:name]} has no person" unless person_id
 
-        responsibility = moffice[:responsibility] || ''
+        responsibility = moffice[:responsibility] || ""
 
         Office.create!(id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
                        person_id: person_id[/uk.org.publicwhip\/person\/(\d*)/, 1],

@@ -1,4 +1,4 @@
-require 'mechanize'
+require "mechanize"
 
 module DataLoader
   class Members
@@ -12,14 +12,14 @@ module DataLoader
           xml = agent.get "#{Settings.xml_data_base_url}members/#{file}.xml"
           xml.search(:member).each do |member|
             # Ignores entries older than the 1997 UK General Election
-            next if member[:todate] <= '1997-04-08'
+            next if member[:todate] <= "1997-04-08"
 
             gid = member[:id]
-            if gid.include?('uk.org.publicwhip/member/')
-              raise 'House mismatch' unless member[:house] == 'representatives'
+            if gid.include?("uk.org.publicwhip/member/")
+              raise "House mismatch" unless member[:house] == "representatives"
               id = gid[/uk.org.publicwhip\/member\/(\d*)/, 1]
-            elsif gid.include?('uk.org.publicwhip/lord/')
-              raise 'House mismatch' unless member[:house] == 'senate'
+            elsif gid.include?("uk.org.publicwhip/lord/")
+              raise "House mismatch" unless member[:house] == "senate"
               id = gid[/uk.org.publicwhip\/lord\/(\d*)/, 1]
             else
               raise "Unknown gid type #{gid}"
@@ -41,7 +41,7 @@ module DataLoader
                            entered_reason: member[:fromwhy],
                            left_reason: member[:towhy],
                            person_id: person_id,
-                           source_gid: '')
+                           source_gid: "")
           end
         end
         Rails.logger.info "Loaded #{Member.count} members"

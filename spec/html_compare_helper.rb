@@ -1,8 +1,8 @@
 # Originally from https://raw.github.com/openaustralia/planningalerts-app/d5b1ead73f220b7e56ef402bb833f51b2e5144d3/spec/html_compare_helper.rb
 
-require 'open-uri'
-require 'net/http'
-require 'uri'
+require "open-uri"
+require "net/http"
+require "uri"
 
 module HTMLCompareHelper
   include Warden::Test::Helpers
@@ -25,10 +25,10 @@ module HTMLCompareHelper
       get(path, params: {})
     end
     # Follow multiple redirects
-    while response.headers['Location']
+    while response.headers["Location"]
       # Adding empty parameter to stop deprecation warnings under Rails 5.0
       # TODO: Remove once upgrade to rails 5.1
-      get(response.headers['Location'], params: {})
+      get(response.headers["Location"], params: {})
     end
 
     text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
@@ -59,7 +59,7 @@ module HTMLCompareHelper
   end
 
   def normalise(text, format)
-    format == 'xml' ? normalise_xml(text) : normalise_html(text)
+    format == "xml" ? normalise_xml(text) : normalise_html(text)
   end
 
   # Convert into a form where html can be reliably diff'd

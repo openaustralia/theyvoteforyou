@@ -1,9 +1,9 @@
-require 'new_relic/recipes'
+require "new_relic/recipes"
 # Load DSL and Setup Up Stages
-require 'capistrano/setup'
+require "capistrano/setup"
 
 # Includes default deployment tasks
-require 'capistrano/deploy'
+require "capistrano/deploy"
 
 # Includes tasks from other gems included in your Gemfile
 #
@@ -18,12 +18,12 @@ require 'capistrano/deploy'
 # require 'capistrano/rvm'
 # require 'capistrano/rbenv'
 # require 'capistrano/chruby'
-require 'capistrano/rails'
-require 'capistrano/rvm'
-require 'capistrano/honeybadger'
-require 'capistrano/maintenance'
+require "capistrano/rails"
+require "capistrano/rvm"
+require "capistrano/honeybadger"
+require "capistrano/maintenance"
 require "capistrano/scm/git"
 install_plugin Capistrano::SCM::Git
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
-Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
+Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

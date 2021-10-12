@@ -48,9 +48,9 @@ class Member < ApplicationRecord
   def self.parse_first_last_name(name)
     name = name.split(" ")
     # Strip titles like "Ms"
-    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
+    name.slice!(0) if name[0] == "Ms" || name[0] == "Mrs" || name[0] == "Mr"
     first_name = name[0]
-    last_name = name[1..-1].join(' ')
+    last_name = name[1..-1].join(" ")
     [first_name, last_name]
   end
 
@@ -142,11 +142,11 @@ class Member < ApplicationRecord
   end
 
   def since
-    entered_house.strftime('%B %Y')
+    entered_house.strftime("%B %Y")
   end
 
   def until
-    left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
+    left_house > Date.today ? "today" : left_house.strftime("%B %Y")
   end
 
   # Long version of party name
@@ -190,7 +190,7 @@ class Member < ApplicationRecord
 
   def self.find_by_search_query(query_string)
     if Settings.elasticsearch
-      self.search(query_string, boost_where: {left_reason: 'still_in_office'})
+      self.search(query_string, boost_where: {left_reason: "still_in_office"})
     else
       # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
       sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
@@ -209,18 +209,18 @@ class Member < ApplicationRecord
       query_string.split.each do |querybit|
         querybit = querybit.strip
         placeholders["querybit_#{bitcount}".to_sym] = querybit
-        placeholders["querybit_wild_#{bitcount}".to_sym] = '%' + querybit + '%'
+        placeholders["querybit_wild_#{bitcount}".to_sym] = "%" + querybit + "%"
 
         if !querybit.blank?
-          score_clause += '+ (lower(constituency) =:querybit_' + bitcount.to_s + ') * 10 +
+          score_clause += "+ (lower(constituency) =:querybit_" + bitcount.to_s + ') * 10 +
           (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
           (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
           (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
-          (lower(constituency) like :querybit_wild_' + bitcount.to_s + ') * 4 +';
-          score_clause += '(lower(last_name) like :querybit_wild_' + bitcount.to_s + ') * 4 +
+          (lower(constituency) like :querybit_wild_' + bitcount.to_s + ") * 4 +";
+          score_clause += "(lower(last_name) like :querybit_wild_" + bitcount.to_s + ') * 4 +
           (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
-          (lower(first_name) like :querybit_wild_' + bitcount.to_s + ') +';
-          score_clause += '(soundex(constituency) like concat(\'%\',soundex(:querybit_' + bitcount.to_s + '),\'%\'))'
+          (lower(first_name) like :querybit_wild_' + bitcount.to_s + ") +";
+          score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_" + bitcount.to_s + "),'%'))"
         end
         bitcount += 1
       end

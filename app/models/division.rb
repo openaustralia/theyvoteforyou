@@ -105,7 +105,7 @@ class Division < ApplicationRecord
     division_info.possible_turnout
   end
 
-  add_method_tracer :possible_votes, 'Custom/Division/possible_votes'
+  add_method_tracer :possible_votes, "Custom/Division/possible_votes"
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
@@ -122,7 +122,7 @@ class Division < ApplicationRecord
     wiki_motion ? wiki_motion.title.strip : original_name
   end
 
-  add_method_tracer :name, 'Custom/Division/name'
+  add_method_tracer :name, "Custom/Division/name"
 
   def original_name
     # For some reason some characters are stored in the database using html entities
@@ -130,7 +130,7 @@ class Division < ApplicationRecord
     HTMLEntities.new.decode(read_attribute(:name))
   end
 
-  add_method_tracer :original_name, 'Custom/Division/original_name'
+  add_method_tracer :original_name, "Custom/Division/original_name"
 
   def motion
     if edited?
@@ -195,7 +195,7 @@ class Division < ApplicationRecord
   end
 
   def full_house_name
-    house == 'representatives' ? 'House of Representatives' : house_name
+    house == "representatives" ? "House of Representatives" : house_name
   end
 
   def policy_division(policy)
@@ -234,7 +234,7 @@ class Division < ApplicationRecord
       self.search(query)
     else
       # FIXME: Remove nasty SQL below that was ported from PHP direct
-      joins('LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)')
+      joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
             .where('LOWER(convert(name using utf8)) LIKE :query
                     OR LOWER(convert(motion using utf8)) LIKE :query
                     OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
@@ -303,7 +303,7 @@ class Division < ApplicationRecord
   def wikimarkup_parse(text)
     text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
     # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
-    text.gsub! /^ */, ''
+    text.gsub! /^ */, ""
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics

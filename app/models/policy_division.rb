@@ -13,17 +13,17 @@ class PolicyDivision < ApplicationRecord
 
   def self.vote_without_strong(vote)
     case vote
-    when 'aye3'
-      'aye'
-    when 'no3'
-      'no'
+    when "aye3"
+      "aye"
+    when "no3"
+      "no"
     else
       vote
     end
   end
 
   def strong_vote?
-    vote == 'aye3' || vote == 'no3'
+    vote == "aye3" || vote == "no3"
   end
 
   private

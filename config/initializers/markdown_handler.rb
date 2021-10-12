@@ -1,4 +1,4 @@
-require 'redcarpet'
+require "redcarpet"
 
 class BootstrapTableRenderer < Redcarpet::Render::HTML
   def table(header, body)

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "routing redirects", type: :request do
   fixtures :all

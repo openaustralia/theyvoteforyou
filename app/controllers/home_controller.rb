@@ -1,4 +1,4 @@
-require 'open-uri'
+require "open-uri"
 
 class HomeController < ApplicationController
   def index
@@ -27,11 +27,11 @@ class HomeController < ApplicationController
       end
 
       if electorates.count == 1
-        member = Member.current.find_by!(constituency: electorates.first['name'])
+        member = Member.current.find_by!(constituency: electorates.first["name"])
         redirect_to view_context.member_path(member)
       elsif electorates.count > 1
         electorates.each do |e|
-          member = Member.current_on(Date.today).find_by(constituency: e['name'])
+          member = Member.current_on(Date.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?
         end
       end

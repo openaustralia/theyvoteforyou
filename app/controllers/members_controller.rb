@@ -38,14 +38,14 @@ class MembersController < ApplicationController
         member = begin
           Member.find_by!(gid: params[:id])
         rescue ActiveRecord::RecordNotFound
-          Member.find_by!(gid: params[:id].gsub(/member/, 'lord'))
+          Member.find_by!(gid: params[:id].gsub(/member/, "lord"))
         end
       elsif params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
         member = Member.with_name(params[:mpn].gsub("_", " "))
         member = member.in_house(params[:house]) if params[:house]
         member = member.order(entered_house: :desc).first
         if member.nil?
-          render 'member_not_found', status: 404
+          render "member_not_found", status: 404
           return
         end
       end
@@ -81,7 +81,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render 'member_not_found', status: 404 if @member.nil?
+    render "member_not_found", status: 404 if @member.nil?
   end
 
   def show
@@ -93,6 +93,6 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render 'member_not_found', status: 404 if @member.nil?
+    render "member_not_found", status: 404 if @member.nil?
   end
 end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 # Compare results of rendering pages via rails and via the old php app
 
 describe PoliciesController, type: :request do

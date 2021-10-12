@@ -26,7 +26,7 @@ class PoliciesController < ApplicationController
         @member = @member.person.member_for_policy(@policy)
         render "show_with_member"
       else
-        render 'members/member_not_found', status: 404
+        render "members/member_not_found", status: 404
       end
     end
   end
@@ -48,9 +48,9 @@ class PoliciesController < ApplicationController
     @policy.user = current_user
     @policy.private = 2
     if @policy.save
-      redirect_to @policy, notice: 'Successfully made new policy'
+      redirect_to @policy, notice: "Successfully made new policy"
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -59,7 +59,7 @@ class PoliciesController < ApplicationController
 
     if @policy.update policy_params
       @policy.alert_watches(@policy.versions.last)
-      redirect_to @policy, notice: 'Policy updated.'
+      redirect_to @policy, notice: "Policy updated."
     else
       render :edit
     end
@@ -74,7 +74,7 @@ class PoliciesController < ApplicationController
     @policy = Policy.find(params[:id])
     current_user.toggle_policy_watch(@policy)
     if !current_user.watching?(@policy)
-      flash[:notice] = 'Unsubscribed'
+      flash[:notice] = "Unsubscribed"
     end
     redirect_to :back
   end

@@ -1,4 +1,4 @@
-require 'net/http'
+require "net/http"
 
 class CheckResourceExists
   def self.call(url)

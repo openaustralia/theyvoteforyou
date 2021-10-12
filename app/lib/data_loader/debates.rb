@@ -1,4 +1,4 @@
-require 'mechanize'
+require "mechanize"
 
 module DataLoader
   class Debates
@@ -13,7 +13,7 @@ module DataLoader
           begin
             xml_document = Nokogiri::XML(agent.get(url).body)
           rescue Mechanize::ResponseCodeError => e
-            if e.response_code == '404'
+            if e.response_code == "404"
               Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
               next
             else

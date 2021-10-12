@@ -126,8 +126,8 @@ class InitialSchema < ActiveRecord::Migration
       t.string "constituency",     limit: 100,                        null: false
       t.string "party",            limit: 100,                        null: false
       t.string "house",            limit: 7,                          null: false
-      t.date   "became_candidate",             default: '1000-01-01', null: false
-      t.date   "left_candidate",               default: '9999-12-31', null: false
+      t.date   "became_candidate",             default: "1000-01-01", null: false
+      t.date   "left_candidate",               default: "9999-12-31", null: false
       t.text   "url",                                                 null: false
     end
 
@@ -142,8 +142,8 @@ class InitialSchema < ActiveRecord::Migration
       t.integer "cons_id",                                      null: false
       t.string  "name",      limit: 100,                        null: false
       t.boolean "main_name",                                    null: false
-      t.date    "from_date",             default: '1000-01-01', null: false
-      t.date    "to_date",               default: '9999-12-31', null: false
+      t.date    "from_date",             default: "1000-01-01", null: false
+      t.date    "to_date",               default: "9999-12-31", null: false
       t.string  "house",     limit: 8,   default: "commons",    null: false
     end
 
@@ -269,8 +269,8 @@ class InitialSchema < ActiveRecord::Migration
       t.string  "dept",           limit: 100,                        null: false
       t.string  "position",       limit: 100,                        null: false
       t.string  "responsibility", limit: 100,                        null: false
-      t.date    "from_date",                  default: '1000-01-01', null: false
-      t.date    "to_date",                    default: '9999-12-31', null: false
+      t.date    "from_date",                  default: "1000-01-01", null: false
+      t.date    "to_date",                    default: "9999-12-31", null: false
       t.integer "person"
     end
 
@@ -285,8 +285,8 @@ class InitialSchema < ActiveRecord::Migration
       t.string  "constituency",   limit: 100,                        null: false
       t.string  "party",          limit: 100,                        null: false
       t.string  "house",          limit: 8,                          null: false
-      t.date    "entered_house",              default: '1000-01-01', null: false
-      t.date    "left_house",                 default: '9999-12-31', null: false
+      t.date    "entered_house",              default: "1000-01-01", null: false
+      t.date    "left_house",                 default: "9999-12-31", null: false
       t.string  "entered_reason", limit: 16,  default: "unknown",    null: false
       t.string  "left_reason",    limit: 28,  default: "unknown",    null: false
       t.integer "person"

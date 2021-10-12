@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe "path helpers", type: :helper do
   let(:member) { mock_model(Member, url_name: "Foo_Bar", url_electorate: "Twist",

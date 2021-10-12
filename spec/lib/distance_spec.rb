@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Distance do
   describe ".distance_a" do

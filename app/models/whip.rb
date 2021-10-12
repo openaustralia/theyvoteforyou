@@ -80,46 +80,46 @@ class Whip < ApplicationRecord
     if division.house == "representatives"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006,2,16)
-        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill
       elsif division.date == Date.new(2006,12,6)
-        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Same sex marriage
       elsif division.date == Date.new(2012,9,19) && division.number == 1
-        party == 'Australian Labor Party'
+        party == "Australian Labor Party"
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
       elsif division.date == Date.new(2017,12,7)
         # Assuming that only the two major parties had a free vote
-        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       end
     elsif division.house == "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006,2,9) && division.number >= 3
-        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
     elsif division.date == Date.new(2006,11,7) && (division.number == 1 || division.number >= 4)
-        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Australian Democrats'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Same sex marriage
       elsif division.date == Date.new(2012,9,20) && division.number == 5
-        party == 'Australian Labor Party'
+        party == "Australian Labor Party"
       # Same sex marriage
       elsif division.date == Date.new(2013,6,20) && division.number == 2
-        party == 'Australian Labor Party'
+        party == "Australian Labor Party"
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
       elsif division.date == Date.new(2017,11,28) && [1, 2, 4, 5, 6, 7, 9].include?(division.number)
         # Assuming that only the two major parties had a free vote
-        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
       elsif division.date == Date.new(2017,11,29) && [1, 2, 4, 7].include?(division.number)
         # Assuming that only the two major parties had a free vote
-        ['Liberal Party', 'National Party', 'Australian Labor Party'].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       elsif division.date == Date.new(2018,8,15) && division.number == 8
-        ['Liberal Party', 'National Party', 'Australian Labor Party', 'Pauline Hanson\'s One Nation Party' ].include?(party)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party" ].include?(party)
       elsif division.date == Date.new(2018,12,4) && division.number == 12
-        party = 'Liberal Party'
+        party = "Liberal Party"
       elsif division.date == Date.new(2019,10,16) && division.number == 3
         #Congratulate NSW on decriminalising abortion
-        party = 'Liberal Party' #Probably other parties too, but the Libs were the only party with 'rebellions'
+        party = "Liberal Party" #Probably other parties too, but the Libs were the only party with 'rebellions'
       end
     end
   end

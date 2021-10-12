@@ -20,14 +20,14 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = get_date_range(params[:date])
       rescue ArgumentError
-        return render 'home/error_404', status: 404
+        return render "home/error_404", status: 404
       end
 
       if @member
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-        render 'index_with_member'
+        render "index_with_member"
       else
-        render 'members/member_not_found', status: 404
+        render "members/member_not_found", status: 404
       end
     else
       @sort = params[:sort]
@@ -37,7 +37,7 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = get_date_range(params[:date], @rdisplay)
       rescue ArgumentError
-        return render 'home/error_404', status: 404
+        return render "home/error_404", status: 404
       end
 
       # This sets the parliament to display if it's not set. It's only here for legacy support
@@ -57,7 +57,7 @@ class DivisionsController < ApplicationController
       if params[:party]
         @party = params[:party].gsub("_", " ")
       elsif params[:rdisplay2]
-        @party = params[:rdisplay2].gsub('_party', '')
+        @party = params[:rdisplay2].gsub("_party", "")
       end
       # Match to canonical capitalisation
       @party = @parties.find{|p| p.downcase == @party}
@@ -115,7 +115,7 @@ class DivisionsController < ApplicationController
     @division = get_division(house, date, number)
 
     if @division.nil?
-      render 'home/error_404', status: 404
+      render "home/error_404", status: 404
     else
       @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
       @whips = @division.whips.order(:party)
@@ -146,7 +146,7 @@ class DivisionsController < ApplicationController
   end
 
   def edit
-    @division = Division.in_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
   end
 
   def history
@@ -154,14 +154,14 @@ class DivisionsController < ApplicationController
   end
 
   def update
-    @division = Division.in_house(params[:house] || 'representatives').find_by!(date: params[:date], number: params[:number])
+    @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
 
     wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
 
     if wiki_motion.save
-      redirect_to view_context.division_path(@division), notice: 'Division updated'
+      redirect_to view_context.division_path(@division), notice: "Division updated"
     else
-      redirect_to view_context.edit_division_path(@division), alert: 'Could not update division'
+      redirect_to view_context.edit_division_path(@division), alert: "Could not update division"
     end
   end
 
@@ -173,9 +173,9 @@ class DivisionsController < ApplicationController
       # TODO Just point to the object when the path helper has been refactored
       redirect_to division_policies_path(house: @division.house, date: @division.date, number: @division.number)
     else
-      flash[:error] = 'Could not connect policy'
+      flash[:error] = "Could not connect policy"
       @display = "policies"
-      render 'show_policies'
+      render "show_policies"
     end
   end
 
@@ -184,9 +184,9 @@ class DivisionsController < ApplicationController
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
 
     if policy_division.update(policy_division_params)
-      flash[:notice] = 'Updated policy connection'
+      flash[:notice] = "Updated policy connection"
     else
-      flash[:error] = 'Could not update policy connection'
+      flash[:error] = "Could not update policy connection"
     end
 
     # TODO Just point to the object when the path helper has been refactored
@@ -198,9 +198,9 @@ class DivisionsController < ApplicationController
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
 
     if policy_division.destroy
-      flash[:notice] = 'Removed policy connection'
+      flash[:notice] = "Removed policy connection"
     else
-      flash[:error] = 'Could not remove policy connection'
+      flash[:error] = "Could not remove policy connection"
     end
 
     # TODO Just point to the object when the path helper has been refactored

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe WikiMotion, type: :model do
   before :each do
@@ -6,11 +6,11 @@ describe WikiMotion, type: :model do
     WikiMotion.delete_all
   end
 
-  describe 'storing edit_date in local time zone' do
+  describe "storing edit_date in local time zone" do
     it "magical high level test" do
       wiki_motion = create(:wiki_motion, edit_date: Time.new(2014,1,1,1,1,1))
 
-      expect(wiki_motion.edit_date.strftime('%F %T')).to eq "2014-01-01 01:01:01"
+      expect(wiki_motion.edit_date.strftime("%F %T")).to eq "2014-01-01 01:01:01"
     end
   end
 
@@ -45,8 +45,8 @@ describe WikiMotion, type: :model do
         sql = "SELECT edit_date from wiki_motions;"
         raw_date_in_db = ActiveRecord::Base.connection.execute(sql).first.first
 
-        expect(wiki_motion.edit_date.strftime('%F %T'))
-          .to eq raw_date_in_db.strftime('%F %T')
+        expect(wiki_motion.edit_date.strftime("%F %T"))
+          .to eq raw_date_in_db.strftime("%F %T")
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe MemberDistance, type: :model do
   # TODO Figure out why we need to do this horrible hack to remove the fixtures

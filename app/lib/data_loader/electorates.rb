@@ -1,4 +1,4 @@
-require 'mechanize'
+require "mechanize"
 
 module DataLoader
   class Electorates
@@ -15,7 +15,7 @@ module DataLoader
           from_date: division[:fromdate],
           to_date: division[:todate],
           # TODO: Support Scottish parliament
-          house: 'representatives')
+          house: "representatives")
       end
       Rails.logger.info "Loaded #{Electorate.count} electorates"
     end

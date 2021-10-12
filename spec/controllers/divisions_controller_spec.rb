@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe DivisionsController, type: :controller do
   describe "#index" do
@@ -26,7 +26,7 @@ describe DivisionsController, type: :controller do
 
     context "when request has an invalid date as a parameter" do
       it "should return generic 404 page" do
-        get :index, params: {date: '2017-13-22', house: "representatives"}
+        get :index, params: {date: "2017-13-22", house: "representatives"}
 
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
@@ -35,7 +35,7 @@ describe DivisionsController, type: :controller do
 
     context "when request has an date parameter with an incorrect format" do
       it "should return generic 404 page" do
-        get :index, params: {date: '2017-12-222', house: "representatives"}
+        get :index, params: {date: "2017-12-222", house: "representatives"}
 
         expect(response).to render_template "home/error_404"
         expect(response.status).to be 404
@@ -45,7 +45,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is a full date" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, params: {date: '2016-06-01', house: "representatives"}
+          get :index, params: {date: "2016-06-01", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -55,7 +55,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, params: {date: '2017-02-02', house: "representatives"}
+          get :index, params: {date: "2017-02-02", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -67,7 +67,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is just a year" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, params: {date: '2016', house: "representatives"}
+          get :index, params: {date: "2016", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -77,7 +77,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, params: {date: '2017', house: "representatives"}
+          get :index, params: {date: "2017", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -89,7 +89,7 @@ describe DivisionsController, type: :controller do
     context "when the date parameter is just a year and a month (YYYY-MM)" do
       context "and date matches divisions already stored" do
         it "should render index template with selected divisions" do
-          get :index, params: {date: '2016-12', house: "representatives"}
+          get :index, params: {date: "2016-12", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200
@@ -99,7 +99,7 @@ describe DivisionsController, type: :controller do
 
       context "and date does not match any divisions" do
         it "should render index template with empty divisions" do
-          get :index, params: {date: '2016-05', house: "representatives"}
+          get :index, params: {date: "2016-05", house: "representatives"}
 
           expect(response).to render_template "divisions/index"
           expect(response.status).to be 200

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 # Compare results of rendering pages via rails and via the old php app
 
 describe DivisionsController, type: :request do
@@ -97,12 +97,12 @@ describe DivisionsController, type: :request do
     it {compare_static("/divisions.php?rdisplay=2007&rdisplay2=Australian%20Labor%20Party_party&house=representatives")}
   end
 
-  describe '#edit' do
-    it { compare_static '/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate', true }
-    it { compare_static '/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives', true }
+  describe "#edit" do
+    it { compare_static "/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate", true }
+    it { compare_static "/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives", true }
   end
 
-  describe '#update' do
-    it { compare_static '/divisions/senate/2009-11-25/8', true, submit: 'Save', newtitle: 'A lovely new title', newdescription: 'And a great new description' }
+  describe "#update" do
+    it { compare_static "/divisions/senate/2009-11-25/8", true, submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" }
   end
 end

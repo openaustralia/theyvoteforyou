@@ -1,6 +1,6 @@
 class FeedsController < ApplicationController
   def mp_info
-    @members = Member.in_house(params[:house] || 'representatives').joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)
+    @members = Member.in_house(params[:house] || "representatives").joins(:member_info).order(:entered_house, :last_name, :first_name, :constituency)
     @most_recent_division = Division.most_recent_date
 
     @current_members_by_attendance = Ranker.rank(@members.current, by: lambda{|m| m.person.attendance_fraction || 0})

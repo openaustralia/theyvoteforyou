@@ -13,7 +13,7 @@ class Policy < ApplicationRecord
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true, length: { maximum: 100 }
 
-  enum private: [:published, 'legacy Dream MP', :provisional]
+  enum private: [:published, "legacy Dream MP", :provisional]
   alias_attribute :status, :private
 
   def name_with_for
@@ -62,7 +62,7 @@ class Policy < ApplicationRecord
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-          if member_vote == 'absent'
+          if member_vote == "absent"
             :nvotesabsentstrong
           elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessamestrong
@@ -70,7 +70,7 @@ class Policy < ApplicationRecord
             :nvotesdifferstrong
           end
         else
-          if member_vote == 'absent'
+          if member_vote == "absent"
             :nvotesabsent
           elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
             :nvotessame
