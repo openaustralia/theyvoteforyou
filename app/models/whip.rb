@@ -170,11 +170,15 @@ class Whip < ApplicationRecord
   end
 
   def unanimous?
-    majority_fraction == 1.0
+    aye_votes_including_tells == total_votes ||
+      no_votes_including_tells == total_votes
   end
 
+  # Just following this logic through in refactoring. It doesn't
+  # line up with an intuitive sense of what this function should do
+  # TODO: Fix this
   def tied?
-    majority_fraction == 0.0
+    calc_whip_guess != "aye" && calc_whip_guess != "no"
   end
 
   def total_votes

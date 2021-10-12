@@ -72,8 +72,9 @@ class Division < ApplicationRecord
   end
 
   # Did everyone vote the same way?
+  # TODO: Move this to division_info and delegate
   def unanimous?
-    majority_fraction == 1.0
+    turnout > 0 && majority == turnout
   end
 
   # Using whips cache to calculate this. Is this the best way?
