@@ -60,7 +60,6 @@ gem 'numbers_and_words', '~> 0.10.0'
 gem 'searchkick', "<= 1.5.1"
 gem 'typhoeus'
 gem 'foreman'
-gem 'rubocop', require: false
 
 gem 'rack-cors'
 
@@ -105,6 +104,10 @@ group :development do
   gem 'mina'
   gem 'mina-multistage', require: false
   gem 'brakeman', require: false
+
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :test, :development do

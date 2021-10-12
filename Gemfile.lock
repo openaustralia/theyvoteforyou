@@ -435,6 +435,13 @@ GEM
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.4.1)
       parser (>= 2.7.1.5)
+    rubocop-rails (2.5.2)
+      activesupport
+      rack (>= 1.1)
+      rubocop (>= 0.72.0)
+    rubocop-rspec (2.4.0)
+      rubocop (~> 1.0)
+      rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.4)
     ruby_parser (3.15.1)
@@ -598,6 +605,8 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop
+  rubocop-rails
+  rubocop-rspec
   ruby_parser
   safe_attributes
   sass-rails
