@@ -24,7 +24,7 @@ class PolicyPersonDistance < ApplicationRecord
   scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
 
   def voted?
-    nvotessame > 0 || nvotessamestrong > 0 || nvotesdiffer > 0 || nvotesdifferstrong > 0
+    nvotessame.positive? || nvotessamestrong.positive? || nvotesdiffer.positive? || nvotesdifferstrong.positive?
   end
 
   def distance_object

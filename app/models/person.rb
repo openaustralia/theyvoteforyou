@@ -36,17 +36,17 @@ class Person < ApplicationRecord
 
   # True if this person has been a member of a party with a whip
   def has_whip?
-    members.any? { |m| m.has_whip? }
+    members.any?(&:has_whip?)
   end
 
   # Returns a number between 0 and 1 or nil
   def rebellions_fraction
-    rebellions.to_f / votes_attended if votes_attended_with_whip > 0
+    rebellions.to_f / votes_attended if votes_attended_with_whip.positive?
   end
 
   # Returns a number between 0 and 1 or nil
   def attendance_fraction
-    votes_attended.to_f / votes_possible if votes_possible > 0
+    votes_attended.to_f / votes_possible if votes_possible.positive?
   end
 
   def show_large_image?

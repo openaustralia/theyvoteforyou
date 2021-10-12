@@ -44,8 +44,8 @@ module PathHelper
 
   def electorate_params(member)
     {
-      mpc: (member.url_electorate.downcase if member),
-      house: (member.house if member)
+      mpc: member&.url_electorate&.downcase,
+      house: member&.house
     }
   end
 

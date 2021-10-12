@@ -14,9 +14,10 @@ module HTMLCompareHelper
     login_as(users(:one), scope: :user) if signed_in
 
     if form_params
-      if method == :post
+      case method
+      when :post
         post(path, params: form_params)
-      elsif method == :put
+      when :put
         put(path, params: form_params)
       else
         raise "Unexpected value for method"
@@ -55,7 +56,7 @@ module HTMLCompareHelper
 
   def output(file, text, comment)
     File.open(file, "w") do |f|
-      f.write("<!-- " + comment + " -->\n")
+      f.write("<!-- #{comment} -->\n")
       f.write(text.to_s)
     end
   end

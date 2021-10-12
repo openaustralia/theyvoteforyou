@@ -8,7 +8,7 @@ module DivisionsHelper
   end
 
   def aye_vote_class(whip)
-    if whip.aye_votes == 0
+    if whip.aye_votes.zero?
       "normal"
     # Special case for free votes
     elsif whip.whip_guess == "aye" || whip.free?
@@ -19,7 +19,7 @@ module DivisionsHelper
   end
 
   def no_vote_class(whip)
-    if whip.no_votes == 0
+    if whip.no_votes.zero?
       "normal"
     # Special case for free votes
     elsif whip.whip_guess == "no" || whip.free?
@@ -57,8 +57,8 @@ module DivisionsHelper
   def policy_vote_display_with_class(vote)
     text = vote_display(vote)
     pattern_class = "division-policy-statement-vote"
-    vote_class = ("voted-" + PolicyDivision.vote_without_strong(vote))
-    classes = pattern_class + " " + vote_class
+    vote_class = "voted-#{PolicyDivision.vote_without_strong(vote)}"
+    classes = "#{pattern_class} #{vote_class}"
 
     content_tag(:span, text, class: classes)
   end
@@ -74,7 +74,7 @@ module DivisionsHelper
           "large majority"
         elsif division.majority_fraction > 1.to_f / 3
           "modest majority"
-        elsif division.majority_fraction > 0
+        elsif division.majority_fraction.positive?
           "small majority"
         end
       end
@@ -87,15 +87,15 @@ module DivisionsHelper
 
   def whip_guess_with_strength_in_words(whip)
     if whip.unanimous?
-      "unanimously voted " + whip.whip_guess
+      "unanimously voted #{whip.whip_guess}"
     elsif whip.tied?
       "split"
     elsif whip.majority_fraction > 2.to_f / 3
-      "large majority voted " + whip.whip_guess
+      "large majority voted #{whip.whip_guess}"
     elsif whip.majority_fraction > 1.to_f / 3
-      "modest majority voted " + whip.whip_guess
-    elsif whip.majority_fraction > 0
-      "small majority voted " + whip.whip_guess
+      "modest majority voted #{whip.whip_guess}"
+    elsif whip.majority_fraction.positive?
+      "small majority voted #{whip.whip_guess}"
     end
   end
 
@@ -127,9 +127,9 @@ module DivisionsHelper
       # TODO: Should be using whip for this calculation. Only doing it this way to match php
       # calculation
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
-      if ayenodiff == 0
+      if ayenodiff.zero?
         sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}" if member.vote_on_division_without_tell(division) != "absent"
-      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
+      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff.negative?
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
       elsif member.vote_on_division_without_tell(division) != "absent"
         sentence += "voted ".html_safe + content_tag(:em, "in the minority")
@@ -178,7 +178,7 @@ module DivisionsHelper
   end
 
   def member_vote_class(member, division)
-    "member-voted-" + vote_display(division.vote_for(member))
+    "member-voted-#{vote_display(division.vote_for(member))}"
   end
 
   def relative_time(time)
@@ -218,7 +218,7 @@ module DivisionsHelper
   end
 
   def divisions_short_description(division)
-    "Australian #{division.full_house_name} vote " +
+    "Australian #{division.full_house_name} vote " \
       "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
   end
 
@@ -243,6 +243,6 @@ module DivisionsHelper
     classes = []
     classes << "collapse party-member-row" unless whip.whipless? || whip.possible_votes == 1
     classes << "rebel" if rebellion?(vote, whip)
-    classes << "member-row-" + whip.party.parameterize
+    classes << "member-row-#{whip.party.parameterize}"
   end
 end

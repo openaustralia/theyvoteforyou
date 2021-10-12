@@ -11,7 +11,7 @@ class DivisionInfo < ApplicationRecord
 
   # a tie is 0.0. a unanimous vote is 1.0
   def majority_fraction
-    turnout > 0 ? majority.to_f / turnout : 0
+    turnout.positive? ? majority.to_f / turnout : 0
   end
 
   def self.update_all!

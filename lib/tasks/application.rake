@@ -125,9 +125,10 @@ namespace :application do
       Division.where(markdown: false).find_each do |division|
         if division.edited?
           # TODO: Don't convert divisions with voting actions, comments or footnotes
-          if division.motion =~ /\[(\d+)\]/
+          case division.motion
+          when /\[(\d+)\]/
             puts "Can not convert motion text to markdown because it contains footnotes: #{division_path(division)}"
-          elsif division.motion =~ /^@/
+          when /^@/
             puts "Can not convert motion text to markdown because it contains comments or voting actions: #{division_path(division)}"
           else
             new_motion = ReverseMarkdown.convert(division.formatted_motion_text)
@@ -162,7 +163,7 @@ namespace :application do
   end
 
   task :set_logger_to_stdout do
-    Rails.logger = ActiveSupport::Logger.new(STDOUT)
+    Rails.logger = ActiveSupport::Logger.new($stdout)
     Rails.logger.level = 1
   end
 end

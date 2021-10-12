@@ -97,7 +97,7 @@ class Distance
   end
 
   def agreement
-    if possible_total_points > 0
+    if possible_total_points.positive?
       total_points.to_f / possible_total_points
     else
       2.0

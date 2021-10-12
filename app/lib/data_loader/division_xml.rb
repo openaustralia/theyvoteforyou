@@ -21,7 +21,7 @@ module DataLoader
 
     def name
       text = if !major_heading.blank? && !minor_heading.blank?
-               title_case(major_heading) + " &#8212; " + title_case(minor_heading)
+               "#{title_case(major_heading)} &#8212; #{title_case(minor_heading)}"
              elsif !major_heading.blank?
                title_case(major_heading)
              elsif !minor_heading.blank?
@@ -50,7 +50,7 @@ module DataLoader
     end
 
     def motion
-      truncated_pwmotiontexts = truncate_for_motion(pwmotiontexts.map { |p| p.to_s + "\n\n" })
+      truncated_pwmotiontexts = truncate_for_motion(pwmotiontexts.map { |p| "#{p}\n\n" })
 
       text = truncated_pwmotiontexts.empty? ? truncate_for_motion(previous_speeches.map { |s| speech_text s }) : truncated_pwmotiontexts
       text.blank? ? '<p class="motion-notice motion-notice-notext">No motion text available</p>' : encode_html_entities(text)

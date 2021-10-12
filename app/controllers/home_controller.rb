@@ -22,7 +22,7 @@ class HomeController < ApplicationController
       json_response = "{\"error\":\"Unknown postcode\"}" if json_response == "{\"error\":\"Unknown postcode\"}{}"
       electorates = JSON.parse(json_response)
 
-      if electorates.respond_to?("has_key?") && electorates.has_key?("error")
+      if electorates.respond_to?("has_key?") && electorates.key?("error")
         @postcode_error = electorates["error"]
         return
       end

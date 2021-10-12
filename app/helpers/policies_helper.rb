@@ -17,7 +17,7 @@ module PoliciesHelper
   def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
       "voted <strong>unknown about</strong>".html_safe
-    elsif policy_member_distance.number_of_votes == 0
+    elsif policy_member_distance.number_of_votes.zero?
       "has <strong>never voted</strong> on".html_safe
     else
       text = ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
@@ -43,29 +43,30 @@ module PoliciesHelper
   end
 
   def policy_version_sentence(version, _options)
-    if version.event == "create"
+    case version.event
+    when "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
-      result += "policy " + quote(name) + " with description " + quote(description)
-      result = content_tag(:p, result + ".", class: "change-action")
-    elsif version.event == "update"
+      result += "policy #{quote(name)} with description #{quote(description)}"
+      result = content_tag(:p, "#{result}.", class: "change-action")
+    when "update"
       changes = []
 
-      if version.changeset.has_key?("name")
+      if version.changeset.key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        changes << "Name changed from " + quote(name1) + " to " + quote(name2)
+        changes << "Name changed from #{quote(name1)} to #{quote(name2)}"
       end
 
-      if version.changeset.has_key?("description")
+      if version.changeset.key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
-        changes << "Description changed from " + quote(description1) + " to " + quote(description2)
+        changes << "Description changed from #{quote(description1)} to #{quote(description2)}"
       end
 
-      if version.changeset.has_key?("private")
+      if version.changeset.key?("private")
         case version.changeset["private"].second
         when 0, "published"
           changes << "Changed status to not draft"
@@ -77,7 +78,7 @@ module PoliciesHelper
       end
 
       result = changes.map do |change|
-        content_tag(:p, change + ".", class: "change-action")
+        content_tag(:p, "#{change}.", class: "change-action")
       end.join
     else
       raise
@@ -86,32 +87,34 @@ module PoliciesHelper
   end
 
   def policy_version_sentence_text(version)
-    if version.event == "create"
+    case version.event
+    when "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
-      result += "policy " + quote(name) + " with description " + quote(description)
+      result += "policy #{quote(name)} with description #{quote(description)}"
       result += "."
-    elsif version.event == "update"
+    when "update"
       changes = []
 
-      if version.changeset.has_key?("name")
+      if version.changeset.key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        changes << "name from " + quote(name1) + " to " + quote(name2)
+        changes << "name from #{quote(name1)} to #{quote(name2)}"
       end
 
-      if version.changeset.has_key?("description")
+      if version.changeset.key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
-        changes << "description from " + quote(description1) + " to " + quote(description2)
+        changes << "description from #{quote(description1)} to #{quote(description2)}"
       end
 
-      if version.changeset.has_key?("private")
-        if version.changeset["private"].second == 0
+      if version.changeset.key?("private")
+        case version.changeset["private"].second
+        when 0
           changes << "status to not draft"
-        elsif version.changeset["private"].second == 2
+        when 2
           changes << "status to draft"
         else
           raise
@@ -119,7 +122,7 @@ module PoliciesHelper
       end
 
       result = changes.map do |change|
-        "* Changed " + change + "."
+        "* Changed #{change}."
       end.join("\n")
     else
       raise
@@ -128,11 +131,12 @@ module PoliciesHelper
   end
 
   def policy_division_version_vote(version)
-    if version.event == "create"
+    case version.event
+    when "create"
       policy_vote_display_with_class(version.changeset["vote"].second)
-    elsif version.event == "destroy"
+    when "destroy"
       policy_vote_display_with_class(version.reify.vote)
-    elsif version.event == "update"
+    when "update"
       text = policy_vote_display_with_class(version.changeset["vote"].first)
       text += " to ".html_safe
       text += policy_vote_display_with_class(version.changeset["vote"].second)
@@ -141,12 +145,13 @@ module PoliciesHelper
   end
 
   def policy_division_version_vote_text(version)
-    if version.event == "create"
+    case version.event
+    when "create"
       vote_display(version.changeset["vote"].second)
-    elsif version.event == "destroy"
+    when "destroy"
       vote_display(version.reify.vote)
-    elsif version.event == "update"
-      vote_display(version.changeset["vote"].first) + " to " + vote_display(version.changeset["vote"].second)
+    when "update"
+      "#{vote_display(version.changeset['vote'].first)} to #{vote_display(version.changeset['vote'].second)}"
     end
   end
 
@@ -160,9 +165,10 @@ module PoliciesHelper
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
 
-    if version.event == "update"
+    case version.event
+    when "update"
       actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division_path(division, options))) + ".".html_safe
-    elsif version.event == "create" || version.event == "destroy"
+    when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
@@ -179,15 +185,16 @@ module PoliciesHelper
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
 
-    if version.event == "update"
-      actions[version.event] + " vote from " + vote + " on division " + division.name + ".\n" + division_path(division, options)
-    elsif version.event == "create" || version.event == "destroy"
+    case version.event
+    when "update"
+      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path(division, options)}"
+    when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
                 "was "
               end
-      actions[version.event] + " division " + division.name + ". Policy vote " + tense + vote + ".\n" + division_path(division, options)
+      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path(division, options)}"
     else
       raise
     end
@@ -200,21 +207,23 @@ module PoliciesHelper
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
     time = time_ago_in_words(version.created_at)
-    ("by " + link_to(user.name, user) + ", " + time + " ago").html_safe
+    "by #{link_to(user.name, user)}, #{time} ago".html_safe
   end
 
   def version_sentence(version, options = {})
-    if version.item_type == "Policy"
+    case version.item_type
+    when "Policy"
       policy_version_sentence(version, options)
-    elsif version.item_type == "PolicyDivision"
+    when "PolicyDivision"
       content_tag(:p, policy_division_version_sentence(version, options), class: "change-action")
     end
   end
 
   def version_sentence_text(version, options = {})
-    if version.item_type == "Policy"
+    case version.item_type
+    when "Policy"
       policy_version_sentence_text(version)
-    elsif version.item_type == "PolicyDivision"
+    when "PolicyDivision"
       policy_division_version_sentence_text(version, options)
     end
   end

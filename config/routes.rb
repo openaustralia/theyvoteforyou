@@ -55,7 +55,7 @@ Publicwhip::Application.routes.draw do
     result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters["dmp"]
     queries = []
     queries << "display=#{r.query_parameters['display']}" if r.query_parameters["display"]
-    result += "?" + queries.join("&") unless queries.empty?
+    result += "?#{queries.join('&')}" unless queries.empty?
     result
   }
   get "divisions.php" => "divisions#index_redirect",
@@ -98,7 +98,7 @@ Publicwhip::Application.routes.draw do
     q = []
     q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters["rdisplay"]
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters["sort"]
-    result += "?" + q.join("&") unless q.empty?
+    result += "?#{q.join('&')}" unless q.empty?
     result
   }, constraints: ->(r) { r.query_parameters["rdisplay2"] || r.query_parameters["party"] }
   get "divisions.php" => redirect { |_p, r|
@@ -107,7 +107,7 @@ Publicwhip::Application.routes.draw do
     q = []
     q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters["rdisplay"]
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters["sort"]
-    result += "?" + q.join("&") unless q.empty?
+    result += "?#{q.join('&')}" unless q.empty?
     result
   }
   get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")

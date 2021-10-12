@@ -25,7 +25,7 @@ class Division < ApplicationRecord
 
   # Other divisions related to this one because they consider the same bills
   def related_divisions
-    bills.map { |b| b.divisions }.flatten.uniq.select { |d| d != self }
+    bills.map(&:divisions).flatten.uniq.reject { |d| d == self }
   end
 
   def whip_for_party(party)
@@ -70,13 +70,13 @@ class Division < ApplicationRecord
 
   # Equal number of votes for the ayes and noes
   def tied?
-    aye_majority == 0
+    aye_majority.zero?
   end
 
   # Did everyone vote the same way?
   # TODO: Move this to division_info and delegate
   def unanimous?
-    turnout > 0 && majority == turnout
+    turnout.positive? && majority == turnout
   end
 
   # Using whips cache to calculate this. Is this the best way?
@@ -117,7 +117,7 @@ class Division < ApplicationRecord
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    total_votes.to_f / possible_votes if possible_votes > 0
+    total_votes.to_f / possible_votes if possible_votes.positive?
   end
 
   def edited?
@@ -156,7 +156,7 @@ class Division < ApplicationRecord
   end
 
   def history
-    (wiki_motions + PaperTrail::Version.where(division_id: id)).sort_by { |o| o.created_at }.reverse
+    (wiki_motions + PaperTrail::Version.where(division_id: id)).sort_by(&:created_at).reverse
   end
 
   def last_edit
@@ -284,7 +284,7 @@ class Division < ApplicationRecord
   end
 
   def self.remove_footnotes(text)
-    text = text.lines.select { |l| !(l =~ /\* \[(\d+)\] (.*)/) }.join
+    text = text.lines.reject { |l| (l =~ /\* \[(\d+)\] (.*)/) }.join
     # Remove last line containing ''References'' if it's there
     if text.strip.lines.last == "''References''"
       text.strip.lines[0..-2].join
@@ -303,13 +303,13 @@ class Division < ApplicationRecord
   # Format according to Public Whip's unique-enough-to-be-annoying markup language.
   # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
   def wikimarkup_parse(text)
-    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$~[1]}</i></p>" }
+    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$LAST_MATCH_INFO[1]}</i></p>" }
     # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
     text.gsub!(/^ */, "")
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics
-    text.gsub!(/''(.*?)''/) { "<em>#{$~[1]}</em>" }
+    text.gsub!(/''(.*?)''/) { "<em>#{$LAST_MATCH_INFO[1]}</em>" }
     # Parse as MediaWiki
     text = Marker.parse(text).to_html(nofootnotes: true)
     # Strip unwanted tags and attributes
@@ -319,9 +319,9 @@ class Division < ApplicationRecord
     text = String.new(text)
 
     # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
-    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$~[2]}"><a class="sup" href='#footnote-#{$~[2]}' onclick="ClickSup(#{$~[2]}); return false;">#{$~[1]}</a></sup>) }
+    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$LAST_MATCH_INFO[2]}"><a class="sup" href='#footnote-#{$LAST_MATCH_INFO[2]}' onclick="ClickSup(#{$LAST_MATCH_INFO[2]}); return false;">#{$LAST_MATCH_INFO[1]}</a></sup>) }
     # Footnotes
-    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$~[1]}">[#{$~[1]}]) }
+    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$LAST_MATCH_INFO[1]}">[#{$LAST_MATCH_INFO[1]}]) }
 
     text
   end
@@ -330,7 +330,7 @@ class Division < ApplicationRecord
   # similar to what the php is outputting. So, we do a stripped down version of wikimarkup_parse
   # without the stuff that blows up when the text is huge
   def wikimarkup_parse_basic(text)
-    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$~[1]}</i></p>" }
+    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$LAST_MATCH_INFO[1]}</i></p>" }
     sanitize_motion(text)
   end
 

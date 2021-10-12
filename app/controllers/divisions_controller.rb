@@ -44,12 +44,12 @@ class DivisionsController < ApplicationController
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
 
-      raise ActiveRecord::RecordNotFound if @rdisplay != "all" && !Parliament.all.has_key?(@rdisplay) || (@house && !House.valid?(@house))
+      raise ActiveRecord::RecordNotFound if @rdisplay != "all" && !Parliament.all.key?(@rdisplay) || (@house && !House.valid?(@house))
 
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @parties = @parties.in_house(@house) if @house
-      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map { |d| d.party }
+      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map(&:party)
 
       # We can either use party or rdisplay2 to set the party
       if params[:party]
@@ -115,7 +115,7 @@ class DivisionsController < ApplicationController
     if @division.nil?
       render "home/error_404", status: 404
     else
-      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions > 0
+      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.positive?
       @whips = @division.whips.order(:party)
       @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 

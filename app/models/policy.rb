@@ -24,7 +24,7 @@ class Policy < ApplicationRecord
 
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
-    policy_division.vote if policy_division
+    policy_division&.vote
   end
 
   def unedited_motions_count
@@ -53,7 +53,7 @@ class Policy < ApplicationRecord
   end
 
   def self.update_all!
-    all.each { |p| p.calculate_member_distances! }
+    all.each(&:calculate_member_distances!)
   end
 
   def calculate_member_distances!
@@ -64,9 +64,10 @@ class Policy < ApplicationRecord
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-                      if member_vote == "absent"
+                      case member_vote
+                      when "absent"
                         :nvotesabsentstrong
-                      elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+                      when PolicyDivision.vote_without_strong(policy_division.vote)
                         :nvotessamestrong
                       else
                         :nvotesdifferstrong
@@ -135,6 +136,6 @@ class Policy < ApplicationRecord
 
   def current_members(policy_person_distances)
     members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
-    members.select { |m| m.currently_in_parliament? }.sort_by { |m| [m.last_name, m.first_name] }
+    members.select(&:currently_in_parliament?).sort_by { |m| [m.last_name, m.first_name] }
   end
 end

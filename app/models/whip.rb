@@ -7,7 +7,7 @@ class Whip < ApplicationRecord
     all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
     all_votes = calc_all_votes_per_party2
 
-    all_possible_votes.keys.each do |division_id, party|
+    all_possible_votes.each_key do |division_id, party|
       votes = all_votes[[division_id, party]]
       possible_votes = all_possible_votes[[division_id, party]]
 
@@ -80,7 +80,8 @@ class Whip < ApplicationRecord
     # The ALP decided at national conference to have a free vote on gay marriage
     # See http://www.abc.net.au/news/2011-12-03/labor-votes-for-conscience-vote-on-same-sex-marriage/3710828
 
-    if division.house == "representatives"
+    case division.house
+    when "representatives"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006, 2, 16)
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
@@ -95,7 +96,7 @@ class Whip < ApplicationRecord
         # Assuming that only the two major parties had a free vote
         ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       end
-    elsif division.house == "senate"
+    when "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
       if division.date == Date.new(2006, 2, 9) && division.number >= 3
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
@@ -140,7 +141,7 @@ class Whip < ApplicationRecord
       aye_votes_including_tells
     else
       # TODO: Is that the right thing to do?
-      division.aye_majority < 0 ? no_votes_including_tells : aye_votes_including_tells
+      division.aye_majority.negative? ? no_votes_including_tells : aye_votes_including_tells
     end
   end
 
@@ -151,19 +152,20 @@ class Whip < ApplicationRecord
       no_votes_including_tells
     else
       # TODO: Is that the right thing to do?
-      division.aye_majority < 0 ? aye_votes_including_tells : no_votes_including_tells
+      division.aye_majority.negative? ? aye_votes_including_tells : no_votes_including_tells
     end
   end
 
   def attendance_fraction
-    total_votes.to_f / possible_votes unless possible_votes == 0
+    total_votes.to_f / possible_votes unless possible_votes.zero?
   end
 
   # a tie is 0.0. a unanimous vote is 1.0
   def majority_fraction
-    if calc_whip_guess == "aye"
+    case calc_whip_guess
+    when "aye"
       aye_votes_including_tells.to_f / total_votes
-    elsif calc_whip_guess == "no"
+    when "no"
       no_votes_including_tells.to_f / total_votes
     else
       calc_whip_guess == "none"

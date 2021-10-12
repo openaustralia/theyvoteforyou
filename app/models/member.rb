@@ -48,7 +48,7 @@ class Member < ApplicationRecord
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
-    name = name.split(" ")
+    name = name.split
     # Strip titles like "Ms"
     name.slice!(0) if name[0] == "Ms" || name[0] == "Mrs" || name[0] == "Mr"
     first_name = name[0]
@@ -211,28 +211,12 @@ class Member < ApplicationRecord
       query_string.split.each do |querybit|
         querybit = querybit.strip
         placeholders["querybit_#{bitcount}".to_sym] = querybit
-        placeholders["querybit_wild_#{bitcount}".to_sym] = "%" + querybit + "%"
+        placeholders["querybit_wild_#{bitcount}".to_sym] = "%#{querybit}%"
 
         unless querybit.blank?
-          score_clause += "+ (lower(constituency) =:querybit_" +
-                          bitcount.to_s +
-                          ") * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_" +
-                          bitcount.to_s +
-                          ")) * 8 + (soundex(constituency) = soundex(:querybit_" +
-                          bitcount.to_s +
-                          ")) * 8 + (soundex(last_name) = soundex(:querybit_" +
-                          bitcount.to_s +
-                          ")) * 6 + (lower(constituency) like :querybit_wild_" +
-                          bitcount.to_s +
-                          ") * 4 +"
-          score_clause += "(lower(last_name) like :querybit_wild_" +
-                          bitcount.to_s +
-                          ") * 4 + (soundex(first_name) = soundex(:querybit_" +
-                          bitcount.to_s +
-                          ")) * 2 + (lower(first_name) like :querybit_wild_" +
-                          bitcount.to_s +
-                          ") +"
-          score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_" + bitcount.to_s + "),'%'))"
+          score_clause += "+ (lower(constituency) =:querybit_#{bitcount}) * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_#{bitcount})) * 8 + (soundex(constituency) = soundex(:querybit_#{bitcount})) * 8 + (soundex(last_name) = soundex(:querybit_#{bitcount})) * 6 + (lower(constituency) like :querybit_wild_#{bitcount}) * 4 +"
+          score_clause += "(lower(last_name) like :querybit_wild_#{bitcount}) * 4 + (soundex(first_name) = soundex(:querybit_#{bitcount})) * 2 + (lower(first_name) like :querybit_wild_#{bitcount}) +"
+          score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_#{bitcount}),'%'))"
         end
         bitcount += 1
       end
