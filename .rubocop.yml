@@ -9,39 +9,39 @@ Style/HashSyntax:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals
   EnforcedStyle: ruby19
 
-Style/EmptyLines:
+Layout/EmptyLines:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#two-or-more-empty-lines
   Enabled: true
 
-Style/EmptyLineBetweenDefs:
+Layout/EmptyLineBetweenDefs:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-between-methods
   Enabled: true
 
-Style/EmptyLinesAroundAccessModifier:
+Layout/EmptyLinesAroundAccessModifier:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-access-modifier
   Enabled: true
 
-Style/EmptyLinesAroundBeginBody:
+Layout/EmptyLinesAroundBeginBody:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 
-Style/EmptyLinesAroundBlockBody:
+Layout/EmptyLinesAroundBlockBody:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 
-Style/EmptyLinesAroundClassBody:
+Layout/EmptyLinesAroundClassBody:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 
-Style/EmptyLinesAroundExceptionHandlingKeywords:
+Layout/EmptyLinesAroundExceptionHandlingKeywords:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 
-Style/EmptyLinesAroundMethodBody:
+Layout/EmptyLinesAroundMethodBody:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 
-Style/EmptyLinesAroundModuleBody:
+Layout/EmptyLinesAroundModuleBody:
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
   Enabled: true
 

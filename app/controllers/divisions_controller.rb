@@ -25,9 +25,9 @@ class DivisionsController < ApplicationController
 
       if @member
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-        return render 'index_with_member'
+        render 'index_with_member'
       else
-        return render 'members/member_not_found', status: 404
+        render 'members/member_not_found', status: 404
       end
     else
       @sort = params[:sort]
