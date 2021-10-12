@@ -7,8 +7,12 @@ class Distance
   attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
 
   def initialize(same, samestrong, differ, differstrong, absent, absentstrong)
-    @same, @samestrong, @differ, @differstrong, @absent, @absentstrong =
-      same, samestrong, differ, differstrong, absent, absentstrong
+    @same = same
+    @samestrong = samestrong
+    @differ = differ
+    @differstrong = differstrong
+    @absent = absent
+    @absentstrong = absentstrong
   end
 
   def distance
@@ -20,14 +24,14 @@ class Distance
   def self.weights
     {
       # Regular votes are weighted STRONG_FACTOR less than strong votes
-      same:         ABSENT_FACTOR,
-      differ:       ABSENT_FACTOR,
+      same: ABSENT_FACTOR,
+      differ: ABSENT_FACTOR,
       # With the exception of regular absent votes which are weighted less
       # again by a factor of ABSENT_FACTOR
-      absent:       1,
+      absent: 1,
       # Strong votes are weighted the same but are more important by
       # a factor of STRONG_FACTOR than regular votes
-      samestrong:   STRONG_FACTOR * ABSENT_FACTOR,
+      samestrong: STRONG_FACTOR * ABSENT_FACTOR,
       differstrong: STRONG_FACTOR * ABSENT_FACTOR,
       absentstrong: STRONG_FACTOR * ABSENT_FACTOR
     }
@@ -37,10 +41,10 @@ class Distance
     # On a scale between 0 and 2, 0 is voting differently, 1 is when
     # one of two sides is absent and 2 is voting the same.
     {
-      same:         2 * weights[:same],
-      differ:       0 * weights[:differ],
-      absent:       1 * weights[:absent],
-      samestrong:   2 * weights[:samestrong],
+      same: 2 * weights[:same],
+      differ: 0 * weights[:differ],
+      absent: 1 * weights[:absent],
+      samestrong: 2 * weights[:samestrong],
       differstrong: 0 * weights[:differstrong],
       absentstrong: 1 * weights[:absentstrong]
     }
@@ -50,10 +54,10 @@ class Distance
     # 2 is the maximum we can get but it's all weighted by the same amounts
     # used in self.points above
     {
-      same:         2 * weights[:same],
-      differ:       2 * weights[:differ],
-      absent:       2 * weights[:absent],
-      samestrong:   2 * weights[:samestrong],
+      same: 2 * weights[:same],
+      differ: 2 * weights[:differ],
+      absent: 2 * weights[:absent],
+      samestrong: 2 * weights[:samestrong],
       differstrong: 2 * weights[:differstrong],
       absentstrong: 2 * weights[:absentstrong]
     }
@@ -83,11 +87,11 @@ class Distance
   end
 
   def total_points
-    attributes.sum {|a| votes_points(a) }
+    attributes.sum { |a| votes_points(a) }
   end
 
   def possible_total_points
-    attributes.sum {|a| possible_votes_points(a) }
+    attributes.sum { |a| possible_votes_points(a) }
   end
 
   def agreement

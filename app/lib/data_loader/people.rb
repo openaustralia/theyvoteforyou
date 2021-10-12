@@ -20,8 +20,6 @@ module DataLoader
       end
     end
 
-    private
-
     # people.xml
     def self.load_people
       agent = Mechanize.new

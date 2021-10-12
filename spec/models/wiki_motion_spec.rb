@@ -8,7 +8,7 @@ describe WikiMotion, type: :model do
 
   describe "storing edit_date in local time zone" do
     it "magical high level test" do
-      wiki_motion = create(:wiki_motion, edit_date: Time.new(2014,1,1,1,1,1))
+      wiki_motion = create(:wiki_motion, edit_date: Time.new(2014, 1, 1, 1, 1, 1))
 
       expect(wiki_motion.edit_date.strftime("%F %T")).to eq "2014-01-01 01:01:01"
     end
@@ -17,7 +17,7 @@ describe WikiMotion, type: :model do
   describe "#edit_date" do
     context "when the local time is 2016-08-23 17:41" do
       before do
-        Timecop.freeze(Time.new(2016,8,23,17,41))
+        Timecop.freeze(Time.new(2016, 8, 23, 17, 41))
       end
 
       after do
@@ -34,13 +34,13 @@ describe WikiMotion, type: :model do
       end
 
       it "matches what was written when read" do
-        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016,8,23,17,41))
+        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016, 8, 23, 17, 41))
 
-        expect(wiki_motion.edit_date).to eq Time.new(2016,8,23,17,41)
+        expect(wiki_motion.edit_date).to eq Time.new(2016, 8, 23, 17, 41)
       end
 
       it "matches in value in the database without timezone when read" do
-        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016,8,23,17,41))
+        wiki_motion = create(:wiki_motion, edit_date: Time.new(2016, 8, 23, 17, 41))
 
         sql = "SELECT edit_date from wiki_motions;"
         raw_date_in_db = ActiveRecord::Base.connection.execute(sql).first.first
@@ -53,7 +53,7 @@ describe WikiMotion, type: :model do
 
   describe "#edit_date_without_timezone" do
     it "is edit_date formatted to have no timezone" do
-      wiki_motion = create(:wiki_motion, edit_date: Time.new(2014,1,1,1,1,1,1))
+      wiki_motion = create(:wiki_motion, edit_date: Time.new(2014, 1, 1, 1, 1, 1, 1))
 
       expect(wiki_motion.edit_date_without_timezone).to eq "2014-01-01 01:01:01"
     end

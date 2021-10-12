@@ -1,7 +1,7 @@
 class House
   class << self
     def australian
-      %w(representatives senate)
+      %w[representatives senate]
     end
 
     def valid?(name)

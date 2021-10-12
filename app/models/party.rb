@@ -27,14 +27,14 @@ class Party
   # Does this party not have a whip?
   def whipless?
     name == "XB" ||
-    name == "Other" ||
-    name[0..2] == "Ind" ||
-    name == "None" ||
-    name == "SPK" ||
-    name == "CWM" ||
-    name == "DCWM" ||
-    name == "PRES" ||
-    name == "DPRES"
+      name == "Other" ||
+      name[0..2] == "Ind" ||
+      name == "None" ||
+      name == "SPK" ||
+      name == "CWM" ||
+      name == "DCWM" ||
+      name == "PRES" ||
+      name == "DPRES"
   end
 
   def has_whip?

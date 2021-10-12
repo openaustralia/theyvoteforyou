@@ -5,6 +5,7 @@ class WikiMotion < ApplicationRecord
   validates :title, :description, presence: true
 
   attr_accessor :title, :description
+
   alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
   after_create do
@@ -19,11 +20,11 @@ class WikiMotion < ApplicationRecord
 
   # FIXME: Stop this nonsense of storing local times in the DB to match PHP
   def edit_date=(date)
-    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone("UTC").formatted_offset}")
+    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone('UTC').formatted_offset}")
     write_attribute(:edit_date, date_set_in_utc)
   end
 
-  # TODO Doing this horrible workaround to deal with storing local time in db
+  # TODO: Doing this horrible workaround to deal with storing local time in db
   def edit_date_without_timezone
     edit_date.strftime("%F %T")
   end
@@ -59,18 +60,18 @@ class WikiMotion < ApplicationRecord
   private
 
   def set_text_body
-    self.text_body = <<-RECORD
---- DIVISION TITLE ---
-
-#{title}
-
---- MOTION EFFECT ---
-
-#{description}
-
---- COMMENTS AND NOTES ---
-
-(put thoughts and notes for other researchers here)
+    self.text_body = <<~RECORD
+            --- DIVISION TITLE ---
+      #{'      '}
+            #{title}
+      #{'      '}
+            --- MOTION EFFECT ---
+      #{'      '}
+            #{description}
+      #{'      '}
+            --- COMMENTS AND NOTES ---
+      #{'      '}
+            (put thoughts and notes for other researchers here)
     RECORD
   end
 

@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :wiki_motion do
     title { "An edited division" }
     description { "This division relates to all sorts of interesting things." }
-    edit_date { Time.new(2014,1,1,1,1,1) }
+    edit_date { Time.new(2014, 1, 1, 1, 1, 1) }
     association :user
     association :division
   end
@@ -14,7 +14,7 @@ FactoryBot.define do
   end
 
   factory :division do
-    date { Date.new(2014,1,1) }
+    date { Date.new(2014, 1, 1) }
     sequence(:number) { |n| n }
     house { "representatives" }
     name { "Some division" }

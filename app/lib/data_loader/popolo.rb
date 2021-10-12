@@ -23,10 +23,10 @@ module DataLoader
         members = data["memberships"]
         Rails.logger.info "Loading #{members.count} memberships..."
         members.each do |m|
-          raise "Person not found: #{m["person_id"]}" unless person = people.find { |p| p["id"] == m["person_id"] }
-          raise "Party not found: #{m["on_behalf_of_id"]}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
-          raise "Area not found: #{m["area_id"]}" unless area = areas.find { |a| a["id"] == m["area_id"] }
-          raise "Legislative period not found: #{m["legislative_period_id"]}" unless legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
+          raise "Person not found: #{m['person_id']}" unless person = people.find { |p| p["id"] == m["person_id"] }
+          raise "Party not found: #{m['on_behalf_of_id']}" unless party = organizations.find { |o| o["id"] == m["on_behalf_of_id"] }
+          raise "Area not found: #{m['area_id']}" unless area = areas.find { |a| a["id"] == m["area_id"] }
+          raise "Legislative period not found: #{m['legislative_period_id']}" unless legislative_period = events.find { |e| e["id"] == m["legislative_period_id"] }
 
           # Default to the start of the legislative period if there no specific one set for this membership
           start_date = m["start_date"] || legislative_period["start_date"]

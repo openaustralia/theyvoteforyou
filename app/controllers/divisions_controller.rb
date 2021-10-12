@@ -1,10 +1,8 @@
 class DivisionsController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :create_policy_division, :update_policy_division, :destroy_policy_division]
+  before_action :authenticate_user!, only: %i[edit update create_policy_division update_policy_division destroy_policy_division]
 
   def index_redirect
-    if params[:rdisplay2] == "rebels"
-      redirect_to params.to_unsafe_hash.merge(only_path: true, rdisplay2: nil, sort: "rebellions")
-    end
+    redirect_to params.to_unsafe_hash.merge(only_path: true, rdisplay2: nil, sort: "rebellions") if params[:rdisplay2] == "rebels"
   end
 
   def index
@@ -44,14 +42,12 @@ class DivisionsController < ApplicationController
       # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
       @rdisplay = "2013" if @rdisplay.nil?
 
-      if @rdisplay != "all" && !Parliament.all.has_key?(@rdisplay) || (@house && !House.valid?(@house))
-        raise ActiveRecord::RecordNotFound
-      end
+      raise ActiveRecord::RecordNotFound if @rdisplay != "all" && !Parliament.all.has_key?(@rdisplay) || (@house && !House.valid?(@house))
 
       @parties = Division
       @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
       @parties = @parties.in_house(@house) if @house
-      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map{|d| d.party}
+      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map { |d| d.party }
 
       # We can either use party or rdisplay2 to set the party
       if params[:party]
@@ -60,7 +56,7 @@ class DivisionsController < ApplicationController
         @party = params[:rdisplay2].gsub("_party", "")
       end
       # Match to canonical capitalisation
-      @party = @parties.find{|p| p.downcase == @party}
+      @party = @parties.find { |p| p.downcase == @party }
 
       order = case @sort
               when "subject"
@@ -72,14 +68,14 @@ class DivisionsController < ApplicationController
               else
                 @sort = nil
                 ["date DESC", "clock_time DESC", "name", "number DESC"]
-      end
+              end
 
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
-      @divisions = @divisions.joins(:whips).where(whips: {party: @party}) if @party
+      @divisions = @divisions.joins(:whips).where(whips: { party: @party }) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
   end
@@ -125,15 +121,15 @@ class DivisionsController < ApplicationController
       if params[:mpn] && params[:mpc]
         name = params[:mpn].gsub("_", " ")
         electorate = params[:mpc].gsub("_", " ")
-        # TODO Also ensure that the member is current on the date of this division
-        member = Member.in_house(house).with_name(name).
-        where(constituency: electorate).first
+        # TODO: Also ensure that the member is current on the date of this division
+        member = Member.in_house(house).with_name(name)
+                       .where(constituency: electorate).first
         @member = member.person.member_who_voted_on_division(@division)
       end
 
-      @members = Member.in_house(house).current_on(@division.date).
-      joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}").
-      order("members.party", "vote", "members.last_name", "members.first_name")
+      @members = Member.in_house(house).current_on(@division.date)
+                       .joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}")
+                       .order("members.party", "vote", "members.last_name", "members.first_name")
 
       @members_vote_null = @members.where("votes.id IS NULL")
     end
@@ -170,7 +166,7 @@ class DivisionsController < ApplicationController
     @policy_division = @division.policy_divisions.new(policy_division_params)
 
     if @policy_division.save
-      # TODO Just point to the object when the path helper has been refactored
+      # TODO: Just point to the object when the path helper has been refactored
       redirect_to division_policies_path(house: @division.house, date: @division.date, number: @division.number)
     else
       flash[:error] = "Could not connect policy"
@@ -189,7 +185,7 @@ class DivisionsController < ApplicationController
       flash[:error] = "Could not update policy connection"
     end
 
-    # TODO Just point to the object when the path helper has been refactored
+    # TODO: Just point to the object when the path helper has been refactored
     redirect_to division_policies_path(house: division.house, date: division.date, number: division.number)
   end
 
@@ -203,7 +199,7 @@ class DivisionsController < ApplicationController
       flash[:error] = "Could not remove policy connection"
     end
 
-    # TODO Just point to the object when the path helper has been refactored
+    # TODO: Just point to the object when the path helper has been refactored
     redirect_to division_policies_path(house: division.house, date: division.date, number: division.number)
   end
 
@@ -218,8 +214,6 @@ class DivisionsController < ApplicationController
       DivisionParameterParser.get_date_range(date)
     elsif rdisplay.nil?
       DivisionParameterParser.get_date_range(@years.last.to_s)
-    else
-      nil
     end
   end
 
@@ -235,8 +229,8 @@ class DivisionsController < ApplicationController
 
   def get_division(house, date, number)
     Division.in_house(house)
-    .joins(:division_info, :whips)
-    .includes(:division_info, :whips)
-    .find_by(date: date, number: number)
+            .joins(:division_info, :whips)
+            .includes(:division_info, :whips)
+            .find_by(date: date, number: number)
   end
 end

@@ -1,9 +1,9 @@
 require "spec_helper"
 
 feature "Viewing user stats" do
-  given(:user1) { create(:user)}
-  given(:user2) { create(:user)}
-  given(:user3) { create(:user)}
+  given(:user1) { create(:user) }
+  given(:user2) { create(:user) }
+  given(:user3) { create(:user) }
 
   given(:policy1) { create(:policy, user: user1, name: "shiny coins") }
   given(:policy2) { create(:policy, user: user2, name: "dusty ponies") }

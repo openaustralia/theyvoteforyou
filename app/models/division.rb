@@ -5,7 +5,7 @@ class Division < ApplicationRecord
   has_many :votes
   has_many :policy_divisions
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> {order(edit_date: :desc)}
+  has_many :wiki_motions, -> { order(edit_date: :desc) }
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
@@ -15,7 +15,7 @@ class Division < ApplicationRecord
   scope :in_parliament, ->(parliament) { where("date >= ? AND date < ?", parliament[:from], parliament[:to]) }
   scope :possible_for_member, ->(member) { where(house: member.house).where("date >= ? AND date < ?", member.entered_house, member.left_house) }
   scope :edited, -> { joins(:wiki_motions).distinct }
-  scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: {division_id: nil}) }
+  scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: { division_id: nil }) }
 
   def wiki_motion
     wiki_motions.first
@@ -23,7 +23,7 @@ class Division < ApplicationRecord
 
   # Other divisions related to this one because they consider the same bills
   def related_divisions
-    bills.map{|b| b.divisions}.flatten.uniq.select{|d| d != self}
+    bills.map { |b| b.divisions }.flatten.uniq.select { |d| d != self }
   end
 
   def whip_for_party(party)
@@ -109,9 +109,7 @@ class Division < ApplicationRecord
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    if possible_votes > 0
-      total_votes.to_f / possible_votes
-    end
+    total_votes.to_f / possible_votes if possible_votes > 0
   end
 
   def edited?
@@ -133,13 +131,13 @@ class Division < ApplicationRecord
   add_method_tracer :original_name, "Custom/Division/original_name"
 
   def motion
-    if edited?
-      text = wiki_motion.description.strip
-    elsif markdown?
-      text = ReverseMarkdown.convert(read_attribute(:motion))
-    else
-      text = read_attribute(:motion)
-    end
+    text = if edited?
+             wiki_motion.description.strip
+           elsif markdown?
+             ReverseMarkdown.convert(read_attribute(:motion))
+           else
+             read_attribute(:motion)
+           end
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     HTMLEntities.new.decode(text)
@@ -181,13 +179,11 @@ class Division < ApplicationRecord
     debate_gid.split("/")[2]
   end
 
-  # TODO We should really be doing any tidying up of the clock time in the loader and
+  # TODO: We should really be doing any tidying up of the clock time in the loader and
   # we should make the field an actual time rather than a free text field
   def clock_time
     text = read_attribute(:clock_time)
-    if text.present?
-      Time.parse(text).strftime("%l:%M %p")
-    end
+    Time.parse(text).strftime("%l:%M %p") if text.present?
   end
 
   def house_name
@@ -214,7 +210,7 @@ class Division < ApplicationRecord
   # in the motion text. They're formatted like '@MP voted aye to say this vote was great'
   # where the text will say "Tony Abbott voted to say this vote was great" if he votes aye
   def action_text
-    Hash[motion.scan(/^@\s*MP voted (aye|no) (.*)/)]
+    motion.scan(/^@\s*MP voted (aye|no) (.*)/).to_h
   end
 
   def create_wiki_motion!(title, description, user)
@@ -223,49 +219,49 @@ class Division < ApplicationRecord
 
   def build_wiki_motion(title, description, user)
     wiki_motions.new(title: title,
-      description: description,
-      user: user,
-      # TODO Use default rails created_at instead
-      edit_date: Time.now)
+                     description: description,
+                     user: user,
+                     # TODO: Use default rails created_at instead
+                     edit_date: Time.now)
   end
 
   def self.find_by_search_query(query)
     if Settings.elasticsearch
-      self.search(query)
+      search(query)
     else
       # FIXME: Remove nasty SQL below that was ported from PHP direct
       joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
-            .where("LOWER(convert(name using utf8)) LIKE :query " \
+        .where("LOWER(convert(name using utf8)) LIKE :query " \
                     "OR LOWER(convert(motion using utf8)) LIKE :query " \
                     "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 
   def formatted_motion_text
-    text = self.motion
+    text = motion
 
-    if markdown?
-      text = Division.render_markdown(text)
+    text = if markdown?
+             Division.render_markdown(text)
 
-    # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
-    # It's probably not edited and formatted in wiki markup anyway. Maximum
-    # field size is 65,535 characters. 15,000 characters is more than 12 pages,
-    # i.e. more than enough.
-    elsif text.size > 15000
-      text = wikimarkup_parse_basic(text)
-    else
-      text = wikimarkup_parse(text)
-    end
+           # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
+           # It's probably not edited and formatted in wiki markup anyway. Maximum
+           # field size is 65,535 characters. 15,000 characters is more than 12 pages,
+           # i.e. more than enough.
+           elsif text.size > 15000
+             wikimarkup_parse_basic(text)
+           else
+             wikimarkup_parse(text)
+           end
 
     # This is a small hack to make links to an old site point to the new site
-    text.gsub!(/<a href="http:\/\/publicwhip-(test|rails).openaustraliafoundation.org.au/,
+    text.gsub!(%r{<a href="http://publicwhip-(test|rails).openaustraliafoundation.org.au},
                "<a href=\"https://theyvoteforyou.org.au")
 
     text.html_safe
   end
 
   def self.render_markdown(text)
-    # TODO Don't reinstantiate the markdown renderer on each request
+    # TODO: Don't reinstantiate the markdown renderer on each request
     md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
     md.render(text)
   end
@@ -273,16 +269,14 @@ class Division < ApplicationRecord
   def self.footnotes(text)
     result = {}
     text.lines.each do |line|
-      # TODO I guess it should only match to the beginning of the line
-      if line =~ /\* \[(\d+)\] (.*)/
-        result[$1] = $2
-      end
+      # TODO: I guess it should only match to the beginning of the line
+      result[Regexp.last_match(1)] = Regexp.last_match(2) if line =~ /\* \[(\d+)\] (.*)/
     end
     result
   end
 
   def self.remove_footnotes(text)
-    text = text.lines.select{|l| !(l =~ /\* \[(\d+)\] (.*)/)}.join
+    text = text.lines.select { |l| !(l =~ /\* \[(\d+)\] (.*)/) }.join
     # Remove last line containing ''References'' if it's there
     if text.strip.lines.last == "''References''"
       text.strip.lines[0..-2].join
@@ -293,7 +287,7 @@ class Division < ApplicationRecord
 
   def self.inline_footnotes(text)
     footnotes = footnotes(text)
-    remove_footnotes(text).gsub(/\[(\d+)\]/) { "(#{footnotes[$1]})"}
+    remove_footnotes(text).gsub(/\[(\d+)\]/) { "(#{footnotes[Regexp.last_match(1)]})" }
   end
 
   private
@@ -301,9 +295,9 @@ class Division < ApplicationRecord
   # Format according to Public Whip's unique-enough-to-be-annoying markup language.
   # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
   def wikimarkup_parse(text)
-    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
+    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$~[1]}</i></p>" }
     # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
-    text.gsub! /^ */, ""
+    text.gsub!(/^ */, "")
     # Remove comment lines (those starting with '@')
     text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
     # Italics
@@ -328,12 +322,12 @@ class Division < ApplicationRecord
   # similar to what the php is outputting. So, we do a stripped down version of wikimarkup_parse
   # without the stuff that blows up when the text is huge
   def wikimarkup_parse_basic(text)
-    text.gsub!(/<p class="italic">(.*)<\/p>/) { "<p><i>#{$~[1]}</i></p>" }
+    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$~[1]}</i></p>" }
     sanitize_motion(text)
   end
 
   def sanitize_motion(text)
-    ActionController::Base.helpers.sanitize(text, tags: %w(a b i p ol ul li blockquote br em sup sub dl dt dd), attributes: %w(href class pwmotiontext))
+    ActionController::Base.helpers.sanitize(text, tags: %w[a b i p ol ul li blockquote br em sup sub dl dt dd], attributes: %w[href class pwmotiontext])
   end
 
   def self.next_month(month)

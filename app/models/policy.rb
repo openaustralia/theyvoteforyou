@@ -2,7 +2,7 @@ class Policy < ApplicationRecord
   searchkick if Settings.elasticsearch
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
-  has_paper_trail meta: { policy_id: Proc.new{|policy| policy.id} }
+  has_paper_trail meta: { policy_id: proc { |policy| policy.id } }
   has_many :policy_divisions
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
@@ -43,7 +43,7 @@ class Policy < ApplicationRecord
 
   def self.find_by_search_query(query)
     if Settings.elasticsearch
-      self.search(query)
+      search(query)
     else
       where("LOWER(convert(name using utf8)) LIKE :query " \
              "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
@@ -62,22 +62,20 @@ class Policy < ApplicationRecord
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-          if member_vote == "absent"
-            :nvotesabsentstrong
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessamestrong
-          else
-            :nvotesdifferstrong
-          end
-        else
-          if member_vote == "absent"
-            :nvotesabsent
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessame
-          else
-            :nvotesdiffer
-          end
-        end
+                      if member_vote == "absent"
+                        :nvotesabsentstrong
+                      elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+                        :nvotessamestrong
+                      else
+                        :nvotesdifferstrong
+                      end
+                    elsif member_vote == "absent"
+                      :nvotesabsent
+                    elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+                      :nvotessame
+                    else
+                      :nvotesdiffer
+                    end
 
         PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id).increment!(attribute)
       end
@@ -85,9 +83,9 @@ class Policy < ApplicationRecord
 
     policy_person_distances.reload.each do |pmd|
       pmd.update!({
-        distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
-                                        pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
-      })
+                    distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
+                                                    pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
+                  })
     end
   end
 

@@ -15,7 +15,8 @@ class MemberInfo < ApplicationRecord
         tells: tells[id] || 0,
         votes_attended: votes_attended[id] || 0,
         votes_possible: votes_possible[id] || 0,
-        aye_majority: aye_majority[id] || 0)
+        aye_majority: aye_majority[id] || 0
+      )
     end
   end
 

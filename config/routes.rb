@@ -1,17 +1,17 @@
 Publicwhip::Application.routes.draw do
   # Strip HTML entities from requests
-  get "*path", to: redirect { |params, request| HTMLEntities.new.decode(params[:path]) },
-               constraints: lambda { |request| URI.unescape(request.fullpath.dup.force_encoding("utf-8")) != HTMLEntities.new.decode(URI.unescape(request.fullpath.dup.force_encoding("utf-8"))) }
+  get "*path", to: redirect { |params, _request| HTMLEntities.new.decode(params[:path]) },
+               constraints: ->(request) { URI.unescape(request.fullpath.dup.force_encoding("utf-8")) != HTMLEntities.new.decode(URI.unescape(request.fullpath.dup.force_encoding("utf-8"))) }
 
   devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
 
   # Redirects
   get "policies.php" => redirect("/policies")
-  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}/edit"},
-    constraints: lambda { |request| request.query_parameters["display"] == "editdefinition"}
-  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}/detail"},
-    constraints: lambda { |request| request.query_parameters["display"] == "motions"}
-  get "policy.php" => redirect {|p,r| "/policies/#{r.query_parameters['id']}"}
+  get "policy.php" => redirect { |_p, r| "/policies/#{r.query_parameters['id']}/edit" },
+      constraints: ->(request) { request.query_parameters["display"] == "editdefinition" }
+  get "policy.php" => redirect { |_p, r| "/policies/#{r.query_parameters['id']}/detail" },
+      constraints: ->(request) { request.query_parameters["display"] == "motions" }
+  get "policy.php" => redirect { |_p, r| "/policies/#{r.query_parameters['id']}" }
   get "/account/addpolicy.php" => redirect("/policies/new")
 
   get "/account/changepass.php" => redirect("/users/edit")
@@ -19,8 +19,8 @@ Publicwhip::Application.routes.draw do
   get "/account/settings.php" => redirect("/users/edit")
 
   get "mps.php" => "members#index_redirect",
-    constraints: lambda {|r| r.query_parameters["house"] == "all" || r.query_parameters["house"].nil? || r.query_parameters["sort"] == "lastname" || r.query_parameters["parliament"]}
-  get "mps.php" => redirect {|p,r|
+      constraints: ->(r) { r.query_parameters["house"] == "all" || r.query_parameters["house"].nil? || r.query_parameters["sort"] == "lastname" || r.query_parameters["parliament"] }
+  get "mps.php" => redirect { |_p, r|
     if r.query_parameters["sort"]
       "/members/#{r.query_parameters['house']}?sort=#{r.query_parameters['sort']}"
     else
@@ -28,27 +28,27 @@ Publicwhip::Application.routes.draw do
     end
   }
   get "mp.php" => "members#show_redirect",
-    constraints: lambda {|r| r.query_parameters["mpid"] || r.query_parameters["id"]}
+      constraints: ->(r) { r.query_parameters["mpid"] || r.query_parameters["id"] }
   get "mp.php" => "electorates#show_redirect",
-    constraints: lambda {|r| r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"] || r.query_parameters["house"].nil?)}
-  get "mp.php" => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].to_s.downcase.gsub(' ', '_')}"},
-    constraints: lambda {|r| r.query_parameters["mpn"].nil?}
+      constraints: ->(r) { r.query_parameters["mpn"].nil? && (r.query_parameters["display"] || r.query_parameters["dmp"] || r.query_parameters["house"].nil?) }
+  get "mp.php" => redirect { |_p, r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].to_s.downcase.gsub(' ', '_')}" },
+      constraints: ->(r) { r.query_parameters["mpn"].nil? }
   get "mp.php" => "members#show_redirect",
-    constraints: lambda {|r| r.query_parameters["dmp"] && r.query_parameters["display"] == "allvotes"}
+      constraints: ->(r) { r.query_parameters["dmp"] && r.query_parameters["display"] == "allvotes" }
   get "mp.php" => "members#show_redirect",
-    constraints: lambda {|r| r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams" || r.query_parameters["display"] == "allvotes" || r.query_parameters["showall"] == "yes"}
+      constraints: ->(r) { r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams" || r.query_parameters["display"] == "allvotes" || r.query_parameters["showall"] == "yes" }
   get "mp.php" => "members#show_redirect",
-    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate" || r.query_parameters["mpc"].nil? || r.query_parameters["house"].nil?}
-  get "mp.php" => redirect{|p,r|
+      constraints: ->(r) { r.query_parameters["mpc"] == "Senate" || r.query_parameters["mpc"].nil? || r.query_parameters["house"].nil? }
+  get "mp.php" => redirect { |_p, r|
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/friends"
-  }, constraints: lambda {|r| r.query_parameters["display"] == "allfriends" && r.query_parameters[:dmp].nil?}
-  get "mp.php" => redirect{|p,r|
+  }, constraints: ->(r) { r.query_parameters["display"] == "allfriends" && r.query_parameters[:dmp].nil? }
+  get "mp.php" => redirect { |_p, r|
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/divisions"
-  }, constraints: lambda {|r| r.query_parameters["display"] == "everyvote" && r.query_parameters[:dmp].nil?}
-  get "mp.php" => redirect{|p,r|
+  }, constraints: ->(r) { r.query_parameters["display"] == "everyvote" && r.query_parameters[:dmp].nil? }
+  get "mp.php" => redirect { |_p, r|
     "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/policies/#{r.query_parameters['dmp']}/full"
-  }, constraints: lambda {|r| r.query_parameters["display"] == "motions" && r.query_parameters[:dmp]}
-  get "mp.php" => redirect{|p,r|
+  }, constraints: ->(r) { r.query_parameters["display"] == "motions" && r.query_parameters[:dmp] }
+  get "mp.php" => redirect { |_p, r|
     result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}"
     result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters["dmp"]
     queries = []
@@ -57,29 +57,29 @@ Publicwhip::Application.routes.draw do
     result
   }
   get "divisions.php" => "divisions#index_redirect",
-    constraints: lambda {|r| r.query_parameters["rdisplay2"] == "rebels"}
+      constraints: ->(r) { r.query_parameters["rdisplay2"] == "rebels" }
   get "division.php" => "divisions#show_redirect",
-    constraints: lambda {|r| r.query_parameters["sort"]}
+      constraints: ->(r) { r.query_parameters["sort"] }
   get "division.php" => "divisions#show_redirect",
-    constraints: lambda {|r| r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible"}
+      constraints: ->(r) { r.query_parameters["display"] == "allvotes" || r.query_parameters["display"] == "allpossible" }
   get "division.php" => "divisions#show_redirect",
-    constraints: lambda {|r| r.query_parameters["house"].nil? }
-  get "division.php" => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies/#{r.query_parameters['dmp']}"},
-    constraints: lambda {|r| r.query_parameters["display"] == "policies" && r.query_parameters["dmp"]}
-  get "division.php" => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies"},
-    constraints: lambda {|r| r.query_parameters["display"] == "policies"}
+      constraints: ->(r) { r.query_parameters["house"].nil? }
+  get "division.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies/#{r.query_parameters['dmp']}" },
+      constraints: ->(r) { r.query_parameters["display"] == "policies" && r.query_parameters["dmp"] }
+  get "division.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/policies" },
+      constraints: ->(r) { r.query_parameters["display"] == "policies" }
   get "division.php" => "divisions#show_redirect",
-    constraints: lambda {|r| r.query_parameters["mpc"] == "Senate"}
-  get "division.php" => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
-    constraints: lambda {|r| r.query_parameters["display"].nil? && r.query_parameters["mpn"].nil?}
-  get "division.php" => redirect{|p,r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}"},
-    constraints: lambda {|r| r.query_parameters["mpn"] && r.query_parameters["mpc"]}
-  get "edits.php" => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history"}
-  get "account/wiki.php" => redirect{|p,r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit"}
+      constraints: ->(r) { r.query_parameters["mpc"] == "Senate" }
+  get "division.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}" },
+      constraints: ->(r) { r.query_parameters["display"].nil? && r.query_parameters["mpn"].nil? }
+  get "division.php" => redirect { |_p, r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}" },
+      constraints: ->(r) { r.query_parameters["mpn"] && r.query_parameters["mpc"] }
+  get "edits.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history" }
+  get "account/wiki.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit" }
   get "index.php" => redirect("/")
   # Unfortunately without resorting to something like js not possible to preserve anchor on redirect
-  get "faq.php" => redirect{|p,r| "/help/faq"}
-  get "search.php" => redirect{|p,r|
+  get "faq.php" => redirect { |_p, _r| "/help/faq" }
+  get "search.php" => redirect { |_p, r|
     if r.query_parameters["query"]
       "/search?query=#{Rack::Utils.escape(r.query_parameters['query'])}"
     else
@@ -90,20 +90,16 @@ Publicwhip::Application.routes.draw do
   get "project/data.php" => redirect("/help/data")
   get "project/research.php" => redirect("/help/research")
 
-  get "divisions.php" => redirect{|p,r|
-    if r.query_parameters["party"]
-      party = r.query_parameters["party"]
-    else
-      party = r.query_parameters["rdisplay2"].gsub("_party", "")
-    end
+  get "divisions.php" => redirect { |_p, r|
+    party = r.query_parameters["party"] || r.query_parameters["rdisplay2"].gsub("_party", "")
     result = "/parties/#{party.downcase.gsub(' ', '_')}/divisions/#{r.query_parameters['house']}"
     q = []
     q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters["rdisplay"]
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters["sort"]
     result += "?" + q.join("&") unless q.empty?
     result
-  }, constraints: lambda {|r| r.query_parameters["rdisplay2"] || r.query_parameters["party"]}
-  get "divisions.php" => redirect{|p,r|
+  }, constraints: ->(r) { r.query_parameters["rdisplay2"] || r.query_parameters["party"] }
+  get "divisions.php" => redirect { |_p, r|
     result = "/divisions"
     result += "/#{r.query_parameters['house']}" if r.query_parameters["house"]
     q = []
@@ -113,14 +109,14 @@ Publicwhip::Application.routes.draw do
     result
   }
   get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
-  get "/members" => redirect{|p,r|
+  get "/members" => redirect { |_p, r|
     if r.query_parameters["sort"]
       "/people?sort=#{r.query_parameters['sort']}"
     else
       "/people"
     end
   }, as: nil
-  get "/members/:house" => redirect{|p,r|
+  get "/members/:house" => redirect { |p, r|
     if r.query_parameters["sort"]
       "/people/#{p[:house]}?sort=#{r.query_parameters['sort']}"
     else
@@ -199,9 +195,9 @@ Publicwhip::Application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :people, only: [:index, :show]
-      resources :policies, only: [:index, :show]
-      resources :divisions, only: [:index, :show]
+      resources :people, only: %i[index show]
+      resources :policies, only: %i[index show]
+      resources :divisions, only: %i[index show]
     end
   end
 

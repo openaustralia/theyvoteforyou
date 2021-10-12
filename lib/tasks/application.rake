@@ -1,10 +1,10 @@
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
-    task all: [:whip, :member, :division, :policy_distances, :member_distances]
+    task all: %i[whip member division policy_distances member_distances]
 
     desc "Update all the caches, excluding member_distances (as they take ages)"
-    task all_except_member_distances: [:whip, :member, :division, :policy_distances]
+    task all_except_member_distances: %i[whip member division policy_distances]
 
     desc "Rebuilds the whole cache of agreement between members"
     task member_distances: :environment do
@@ -39,7 +39,7 @@ namespace :application do
 
   namespace :load do
     desc "Reloads members, offices and electorates from XML files and updates people images"
-    task members: [:environment, :set_logger_to_stdout] do
+    task members: %i[environment set_logger_to_stdout] do
       DataLoader::Electorates.load!
       DataLoader::Offices.load!
       DataLoader::Members.load!
@@ -47,7 +47,7 @@ namespace :application do
     end
 
     desc "Load divisions from XML for a specified date"
-    task :divisions, [:from_date, :to_date] => [:environment, :set_logger_to_stdout] do |t, args|
+    task :divisions, %i[from_date to_date] => %i[environment set_logger_to_stdout] do |_t, args|
       if args[:to_date]
         DataLoader::Debates.load!(Date.parse(args[:from_date]), Date.parse(args[:to_date]))
       else
@@ -66,7 +66,7 @@ namespace :application do
     end
 
     desc "Load Popolo data from a URL"
-    task :popolo, [:url] => [:environment, :set_logger_to_stdout] do |t, args|
+    task :popolo, [:url] => %i[environment set_logger_to_stdout] do |_t, args|
       DataLoader::Popolo.load!(args[:url])
     end
   end
@@ -82,34 +82,34 @@ namespace :application do
       # Let's prune the members down to two in each house
       puts "Pruning (or should I say culling?) members..."
       members = Member.in_house("senate").current_on(Date.today).limit(2) +
-        Member.in_house("representatives").current_on(Date.today).limit(2)
-      Member.find_each {|member| member.destroy unless members.include?(member)}
+                Member.in_house("representatives").current_on(Date.today).limit(2)
+      Member.find_each { |member| member.destroy unless members.include?(member) }
       Rake::Task["application:cache:all"].invoke
-      # TODO This doesn't yet create policy information nor edited motion text
+      # TODO: This doesn't yet create policy information nor edited motion text
       File.open("db/seeds.rb", "w") do |f|
         f.write("PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
       end
       [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
-        SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: [:created_at, :updated_at])
+        SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: %i[created_at updated_at])
       end
     end
   end
 
   namespace :config do
     task :dev do
-      %w(
+      %w[
         config/database.yml
         config/secrets.yml
-      ).each do |target|
+      ].each do |target|
         source = "#{target}.example"
-        if not File.exist?(Rails.root.join(target))
+        if File.exist?(Rails.root.join(target))
+          puts "#{target} already exists."
+        else
           FileUtils.cp(
             Rails.root.join(source),
             Rails.root.join(target)
           )
           puts "#{source} => #{target}"
-        else
-          puts "#{target} already exists."
         end
       end
     end
@@ -122,7 +122,7 @@ namespace :application do
 
       Division.where(markdown: false).find_each do |division|
         if division.edited?
-          # TODO Don't convert divisions with voting actions, comments or footnotes
+          # TODO: Don't convert divisions with voting actions, comments or footnotes
           if division.motion =~ /\[(\d+)\]/
             puts "Can not convert motion text to markdown because it contains footnotes: #{division_path(division)}"
           elsif division.motion =~ /^@/

@@ -26,5 +26,5 @@ guard :rspec, cmd: "bundle exec rspec" do
 end
 
 guard :rubocop, all_on_start: false do
-  watch(%r{.+\.rb$})
+  watch(/.+\.rb$/)
 end

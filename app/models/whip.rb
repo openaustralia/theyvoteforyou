@@ -68,7 +68,7 @@ class Whip < ApplicationRecord
     r
   end
 
-  # TODO Move the info about which votes are free to the database
+  # TODO: Move the info about which votes are free to the database
   def free_vote?
     # Free votes from 2006 and onwards. This list from Appendix 3 of
     # http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id%3A%22library%2Fprspub%2FCQOS6%22
@@ -79,52 +79,52 @@ class Whip < ApplicationRecord
 
     if division.house == "representatives"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-      if division.date == Date.new(2006,2,16)
+      if division.date == Date.new(2006, 2, 16)
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill
-      elsif division.date == Date.new(2006,12,6)
+      elsif division.date == Date.new(2006, 12, 6)
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Same sex marriage
-      elsif division.date == Date.new(2012,9,19) && division.number == 1
+      elsif division.date == Date.new(2012, 9, 19) && division.number == 1
         party == "Australian Labor Party"
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
-      elsif division.date == Date.new(2017,12,7)
+      elsif division.date == Date.new(2017, 12, 7)
         # Assuming that only the two major parties had a free vote
         ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       end
     elsif division.house == "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
-      if division.date == Date.new(2006,2,9) && division.number >= 3
+      if division.date == Date.new(2006, 2, 9) && division.number >= 3
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006
-    elsif division.date == Date.new(2006,11,7) && (division.number == 1 || division.number >= 4)
+      elsif division.date == Date.new(2006, 11, 7) && (division.number == 1 || division.number >= 4)
         ["Liberal Party", "National Party", "Australian Labor Party", "Australian Democrats"].include?(party)
       # Same sex marriage
-      elsif division.date == Date.new(2012,9,20) && division.number == 5
+      elsif division.date == Date.new(2012, 9, 20) && division.number == 5
         party == "Australian Labor Party"
       # Same sex marriage
-      elsif division.date == Date.new(2013,6,20) && division.number == 2
+      elsif division.date == Date.new(2013, 6, 20) && division.number == 2
         party == "Australian Labor Party"
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
-      elsif division.date == Date.new(2017,11,28) && [1, 2, 4, 5, 6, 7, 9].include?(division.number)
+      elsif division.date == Date.new(2017, 11, 28) && [1, 2, 4, 5, 6, 7, 9].include?(division.number)
         # Assuming that only the two major parties had a free vote
         ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
       # Marriage Amendment (Definition and Religious Freedoms) Bill 2017
-      elsif division.date == Date.new(2017,11,29) && [1, 2, 4, 7].include?(division.number)
+      elsif division.date == Date.new(2017, 11, 29) && [1, 2, 4, 7].include?(division.number)
         # Assuming that only the two major parties had a free vote
         ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
-      elsif division.date == Date.new(2018,8,15) && division.number == 8
-        ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party" ].include?(party)
-      elsif division.date == Date.new(2018,12,4) && division.number == 12
+      elsif division.date == Date.new(2018, 8, 15) && division.number == 8
+        ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party"].include?(party)
+      elsif division.date == Date.new(2018, 12, 4) && division.number == 12
         party = "Liberal Party"
-      elsif division.date == Date.new(2019,10,16) && division.number == 3
-        #Congratulate NSW on decriminalising abortion
-        party = "Liberal Party" #Probably other parties too, but the Libs were the only party with 'rebellions'
+      elsif division.date == Date.new(2019, 10, 16) && division.number == 3
+        # Congratulate NSW on decriminalising abortion
+        party = "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
       end
     end
   end
 
-  # TODO combine methods free? and free_votes? into one. They do pretty much the same thing.
+  # TODO: combine methods free? and free_votes? into one. They do pretty much the same thing.
   def free?
     whip_guess == "none"
   end
@@ -135,7 +135,7 @@ class Whip < ApplicationRecord
     elsif whip_guess == "aye"
       aye_votes_including_tells
     else
-      # TODO Is that the right thing to do?
+      # TODO: Is that the right thing to do?
       division.aye_majority < 0 ? no_votes_including_tells : aye_votes_including_tells
     end
   end
@@ -146,13 +146,13 @@ class Whip < ApplicationRecord
     elsif whip_guess == "aye"
       no_votes_including_tells
     else
-      # TODO Is that the right thing to do?
+      # TODO: Is that the right thing to do?
       division.aye_majority < 0 ? aye_votes_including_tells : no_votes_including_tells
     end
   end
 
   def attendance_fraction
-    (total_votes).to_f / possible_votes unless possible_votes == 0
+    total_votes.to_f / possible_votes unless possible_votes == 0
   end
 
   # a tie is 0.0. a unanimous vote is 1.0
@@ -161,7 +161,8 @@ class Whip < ApplicationRecord
       aye_votes_including_tells.to_f / total_votes
     elsif calc_whip_guess == "no"
       no_votes_including_tells.to_f / total_votes
-    else calc_whip_guess == "none"
+    else
+      calc_whip_guess == "none"
       0.0
     end
   end

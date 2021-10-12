@@ -23,7 +23,7 @@ feature "Signing up" do
     expect(unread_emails_for("henare@oaf.org.au").size).to eql 1
     open_last_email_for("henare@oaf.org.au")
     expect(current_email).to have_subject("Confirm your email address")
-    click_email_link_matching /confirm/
+    click_email_link_matching(/confirm/)
     expect(find(".account-nav")).to have_content("Henare Degan")
     expect(page).to have_content "Welcome!"
   end

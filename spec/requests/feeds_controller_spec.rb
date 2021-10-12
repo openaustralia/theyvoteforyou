@@ -14,6 +14,6 @@ describe FeedsController, type: :request do
     # This test is commented out because it occasionally fails on travis for unknown reasons
     # It doesn't fail when run locally
     # TODO Reinstate this test
-    #it { compare_static '/feeds/mpdream-info.xml?id=2' }
+    # it { compare_static '/feeds/mpdream-info.xml?id=2' }
   end
 end

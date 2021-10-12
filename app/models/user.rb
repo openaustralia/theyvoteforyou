@@ -54,7 +54,7 @@ class User < ApplicationRecord
   def recent_changes(size)
     changes = PaperTrail::Version.order(created_at: :desc).where(whodunnit: self).limit(size) +
               WikiMotion.order(created_at: :desc).where(user: self).limit(size)
-    changes.sort_by {|v| -v.created_at.to_i}.take(size)
+    changes.sort_by { |v| -v.created_at.to_i }.take(size)
   end
 
   def self.system_name

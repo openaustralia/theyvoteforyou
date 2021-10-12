@@ -46,74 +46,74 @@ describe Division, type: :model do
     subject(:division) { Division.new }
 
     it "should not be passed when there's a draw" do
-      allow(division).to receive(:aye_majority) {0}
+      allow(division).to receive(:aye_majority) { 0 }
       expect(division.passed?).to be(false)
     end
   end
 
   describe "footnotes" do
-    let(:text) {
-      <<-EOF
-A paragraph.
-
-A paragraph with a footnote.[1]
-
-''Background to the bill''
-
-Something else with a footnote.[2]
-
-Hmm.. yes.[3] And then some
-
-Yup [4].
-
-''References''
-* [1] A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].
-* [2] Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.
-* [3] Read more
-* [4] Read more about superannuation
+    let(:text) do
+      <<~EOF
+                A paragraph.
+        #{'        '}
+                A paragraph with a footnote.[1]
+        #{'        '}
+                ''Background to the bill''
+        #{'        '}
+                Something else with a footnote.[2]
+        #{'        '}
+                Hmm.. yes.[3] And then some
+        #{'        '}
+                Yup [4].
+        #{'        '}
+                ''References''
+                * [1] A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].
+                * [2] Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.
+                * [3] Read more
+                * [4] Read more about superannuation
       EOF
-    }
+    end
 
     it ".footnotes" do
-      expect(Division.footnotes(text)).to eq ({
-        "1" => "A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].",
-        "2" => "Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.",
-        "3" => "Read more",
-        "4" => "Read more about superannuation"
-      })
+      expect(Division.footnotes(text)).to eq({
+                                               "1" => "A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].",
+                                               "2" => "Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.",
+                                               "3" => "Read more",
+                                               "4" => "Read more about superannuation"
+                                             })
     end
 
     it ".remove_footnotes" do
-      expect(Division.remove_footnotes(text)).to eq <<-EOF
-A paragraph.
-
-A paragraph with a footnote.[1]
-
-''Background to the bill''
-
-Something else with a footnote.[2]
-
-Hmm.. yes.[3] And then some
-
-Yup [4].
-
-    EOF
+      expect(Division.remove_footnotes(text)).to eq <<~EOF
+                A paragraph.
+        #{'        '}
+                A paragraph with a footnote.[1]
+        #{'        '}
+                ''Background to the bill''
+        #{'        '}
+                Something else with a footnote.[2]
+        #{'        '}
+                Hmm.. yes.[3] And then some
+        #{'        '}
+                Yup [4].
+        #{'        '}
+      EOF
     end
 
     it ".inline_footnotes" do
-      expect(Division.inline_footnotes(text)).to eq <<-EOF
-A paragraph.
-
-A paragraph with a footnote.(A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].)
-
-''Background to the bill''
-
-Something else with a footnote.(Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.)
-
-Hmm.. yes.(Read more) And then some
-
-Yup (Read more about superannuation).
-
+      expect(Division.inline_footnotes(text)).to eq <<~EOF
+                A paragraph.
+        #{'        '}
+                A paragraph with a footnote.(A footnote for sure [https://www.openaustralia.org.au/senate/?gid=2014-09-02.4.3 here].)
+        #{'        '}
+                ''Background to the bill''
+        #{'        '}
+                Something else with a footnote.(Yup. No kidding. [https://www.openaustralia.org.au/debates/?id=2014-09-01.34.2 here]. It's a link.)
+        #{'        '}
+                Hmm.. yes.(Read more) And then some
+        #{'        '}
+                Yup (Read more about superannuation).
+        #{'        '}
       EOF
     end
   end

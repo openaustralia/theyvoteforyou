@@ -15,8 +15,6 @@ class DivisionParameterParser
     end
   end
 
-  private
-
   def self.get_year_range(year)
     date = Date.parse("#{year}-01-01")
 

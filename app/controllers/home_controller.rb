@@ -5,8 +5,7 @@ class HomeController < ApplicationController
     @current_members = Member.current.order("last_name")
   end
 
-  def about
-  end
+  def about; end
 
   def search
     @current_members = Member.current.map { |m| m.name_without_title.downcase }
@@ -47,7 +46,7 @@ class HomeController < ApplicationController
   def history
     @history = PaperTrail::Version.where("created_at > ?", 1.week.ago) +
                WikiMotion.where("edit_date > ?", 1.week.ago)
-    @history.sort_by! {|v| -v.created_at.to_i}
+    @history.sort_by! { |v| -v.created_at.to_i }
   end
 
   def error_404

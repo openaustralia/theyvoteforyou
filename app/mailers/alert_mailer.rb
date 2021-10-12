@@ -4,7 +4,9 @@ class AlertMailer < ActionMailer::Base
   helper PoliciesHelper, DivisionsHelper, PathHelper
 
   def policy_updated(policy, version, user)
-    @policy, @version, @user = policy, version, user
+    @policy = policy
+    @version = version
+    @user = user
 
     mail to: user.email, subject: render_to_string(partial: "policy_updated_subject")
   end

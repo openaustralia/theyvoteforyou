@@ -2,7 +2,8 @@ class MembersController < ApplicationController
   def index_redirect
     redirect_to members_path(
       house: (params[:house] && params[:house] != "all" ? params[:house] : "representatives"),
-      sort: (params[:sort] if params[:sort] != "lastname"))
+      sort: (params[:sort] if params[:sort] != "lastname")
+    )
   end
 
   def index
@@ -12,9 +13,10 @@ class MembersController < ApplicationController
     members = Member.current
     if @house
       raise ActiveRecord::RecordNotFound unless House.australian.include?(@house)
+
       members = members.in_house(@house)
     end
-    members = members.includes(:member_info, person: [members: :member_info] ).to_a
+    members = members.includes(:member_info, person: [members: :member_info]).to_a
 
     @members = case @sort
                when "constituency"
@@ -27,7 +29,7 @@ class MembersController < ApplicationController
                  members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
                else
                  members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
-    end
+               end
   end
 
   def show_redirect
@@ -50,13 +52,13 @@ class MembersController < ApplicationController
         end
       end
       redirect_to params.to_unsafe_hash.merge(
-          only_path: true,
-          mpn: member.url_name,
-          mpc: member.url_electorate,
-          house: member.house,
-          mpid: nil,
-          id: nil
-        )
+        only_path: true,
+        mpn: member.url_name,
+        mpc: member.url_electorate,
+        house: member.house,
+        mpid: nil,
+        id: nil
+      )
       return
     end
     if params[:dmp] && params[:display] == "allvotes"
@@ -67,9 +69,7 @@ class MembersController < ApplicationController
       redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
       return
     end
-    if params[:display] == "allvotes" || params[:showall] == "yes"
-      redirect_to params.to_unsafe_hash.merge(only_path: true, showall: nil, display: "everyvote")
-    end
+    redirect_to params.to_unsafe_hash.merge(only_path: true, showall: nil, display: "everyvote") if params[:display] == "allvotes" || params[:showall] == "yes"
   end
 
   def friends

@@ -5,7 +5,8 @@ module DataLoader
     attr_accessor :division_xml, :house
 
     def initialize(division_xml, house)
-      self.division_xml, self.house = division_xml, house
+      self.division_xml = division_xml
+      self.house = house
     end
 
     def date
@@ -58,11 +59,11 @@ module DataLoader
       time = "#{time}:00" if time =~ /^\d\d:\d\d$/
       time = "0#{time}" if time =~ /^\d\d:\d\d:\d\d$/
 
-      if time !~ /^\d\d\d:\d\d:\d\d$/
+      if time =~ /^\d\d\d:\d\d:\d\d$/
+        time
+      else
         Rails.logger.warn "Clock time '#{time}' not in right format"
         ""
-      else
-        time
       end
     end
 
@@ -76,12 +77,12 @@ module DataLoader
         vote_without_tell =
           [gid, [vote, teller]]
       end
-      Hash[votes]
+      votes.to_h
     end
 
     def bills
       division_xml.search("bills bill").map do |bill|
-        {id: bill.attr(:id), url: bill.attr(:url), title: bill.inner_text}
+        { id: bill.attr(:id), url: bill.attr(:url), title: bill.inner_text }
       end
     end
 
@@ -105,9 +106,7 @@ module DataLoader
 
     def find_previous(name)
       previous_element = division_xml.previous_element
-      while previous_element.name != name
-        previous_element = previous_element.previous_element
-      end
+      previous_element = previous_element.previous_element while previous_element.name != name
       previous_element
     end
 
@@ -181,9 +180,9 @@ module DataLoader
     end
 
     def title_case(title)
-      title = title.downcase.gsub(/\b(?<!['’`])[a-z]/) { $&.capitalize }
+      title = title.downcase.gsub(/\b(?<!['’`])[a-z]/) { Regexp.last_match(0).capitalize }
       # Un-titlecase words in the skip list from Perl's Text::Autoformat
-      skip_words = %w(a an at as and are
+      skip_words = %w[a an at as and are
                       but by
                       ere
                       for from
@@ -193,7 +192,7 @@ module DataLoader
                       the to that than
                       until unto upon
                       via
-                      with while whilst within without)
+                      with while whilst within without]
       title.split.map.with_index do |w, i|
         # Never lower case the first word
         i != 0 && skip_words.include?(w.downcase) ? w.downcase : w

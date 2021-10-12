@@ -3,6 +3,7 @@ module DataLoader
     def initialize(xml_document, house)
       @xml_document = xml_document
       raise "Debate data missing" unless @xml_document.at(:debates)
+
       @house = house
     end
 

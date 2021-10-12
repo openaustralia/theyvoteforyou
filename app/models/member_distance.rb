@@ -12,8 +12,8 @@ class MemberDistance < ApplicationRecord
     Member.all.find_each do |member1|
       puts "Updating distances for #{member1.name}..."
       # Find all members who overlap with this member
-      members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house).
-        where("entered_house <= ?", member1.left_house)
+      members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house)
+                      .where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
       members.where("id >= ?", member1.id).each do |member2|
         params = calculate_distances(member1, member2)
@@ -25,8 +25,12 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.calculate_distances(member1, member2)
-    m1_id, m1_entered_house, m1_left_house  = member1.id, member1.entered_house, member2.left_house
-    m2_id, m2_entered_house, m2_left_house  = member2.id, member2.entered_house, member2.left_house
+    m1_id = member1.id
+    m1_entered_house = member1.entered_house
+    m1_left_house = member2.left_house
+    m2_id = member2.id
+    m2_entered_house = member2.entered_house
+    m2_left_house = member2.left_house
     result = {
       nvotessame: MemberDistance.calculate_nvotessame(m1_id, m2_id),
       nvotesdiffer: MemberDistance.calculate_nvotesdiffer(m1_id, m2_id),
@@ -37,7 +41,7 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.calculate_nvotessame(member1_id, member2_id)
-    # TODO Move knowledge of tells out of here. Shouldn't have to know about this to do this
+    # TODO: Move knowledge of tells out of here. Shouldn't have to know about this to do this
     # kind of query
     # Division
     #   .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
@@ -47,7 +51,7 @@ class MemberDistance < ApplicationRecord
     #   .where("(votes1.vote = 'aye' AND votes2.vote = 'aye') OR (votes1.vote = 'no' AND votes2.vote = 'no')")
     #   .count
 
-    nvs_sql = %Q{
+    nvs_sql = %{
 SELECT
   COUNT(*)
 FROM
@@ -74,7 +78,7 @@ WHERE
     #   .where("(votes1.vote = 'aye' AND votes2.vote = 'no') OR (votes1.vote = 'no' AND votes2.vote = 'aye')")
     #   .count
 
-    nvd_sql = %Q{
+    nvd_sql = %{
 SELECT
   COUNT(*)
 FROM
@@ -106,7 +110,7 @@ WHERE
     #   .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
     #   .count
 
-    nva_sql = %Q{
+    nva_sql = %{
 SELECT
   COUNT(*)
 FROM

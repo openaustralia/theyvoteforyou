@@ -52,14 +52,14 @@ Publicwhip::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  config.cache_store = :dalli_store, nil, {namespace: "publicwhip"}
+  config.cache_store = :dalli_store, nil, { namespace: "publicwhip" }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  config.assets.precompile += %w( email.css )
+  config.assets.precompile += %w[email.css]
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
@@ -69,11 +69,11 @@ Publicwhip::Application.configure do
     host: "theyvoteforyou.org.au"
   }
   config.action_mailer.smtp_settings = {
-     address: Rails.application.secrets.cuttlefish_server,
-     port: 2525,
-     user_name: Rails.application.secrets.cuttlefish_user_name,
-     password: Rails.application.secrets.cuttlefish_password,
-     authentication: :plain
+    address: Rails.application.secrets.cuttlefish_server,
+    port: 2525,
+    user_name: Rails.application.secrets.cuttlefish_user_name,
+    password: Rails.application.secrets.cuttlefish_password,
+    authentication: :plain
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

@@ -1,5 +1,5 @@
 class PoliciesController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :drafts, :show, :detail, :full, :history]
+  before_action :authenticate_user!, except: %i[index drafts show detail full history]
 
   def index
     @policies = Policy.published.order(:name)
@@ -73,9 +73,7 @@ class PoliciesController < ApplicationController
   def watch
     @policy = Policy.find(params[:id])
     current_user.toggle_policy_watch(@policy)
-    if !current_user.watching?(@policy)
-      flash[:notice] = "Unsubscribed"
-    end
+    flash[:notice] = "Unsubscribed" unless current_user.watching?(@policy)
     redirect_to :back
   end
 

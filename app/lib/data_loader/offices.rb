@@ -14,8 +14,8 @@ module DataLoader
 
         responsibility = moffice[:responsibility] || ""
 
-        Office.create!(id: moffice[:id][/uk.org.publicwhip\/moffice\/(\d*)/, 1],
-                       person_id: person_id[/uk.org.publicwhip\/person\/(\d*)/, 1],
+        Office.create!(id: moffice[:id][%r{uk.org.publicwhip/moffice/(\d*)}, 1],
+                       person_id: person_id[%r{uk.org.publicwhip/person/(\d*)}, 1],
                        dept: moffice[:dept],
                        position: moffice[:position],
                        responsibility: responsibility,

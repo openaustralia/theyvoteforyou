@@ -5,11 +5,11 @@ class Member < ApplicationRecord
   has_many :votes, dependent: :destroy
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_house, ->(house) { where(house: house) }
-  scope :with_name, ->(name) {
+  scope :with_name, lambda { |name|
     first_name, last_name = Member.parse_first_last_name(name)
     where(first_name: first_name, last_name: last_name)
   }
-  # TODO Make this more resilient by using current_on(Date.today)
+  # TODO: Make this more resilient by using current_on(Date.today)
   scope :current, -> { where(left_house: "9999-12-31") }
 
   # Divisions that have been attended
@@ -31,7 +31,7 @@ class Member < ApplicationRecord
   # Randomly pick a postcode from a small selection that covers each State and Territory
   # in Australia where the postcode only relates to one electorate.
   def self.random_postcode
-    postcodes = ["0836", "2300", "2902", "3219", "4570", "6280", "7320"]
+    postcodes = %w[0836 2300 2902 3219 4570 6280 7320]
     if Rails.env.test?
       postcodes.first
     else
@@ -190,7 +190,7 @@ class Member < ApplicationRecord
 
   def self.find_by_search_query(query_string)
     if Settings.elasticsearch
-      self.search(query_string, boost_where: {left_reason: "still_in_office"})
+      search(query_string, boost_where: { left_reason: "still_in_office" })
     else
       # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
       sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
@@ -204,14 +204,14 @@ class Member < ApplicationRecord
 
       score_clause = "("
       score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
-      placeholders = {query_string: query_string}
+      placeholders = { query_string: query_string }
       bitcount = 0
       query_string.split.each do |querybit|
         querybit = querybit.strip
         placeholders["querybit_#{bitcount}".to_sym] = querybit
         placeholders["querybit_wild_#{bitcount}".to_sym] = "%" + querybit + "%"
 
-        if !querybit.blank?
+        unless querybit.blank?
           score_clause += "+ (lower(constituency) =:querybit_" +
                           bitcount.to_s +
                           ") * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_" +
@@ -222,14 +222,14 @@ class Member < ApplicationRecord
                           bitcount.to_s +
                           ")) * 6 + (lower(constituency) like :querybit_wild_" +
                           bitcount.to_s +
-                          ") * 4 +";
+                          ") * 4 +"
           score_clause += "(lower(last_name) like :querybit_wild_" +
                           bitcount.to_s +
                           ") * 4 + (soundex(first_name) = soundex(:querybit_" +
                           bitcount.to_s +
                           ")) * 2 + (lower(first_name) like :querybit_wild_" +
                           bitcount.to_s +
-                          ") +";
+                          ") +"
           score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_" + bitcount.to_s + "),'%'))"
         end
         bitcount += 1

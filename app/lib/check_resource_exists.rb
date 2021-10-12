@@ -4,6 +4,6 @@ class CheckResourceExists
   def self.call(url)
     uri = URI(url)
     res = Net::HTTP.get_response(uri)
-    res.kind_of? Net::HTTPSuccess
+    res.is_a? Net::HTTPSuccess
   end
 end

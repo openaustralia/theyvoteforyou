@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Whip, type: :model do
-  # TODO Figure out why we need to do this horrible hack to remove the fixtures
+  # TODO: Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
   before :each do
     Member.delete_all
@@ -34,7 +34,7 @@ describe Whip, type: :model do
       it { expect(Whip.calc_whip_guess(5, 5, 10)).to eq "abstention" }
       it { expect(Whip.calc_whip_guess(5, 10, 10)).to eq "unknown" }
       it { expect(Whip.calc_whip_guess(5, 15, 10)).to eq "no" }
-      it { expect(Whip.calc_whip_guess(10, 5, 10)).to eq "unknown"}
+      it { expect(Whip.calc_whip_guess(10, 5, 10)).to eq "unknown" }
       it { expect(Whip.calc_whip_guess(10, 10, 10)).to eq "unknown" }
       it { expect(Whip.calc_whip_guess(10, 15, 10)).to eq "no" }
       it { expect(Whip.calc_whip_guess(15, 5, 10)).to eq "aye" }
@@ -52,37 +52,42 @@ describe Whip, type: :model do
       member5
     end
 
-    let(:division) { Division.create(id: 1, date: Date.new(2000,1,1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", source_gid: "", debate_gid: "") }
-    let(:member1) { Member.create(id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
-      house: "commons", gid: "", source_gid: "",  constituency: "A",
-      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1))
-    }
-    let(:member2) { Member.create(id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "B",
-      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1))
-    }
-    let(:member3) { Member.create(id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "C",
-      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1))
-    }
+    let(:division) { Division.create(id: 1, date: Date.new(2000, 1, 1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", source_gid: "", debate_gid: "") }
+    let(:member1) do
+      Member.create(id: 1, title: "", first_name: "Member", last_name: "1", party: "A",
+                    house: "commons", gid: "", source_gid: "", constituency: "A",
+                    entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1))
+    end
+    let(:member2) do
+      Member.create(id: 2, title: "", first_name: "Member", last_name: "2", party: "B",
+                    house: "commons", gid: "", source_gid: "", constituency: "B",
+                    entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1))
+    end
+    let(:member3) do
+      Member.create(id: 3, title: "", first_name: "Member", last_name: "3", party: "B",
+                    house: "commons", gid: "", source_gid: "", constituency: "C",
+                    entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1))
+    end
     # This member doesn't vote but could
-    let(:member4) { Member.create(id: 4, title: "", first_name: "Member", last_name: "4", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "D",
-      entered_house: Date.new(1999,1,1), left_house: Date.new(2001,1,1))
-    }
+    let(:member4) do
+      Member.create(id: 4, title: "", first_name: "Member", last_name: "4", party: "B",
+                    house: "commons", gid: "", source_gid: "", constituency: "D",
+                    entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1))
+    end
     # This member couldn't vote in the division
-    let(:member5) { Member.create(id: 5, title: "", first_name: "Member", last_name: "5", party: "B",
-      house: "commons", gid: "", source_gid: "",  constituency: "E",
-      entered_house: Date.new(1998,1,1), left_house: Date.new(1999,1,1))
-    }
+    let(:member5) do
+      Member.create(id: 5, title: "", first_name: "Member", last_name: "5", party: "B",
+                    house: "commons", gid: "", source_gid: "", constituency: "E",
+                    entered_house: Date.new(1998, 1, 1), left_house: Date.new(1999, 1, 1))
+    end
 
     context "one aye vote in party A" do
       before :each do
         division.votes.create(member: member1, vote: "aye")
       end
 
-      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1)}
-      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1})}
+      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1) }
+      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }) }
       it do
         Whip.update_all!
         expect(Whip.all.count).to eq 2
@@ -108,7 +113,7 @@ describe Whip, type: :model do
 
       context "free vote" do
         it do
-          # TODO get rid of use of any_instance. It's a code smell.
+          # TODO: get rid of use of any_instance. It's a code smell.
           allow_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
           Whip.update_all!
           w = Whip.find_by(division: division, party: "A")
@@ -131,8 +136,8 @@ describe Whip, type: :model do
           division.votes.create(member: member3, vote: "aye")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2)}
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 2})}
+        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2) }
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 2 }) }
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2
@@ -164,7 +169,7 @@ describe Whip, type: :model do
         end
 
         it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => {["aye", 0] => 1}, [1, "B"] => {["aye", 0] => 1, ["no", 0] => 1}) }
+        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 1, ["no", 0] => 1 }) }
         it do
           Whip.update_all!
           expect(Whip.all.count).to eq 2

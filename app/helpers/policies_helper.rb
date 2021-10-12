@@ -18,12 +18,12 @@ module PoliciesHelper
     elsif policy_member_distance.number_of_votes == 0
       "has <strong>never voted</strong> on".html_safe
     else
-      text = ranges.find{|r| r.first.include?(policy_member_distance.agreement_fraction)}.second
+      text = ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
       "voted ".html_safe + content_tag(:strong, text.html_safe)
     end
   end
 
-  # TODO This shouldn't really be in a helper should it? It smells a lot like "business" logic
+  # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges
     {
       0.95..1.00 => "very strongly for",
@@ -40,7 +40,7 @@ module PoliciesHelper
     "“#{word}”"
   end
 
-  def policy_version_sentence(version, options)
+  def policy_version_sentence(version, _options)
     if version.event == "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
@@ -154,18 +154,18 @@ module PoliciesHelper
   end
 
   def policy_division_version_sentence(version, options)
-    actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
+    actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
 
     if version.event == "update"
       actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division_path(division, options))) + ".".html_safe
     elsif version.event == "create" || version.event == "destroy"
-      if version.event == "create"
-        tense = "set to "
-      else
-        tense = "was "
-      end
+      tense = if version.event == "create"
+                "set to "
+              else
+                "was "
+              end
       actions[version.event].html_safe + " division ".html_safe + content_tag(:em, link_to(division.name, division_path(division, options))) + ". Policy vote ".html_safe + tense + vote + ".".html_safe
     else
       raise
@@ -173,18 +173,18 @@ module PoliciesHelper
   end
 
   def policy_division_version_sentence_text(version, options)
-    actions = {"create" => "Added", "destroy" => "Removed", "update" => "Changed"}
+    actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
 
     if version.event == "update"
       actions[version.event] + " vote from " + vote + " on division " + division.name + ".\n" + division_path(division, options)
     elsif version.event == "create" || version.event == "destroy"
-      if version.event == "create"
-        tense = "set to "
-      else
-        tense = "was "
-      end
+      tense = if version.event == "create"
+                "set to "
+              else
+                "was "
+              end
       actions[version.event] + " division " + division.name + ". Policy vote " + tense + vote + ".\n" + division_path(division, options)
     else
       raise
@@ -218,7 +218,7 @@ module PoliciesHelper
   end
 
   def version_author_link(version, options = {})
-    if version.kind_of?(WikiMotion)
+    if version.is_a?(WikiMotion)
       link_to version.user.name, user_path(version.user, options)
     else
       user = User.find(version.whodunnit)
@@ -227,11 +227,11 @@ module PoliciesHelper
   end
 
   def version_attribution_text(version)
-    if version.kind_of?(WikiMotion)
-      "By #{version.user.name} at #{@version.created_at.strftime("%I:%M%p - %d %b %Y")}\n#{user_path(version.user, only_path: false)}"
+    if version.is_a?(WikiMotion)
+      "By #{version.user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_path(version.user, only_path: false)}"
     else
       user = User.find(version.whodunnit)
-      "By #{user.name} at #{@version.created_at.strftime("%I:%M%p - %d %b %Y")}\n#{user_path(user, only_path: false)}"
+      "By #{user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_path(user, only_path: false)}"
     end
   end
 
