@@ -212,14 +212,24 @@ class Member < ApplicationRecord
         placeholders["querybit_wild_#{bitcount}".to_sym] = "%" + querybit + "%"
 
         if !querybit.blank?
-          score_clause += "+ (lower(constituency) =:querybit_" + bitcount.to_s + ') * 10 +
-          (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-          (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-          (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
-          (lower(constituency) like :querybit_wild_' + bitcount.to_s + ") * 4 +";
-          score_clause += "(lower(last_name) like :querybit_wild_" + bitcount.to_s + ') * 4 +
-          (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
-          (lower(first_name) like :querybit_wild_' + bitcount.to_s + ") +";
+          score_clause += "+ (lower(constituency) =:querybit_" +
+                          bitcount.to_s +
+                          ") * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_" +
+                          bitcount.to_s +
+                          ")) * 8 + (soundex(constituency) = soundex(:querybit_" +
+                          bitcount.to_s +
+                          ")) * 8 + (soundex(last_name) = soundex(:querybit_" +
+                          bitcount.to_s +
+                          ")) * 6 + (lower(constituency) like :querybit_wild_" +
+                          bitcount.to_s +
+                          ") * 4 +";
+          score_clause += "(lower(last_name) like :querybit_wild_" +
+                          bitcount.to_s +
+                          ") * 4 + (soundex(first_name) = soundex(:querybit_" +
+                          bitcount.to_s +
+                          ")) * 2 + (lower(first_name) like :querybit_wild_" +
+                          bitcount.to_s +
+                          ") +";
           score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_" + bitcount.to_s + "),'%'))"
         end
         bitcount += 1

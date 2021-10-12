@@ -45,8 +45,8 @@ class Policy < ApplicationRecord
     if Settings.elasticsearch
       self.search(query)
     else
-      where('LOWER(convert(name using utf8)) LIKE :query
-             OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+      where("LOWER(convert(name using utf8)) LIKE :query " \
+             "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 

@@ -235,9 +235,9 @@ class Division < ApplicationRecord
     else
       # FIXME: Remove nasty SQL below that was ported from PHP direct
       joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
-            .where('LOWER(convert(name using utf8)) LIKE :query
-                    OR LOWER(convert(motion using utf8)) LIKE :query
-                    OR LOWER(convert(text_body using utf8)) LIKE :query', query: "%#{query}%")
+            .where("LOWER(convert(name using utf8)) LIKE :query " \
+                    "OR LOWER(convert(motion using utf8)) LIKE :query " \
+                    "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 
