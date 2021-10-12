@@ -543,12 +543,6 @@ Security/Open:
   Exclude:
     - 'app/lib/data_loader/popolo.rb'
 
-# Offense count: 27
-# Configuration parameters: MaxUnannotatedPlaceholdersAllowed, IgnoredMethods.
-# SupportedStyles: annotated, template, unannotated
-Style/FormatStringToken:
-  EnforcedStyle: template
-
 # Offense count: 4
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:

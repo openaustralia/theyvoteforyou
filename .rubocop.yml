@@ -34,6 +34,9 @@ Style/NumericLiterals:
 Style/Documentation:
   Enabled: false
 
+Style/FormatStringToken:
+  EnforcedStyle: template
+
 # Would be good to structure the Gemfile a bit more and order it nicely
 # TODO: Enable this
 Bundler/OrderedGems:
