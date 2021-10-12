@@ -4,7 +4,7 @@ class WikiMotion < ApplicationRecord
 
   validates :title, :description, presence: true
 
-  attr_accessor :title, :description
+  attr_writer :title, :description
 
   alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
