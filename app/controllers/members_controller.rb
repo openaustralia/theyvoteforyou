@@ -124,5 +124,6 @@ class MembersController < ApplicationController
         difference: (fraction1 - fraction2).abs
       }
     end
+    @policies = @policies.sort_by { |p| p[:difference] }.reverse
   end
 end
