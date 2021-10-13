@@ -119,7 +119,7 @@ class MembersController < ApplicationController
       ppd2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id)
 
       # Don't consider policies for which either member didn't vote
-      next if !ppd.voted? || !ppd2.voted?
+      next if ppd2.nil? || !ppd.voted? || !ppd2.voted?
 
       fraction1 = ppd.agreement_fraction
       fraction2 = ppd2.agreement_fraction
