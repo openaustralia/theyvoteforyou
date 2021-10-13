@@ -14,10 +14,7 @@ two:
     \n
     --- MOTION EFFECT ---\n
     \n
-    @MP voted aye to make this vote pass\n
-    @MP voted no to make this vote fail\n
-    \n
-    This is some test text. I'd like to illustrate formatting like ''italics''
+    This is some test text. I'd like to illustrate formatting like *italics*
     and the following points:\n
     \n
     * My first point is simple\n
@@ -25,15 +22,7 @@ two:
     * And sometimes I do go on\n
     \n
     To back up my arguments I ensure that I link to official sources like the
-    [http://aph.gov.au APH Official website].\n
-    \n
-    @This is a comment, it shouldn't be displayed.\n
-    \n
-    There are other points where footnotes[1] are more useful for saying[2] more
-    about my point.\n
-    \n
-    * [1] This was a good point.\n
-    * [2] Saying as in describing.\n
+    [APH Official website](http://aph.gov.au).\n
     --- COMMENTS AND NOTES ---\n
     \n
     (put thoughts and notes for other researchers here)\n"

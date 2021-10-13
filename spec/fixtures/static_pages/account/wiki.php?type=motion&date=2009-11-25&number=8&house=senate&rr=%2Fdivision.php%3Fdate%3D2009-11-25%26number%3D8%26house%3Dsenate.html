@@ -98,12 +98,20 @@ to write something that everyone can understand.
 </div>
 <div class='form-group'>
 <label>Division summary:</label>
+<ul class='nav nav-tabs' role='tablist'>
+<li class='active'><a role="tab" data-toggle="tab" href="#edit">Edit</a></li>
+<li><a role="tab" data-toggle="tab" id="preview_link" href="#preview">Preview</a></li>
+</ul>
+<div class='tab-content'>
+<div class='tab-pane active' id='edit'>
 <textarea class='form-control' cols='45' name='newdescription' rows='25'></textarea>
+</div>
+<div class='tab-pane' id='preview'></div>
+</div>
 </div>
 <input accesskey='S' class='submit-division-edit btn btn-primary' name='submit' type='submit' value='Save'>
 <a class="btn btn-default" href="javascript:history.back()">Cancel</a>
-</form>
-</div>
+</form></div>
 <div class='col-md-4'>
 <p>
 <span class='ptitle'>Useful links for you to research</span>
@@ -117,46 +125,11 @@ to write something that everyone can understand.
 <li><a target="_blank" href="http://www.aph.gov.au/Parliamentary_Business/Hansard/Hansreps_2011">House Official Hansard</a></li>
 <li><a target="_blank" href="http://www.aph.gov.au/Parliamentary_Business/Hansard/Hanssen261110">Senate Official Hansard</a></li>
 </ul>
-<p><span class='ptitle'>Formatting codes</span>. You can use the
-following to mark paragraphs, lists and so on.
+<p>
+Use
+<a target="_blank" href="https://guides.github.com/features/mastering-markdown/">Markdown</a>
+to format your text
 </p>
-<ul>
-<li>
-<code>''italic''</code>
--
-<em>italic</em>
-</li>
-<li>
-<code>[http://example.com A link]</code>
--
-<a href="http://example.com">link</a>
-</li>
-<li>
-<code>* A point</code>
-- bulleted list item
-</li>
-<li>
-<code>An idea[1]</code>
-- link to a footnote
-</li>
-<li>
-<code>* [1] Ideas are good</code>
-- footnote
-</li>
-<li>
-<code>@A comment</code>
-- comments aren't displayed
-</li>
-<li>
-<code>@MP voted aye to say that little ponies are great</code>
-- puts this text on the motion page "[MP Name] voted to say that
-little ponies are great"
-</li>
-<li>
-<code>@MP voted no</code>
-- does it for MPs that voted no
-</li>
-</ul>
 
 </div>
 </div>
