@@ -24,12 +24,10 @@
       %th
         Difference
   %tbody
-    - @member1.person.policy_person_distances.published.each do |ppd|
+    - @policies.each do |p|
       %tr
         %td
-          = link_to capitalise_initial_character(ppd.policy.name), ppd.policy
-        - fraction1 = ppd.agreement_fraction
-        - fraction2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction
-        %td= link_to fraction_to_percentage_display(fraction1), [@member1, ppd.policy]
-        %td= link_to fraction_to_percentage_display(fraction2), [@member2, ppd.policy]
-        %td= fraction_to_percentage_display((fraction1 - fraction2).abs)
+          = link_to capitalise_initial_character(p[:policy].name), p[:policy]
+        %td= link_to fraction_to_percentage_display(p[:fraction1]), [@member1, p[:policy]]
+        %td= link_to fraction_to_percentage_display(p[:fraction2]), [@member2, p[:policy]]
+        %td= fraction_to_percentage_display(p[:difference])
