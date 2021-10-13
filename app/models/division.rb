@@ -259,30 +259,6 @@ class Division < ApplicationRecord
     md.render(text)
   end
 
-  def self.footnotes(text)
-    result = {}
-    text.lines.each do |line|
-      # TODO: I guess it should only match to the beginning of the line
-      result[Regexp.last_match(1)] = Regexp.last_match(2) if line =~ /\* \[(\d+)\] (.*)/
-    end
-    result
-  end
-
-  def self.remove_footnotes(text)
-    text = text.lines.reject { |l| (l =~ /\* \[(\d+)\] (.*)/) }.join
-    # Remove last line containing ''References'' if it's there
-    if text.strip.lines.last == "''References''"
-      text.strip.lines[0..-2].join
-    else
-      text
-    end
-  end
-
-  def self.inline_footnotes(text)
-    footnotes = footnotes(text)
-    remove_footnotes(text).gsub(/\[(\d+)\]/) { "(#{footnotes[Regexp.last_match(1)]})" }
-  end
-
   def self.next_month(month)
     (Date.parse("#{month}-01") + 1.month).to_s
   end
