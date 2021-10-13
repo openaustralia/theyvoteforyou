@@ -6,3 +6,24 @@
 
 = render "member_page_header", member: @member1
 = render "member_page_header", member: @member2
+
+-# - member.person.policy_person_distances.published.each do |d|
+
+%table.table
+  %thead
+    %tr
+      %th Policy
+      %th
+        How much
+        = @member1.name_without_title
+        agrees
+      %th
+        How much
+        = @member2.name_without_title
+        agrees
+  %tbody
+    - @member1.person.policy_person_distances.published.each do |ppd|
+      %tr
+        %td= capitalise_initial_character(ppd.policy.name)
+        %td= fraction_to_percentage_display(ppd.agreement_fraction)
+        %td= fraction_to_percentage_display(ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction)
