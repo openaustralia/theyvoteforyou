@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Division < ApplicationRecord
+  # TODO: Remove markdown from db schema because it is no longer used
   searchkick if Settings.elasticsearch
   has_one :division_info
   has_many :whips
@@ -141,10 +142,8 @@ class Division < ApplicationRecord
   def motion
     text = if edited?
              wiki_motion.description.strip
-           elsif markdown?
-             ReverseMarkdown.convert(read_attribute(:motion))
            else
-             read_attribute(:motion)
+             ReverseMarkdown.convert(read_attribute(:motion))
            end
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
@@ -246,21 +245,7 @@ class Division < ApplicationRecord
   end
 
   def formatted_motion_text
-    text = motion
-
-    text = if markdown?
-             Division.render_markdown(text)
-
-           # Don't wiki-parse large amounts of text as it can blow out CPU/memory.
-           # It's probably not edited and formatted in wiki markup anyway. Maximum
-           # field size is 65,535 characters. 15,000 characters is more than 12 pages,
-           # i.e. more than enough.
-           elsif text.size > 15000
-             wikimarkup_parse_basic(text)
-           else
-             wikimarkup_parse(text)
-           end
-
+    text = Division.render_markdown(motion)
     # This is a small hack to make links to an old site point to the new site
     text.gsub!(%r{<a href="http://publicwhip-(test|rails).openaustraliafoundation.org.au},
                "<a href=\"https://theyvoteforyou.org.au")
@@ -303,40 +288,6 @@ class Division < ApplicationRecord
   end
 
   private
-
-  # Format according to Public Whip's unique-enough-to-be-annoying markup language.
-  # It's *similar* to MediaWiki but not quite. It would be so nice to switch to Markdown.
-  def wikimarkup_parse(text)
-    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$LAST_MATCH_INFO[1]}</i></p>" }
-    # Remove any preceeding spaces so wikiparser doesn't format with monospaced font
-    text.gsub!(/^ */, "")
-    # Remove comment lines (those starting with '@')
-    text = text.lines.reject { |l| l =~ /(^@.*)/ }.join
-    # Italics
-    text.gsub!(/''(.*?)''/) { "<em>#{$LAST_MATCH_INFO[1]}</em>" }
-    # Parse as MediaWiki
-    text = Marker.parse(text).to_html(nofootnotes: true)
-    # Strip unwanted tags and attributes
-    text = sanitize_motion(text)
-
-    # BUG: Force object back to String from ActiveSupport::SafeBuffer so the below regexs work properly
-    text = String.new(text)
-
-    # Footnote links. The MediaWiki parser would mess these up so we do them after parsing
-    text.gsub!(/(?<![<li>\s])(\[(\d+)\])/) { %(<sup class="sup-#{$LAST_MATCH_INFO[2]}"><a class="sup" href='#footnote-#{$LAST_MATCH_INFO[2]}' onclick="ClickSup(#{$LAST_MATCH_INFO[2]}); return false;">#{$LAST_MATCH_INFO[1]}</a></sup>) }
-    # Footnotes
-    text.gsub!(/<li>\[(\d+)\]/) { %(<li class="footnote" id="footnote-#{$LAST_MATCH_INFO[1]}">[#{$LAST_MATCH_INFO[1]}]) }
-
-    text
-  end
-
-  # Use this in situations where the text is huge and all we want is it to output something
-  # similar to what the php is outputting. So, we do a stripped down version of wikimarkup_parse
-  # without the stuff that blows up when the text is huge
-  def wikimarkup_parse_basic(text)
-    text.gsub!(%r{<p class="italic">(.*)</p>}) { "<p><i>#{$LAST_MATCH_INFO[1]}</i></p>" }
-    sanitize_motion(text)
-  end
 
   def sanitize_motion(text)
     ActionController::Base.helpers.sanitize(text, tags: %w[a b i p ol ul li blockquote br em sup sub dl dt dd], attributes: %w[href class pwmotiontext])

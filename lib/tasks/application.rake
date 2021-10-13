@@ -117,51 +117,6 @@ namespace :application do
     end
   end
 
-  namespace :divisions do
-    desc "Convert all divisions motion text to markdown if possible"
-    task markdown: :environment do
-      include PathHelper
-
-      Division.where(markdown: false).find_each do |division|
-        if division.edited?
-          # TODO: Don't convert divisions with voting actions, comments or footnotes
-          case division.motion
-          when /\[(\d+)\]/
-            puts "Can not convert motion text to markdown because it contains footnotes: #{division_path(division)}"
-          when /^@/
-            puts "Can not convert motion text to markdown because it contains comments or voting actions: #{division_path(division)}"
-          else
-            new_motion = ReverseMarkdown.convert(division.formatted_motion_text)
-            if new_motion != division.motion
-              puts "Converting #{division_path(division)} to Markdown..."
-              division.transaction do
-                division.update_attributes(markdown: true)
-                division.create_wiki_motion! division.name, new_motion, User.system
-              end
-            end
-          end
-        else
-          puts "Setting unedited division #{division.name} to use Markdown"
-          division.update_attributes(markdown: true)
-        end
-      end
-    end
-
-    desc "Inline any footnotes on division motions"
-    task inline_footnotes: :environment do
-      include PathHelper
-
-      Division.where(markdown: false).find_each do |division|
-        if division.edited? && division.motion =~ /\[(\d+)\]/
-          puts "Inlining footnotes on #{division_path(division)}..."
-          new_motion = Division.inline_footnotes(division.motion)
-          division.create_wiki_motion! division.name, new_motion, User.system
-        end
-      end
-      puts "Please NOTE: Go through divisions and tidy up manually. Automatic inlining has some limitations."
-    end
-  end
-
   task :set_logger_to_stdout do
     Rails.logger = ActiveSupport::Logger.new($stdout)
     Rails.logger.level = 1
