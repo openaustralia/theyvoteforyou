@@ -1,0 +1,8 @@
+- content_for :title do
+  Compare
+  = @member1.full_name
+  with
+  = @member2.full_name
+
+= render "member_page_header", member: @member1
+= render "member_page_header", member: @member2
