@@ -298,6 +298,10 @@ class Division < ApplicationRecord
     remove_footnotes(text).gsub(/\[(\d+)\]/) { "(#{footnotes[Regexp.last_match(1)]})" }
   end
 
+  def self.next_month(month)
+    (Date.parse("#{month}-01") + 1.month).to_s
+  end
+
   private
 
   # Format according to Public Whip's unique-enough-to-be-annoying markup language.
@@ -336,9 +340,5 @@ class Division < ApplicationRecord
 
   def sanitize_motion(text)
     ActionController::Base.helpers.sanitize(text, tags: %w[a b i p ol ul li blockquote br em sup sub dl dt dd], attributes: %w[href class pwmotiontext])
-  end
-
-  def self.next_month(month)
-    (Date.parse("#{month}-01") + 1.month).to_s
   end
 end

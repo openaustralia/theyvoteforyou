@@ -7,11 +7,6 @@
 # versions of RuboCop, may require this file to be generated again.
 
 # Offense count: 1
-Lint/IneffectiveAccessModifier:
-  Exclude:
-    - 'app/models/division.rb'
-
-# Offense count: 1
 Lint/MixedRegexpCaptureTypes:
   Exclude:
     - 'app/models/division.rb'
