@@ -114,10 +114,16 @@ class MembersController < ApplicationController
     @member2 = @member2.where(constituency: electorate2)
     @member2 = @member2.order(entered_house: :desc).first
 
-    @policies = @member1.person.policy_person_distances.published.map do |ppd|
+    @policies = []
+    @member1.person.policy_person_distances.published.each do |ppd|
+      ppd2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id)
+
+      # Don't consider policies for which either member didn't vote
+      next if !ppd.voted? || !ppd2.voted?
+
       fraction1 = ppd.agreement_fraction
-      fraction2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction
-      {
+      fraction2 = ppd2.agreement_fraction
+      @policies << {
         policy: ppd.policy,
         fraction1: fraction1,
         fraction2: fraction2,
