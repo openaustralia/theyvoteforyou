@@ -1,7 +1,20 @@
 one:
   id: 1
   division_id: 1
-  text_body: "--- DIVISION TITLE ---\n\ntest\n\n--- MOTION EFFECT ---\n\nThis is some test text.\n\nIt might relate to bills containing HTML characters like the Carbon Pollution Reduction Scheme Bill&#160;2009 and Bills &#8212; National Disability Insurance Scheme Bill\n--- COMMENTS AND NOTES ---\n\n(put thoughts and notes for other researchers here)\n"
+  text_body: "--- DIVISION TITLE ---\n
+    \n
+    test\n
+    \n
+    --- MOTION EFFECT ---\n
+    \n
+    This is some test text.\n
+    \n
+    It might relate to bills containing HTML characters like the Carbon
+    Pollution Reduction Scheme Bill&#160;2009 and Bills &#8212; National
+    Disability Insurance Scheme Bill\n
+    --- COMMENTS AND NOTES ---\n
+    \n
+    (put thoughts and notes for other researchers here)\n"
   user_id: 1
   edit_date: 2013-10-20 10:12:13
 two:
