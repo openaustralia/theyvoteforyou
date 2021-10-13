@@ -26,9 +26,10 @@
   %tbody
     - @member1.person.policy_person_distances.published.each do |ppd|
       %tr
-        %td= capitalise_initial_character(ppd.policy.name)
+        %td
+          = link_to capitalise_initial_character(ppd.policy.name), ppd.policy
         - fraction1 = ppd.agreement_fraction
         - fraction2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction
-        %td= fraction_to_percentage_display(fraction1)
-        %td= fraction_to_percentage_display(fraction2)
+        %td= link_to fraction_to_percentage_display(fraction1), [@member1, ppd.policy]
+        %td= link_to fraction_to_percentage_display(fraction2), [@member2, ppd.policy]
         %td= fraction_to_percentage_display((fraction1 - fraction2).abs)
