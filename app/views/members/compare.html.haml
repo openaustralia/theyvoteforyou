@@ -21,9 +21,14 @@
         How much
         = @member2.name_without_title
         agrees
+      %th
+        Difference
   %tbody
     - @member1.person.policy_person_distances.published.each do |ppd|
       %tr
         %td= capitalise_initial_character(ppd.policy.name)
-        %td= fraction_to_percentage_display(ppd.agreement_fraction)
-        %td= fraction_to_percentage_display(ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction)
+        - fraction1 = ppd.agreement_fraction
+        - fraction2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id).agreement_fraction
+        %td= fraction_to_percentage_display(fraction1)
+        %td= fraction_to_percentage_display(fraction2)
+        %td= fraction_to_percentage_display((fraction1 - fraction2).abs)
