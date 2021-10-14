@@ -13,21 +13,14 @@
   %thead
     %tr
       %th Policy
-      %th
-        How much
-        = @member1.name_without_title
-        agrees
-      %th
-        How much
-        = @member2.name_without_title
-        agrees
-      %th
-        Difference
+      %th= @member1.name_without_title
+      %th= @member2.name_without_title
+      %th Difference
   %tbody
     - @policies.each do |p|
       %tr
         %td
           = link_to capitalise_initial_character(p[:policy].name), p[:policy]
-        %td= link_to fraction_to_percentage_display(p[:ppd1].agreement_fraction), [@member1, p[:policy]]
-        %td= link_to fraction_to_percentage_display(p[:ppd2].agreement_fraction), [@member2, p[:policy]]
+        %td= link_to policy_agreement_summary_without_html(p[:ppd1]), [@member1, p[:policy]]
+        %td= link_to policy_agreement_summary_without_html(p[:ppd2]), [@member2, p[:policy]]
         %td= fraction_to_percentage_display(p[:difference])
