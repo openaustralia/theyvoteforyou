@@ -28,6 +28,6 @@
       %tr
         %td
           = link_to capitalise_initial_character(p[:policy].name), p[:policy]
-        %td= link_to fraction_to_percentage_display(p[:fraction1]), [@member1, p[:policy]]
-        %td= link_to fraction_to_percentage_display(p[:fraction2]), [@member2, p[:policy]]
+        %td= link_to fraction_to_percentage_display(p[:ppd1].agreement_fraction), [@member1, p[:policy]]
+        %td= link_to fraction_to_percentage_display(p[:ppd2].agreement_fraction), [@member2, p[:policy]]
         %td= fraction_to_percentage_display(p[:difference])

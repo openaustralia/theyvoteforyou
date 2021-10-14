@@ -115,19 +115,18 @@ class MembersController < ApplicationController
     @member2 = @member2.order(entered_house: :desc).first
 
     @policies = []
-    @member1.person.policy_person_distances.published.each do |ppd|
-      ppd2 = ppd.policy.policy_person_distances.find_by(person_id: @member2.person.id)
+    @member1.person.policy_person_distances.published.each do |ppd1|
+      # TODO: This is very inefficient. Doing many database lookups
+      ppd2 = ppd1.policy.policy_person_distances.find_by(person_id: @member2.person.id)
 
       # Don't consider policies for which either member didn't vote
-      next if ppd2.nil? || !ppd.voted? || !ppd2.voted?
+      next if ppd2.nil? || !ppd1.voted? || !ppd2.voted?
 
-      fraction1 = ppd.agreement_fraction
-      fraction2 = ppd2.agreement_fraction
       @policies << {
-        policy: ppd.policy,
-        fraction1: fraction1,
-        fraction2: fraction2,
-        difference: (fraction1 - fraction2).abs
+        policy: ppd1.policy,
+        ppd1: ppd1,
+        ppd2: ppd2,
+        difference: (ppd1.agreement_fraction - ppd2.agreement_fraction).abs
       }
     end
     @policies = @policies.sort_by { |p| p[:difference] }.reverse
