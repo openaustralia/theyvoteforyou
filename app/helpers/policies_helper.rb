@@ -10,19 +10,31 @@ module PoliciesHelper
   end
 
   def policy_agreement_summary_without_html(policy_member_distance)
-    policy_agreement_summary(policy_member_distance).gsub("<strong>", "").gsub("</strong>", "")
+    policy_agreement_summary_first_word(policy_member_distance) +
+      " ".html_safe +
+      policy_agreement_summary_short(policy_member_distance)
   end
 
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
-    if policy_member_distance.nil?
-      "voted <strong>unknown about</strong>".html_safe
-    elsif policy_member_distance.number_of_votes.zero?
-      "has <strong>never voted</strong> on".html_safe
-    else
-      text = ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
-      "voted ".html_safe + content_tag(:strong, text.html_safe)
-    end
+    policy_agreement_summary_first_word(policy_member_distance) +
+      " ".html_safe +
+      content_tag(:strong, policy_agreement_summary_short(policy_member_distance))
+  end
+
+  def policy_agreement_summary_first_word(policy_member_distance)
+    (policy_member_distance&.number_of_votes&.zero? ? "has" : "voted").html_safe
+  end
+
+  def policy_agreement_summary_short(policy_member_distance)
+    text = if policy_member_distance.nil?
+             "unknown about"
+           elsif policy_member_distance.number_of_votes.zero?
+             "never voted on"
+           else
+             ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
+           end
+    text.html_safe
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic

@@ -97,4 +97,38 @@ class MembersController < ApplicationController
 
     render "member_not_found", status: 404 if @member.nil?
   end
+
+  def compare
+    electorate1 = params[:mpc].gsub("_", " ")
+    electorate2 = params[:mpc2].gsub("_", " ")
+    name1 = params[:mpn].gsub("_", " ")
+    name2 = params[:mpn2].gsub("_", " ")
+
+    @member1 = Member.with_name(name1)
+    @member1 = @member1.in_house(params[:house])
+    @member1 = @member1.where(constituency: electorate1)
+    @member1 = @member1.order(entered_house: :desc).first
+
+    @member2 = Member.with_name(name2)
+    @member2 = @member2.in_house(params[:house])
+    @member2 = @member2.where(constituency: electorate2)
+    @member2 = @member2.order(entered_house: :desc).first
+
+    @policies = []
+    @member1.person.policy_person_distances.published.each do |ppd1|
+      # TODO: This is very inefficient. Doing many database lookups
+      ppd2 = ppd1.policy.policy_person_distances.find_by(person_id: @member2.person.id)
+
+      # Don't consider policies for which either member didn't vote
+      next if ppd2.nil? || !ppd1.voted? || !ppd2.voted?
+
+      @policies << {
+        policy: ppd1.policy,
+        ppd1: ppd1,
+        ppd2: ppd2,
+        difference: (ppd1.agreement_fraction - ppd2.agreement_fraction).abs
+      }
+    end
+    @policies = @policies.sort_by { |p| p[:difference] }.reverse
+  end
 end
