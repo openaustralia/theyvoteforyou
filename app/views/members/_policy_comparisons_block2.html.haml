@@ -4,8 +4,9 @@
     %ul.policy-comparision-list.object-list-compact.list-unstyled
       - policies.sort_by {|p| p[:policy].name }.each do |p|
         %li.policy-comparision-policy.object-item
-          = link_to capitalise_initial_character(p[:policy].name), p[:policy], class: 'policy-title'
-          %p
+          %p.policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{p[:policy].id}"}}
+            = capitalise_initial_character(p[:policy].name)
+          %p{class: "policy-detail-#{p[:policy].id} collapse"}
             = member1.name_without_title
             voted
             = link_to policy_agreement_summary_short(p[:ppd1]), [member1, p[:policy]]
