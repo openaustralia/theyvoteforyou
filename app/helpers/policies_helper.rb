@@ -16,13 +16,16 @@ module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
     if policy_member_distance.nil?
-      "voted <strong>unknown about</strong>".html_safe
+      first_word = "voted"
+      text = "unknown about"
     elsif policy_member_distance.number_of_votes.zero?
-      "has <strong>never voted on</strong>".html_safe
+      first_word = "has"
+      text = "never voted on"
     else
+      first_word = "voted"
       text = ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
-      "voted ".html_safe + content_tag(:strong, text.html_safe)
     end
+    first_word.html_safe + " ".html_safe + content_tag(:strong, text)
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
