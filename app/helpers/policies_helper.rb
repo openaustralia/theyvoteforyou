@@ -10,7 +10,9 @@ module PoliciesHelper
   end
 
   def policy_agreement_summary_without_html(policy_member_distance)
-    policy_agreement_summary(policy_member_distance).gsub("<strong>", "").gsub("</strong>", "")
+    policy_agreement_summary_first_word(policy_member_distance) +
+      " ".html_safe +
+      policy_agreement_summary_short(policy_member_distance)
   end
 
   # Returns things like "voted strongly against", "has never voted on", etc..
