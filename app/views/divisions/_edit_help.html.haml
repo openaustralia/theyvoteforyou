@@ -9,42 +9,7 @@
   %li= link_to "House Official Hansard", "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hansreps_2011", target: "_blank"
   %li= link_to "Senate Official Hansard", "http://www.aph.gov.au/Parliamentary_Business/Hansard/Hanssen261110", target: "_blank"
 
-- if markdown
-  %p
-    Use
-    = link_to "Markdown", "https://guides.github.com/features/mastering-markdown/", target: "_blank"
-    to format your text
-- else
-  %p
-    %span.ptitle> Formatting codes
-    \. You can use the
-    following to mark paragraphs, lists and so on.
-
-  %ul
-    %li
-      %code ''italic''
-      \-
-      %em italic
-    %li
-      %code [http://example.com A link]
-      \-
-      = link_to "link", "http://example.com"
-    %li
-      %code * A point
-      \- bulleted list item
-    %li
-      %code An idea[1]
-      \- link to a footnote
-    %li
-      %code * [1] Ideas are good
-      \- footnote
-    %li
-      %code @A comment
-      \- comments aren't displayed
-    %li
-      %code @MP voted aye to say that little ponies are great
-      \- puts this text on the motion page "[MP Name] voted to say that
-      little ponies are great"
-    %li
-      %code @MP voted no
-      \- does it for MPs that voted no
+%p
+  Use
+  = link_to "Markdown", "https://guides.github.com/features/mastering-markdown/", target: "_blank"
+  to format your text
