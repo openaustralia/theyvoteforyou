@@ -1,0 +1,16 @@
+- unless policies.empty?
+  .policy-comparision-block.col-md-7{class: "position-#{title.parameterize}"}
+    %h3.policy-comparision-position= title
+    %ul.policy-comparision-list.object-list-compact.list-unstyled
+      - policies.sort_by {|p| p[:policy].name }.each do |p|
+        %li.policy-comparision-policy.object-item
+          = link_to capitalise_initial_character(p[:policy].name), p[:policy], class: 'policy-title'
+          %p
+            = member1.name_without_title
+            voted
+            = link_to policy_agreement_summary_short(p[:ppd1]), [member1, p[:policy]]
+            = p[:policy].name
+            while
+            = member2.name_without_title
+            voted
+            = link_to policy_agreement_summary_short(p[:ppd2]), [member2, p[:policy]]

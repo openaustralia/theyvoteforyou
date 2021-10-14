@@ -7,24 +7,10 @@
 = render "member_page_header", member: @member1
 = render "member_page_header", member: @member2
 
--# - member.person.policy_person_distances.published.each do |d|
-
-%table.table
-  %thead
-    %tr
-      %th Policy
-      %th
-        = @member1.name_without_title
-        voted
-      %th
-        = @member2.name_without_title
-        voted
-      %th Difference
-  %tbody
-    - @policies.each do |p|
-      %tr
-        %td
-          = link_to capitalise_initial_character(p[:policy].name), p[:policy]
-        %td= link_to policy_agreement_summary_short(p[:ppd1]), [@member1, p[:policy]]
-        %td= link_to policy_agreement_summary_short(p[:ppd2]), [@member2, p[:policy]]
-        %td= fraction_to_percentage_display(p[:difference])
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.95, 1.0)}, title: "Voted very differently on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.85, 0.95)}, title: "Voted differently on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.60, 0.85)}, title: "Voted slightly differently on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.40, 0.60)}, title: "Voted a mixture of differently and similarly on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.15, 0.40)}, title: "Voted slightly similarly on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.05, 0.15)}, title: "Voted similarly on"
+= render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.00, 0.05)}, title: "Voted very similarly on"
