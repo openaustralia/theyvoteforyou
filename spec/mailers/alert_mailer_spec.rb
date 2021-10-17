@@ -25,29 +25,11 @@ RSpec.describe AlertMailer, type: :mailer do
     end
 
     it "has what we expect in the text part of the email" do
-      expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq <<~TEXT
-        For red being a nice colour
-        http://pw.org.au/policies/50
-
-        Created policy “red being a nice colour” with description “there should be fabulous test policies”.
-
-        By Wibble at 12:00AM - 01 Jan 2020
-        http://pw.org.au/users/200
-
-        ------------------------------------------------------
-
-        Visit the policy page to unsubscribe from this policy:
-        http://pw.org.au/policies/50
-
-        View all your subscriptions:
-        http://pw.org.au/users/100/subscriptions
-      TEXT
+      expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq(Rails.root.join("spec/mailers/regression/alert_mailer/email.txt").read)
     end
 
     it "has what we expect in the html part of the email" do
-      expect(mail.html_part.body.to_s).to include(
-        "Created policy “red being a nice colour” with description “there should be fabulous test policies”."
-      )
+      expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to include Rails.root.join("spec/mailers/regression/alert_mailer/email.html").read
     end
   end
 end
