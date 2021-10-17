@@ -3,7 +3,7 @@
 Publicwhip::Application.routes.draw do
   # Strip HTML entities from requests
   get "*path", to: redirect { |params, _request| HTMLEntities.new.decode(params[:path]) },
-               constraints: ->(request) { URI.unescape(request.fullpath.dup.force_encoding("utf-8")) != HTMLEntities.new.decode(URI.unescape(request.fullpath.dup.force_encoding("utf-8"))) }
+               constraints: ->(request) { CGI.unescape(request.fullpath.dup.force_encoding("utf-8")) != HTMLEntities.new.decode(CGI.unescape(request.fullpath.dup.force_encoding("utf-8"))) }
 
   devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
 
