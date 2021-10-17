@@ -1,11 +1,11 @@
 <%= capitalise_initial_character(@policy.name_with_for) %>
-<%= policy_url(@policy, only_path: false) %>
+<%= policy_url(@policy) %>
 
 <% if @version.kind_of?(WikiMotion) %>
 Changed text on related division: <%= @version.division.name %>
-<%= division_url(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
+<%= division_url(@version.division, Rails.application.config.action_mailer.default_url_options) %>
 <% else %>
-<%= version_sentence_text(@version, Rails.application.config.action_mailer.default_url_options.merge(only_path: false)) %>
+<%= version_sentence_text(@version, Rails.application.config.action_mailer.default_url_options) %>
 <% end %>
 
 <%= version_attribution_text(@version) %>
@@ -13,7 +13,7 @@ Changed text on related division: <%= @version.division.name %>
 ------------------------------------------------------
 
 Visit the policy page to unsubscribe from this policy:
-<%= policy_url(@policy, only_path: false) %>
+<%= policy_url(@policy) %>
 
 View all your subscriptions:
-<%= user_subscriptions_url(@user, only_path: false) %>
+<%= user_subscriptions_url(@user) %>
