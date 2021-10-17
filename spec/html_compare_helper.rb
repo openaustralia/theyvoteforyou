@@ -80,10 +80,7 @@ module HTMLCompareHelper
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
     command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp"
-    r = system(command)
-    # if r.nil? || $?.exitstatus > 1 #tidy is stupid and returns 1 on warning, 2 on failure.
-    #  raise "tidy command failed '#{command}'"
-    # end
+    system(command)
 
     r = File.read("temp")
     # Make sure that comments of the form <!-- comment --> are followed by a new line

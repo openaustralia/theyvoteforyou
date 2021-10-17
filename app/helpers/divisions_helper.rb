@@ -136,8 +136,8 @@ module DivisionsHelper
       end
 
       sentence += " (#{vote_display member.vote_on_division_without_tell(division)})" if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-      sentence
     end
+    sentence
   end
 
   def member_vote(member, division)

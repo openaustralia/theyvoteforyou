@@ -33,7 +33,7 @@ module DataLoader
             raise "MP #{member[:id]} has no person" unless person_id
 
             person_id = person_id[%r{uk.org.publicwhip/person/(\d*)}, 1]
-            person = Person.find_or_create_by!(id: person_id)
+            Person.find_or_create_by!(id: person_id)
             m = Member.find_or_initialize_by(gid: gid, id: id)
             m.update!(first_name: member[:firstname],
                       last_name: member[:lastname],

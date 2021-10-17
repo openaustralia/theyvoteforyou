@@ -76,8 +76,7 @@ module DataLoader
         gid = vote_xml.attr(:id)
         teller = vote_xml.attr(:teller) == "yes"
         vote = vote_xml.attr(:vote)
-        vote_without_tell =
-          [gid, [vote, teller]]
+        [gid, [vote, teller]]
       end
       votes.to_h
     end

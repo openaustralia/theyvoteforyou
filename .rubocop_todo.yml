@@ -6,15 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 6
-Lint/UselessAssignment:
-  Exclude:
-    - 'app/helpers/divisions_helper.rb'
-    - 'app/lib/data_loader/division_xml.rb'
-    - 'app/lib/data_loader/members.rb'
-    - 'app/models/whip.rb'
-    - 'spec/html_compare_helper.rb'
-
 # Offense count: 1
 # Configuration parameters: CheckForMethodsWithNoSideEffects.
 Lint/Void:
