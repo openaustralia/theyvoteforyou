@@ -240,9 +240,10 @@ module PoliciesHelper
     end
   end
 
+  # TODO: Extract version_author out of this
   def version_author_link(version, options = {})
     if version.is_a?(WikiMotion)
-      link_to version.user.name, user_path(version.user, options)
+      link_to version.user.name, user_url(version.user, options)
     else
       user = User.find(version.whodunnit)
       link_to user.name, user_url(user, options)
@@ -251,7 +252,7 @@ module PoliciesHelper
 
   def version_attribution_text(version)
     if version.is_a?(WikiMotion)
-      "By #{version.user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_path(version.user, only_path: false)}"
+      "By #{version.user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(version.user, only_path: false)}"
     else
       user = User.find(version.whodunnit)
       "By #{user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"
