@@ -7,7 +7,7 @@ module DataLoader
   class Popolo
     def self.load!(url)
       Rails.logger.info "Loading Popolo data from #{url}..."
-      data = JSON.parse(open(url).read)
+      data = JSON.parse(URI.parse(url).open.read)
       people = data["persons"]
       vote_events = data["vote_events"]
 

@@ -410,11 +410,6 @@ Rails/UniqueValidationWithoutIndex:
     - 'app/models/policy.rb'
     - 'app/models/user.rb'
 
-# Offense count: 1
-Security/Open:
-  Exclude:
-    - 'app/lib/data_loader/popolo.rb'
-
 # Offense count: 4
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:
