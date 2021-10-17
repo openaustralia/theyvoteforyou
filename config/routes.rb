@@ -201,6 +201,6 @@ Publicwhip::Application.routes.draw do
   end
 
   ## Error pages
-  get "/404", to: "home#error_404"
-  get "/500", to: "home#error_500"
+  get "/404", to: "home#error404"
+  get "/500", to: "home#error500"
 end

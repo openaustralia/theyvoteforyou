@@ -30,7 +30,7 @@ describe DivisionsController, type: :controller do
       it "should return generic 404 page" do
         get :index, params: { date: "2017-13-22", house: "representatives" }
 
-        expect(response).to render_template "home/error_404"
+        expect(response).to render_template "home/error404"
         expect(response.status).to be 404
       end
     end
@@ -39,7 +39,7 @@ describe DivisionsController, type: :controller do
       it "should return generic 404 page" do
         get :index, params: { date: "2017-12-222", house: "representatives" }
 
-        expect(response).to render_template "home/error_404"
+        expect(response).to render_template "home/error404"
         expect(response.status).to be 404
       end
     end
@@ -144,7 +144,7 @@ describe DivisionsController, type: :controller do
           it "should return generic 404 page" do
             get :index, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
 
-            expect(response).to render_template "home/error_404"
+            expect(response).to render_template "home/error404"
             expect(response.status).to be 404
           end
         end
@@ -183,7 +183,7 @@ describe DivisionsController, type: :controller do
         it "should display a 404 page" do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 101 }
 
-          expect(response).to render_template "home/error_404"
+          expect(response).to render_template "home/error404"
           expect(response.status).to be 404
         end
       end

@@ -20,7 +20,7 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = date_range(params[:date])
       rescue ArgumentError
-        return render "home/error_404", status: 404
+        return render "home/error404", status: 404
       end
 
       if @member
@@ -37,7 +37,7 @@ class DivisionsController < ApplicationController
       begin
         @date_start, @date_end, @date_range = date_range(params[:date], @rdisplay)
       rescue ArgumentError
-        return render "home/error_404", status: 404
+        return render "home/error404", status: 404
       end
 
       # This sets the parliament to display if it's not set. It's only here for legacy support
@@ -113,7 +113,7 @@ class DivisionsController < ApplicationController
     @division = division(house, date, number)
 
     if @division.nil?
-      render "home/error_404", status: 404
+      render "home/error404", status: 404
     else
       @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.positive?
       @whips = @division.whips.order(:party)
@@ -127,7 +127,7 @@ class DivisionsController < ApplicationController
         member = Member.in_house(house).with_name(name)
                        .where(constituency: electorate).first
         @member = member&.person&.member_who_voted_on_division(@division)
-        return render "home/error_404", status: 404 if @member.nil?
+        return render "home/error404", status: 404 if @member.nil?
       end
 
       @members = Member.in_house(house).current_on(@division.date)

@@ -51,11 +51,11 @@ class HomeController < ApplicationController
     @history.sort_by! { |v| -v.created_at.to_i }
   end
 
-  def error_404
+  def error404
     render status: 404
   end
 
-  def error_500
+  def error500
     render status: 500
   end
 end
