@@ -114,6 +114,8 @@ class MembersController < ApplicationController
     @member2 = @member2.where(constituency: electorate2)
     @member2 = @member2.order(entered_house: :desc).first
 
+    return render "member_not_found", status: 404 if @member1.nil? || @member2.nil?
+
     @policies = []
     @member1.person.policy_person_distances.published.each do |ppd1|
       # TODO: This is very inefficient. Doing many database lookups
