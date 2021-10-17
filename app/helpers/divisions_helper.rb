@@ -203,7 +203,7 @@ module DivisionsHelper
     end
   end
 
-  def vote_select(f, value, options = {})
+  def vote_select(form, value, options = {})
     select_options = [
       ["A less important vote", [
         [vote_display("aye"), "aye"],
@@ -214,7 +214,7 @@ module DivisionsHelper
         [vote_display("no3"), "no3"]
       ]]
     ]
-    f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
+    form.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
 
   def divisions_short_description(division)

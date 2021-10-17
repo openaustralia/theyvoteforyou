@@ -14,12 +14,12 @@ module PathHelper
          .member_division_path(division_params(division).merge(member_params(member)))
   end
 
-  def division_path(division, q = {})
-    Rails.application.routes.url_helpers.division_path(q.merge(division_params(division)))
+  def division_path(division, options = {})
+    Rails.application.routes.url_helpers.division_path(options.merge(division_params(division)))
   end
 
-  def division_url(division, q = {})
-    Rails.application.routes.url_helpers.division_url(q.merge(division_params(division)))
+  def division_url(division, options = {})
+    Rails.application.routes.url_helpers.division_url(options.merge(division_params(division)))
   end
 
   def history_division_path(division)

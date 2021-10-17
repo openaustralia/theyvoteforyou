@@ -80,12 +80,12 @@ class Distance
     no_votes.keys
   end
 
-  def votes_points(a)
-    no_votes[a] * Distance.points[a]
+  def votes_points(type)
+    no_votes[type] * Distance.points[type]
   end
 
-  def possible_votes_points(a)
-    no_votes[a] * Distance.possible_points[a]
+  def possible_votes_points(type)
+    no_votes[type] * Distance.possible_points[type]
   end
 
   def total_points

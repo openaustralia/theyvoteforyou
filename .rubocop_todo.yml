@@ -19,15 +19,6 @@ Naming/FileName:
     - 'config/deploy/ukraine-dev.rb'
     - 'config/deploy/ukraine-production.rb'
 
-# Offense count: 4
-# Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
-# AllowedNames: at, by, db, id, in, io, ip, of, on, os, pp, to
-Naming/MethodParameterName:
-  Exclude:
-    - 'app/helpers/divisions_helper.rb'
-    - 'app/helpers/path_helper.rb'
-    - 'app/lib/distance.rb'
-
 # Offense count: 3
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
 # NamePrefix: is_, has_, have_
