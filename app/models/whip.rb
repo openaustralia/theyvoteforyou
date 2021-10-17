@@ -168,7 +168,6 @@ class Whip < ApplicationRecord
     when "no"
       no_votes_including_tells.to_f / total_votes
     else
-      calc_whip_guess == "none"
       0.0
     end
   end
