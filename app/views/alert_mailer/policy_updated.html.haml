@@ -22,4 +22,4 @@
     = link_to "policy page", policy_url(@policy, only_path: false), class: "small"
     to unsubscribe from this policy.
   %p.small
-    = link_to "View all your subscriptions.", user_subscriptions_path(@user, only_path: false), class: "small"
+    = link_to "View all your subscriptions.", user_subscriptions_url(@user, only_path: false), class: "small"

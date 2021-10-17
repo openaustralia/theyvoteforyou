@@ -245,7 +245,7 @@ module PoliciesHelper
       link_to version.user.name, user_path(version.user, options)
     else
       user = User.find(version.whodunnit)
-      link_to user.name, user_path(user, options)
+      link_to user.name, user_url(user, options)
     end
   end
 
@@ -254,7 +254,7 @@ module PoliciesHelper
       "By #{version.user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_path(version.user, only_path: false)}"
     else
       user = User.find(version.whodunnit)
-      "By #{user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_path(user, only_path: false)}"
+      "By #{user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"
     end
   end
 

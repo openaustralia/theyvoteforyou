@@ -10,6 +10,6 @@ class AlertMailer < ActionMailer::Base
     @version = version
     @user = user
 
-    mail to: user.email, subject: render_to_string(partial: "policy_updated_subject")
+    mail to: user.email, subject: render_to_string(partial: "policy_updated_subject").strip
   end
 end
