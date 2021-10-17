@@ -190,23 +190,23 @@ Ukraine's server has its configuration management in [another repository](https:
 After provisioning your development server, set up and deploy using [Mina](http://mina-deploy.github.io/mina/):
 
 ```
-bundle exec mina ukraine-dev setup
-bundle exec mina ukraine-dev deploy
+bundle exec mina ukraine_dev setup
+bundle exec mina ukraine_dev deploy
 
 # Now you can load people data
-bundle exec mina ukraine-dev rake[application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
+bundle exec mina ukraine_dev rake[application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]]
 
 # And some vote data
-bundle exec mina ukraine-dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
+bundle exec mina ukraine_dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
 
 # Setup caches
-bundle exec mina ukraine-dev rake[application:cache:all_except_member_distances]
+bundle exec mina ukraine_dev rake[application:cache:all_except_member_distances]
 
 # Then build the index so search works
-bundle exec mina ukraine-dev rake[searchkick:reindex:all]
+bundle exec mina ukraine_dev rake[searchkick:reindex:all]
 ```
 
-To deploy to the **production** server, replace `ukraine-dev` with `ukraine-production` in the above commands.
+To deploy to the **production** server, replace `ukraine_dev` with `ukraine_production` in the above commands.
 
 ## Other Credits
 
