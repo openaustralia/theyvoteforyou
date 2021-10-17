@@ -22,10 +22,6 @@ config/settings.yml
 config/settings.local.yml
 config/settings/*.local.yml
 
-php/loader/PublicWhip/Config.pm
-php/loader/data.openaustralia.org
-php/website/config.php
-php/website/google*
 .bundle
 .vagrant
 
