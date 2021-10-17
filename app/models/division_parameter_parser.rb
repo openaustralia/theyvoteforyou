@@ -5,7 +5,7 @@ class DivisionParameterParser
   YEAR_AND_MONTH_REGEX = /^\d{4}-\d{1,2}$/.freeze
   COMPLETE_DATE_REGEX = /^\d{4}-\d{1,2}-\d{1,2}$/.freeze
 
-  def self.get_date_range(date)
+  def self.date_range(date)
     if date =~ YEAR_ONLY_REGEX
       get_year_range(date)
     elsif date =~ YEAR_AND_MONTH_REGEX

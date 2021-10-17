@@ -15,10 +15,10 @@ class DivisionsController < ApplicationController
       @mpn = params[:mpn]
       @house = params[:house]
 
-      @member = get_member
+      @member = member
 
       begin
-        @date_start, @date_end, @date_range = get_date_range(params[:date])
+        @date_start, @date_end, @date_range = date_range(params[:date])
       rescue ArgumentError
         return render "home/error_404", status: 404
       end
@@ -35,7 +35,7 @@ class DivisionsController < ApplicationController
       @house = params[:house] unless params[:house] == "all"
 
       begin
-        @date_start, @date_end, @date_range = get_date_range(params[:date], @rdisplay)
+        @date_start, @date_end, @date_range = date_range(params[:date], @rdisplay)
       rescue ArgumentError
         return render "home/error_404", status: 404
       end
@@ -110,7 +110,7 @@ class DivisionsController < ApplicationController
     date = params[:date]
     number = params[:number]
 
-    @division = get_division(house, date, number)
+    @division = division(house, date, number)
 
     if @division.nil?
       render "home/error_404", status: 404
@@ -212,15 +212,15 @@ class DivisionsController < ApplicationController
     params.require(:policy_division).permit(:policy_id, :vote)
   end
 
-  def get_date_range(date, rdisplay = nil)
+  def date_range(date, rdisplay = nil)
     if date
-      DivisionParameterParser.get_date_range(date)
+      DivisionParameterParser.date_range(date)
     elsif rdisplay.nil?
-      DivisionParameterParser.get_date_range(@years.last.to_s)
+      DivisionParameterParser.date_range(@years.last.to_s)
     end
   end
 
-  def get_member
+  def member
     electorate = @mpc.gsub("_", " ")
     name = @mpn.gsub("_", " ")
 
@@ -230,7 +230,7 @@ class DivisionsController < ApplicationController
           .order(entered_house: :desc).first
   end
 
-  def get_division(house, date, number)
+  def division(house, date, number)
     Division.in_house(house)
             .joins(:division_info, :whips)
             .includes(:division_info, :whips)
