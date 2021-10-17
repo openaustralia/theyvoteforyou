@@ -343,9 +343,4 @@ describe "routing redirects", type: :request do
     get "/members/representatives/warringah/tony_abbott/divisions/2006-12-06/3", params: {}
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
   end
-
-  it do
-    get "/people/representatives/burke/brendan_o&%2339;connor", params: {}
-    expect(response).to redirect_to "/people/representatives/burke/brendan_o'connor"
-  end
 end
