@@ -120,10 +120,10 @@ class Whip < ApplicationRecord
       elsif division.date == Date.new(2018, 8, 15) && division.number == 8
         ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party"].include?(party)
       elsif division.date == Date.new(2018, 12, 4) && division.number == 12
-        party = "Liberal Party"
+        party == "Liberal Party"
       elsif division.date == Date.new(2019, 10, 16) && division.number == 3
         # Congratulate NSW on decriminalising abortion
-        party = "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
+        party == "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
       end
     end
     # rubocop:enable Lint/DuplicateBranch
