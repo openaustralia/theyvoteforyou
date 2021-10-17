@@ -9,7 +9,7 @@
       %p.member-role.lead= member_type_party_place_date_sentence(member)
 
       - if member.person.votes_attended > 0
-        - if member.person.has_whip?
+        - if member.person.subject_to_whip?
           %p.member-data.object-data
             - if member.person.rebellions_fraction
               %span.member-rebellions.object-data-rebellion

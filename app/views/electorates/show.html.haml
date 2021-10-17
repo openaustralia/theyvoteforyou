@@ -28,7 +28,7 @@
         %td= member.until
         %td= link_to member.party_name, party_divisions_path(member.party_object)
         %td.percent
-          - if !member.person.has_whip?
+          - if !member.person.subject_to_whip?
             no whip
           - else
             - if member.person.rebellions.nil?

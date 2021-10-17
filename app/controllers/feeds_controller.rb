@@ -10,7 +10,7 @@ class FeedsController < ApplicationController
 
     members_with_rebellions = @members.current.to_a.delete_if { |m| !m.person.rebellions_fraction }
     @current_members_by_rebellions = Ranker.rank(members_with_rebellions, by: ->(m) { m.person.rebellions_fraction })
-    @members_with_rebellions_and_party_whip_count = members_with_rebellions.select(&:has_whip?).count
+    @members_with_rebellions_and_party_whip_count = members_with_rebellions.select(&:subject_to_whip?).count
   end
 
   def mpdream_info

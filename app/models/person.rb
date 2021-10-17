@@ -15,7 +15,7 @@ class Person < ApplicationRecord
   # total number of free votes across all members for the person
   # while they were a member of a party with a whip
   def free_votes_with_whip
-    members.to_a.sum { |m| m.has_whip? ? m.free_divisions.size : 0 }
+    members.to_a.sum { |m| m.subject_to_whip? ? m.free_divisions.size : 0 }
   end
 
   # Total number of votes across all members for this person
@@ -31,12 +31,12 @@ class Person < ApplicationRecord
   # The total number of votes that this person attended while they were a member of
   # a party with a whip
   def votes_attended_with_whip
-    members.to_a.sum { |m| m.has_whip? ? m.votes_attended.to_i : 0 }
+    members.to_a.sum { |m| m.subject_to_whip? ? m.votes_attended.to_i : 0 }
   end
 
   # True if this person has been a member of a party with a whip
-  def has_whip?
-    members.any?(&:has_whip?)
+  def subject_to_whip?
+    members.any?(&:subject_to_whip?)
   end
 
   # Returns a number between 0 and 1 or nil

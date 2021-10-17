@@ -39,7 +39,7 @@ class Party
       name == "DPRES"
   end
 
-  def has_whip?
+  def subject_to_whip?
     !whipless?
   end
 end

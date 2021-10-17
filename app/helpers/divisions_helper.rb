@@ -164,7 +164,7 @@ module DivisionsHelper
     sentence = member.name_without_title
     if member.attended_division?(division)
       sentence += " voted #{vote_display(division.vote_for(member))}"
-      if member.has_whip? && !division.whip_for_party(member.party).free_vote?
+      if member.subject_to_whip? && !division.whip_for_party(member.party).free_vote?
         sentence += member.division_vote(division).rebellion? ? " against" : " with"
         sentence += " the #{member.party_name}"
       elsif division.whip_for_party(member.party).free_vote?

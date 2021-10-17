@@ -157,8 +157,8 @@ class Member < ApplicationRecord
   end
 
   # Are they a member of a party that has a whip?
-  def has_whip?
-    party_object.has_whip?
+  def subject_to_whip?
+    party_object.subject_to_whip?
   end
 
   def party_object
