@@ -55,9 +55,10 @@ module MembersHelper
 
   def member_history_sentence(member)
     text = "Before being #{member_type_party_place_sentence_without_former(member)}, #{member.name_without_title} was "
-    text += member.person.members.order(entered_house: :desc).offset(1).map do |member, _i|
-      s = "#{member.party_name} #{member_type(member.house)} for "
-      s += content_tag(:span, member.electorate, class: "electorate")
+    # TODO: This looks like it assumes the member is the most recent one. Is that always the case?
+    text += member.person.members.order(entered_house: :desc).offset(1).map do |member2, _i|
+      s = "#{member2.party_name} #{member_type(member2.house)} for "
+      s += content_tag(:span, member2.electorate, class: "electorate")
       s
     end.to_sentence
     text = text.html_safe
