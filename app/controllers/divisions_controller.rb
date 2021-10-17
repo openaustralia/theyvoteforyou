@@ -126,7 +126,8 @@ class DivisionsController < ApplicationController
         # TODO: Also ensure that the member is current on the date of this division
         member = Member.in_house(house).with_name(name)
                        .where(constituency: electorate).first
-        @member = member.person.member_who_voted_on_division(@division)
+        @member = member&.person&.member_who_voted_on_division(@division)
+        return render "home/error_404", status: 404 if @member.nil?
       end
 
       @members = Member.in_house(house).current_on(@division.date)
