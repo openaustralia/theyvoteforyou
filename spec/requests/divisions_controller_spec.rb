@@ -27,55 +27,55 @@ describe DivisionsController, type: :request do
 
   describe "#index" do
     it { compare_static("/divisions") }
-    it { compare_static("/divisions.php?rdisplay=2007") }
-    it { compare_static("/divisions.php?rdisplay=2004") }
+    it { compare_static("/divisions/all/2007") }
+    it { compare_static("/divisions/all/2004") }
     it { compare_static("/divisions.php?rdisplay=all") }
     it { compare_static("/divisions/representatives") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=representatives") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=representatives") }
+    it { compare_static("/divisions/representatives/2007") }
+    it { compare_static("/divisions/representatives/2004") }
     it { compare_static("/divisions.php?rdisplay=all&house=representatives") }
     it { compare_static("/divisions/senate") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=senate") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=senate") }
+    it { compare_static("/divisions/senate/2007") }
+    it { compare_static("/divisions/senate/2004") }
     it { compare_static("/divisions.php?rdisplay=all&house=senate") }
 
     it { compare_static("/divisions.php?sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2007&sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2004&sort=subject") }
+    it { compare_static("/divisions/all/2007?sort=subject") }
+    it { compare_static("/divisions/all/2004?sort=subject") }
     it { compare_static("/divisions.php?rdisplay=all&sort=subject") }
     it { compare_static("/divisions/representatives?sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=subject") }
+    it { compare_static("/divisions/representatives/2007?sort=subject") }
+    it { compare_static("/divisions/representatives/2004?sort=subject") }
     it { compare_static("/divisions.php?rdisplay=all&house=representatives&sort=subject") }
     it { compare_static("/divisions/senate?sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=senate&sort=subject") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=senate&sort=subject") }
+    it { compare_static("/divisions/senate/2007?sort=subject") }
+    it { compare_static("/divisions/senate/2004?sort=subject") }
     it { compare_static("/divisions.php?rdisplay=all&house=senate&sort=subject") }
 
     it { compare_static("/divisions.php?sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2007&sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2004&sort=rebellions") }
+    it { compare_static("/divisions/all/2007?sort=rebellions") }
+    it { compare_static("/divisions/all/2004?sort=rebellions") }
     it { compare_static("/divisions.php?rdisplay=all&sort=rebellions") }
     it { compare_static("/divisions/representatives?sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=rebellions") }
+    it { compare_static("/divisions/representatives/2007?sort=rebellions") }
+    it { compare_static("/divisions/representatives/2004?sort=rebellions") }
     it { compare_static("/divisions.php?rdisplay=all&house=representatives&sort=rebellions") }
     it { compare_static("/divisions/senate?sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=senate&sort=rebellions") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=senate&sort=rebellions") }
+    it { compare_static("/divisions/senate/2007?sort=rebellions") }
+    it { compare_static("/divisions/senate/2004?sort=rebellions") }
     it { compare_static("/divisions.php?rdisplay=all&house=senate&sort=rebellions") }
 
     it { compare_static("/divisions.php?sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2007&sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2004&sort=turnout") }
+    it { compare_static("/divisions/all/2007?sort=turnout") }
+    it { compare_static("/divisions/all/2004?sort=turnout") }
     it { compare_static("/divisions.php?rdisplay=all&sort=turnout") }
     it { compare_static("/divisions/representatives?sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=representatives&sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=representatives&sort=turnout") }
+    it { compare_static("/divisions/representatives/2007?sort=turnout") }
+    it { compare_static("/divisions/representatives/2004?sort=turnout") }
     it { compare_static("/divisions.php?rdisplay=all&house=representatives&sort=turnout") }
     it { compare_static("/divisions/senate?sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2007&house=senate&sort=turnout") }
-    it { compare_static("/divisions.php?rdisplay=2004&house=senate&sort=turnout") }
+    it { compare_static("/divisions/senate/2007?sort=turnout") }
+    it { compare_static("/divisions/senate/2004?sort=turnout") }
     it { compare_static("/divisions.php?rdisplay=all&house=senate&sort=turnout") }
 
     it { compare_static("/parties/australian_labor_party/divisions/representatives") }
