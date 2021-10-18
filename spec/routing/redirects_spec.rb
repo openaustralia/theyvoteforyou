@@ -363,4 +363,14 @@ describe "routing redirects", type: :request do
     get "/people/representatives/warringah", params: {}
     expect(response).to redirect_to "/people/representatives"
   end
+
+  it do
+    get "/parties/liberal_party/divisions", params: {}
+    expect(response).to redirect_to "/divisions"
+  end
+
+  it do
+    get "/parties/liberal_party/divisions/representatives", params: {}
+    expect(response).to redirect_to "/divisions/representatives"
+  end
 end

@@ -77,24 +77,6 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2007?sort=turnout") }
     it { compare_static("/divisions/senate/2004?sort=turnout") }
     it { compare_static("/divisions.php?rdisplay=all&house=senate&sort=turnout") }
-
-    it { compare_static("/parties/australian_labor_party/divisions/representatives") }
-    it { compare_static("/parties/liberal_party/divisions/representatives") }
-    it { compare_static("/parties/australian_greens/divisions/senate") }
-
-    it { compare_static("/parties/australian_labor_party/divisions/representatives?sort=subject") }
-    it { compare_static("/parties/liberal_party/divisions/representatives?sort=subject") }
-    it { compare_static("/parties/australian_greens/divisions/senate?sort=subject") }
-
-    it { compare_static("/parties/australian_labor_party/divisions/representatives?sort=rebellions") }
-    it { compare_static("/parties/liberal_party/divisions/representatives?sort=rebellions") }
-    it { compare_static("/parties/australian_greens/divisions/senate?sort=rebellions") }
-
-    it { compare_static("/parties/australian_labor_party/divisions/representatives?sort=turnout") }
-    it { compare_static("/parties/liberal_party/divisions/representatives?sort=turnout") }
-    it { compare_static("/parties/australian_greens/divisions/senate?sort=turnout") }
-
-    it { compare_static("/divisions.php?rdisplay=2007&rdisplay2=Australian%20Labor%20Party_party&house=representatives") }
   end
 
   describe "#edit" do

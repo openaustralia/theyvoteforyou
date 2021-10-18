@@ -46,20 +46,6 @@ class DivisionsController < ApplicationController
 
       raise ActiveRecord::RecordNotFound if @rdisplay != "all" && !Parliament.all.key?(@rdisplay) || (@house && !House.valid?(@house))
 
-      @parties = Division
-      @parties = @parties.in_parliament(Parliament.all[@rdisplay]) if @rdisplay != "all"
-      @parties = @parties.in_house(@house) if @house
-      @parties = @parties.joins(:whips).order("whips.party").select(:party).distinct.map(&:party)
-
-      # We can either use party or rdisplay2 to set the party
-      if params[:party]
-        @party = params[:party].gsub("_", " ")
-      elsif params[:rdisplay2]
-        @party = params[:rdisplay2].gsub("_party", "")
-      end
-      # Match to canonical capitalisation
-      @party = @parties.find { |p| p.downcase == @party }
-
       order = case @sort
               when "subject"
                 ["name", "date DESC", "clock_time DESC", "number DESC"]
@@ -77,7 +63,6 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.in_house(@house) if @house
       @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
-      @divisions = @divisions.joins(:whips).where(whips: { party: @party }) if @party
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
   end
