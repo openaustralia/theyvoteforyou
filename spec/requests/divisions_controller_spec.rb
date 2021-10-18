@@ -8,22 +8,22 @@ describe DivisionsController, type: :request do
   fixtures :all
 
   describe "#show" do
+    it { compare_static("/divisions/representatives/2006-12-06/3") }
     it { compare_static("/divisions/representatives/2013-03-14/1") }
     it { compare_static("/divisions/senate/2013-03-14/1") }
+
+    it { compare_static("/divisions/representatives/2006-12-06/3/policies", true) }
+    it { compare_static("/divisions/representatives/2013-03-14/1/policies", true) }
     it { compare_static("/divisions/representatives/2013-03-14/1/policies", false, false, "_2") }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies", true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/1", true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/2", true) }
+    it { compare_static("/divisions/senate/2013-03-14/1/policies", true) }
     it { compare_static("/divisions/senate/2013-03-14/1/policies", false, false, "_2") }
 
-    it { compare_static("/divisions/representatives/2006-12-06/3") }
-    it { compare_static("/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3") }
     it { compare_static("/people/representatives/griffith/kevin_rudd/divisions/2006-12-06/3") }
+    it { compare_static("/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3") }
     it { compare_static("/people/senate/tasmania/christine_milne/divisions/2013-03-14/1") }
-
-    it { compare_static("/divisions/representatives/2013-03-14/1/policies", true) }
-    it { compare_static("/divisions/senate/2013-03-14/1/policies", true) }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies", true) }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies/2", true) }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies/1", true) }
-    it { compare_static("/divisions/representatives/2006-12-06/3/policies", true) }
   end
 
   describe "#index" do
