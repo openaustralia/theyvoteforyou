@@ -99,9 +99,16 @@ Publicwhip::Application.routes.draw do
   }, constraints: ->(r) { r.query_parameters["rdisplay2"] || r.query_parameters["party"] }
   get "divisions.php" => redirect { |_p, r|
     result = "/divisions"
-    result += "/#{r.query_parameters['house']}" if r.query_parameters["house"]
+    result += "/#{r.query_parameters['house'] || 'all'}"
+    result += "/#{r.query_parameters['rdisplay']}" if r.query_parameters["rdisplay"] && r.query_parameters["rdisplay"] != "all"
     q = []
-    q << "rdisplay=#{r.query_parameters['rdisplay']}" if r.query_parameters["rdisplay"]
+    q << "sort=#{r.query_parameters['sort']}" if r.query_parameters["sort"]
+    result += "?#{q.join('&')}" unless q.empty?
+    result
+  }, constraints: ->(r) { r.query_parameters["house"] || r.query_parameters["rdisplay"] }
+  get "divisions.php" => redirect { |_p, r|
+    result = "/divisions"
+    q = []
     q << "sort=#{r.query_parameters['sort']}" if r.query_parameters["sort"]
     result += "?#{q.join('&')}" unless q.empty?
     result

@@ -276,7 +276,17 @@ describe "routing redirects", type: :request do
 
   it do
     get "/divisions.php?house=representatives&rdisplay=2010&sort=rebellions", params: {}
-    expect(response).to redirect_to "/divisions/representatives?rdisplay=2010&sort=rebellions"
+    expect(response).to redirect_to "/divisions/representatives/2010?sort=rebellions"
+  end
+
+  it do
+    get "/divisions.php?rdisplay=2010&sort=rebellions", params: {}
+    expect(response).to redirect_to "/divisions/all/2010?sort=rebellions"
+  end
+
+  it do
+    get "/divisions.php?rdisplay=all&house=representatives&sort=rebellions", params: {}
+    expect(response).to redirect_to "/divisions/representatives?sort=rebellions"
   end
 
   it do
