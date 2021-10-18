@@ -8,23 +8,22 @@ describe DivisionsController, type: :request do
   fixtures :all
 
   describe "#show" do
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=representatives") }
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=senate") }
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", false, false, "_2") }
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", false, false, "_2") }
+    it { compare_static("/divisions/representatives/2013-03-14/1") }
+    it { compare_static("/divisions/senate/2013-03-14/1") }
+    it { compare_static("/divisions/representatives/2013-03-14/1/policies", false, false, "_2") }
+    it { compare_static("/divisions/senate/2013-03-14/1/policies", false, false, "_2") }
 
-    it { compare_static("/division.php?date=2006-12-06&number=3&house=representatives") }
-    # house=representatives or house=senate appears twice. This is obviously wrong
-    it { compare_static("/division.php?date=2006-12-06&number=3&mpn=Tony_Abbott&mpc=Warringah&house=representatives&house=representatives") }
-    it { compare_static("/division.php?date=2006-12-06&number=3&mpn=Kevin_Rudd&mpc=Griffith&house=representatives&house=representatives") }
-    it { compare_static("/division.php?date=2013-03-14&number=1&mpn=Christine_Milne&mpc=Senate&house=senate&house=senate") }
+    it { compare_static("/divisions/representatives/2006-12-06/3") }
+    it { compare_static("/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3") }
+    it { compare_static("/people/representatives/griffith/kevin_rudd/divisions/2006-12-06/3") }
+    it { compare_static("/people/senate/tasmania/christine_milne/divisions/2013-03-14/1") }
 
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=representatives&display=policies", true) }
-    it { compare_static("/division.php?date=2013-03-14&number=1&house=senate&display=policies", true) }
-    it { compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies", true) }
-    it { compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=2", true) }
-    it { compare_static("/division.php?date=2009-11-25&number=8&house=senate&display=policies&dmp=1", true) }
-    it { compare_static("/division.php?date=2006-12-06&house=representatives&number=3&display=policies", true) }
+    it { compare_static("/divisions/representatives/2013-03-14/1/policies", true) }
+    it { compare_static("/divisions/senate/2013-03-14/1/policies", true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies", true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/2", true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/1", true) }
+    it { compare_static("/divisions/representatives/2006-12-06/3/policies", true) }
   end
 
   describe "#index" do
