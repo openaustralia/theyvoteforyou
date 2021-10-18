@@ -8,7 +8,7 @@ module MembersHelper
              else
                "".html_safe
              end
-    result += link_to member.party_name, party_divisions_path(member.party_object)
+    result += member.party_name.html_safe
     result
   end
 
