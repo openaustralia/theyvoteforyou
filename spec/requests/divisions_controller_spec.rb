@@ -72,8 +72,8 @@ describe DivisionsController, type: :request do
   end
 
   describe "#edit" do
-    it { compare_static "/account/wiki.php?type=motion&date=2009-11-25&number=8&house=senate&rr=%2Fdivision.php%3Fdate%3D2009-11-25%26number%3D8%26house%3Dsenate", true }
-    it { compare_static "/account/wiki.php?type=motion&date=2013-03-14&number=1&house=representatives&rr=%2Fdivision.php%3Fdate%3D2013-03-14%26number%3D1%26house%3Drepresentatives", true }
+    it { compare_static "/divisions/senate/2009-11-25/8/edit", true }
+    it { compare_static "/divisions/representatives/2013-03-14/1/edit", true }
   end
 
   describe "#update" do
