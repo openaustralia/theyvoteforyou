@@ -50,9 +50,4 @@ describe "path helpers", type: :helper do
     expect(helper.history_division_path(division))
       .to eq "/divisions/representatives/2001-01-01/3/history"
   end
-
-  it ".party_divisions_path" do
-    expect(helper.party_divisions_path(party))
-      .to eq "/parties/foo_bar/divisions"
-  end
 end

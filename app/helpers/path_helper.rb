@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 module PathHelper
-  def party_divisions_path(party_object)
-    Rails.application.routes.url_helpers.party_divisions_path(party: party_object.url_name)
-  end
-
   def member_division_path(member, division)
     Rails.application.routes.url_helpers
          .member_division_path(division_params(division).merge(member_params(member)))
