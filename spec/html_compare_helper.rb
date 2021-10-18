@@ -41,16 +41,18 @@ module HTMLCompareHelper
 
   private
 
-  def compare_text(old_text, new_text, path, suffix = "", format = "html")
+  def compare_text(old_text, new_text, _path, _suffix = "", format = "html")
     n = normalise(new_text, format)
     o = normalise(old_text, format)
 
     if n != o
+      # Uncomment the lines below if you want changes to be automatically written out
       # Write it out to a file
-      File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
-        f.write new_text
-      end
-      raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
+      # File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
+      #   f.write new_text
+      # end
+      # raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
+      raise "Don't match"
     end
   end
 
