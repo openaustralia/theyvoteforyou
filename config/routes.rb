@@ -10,11 +10,12 @@ Publicwhip::Application.routes.draw do
   get "policy.php" => redirect { |_p, r| "/policies/#{r.query_parameters['id']}/detail" },
       constraints: ->(request) { request.query_parameters["display"] == "motions" }
   get "policy.php" => redirect { |_p, r| "/policies/#{r.query_parameters['id']}" }
-  get "/account/addpolicy.php" => redirect("/policies/new")
 
+  get "/account/addpolicy.php" => redirect("/policies/new")
   get "/account/changepass.php" => redirect("/users/edit")
   get "/account/changeemail.php" => redirect("/users/edit")
   get "/account/settings.php" => redirect("/users/edit")
+  get "account/wiki.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit" }
 
   get "mps.php" => "members#index_redirect",
       constraints: ->(r) { r.query_parameters["house"] == "all" || r.query_parameters["house"].nil? || r.query_parameters["sort"] == "lastname" || r.query_parameters["parliament"] }
@@ -73,7 +74,6 @@ Publicwhip::Application.routes.draw do
   get "division.php" => redirect { |_p, r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/divisions/#{r.query_parameters['date']}/#{r.query_parameters['number']}" },
       constraints: ->(r) { r.query_parameters["mpn"] && r.query_parameters["mpc"] }
   get "edits.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/history" }
-  get "account/wiki.php" => redirect { |_p, r| "/divisions/#{r.query_parameters['house']}/#{r.query_parameters['date']}/#{r.query_parameters['number']}/edit" }
   get "index.php" => redirect("/")
   # Unfortunately without resorting to something like js not possible to preserve anchor on redirect
   get "faq.php" => redirect { |_p, _r| "/help/faq" }
