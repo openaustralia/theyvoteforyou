@@ -353,4 +353,9 @@ describe "routing redirects", type: :request do
     get "/members/representatives/warringah/tony_abbott/divisions/2006-12-06/3", params: {}
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3"
   end
+
+  it do
+    get "/policies/3/detail", params: {}
+    expect(response).to redirect_to("/policies/3")
+  end
 end

@@ -134,6 +134,7 @@ Publicwhip::Application.routes.draw do
   get "/members/:house/:mpc/:mpn/friends" => redirect("/people/%{house}/%{mpc}/%{mpn}/friends")
   get "/members/:house/:mpc/:mpn/divisions" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions")
   get "/members/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}")
+  get "/policies/:id/detail" => redirect("/policies/%{id}")
 
   #################
   #  Main routes  #
@@ -174,7 +175,6 @@ Publicwhip::Application.routes.draw do
   resources :policies, except: :destroy do
     get "drafts", on: :collection
     member do
-      get "detail"
       get "history"
       post "watch"
     end

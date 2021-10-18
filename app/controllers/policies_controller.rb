@@ -33,10 +33,6 @@ class PoliciesController < ApplicationController
     end
   end
 
-  def detail
-    @policy = Policy.find(params[:id])
-  end
-
   def edit
     @policy = Policy.find(params[:id])
   end
