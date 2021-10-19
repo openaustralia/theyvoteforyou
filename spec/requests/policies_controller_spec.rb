@@ -25,11 +25,11 @@ describe PoliciesController, type: :request do
   end
 
   it "#index" do
-    compare_static("/policies.php")
+    compare_static("/policies")
   end
 
   describe "#show" do
-    it { compare_static("/policy.php?id=1") }
-    it { compare_static("/policy.php?id=2") }
+    it { compare_static("/policies/1") }
+    it { compare_static("/policies/2") }
   end
 end

@@ -8,38 +8,38 @@ describe MembersController, type: :request do
   fixtures :all
 
   describe "#index" do
-    it { compare_static("/mps.php?house=representatives") }
-    it { compare_static("/mps.php?house=representatives&sort=constituency") }
-    it { compare_static("/mps.php?house=representatives&sort=party") }
-    it { compare_static("/mps.php?house=representatives&sort=rebellions") }
-    it { compare_static("/mps.php?house=representatives&sort=attendance") }
+    it { compare_static("/people/representatives") }
+    it { compare_static("/people/representatives?sort=constituency") }
+    it { compare_static("/people/representatives?sort=party") }
+    it { compare_static("/people/representatives?sort=rebellions") }
+    it { compare_static("/people/representatives?sort=attendance") }
 
-    it { compare_static("/mps.php?house=senate") }
-    it { compare_static("/mps.php?house=senate&sort=constituency") }
-    it { compare_static("/mps.php?house=senate&sort=party") }
-    it { compare_static("/mps.php?house=senate&sort=rebellions") }
-    it { compare_static("/mps.php?house=senate&sort=attendance") }
+    it { compare_static("/people/senate") }
+    it { compare_static("/people/senate?sort=constituency") }
+    it { compare_static("/people/senate?sort=party") }
+    it { compare_static("/people/senate?sort=rebellions") }
+    it { compare_static("/people/senate?sort=attendance") }
   end
 
   describe "#show" do
-    it { compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives") }
-    it { compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives") }
-    it { compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate") }
+    it { compare_static("/people/representatives/warringah/tony_abbott") }
+    it { compare_static("/people/representatives/griffith/kevin_rudd") }
+    it { compare_static("/people/senate/tasmania/christine_milne") }
 
-    it { compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=everyvote") }
-    it { compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=everyvote") }
-    it { compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=everyvote") }
+    it { compare_static("/people/representatives/warringah/tony_abbott/divisions") }
+    it { compare_static("/people/representatives/griffith/kevin_rudd/divisions") }
+    it { compare_static("/people/senate/tasmania/christine_milne/divisions") }
 
-    it { compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&display=allfriends") }
-    it { compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&display=allfriends") }
-    it { compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&display=allfriends") }
+    it { compare_static("/people/representatives/warringah/tony_abbott/friends") }
+    it { compare_static("/people/representatives/griffith/kevin_rudd/friends") }
+    it { compare_static("/people/senate/tasmania/christine_milne/friends") }
 
-    it { compare_static("/mp.php?mpn=Tony_Abbott&mpc=Warringah&house=representatives&dmp=1") }
-    it { compare_static("/mp.php?mpn=Kevin_Rudd&mpc=Griffith&house=representatives&dmp=1") }
-    it { compare_static("/mp.php?mpn=Christine_Milne&mpc=Tasmania&house=senate&dmp=1") }
+    it { compare_static("/people/representatives/warringah/tony_abbott/policies/1") }
+    it { compare_static("/people/representatives/griffith/kevin_rudd/policies/1") }
+    it { compare_static("/people/senate/tasmania/christine_milne/policies/1") }
 
     # Test free teller under Interesting Votes
-    it { compare_static("/mp.php?mpn=Roger_Price&mpc=Chifley&house=representatives") }
+    it { compare_static("/people/representatives/chifley/roger_price") }
 
     context "with Barnaby Joyce" do
       before :each do
@@ -58,7 +58,7 @@ describe MembersController, type: :request do
         Electorate.create(id: 143, name: "New England", main_name: true)
       end
 
-      it { compare_static("/mp.php?mpn=Barnaby_Joyce&mpc=New_England&house=representatives") }
+      it { compare_static("/people/representatives/new_england/barnaby_joyce") }
 
       it "should redirect to the senator's page even if the id param incorrectly identifies a member as a senator and vice versa" do
         # Barnaby has been set up above as a member and a senator.
