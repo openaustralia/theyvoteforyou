@@ -404,9 +404,3 @@ Rails/UniqueValidationWithoutIndex:
   Exclude:
     - 'app/models/policy.rb'
     - 'app/models/user.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/StringConcatenation:
-  Exclude:
-    - 'app/helpers/divisions_helper.rb'
