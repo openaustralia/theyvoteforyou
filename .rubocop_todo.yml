@@ -406,14 +406,6 @@ Rails/UniqueValidationWithoutIndex:
     - 'app/models/user.rb'
 
 # Offense count: 3
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'app/controllers/policies_controller.rb'
-    - 'app/lib/data_loader/debates.rb'
-    - 'spec/html_compare_helper.rb'
-
-# Offense count: 3
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: respond_to_missing?
 Style/OptionalBooleanParameter:

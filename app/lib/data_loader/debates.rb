@@ -15,12 +15,10 @@ module DataLoader
           begin
             xml_document = Nokogiri::XML(agent.get(url).body)
           rescue Mechanize::ResponseCodeError => e
-            if e.response_code == "404"
-              Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
-              next
-            else
-              raise e
-            end
+            raise e if e.response_code != "404"
+
+            Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
+            next
           end
 
           existing_divisions = Division.where(date: date, house: house)

@@ -13,23 +13,22 @@ class PoliciesController < ApplicationController
 
   def show
     @policy = Policy.find(params[:id])
+    return if params[:mpc].nil? || params[:mpn].nil?
 
-    if params[:mpc] && params[:mpn]
-      electorate = params[:mpc].gsub("_", " ")
-      name = params[:mpn].gsub("_", " ")
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
 
-      @member = Member.with_name(name)
-      @member = @member.in_house(params[:house])
-      @member = @member.where(constituency: electorate)
-      @member = @member.order(entered_house: :desc).first
+    @member = Member.with_name(name)
+    @member = @member.in_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
 
-      if @member
-        # Pick the member where the votes took place
-        @member = @member.person.member_for_policy(@policy)
-        render "show_with_member"
-      else
-        render "members/member_not_found", status: 404
-      end
+    if @member
+      # Pick the member where the votes took place
+      @member = @member.person.member_for_policy(@policy)
+      render "show_with_member"
+    else
+      render "members/member_not_found", status: 404
     end
   end
 
