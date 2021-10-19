@@ -61,11 +61,6 @@ describe MembersController, type: :request do
       it { compare_static("/people/representatives/new_england/barnaby_joyce") }
     end
 
-    it "should 404 with an unknown person" do
-      get "/mp.php?mpn=Foo_Bar", params: {}
-      expect(response.status).to eq 404
-    end
-
     it "should 404 when the wrong name is given for a correct electorate" do
       get "/people/representatives/warringah/foo_bar", params: {}
       expect(response.status).to eq(404)

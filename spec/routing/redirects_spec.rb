@@ -398,4 +398,9 @@ describe "routing redirects", type: :request do
       expect(response).to redirect_to "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
     end
   end
+
+  it "404s with an unknown person" do
+    get "/mp.php?mpn=Foo_Bar", params: {}
+    expect(response.status).to eq 404
+  end
 end
