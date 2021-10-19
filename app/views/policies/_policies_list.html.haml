@@ -1,6 +1,5 @@
 %ul.policies-list.list-unstyled
   - policies.each do |policy|
-    - policy_watches = policy.watches.count
     %li
       = link_to policy, class: 'object-item panel-link row' do
         %article
@@ -8,7 +7,7 @@
             = capitalise_initial_character(policy.name_with_for)
             %div.small.text-muted.policy-details
               %span.policy-subscriber-count.policy-detail-large-screen
-                = pluralize(policy_watches, "subscriber")
+                = pluralize(policy.watches.count, "subscriber")
 
           %p.policy-data.object-secondary
             %span
@@ -18,4 +17,4 @@
             %small.policy-edit-notice.text-muted
               edited #{time_ago_in_words(policy.last_edited_at)} ago
             %small.policy-subscriber-count.text-muted.policy-detail-small-screen
-              = pluralize(policy_watches, "subscriber")
+              = pluralize(policy.watches.count, "subscriber")
