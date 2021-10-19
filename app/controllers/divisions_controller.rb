@@ -3,10 +3,6 @@
 class DivisionsController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update create_policy_division update_policy_division destroy_policy_division]
 
-  def index_redirect
-    redirect_to params.to_unsafe_hash.merge(only_path: true, rdisplay2: nil, sort: "rebellions") if params[:rdisplay2] == "rebels"
-  end
-
   def index
     @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
 
@@ -64,29 +60,6 @@ class DivisionsController < ApplicationController
       @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
       @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-    end
-  end
-
-  def show_redirect
-    if params[:sort]
-      redirect_to params.to_unsafe_hash.merge(only_path: true, sort: nil)
-      return
-    end
-    if params[:display] == "allvotes" || params[:display] == "allpossible"
-      redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
-      return
-    end
-    if params[:house].nil?
-      redirect_to params.to_unsafe_hash.merge(only_path: true, house: "representatives")
-      return
-    end
-    if params[:mpc] == "Senate"
-      house = params[:house]
-      first_name = params[:mpn].split("_")[0]
-      last_name = params[:mpn].split("_")[1]
-
-      member = Member.in_house(house).where(first_name: first_name, last_name: last_name).first
-      redirect_to params.to_unsafe_hash.merge(only_path: true, mpc: member.url_electorate)
     end
   end
 
