@@ -12,7 +12,7 @@
   - else
     - divisions.each do |division|
       %tr
-        %td= formatted_date(division.date, true)
+        %td= formatted_date(division.date, include_nbsp: true)
         %td= link_to truncate(division.name, length: 180), [member, division]
         %td= vote_display(division.vote_for(member))
         %td= vote_display(division.whip_guess_for(member.party))

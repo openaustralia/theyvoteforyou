@@ -405,14 +405,6 @@ Rails/UniqueValidationWithoutIndex:
     - 'app/models/policy.rb'
     - 'app/models/user.rb'
 
-# Offense count: 3
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: respond_to_missing?
-Style/OptionalBooleanParameter:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'spec/html_compare_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/StringConcatenation:
