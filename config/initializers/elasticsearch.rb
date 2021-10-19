@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Suggested for best performance by Searchkick https://github.com/ankane/searchkick#performance
 require "typhoeus/adapters/faraday"
 Ethon.logger = Logger.new("/dev/null")

@@ -1,8 +1,13 @@
-class User < ActiveRecord::Base
+# frozen_string_literal: true
+
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  # TODO: Re-enable :async when upgraded Devise to 4.x and Rails to 5.x
+  # devise :database_authenticatable, :registerable, :confirmable,
+  #        :recoverable, :rememberable, :trackable, :validatable, :async
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :async
+         :recoverable, :rememberable, :trackable, :validatable
 
   has_many :wiki_motions
   has_many :policies
@@ -25,7 +30,7 @@ class User < ActiveRecord::Base
   end
 
   def watched_policy_ids
-    watches.where(watchable_type: 'Policy').collect { |w| w.watchable_id }
+    watches.where(watchable_type: "Policy").collect(&:watchable_id)
   end
 
   def watched_policies
@@ -37,11 +42,12 @@ class User < ActiveRecord::Base
   end
 
   def watching?(object)
-    !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
+    !!watches.find_by(watchable_type: object.class.to_s, watchable_id: object.id)
   end
 
   def toggle_policy_watch(policy)
-    if watch = policy.watches.find_by(user: self)
+    watch = policy.watches.find_by(user: self)
+    if watch
       watch.destroy!
     else
       policy.watches.create!(user: self)
@@ -51,7 +57,7 @@ class User < ActiveRecord::Base
   def recent_changes(size)
     changes = PaperTrail::Version.order(created_at: :desc).where(whodunnit: self).limit(size) +
               WikiMotion.order(created_at: :desc).where(user: self).limit(size)
-    changes.sort_by {|v| -v.created_at.to_i}.take(size)
+    changes.sort_by { |v| -v.created_at.to_i }.take(size)
   end
 
   def self.system_name

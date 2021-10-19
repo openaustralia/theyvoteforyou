@@ -1,29 +1,31 @@
-require "codeclimate-test-reporter"
-CodeClimate::TestReporter.start
+# frozen_string_literal: true
+
+require "simplecov"
+SimpleCov.start
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
-require 'rspec/rails'
-require 'capybara/rspec'
-require 'email_spec'
-require 'html_compare_helper'
-require 'webmock/rspec'
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../config/environment", __dir__)
+require "rspec/rails"
+require "capybara/rspec"
+require "email_spec"
+require "html_compare_helper"
+require "webmock/rspec"
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 VCR.configure do |c|
-  c.cassette_library_dir = 'spec/vcr_cassettes'
+  c.cassette_library_dir = "spec/vcr_cassettes"
   c.hook_into :webmock
   # c.default_cassette_options = { record: :new_episodes }
   # So that codeclimate-test-reporter can do its work
-  c.ignore_hosts 'codeclimate.com'
+  c.ignore_hosts "codeclimate.com"
 end
 
 RSpec.configure do |config|
@@ -42,20 +44,11 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   # Disabled so emails in acceptance tests work
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-
     Delayed::Worker.delay_jobs = false
-
-    begin
-      DatabaseCleaner.start
-      FactoryGirl.lint
-    ensure
-      DatabaseCleaner.clean
-    end
+    # FactoryBot.lint
   end
 
   # If true, the base class of anonymous controllers will be inferred
@@ -69,19 +62,10 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 
   config.include EmailSpec::Helpers
   config.include EmailSpec::Matchers
 
-  # rspec-rails 3 will no longer automatically infer an example group's spec type
-  # from the file location. You can explicitly opt-in to the feature using this
-  # config option.
-  # To explicitly tag specs without using automatic inference, set the `:type`
-  # metadata manually:
-  #
-  #     describe ThingsController, :type => :controller do
-  #       # Equivalent to being in spec/controllers
-  #     end
-  config.infer_spec_type_from_file_location!
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end

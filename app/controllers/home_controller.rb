@@ -1,12 +1,13 @@
-require 'open-uri'
+# frozen_string_literal: true
+
+require "open-uri"
 
 class HomeController < ApplicationController
   def index
     @current_members = Member.current.order("last_name")
   end
 
-  def about
-  end
+  def about; end
 
   def search
     @current_members = Member.current.map { |m| m.name_without_title.downcase }
@@ -17,21 +18,21 @@ class HomeController < ApplicationController
       @postcode = params[:query]
 
       # Temporary work around for https://github.com/openaustralia/openaustralia/issues/502
-      json_response = open("http://www.openaustralia.org.au/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read
+      json_response = open("https://www.openaustralia.org.au/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read
       json_response = "{\"error\":\"Unknown postcode\"}" if json_response == "{\"error\":\"Unknown postcode\"}{}"
       electorates = JSON.parse(json_response)
 
-      if electorates.respond_to?("has_key?") && electorates.has_key?("error")
+      if electorates.respond_to?("has_key?") && electorates.key?("error")
         @postcode_error = electorates["error"]
         return
       end
 
       if electorates.count == 1
-        member = Member.current.find_by!(constituency: electorates.first['name'])
+        member = Member.current.find_by!(constituency: electorates.first["name"])
         redirect_to view_context.member_path(member)
       elsif electorates.count > 1
         electorates.each do |e|
-          member = Member.current_on(Date.today).find_by(constituency: e['name'])
+          member = Member.current_on(Date.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?
         end
       end
@@ -47,14 +48,14 @@ class HomeController < ApplicationController
   def history
     @history = PaperTrail::Version.where("created_at > ?", 1.week.ago) +
                WikiMotion.where("edit_date > ?", 1.week.ago)
-    @history.sort_by! {|v| -v.created_at.to_i}
+    @history.sort_by! { |v| -v.created_at.to_i }
   end
 
-  def error_404
+  def error404
     render status: 404
   end
 
-  def error_500
+  def error500
     render status: 500
   end
 end

@@ -1,4 +1,6 @@
-class Vote < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Vote < ApplicationRecord
   belongs_to :division
   belongs_to :member
 
@@ -13,8 +15,8 @@ class Vote < ActiveRecord::Base
   # All rebellious votes
   # TODO Rename to rebellions
   def self.rebellious
-    joins(:member, {division: :whips}).where("whips.party = members.party").
-      where("(whips.whip_guess = 'aye' AND (votes.vote = 'no' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote = 'aye' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote = 'aye' OR votes.vote = 'no'))")
+    joins(:member, { division: :whips }).where("whips.party = members.party")
+                                        .where("(whips.whip_guess = 'aye' AND (votes.vote = 'no' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'no' AND (votes.vote = 'aye' OR votes.vote = 'abstention')) OR (whips.whip_guess = 'abstention' AND (votes.vote = 'aye' OR votes.vote = 'no'))")
   end
 
   def self.tells
@@ -33,7 +35,7 @@ class Vote < ActiveRecord::Base
     !free? && vote != whip_guess
   end
 
-  # TODO What if the vote is tied?
+  # TODO: What if the vote is tied?
   def role
     if free?
       "free"

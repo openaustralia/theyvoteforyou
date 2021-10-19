@@ -1,10 +1,13 @@
-class WikiMotion < ActiveRecord::Base
+# frozen_string_literal: true
+
+class WikiMotion < ApplicationRecord
   belongs_to :user
   belongs_to :division
 
   validates :title, :description, presence: true
 
-  attr_accessor :title, :description
+  attr_writer :title, :description
+
   alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
   after_create do
@@ -14,22 +17,22 @@ class WikiMotion < ActiveRecord::Base
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date
-    Time.parse(read_attribute(:edit_date).in_time_zone('UTC').strftime('%F %T'))
+    Time.parse(read_attribute(:edit_date).in_time_zone("UTC").strftime("%F %T"))
   end
 
   # FIXME: Stop this nonsense of storing local times in the DB to match PHP
   def edit_date=(date)
-    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone("UTC").formatted_offset}")
+    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone('UTC').formatted_offset}")
     write_attribute(:edit_date, date_set_in_utc)
   end
 
-  # TODO Doing this horrible workaround to deal with storing local time in db
+  # TODO: Doing this horrible workaround to deal with storing local time in db
   def edit_date_without_timezone
-    edit_date.strftime('%F %T')
+    edit_date.strftime("%F %T")
   end
 
   def previous_edit
-    division.wiki_motions.find_by('edit_date < ?', edit_date_without_timezone)
+    division.wiki_motions.find_by("edit_date < ?", edit_date_without_timezone)
   end
 
   def title
@@ -59,18 +62,18 @@ class WikiMotion < ActiveRecord::Base
   private
 
   def set_text_body
-    self.text_body = <<-RECORD
---- DIVISION TITLE ---
-
-#{title}
-
---- MOTION EFFECT ---
-
-#{description}
-
---- COMMENTS AND NOTES ---
-
-(put thoughts and notes for other researchers here)
+    self.text_body = <<~RECORD
+            --- DIVISION TITLE ---
+      #{'      '}
+            #{title}
+      #{'      '}
+            --- MOTION EFFECT ---
+      #{'      '}
+            #{description}
+      #{'      '}
+            --- COMMENTS AND NOTES ---
+      #{'      '}
+            (put thoughts and notes for other researchers here)
     RECORD
   end
 

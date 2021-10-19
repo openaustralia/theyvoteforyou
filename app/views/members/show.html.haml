@@ -21,7 +21,7 @@
   = render "member_page_header", member: @member
   = render "summary", member: @member
 = render "policy_comparisons", member: @member
-- if @member.person.has_whip?
+- if @member.person.subject_to_whip?
   = render "interesting_votes", member: @member
 = render "recent_votes", member: @member
 = render "possible_friends", member: @member, all_friends: false

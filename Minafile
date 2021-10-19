@@ -20,6 +20,9 @@ set :branch, 'master'
 set :application, 'theyvoteforyou'
 # TODO: Replace `Procfile.production`, which is used when deploying to kedumba
 set :foreman_procfile, 'Procfile.ansible'
+set :foreman_format, 'systemd'
+set :foreman_user, 'deploy'
+set :foreman_location, '/etc/systemd/system'
 
 # For system-wide RVM install.
 #   set :rvm_path, '/usr/local/rvm/bin/rvm'
@@ -74,7 +77,8 @@ task :deploy => :environment do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
       invoke :'foreman:export'
-      invoke :'foreman:restart'
+
+      queue "sudo systemctl restart theyvoteforyou.target"
     end
   end
 end

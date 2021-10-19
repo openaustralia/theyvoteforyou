@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddVoteWithoutTellToVotes < ActiveRecord::Migration
   def change
     add_column :votes, :vote_without_tell, :string, limit: 10
@@ -6,9 +8,10 @@ class AddVoteWithoutTellToVotes < ActiveRecord::Migration
     add_index :votes, :teller
     Vote.reset_column_information
     Vote.all.find_each do |vote|
-      if vote.vote == "tellaye"
+      case vote.vote
+      when "tellaye"
         vote.update!(vote_without_tell: "aye", teller: true)
-      elsif vote.vote == "tellno"
+      when "tellno"
         vote.update!(vote_without_tell: "no", teller: true)
       else
         vote.update!(vote_without_tell: vote.vote)

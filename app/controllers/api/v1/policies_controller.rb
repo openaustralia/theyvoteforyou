@@ -1,9 +1,15 @@
-class Api::V1::PoliciesController < Api::V1::ApplicationController
-  def index
-    @policies = Policy.order(:id).all
-  end
+# frozen_string_literal: true
 
-  def show
-    @policy = Policy.find(params[:id])
+module Api
+  module V1
+    class PoliciesController < Api::V1::ApplicationController
+      def index
+        @policies = Policy.order(:id).all
+      end
+
+      def show
+        @policy = Policy.find(params[:id])
+      end
+    end
   end
 end

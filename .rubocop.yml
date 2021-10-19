@@ -1,49 +1,138 @@
-# To keep things simple, we're using a whitelist approach
-# Add Cops gradually as needed
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
-  DisabledByDefault: true
   Exclude:
-    -  db/schema.rb
+    - db/schema.rb
+    - bin/*
+    - vendor/**/*
 
-Style/HashSyntax:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#hash-literals
-  EnforcedStyle: ruby19
+# Disabling warnings about line length because it's so common through
+# the codebase currently. It would be good to fix as it would make things
+# easier to read but it would take a bit of time to do.
+# TODO: Enable this again
+Layout/LineLength:
+  Enabled: false
 
-Style/EmptyLines:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#two-or-more-empty-lines
+# We prefer double quotes here and it we're making liberal use of multi-line
+# strings so it makes sense to enforce those to be consistent oo
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  ConsistentQuotesInMultiline: true
+
+# This one I disagree with. Putting seperators in large numbers makes sense
+# in some circumstances but in others (an example id in a database table)
+# it's just nonsensical. Also, I think this one might also be a bit US centric.
+Style/NumericLiterals:
+  Enabled: false
+
+# For Rails it feels a little overkill to have to write a description for
+# each class because so much is naming conventions. So, disabling this
+Style/Documentation:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+# Would be good to structure the Gemfile a bit more and order it nicely
+# TODO: Enable this
+Bundler/OrderedGems:
+  Exclude:
+    - 'Gemfile'
+
+# Disable a bunch of metrics to do with code complexity. These as are all
+# a bit hard-nosed.
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+Gemspec/DateAssignment: # (new in 1.10)
   Enabled: true
-
-Style/EmptyLineBetweenDefs:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-between-methods
+Layout/SpaceBeforeBrackets: # (new in 1.7)
   Enabled: true
-
-Style/EmptyLinesAroundAccessModifier:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-access-modifier
+Lint/AmbiguousAssignment: # (new in 1.7)
   Enabled: true
-
-Style/EmptyLinesAroundBeginBody:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/DeprecatedConstants: # (new in 1.8)
   Enabled: true
-
-Style/EmptyLinesAroundBlockBody:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/DuplicateBranch: # (new in 1.3)
   Enabled: true
-
-Style/EmptyLinesAroundClassBody:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/DuplicateRegexpCharacterClassElement: # (new in 1.1)
   Enabled: true
-
-Style/EmptyLinesAroundExceptionHandlingKeywords:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/EmptyBlock: # (new in 1.1)
   Enabled: true
-
-Style/EmptyLinesAroundMethodBody:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/EmptyClass: # (new in 1.3)
   Enabled: true
-
-Style/EmptyLinesAroundModuleBody:
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#empty-lines-around-bodies
+Lint/LambdaWithoutLiteralBlock: # (new in 1.8)
   Enabled: true
-
-Style/RedundantReturn:
+Lint/NoReturnInBeginEndBlocks: # (new in 1.2)
+  Enabled: true
+Lint/NumberedParameterAssignment: # (new in 1.9)
+  Enabled: true
+Lint/OrAssignmentToConstant: # (new in 1.9)
+  Enabled: true
+Lint/RedundantDirGlobSort: # (new in 1.8)
+  Enabled: true
+Lint/SymbolConversion: # (new in 1.9)
+  Enabled: true
+Lint/ToEnumArguments: # (new in 1.1)
+  Enabled: true
+Lint/TripleQuotes: # (new in 1.9)
+  Enabled: true
+Lint/UnexpectedBlockArity: # (new in 1.5)
+  Enabled: true
+Lint/UnmodifiedReduceAccumulator: # (new in 1.1)
+  Enabled: true
+Style/ArgumentsForwarding: # (new in 1.1)
+  Enabled: true
+Style/CollectionCompact: # (new in 1.2)
+  Enabled: true
+Style/DocumentDynamicEvalDefinition: # (new in 1.1)
+  Enabled: true
+Style/EndlessMethod: # (new in 1.8)
+  Enabled: true
+Style/HashConversion: # (new in 1.10)
+  Enabled: true
+Style/HashExcept: # (new in 1.7)
+  Enabled: true
+Style/IfWithBooleanLiteralBranches: # (new in 1.9)
+  Enabled: true
+Style/NegatedIfElseCondition: # (new in 1.2)
+  Enabled: true
+Style/NilLambda: # (new in 1.3)
+  Enabled: true
+Style/RedundantArgument: # (new in 1.4)
+  Enabled: true
+Style/StringChars: # (new in 1.12)
+  Enabled: true
+Style/SwapValues: # (new in 1.1)
+  Enabled: true
+RSpec/IdenticalEqualityAssertion: # (new in 2.4)
+  Enabled: true
+RSpec/Rails/AvoidSetupHook: # (new in 2.4)
   Enabled: true

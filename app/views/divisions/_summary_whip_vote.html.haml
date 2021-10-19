@@ -1,0 +1,7 @@
+%tr.member-row{class: member_row_class(vote, whip)}
+  %th.cell-name
+    = link_to vote.member.name_without_title, vote.member
+    %span.text-muted.member-electorate= vote.member.electorate
+    %small.post-title.text-muted= vote.member.party_name if whip.whipless? || whip.possible_votes == 1
+  %td.cell-vote= vote_display vote.vote
+  %td.cell-toggler

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -7,16 +9,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # OAF server runs lucid, best to match that environment.
   config.vm.box = "chef/ubuntu-10.04-i386"
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080 #php
-  config.vm.network "forwarded_port", guest: 3000, host: 3000 #rails
-  config.vm.network "forwarded_port", guest: 1080, host: 1080 #mailcatcher
+  config.vm.network "forwarded_port", guest: 80, host: 8080 # php
+  config.vm.network "forwarded_port", guest: 3000, host: 3000 # rails
+  config.vm.network "forwarded_port", guest: 1080, host: 1080 # mailcatcher
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", 1536]
   end
 
   config.vm.provision "shell" do |shell|
-  shell.inline = "mkdir -p /etc/puppet/modules;
+    shell.inline = "mkdir -p /etc/puppet/modules;
      aptitude update
      aptitude safe-upgrade -y
 
@@ -57,7 +59,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision "puppet" do |puppet|
-     puppet.manifests_path = "manifests"
-     puppet.manifest_file  = "development_lucid.pp"
+    puppet.manifests_path = "manifests"
+    puppet.manifest_file = "development_lucid.pp"
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.partial! "person", person: @person
 
 # Extra information that's not on the index action
@@ -13,7 +15,7 @@ json.policy_comparisons do
     json.policy do
       json.partial! "api/v1/policies/policy", policy: ppd.policy
     end
-    json.agreement number_with_precision(ppd.agreement_fraction * 100,  precision: 2, significant: true)
+    json.agreement number_with_precision(ppd.agreement_fraction * 100, precision: 2, significant: true)
     json.voted ppd.voted?
   end
 end

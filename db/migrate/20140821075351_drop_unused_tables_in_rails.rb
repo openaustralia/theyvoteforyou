@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DropUnusedTablesInRails < ActiveRecord::Migration
   def change
     drop_table :pw_cache_attendrank_today

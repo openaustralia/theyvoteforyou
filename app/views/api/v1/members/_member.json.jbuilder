@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id member.id
 json.person do
   json.id member.person_id

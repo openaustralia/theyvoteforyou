@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=0000
+    uri: https://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=0000
     body:
       encoding: US-ASCII
       string: ''
@@ -47,7 +47,7 @@ http_interactions:
   recorded_at: Thu, 20 Nov 2014 06:13:27 GMT
 - request:
     method: get
-    uri: http://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2042
+    uri: https://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2042
     body:
       encoding: US-ASCII
       string: ''
@@ -92,7 +92,7 @@ http_interactions:
   recorded_at: Thu, 20 Nov 2014 06:17:12 GMT
 - request:
     method: get
-    uri: http://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2088
+    uri: https://www.openaustralia.org.au/api/getDivisions?key=CcV3KBBX2Em7GQeV3RA8qzgS&output=js&postcode=2088
     body:
       encoding: US-ASCII
       string: ''

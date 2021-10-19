@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddTimestampsToAllTables < ActiveRecord::Migration
   def change
     add_timestamps :division_infos

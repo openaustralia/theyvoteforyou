@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   def default_meta_description
-    'Discover how your MP votes on the issues that matter to you.'
+    "Discover how your MP votes on the issues that matter to you."
   end
 
   def nav_link(name, path, title, current)
@@ -14,11 +16,11 @@ module ApplicationHelper
   end
 
   def nav_button_link(name, path, title, current)
-    link_to name, path, title: title, class: "btn btn-sm btn-default" + (current ? " active" : "")
+    link_to name, path, title: title, class: "btn btn-sm btn-default#{current ? ' active' : ''}"
   end
 
   def body_class
-    if current_page?(controller: '/home', action: 'about')
+    if current_page?(controller: "/home", action: "about")
       "about"
     else
       controller.controller_path
@@ -82,12 +84,12 @@ module ApplicationHelper
     end
   end
 
-  def fraction_to_percentage_display(fraction, options = {precision: 2, significant: true})
+  def fraction_to_percentage_display(fraction, options = { precision: 2, significant: true })
     if fraction
       percentage = fraction * 100
       number_to_percentage(percentage, options)
     else
-      'n/a'
+      "n/a"
     end
   end
 
@@ -95,11 +97,11 @@ module ApplicationHelper
     Date.parse("#{month}-01").strftime("%B %Y")
   end
 
-  def formatted_date(date, include_nbsp = false)
+  def formatted_date(date, include_nbsp: false)
     include_nbsp ? date.strftime("#{date.day.ordinalize}&nbsp;%b&nbsp;%Y").html_safe : date.strftime("#{date.day.ordinalize} %b %Y")
   end
 
   def inline_project_name
-    content_tag(:em, Settings.project_name, class: 'project-name')
+    content_tag(:em, Settings.project_name, class: "project-name")
   end
 end

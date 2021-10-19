@@ -1,15 +1,17 @@
-class Member < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Member < ApplicationRecord
   searchkick if Settings.elasticsearch
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
   scope :current_on, ->(date) { where("? >= entered_house AND ? < left_house", date, date) }
   scope :in_house, ->(house) { where(house: house) }
-  scope :with_name, ->(name) {
+  scope :with_name, lambda { |name|
     first_name, last_name = Member.parse_first_last_name(name)
     where(first_name: first_name, last_name: last_name)
   }
-  # TODO Make this more resilient by using current_on(Date.today)
+  # TODO: Make this more resilient by using current_on(Date.today)
   scope :current, -> { where(left_house: "9999-12-31") }
 
   # Divisions that have been attended
@@ -31,7 +33,7 @@ class Member < ActiveRecord::Base
   # Randomly pick a postcode from a small selection that covers each State and Territory
   # in Australia where the postcode only relates to one electorate.
   def self.random_postcode
-    postcodes = ["0836", "2300", "2902", "3219", "4570", "6280", "7320"]
+    postcodes = %w[0836 2300 2902 3219 4570 6280 7320]
     if Rails.env.test?
       postcodes.first
     else
@@ -46,11 +48,11 @@ class Member < ActiveRecord::Base
 
   # Give it a name like "Kevin Rudd" returns ["Kevin", "Rudd"]
   def self.parse_first_last_name(name)
-    name = name.split(" ")
+    name = name.split
     # Strip titles like "Ms"
-    name.slice!(0) if name[0] == 'Ms' || name[0] == 'Mrs' || name[0] == "Mr"
+    name.slice!(0) if name[0] == "Ms" || name[0] == "Mrs" || name[0] == "Mr"
     first_name = name[0]
-    last_name = name[1..-1].join(' ')
+    last_name = name[1..-1].join(" ")
     [first_name, last_name]
   end
 
@@ -142,11 +144,11 @@ class Member < ActiveRecord::Base
   end
 
   def since
-    entered_house.strftime('%B %Y')
+    entered_house.strftime("%B %Y")
   end
 
   def until
-    left_house > Date.today ? 'today' : left_house.strftime('%B %Y')
+    left_house > Date.today ? "today" : left_house.strftime("%B %Y")
   end
 
   # Long version of party name
@@ -155,12 +157,12 @@ class Member < ActiveRecord::Base
   end
 
   # Are they a member of a party that has a whip?
-  def has_whip?
-    party_object.has_whip?
+  def subject_to_whip?
+    party_object.subject_to_whip?
   end
 
   def party_object
-    Party.new(name: party)
+    @party_object ||= Party.new(name: party)
   end
 
   def senator?
@@ -190,7 +192,7 @@ class Member < ActiveRecord::Base
 
   def self.find_by_search_query(query_string)
     if Settings.elasticsearch
-      self.search(query_string, boost_where: {left_reason: 'still_in_office'})
+      search(query_string, boost_where: { left_reason: "still_in_office" })
     else
       # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
       sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
@@ -204,23 +206,17 @@ class Member < ActiveRecord::Base
 
       score_clause = "("
       score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
-      placeholders = {query_string: query_string}
+      placeholders = { query_string: query_string }
       bitcount = 0
       query_string.split.each do |querybit|
         querybit = querybit.strip
         placeholders["querybit_#{bitcount}".to_sym] = querybit
-        placeholders["querybit_wild_#{bitcount}".to_sym] = '%' + querybit + '%'
+        placeholders["querybit_wild_#{bitcount}".to_sym] = "%#{querybit}%"
 
-        if !querybit.blank?
-          score_clause += '+ (lower(constituency) =:querybit_' + bitcount.to_s + ') * 10 +
-          (soundex(concat(first_name, \' \', last_name)) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-          (soundex(constituency) = soundex(:querybit_' + bitcount.to_s + ')) * 8 +
-          (soundex(last_name) = soundex(:querybit_' + bitcount.to_s + ')) * 6 +
-          (lower(constituency) like :querybit_wild_' + bitcount.to_s + ') * 4 +';
-          score_clause += '(lower(last_name) like :querybit_wild_' + bitcount.to_s + ') * 4 +
-          (soundex(first_name) = soundex(:querybit_' + bitcount.to_s + ')) * 2 +
-          (lower(first_name) like :querybit_wild_' + bitcount.to_s + ') +';
-          score_clause += '(soundex(constituency) like concat(\'%\',soundex(:querybit_' + bitcount.to_s + '),\'%\'))'
+        unless querybit.blank?
+          score_clause += "+ (lower(constituency) =:querybit_#{bitcount}) * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_#{bitcount})) * 8 + (soundex(constituency) = soundex(:querybit_#{bitcount})) * 8 + (soundex(last_name) = soundex(:querybit_#{bitcount})) * 6 + (lower(constituency) like :querybit_wild_#{bitcount}) * 4 +"
+          score_clause += "(lower(last_name) like :querybit_wild_#{bitcount}) * 4 + (soundex(first_name) = soundex(:querybit_#{bitcount})) * 2 + (lower(first_name) like :querybit_wild_#{bitcount}) +"
+          score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_#{bitcount}),'%'))"
         end
         bitcount += 1
       end

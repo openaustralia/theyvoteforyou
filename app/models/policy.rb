@@ -1,8 +1,10 @@
-class Policy < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Policy < ApplicationRecord
   searchkick if Settings.elasticsearch
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
-  has_paper_trail meta: { policy_id: Proc.new{|policy| policy.id} }
+  has_paper_trail meta: { policy_id: proc { |policy| policy.id } }
   has_many :policy_divisions
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
@@ -13,7 +15,7 @@ class Policy < ActiveRecord::Base
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true, length: { maximum: 100 }
 
-  enum private: [:published, 'legacy Dream MP', :provisional]
+  enum private: [:published, "legacy Dream MP", :provisional]
   alias_attribute :status, :private
 
   def name_with_for
@@ -22,7 +24,7 @@ class Policy < ActiveRecord::Base
 
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
-    policy_division.vote if policy_division
+    policy_division&.vote
   end
 
   def unedited_motions_count
@@ -47,15 +49,15 @@ class Policy < ActiveRecord::Base
 
   def self.find_by_search_query(query)
     if Settings.elasticsearch
-      self.search(query)
+      search(query)
     else
-      where('LOWER(convert(name using utf8)) LIKE :query
-             OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+      where("LOWER(convert(name using utf8)) LIKE :query " \
+             "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 
   def self.update_all!
-    all.each { |p| p.calculate_member_distances! }
+    all.each(&:calculate_member_distances!)
   end
 
   def calculate_member_distances!
@@ -66,22 +68,21 @@ class Policy < ActiveRecord::Base
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-          if member_vote == 'absent'
-            :nvotesabsentstrong
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessamestrong
-          else
-            :nvotesdifferstrong
-          end
-        else
-          if member_vote == 'absent'
-            :nvotesabsent
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessame
-          else
-            :nvotesdiffer
-          end
-        end
+                      case member_vote
+                      when "absent"
+                        :nvotesabsentstrong
+                      when PolicyDivision.vote_without_strong(policy_division.vote)
+                        :nvotessamestrong
+                      else
+                        :nvotesdifferstrong
+                      end
+                    elsif member_vote == "absent"
+                      :nvotesabsent
+                    elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+                      :nvotessame
+                    else
+                      :nvotesdiffer
+                    end
 
         PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id).increment!(attribute)
       end
@@ -89,11 +90,9 @@ class Policy < ActiveRecord::Base
 
     policy_person_distances.reload.each do |pmd|
       pmd.update!({
-        distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
-          pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong),
-        distance_b: Distance.distance_b(pmd.nvotessame, pmd.nvotesdiffer,
-          pmd.nvotessamestrong, pmd.nvotesdifferstrong)
-      })
+                    distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
+                                                    pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
+                  })
     end
   end
 
@@ -141,6 +140,6 @@ class Policy < ActiveRecord::Base
 
   def current_members(policy_person_distances)
     members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
-    members.select { |m| m.currently_in_parliament? }
+    members.select(&:currently_in_parliament?).sort_by { |m| [m.last_name, m.first_name] }
   end
 end
