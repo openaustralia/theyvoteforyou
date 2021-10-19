@@ -5,13 +5,6 @@
 
     .policy-details {
       margin-top:7px;
-
-      .policy-most-recent-division {
-        &:before {
-          content: "\00a0\25CF\00a0";
-          color: #aaa;
-        }
-      }
     }
   }
 

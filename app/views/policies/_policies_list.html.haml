@@ -1,7 +1,5 @@
 %ul.policies-list.list-unstyled
   - policies.each do |policy|
-    - last_edited_date = policy.last_edited_at
-    - most_recent_division_date = policy.most_recent_division_date
     - policy_watches = policy.watches.count
     %li
       = link_to policy, class: 'object-item panel-link row' do
@@ -11,18 +9,13 @@
             %div.small.text-muted.policy-details
               %span.policy-subscriber-count.policy-detail-large-screen
                 = pluralize(policy_watches, "subscriber")
-              %span.policy-most-recent-division.policy-detail-large-screen{title: formatted_date(most_recent_division_date)}
-                last division #{time_ago_in_words(most_recent_division_date)} ago
 
           %p.policy-data.object-secondary
             %span
               = pluralize(policy.divisions.count, "division")
               - if policy.unedited_motions_count != 0
                 %em= "(#{policy.unedited_motions_count} unedited)"
-            %small.policy-edit-notice.text-muted{title: formatted_date(last_edited_date)}
-              edited #{time_ago_in_words(last_edited_date)} ago
+            %small.policy-edit-notice.text-muted
+              edited #{time_ago_in_words(policy.last_edited_at)} ago
             %small.policy-subscriber-count.text-muted.policy-detail-small-screen
               = pluralize(policy_watches, "subscriber")
-            %small.policy-most-recent-division.text-muted.policy-detail-small-screen{title: formatted_date(most_recent_division_date)}
-              last division #{time_ago_in_words(most_recent_division_date)} ago
-

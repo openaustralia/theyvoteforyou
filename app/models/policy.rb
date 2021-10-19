@@ -35,10 +35,6 @@ class Policy < ApplicationRecord
     PaperTrail::Version.order(created_at: :desc).find_by(policy_id: id)
   end
 
-  def most_recent_division_date
-    divisions.maximum('date')
-  end
-
   def last_edited_at
     most_recent_version ? most_recent_version.created_at : updated_at
   end
