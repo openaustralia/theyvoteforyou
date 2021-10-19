@@ -7,7 +7,7 @@ describe MemberDistance, type: :model do
   # we shouldn't have them loaded
   before :each do
     Member.delete_all
-    MemberDistance.delete_all
+    described_class.delete_all
     Division.delete_all
     Vote.delete_all
   end
@@ -27,9 +27,9 @@ describe MemberDistance, type: :model do
                     entered_house: Date.new(1999, 1, 1), left_house: Date.new(2010, 1, 1))
     end
 
-    it { expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
-    it { expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0 }
-    it { expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 0 }
+    it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
+    it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0 }
+    it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 0 }
 
     def check_vote_combination(vote1, teller1, vote2, teller2, same, differ, absent)
       membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
@@ -116,18 +116,18 @@ describe MemberDistance, type: :model do
         memberb.votes.create(division: division5, vote: "no")
       end
 
-      it { expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
-      it { expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
-      it { expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
+      it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
+      it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
+      it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
 
       it ".calculate_distances" do
         expect(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
-        expect(MemberDistance.calculate_distances(membera, memberb)).to eq({
-                                                                             nvotessame: 2,
-                                                                             nvotesdiffer: 1,
-                                                                             nvotesabsent: 2,
-                                                                             distance_a: 0.1
-                                                                           })
+        expect(described_class.calculate_distances(membera, memberb)).to eq({
+                                                                              nvotessame: 2,
+                                                                              nvotesdiffer: 1,
+                                                                              nvotesabsent: 2,
+                                                                              distance_a: 0.1
+                                                                            })
       end
     end
   end

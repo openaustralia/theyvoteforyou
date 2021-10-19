@@ -5,7 +5,7 @@ require "spec_helper"
 describe WikiMotion, type: :model do
   before :each do
     # TODO: Find a way to reliably return a specific WikiMotion from the DB and use that at L35
-    WikiMotion.delete_all
+    described_class.delete_all
   end
 
   describe "storing edit_date in local time zone" do

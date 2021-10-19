@@ -55,46 +55,46 @@ describe DivisionInfo, type: :model do
       Vote.create(division: division1, member: membera, vote: "no")
       Vote.create(division: division1, member: memberb, vote: "no", teller: true)
       Vote.create(division: division2, member: membera, vote: "aye")
-      expect(DivisionInfo.all_rebellion_counts).to eq({})
-      expect(DivisionInfo.all_tells_counts).to eq({ 1 => 1 })
-      expect(DivisionInfo.all_turnout_counts).to eq({ 1 => 2, 2 => 1 })
-      expect(DivisionInfo.all_ayes_counts).to eq({ 2 => 1 })
-      expect(DivisionInfo.all_noes_counts).to eq({ 1 => 2 })
-      expect(DivisionInfo.all_aye_majority_counts).to eq({ 1 => -2, 2 => 1 })
-      expect(DivisionInfo.all_possible_turnout_counts).to eq({ 1 => 2, 2 => 2 })
+      expect(described_class.all_rebellion_counts).to eq({})
+      expect(described_class.all_tells_counts).to eq({ 1 => 1 })
+      expect(described_class.all_turnout_counts).to eq({ 1 => 2, 2 => 1 })
+      expect(described_class.all_ayes_counts).to eq({ 2 => 1 })
+      expect(described_class.all_noes_counts).to eq({ 1 => 2 })
+      expect(described_class.all_aye_majority_counts).to eq({ 1 => -2, 2 => 1 })
+      expect(described_class.all_possible_turnout_counts).to eq({ 1 => 2, 2 => 2 })
     end
 
     it do
       Vote.create(division: division1, member: membera, vote: "aye", teller: true)
       Vote.create(division: division1, member: memberb, vote: "aye")
-      expect(DivisionInfo.all_rebellion_counts).to eq({ 1 => 2 })
-      expect(DivisionInfo.all_tells_counts).to eq({ 1 => 1 })
-      expect(DivisionInfo.all_turnout_counts).to eq({ 1 => 2 })
-      expect(DivisionInfo.all_ayes_counts).to eq({ 1 => 2 })
-      expect(DivisionInfo.all_noes_counts).to eq({})
-      expect(DivisionInfo.all_aye_majority_counts).to eq({ 1 => 2 })
-      expect(DivisionInfo.all_possible_turnout_counts).to eq({ 1 => 2, 2 => 2 })
+      expect(described_class.all_rebellion_counts).to eq({ 1 => 2 })
+      expect(described_class.all_tells_counts).to eq({ 1 => 1 })
+      expect(described_class.all_turnout_counts).to eq({ 1 => 2 })
+      expect(described_class.all_ayes_counts).to eq({ 1 => 2 })
+      expect(described_class.all_noes_counts).to eq({})
+      expect(described_class.all_aye_majority_counts).to eq({ 1 => 2 })
+      expect(described_class.all_possible_turnout_counts).to eq({ 1 => 2, 2 => 2 })
     end
   end
 
   describe "#majority_fraction" do
     it "should be 0 for a tied vote" do
-      division = DivisionInfo.new(turnout: 100, aye_majority: 0)
+      division = described_class.new(turnout: 100, aye_majority: 0)
       expect(division.majority_fraction).to eq(0.0)
     end
 
     it "should be 1 for a unanimous aye vote" do
-      division = DivisionInfo.new(turnout: 100, aye_majority: 100)
+      division = described_class.new(turnout: 100, aye_majority: 100)
       expect(division.majority_fraction).to eq(1.0)
     end
 
     it "should be 1 for a unanimous no vote" do
-      division = DivisionInfo.new(turnout: 100, aye_majority: -100)
+      division = described_class.new(turnout: 100, aye_majority: -100)
       expect(division.majority_fraction).to eq(1.0)
     end
 
     it "should be 0.5 for a aye/no split of 75/25" do
-      division = DivisionInfo.new(turnout: 100, aye_majority: 50)
+      division = described_class.new(turnout: 100, aye_majority: 50)
       expect(division.majority_fraction).to eq(0.5)
     end
   end

@@ -2,10 +2,10 @@
 
 require "spec_helper"
 
-feature "Policies" do
-  given(:user) { create(:user, confirmed_at: Time.now) }
+describe "Policies", type: :feature do
+  let(:user) { create(:user, confirmed_at: Time.now) }
 
-  background do
+  before do
     # TODO: Remove this hack to delete fixtures
     Member.delete_all
     User.delete_all
@@ -18,7 +18,7 @@ feature "Policies" do
     click_button "Log in"
   end
 
-  scenario "successfully creating new" do
+  it "successfully creating new" do
     visit new_policy_path
     within "#new_policy" do
       fill_in "If you are for", with: "the creation of quality policies on this site"
@@ -30,7 +30,7 @@ feature "Policies" do
     expect(page).to have_content "Quality contributions are the bedrock of community projects"
   end
 
-  scenario "editing existing" do
+  it "editing existing" do
     PaperTrail.whodunnit = user.id
 
     policy = create(:policy, name: "test", description: "testing")

@@ -9,39 +9,39 @@ describe Whip, type: :model do
     Member.delete_all
     Division.delete_all
     Vote.delete_all
-    Whip.delete_all
+    described_class.delete_all
   end
 
   describe "#free_vote?" do
     it do
       division = Division.new(house: "senate", date: "2006-02-09", number: 3)
-      expect(Whip.new(division: division, party: "Liberal Party").free_vote?).to be_truthy
+      expect(described_class.new(division: division, party: "Liberal Party").free_vote?).to be_truthy
     end
 
     it do
       division = Division.new(house: "senate", date: "2001-01-01", number: 1)
-      whip = Whip.new(division: division, party: "Liberal Party")
+      whip = described_class.new(division: division, party: "Liberal Party")
       expect(whip.free_vote?).to be_falsy
     end
   end
 
   describe ".calc_whip_guess" do
     context "when no abstentions" do
-      it { expect(Whip.calc_whip_guess(10, 5, 0)).to eq "aye" }
-      it { expect(Whip.calc_whip_guess(5, 10, 0)).to eq "no" }
-      it { expect(Whip.calc_whip_guess(5, 5, 0)).to eq "unknown" }
+      it { expect(described_class.calc_whip_guess(10, 5, 0)).to eq "aye" }
+      it { expect(described_class.calc_whip_guess(5, 10, 0)).to eq "no" }
+      it { expect(described_class.calc_whip_guess(5, 5, 0)).to eq "unknown" }
     end
 
     context "when 10 abstentions" do
-      it { expect(Whip.calc_whip_guess(5, 5, 10)).to eq "abstention" }
-      it { expect(Whip.calc_whip_guess(5, 10, 10)).to eq "unknown" }
-      it { expect(Whip.calc_whip_guess(5, 15, 10)).to eq "no" }
-      it { expect(Whip.calc_whip_guess(10, 5, 10)).to eq "unknown" }
-      it { expect(Whip.calc_whip_guess(10, 10, 10)).to eq "unknown" }
-      it { expect(Whip.calc_whip_guess(10, 15, 10)).to eq "no" }
-      it { expect(Whip.calc_whip_guess(15, 5, 10)).to eq "aye" }
-      it { expect(Whip.calc_whip_guess(15, 10, 10)).to eq "aye" }
-      it { expect(Whip.calc_whip_guess(15, 15, 10)).to eq "unknown" }
+      it { expect(described_class.calc_whip_guess(5, 5, 10)).to eq "abstention" }
+      it { expect(described_class.calc_whip_guess(5, 10, 10)).to eq "unknown" }
+      it { expect(described_class.calc_whip_guess(5, 15, 10)).to eq "no" }
+      it { expect(described_class.calc_whip_guess(10, 5, 10)).to eq "unknown" }
+      it { expect(described_class.calc_whip_guess(10, 10, 10)).to eq "unknown" }
+      it { expect(described_class.calc_whip_guess(10, 15, 10)).to eq "no" }
+      it { expect(described_class.calc_whip_guess(15, 5, 10)).to eq "aye" }
+      it { expect(described_class.calc_whip_guess(15, 10, 10)).to eq "aye" }
+      it { expect(described_class.calc_whip_guess(15, 15, 10)).to eq "unknown" }
     end
   end
 
@@ -88,12 +88,13 @@ describe Whip, type: :model do
         division.votes.create(member: member1, vote: "aye")
       end
 
-      it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1) }
-      it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }) }
+      it { expect(described_class.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1) }
+      it { expect(described_class.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }) }
+
       it do
-        Whip.update_all!
-        expect(Whip.all.count).to eq 2
-        w = Whip.find_by(division: division, party: "A")
+        described_class.update_all!
+        expect(described_class.all.count).to eq 2
+        w = described_class.find_by(division: division, party: "A")
         expect(w.aye_votes).to eq 1
         expect(w.aye_tells).to eq 0
         expect(w.no_votes).to eq 0
@@ -102,7 +103,7 @@ describe Whip, type: :model do
         expect(w.abstention_votes).to eq 0
         expect(w.possible_votes).to eq 1
         expect(w.whip_guess).to eq "aye"
-        w = Whip.find_by(division: division, party: "B")
+        w = described_class.find_by(division: division, party: "B")
         expect(w.aye_votes).to eq 0
         expect(w.aye_tells).to eq 0
         expect(w.no_votes).to eq 0
@@ -116,18 +117,23 @@ describe Whip, type: :model do
       context "when free vote" do
         it do
           # TODO: get rid of use of any_instance. It's a code smell.
-          allow_any_instance_of(Whip).to receive(:free_vote?).and_return(true)
-          Whip.update_all!
-          w = Whip.find_by(division: division, party: "A")
+          # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(described_class).to receive(:free_vote?).and_return(true)
+          # rubocop:enable RSpec/AnyInstance
+          described_class.update_all!
+          w = described_class.find_by(division: division, party: "A")
           expect(w.whip_guess).to eq "none"
         end
       end
 
       context "when whipless party vote" do
         it do
-          allow_any_instance_of(Whip).to receive(:whipless?).and_return(true)
-          Whip.update_all!
-          w = Whip.find_by(division: division, party: "A")
+          # TODO: get rid of use of any_instance. It's a code smell.
+          # rubocop:disable RSpec/AnyInstance
+          allow_any_instance_of(described_class).to receive(:whipless?).and_return(true)
+          # rubocop:enable RSpec/AnyInstance
+          described_class.update_all!
+          w = described_class.find_by(division: division, party: "A")
           expect(w.whip_guess).to eq "none"
         end
       end
@@ -138,12 +144,13 @@ describe Whip, type: :model do
           division.votes.create(member: member3, vote: "aye")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2) }
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 2 }) }
+        it { expect(described_class.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 2) }
+        it { expect(described_class.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 2 }) }
+
         it do
-          Whip.update_all!
-          expect(Whip.all.count).to eq 2
-          w = Whip.find_by(division: division, party: "A")
+          described_class.update_all!
+          expect(described_class.all.count).to eq 2
+          w = described_class.find_by(division: division, party: "A")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0
           expect(w.no_votes).to eq 0
@@ -152,7 +159,7 @@ describe Whip, type: :model do
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 1
           expect(w.whip_guess).to eq "aye"
-          w = Whip.find_by(division: division, party: "B")
+          w = described_class.find_by(division: division, party: "B")
           expect(w.aye_votes).to eq 2
           expect(w.aye_tells).to eq 0
           expect(w.no_votes).to eq 0
@@ -170,12 +177,13 @@ describe Whip, type: :model do
           division.votes.create(member: member3, vote: "no")
         end
 
-        it { expect(Whip.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }
-        it { expect(Whip.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 1, ["no", 0] => 1 }) }
+        it { expect(described_class.calc_all_votes_per_party).to eq([1, "A", "aye", 0] => 1, [1, "B", "aye", 0] => 1, [1, "B", "no", 0] => 1) }
+        it { expect(described_class.calc_all_votes_per_party2).to eq([1, "A"] => { ["aye", 0] => 1 }, [1, "B"] => { ["aye", 0] => 1, ["no", 0] => 1 }) }
+
         it do
-          Whip.update_all!
-          expect(Whip.all.count).to eq 2
-          w = Whip.find_by(division: division, party: "A")
+          described_class.update_all!
+          expect(described_class.all.count).to eq 2
+          w = described_class.find_by(division: division, party: "A")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0
           expect(w.no_votes).to eq 0
@@ -184,7 +192,7 @@ describe Whip, type: :model do
           expect(w.abstention_votes).to eq 0
           expect(w.possible_votes).to eq 1
           expect(w.whip_guess).to eq "aye"
-          w = Whip.find_by(division: division, party: "B")
+          w = described_class.find_by(division: division, party: "B")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0
           expect(w.no_votes).to eq 1

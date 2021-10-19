@@ -4,8 +4,9 @@ require "spec_helper"
 
 describe Devise::Mailer do
   let(:user) { mock_model(User, email: "foo@bar.com", name: "Matthew Landauer") }
+
   describe "#confirmation_instructions" do
-    let(:mail) { Devise::Mailer.confirmation_instructions(user, "abc123") }
+    let(:mail) { described_class.confirmation_instructions(user, "abc123") }
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
     it { expect(mail[:from].display_names).to eq ["They Vote For You"] }
@@ -17,7 +18,7 @@ describe Devise::Mailer do
   end
 
   describe "#reset_password_instructions" do
-    let(:mail) { Devise::Mailer.reset_password_instructions(user, "abc123") }
+    let(:mail) { described_class.reset_password_instructions(user, "abc123") }
 
     it { expect(mail.from).to eq ["contact@theyvoteforyou.org.au"] }
     it { expect(mail[:from].display_names).to eq ["They Vote For You"] }

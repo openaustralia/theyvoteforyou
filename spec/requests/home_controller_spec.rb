@@ -22,10 +22,12 @@ describe HomeController, type: :request do
     it do
       VCR.use_cassette("openaustralia_postcode_api") { compare_static("/search?query=2088") }
     end
+
     # Two electorates cover this postcode
     it do
       VCR.use_cassette("openaustralia_postcode_api") { compare_static("/search?query=2042") }
     end
+
     # Bad postcode
     it do
       VCR.use_cassette("openaustralia_postcode_api") { compare_static("/search?query=0000") }

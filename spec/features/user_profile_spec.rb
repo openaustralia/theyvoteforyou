@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-feature "User profile" do
-  background do
+describe "User profile", type: :feature do
+  before do
     # TODO: Remove this hack to delete fixtures
     Member.delete_all
     User.delete_all
@@ -11,9 +11,9 @@ feature "User profile" do
     create :member
   end
 
-  given(:user) { create(:user, confirmed_at: Time.now) }
+  let(:user) { create(:user, confirmed_at: Time.now) }
 
-  scenario "changing name without changing password" do
+  it "changing name without changing password" do
     visit "/"
     click_link "Log in"
     within "#new_user" do

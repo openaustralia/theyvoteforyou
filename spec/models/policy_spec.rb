@@ -22,29 +22,29 @@ describe Policy, type: :model do
   describe "#status" do
     it "private is 0" do
       subject.private = 0
-      expect(subject.status).to eql "published"
+      expect(subject.status).to eq "published"
     end
 
     it "private is 1" do
       subject.private = 1
-      expect(subject.status).to eql "legacy Dream MP"
+      expect(subject.status).to eq "legacy Dream MP"
     end
 
     it "private is 2" do
       subject.private = 2
-      expect(subject.status).to eql "provisional"
+      expect(subject.status).to eq "provisional"
     end
   end
 
   describe "#provisional?" do
     it "private is 2" do
       subject.private = 2
-      expect(subject.provisional?).to eql true
+      expect(subject.provisional?).to be true
     end
 
     it "private is 0" do
       subject.private = 0
-      expect(subject.provisional?).to eql false
+      expect(subject.provisional?).to be false
     end
   end
 end

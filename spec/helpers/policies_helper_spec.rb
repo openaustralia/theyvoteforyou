@@ -42,6 +42,7 @@ describe PoliciesHelper, type: :helper do
 
     context "with change name on policy" do
       let(:version) { double("version", item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: { "name" => ["Version A", "Version B"] }, reify: mock_model(Policy, id: 3, name: "Version A")) }
+
       it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Name changed from “Version A” to “Version B”.</p>' }
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end

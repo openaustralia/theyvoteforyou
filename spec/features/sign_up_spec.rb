@@ -2,8 +2,8 @@
 
 require "spec_helper"
 
-feature "Signing up" do
-  background do
+describe "Signing up", type: :feature do
+  before do
     # TODO: Remove this hack to delete fixtures
     Member.delete_all
     User.delete_all
@@ -11,7 +11,7 @@ feature "Signing up" do
     create :member
   end
 
-  scenario "with valid details" do
+  it "with valid details" do
     visit "/"
     click_link "Sign up"
     expect(page).to have_content "Sign up to help unlock parliament"
@@ -22,7 +22,7 @@ feature "Signing up" do
     end
     click_button "Sign up"
     expect(page).to have_content "now check your inbox"
-    expect(unread_emails_for("henare@oaf.org.au").size).to eql 1
+    expect(unread_emails_for("henare@oaf.org.au").size).to be 1
     open_last_email_for("henare@oaf.org.au")
     expect(current_email).to have_subject("Confirm your email address")
     click_email_link_matching(/confirm/)
