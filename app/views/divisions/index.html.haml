@@ -8,17 +8,13 @@
     .page-header.container
       %h1
         = yield :title
-        - if @date_start || @date_end
-          %small= divisions_period
-        - elsif @rdisplay != "all"
-          %small= Parliament.all[@rdisplay][:name]
-
+        %small= divisions_period
 
       %p.lead
         In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
 
 - if @divisions.any?
-  = render "divisions_chooser", rdisplay: @rdisplay, party: @party, house: @house
+  = render "divisions_chooser", party: @party, house: @house
 
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 

@@ -27,20 +27,15 @@ class DivisionsController < ApplicationController
       end
     else
       @sort = params[:sort]
-      @rdisplay = params[:rdisplay]
       @house = params[:house] unless params[:house] == "all"
 
       begin
-        @date_start, @date_end, @date_range = date_range(params[:date], @rdisplay)
+        @date_start, @date_end, @date_range = date_range(params[:date])
       rescue ArgumentError
         return render "home/error404", status: 404
       end
 
-      # This sets the parliament to display if it's not set. It's only here for legacy support
-      # and should probably be cleaned up at some stage as we no longer focus on parliament sessions
-      @rdisplay = "2013" if @rdisplay.nil?
-
-      raise ActiveRecord::RecordNotFound if @rdisplay != "all" && !Parliament.all.key?(@rdisplay) || (@house && !House.valid?(@house))
+      raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
 
       order = case @sort
               when "subject"
@@ -57,8 +52,7 @@ class DivisionsController < ApplicationController
       @divisions = Division.order(order)
       @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
       @divisions = @divisions.in_house(@house) if @house
-      @divisions = @divisions.in_date_range(@date_start, @date_end) if @date_start && @date_end
-      @divisions = @divisions.in_parliament(Parliament.all[@rdisplay]) unless @rdisplay == "all" || @date_start || @date_end
+      @divisions = @divisions.in_date_range(@date_start, @date_end)
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
     end
   end
@@ -170,10 +164,10 @@ class DivisionsController < ApplicationController
     params.require(:policy_division).permit(:policy_id, :vote)
   end
 
-  def date_range(date, rdisplay = nil)
+  def date_range(date)
     if date
       DivisionParameterParser.date_range(date)
-    elsif rdisplay.nil?
+    else
       DivisionParameterParser.date_range(@years.last.to_s)
     end
   end
