@@ -6,18 +6,21 @@ class DivisionsController < ApplicationController
   def index
     @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
 
+    begin
+      @date_start, @date_end, @date_range = date_range(params[:date])
+    rescue ArgumentError
+      return render "home/error404", status: 404
+    end
+
+    @house = params[:house] unless params[:house] == "all"
+    raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
+
     if params[:mpc] && params[:mpn]
+
       @mpc = params[:mpc]
       @mpn = params[:mpn]
-      @house = params[:house]
 
       @member = member
-
-      begin
-        @date_start, @date_end, @date_range = date_range(params[:date])
-      rescue ArgumentError
-        return render "home/error404", status: 404
-      end
 
       if @member
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
@@ -27,15 +30,6 @@ class DivisionsController < ApplicationController
       end
     else
       @sort = params[:sort]
-      @house = params[:house] unless params[:house] == "all"
-
-      begin
-        @date_start, @date_end, @date_range = date_range(params[:date])
-      rescue ArgumentError
-        return render "home/error404", status: 404
-      end
-
-      raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
 
       order = case @sort
               when "subject"
