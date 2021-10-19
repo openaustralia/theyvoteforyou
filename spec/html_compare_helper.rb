@@ -10,7 +10,7 @@ module HTMLCompareHelper
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  def compare_static(path, signed_in = false, form_params = false, suffix = "", method = :post, format = "html")
+  def compare_static(path, signed_in: false, form_params: false, suffix: "", method: :post, format: "html")
     login_as(users(:one), scope: :user) if signed_in
 
     if form_params

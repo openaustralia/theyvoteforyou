@@ -11,14 +11,14 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/representatives/2013-03-14/1") }
     it { compare_static("/divisions/senate/2013-03-14/1") }
 
-    it { compare_static("/divisions/representatives/2006-12-06/3/policies", true) }
-    it { compare_static("/divisions/representatives/2013-03-14/1/policies", true) }
-    it { compare_static("/divisions/representatives/2013-03-14/1/policies", false, false, "_2") }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies", true) }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies/1", true) }
-    it { compare_static("/divisions/senate/2009-11-25/8/policies/2", true) }
-    it { compare_static("/divisions/senate/2013-03-14/1/policies", true) }
-    it { compare_static("/divisions/senate/2013-03-14/1/policies", false, false, "_2") }
+    it { compare_static("/divisions/representatives/2006-12-06/3/policies", signed_in: true) }
+    it { compare_static("/divisions/representatives/2013-03-14/1/policies", signed_in: true) }
+    it { compare_static("/divisions/representatives/2013-03-14/1/policies", suffix: "_2") }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies", signed_in: true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/1", signed_in: true) }
+    it { compare_static("/divisions/senate/2009-11-25/8/policies/2", signed_in: true) }
+    it { compare_static("/divisions/senate/2013-03-14/1/policies", signed_in: true) }
+    it { compare_static("/divisions/senate/2013-03-14/1/policies", suffix: "_2") }
 
     it { compare_static("/people/representatives/griffith/kevin_rudd/divisions/2006-12-06/3") }
     it { compare_static("/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3") }
@@ -72,11 +72,11 @@ describe DivisionsController, type: :request do
   end
 
   describe "#edit" do
-    it { compare_static "/divisions/senate/2009-11-25/8/edit", true }
-    it { compare_static "/divisions/representatives/2013-03-14/1/edit", true }
+    it { compare_static "/divisions/senate/2009-11-25/8/edit", signed_in: true }
+    it { compare_static "/divisions/representatives/2013-03-14/1/edit", signed_in: true }
   end
 
   describe "#update" do
-    it { compare_static "/divisions/senate/2009-11-25/8", true, submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" }
+    it { compare_static "/divisions/senate/2009-11-25/8", signed_in: true, form_params: { submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" } }
   end
 end
