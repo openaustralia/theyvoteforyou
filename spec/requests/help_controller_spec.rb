@@ -8,6 +8,6 @@ describe HelpController, type: :request do
   fixtures :all
 
   it "#research" do
-    compare_static("/project/research.php")
+    compare_static("/help/research")
   end
 end
