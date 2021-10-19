@@ -395,8 +395,7 @@ describe "routing redirects", type: :request do
       # Barnaby has been set up above as a member and a senator.
       # Let's refer to his senator record but incorrectly using `member` instead of `lord`
       get "/mp.php?id=uk.org.publicwhip/member/100114", params: {}
-      expect(response.status).to eq 302
-      expect(response.headers["location"]).to eq "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
+      expect(response).to redirect_to "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
     end
   end
 end
