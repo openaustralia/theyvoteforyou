@@ -6,17 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 5
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/InverseOf:
-  Exclude:
-    - 'app/models/division.rb'
-    - 'app/models/member.rb'
-    - 'app/models/person.rb'
-    - 'app/models/policy.rb'
-    - 'app/models/policy_person_distance.rb'
-
 # Offense count: 1
 # Configuration parameters: Include.
 # Include: app/controllers/**/*.rb

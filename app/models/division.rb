@@ -8,7 +8,7 @@ class Division < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> { order(edit_date: :desc) }
+  has_many :wiki_motions, -> { order(edit_date: :desc) }, inverse_of: :division
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
