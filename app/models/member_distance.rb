@@ -12,7 +12,7 @@ class MemberDistance < ApplicationRecord
 
   def self.update_all!
     Member.all.find_each do |member1|
-      puts "Updating distances for #{member1.name}..."
+      Rails.logger.info "Updating distances for #{member1.name}..."
       # Find all members who overlap with this member
       members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house)
                       .where("entered_house <= ?", member1.left_house)

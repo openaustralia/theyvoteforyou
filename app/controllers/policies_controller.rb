@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PoliciesController < ApplicationController
-  before_action :authenticate_user!, except: %i[index drafts show detail full history]
+  before_action :authenticate_user!, except: %i[index drafts show history]
 
   def index
     @policies = Policy.published.order(:name)
