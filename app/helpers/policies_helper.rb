@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 module PoliciesHelper
-  def policies_list_sentence(policies)
-    policies.map do |policy|
-      text = link_to h(policy.name), policy
-      text += " ".html_safe + content_tag(:i, "(draft)") if policy.provisional?
-      text
-    end.to_sentence.html_safe
-  end
-
   def policy_agreement_summary_without_html(policy_member_distance)
     policy_agreement_summary_first_word(policy_member_distance) +
       " ".html_safe +
