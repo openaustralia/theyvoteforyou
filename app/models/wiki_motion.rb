@@ -17,13 +17,13 @@ class WikiMotion < ApplicationRecord
 
   # Strip timezone as it's stored in the DB as local time
   def edit_date
-    Time.parse(read_attribute(:edit_date).in_time_zone("UTC").strftime("%F %T"))
+    Time.zone.parse(self[:edit_date].in_time_zone("UTC").strftime("%F %T"))
   end
 
   # FIXME: Stop this nonsense of storing local times in the DB to match PHP
   def edit_date=(date)
     date_set_in_utc = date.strftime("%F %T #{date.in_time_zone('UTC').formatted_offset}")
-    write_attribute(:edit_date, date_set_in_utc)
+    self[:edit_date] = date_set_in_utc
   end
 
   # TODO: Doing this horrible workaround to deal with storing local time in db

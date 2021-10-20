@@ -9,7 +9,7 @@ class DivisionsController < ApplicationController
     begin
       @date_start, @date_end, @date_range = date_range(params[:date])
     rescue ArgumentError
-      return render "home/error404", status: 404
+      return render "home/error404", status: :not_found
     end
 
     @house = params[:house] unless params[:house] == "all"
@@ -26,7 +26,7 @@ class DivisionsController < ApplicationController
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
         render "index_with_member"
       else
-        render "members/member_not_found", status: 404
+        render "members/member_not_found", status: :not_found
       end
     else
       @sort = params[:sort]
@@ -59,7 +59,7 @@ class DivisionsController < ApplicationController
     @division = division(house, date, number)
 
     if @division.nil?
-      render "home/error404", status: 404
+      render "home/error404", status: :not_found
     else
       @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.positive?
       @whips = @division.whips.order(:party)
@@ -73,7 +73,7 @@ class DivisionsController < ApplicationController
         member = Member.in_house(house).with_name(name)
                        .where(constituency: electorate).first
         @member = member&.person&.member_who_voted_on_division(@division)
-        return render "home/error404", status: 404 if @member.nil?
+        return render "home/error404", status: :not_found if @member.nil?
       end
 
       @members = Member.in_house(house).current_on(@division.date)

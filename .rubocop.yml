@@ -9,6 +9,7 @@ AllCops:
     - db/schema.rb
     - bin/*
     - vendor/**/*
+    - db/migrate/*.rb
 
 # Disabling warnings about line length because it's so common through
 # the codebase currently. It would be good to fix as it would make things
@@ -59,6 +60,10 @@ RSpec/NestedGroups:
 # as it probably involves a bit of refactoring of the code under test
 # TODO: Fix this
 RSpec/SubjectStub:
+  Enabled: false
+
+# TODO: Fix this
+Rails/HasAndBelongsToMany:
   Enabled: false
 
 # Disable a bunch of metrics to do with code complexity. These as are all

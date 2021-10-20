@@ -28,7 +28,7 @@ class PoliciesController < ApplicationController
       @member = @member.person.member_for_policy(@policy)
       render "show_with_member"
     else
-      render "members/member_not_found", status: 404
+      render "members/member_not_found", status: :not_found
     end
   end
 

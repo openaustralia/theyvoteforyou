@@ -17,7 +17,7 @@ class MemberDistance < ApplicationRecord
       members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house)
                       .where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
-      members.where("id >= ?", member1.id).each do |member2|
+      members.where("id >= ?", member1.id).find_each do |member2|
         params = calculate_distances(member1, member2)
         # Matrix is symmetric so we don't have to calculate twice
         MemberDistance.find_or_initialize_by(member1: member1, member2: member2).update(params)

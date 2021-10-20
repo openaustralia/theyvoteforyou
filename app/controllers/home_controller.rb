@@ -32,16 +32,16 @@ class HomeController < ApplicationController
         redirect_to view_context.member_path(member)
       elsif electorates.count > 1
         electorates.each do |e|
-          member = Member.current_on(Date.today).find_by(constituency: e["name"])
+          member = Member.current_on(Time.zone.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?
         end
       end
     elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path(Member.with_name(params[:query]).first)
-    elsif !params[:query].blank?
-      @mps = Member.find_by_search_query params[:query]
-      @divisions = Division.find_by_search_query params[:query]
-      @policies = Policy.find_by_search_query params[:query]
+    elsif params[:query].present?
+      @mps = Member.find_by search_query: params[:query]
+      @divisions = Division.find_by search_query: params[:query]
+      @policies = Policy.find_by search_query: params[:query]
     end
   end
 
@@ -52,10 +52,10 @@ class HomeController < ApplicationController
   end
 
   def error404
-    render status: 404
+    render status: :not_found
   end
 
   def error500
-    render status: 500
+    render status: :internal_server_error
   end
 end

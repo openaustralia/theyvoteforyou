@@ -9,7 +9,7 @@ describe "path helpers", type: :helper do
   end
   let(:policy) { mock_model(Policy, id: 123) }
   let(:division) { mock_model(Division, house: "representatives", date: Date.new(2001, 1, 1), number: 3) }
-  let(:party) { double("party", url_name: "foo_bar") }
+  let(:party) { instance_double("party", url_name: "foo_bar") }
 
   it ".member_path" do
     expect(helper.member_path(member))

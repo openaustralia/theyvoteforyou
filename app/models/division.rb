@@ -54,7 +54,7 @@ class Division < ApplicationRecord
   end
 
   def whip_guess_for(party)
-    whips.where(party: party).first.whip_guess
+    whips.find_by(party: party).whip_guess
   end
 
   def role_for(member)
@@ -134,7 +134,7 @@ class Division < ApplicationRecord
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:name))
+    HTMLEntities.new.decode(self[:name])
   end
 
   add_method_tracer :original_name, "Custom/Division/original_name"
@@ -143,7 +143,7 @@ class Division < ApplicationRecord
     text = if edited?
              wiki_motion.description.strip
            else
-             ReverseMarkdown.convert(read_attribute(:motion))
+             ReverseMarkdown.convert(self[:motion])
            end
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
@@ -151,7 +151,7 @@ class Division < ApplicationRecord
   end
 
   def original_motion
-    read_attribute(:motion)
+    self[:motion]
   end
 
   def history
@@ -189,8 +189,8 @@ class Division < ApplicationRecord
   # TODO: We should really be doing any tidying up of the clock time in the loader and
   # we should make the field an actual time rather than a free text field
   def clock_time
-    text = read_attribute(:clock_time)
-    Time.parse(text).strftime("%l:%M %p") if text.present?
+    text = self[:clock_time]
+    Time.zone.parse(text).strftime("%l:%M %p") if text.present?
   end
 
   def house_name
@@ -229,7 +229,7 @@ class Division < ApplicationRecord
                      description: description,
                      user: user,
                      # TODO: Use default rails created_at instead
-                     edit_date: Time.now)
+                     edit_date: Time.zone.now)
   end
 
   def self.find_by_search_query(query)

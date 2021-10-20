@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe "Policies", type: :feature do
-  let(:user) { create(:user, confirmed_at: Time.now) }
+  let(:user) { create(:user, confirmed_at: Time.zone.now) }
 
   before do
     # TODO: Remove this hack to delete fixtures

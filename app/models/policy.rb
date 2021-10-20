@@ -15,7 +15,7 @@ class Policy < ApplicationRecord
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true, length: { maximum: 100 }
 
-  enum private: [:published, "legacy Dream MP", :provisional]
+  enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
   alias_attribute :status, :private
 
   def name_with_for
@@ -53,14 +53,14 @@ class Policy < ApplicationRecord
   end
 
   def self.update_all!
-    all.each(&:calculate_member_distances!)
+    all.find_each(&:calculate_member_distances!)
   end
 
   def calculate_member_distances!
     policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
-      Member.current_on(policy_division.date).where(house: policy_division.house).each do |member|
+      Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?

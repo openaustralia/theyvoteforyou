@@ -63,12 +63,12 @@ describe DataLoader::DebatesXML do
 
   describe "#clock_time" do
     it "adds preceeding zero and trailing seconds" do
-      division_xml = double("Division XML", attr: "12:34")
+      division_xml = instance_double("Division XML", attr: "12:34")
       expect(DataLoader::DivisionXML.new(division_xml, "representatives").clock_time).to eq("012:34:00")
     end
 
     it "is blank when time is malformed" do
-      division_xml = double("Division XML", attr: "foobar")
+      division_xml = instance_double("Division XML", attr: "foobar")
       expect(DataLoader::DivisionXML.new(division_xml, "representatives").clock_time).to eq("")
     end
   end

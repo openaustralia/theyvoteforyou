@@ -9,7 +9,7 @@ class Vote < ApplicationRecord
   delegate :date, to: :division
 
   def whip
-    division.whips.where(party: party).first
+    division.whips.find_by(party: party)
   end
 
   # All rebellious votes

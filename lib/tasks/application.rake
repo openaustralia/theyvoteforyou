@@ -60,7 +60,7 @@ namespace :application do
     desc "Reload members, offices and electorates - load yesterday's divisions - update caches"
     task daily: :environment do
       # Get yesterday's system date to avoid Rails UTC timezone
-      yesterday = Time.now.yesterday.to_date.to_s
+      yesterday = Time.zone.now.yesterday.to_date.to_s
 
       task("application:load:members").invoke
       task("application:load:divisions").invoke(yesterday)
@@ -83,8 +83,8 @@ namespace :application do
       Rake::Task["application:load:divisions"].invoke("2014-02-13")
       # Let's prune the members down to two in each house
       puts "Pruning (or should I say culling?) members..."
-      members = Member.in_house("senate").current_on(Date.today).limit(2) +
-                Member.in_house("representatives").current_on(Date.today).limit(2)
+      members = Member.in_house("senate").current_on(Time.zone.today).limit(2) +
+                Member.in_house("representatives").current_on(Time.zone.today).limit(2)
       Member.find_each { |member| member.destroy unless members.include?(member) }
       Rake::Task["application:cache:all"].invoke
       # TODO: This doesn't yet create policy information nor edited motion text

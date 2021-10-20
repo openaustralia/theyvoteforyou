@@ -24,7 +24,7 @@ class User < ApplicationRecord
   end
 
   def api_key
-    api_key = read_attribute(:api_key) || User.random_api_key
+    api_key = self[:api_key] || User.random_api_key
     update_attribute(:api_key, api_key)
     api_key
   end
@@ -70,6 +70,6 @@ class User < ApplicationRecord
   end
 
   def self.random_api_key
-    Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    Digest::MD5.base64digest(rand.to_s + Time.zone.now.to_s)[0...20]
   end
 end

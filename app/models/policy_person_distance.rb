@@ -79,13 +79,9 @@ class PolicyPersonDistance < ApplicationRecord
     distance_object.possible_votes_points(:absent)
   end
 
-  def total_points
-    distance_object.total_points
-  end
+  delegate :total_points, to: :distance_object
 
-  def possible_total_points
-    distance_object.possible_total_points
-  end
+  delegate :possible_total_points, to: :distance_object
 
   def agreement_fraction
     1 - distance_a
