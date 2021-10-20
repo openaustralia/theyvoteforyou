@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe PoliciesHelper, type: :helper do
-  before :each do
+  before do
     User.delete_all
     Policy.delete_all
   end
@@ -22,7 +22,7 @@ describe PoliciesHelper, type: :helper do
   end
 
   describe ".version_sentence" do
-    before :each do
+    before do
       allow(Policy).to receive(:find).with(3).and_return(mock_model(Policy, id: 3, name: "chickens"))
     end
 
@@ -69,8 +69,8 @@ describe PoliciesHelper, type: :helper do
     end
 
     context "with changing policy vote" do
-      before :each do
-        expect(Division).to receive(:find).with(5).and_return(mock_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
+      before do
+        allow(Division).to receive(:find).with(5).and_return(mock_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
       end
 
       context "with create vote on policy" do

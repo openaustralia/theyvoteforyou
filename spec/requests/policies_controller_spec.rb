@@ -9,7 +9,7 @@ describe PoliciesController, type: :request do
 
   let(:user) { create(:user, id: 1, name: "Henare Degan") }
 
-  before(:each) do
+  before do
     # To workaround paper trail and fixtures problems we're deleting the static
     # fixtures data and recreating here in such a way that the versions in paper
     # trail are setup the way we want

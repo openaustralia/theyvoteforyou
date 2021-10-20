@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe WikiMotion, type: :model do
-  before :each do
+  before do
     # TODO: Find a way to reliably return a specific WikiMotion from the DB and use that at L35
     described_class.delete_all
   end

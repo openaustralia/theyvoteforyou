@@ -5,7 +5,7 @@ require "spec_helper"
 describe Whip, type: :model do
   # TODO: Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
-  before :each do
+  before do
     Member.delete_all
     Division.delete_all
     Vote.delete_all
@@ -15,13 +15,13 @@ describe Whip, type: :model do
   describe "#free_vote?" do
     it do
       division = Division.new(house: "senate", date: "2006-02-09", number: 3)
-      expect(described_class.new(division: division, party: "Liberal Party").free_vote?).to be_truthy
+      expect(described_class.new(division: division, party: "Liberal Party")).to be_free_vote
     end
 
     it do
       division = Division.new(house: "senate", date: "2001-01-01", number: 1)
       whip = described_class.new(division: division, party: "Liberal Party")
-      expect(whip.free_vote?).to be_falsy
+      expect(whip).not_to be_free_vote
     end
   end
 
@@ -46,7 +46,7 @@ describe Whip, type: :model do
   end
 
   describe ".calc_all_votes_per_party" do
-    before :each do
+    before do
       member1
       member2
       member3
@@ -84,7 +84,7 @@ describe Whip, type: :model do
     end
 
     context "when one aye vote in party A" do
-      before :each do
+      before do
         division.votes.create(member: member1, vote: "aye")
       end
 
@@ -139,7 +139,7 @@ describe Whip, type: :model do
       end
 
       context "when 2 aye votes in party B" do
-        before :each do
+        before do
           division.votes.create(member: member2, vote: "aye")
           division.votes.create(member: member3, vote: "aye")
         end
@@ -172,7 +172,7 @@ describe Whip, type: :model do
       end
 
       context "when 1 aye vote and 1 no vote in party B" do
-        before :each do
+        before do
           division.votes.create(member: member2, vote: "aye")
           division.votes.create(member: member3, vote: "no")
         end

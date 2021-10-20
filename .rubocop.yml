@@ -43,6 +43,18 @@ Bundler/OrderedGems:
   Exclude:
     - 'Gemfile'
 
+# TODO: Get rid of this as soon as we can
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# TODO: Enable this when we can
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# TODO: Enable this when we can because it will some tests easier to read
+RSpec/NestedGroups:
+  Enabled: false
+
 # Disable a bunch of metrics to do with code complexity. These as are all
 # a bit hard-nosed.
 Metrics/AbcSize:

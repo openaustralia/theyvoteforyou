@@ -31,7 +31,7 @@ describe Division, type: :model do
   describe "#passed?" do
     subject(:division) { described_class.new }
 
-    it "should not be passed when there's a draw" do
+    it "is not passed when there's a draw" do
       allow(division).to receive(:aye_majority) { 0 }
       expect(division.passed?).to be(false)
     end

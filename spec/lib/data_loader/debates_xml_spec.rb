@@ -76,37 +76,37 @@ describe DataLoader::DebatesXML do
   describe "#name" do
     subject(:division) { DataLoader::DivisionXML.new(double, "senate") }
 
-    it "should join major and minor headings" do
+    it "joins major and minor headings" do
       allow(division).to receive(:major_heading).and_return("FOO")
       allow(division).to receive(:minor_heading).and_return("BAR")
       expect(division.name).to eq("Foo &#8212; Bar")
     end
 
-    it "should show major heading only" do
+    it "shows major heading only" do
       allow(division).to receive(:major_heading).and_return("FOO")
       allow(division).to receive(:minor_heading).and_return("")
       expect(division.name).to eq("Foo")
     end
 
-    it "should show major heading only" do
+    it "shows minor heading only" do
       allow(division).to receive(:major_heading).and_return("")
       allow(division).to receive(:minor_heading).and_return("BAR")
       expect(division.name).to eq("Bar")
     end
 
-    it "should correctly capitalise hyphenated titles" do
+    it "correctly capitalises hyphenated titles" do
       allow(division).to receive(:major_heading).and_return("ASIA-PACIFIC ECONOMIC COOPERATION")
       allow(division).to receive(:minor_heading).and_return("")
       expect(division.name).to eq("Asia-Pacific Economic Cooperation")
     end
 
-    it "should html encode and pad em dashes" do
+    it "html encodes and pads em dashes" do
       allow(division).to receive(:major_heading).and_return("CARBON POLLUTION REDUCTION SCHEME (CHARGES—GENERAL) BILL 2009 [NO. 2]")
       allow(division).to receive(:minor_heading).and_return("")
       expect(division.name).to eq("Carbon Pollution Reduction Scheme (Charges &#8212; General) Bill 2009 [No. 2]")
     end
 
-    it "should not lower case first words of minor headings" do
+    it "does not lower case first words of minor headings" do
       allow(division).to receive(:major_heading).and_return("FUTURE FUND BILL 2005 ")
       allow(division).to receive(:minor_heading).and_return("In Committee ")
       expect(division.name).to eq("Future Fund Bill 2005 &#8212; In Committee")

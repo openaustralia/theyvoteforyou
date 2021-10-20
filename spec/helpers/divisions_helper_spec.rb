@@ -14,7 +14,7 @@ describe DivisionsHelper, type: :helper do
   end
 
   describe "#majority_strength_in_words" do
-    before :each do
+    before do
       allow(helper).to receive(:division_score).and_return("1 Aye – 0 No")
     end
 
