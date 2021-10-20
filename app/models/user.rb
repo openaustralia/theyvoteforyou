@@ -9,9 +9,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :wiki_motions
-  has_many :policies
-  has_many :watches
+  # If we're ever in a situation where a user has edited policies
+  # but needs to be deleted then we will need to change the dependent
+  # options here
+  has_many :wiki_motions, dependent: :restrict_with_exception
+  has_many :policies, dependent: :restrict_with_exception
+  has_many :watches, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 

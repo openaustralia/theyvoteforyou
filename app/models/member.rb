@@ -16,7 +16,7 @@ class Member < ApplicationRecord
 
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :member1_id
+  has_many :member_distances, foreign_key: :member1_id, dependent: :destroy
   belongs_to :person, touch: true
 
   delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person

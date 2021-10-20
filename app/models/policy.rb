@@ -5,11 +5,11 @@ class Policy < ApplicationRecord
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: proc { |policy| policy.id } }
-  has_many :policy_divisions
+  has_many :policy_divisions, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
-  has_many :watches, as: :watchable
+  has_many :watches, as: :watchable, dependent: :destroy
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true

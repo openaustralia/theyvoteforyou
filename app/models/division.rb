@@ -3,10 +3,10 @@
 class Division < ApplicationRecord
   # TODO: Remove markdown from db schema because it is no longer used
   searchkick if Settings.elasticsearch
-  has_one :division_info
-  has_many :whips
-  has_many :votes
-  has_many :policy_divisions
+  has_one :division_info, dependent: :destroy
+  has_many :whips, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
   has_many :wiki_motions, -> { order(edit_date: :desc) }
   has_and_belongs_to_many :bills

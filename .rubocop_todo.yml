@@ -6,19 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 14
-# Configuration parameters: Include.
-# Include: app/models/**/*.rb
-Rails/HasManyOrHasOneDependent:
-  Exclude:
-    - 'app/models/division.rb'
-    - 'app/models/member.rb'
-    - 'app/models/office.rb'
-    - 'app/models/person.rb'
-    - 'app/models/policy.rb'
-    - 'app/models/policy_person_distance.rb'
-    - 'app/models/user.rb'
-
 # Offense count: 6
 # Configuration parameters: Include.
 # Include: app/helpers/**/*.rb

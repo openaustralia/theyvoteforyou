@@ -2,8 +2,8 @@
 
 class Person < ApplicationRecord
   has_many :members, -> { order(entered_house: :desc) }
-  has_many :policy_person_distances
-  has_many :offices
+  has_many :policy_person_distances, dependent: :destroy
+  has_many :offices, dependent: :destroy
   # People who are currently in parliament
   scope :current, -> { joins(:members).merge(Member.current) }
 
