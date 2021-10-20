@@ -255,7 +255,7 @@ module PoliciesHelper
 
   def version_attribution_text(version)
     user = version_author(version)
-    "By #{user.name} at #{@version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"
+    "By #{user.name} at #{version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"
   end
 
   def capitalise_initial_character(text)

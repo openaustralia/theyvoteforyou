@@ -221,17 +221,17 @@ module DivisionsHelper
 
   def divisions_short_description(division)
     "Australian #{division.full_house_name} vote " \
-      "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
+      "#{division_outcome(division).downcase}, #{division_date_and_time(division)}"
   end
 
-  def divisions_period
-    case @date_range
+  def divisions_period(date_range, date_start)
+    case date_range
     when :year
-      @date_start.year.to_s
+      date_start.year.to_s
     when :month
-      @date_start.strftime("%B %Y")
+      date_start.strftime("%B %Y")
     when :day
-      formatted_date(@date_start)
+      formatted_date(date_start)
     else
       raise ArgumentError, "Not valid date"
     end
