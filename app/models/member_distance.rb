@@ -20,8 +20,8 @@ class MemberDistance < ApplicationRecord
       members.where("id >= ?", member1.id).each do |member2|
         params = calculate_distances(member1, member2)
         # Matrix is symmetric so we don't have to calculate twice
-        MemberDistance.find_or_initialize_by(member1: member1, member2: member2).update_attributes(params)
-        MemberDistance.find_or_initialize_by(member1: member2, member2: member1).update_attributes(params)
+        MemberDistance.find_or_initialize_by(member1: member1, member2: member2).update(params)
+        MemberDistance.find_or_initialize_by(member1: member2, member2: member1).update(params)
       end
     end
   end

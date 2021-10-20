@@ -6,25 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: and_return, block
-RSpec/ReturnFromStub:
-  Exclude:
-    - 'spec/models/division_spec.rb'
-
-# Offense count: 1
-RSpec/StubbedMock:
-  Exclude:
-    - 'spec/models/member_distance_spec.rb'
-
-# Offense count: 13
-RSpec/SubjectStub:
-  Exclude:
-    - 'spec/lib/data_loader/debates_xml_spec.rb'
-    - 'spec/models/division_spec.rb'
-
 # Offense count: 14
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
 RSpec/VerifiedDoubles:
@@ -32,15 +13,6 @@ RSpec/VerifiedDoubles:
     - 'spec/helpers/policies_helper_spec.rb'
     - 'spec/lib/data_loader/debates_xml_spec.rb'
     - 'spec/routing/routing_spec.rb'
-
-# Offense count: 6
-# Cop supports --auto-correct.
-Rails/ActiveRecordAliases:
-  Exclude:
-    - 'app/lib/data_loader/people.rb'
-    - 'app/models/division_info.rb'
-    - 'app/models/member_distance.rb'
-    - 'app/models/member_info.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

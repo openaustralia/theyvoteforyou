@@ -23,9 +23,9 @@ class DivisionInfo < ApplicationRecord
 
     Division.all.ids.each do |id|
       info = DivisionInfo.find_or_initialize_by(division_id: id)
-      info.update_attributes(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-                             turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
-                             aye_majority: aye_majority[id] || 0)
+      info.update(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
+                  turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
+                  aye_majority: aye_majority[id] || 0)
     end
   end
 

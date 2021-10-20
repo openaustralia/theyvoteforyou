@@ -55,6 +55,12 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/NestedGroups:
   Enabled: false
 
+# This is a sign of a not very nice code smell. It's non-trivial to fix
+# as it probably involves a bit of refactoring of the code under test
+# TODO: Fix this
+RSpec/SubjectStub:
+  Enabled: false
+
 # Disable a bunch of metrics to do with code complexity. These as are all
 # a bit hard-nosed.
 Metrics/AbcSize:
