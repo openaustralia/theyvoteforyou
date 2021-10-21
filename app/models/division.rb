@@ -232,7 +232,7 @@ class Division < ApplicationRecord
                      edit_date: Time.zone.now)
   end
 
-  def self.find_by_search_query(query)
+  def self.search_with_sql(query)
     if Settings.elasticsearch
       search(query)
     else

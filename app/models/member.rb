@@ -188,7 +188,7 @@ class Member < ApplicationRecord
     possible_friends.where(distance_a: 0)
   end
 
-  def self.find_by_search_query(query_string)
+  def self.search_with_sql(query_string)
     if Settings.elasticsearch
       search(query_string, boost_where: { left_reason: "still_in_office" })
     else
