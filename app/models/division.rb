@@ -244,14 +244,20 @@ class Division < ApplicationRecord
     end
   end
 
+  # rubocop:disable Rails/OutputSafety
   def formatted_motion_text
     text = Division.render_markdown(motion)
     # This is a small hack to make links to an old site point to the new site
     text.gsub!(%r{<a href="http://publicwhip-(test|rails).openaustraliafoundation.org.au},
                "<a href=\"https://theyvoteforyou.org.au")
 
+    # Since this is directly coming from the markdown renderer it
+    # should be absent of any bad html so we can mark it as safe
+    # TODO: We should be probably do an extra level of sanitisation on this so
+    # we can avoid calling html_safe entirely
     text.html_safe
   end
+  # rubocop:enable Rails/OutputSafety
 
   def self.render_markdown(text)
     # TODO: Don't reinstantiate the markdown renderer on each request

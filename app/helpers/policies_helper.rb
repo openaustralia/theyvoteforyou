@@ -2,31 +2,34 @@
 
 module PoliciesHelper
   def policy_agreement_summary_without_html(policy_member_distance)
-    policy_agreement_summary_first_word(policy_member_distance) +
-      " ".html_safe +
-      policy_agreement_summary_short(policy_member_distance)
+    out = []
+    out << policy_agreement_summary_first_word(policy_member_distance)
+    out << " "
+    out << policy_agreement_summary_short(policy_member_distance)
+    safe_join(out)
   end
 
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_member_distance)
-    policy_agreement_summary_first_word(policy_member_distance) +
-      " ".html_safe +
-      content_tag(:strong, policy_agreement_summary_short(policy_member_distance))
+    out = []
+    out << policy_agreement_summary_first_word(policy_member_distance)
+    out << " "
+    out << content_tag(:strong, policy_agreement_summary_short(policy_member_distance))
+    safe_join(out)
   end
 
   def policy_agreement_summary_first_word(policy_member_distance)
-    (policy_member_distance&.number_of_votes&.zero? ? "has" : "voted").html_safe
+    policy_member_distance&.number_of_votes&.zero? ? "has" : "voted"
   end
 
   def policy_agreement_summary_short(policy_member_distance)
-    text = if policy_member_distance.nil?
-             "unknown about"
-           elsif policy_member_distance.number_of_votes.zero?
-             "never voted on"
-           else
-             ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
-           end
-    text.html_safe
+    if policy_member_distance.nil?
+      "unknown about"
+    elsif policy_member_distance.number_of_votes.zero?
+      "never voted on"
+    else
+      ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
+    end
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
@@ -47,47 +50,44 @@ module PoliciesHelper
   end
 
   def policy_version_sentence(version, _options)
+    changes = []
+
     case version.event
     when "create"
       name = version.changeset["name"].second
       description = version.changeset["description"].second
       result = "Created"
       result += version.changeset["private"].second == 2 ? " draft " : " "
-      result += "policy #{quote(name)} with description #{quote(description)}"
-      result = content_tag(:p, "#{result}.", class: "change-action")
+      result += "policy #{quote(name)} with description #{quote(description)}."
+      changes << result
     when "update"
-      changes = []
-
       if version.changeset.key?("name")
         name1 = version.changeset["name"].first
         name2 = version.changeset["name"].second
-        changes << "Name changed from #{quote(name1)} to #{quote(name2)}"
+        changes << "Name changed from #{quote(name1)} to #{quote(name2)}."
       end
 
       if version.changeset.key?("description")
         description1 = version.changeset["description"].first
         description2 = version.changeset["description"].second
-        changes << "Description changed from #{quote(description1)} to #{quote(description2)}"
+        changes << "Description changed from #{quote(description1)} to #{quote(description2)}."
       end
 
       if version.changeset.key?("private")
         case version.changeset["private"].second
         when 0, "published"
-          changes << "Changed status to not draft"
+          changes << "Changed status to not draft."
         when 2, "provisional"
-          changes << "Changed status to draft"
+          changes << "Changed status to draft."
         else
           raise "Unexpected value for private: #{version.changeset['private'].second}"
         end
       end
-
-      result = changes.map do |change|
-        content_tag(:p, "#{change}.", class: "change-action")
-      end.join
     else
       raise
     end
-    result.html_safe
+
+    safe_join(changes.map { |change| content_tag(:p, change, class: "change-action") })
   end
 
   def policy_version_sentence_text(version)
@@ -165,23 +165,35 @@ module PoliciesHelper
   end
 
   def policy_division_version_sentence(version, options)
-    actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
+    division_link = content_tag(:em, link_to(division.name, division_path(division, options)))
+    out = []
 
     case version.event
     when "update"
-      actions[version.event].html_safe + " vote from ".html_safe + vote + " on division ".html_safe + content_tag(:em, link_to(division.name, division_path(division, options))) + ".".html_safe
-    when "create", "destroy"
-      tense = if version.event == "create"
-                "set to "
-              else
-                "was "
-              end
-      actions[version.event].html_safe + " division ".html_safe + content_tag(:em, link_to(division.name, division_path(division, options))) + ". Policy vote ".html_safe + tense + vote + ".".html_safe
+      out << "Changed vote from "
+      out << vote
+      out << " on division "
+      out << division_link
+    when "create"
+      out = []
+      out << "Added division "
+      out << division_link
+      out << ". Policy vote set to "
+      out << vote
+    when "destroy"
+      out = []
+      out << "Removed division "
+      out << division_link
+      out << ". Policy vote was "
+      out << vote
     else
       raise
     end
+
+    out << "."
+    safe_join(out)
   end
 
   def policy_division_version_sentence_text(version, options)
@@ -210,8 +222,11 @@ module PoliciesHelper
 
   def version_attribution_sentence(version)
     user = User.find(version.whodunnit)
-    time = time_ago_in_words(version.created_at)
-    "by #{link_to(user.name, user)}, #{time} ago".html_safe
+    out = []
+    out << "by "
+    out << link_to(user.name, user)
+    out << ", #{time_ago_in_words(version.created_at)} ago"
+    safe_join(out)
   end
 
   def version_sentence(version, options = {})
