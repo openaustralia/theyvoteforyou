@@ -10,7 +10,8 @@
 
     %p.division-rebellions-sentence
       - if division.rebellions > 0
-        There was
+        There
+        = division.rebellions == 1 ? "was" : "were"
         %span.rebel= pluralize(division.rebellions, 'rebellion')
         in this division.
       - else
