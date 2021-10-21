@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
   def api_key
     api_key = self[:api_key] || User.random_api_key
-    update_attribute(:api_key, api_key)
+    update(api_key: api_key)
     api_key
   end
 

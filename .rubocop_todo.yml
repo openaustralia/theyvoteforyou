@@ -6,30 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 17
-Rails/OutputSafety:
-  Exclude:
-    - 'app/helpers/application_helper.rb'
-    - 'app/helpers/divisions_helper.rb'
-    - 'app/helpers/members_helper.rb'
-    - 'app/helpers/policies_helper.rb'
-    - 'app/models/division.rb'
-
-# Offense count: 2
-# Configuration parameters: Include.
-# Include: **/Rakefile, **/*.rake
-Rails/RakeEnvironment:
-  Exclude:
-    - 'lib/tasks/application.rake'
-
-# Offense count: 2
-# Configuration parameters: Blacklist, Whitelist.
-# Blacklist: decrement!, decrement_counter, increment!, increment_counter, toggle!, touch, update_all, update_attribute, update_column, update_columns, update_counters
-Rails/SkipsModelValidations:
-  Exclude:
-    - 'app/models/policy.rb'
-    - 'app/models/user.rb'
-
 # Offense count: 2
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb

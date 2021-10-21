@@ -80,7 +80,11 @@ class Policy < ApplicationRecord
                       :nvotesdiffer
                     end
 
-        PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id).increment!(attribute)
+        ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
+        # TODO: Do all of this counting in memory rather than overloading the database with it
+        # rubocop:disable Rails/SkipsModelValidations
+        ppd.increment!(attribute)
+        # rubocop:enable Rails/SkipsModelValidations
       end
     end
 

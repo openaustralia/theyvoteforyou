@@ -98,7 +98,7 @@ namespace :application do
   end
 
   namespace :config do
-    task :dev do
+    task dev: :environment do
       %w[
         config/database.yml
         config/secrets.yml
@@ -117,7 +117,7 @@ namespace :application do
     end
   end
 
-  task :set_logger_to_stdout do
+  task set_logger_to_stdout: :environment do
     Rails.logger = ActiveSupport::Logger.new($stdout)
     Rails.logger.level = 1
   end
