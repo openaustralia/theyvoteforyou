@@ -43,7 +43,7 @@ class Policy < ApplicationRecord
     User.find(most_recent_version.whodunnit)
   end
 
-  def self.search_with_sql(query)
+  def self.search_with_sql_fallback(query)
     if Settings.elasticsearch
       search(query)
     else
