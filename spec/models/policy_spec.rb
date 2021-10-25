@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Policy, type: :model do
-  subject { create(:policy) }
+  subject(:policy) { create(:policy) }
 
   it "is valid with a name longer than 50 characters" do
     user = create(:user)
@@ -21,30 +21,30 @@ describe Policy, type: :model do
 
   describe "#status" do
     it "private is 0" do
-      subject.private = 0
-      expect(subject.status).to eq "published"
+      policy.private = 0
+      expect(policy.status).to eq "published"
     end
 
     it "private is 1" do
-      subject.private = 1
-      expect(subject.status).to eq "legacy Dream MP"
+      policy.private = 1
+      expect(policy.status).to eq "legacy Dream MP"
     end
 
     it "private is 2" do
-      subject.private = 2
-      expect(subject.status).to eq "provisional"
+      policy.private = 2
+      expect(policy.status).to eq "provisional"
     end
   end
 
   describe "#provisional?" do
     it "private is 2" do
-      subject.private = 2
-      expect(subject.provisional?).to be true
+      policy.private = 2
+      expect(policy.provisional?).to be true
     end
 
     it "private is 0" do
-      subject.private = 0
-      expect(subject.provisional?).to be false
+      policy.private = 0
+      expect(policy.provisional?).to be false
     end
   end
 end

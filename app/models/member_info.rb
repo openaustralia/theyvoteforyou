@@ -12,7 +12,7 @@ class MemberInfo < ApplicationRecord
 
     Member.all.ids.each do |id|
       info = MemberInfo.find_or_initialize_by(member_id: id)
-      info.update_attributes(
+      info.update(
         rebellions: rebellions[id] || 0,
         tells: tells[id] || 0,
         votes_attended: votes_attended[id] || 0,

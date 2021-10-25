@@ -3,12 +3,12 @@
 class Division < ApplicationRecord
   # TODO: Remove markdown from db schema because it is no longer used
   searchkick if Settings.elasticsearch
-  has_one :division_info
-  has_many :whips
-  has_many :votes
-  has_many :policy_divisions
+  has_one :division_info, dependent: :destroy
+  has_many :whips, dependent: :destroy
+  has_many :votes, dependent: :destroy
+  has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> { order(edit_date: :desc) }
+  has_many :wiki_motions, -> { order(edit_date: :desc) }, inverse_of: :division
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
@@ -54,7 +54,7 @@ class Division < ApplicationRecord
   end
 
   def whip_guess_for(party)
-    whips.where(party: party).first.whip_guess
+    whips.find_by(party: party).whip_guess
   end
 
   def role_for(member)
@@ -134,7 +134,7 @@ class Division < ApplicationRecord
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
-    HTMLEntities.new.decode(read_attribute(:name))
+    HTMLEntities.new.decode(self[:name])
   end
 
   add_method_tracer :original_name, "Custom/Division/original_name"
@@ -143,7 +143,7 @@ class Division < ApplicationRecord
     text = if edited?
              wiki_motion.description.strip
            else
-             ReverseMarkdown.convert(read_attribute(:motion))
+             ReverseMarkdown.convert(self[:motion])
            end
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
@@ -151,7 +151,7 @@ class Division < ApplicationRecord
   end
 
   def original_motion
-    read_attribute(:motion)
+    self[:motion]
   end
 
   def history
@@ -189,8 +189,8 @@ class Division < ApplicationRecord
   # TODO: We should really be doing any tidying up of the clock time in the loader and
   # we should make the field an actual time rather than a free text field
   def clock_time
-    text = read_attribute(:clock_time)
-    Time.parse(text).strftime("%l:%M %p") if text.present?
+    text = self[:clock_time]
+    Time.zone.parse(text).strftime("%l:%M %p") if text.present?
   end
 
   def house_name
@@ -229,10 +229,10 @@ class Division < ApplicationRecord
                      description: description,
                      user: user,
                      # TODO: Use default rails created_at instead
-                     edit_date: Time.now)
+                     edit_date: Time.zone.now)
   end
 
-  def self.find_by_search_query(query)
+  def self.search_with_sql_fallback(query)
     if Settings.elasticsearch
       search(query)
     else
@@ -244,14 +244,20 @@ class Division < ApplicationRecord
     end
   end
 
+  # rubocop:disable Rails/OutputSafety
   def formatted_motion_text
     text = Division.render_markdown(motion)
     # This is a small hack to make links to an old site point to the new site
     text.gsub!(%r{<a href="http://publicwhip-(test|rails).openaustraliafoundation.org.au},
                "<a href=\"https://theyvoteforyou.org.au")
 
+    # Since this is directly coming from the markdown renderer it
+    # should be absent of any bad html so we can mark it as safe
+    # TODO: We should be probably do an extra level of sanitisation on this so
+    # we can avoid calling html_safe entirely
     text.html_safe
   end
+  # rubocop:enable Rails/OutputSafety
 
   def self.render_markdown(text)
     # TODO: Don't reinstantiate the markdown renderer on each request

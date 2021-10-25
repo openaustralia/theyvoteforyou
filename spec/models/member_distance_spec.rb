@@ -5,7 +5,7 @@ require "spec_helper"
 describe MemberDistance, type: :model do
   # TODO: Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
-  before :each do
+  before do
     Member.delete_all
     described_class.delete_all
     Division.delete_all
@@ -88,7 +88,7 @@ describe MemberDistance, type: :model do
     end
 
     context "with votes on five divisions" do
-      before :each do
+      before do
         # Member A: 1 aye,    2 aye,     3 aye, 4 tellno, 5 absent
         # Member B: 1 absent, 2 tellaye, 3 no,  4 no,     5 no
         division1 = Division.create(name: "1", date: Date.new(2000, 1, 1),
@@ -121,7 +121,7 @@ describe MemberDistance, type: :model do
       it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
 
       it ".calculate_distances" do
-        expect(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
+        allow(Distance).to receive(:distance_a).with(2, 1, 2).and_return(0.1)
         expect(described_class.calculate_distances(membera, memberb)).to eq({
                                                                               nvotessame: 2,
                                                                               nvotesdiffer: 1,

@@ -5,7 +5,7 @@ require "spec_helper"
 describe MemberInfo, type: :model do
   # TODO: Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
-  before :each do
+  before do
     Member.delete_all
     Division.delete_all
     Whip.delete_all
@@ -41,7 +41,7 @@ describe MemberInfo, type: :model do
                       source_gid: "", debate_gid: "")
     end
 
-    before :each do
+    before do
       # vote counts shouldn't be used for anything. So, setting to 0
       Whip.create(division: division1, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
                   no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)

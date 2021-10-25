@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AlertMailer < ActionMailer::Base
+class AlertMailer < ApplicationMailer
   default from: "#{Settings.project_name} <#{Settings.contact_email}>"
   layout "email"
   helper PoliciesHelper, DivisionsHelper, PathHelper

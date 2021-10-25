@@ -36,7 +36,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render "member_not_found", status: 404 if @member.nil?
+    render "member_not_found", status: :not_found if @member.nil?
   end
 
   def show
@@ -48,7 +48,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render "member_not_found", status: 404 if @member.nil?
+    render "member_not_found", status: :not_found if @member.nil?
   end
 
   def compare
@@ -67,7 +67,7 @@ class MembersController < ApplicationController
     @member2 = @member2.where(constituency: electorate2)
     @member2 = @member2.order(entered_house: :desc).first
 
-    return render "member_not_found", status: 404 if @member1.nil? || @member2.nil?
+    return render "member_not_found", status: :not_found if @member1.nil? || @member2.nil?
 
     @policies = []
     @member1.person.policy_person_distances.published.each do |ppd1|

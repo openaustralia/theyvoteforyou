@@ -5,7 +5,7 @@ require "spec_helper"
 describe DivisionsController, type: :controller do
   describe "#index" do
     # TODO: Remove this hack to delete fixtures
-    before :each do
+    before do
       Division.delete_all
       Member.delete_all
     end
@@ -17,7 +17,7 @@ describe DivisionsController, type: :controller do
     let!(:representative) { create(:member, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo") }
 
     context "when there are no parameters" do
-      it "should render index template with divisions of the same year as the last one stored" do
+      it "renders the index template with divisions of the same year as the last one stored" do
         get :index
 
         expect(response).to render_template "divisions/index"
@@ -27,7 +27,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when request has an invalid date as a parameter" do
-      it "should return generic 404 page" do
+      it "returns the generic 404 page" do
         get :index, params: { date: "2017-13-22", house: "representatives" }
 
         expect(response).to render_template "home/error404"
@@ -36,7 +36,7 @@ describe DivisionsController, type: :controller do
     end
 
     context "when request has an date parameter with an incorrect format" do
-      it "should return generic 404 page" do
+      it "returns the generic 404 page" do
         get :index, params: { date: "2017-12-222", house: "representatives" }
 
         expect(response).to render_template "home/error404"
@@ -46,7 +46,7 @@ describe DivisionsController, type: :controller do
 
     context "when the date parameter is a full date" do
       context "when date matches divisions already stored" do
-        it "should render index template with selected divisions" do
+        it "renders the index template with selected divisions" do
           get :index, params: { date: "2016-06-01", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -56,7 +56,7 @@ describe DivisionsController, type: :controller do
       end
 
       context "when date does not match any divisions" do
-        it "should render index template with empty divisions" do
+        it "renders the index template with empty divisions" do
           get :index, params: { date: "2017-02-02", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -68,7 +68,7 @@ describe DivisionsController, type: :controller do
 
     context "when the date parameter is just a year" do
       context "when date matches divisions already stored" do
-        it "should render index template with selected divisions" do
+        it "renders the index template with selected divisions" do
           get :index, params: { date: "2016", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -78,7 +78,7 @@ describe DivisionsController, type: :controller do
       end
 
       context "when date does not match any divisions" do
-        it "should render index template with empty divisions" do
+        it "renders the index template with empty divisions" do
           get :index, params: { date: "2017", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -90,7 +90,7 @@ describe DivisionsController, type: :controller do
 
     context "when the date parameter is just a year and a month (YYYY-MM)" do
       context "when date matches divisions already stored" do
-        it "should render index template with selected divisions" do
+        it "renders the index template with selected divisions" do
           get :index, params: { date: "2016-12", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -100,7 +100,7 @@ describe DivisionsController, type: :controller do
       end
 
       context "when date does not match any divisions" do
-        it "should render index template with empty divisions" do
+        it "renders the index template with empty divisions" do
           get :index, params: { date: "2016-05", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
@@ -112,7 +112,7 @@ describe DivisionsController, type: :controller do
 
     context "when request to see votes from a member" do
       context "when no date is specified" do
-        it "should get votes based on last year on divisions table" do
+        it "gets votes based on last year on divisions table" do
           get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives" }
 
           expect(response).to render_template "divisions/index_with_member"
@@ -127,7 +127,7 @@ describe DivisionsController, type: :controller do
 
       context "when a date is specified" do
         context "when date is valid" do
-          it "should get votes based on the date specified" do
+          it "gets votes based on the date specified" do
             get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013" }
 
             expect(response).to render_template "divisions/index_with_member"
@@ -141,7 +141,7 @@ describe DivisionsController, type: :controller do
         end
 
         context "when date is not valid" do
-          it "should return generic 404 page" do
+          it "returns the generic 404 page" do
             get :index, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
 
             expect(response).to render_template "home/error404"
@@ -153,7 +153,7 @@ describe DivisionsController, type: :controller do
   end
 
   describe "#show" do
-    before :each do
+    before do
       DivisionInfo.delete_all
       Whip.delete_all
       Vote.delete_all
@@ -165,7 +165,7 @@ describe DivisionsController, type: :controller do
 
     context "when request a specific division" do
       context "when parameters match a division" do
-        it "should load it" do
+        it "loads it" do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 100 }
 
           expect(response).to render_template "divisions/show"
@@ -180,7 +180,7 @@ describe DivisionsController, type: :controller do
       end
 
       context "when parameters do not match a division" do
-        it "should display a 404 page" do
+        it "displays a 404 page" do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 101 }
 
           expect(response).to render_template "home/error404"

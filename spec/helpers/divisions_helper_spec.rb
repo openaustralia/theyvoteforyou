@@ -14,7 +14,7 @@ describe DivisionsHelper, type: :helper do
   end
 
   describe "#majority_strength_in_words" do
-    before :each do
+    before do
       allow(helper).to receive(:division_score).and_return("1 Aye – 0 No")
     end
 
@@ -49,35 +49,20 @@ describe DivisionsHelper, type: :helper do
 
   describe "#divisions_period" do
     context "with year specified" do
-      before do
-        helper.instance_variable_set("@date_range", :year)
-        helper.instance_variable_set("@date_start", Date.parse("2014-01-01"))
-      end
-
       it "returns year when present" do
-        expect(helper.divisions_period).to eq "2014"
+        expect(helper.divisions_period(:year, Date.parse("2014-01-01"))).to eq "2014"
       end
     end
 
     context "with month specified" do
-      before do
-        helper.instance_variable_set("@date_range", :month)
-        helper.instance_variable_set("@date_start", Date.parse("2014-06-01"))
-      end
-
       it "returns formatted month when present" do
-        expect(helper.divisions_period).to eq "June 2014"
+        expect(helper.divisions_period(:month, Date.parse("2014-06-01"))).to eq "June 2014"
       end
     end
 
     context "with date specified" do
-      before do
-        helper.instance_variable_set("@date_range", :day)
-        helper.instance_variable_set("@date_start", Date.parse("2014-06-01"))
-      end
-
       it "returns formatted date when present" do
-        expect(helper.divisions_period).to eq "1st Jun 2014"
+        expect(helper.divisions_period(:day, Date.parse("2014-06-01"))).to eq "1st Jun 2014"
       end
     end
   end

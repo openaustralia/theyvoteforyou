@@ -69,8 +69,9 @@ module DivisionsHelper
     elsif division.tied?
       ""
     else
-      text = "by a "
-      text += content_tag(:span, { class: "has-tooltip", title: division_score(division) }) do
+      out = []
+      out << "by a "
+      out << content_tag(:span, { class: "has-tooltip", title: division_score(division) }) do
         if division.majority_fraction > 2.to_f / 3
           "large majority"
         elsif division.majority_fraction > 1.to_f / 3
@@ -79,12 +80,16 @@ module DivisionsHelper
           "small majority"
         end
       end
-      text
+      safe_join(out)
     end
   end
 
   def division_outcome_with_majority_strength(division)
-    "#{division_outcome(division)} #{majority_strength_in_words(division)}".html_safe
+    out = []
+    out << division_outcome(division)
+    out << " "
+    out << majority_strength_in_words(division)
+    safe_join(out)
   end
 
   def whip_guess_with_strength_in_words(whip)
@@ -221,17 +226,17 @@ module DivisionsHelper
 
   def divisions_short_description(division)
     "Australian #{division.full_house_name} vote " \
-      "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
+      "#{division_outcome(division).downcase}, #{division_date_and_time(division)}"
   end
 
-  def divisions_period
-    case @date_range
+  def divisions_period(date_range, date_start)
+    case date_range
     when :year
-      @date_start.year.to_s
+      date_start.year.to_s
     when :month
-      @date_start.strftime("%B %Y")
+      date_start.strftime("%B %Y")
     when :day
-      formatted_date(@date_start)
+      formatted_date(date_start)
     else
       raise ArgumentError, "Not valid date"
     end

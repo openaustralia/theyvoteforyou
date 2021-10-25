@@ -9,6 +9,7 @@ AllCops:
     - db/schema.rb
     - bin/*
     - vendor/**/*
+    - db/migrate/*.rb
 
 # Disabling warnings about line length because it's so common through
 # the codebase currently. It would be good to fix as it would make things
@@ -42,6 +43,28 @@ Style/FormatStringToken:
 Bundler/OrderedGems:
   Exclude:
     - 'Gemfile'
+
+# TODO: Get rid of this as soon as we can
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# TODO: Enable this when we can
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# TODO: Enable this when we can because it will some tests easier to read
+RSpec/NestedGroups:
+  Enabled: false
+
+# This is a sign of a not very nice code smell. It's non-trivial to fix
+# as it probably involves a bit of refactoring of the code under test
+# TODO: Fix this
+RSpec/SubjectStub:
+  Enabled: false
+
+# TODO: Fix this
+Rails/HasAndBelongsToMany:
+  Enabled: false
 
 # Disable a bunch of metrics to do with code complexity. These as are all
 # a bit hard-nosed.

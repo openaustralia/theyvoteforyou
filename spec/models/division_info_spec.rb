@@ -5,7 +5,7 @@ require "spec_helper"
 describe DivisionInfo, type: :model do
   # TODO: Figure out why we need to do this horrible hack to remove the fixtures
   # we shouldn't have them loaded
-  before :each do
+  before do
     Member.delete_all
     Division.delete_all
     Whip.delete_all
@@ -41,7 +41,7 @@ describe DivisionInfo, type: :model do
                       source_gid: "", debate_gid: "")
     end
 
-    before :each do
+    before do
       # vote counts shouldn't be used for anything. So, setting to 0
       Whip.create(division: division1, party: "A", whip_guess: "no", aye_votes: 0, aye_tells: 0,
                   no_votes: 0, no_tells: 0, both_votes: 0, abstention_votes: 0, possible_votes: 0)
@@ -78,22 +78,22 @@ describe DivisionInfo, type: :model do
   end
 
   describe "#majority_fraction" do
-    it "should be 0 for a tied vote" do
+    it "is 0 for a tied vote" do
       division = described_class.new(turnout: 100, aye_majority: 0)
       expect(division.majority_fraction).to eq(0.0)
     end
 
-    it "should be 1 for a unanimous aye vote" do
+    it "is 1 for a unanimous aye vote" do
       division = described_class.new(turnout: 100, aye_majority: 100)
       expect(division.majority_fraction).to eq(1.0)
     end
 
-    it "should be 1 for a unanimous no vote" do
+    it "is 1 for a unanimous no vote" do
       division = described_class.new(turnout: 100, aye_majority: -100)
       expect(division.majority_fraction).to eq(1.0)
     end
 
-    it "should be 0.5 for a aye/no split of 75/25" do
+    it "is 0.5 for a aye/no split of 75/25" do
       division = described_class.new(turnout: 100, aye_majority: 50)
       expect(division.majority_fraction).to eq(0.5)
     end

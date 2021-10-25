@@ -28,7 +28,7 @@ describe Distance do
     end
 
     context "when only absent votes" do
-      it "should see them as neither agreeing or disagreeing" do
+      it "sees them as neither agreeing or disagreeing" do
         expect(described_class.distance_a(0, 0, 3)).to eq 0.5
       end
     end

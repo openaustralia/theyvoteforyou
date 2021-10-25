@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PoliciesController < ApplicationController
-  before_action :authenticate_user!, except: %i[index drafts show detail full history]
+  before_action :authenticate_user!, except: %i[index drafts show history]
 
   def index
     @policies = Policy.published.order(:name)
@@ -28,7 +28,7 @@ class PoliciesController < ApplicationController
       @member = @member.person.member_for_policy(@policy)
       render "show_with_member"
     else
-      render "members/member_not_found", status: 404
+      render "members/member_not_found", status: :not_found
     end
   end
 

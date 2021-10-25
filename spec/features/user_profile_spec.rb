@@ -11,7 +11,7 @@ describe "User profile", type: :feature do
     create :member
   end
 
-  let(:user) { create(:user, confirmed_at: Time.now) }
+  let(:user) { create(:user, confirmed_at: Time.zone.now) }
 
   it "changing name without changing password" do
     visit "/"

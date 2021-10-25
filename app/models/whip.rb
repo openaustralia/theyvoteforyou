@@ -204,7 +204,5 @@ class Whip < ApplicationRecord
     party_object.long_name
   end
 
-  def whipless?
-    party_object.whipless?
-  end
+  delegate :whipless?, to: :party_object
 end

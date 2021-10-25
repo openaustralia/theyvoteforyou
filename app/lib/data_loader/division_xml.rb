@@ -20,11 +20,11 @@ module DataLoader
     end
 
     def name
-      text = if !major_heading.blank? && !minor_heading.blank?
+      text = if major_heading.present? && minor_heading.present?
                "#{title_case(major_heading)} &#8212; #{title_case(minor_heading)}"
-             elsif !major_heading.blank?
+             elsif major_heading.present?
                title_case(major_heading)
-             elsif !minor_heading.blank?
+             elsif minor_heading.present?
                title_case(minor_heading)
              end
 

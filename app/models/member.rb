@@ -16,7 +16,7 @@ class Member < ApplicationRecord
 
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :member1_id
+  has_many :member_distances, foreign_key: :member1_id, dependent: :destroy, inverse_of: :member1
   belongs_to :person, touch: true
 
   delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url, to: :person
@@ -140,7 +140,7 @@ class Member < ApplicationRecord
   end
 
   def currently_in_parliament?
-    in_parliament_on_date(Date.today)
+    in_parliament_on_date(Time.zone.today)
   end
 
   def since
@@ -148,7 +148,7 @@ class Member < ApplicationRecord
   end
 
   def until
-    left_house > Date.today ? "today" : left_house.strftime("%B %Y")
+    left_house > Time.zone.today ? "today" : left_house.strftime("%B %Y")
   end
 
   # Long version of party name
@@ -157,9 +157,7 @@ class Member < ApplicationRecord
   end
 
   # Are they a member of a party that has a whip?
-  def subject_to_whip?
-    party_object.subject_to_whip?
-  end
+  delegate :subject_to_whip?, to: :party_object
 
   def party_object
     @party_object ||= Party.new(name: party)
@@ -190,7 +188,7 @@ class Member < ApplicationRecord
     possible_friends.where(distance_a: 0)
   end
 
-  def self.find_by_search_query(query_string)
+  def self.search_with_sql_fallback(query_string)
     if Settings.elasticsearch
       search(query_string, boost_where: { left_reason: "still_in_office" })
     else
@@ -213,7 +211,7 @@ class Member < ApplicationRecord
         placeholders["querybit_#{bitcount}".to_sym] = querybit
         placeholders["querybit_wild_#{bitcount}".to_sym] = "%#{querybit}%"
 
-        unless querybit.blank?
+        if querybit.present?
           score_clause += "+ (lower(constituency) =:querybit_#{bitcount}) * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_#{bitcount})) * 8 + (soundex(constituency) = soundex(:querybit_#{bitcount})) * 8 + (soundex(last_name) = soundex(:querybit_#{bitcount})) * 6 + (lower(constituency) like :querybit_wild_#{bitcount}) * 4 +"
           score_clause += "(lower(last_name) like :querybit_wild_#{bitcount}) * 4 + (soundex(first_name) = soundex(:querybit_#{bitcount})) * 2 + (lower(first_name) like :querybit_wild_#{bitcount}) +"
           score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_#{bitcount}),'%'))"

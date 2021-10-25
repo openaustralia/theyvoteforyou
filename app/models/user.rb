@@ -9,9 +9,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :wiki_motions
-  has_many :policies
-  has_many :watches
+  # If we're ever in a situation where a user has edited policies
+  # but needs to be deleted then we will need to change the dependent
+  # options here
+  has_many :wiki_motions, dependent: :restrict_with_exception
+  has_many :policies, dependent: :restrict_with_exception
+  has_many :watches, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 
@@ -24,8 +27,8 @@ class User < ApplicationRecord
   end
 
   def api_key
-    api_key = read_attribute(:api_key) || User.random_api_key
-    update_attribute(:api_key, api_key)
+    api_key = self[:api_key] || User.random_api_key
+    update(api_key: api_key)
     api_key
   end
 
@@ -70,6 +73,6 @@ class User < ApplicationRecord
   end
 
   def self.random_api_key
-    Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    Digest::MD5.base64digest(rand.to_s + Time.zone.now.to_s)[0...20]
   end
 end
