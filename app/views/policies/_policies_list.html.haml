@@ -6,7 +6,7 @@
           %h2.policy-title.object-heading.panel-link-title.col-md-7
             = capitalise_initial_character(policy.name_with_for)
             %div.small.text-muted.policy-details
-              %span.policy-subscriber-count.policy-detail-large-screen
+              %span.policy-subscriber-count.visible-md.visible-lg
                 = pluralize(policy.watches.count, "subscriber")
 
           %p.policy-data.object-secondary
@@ -16,5 +16,5 @@
                 %em= "(#{policy.unedited_motions_count} unedited)"
             %small.policy-edit-notice.text-muted
               edited #{time_ago_in_words(policy.last_edited_at)} ago
-            %small.policy-subscriber-count.text-muted.policy-detail-small-screen
+            %small.policy-subscriber-count.text-muted.hidden-md.hidden-lg
               = pluralize(policy.watches.count, "subscriber")
