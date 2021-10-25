@@ -24,16 +24,6 @@
     }
   }
 
-  .policy-division-count {
-    margin-top: .5em;
-    display: block;
-
-    @media (min-width: $screen-md-min) {
-      margin-top: 0;
-      display: inline-block;
-    }
-  }
-
   .policy-data {
     margin-top: 0;
   }
