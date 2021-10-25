@@ -5,9 +5,6 @@
         %article
           %h2.policy-title.object-heading.panel-link-title.col-md-7
             = capitalise_initial_character(policy.name_with_for)
-            %div.small.text-muted.policy-details
-              %span.policy-subscriber-count.visible-md.visible-lg
-                = pluralize(policy.watches.count, "subscriber")
 
           %p.policy-data.object-secondary
             %span
@@ -18,3 +15,6 @@
               edited #{time_ago_in_words(policy.last_edited_at)} ago
             %small.policy-subscriber-count.text-muted.hidden-md.hidden-lg
               = pluralize(policy.watches.count, "subscriber")
+
+          %p.policy-subscriber-count.visible-md.visible-lg.col-md-7.text-muted.small
+            = pluralize(policy.watches.count, "subscriber")
