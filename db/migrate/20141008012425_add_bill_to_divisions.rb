@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddBillToDivisions < ActiveRecord::Migration
   def change
     add_column :divisions, :bill_id, :string

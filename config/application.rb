@@ -1,4 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path("boot", __dir__)
 
 # Pick the frameworks you want:
 require "active_record/railtie"
@@ -16,7 +18,7 @@ module Publicwhip
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -26,13 +28,10 @@ module Publicwhip
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W[#{config.root}/lib]
 
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
-
-    # Opt in to new Rails behaviour
-    config.active_record.raise_in_transactional_callbacks = true
   end
 end

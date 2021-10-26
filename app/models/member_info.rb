@@ -1,4 +1,6 @@
-class MemberInfo < ActiveRecord::Base
+# frozen_string_literal: true
+
+class MemberInfo < ApplicationRecord
   belongs_to :member, touch: true
 
   def self.update_all!
@@ -10,12 +12,13 @@ class MemberInfo < ActiveRecord::Base
 
     Member.all.ids.each do |id|
       info = MemberInfo.find_or_initialize_by(member_id: id)
-      info.update_attributes(
+      info.update(
         rebellions: rebellions[id] || 0,
         tells: tells[id] || 0,
         votes_attended: votes_attended[id] || 0,
         votes_possible: votes_possible[id] || 0,
-        aye_majority: aye_majority[id] || 0)
+        aye_majority: aye_majority[id] || 0
+      )
     end
   end
 

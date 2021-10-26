@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConfirmationsController < Devise::ConfirmationsController
   # Override Devise to automatically sign in the user
   # GET /resource/confirmation?confirmation_token=abcdef
@@ -16,7 +18,7 @@ class ConfirmationsController < Devise::ConfirmationsController
         redirect_to user_welcome_path
       end
     else
-      respond_with_navigational(resource.errors, status: :unprocessable_entity){ render :new }
+      respond_with_navigational(resource.errors, status: :unprocessable_entity) { render :new }
     end
   end
 end

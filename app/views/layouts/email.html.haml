@@ -4,7 +4,7 @@
     %meta(name="viewport" content="width=device-width")
     %meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
     %title= yield :subject
-    %style= Publicwhip::Application.assets["email.css"].to_s.html_safe
+    %style= Rails.application.assets_manifest.find_sources("email.css").first.html_safe
 
   %body
     %table.body-wrap

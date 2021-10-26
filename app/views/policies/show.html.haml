@@ -22,8 +22,6 @@
 
   %section.page-section#divisions
     %h2 Relevant divisions
-    %p
-      = link_to "See detail", detail_policy_path(@policy), title: 'Shows all available division summaries'
     = render 'vote_table_leader', policy: @policy
     = render 'vote_summary_table', member: @member, policy: @policy
     %p.alert.alert-postnote.small

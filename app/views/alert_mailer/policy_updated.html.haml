@@ -1,16 +1,16 @@
 %h1.unstyled-heading
   %strong
-    = link_to capitalise_initial_character(@policy.name_with_for), policy_path(@policy, only_path: false), class: "heading-object-link"
+    = link_to capitalise_initial_character(@policy.name_with_for), policy_url(@policy), class: "heading-object-link"
 
 - if @version.kind_of?(WikiMotion)
   %p
     Changed text on related division
-    = link_to @version.division.name, division_path(@version.division, Rails.application.config.action_mailer.default_url_options.merge(only_path: false))
+    = link_to @version.division.name, division_url(@version.division, Rails.application.config.action_mailer.default_url_options)
 - else
-  = version_sentence(@version, Rails.application.config.action_mailer.default_url_options.merge(only_path: false))
+  = version_sentence(@version, Rails.application.config.action_mailer.default_url_options)
 
 %p.small.object-primary
-  = version_author_link(@version, only_path: false)
+  = version_author_link(@version)
   %span.text-muted.small
     = @version.created_at.strftime("%l:%M%p - %d %b %Y")
 
@@ -19,7 +19,7 @@
 .text-muted
   %p.small
     Visit the
-    = link_to "policy page", policy_path(@policy, only_path: false), class: "small"
+    = link_to "policy page", policy_url(@policy), class: "small"
     to unsubscribe from this policy.
   %p.small
-    = link_to "View all your subscriptions.", user_subscriptions_path(@user, only_path: false), class: "small"
+    = link_to "View all your subscriptions.", user_subscriptions_url(@user), class: "small"

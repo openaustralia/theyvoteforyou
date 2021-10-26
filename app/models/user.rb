@@ -1,12 +1,20 @@
-class User < ActiveRecord::Base
+# frozen_string_literal: true
+
+class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  # TODO: Re-enable :async when upgraded Devise to 4.x and Rails to 5.x
+  # devise :database_authenticatable, :registerable, :confirmable,
+  #        :recoverable, :rememberable, :trackable, :validatable, :async
   devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable, :async
+         :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :wiki_motions
-  has_many :policies
-  has_many :watches
+  # If we're ever in a situation where a user has edited policies
+  # but needs to be deleted then we will need to change the dependent
+  # options here
+  has_many :wiki_motions, dependent: :restrict_with_exception
+  has_many :policies, dependent: :restrict_with_exception
+  has_many :watches, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 
@@ -19,13 +27,13 @@ class User < ActiveRecord::Base
   end
 
   def api_key
-    api_key = read_attribute(:api_key) || User.random_api_key
-    update_attribute(:api_key, api_key)
+    api_key = self[:api_key] || User.random_api_key
+    update(api_key: api_key)
     api_key
   end
 
   def watched_policy_ids
-    watches.where(watchable_type: 'Policy').collect { |w| w.watchable_id }
+    watches.where(watchable_type: "Policy").collect(&:watchable_id)
   end
 
   def watched_policies
@@ -37,11 +45,12 @@ class User < ActiveRecord::Base
   end
 
   def watching?(object)
-    !!watches.find_by(watchable_type: object.class, watchable_id: object.id)
+    !!watches.find_by(watchable_type: object.class.to_s, watchable_id: object.id)
   end
 
   def toggle_policy_watch(policy)
-    if watch = policy.watches.find_by(user: self)
+    watch = policy.watches.find_by(user: self)
+    if watch
       watch.destroy!
     else
       policy.watches.create!(user: self)
@@ -51,7 +60,7 @@ class User < ActiveRecord::Base
   def recent_changes(size)
     changes = PaperTrail::Version.order(created_at: :desc).where(whodunnit: self).limit(size) +
               WikiMotion.order(created_at: :desc).where(user: self).limit(size)
-    changes.sort_by {|v| -v.created_at.to_i}.take(size)
+    changes.sort_by { |v| -v.created_at.to_i }.take(size)
   end
 
   def self.system_name
@@ -64,6 +73,6 @@ class User < ActiveRecord::Base
   end
 
   def self.random_api_key
-    Digest::MD5.base64digest(rand.to_s + Time.now.to_s)[0...20]
+    Digest::MD5.base64digest(rand.to_s + Time.zone.now.to_s)[0...20]
   end
 end

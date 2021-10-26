@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDivisionIdToPolicyDivisions < ActiveRecord::Migration
   def change
     add_column :policy_divisions, :division_id, :integer

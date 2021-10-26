@@ -1,7 +1,9 @@
-class DivisionInfo < ActiveRecord::Base
+# frozen_string_literal: true
+
+class DivisionInfo < ApplicationRecord
   belongs_to :division
 
-  # TODO Fix duplication between this class and MemberInfo
+  # TODO: Fix duplication between this class and MemberInfo
 
   def majority
     aye_majority.abs
@@ -9,7 +11,7 @@ class DivisionInfo < ActiveRecord::Base
 
   # a tie is 0.0. a unanimous vote is 1.0
   def majority_fraction
-    turnout > 0 ? majority.to_f / turnout : 0
+    turnout.positive? ? majority.to_f / turnout : 0
   end
 
   def self.update_all!
@@ -21,9 +23,9 @@ class DivisionInfo < ActiveRecord::Base
 
     Division.all.ids.each do |id|
       info = DivisionInfo.find_or_initialize_by(division_id: id)
-      info.update_attributes(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
-      turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
-      aye_majority: aye_majority[id] || 0)
+      info.update(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
+                  turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
+                  aye_majority: aye_majority[id] || 0)
     end
   end
 

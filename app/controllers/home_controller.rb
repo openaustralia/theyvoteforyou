@@ -1,12 +1,13 @@
-require 'open-uri'
+# frozen_string_literal: true
+
+require "open-uri"
 
 class HomeController < ApplicationController
   def index
     @current_members = Member.current.order("last_name")
   end
 
-  def about
-  end
+  def about; end
 
   def search
     @current_members = Member.current.map { |m| m.name_without_title.downcase }
@@ -21,40 +22,40 @@ class HomeController < ApplicationController
       json_response = "{\"error\":\"Unknown postcode\"}" if json_response == "{\"error\":\"Unknown postcode\"}{}"
       electorates = JSON.parse(json_response)
 
-      if electorates.respond_to?("has_key?") && electorates.has_key?("error")
+      if electorates.respond_to?("has_key?") && electorates.key?("error")
         @postcode_error = electorates["error"]
         return
       end
 
       if electorates.count == 1
-        member = Member.current.find_by!(constituency: electorates.first['name'])
+        member = Member.current.find_by!(constituency: electorates.first["name"])
         redirect_to view_context.member_path(member)
       elsif electorates.count > 1
         electorates.each do |e|
-          member = Member.current_on(Date.today).find_by(constituency: e['name'])
+          member = Member.current_on(Time.zone.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?
         end
       end
     elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path(Member.with_name(params[:query]).first)
-    elsif !params[:query].blank?
-      @mps = Member.find_by_search_query params[:query]
-      @divisions = Division.find_by_search_query params[:query]
-      @policies = Policy.find_by_search_query params[:query]
+    elsif params[:query].present?
+      @mps = Member.search_with_sql_fallback params[:query]
+      @divisions = Division.search_with_sql_fallback params[:query]
+      @policies = Policy.search_with_sql_fallback params[:query]
     end
   end
 
   def history
     @history = PaperTrail::Version.where("created_at > ?", 1.week.ago) +
                WikiMotion.where("edit_date > ?", 1.week.ago)
-    @history.sort_by! {|v| -v.created_at.to_i}
+    @history.sort_by! { |v| -v.created_at.to_i }
   end
 
-  def error_404
-    render status: 404
+  def error404
+    render status: :not_found
   end
 
-  def error_500
-    render status: 500
+  def error500
+    render status: :internal_server_error
   end
 end

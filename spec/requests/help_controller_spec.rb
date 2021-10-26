@@ -1,4 +1,6 @@
-require 'spec_helper'
+# frozen_string_literal: true
+
+require "spec_helper"
 # Compare results of rendering pages via rails and via the old php app
 
 describe HelpController, type: :request do
@@ -6,6 +8,6 @@ describe HelpController, type: :request do
   fixtures :all
 
   it "#research" do
-    compare_static("/project/research.php")
+    compare_static("/help/research")
   end
- end
+end

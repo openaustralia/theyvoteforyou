@@ -1,19 +1,21 @@
-class Policy < ActiveRecord::Base
+# frozen_string_literal: true
+
+class Policy < ApplicationRecord
   searchkick if Settings.elasticsearch
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
-  has_paper_trail meta: { policy_id: Proc.new{|policy| policy.id} }
-  has_many :policy_divisions
+  has_paper_trail meta: { policy_id: proc { |policy| policy.id } }
+  has_many :policy_divisions, dependent: :destroy
   has_many :divisions, through: :policy_divisions
   has_many :policy_person_distances, dependent: :destroy
   has_many :divisions, through: :policy_divisions
-  has_many :watches, as: :watchable
+  has_many :watches, as: :watchable, dependent: :destroy, inverse_of: :watchable
   belongs_to :user
 
   validates :name, :description, :user_id, :private, presence: true
   validates :name, uniqueness: true, length: { maximum: 100 }
 
-  enum private: [:published, 'legacy Dream MP', :provisional]
+  enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
   alias_attribute :status, :private
 
   def name_with_for
@@ -22,7 +24,7 @@ class Policy < ActiveRecord::Base
 
   def vote_for_division(division)
     policy_division = division.policy_divisions.find_by(policy: self)
-    policy_division.vote if policy_division
+    policy_division&.vote
   end
 
   def unedited_motions_count
@@ -41,55 +43,56 @@ class Policy < ActiveRecord::Base
     User.find(most_recent_version.whodunnit)
   end
 
-  def self.find_by_search_query(query)
+  def self.search_with_sql_fallback(query)
     if Settings.elasticsearch
-      self.search(query)
+      search(query)
     else
-      where('LOWER(convert(name using utf8)) LIKE :query
-             OR LOWER(convert(description using utf8)) LIKE :query', query: "%#{query}%")
+      where("LOWER(convert(name using utf8)) LIKE :query " \
+             "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 
   def self.update_all!
-    all.each { |p| p.calculate_member_distances! }
+    all.find_each(&:calculate_member_distances!)
   end
 
   def calculate_member_distances!
     policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
-      Member.current_on(policy_division.date).where(house: policy_division.house).each do |member|
+      Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
         attribute = if policy_division.strong_vote?
-          if member_vote == 'absent'
-            :nvotesabsentstrong
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessamestrong
-          else
-            :nvotesdifferstrong
-          end
-        else
-          if member_vote == 'absent'
-            :nvotesabsent
-          elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            :nvotessame
-          else
-            :nvotesdiffer
-          end
-        end
+                      case member_vote
+                      when "absent"
+                        :nvotesabsentstrong
+                      when PolicyDivision.vote_without_strong(policy_division.vote)
+                        :nvotessamestrong
+                      else
+                        :nvotesdifferstrong
+                      end
+                    elsif member_vote == "absent"
+                      :nvotesabsent
+                    elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
+                      :nvotessame
+                    else
+                      :nvotesdiffer
+                    end
 
-        PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id).increment!(attribute)
+        ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
+        # TODO: Do all of this counting in memory rather than overloading the database with it
+        # rubocop:disable Rails/SkipsModelValidations
+        ppd.increment!(attribute)
+        # rubocop:enable Rails/SkipsModelValidations
       end
     end
 
     policy_person_distances.reload.each do |pmd|
       pmd.update!({
-        distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
-          pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong),
-        distance_b: Distance.distance_b(pmd.nvotessame, pmd.nvotesdiffer,
-          pmd.nvotessamestrong, pmd.nvotesdifferstrong)
-      })
+                    distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
+                                                    pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
+                  })
     end
   end
 
@@ -137,6 +140,6 @@ class Policy < ActiveRecord::Base
 
   def current_members(policy_person_distances)
     members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
-    members.select { |m| m.currently_in_parliament? }.sort_by { |m| [m.last_name, m.first_name] }
+    members.select(&:currently_in_parliament?).sort_by { |m| [m.last_name, m.first_name] }
   end
 end

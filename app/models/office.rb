@@ -1,3 +1,5 @@
-class Office < ActiveRecord::Base
-  has_one :person
+# frozen_string_literal: true
+
+class Office < ApplicationRecord
+  belongs_to :person
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ConvertTablesToUtf8CharacterSet < ActiveRecord::Migration
   def up
     ActiveRecord::Base.connection.tables.each do |table_name|

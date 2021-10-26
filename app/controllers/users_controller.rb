@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  before_action :authenticate_user!, only: [:subscriptions, :welcome]
+  before_action :authenticate_user!, only: %i[subscriptions welcome]
 
   def show
     @user = User.find(params[:id])
@@ -23,6 +25,6 @@ class UsersController < ApplicationController
 
   def stats
     @number_of_users = User.count
-    @policies = Policy.all.sort {|a,b| b.watches.count <=> a.watches.count }
+    @policies = Policy.all.sort { |a, b| b.watches.count <=> a.watches.count }
   end
 end
