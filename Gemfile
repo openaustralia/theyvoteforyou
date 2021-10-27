@@ -76,7 +76,7 @@ group :test do
   gem "factory_bot_rails"
   gem "capybara"
   gem "email_spec"
-  gem "codeclimate-test-reporter", group: :test, require: nil
+  gem "simplecov", require: false
   gem "timecop"
   gem "rails-controller-testing"
 end
