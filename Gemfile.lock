@@ -55,8 +55,8 @@ GEM
     ast (2.4.2)
     attribute-defaults (0.9.0)
       activerecord (>= 5.0.0, < 7.0.0)
-    autoprefixer-rails (10.2.4.0)
-      execjs
+    autoprefixer-rails (10.3.3.0)
+      execjs (~> 2)
     bcrypt (3.1.16)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -64,9 +64,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.7)
+    bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
-      sass (>= 3.3.4)
+      sassc (>= 2.0.0)
     bootstrap-select-rails (1.13.8)
     brakeman (5.0.0)
     builder (3.2.4)
@@ -185,7 +185,7 @@ GEM
     ethon (0.13.0)
       ffi (>= 1.15.0)
     eventmachine (1.2.7)
-    execjs (2.7.0)
+    execjs (2.8.1)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.1.0)
@@ -448,11 +448,6 @@ GEM
     rubyntlm (0.6.3)
     safe_attributes (1.0.10)
       activerecord (>= 3.0.0)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
     sassc (2.4.0)
@@ -551,7 +546,7 @@ DEPENDENCIES
   autoprefixer-rails
   better_errors
   binding_of_caller
-  bootstrap-sass (~> 3.3.1)
+  bootstrap-sass (~> 3.3)
   bootstrap-select-rails
   brakeman
   capistrano (= 3.7.2)

@@ -41,7 +41,7 @@ gem "diffy"
 gem "ranker"
 gem "honeybadger"
 gem "delayed_job_active_record"
-gem "bootstrap-sass", "~> 3.3.1"
+gem "bootstrap-sass", "~> 3.3"
 gem "autoprefixer-rails"
 gem "config"
 gem "mechanize" # Used to download debates
