@@ -54,7 +54,7 @@ gem "reverse_markdown"
 gem "paper_trail", "~> 4"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
-gem "simple_form", "~> 3"
+gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
 gem "meta-tags"
