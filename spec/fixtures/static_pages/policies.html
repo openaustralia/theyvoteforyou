@@ -69,7 +69,24 @@ You can research and create your own.
 </div>
 </div>
 
-<div class='container main-content'><ul class='policies-list list-unstyled'>
+<div class='container main-content'><div class='list-filters clearfix'>
+<div class='list-sorter dropdown'>
+<button class='btn btn-sm btn-default dropdown-toggle' data-toggle='dropdown' id='dropdownMenu1' type='button'>
+Sorted by Subscribers
+<span class='caret'></span>
+</button>
+<ul aria-labelledby='dropdownMenu1' class='dropdown-menu' role='menu'>
+<li class='' role='presentation'>
+<a title="Sort by name" role="menuitem" tabindex="-1" href="/policies?sort=name">Name</a>
+</li>
+<li class='disabled' role='presentation'>
+<a title="Sort by subscribers" role="menuitem" tabindex="-1" href="/policies">Subscribers</a>
+</li>
+</ul>
+</div>
+</div>
+
+<ul class='policies-list list-unstyled'>
 <li>
 <a class="object-item panel-link row" href="/policies/1"><article>
 <h2 class='policy-title object-heading panel-link-title col-md-7'>

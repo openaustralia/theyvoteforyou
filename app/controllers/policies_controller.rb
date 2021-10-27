@@ -4,7 +4,16 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, except: %i[index drafts show history]
 
   def index
-    @policies = Policy.published.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
+    @policies = Policy.published
+    @sort = params[:sort]
+
+    case @sort
+    when "name"
+      @policies = @policies.order(:name)
+    else
+      @policies = @policies.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
+      @sort = nil
+    end
   end
 
   def drafts
