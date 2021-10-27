@@ -21,6 +21,8 @@
     display: block;
     overflow: hidden;
     zoom: 1;
+    // width hack is a fix for a change somewhere between bootstrap 3.3.1 and 3.3.7
+    width: inherit;
   }
 
   .no-js .media-body,

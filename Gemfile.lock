@@ -64,8 +64,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.3.1.0)
-      sass (~> 3.2)
+    bootstrap-sass (3.3.7)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     bootstrap-select-rails (1.13.8)
     brakeman (5.0.0)
     builder (3.2.4)
@@ -199,7 +200,7 @@ GEM
     faraday-excon (1.1.0)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.1.0)
-    ffi (1.15.0)
+    ffi (1.15.4)
     foreman (0.87.2)
     formatador (0.2.5)
     foundation-icons-sass-rails (3.0.0)
@@ -383,7 +384,7 @@ GEM
     rainbow (3.0.0)
     rake (13.0.6)
     ranker (1.1.4)
-    rb-fsevent (0.10.4)
+    rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     rdoc (6.3.2)
@@ -550,7 +551,7 @@ DEPENDENCIES
   autoprefixer-rails
   better_errors
   binding_of_caller
-  bootstrap-sass (= 3.3.1.0)
+  bootstrap-sass (~> 3.3.1)
   bootstrap-select-rails
   brakeman
   capistrano (= 3.7.2)
