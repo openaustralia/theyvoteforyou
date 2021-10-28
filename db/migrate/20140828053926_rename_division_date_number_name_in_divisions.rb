@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameDivisionDateNumberNameInDivisions < ActiveRecord::Migration
   def change
     rename_column :divisions, :division_date, :date

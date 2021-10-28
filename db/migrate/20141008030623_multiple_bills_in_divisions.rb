@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MultipleBillsInDivisions < ActiveRecord::Migration
   def change
     remove_column :divisions, :bill_id, :string

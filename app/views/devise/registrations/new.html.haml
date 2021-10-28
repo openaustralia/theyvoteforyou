@@ -20,6 +20,7 @@
 
     .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
     .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
+    = f.invisible_captcha :title
     .form-group= f.input :password, hint: "Minimum 8 characters long", hint_html: {class: 'small hint-block-intime'}
 
     = f.button :submit, "Sign up", class: 'btn-primary btn-wide submit-signup'

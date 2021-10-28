@@ -10,7 +10,6 @@ one:
   motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>'
   source_gid: ""
   debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
-  markdown: false
 
 two:
   id: 9
@@ -23,7 +22,6 @@ two:
   motion: ""
   source_gid: ""
   debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
-  markdown: false
 
 three:
   id: 347
@@ -37,7 +35,6 @@ three:
   motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>'
   source_gid: "uk.org.publicwhip/debate/2006-12-06.112.1"
   debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
-  markdown: false
 
 four:
   id: 2037
@@ -51,7 +48,6 @@ four:
   motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>'
   source_gid: "uk.org.publicwhip/lords/2009-11-25.77.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
-  markdown: false
 
 five:
   id: 59
@@ -65,7 +61,6 @@ five:
   motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>'
   source_gid: "uk.org.publicwhip/lords/2009-11-30.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
-  markdown: false
 
 # This one used for checking the ordering of divisions by date.
 # Chronologically it is later than division_id 59, but the sql returns it
@@ -85,4 +80,3 @@ six:
   motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>'
   source_gid: "uk.org.publicwhip/lords/2009-11-10.560.1"
   debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
-  markdown: false

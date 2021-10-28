@@ -7,7 +7,7 @@
 
 %h2#divisions
   Divisions
-  %small #{divisions_period}
+  %small #{divisions_period(@date_range, @date_start)}
 
 %p Divisions #{@member.full_name_no_electorate} could have attended.
 

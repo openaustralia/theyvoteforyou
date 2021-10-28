@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 # This provides a cache for several distance measures between members
-class MemberDistance < ActiveRecord::Base
+class MemberDistance < ApplicationRecord
+  # TODO: Remove distance_b from database schema
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
 
@@ -7,41 +10,40 @@ class MemberDistance < ActiveRecord::Base
     1 - distance_a
   end
 
-  def agreement_fraction_without_abstentions
-    1 - distance_b
-  end
-
   def self.update_all!
     Member.all.find_each do |member1|
-      puts "Updating distances for #{member1.name}..."
+      Rails.logger.info "Updating distances for #{member1.name}..."
       # Find all members who overlap with this member
-      members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house).
-        where("entered_house <= ?", member1.left_house)
+      members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house)
+                      .where("entered_house <= ?", member1.left_house)
       # We're only populating half of the matrix
-      members.where("id >= ?", member1.id).each do |member2|
+      members.where("id >= ?", member1.id).find_each do |member2|
         params = calculate_distances(member1, member2)
         # Matrix is symmetric so we don't have to calculate twice
-        MemberDistance.find_or_initialize_by(member1: member1, member2: member2).update_attributes(params)
-        MemberDistance.find_or_initialize_by(member1: member2, member2: member1).update_attributes(params)
+        MemberDistance.find_or_initialize_by(member1: member1, member2: member2).update(params)
+        MemberDistance.find_or_initialize_by(member1: member2, member2: member1).update(params)
       end
     end
   end
 
   def self.calculate_distances(member1, member2)
-    m1_id, m1_entered_house, m1_left_house  = member1.id, member1.entered_house, member2.left_house
-    m2_id, m2_entered_house, m2_left_house  = member2.id, member2.entered_house, member2.left_house
+    m1_id = member1.id
+    m1_entered_house = member1.entered_house
+    m1_left_house = member2.left_house
+    m2_id = member2.id
+    m2_entered_house = member2.entered_house
+    m2_left_house = member2.left_house
     result = {
       nvotessame: MemberDistance.calculate_nvotessame(m1_id, m2_id),
       nvotesdiffer: MemberDistance.calculate_nvotesdiffer(m1_id, m2_id),
       nvotesabsent: MemberDistance.calculate_nvotesabsent(m1_id, m1_entered_house, m1_left_house, m2_id, m2_entered_house, m2_left_house)
     }
     result[:distance_a] = Distance.distance_a(result[:nvotessame], result[:nvotesdiffer], result[:nvotesabsent])
-    result[:distance_b] = Distance.distance_b(result[:nvotessame], result[:nvotesdiffer])
     result
   end
 
   def self.calculate_nvotessame(member1_id, member2_id)
-    # TODO Move knowledge of tells out of here. Shouldn't have to know about this to do this
+    # TODO: Move knowledge of tells out of here. Shouldn't have to know about this to do this
     # kind of query
     # Division
     #   .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
@@ -51,7 +53,7 @@ class MemberDistance < ActiveRecord::Base
     #   .where("(votes1.vote = 'aye' AND votes2.vote = 'aye') OR (votes1.vote = 'no' AND votes2.vote = 'no')")
     #   .count
 
-    nvs_sql = %Q{
+    nvs_sql = %{
 SELECT
   COUNT(*)
 FROM
@@ -78,7 +80,7 @@ WHERE
     #   .where("(votes1.vote = 'aye' AND votes2.vote = 'no') OR (votes1.vote = 'no' AND votes2.vote = 'aye')")
     #   .count
 
-    nvd_sql = %Q{
+    nvd_sql = %{
 SELECT
   COUNT(*)
 FROM
@@ -110,7 +112,7 @@ WHERE
     #   .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
     #   .count
 
-    nva_sql = %Q{
+    nva_sql = %{
 SELECT
   COUNT(*)
 FROM

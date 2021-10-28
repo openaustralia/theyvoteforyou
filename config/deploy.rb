@@ -1,11 +1,13 @@
-lock '3.7.2'
+# frozen_string_literal: true
 
-set :application, 'theyvoteforyou.org.au'
-set :repo_url, 'https://github.com/openaustralia/publicwhip.git'
+lock "3.7.2"
 
-set :rails_env, 'production'
+set :application, "theyvoteforyou.org.au"
+set :repo_url, "https://github.com/openaustralia/publicwhip.git"
 
-set :rvm_ruby_version, '2.3.1'
+set :rails_env, "production"
+
+set :rvm_ruby_version, "2.5.8"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -26,10 +28,10 @@ set :rvm_ruby_version, '2.3.1'
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml}
+set :linked_files, %w[config/database.yml config/settings.yml config/secrets.yml config/newrelic.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []) + %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, fetch(:linked_dirs, []) + %w[bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -42,7 +44,7 @@ namespace :foreman do
   task :export do
     on roles(:app) do
       within current_path do
-        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou -f Procfile.production -l #{shared_path}/log --root #{current_path}"
+        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path}"
       end
     end
   end
@@ -50,21 +52,21 @@ namespace :foreman do
   desc "Start the application services"
   task :start do
     on roles(:app) do
-      execute :systemctl, :start, 'theyvoteforyou.target'
+      execute :systemctl, :start, "theyvoteforyou-#{fetch(:stage)}.target"
     end
   end
 
   desc "Stop the application services"
   task :stop do
     on roles(:app) do
-      execute :sudo, :systemctl, :stop, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :stop, "theyvoteforyou-#{fetch(:stage)}.target"
     end
   end
 
   desc "Restart the application services"
   task :restart do
     on roles(:app) do
-      execute :sudo, :systemctl, :restart, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :restart, "theyvoteforyou-#{fetch(:stage)}.target"
     end
   end
 
@@ -72,44 +74,44 @@ namespace :foreman do
   desc "Enable the application services"
   task :enable do
     on roles(:app) do
-      execute :sudo, :systemctl, :enable, 'theyvoteforyou.target'
+      execute :sudo, :systemctl, :enable, "theyvoteforyou-#{fetch(:stage)}.target"
     end
   end
 end
 
 namespace :deploy do
-  desc 'Restart application'
+  desc "Restart application"
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
+      execute :touch, release_path.join("tmp/restart.txt")
     end
   end
 
   after :publishing, :restart
-  after :restart, 'foreman:export'
-  after 'foreman:export', 'foreman:enable'
-  after 'foreman:enable', 'foreman:restart'
-  after :restart, 'newrelic:notice_deployment'
+  after :restart, "foreman:export"
+  after "foreman:export", "foreman:enable"
+  after "foreman:enable", "foreman:restart"
+  after :restart, "newrelic:notice_deployment"
 end
 
 namespace :app do
   namespace :db do
-    desc 'Seed the database with some test values'
+    desc "Seed the database with some test values"
     task :seed do
       on roles(:app) do
         within current_path do
-          execute :bundle, :exec, :rake, 'db:seed', 'RAILS_ENV=production'
+          execute :bundle, :exec, :rake, "db:seed", "RAILS_ENV=production"
         end
       end
     end
   end
   namespace :searchkick do
     namespace :reindex do
-      desc 'Reindex the search database'
+      desc "Reindex the search database"
       task :all do
         on roles(:app) do
           within current_path do
-            execute :bundle, :exec, :rake, 'searchkick:reindex:all', 'RAILS_ENV=production'
+            execute :bundle, :exec, :rake, "searchkick:reindex:all", "RAILS_ENV=production"
           end
         end
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MakeConsIdPrimaryKeyInElectorates < ActiveRecord::Migration
   def change
     remove_column :electorates, :id

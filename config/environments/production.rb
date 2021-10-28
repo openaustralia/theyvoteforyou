@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Publicwhip::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -20,7 +22,7 @@ Publicwhip::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  config.public_file_server.enabled = false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -33,7 +35,7 @@ Publicwhip::Application.configure do
   config.assets.digest = true
 
   # Version of your assets, change this if you want to expire all your assets.
-  config.assets.version = '1.0'
+  config.assets.version = "1.0"
 
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
@@ -52,28 +54,28 @@ Publicwhip::Application.configure do
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
 
   # Use a different cache store in production.
-  config.cache_store = :dalli_store, nil, {namespace: "publicwhip"}
+  config.cache_store = :dalli_store, nil, { namespace: "publicwhip" }
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets.
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-  # config.assets.precompile += %w( search.js )
+  config.assets.precompile += %w[email.css]
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default_url_options = {
-    protocol: 'https',
-    host: 'theyvoteforyou.org.au'
+    protocol: "https",
+    host: "theyvoteforyou.org.au"
   }
   config.action_mailer.smtp_settings = {
-     address: Rails.application.secrets.cuttlefish_server,
-     port: 2525,
-     user_name: Rails.application.secrets.cuttlefish_user_name,
-     password: Rails.application.secrets.cuttlefish_password,
-     authentication: :plain
+    address: Rails.application.secrets.cuttlefish_server,
+    port: 2525,
+    user_name: Rails.application.secrets.cuttlefish_user_name,
+    password: Rails.application.secrets.cuttlefish_password,
+    authentication: :plain
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

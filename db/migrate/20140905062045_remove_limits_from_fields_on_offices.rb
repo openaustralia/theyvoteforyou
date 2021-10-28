@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveLimitsFromFieldsOnOffices < ActiveRecord::Migration
   def change
     change_column :offices, :dept, :string, limit: nil

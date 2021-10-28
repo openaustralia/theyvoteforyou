@@ -1,15 +1,17 @@
-class PolicyPersonDistance < ActiveRecord::Base
+# frozen_string_literal: true
+
+class PolicyPersonDistance < ApplicationRecord
+  # TODO: Remove distance_b from database schema
   attr_defaults nvotessame: 0.0,
                 nvotessamestrong: 0.0,
                 nvotesdiffer: 0.0,
                 nvotesdifferstrong: 0.0,
                 nvotesabsent: 0.0,
                 nvotesabsentstrong: 0.0,
-                distance_a: 0.0,
-                distance_b: 0.0
+                distance_a: 0.0
 
   belongs_to :policy
-  has_one :person, foreign_key: :id, primary_key: :person_id
+  belongs_to :person
 
   scope :published, -> { joins(:policy).merge(Policy.published) }
   scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
@@ -22,7 +24,7 @@ class PolicyPersonDistance < ActiveRecord::Base
   scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
 
   def voted?
-    nvotessame > 0 || nvotessamestrong > 0 || nvotesdiffer > 0 || nvotesdifferstrong > 0
+    nvotessame.positive? || nvotessamestrong.positive? || nvotesdiffer.positive? || nvotesdifferstrong.positive?
   end
 
   def distance_object
@@ -77,13 +79,9 @@ class PolicyPersonDistance < ActiveRecord::Base
     distance_object.possible_votes_points(:absent)
   end
 
-  def total_points
-    distance_object.total_points
-  end
+  delegate :total_points, to: :distance_object
 
-  def possible_total_points
-    distance_object.possible_total_points
-  end
+  delegate :possible_total_points, to: :distance_object
 
   def agreement_fraction
     1 - distance_a

@@ -8,7 +8,6 @@ one:
   nvotesabsent: 1
   nvotesabsentstrong: 0
   distance_a: 0.5
-  distance_b: -1.0
 two:
   policy_id: 1
   person_id: 10552
@@ -19,7 +18,6 @@ two:
   nvotesabsent: 0
   nvotesabsentstrong: 0
   distance_a: 1.0
-  distance_b: 1.0
 three:
   policy_id: 1
   person_id: 10725
@@ -30,4 +28,3 @@ three:
   nvotesabsent: 1
   nvotesabsentstrong: 0
   distance_a: 0.5
-  distance_b: -1.0

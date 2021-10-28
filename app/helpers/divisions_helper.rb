@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DivisionsHelper
   def division_date_and_time(division)
     text = formatted_date(division.date)
@@ -6,7 +8,7 @@ module DivisionsHelper
   end
 
   def aye_vote_class(whip)
-    if whip.aye_votes == 0
+    if whip.aye_votes.zero?
       "normal"
     # Special case for free votes
     elsif whip.whip_guess == "aye" || whip.free?
@@ -17,7 +19,7 @@ module DivisionsHelper
   end
 
   def no_vote_class(whip)
-    if whip.no_votes == 0
+    if whip.no_votes.zero?
       "normal"
     # Special case for free votes
     elsif whip.whip_guess == "no" || whip.free?
@@ -55,93 +57,94 @@ module DivisionsHelper
   def policy_vote_display_with_class(vote)
     text = vote_display(vote)
     pattern_class = "division-policy-statement-vote"
-    vote_class = ("voted-" + PolicyDivision.vote_without_strong(vote))
-    classes = pattern_class + " " + vote_class
+    vote_class = "voted-#{PolicyDivision.vote_without_strong(vote)}"
+    classes = "#{pattern_class} #{vote_class}"
 
-    content_tag(:span, text, class: classes )
+    content_tag(:span, text, class: classes)
   end
 
   def majority_strength_in_words(division)
-    if division.majority_fraction == 1.0
+    if division.unanimous?
       "unanimously"
-    elsif division.majority_fraction == 0.0
+    elsif division.tied?
       ""
     else
-      "by a " + content_tag(:span, {class: 'has-tooltip', title: division_score(division)}) do
+      out = []
+      out << "by a "
+      out << content_tag(:span, { class: "has-tooltip", title: division_score(division) }) do
         if division.majority_fraction > 2.to_f / 3
           "large majority"
         elsif division.majority_fraction > 1.to_f / 3
           "modest majority"
-        elsif division.majority_fraction > 0
+        elsif division.majority_fraction.positive?
           "small majority"
         end
       end
+      safe_join(out)
     end
   end
 
   def division_outcome_with_majority_strength(division)
-    "#{division_outcome(division)} #{majority_strength_in_words(division)}".html_safe
+    out = []
+    out << division_outcome(division)
+    out << " "
+    out << majority_strength_in_words(division)
+    safe_join(out)
   end
 
   def whip_guess_with_strength_in_words(whip)
-    if whip.majority_fraction == 1.0
-      "unanimously voted " + whip.whip_guess
-    elsif whip.majority_fraction == 0.0
+    if whip.unanimous?
+      "unanimously voted #{whip.whip_guess}"
+    elsif whip.tied?
       "split"
     elsif whip.majority_fraction > 2.to_f / 3
-      "large majority voted " + whip.whip_guess
+      "large majority voted #{whip.whip_guess}"
     elsif whip.majority_fraction > 1.to_f / 3
-      "modest majority voted " + whip.whip_guess
-    elsif whip.majority_fraction > 0
-      "small majority voted " + whip.whip_guess
+      "modest majority voted #{whip.whip_guess}"
+    elsif whip.majority_fraction.positive?
+      "small majority voted #{whip.whip_guess}"
     end
   end
 
-  # TODO We should be taking into account the strange rules about tied votes in the Senate
+  # TODO: We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
-    division.passed? ? 'Passed' : 'Not passed'
+    division.passed? ? "Passed" : "Not passed"
   end
 
   def division_outcome_class(division)
-    division.passed? ? 'division-outcome-passed' : 'division-outcome-not-passed'
+    division.passed? ? "division-outcome-passed" : "division-outcome-not-passed"
   end
 
   def division_score(division)
     if division.passed?
-      "#{division.aye_votes_including_tells.to_s} #{vote_display "aye"} – #{division.no_votes_including_tells.to_s} #{vote_display "no"}"
+      "#{division.aye_votes_including_tells} #{vote_display 'aye'} – #{division.no_votes_including_tells} #{vote_display 'no'}"
     else
-      "#{division.no_votes_including_tells.to_s} #{vote_display "no"} – #{division.aye_votes_including_tells.to_s} #{vote_display "aye"}"
+      "#{division.no_votes_including_tells} #{vote_display 'no'} – #{division.aye_votes_including_tells} #{vote_display 'aye'}"
     end
   end
 
   def member_voted_with(member, division)
     sentence = link_to member.name, member
     sentence += " "
-    if member.vote_on_division_without_tell(division) == "absent"
-      sentence += "did not vote"
-    end
+    sentence += "did not vote" if member.vote_on_division_without_tell(division) == "absent"
 
     if !division.action_text.empty? && division.action_text[member.vote_on_division_without_tell(division)]
       sentence += "voted ".html_safe + content_tag(:em, division.action_text[member.vote_on_division_without_tell(division)])
     else
-      # TODO Should be using whip for this calculation. Only doing it this way to match php
+      # TODO: Should be using whip for this calculation. Only doing it this way to match php
       # calculation
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
-      if ayenodiff == 0
-        if member.vote_on_division_without_tell(division) != "absent"
-          sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}"
-        end
-      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff < 0
+      if ayenodiff.zero?
+        sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}" if member.vote_on_division_without_tell(division) != "absent"
+      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff.negative?
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
       elsif member.vote_on_division_without_tell(division) != "absent"
         sentence += "voted ".html_safe + content_tag(:em, "in the minority")
       end
 
-      if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-        sentence += " (#{vote_display member.vote_on_division_without_tell(division)})"
-      end
-      sentence
+      sentence += " (#{vote_display member.vote_on_division_without_tell(division)})" if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
     end
+    sentence
   end
 
   def member_vote(member, division)
@@ -151,7 +154,7 @@ module DivisionsHelper
   def member_vote_with_type(member, division)
     sentence = member.name_without_title
     if member.attended_division?(division)
-       sentence += " voted #{vote_display(division.vote_for(member))}"
+      sentence += " voted #{vote_display(division.vote_for(member))}"
       if member.division_vote(division).rebellion?
         sentence += ", rebelling against"
         sentence += " the #{member.party_name}"
@@ -168,7 +171,7 @@ module DivisionsHelper
     sentence = member.name_without_title
     if member.attended_division?(division)
       sentence += " voted #{vote_display(division.vote_for(member))}"
-      if member.has_whip? && !division.whip_for_party(member.party).free_vote?
+      if member.subject_to_whip? && !division.whip_for_party(member.party).free_vote?
         sentence += member.division_vote(division).rebellion? ? " against" : " with"
         sentence += " the #{member.party_name}"
       elsif division.whip_for_party(member.party).free_vote?
@@ -182,7 +185,7 @@ module DivisionsHelper
   end
 
   def member_vote_class(member, division)
-    "member-voted-" + vote_display(division.vote_for(member))
+    "member-voted-#{vote_display(division.vote_for(member))}"
   end
 
   def relative_time(time)
@@ -202,40 +205,40 @@ module DivisionsHelper
       "display-house-representatives"
     elsif house == "senate"
       "display-house-senate"
-    elsif house == nil
+    elsif house.nil?
       "display-house-all"
     end
   end
 
-  def vote_select(f, value, options = {})
+  def vote_select(form, value, options = {})
     select_options = [
-      ['A less important vote', [
-        [vote_display('aye'), 'aye'],
-        [vote_display('no'), 'no']
+      ["A less important vote", [
+        [vote_display("aye"), "aye"],
+        [vote_display("no"), "no"]
       ]],
-      ['An important vote', [
-        [vote_display('aye3'), 'aye3'],
-        [vote_display('no3'), 'no3']
+      ["An important vote", [
+        [vote_display("aye3"), "aye3"],
+        [vote_display("no3"), "no3"]
       ]]
     ]
-    f.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
+    form.select :vote, grouped_options_for_select(select_options, value), options, size: 1, class: "selectpicker"
   end
 
   def divisions_short_description(division)
-    "Australian #{division.full_house_name} vote " +
-    "#{division_outcome(division).downcase}, #{division_date_and_time(@division)}"
+    "Australian #{division.full_house_name} vote " \
+      "#{division_outcome(division).downcase}, #{division_date_and_time(division)}"
   end
 
-  def divisions_period
-    case @date_range
+  def divisions_period(date_range, date_start)
+    case date_range
     when :year
-      @date_start.year.to_s
+      date_start.year.to_s
     when :month
-      @date_start.strftime("%B %Y")
+      date_start.strftime("%B %Y")
     when :day
-      formatted_date(@date_start)
+      formatted_date(date_start)
     else
-      raise ArgumentError, 'Not valid date'
+      raise ArgumentError, "Not valid date"
     end
   end
 
@@ -245,8 +248,8 @@ module DivisionsHelper
 
   def member_row_class(vote, whip)
     classes = []
-    classes << 'collapse party-member-row' unless whip.whipless? || whip.possible_votes == 1
-    classes << 'rebel' if rebellion?(vote, whip)
-    classes << 'member-row-' + whip.party.parameterize
+    classes << "collapse party-member-row" unless whip.whipless? || whip.possible_votes == 1
+    classes << "rebel" if rebellion?(vote, whip)
+    classes << "member-row-#{whip.party.parameterize}"
   end
 end

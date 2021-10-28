@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.id person.id
 json.latest_member do
   json.id person.latest_member.id

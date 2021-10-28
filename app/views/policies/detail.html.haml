@@ -1,7 +1,0 @@
-= render 'page_header', policy: @policy
-
-%p
-  = link_to "← Basic divisions list", policy_path(@policy, anchor: 'divisions'), title: "Shows the policy’s divisions in a basic list"
-
-= render 'vote_table_leader', policy: @policy
-= render 'detailed_votes', member: @member, policy: @policy

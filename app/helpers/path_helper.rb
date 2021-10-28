@@ -1,19 +1,17 @@
+# frozen_string_literal: true
+
 module PathHelper
-  def electorate_path(member)
-    Rails.application.routes.url_helpers.electorate_path(electorate_params(member))
-  end
-
-  def party_divisions_path(party_object)
-    Rails.application.routes.url_helpers.party_divisions_path(party: party_object.url_name)
-  end
-
   def member_division_path(member, division)
-    Rails.application.routes.url_helpers.
-      member_division_path(division_params(division).merge(member_params(member)))
+    Rails.application.routes.url_helpers
+         .member_division_path(division_params(division).merge(member_params(member)))
   end
 
-  def division_path(division, q = {})
-    Rails.application.routes.url_helpers.division_path(q.merge(division_params(division)))
+  def division_path(division, options = {})
+    Rails.application.routes.url_helpers.division_path(options.merge(division_params(division)))
+  end
+
+  def division_url(division, options = {})
+    Rails.application.routes.url_helpers.division_url(options.merge(division_params(division)))
   end
 
   def history_division_path(division)
@@ -40,15 +38,12 @@ module PathHelper
     Rails.application.routes.url_helpers.friends_member_path(member_params(member))
   end
 
-  def electorate_params(member)
-    {
-      mpc: (member.url_electorate.downcase if member),
-      house: (member.house if member)
-    }
-  end
-
   def member_params(member)
-    electorate_params(member).merge(mpn: member.url_name.downcase)
+    {
+      house: member&.house,
+      mpc: member&.url_electorate&.downcase,
+      mpn: member.url_name.downcase
+    }
   end
 
   def division_params(division)

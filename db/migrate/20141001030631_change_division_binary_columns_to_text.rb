@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeDivisionBinaryColumnsToText < ActiveRecord::Migration
   def change
     change_column :divisions, :source_url, :text

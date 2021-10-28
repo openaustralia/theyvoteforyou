@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemoveLimitsOnHouseFields < ActiveRecord::Migration
   def change
     change_column :divisions, :house, :string, limit: nil

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDivisionIdToWikiMotions < ActiveRecord::Migration
   def change
     add_column :wiki_motions, :division_id, :integer

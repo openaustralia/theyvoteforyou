@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddPrimaryKeys < ActiveRecord::Migration
   def change
     add_column :member_distances, :id, :primary_key

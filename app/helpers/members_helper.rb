@@ -1,19 +1,17 @@
+# frozen_string_literal: true
+
 module MembersHelper
   # Also say "whilst Independent" if they used to be in a different party
   def party_long2(member)
     if member.entered_reason == "changed_party" || member.left_reason == "changed_party"
-      result = "whilst ".html_safe
+      "whilst #{member.party_name}"
     else
-      result = "".html_safe
+      member.party_name
     end
-    result += link_to member.party_name, party_divisions_path(member.party_object)
-    result
   end
 
   def vote_class(vote)
-    if vote.nil?
-      ""
-    elsif vote.rebellion?
+    if vote&.rebellion?
       "rebel"
     else
       ""
@@ -21,9 +19,9 @@ module MembersHelper
   end
 
   def member_party_type_place_name(member)
-    result = member.party_name + " " + member.role + " " + member.name
+    result = "#{member.party_name} #{member.role} #{member.name}"
 
-    member.currently_in_parliament? ? result : "Former " + result
+    member.currently_in_parliament? ? result : "Former #{result}"
   end
 
   def member_type_party_place_sentence(member)
@@ -31,32 +29,55 @@ module MembersHelper
     if member.currently_in_parliament?
       member_type_party_place_sentence_without_former(member)
     else
-      content_tag(:span, "Former #{member.party_name} #{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
-    end.html_safe
+      out = []
+      out << "Former #{member.party_name} "
+      out << member_type_electorate_sentence(member)
+      content_tag(:span, safe_join(out), class: "title")
+    end
   end
 
   def member_type_party_place_sentence_without_former(member)
-    content_tag(:span, member.party_name, class: 'org') + " " + content_tag(:span, "#{member_type(member.house)} for #{content_tag(:span, member.electorate, class: "electorate")}".html_safe, class: 'title')
+    out = []
+    out << content_tag(:span, member.party_name, class: "org")
+    out << " "
+    out << content_tag(:span, member_type_electorate_sentence(member), class: "title")
+    safe_join(out)
+  end
+
+  # Returns "Representative for Higgins" or "Senator for Tasmania"
+  def member_type_electorate_sentence(member)
+    out = []
+    out << "#{member_type(member.house)} for "
+    out << content_tag(:span, member.electorate, class: "electorate")
+    safe_join(out)
   end
 
   def member_type_party_place_date_sentence(member)
     text = member_type_party_place_sentence(member)
-    if member.currently_in_parliament?
-      text += (" " +
-        content_tag(:span, "since #{member.since}", class: 'member-period')).html_safe
-    else
-      text += (" " +
-        content_tag(:span, "#{member.since} – #{member.until}", class: 'member-period')).html_safe
-    end
+    text += " "
+    text += if member.currently_in_parliament?
+              content_tag(:span, "since #{member.since}", class: "member-period")
+            else
+              content_tag(:span, "#{member.since} – #{member.until}", class: "member-period")
+            end
     text
   end
 
   def member_history_sentence(member)
-    text = "Before being #{member_type_party_place_sentence_without_former(member)}, #{member.name_without_title} was "
-    text += member.person.members.order(entered_house: :desc).offset(1).map do |member, i|
-      member.party_name + " " + member_type(member.house) + " for " + content_tag(:span, member.electorate, class: 'electorate')
-    end.to_sentence
-    text.html_safe + "."
+    out = []
+    out << "Before being "
+    out << member_type_party_place_sentence_without_former(member)
+    out << ", #{member.name_without_title} was "
+    # TODO: This looks like it assumes the member is the most recent one. Is that always the case?
+    t = member.person.members.order(entered_house: :desc).offset(1).map do |member2, _i|
+      out2 = []
+      out2 << "#{member2.party_name} "
+      out2 << member_type_electorate_sentence(member2)
+      safe_join(out2)
+    end
+    out << to_sentence(t)
+    out << "."
+    safe_join(out)
   end
 
   def member_rebellion_record_sentence(member)
@@ -65,7 +86,9 @@ module MembersHelper
     else
       # TODO: Should this be an absolute count rather than percentage?
       # Maybe it's good to show it as a percentage because it highlights rarity?
-      (member.currently_in_parliament? ? "Rebels " : "Rebelled ") + fraction_to_percentage_display(member.person.rebellions_fraction) + " of the time"
+      rebel_text = member.currently_in_parliament? ? "Rebels" : "Rebelled"
+      percentage = fraction_to_percentage_display(member.person.rebellions_fraction)
+      "#{rebel_text} #{percentage} of the time"
     end
   end
 end

@@ -1,4 +1,6 @@
-require 'redcarpet'
+# frozen_string_literal: true
+
+require "redcarpet"
 
 class BootstrapTableRenderer < Redcarpet::Render::HTML
   def table(header, body)
