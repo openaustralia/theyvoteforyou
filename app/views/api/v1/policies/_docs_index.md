@@ -12,3 +12,4 @@ Parameter     | Description
 `name`        | A short name for the policy
 `description` | More detail on what the policy means
 `provisional` | `true` or `false`. A provisional policy isn't yet "complete" and isn't visible by default in comparisons with people
+`last_edited_at` | Time that the policy was last edited (in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format)
