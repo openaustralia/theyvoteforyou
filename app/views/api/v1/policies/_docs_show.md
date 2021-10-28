@@ -14,7 +14,6 @@ This returns all sorts of useful detailed information, including
 
 Parameter            | Description
 -------------------- | ------------------------------------------------------------------------
-`id`                 | A unique identifier for this division. Use the `id` to get more information about this policy
 `name`               | A short name for the policy
 `description`        | More detail on what the policy means
 `provisional`        | `true` or `false`. A provisional policy isn't yet "complete" and isn't visible by default in comparisons with people
