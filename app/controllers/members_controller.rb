@@ -29,14 +29,10 @@ class MembersController < ApplicationController
 
   def show_redirect
     member = Member.find_by!(id: params[:mpid])
-    redirect_to params.to_unsafe_hash.merge(
-      only_path: true,
-      mpn: member.url_name,
-      mpc: member.url_electorate,
-      house: member.house,
-      mpid: nil,
-      id: nil
-    )
+    result = "/members/#{member.house}/#{member.url_electorate.downcase}/#{member.url_name.downcase}"
+    result += "/policies/#{params['dmp']}" if params["dmp"]
+
+    redirect_to result
   end
 
   def friends
