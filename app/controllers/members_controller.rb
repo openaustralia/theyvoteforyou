@@ -29,10 +29,12 @@ class MembersController < ApplicationController
 
   def show_redirect
     member = Member.find_by!(id: params[:mpid])
-    result = "/members/#{member.house}/#{member.url_electorate.downcase}/#{member.url_name.downcase}"
-    result += "/policies/#{params['dmp']}" if params["dmp"]
-
-    redirect_to result
+    redirect_to member_policy_url(
+      house: member.house,
+      mpc: member.url_electorate.downcase,
+      mpn: member.url_name.downcase,
+      id: params[:dmp]
+    )
   end
 
   def friends

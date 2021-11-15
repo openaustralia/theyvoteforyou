@@ -4,13 +4,7 @@ Publicwhip::Application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
-  get "mp.php" => "members#show_redirect",
-      constraints: ->(r) { r.query_parameters["mpid"] }
-  get "mp.php" => redirect { |_p, r|
-    result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase}/#{r.query_parameters['mpn'].downcase}"
-    result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters["dmp"]
-    result
-  }
+  get "mp.php" => "members#show_redirect"
 
   # Redirects
   get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")

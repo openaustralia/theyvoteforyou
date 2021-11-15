@@ -6,9 +6,9 @@ describe "routing redirects", type: :request do
   fixtures :all
 
   # This is an old url still being used by openaustralia.org.au
-  it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
+  it do
     get "/mp.php?mpid=1&dmp=1", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1"
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
   end
 
   it do
