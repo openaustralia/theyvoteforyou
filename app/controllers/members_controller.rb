@@ -27,6 +27,46 @@ class MembersController < ApplicationController
                end
   end
 
+  def show_redirect
+    if params[:mpid] || params[:id] || params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
+      if params[:mpid]
+        member = Member.find_by!(id: params[:mpid])
+      elsif params[:id]
+        member = begin
+          Member.find_by!(gid: params[:id])
+        rescue ActiveRecord::RecordNotFound
+          Member.find_by!(gid: params[:id].gsub(/member/, "lord"))
+        end
+      elsif params[:mpc] == "Senate" || params[:mpc].nil? || params[:house].nil?
+        member = Member.with_name(params[:mpn].gsub("_", " "))
+        member = member.in_house(params[:house]) if params[:house]
+        member = member.order(entered_house: :desc).first
+        if member.nil?
+          render "member_not_found", status: 404
+          return
+        end
+      end
+      redirect_to params.to_unsafe_hash.merge(
+        only_path: true,
+        mpn: member.url_name,
+        mpc: member.url_electorate,
+        house: member.house,
+        mpid: nil,
+        id: nil
+      )
+      return
+    end
+    if params[:dmp] && params[:display] == "allvotes"
+      redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
+      return
+    end
+    if params[:display] == "summary" || params[:display] == "alldreams"
+      redirect_to params.to_unsafe_hash.merge(only_path: true, display: nil)
+      return
+    end
+    redirect_to params.to_unsafe_hash.merge(only_path: true, showall: nil, display: "everyvote") if params[:display] == "allvotes" || params[:showall] == "yes"
+  end
+
   def friends
     electorate = params[:mpc].gsub("_", " ")
     name = params[:mpn].gsub("_", " ")

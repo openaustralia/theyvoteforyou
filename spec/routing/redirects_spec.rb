@@ -5,6 +5,18 @@ require "spec_helper"
 describe "routing redirects", type: :request do
   fixtures :all
 
+  # This is an old url still being used by openaustralia.org.au
+  it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
+    get "/mp.php?mpid=1&dmp=1", params: {}
+    expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+  end
+
+  # This comes from the redirect above
+  it do
+    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1", params: {}
+    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1"
+  end
+
   it do
     get "/members/representatives/lilley/wayne_swan/policies/3/full", params: {}
     expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
