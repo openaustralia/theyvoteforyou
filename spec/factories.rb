@@ -86,4 +86,11 @@ FactoryBot.define do
       private { 2 }
     end
   end
+
+  factory :policy_person_distance do
+    association :policy
+    association :person
+  end
+
+  factory :person
 end
