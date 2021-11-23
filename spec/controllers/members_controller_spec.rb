@@ -38,6 +38,20 @@ describe MembersController, type: :controller do
       end
     end
 
+    describe "#policy" do
+      it "redirects older member to the canonical (latest) member" do
+        get :policy, params: { house: "representatives", mpc: "denison", mpn: "andrew_wilkie", id: "1" }
+
+        expect(response).to redirect_to "/people/representatives/clark/andrew_wilkie/policies/1"
+      end
+
+      it "does not redirect the canonical member" do
+        get :policy, params: { house: "representatives", mpc: "clark", mpn: "andrew_wilkie", id: "1" }
+
+        expect(response.status).to be 200
+      end
+    end
+
     describe "#compare" do
       before do
         person = create(:person)

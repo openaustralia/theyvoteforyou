@@ -92,6 +92,16 @@ class MembersController < ApplicationController
 
     return render "member_not_found", status: :not_found if @member.nil?
 
+    canonical_member = @member.person.latest_member
+    if canonical_member != @member
+      return redirect_to member_policy_url(
+        house: canonical_member.house,
+        mpc: canonical_member.url_electorate.downcase,
+        mpn: canonical_member.url_name.downcase,
+        id: params[:id]
+      )
+    end
+
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
     render "policies/show_with_member"
