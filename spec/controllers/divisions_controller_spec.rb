@@ -14,7 +14,12 @@ describe DivisionsController, type: :controller do
     let!(:june_2016_division) { create(:division, date: Date.new(2016, 0o6, 0o1)) }
     let!(:older_division) { create(:division, date: Date.new(2013, 0o4, 29)) }
 
-    let!(:representative) { create(:member, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo") }
+    let!(:representative) do
+      # Returns the most recent member for this particular fictional person
+      person = create(:person)
+      create(:member, person: person, house: "representatives", constituency: "Oldtown", first_name: "Jane", last_name: "Lo", entered_house: Date.new(2005, 8, 21), left_house: Date.new(2010, 5, 18))
+      create(:member, person: person, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo", entered_house: Date.new(2010, 5, 18), left_house: Date.new(9999, 12, 31))
+    end
 
     context "when there are no parameters" do
       it "renders the index template with divisions of the same year as the last one stored" do
@@ -123,6 +128,12 @@ describe DivisionsController, type: :controller do
           expect(assigns(:date_range)).to eq(:year)
           expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
         end
+
+        it "redirects to canonical url when old member is referenced" do
+          get :index, params: { mpc: "oldtown", mpn: "jane_lo", house: "representatives" }
+
+          expect(response).to redirect_to("/people/representatives/newtown/jane_lo/divisions")
+        end
       end
 
       context "when a date is specified" do
@@ -137,6 +148,12 @@ describe DivisionsController, type: :controller do
             expect(assigns(:date_end)).to eq(Date.new(2014, 0o1, 0o1))
             expect(assigns(:date_range)).to eq(:year)
             expect(assigns(:divisions)).to eq([older_division])
+          end
+
+          it "redirects to canonical url when old member is referenced" do
+            get :index, params: { mpc: "oldtown", mpn: "jane_lo", house: "representatives", date: "2013" }
+
+            expect(response).to redirect_to("/people/representatives/newtown/jane_lo/divisions/2013")
           end
         end
 

@@ -23,6 +23,16 @@ class DivisionsController < ApplicationController
       @member = member
 
       if @member
+        canonical_member = @member.person.latest_member
+        if canonical_member != @member
+          return redirect_to member_divisions_url(
+            house: canonical_member.house,
+            mpc: canonical_member.url_electorate.downcase,
+            mpn: canonical_member.url_name.downcase,
+            date: params[:date]
+          )
+        end
+
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
         render "index_with_member"
       else
