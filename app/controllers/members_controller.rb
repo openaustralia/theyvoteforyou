@@ -100,6 +100,19 @@ class MembersController < ApplicationController
 
     return render "member_not_found", status: :not_found if @member1.nil? || @member2.nil?
 
+    canonical_member1 = @member1.person.latest_member
+    canonical_member2 = @member2.person.latest_member
+    if canonical_member1 != @member1 || canonical_member2 != @member2
+      redirect_to compare_member_url(
+        house: canonical_member1.house,
+        mpc: canonical_member1.url_electorate.downcase,
+        mpn: canonical_member1.url_name.downcase,
+        mpc2: canonical_member2.url_electorate.downcase,
+        mpn2: canonical_member2.url_name.downcase
+      )
+      return
+    end
+
     @policies = []
     @member1.person.policy_person_distances.published.each do |ppd1|
       # TODO: This is very inefficient. Doing many database lookups
