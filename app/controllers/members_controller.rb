@@ -46,7 +46,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render "member_not_found", status: :not_found if @member.nil?
+    return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
@@ -67,10 +67,7 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    if @member.nil?
-      render "member_not_found", status: :not_found
-      return
-    end
+    return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
