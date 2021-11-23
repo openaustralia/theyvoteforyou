@@ -79,6 +79,24 @@ class MembersController < ApplicationController
     )
   end
 
+  def policy
+    @policy = Policy.find(params[:id])
+
+    electorate = params[:mpc].gsub("_", " ")
+    name = params[:mpn].gsub("_", " ")
+
+    @member = Member.with_name(name)
+    @member = @member.in_house(params[:house])
+    @member = @member.where(constituency: electorate)
+    @member = @member.order(entered_house: :desc).first
+
+    return render "member_not_found", status: :not_found if @member.nil?
+
+    # Pick the member where the votes took place
+    @member = @member.person.member_for_policy(@policy)
+    render "policies/show_with_member"
+  end
+
   def compare
     electorate1 = params[:mpc].gsub("_", " ")
     electorate2 = params[:mpc2].gsub("_", " ")

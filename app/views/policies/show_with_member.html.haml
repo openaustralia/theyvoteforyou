@@ -20,7 +20,7 @@
     - if @policy.published?
       = render "social_share"
 
-= render "draft_warning", policy: @policy
+= render "policies/draft_warning", policy: @policy
 
 %p.col-sm-7
   How
@@ -28,5 +28,5 @@
   voted compared to someone who believes that
   = link_to @policy.description, @policy
 
-= render 'vote_summary_table', member: @member, policy: @policy
-= render "how_the_number_is_calculated", member: @member, policy: @policy
+= render 'policies/vote_summary_table', member: @member, policy: @policy
+= render "policies/how_the_number_is_calculated", member: @member, policy: @policy
