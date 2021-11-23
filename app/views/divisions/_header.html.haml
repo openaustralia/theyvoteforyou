@@ -9,7 +9,5 @@
     %small.pre-title= division_date_and_time(division) + " – " + division.house_name
     - if @display == 'policies'
       = link_to yield(:title), division
-    - elsif member
-      = member_voted_with(member, division) + ' on the division ' + content_tag(:em, yield(:title))
     - else
       = yield(:title)

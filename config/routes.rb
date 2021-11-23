@@ -30,6 +30,7 @@ Publicwhip::Application.routes.draw do
   get "/members/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}")
   get "/policies/:id/detail" => redirect("/policies/%{id}")
   get "/people/:house/:mpc" => redirect("/people/%{house}")
+  get "/people/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/divisions/%{date}/%{number}")
   get "/parties/:party/divisions/:house" => redirect("/divisions/%{house}")
   get "/parties/:party/divisions" => redirect("/divisions")
 
@@ -49,7 +50,6 @@ Publicwhip::Application.routes.draw do
   get "/people/:house/:mpc/:mpn/friends" => "members#friends", as: :friends_member
   get "/people/:house/:mpc/:mpn/compare/:mpc2/:mpn2" => "members#compare", as: :compare_member
   get "/people/:house/:mpc/:mpn/divisions/(:date)" => "divisions#index", as: :member_divisions
-  get "/people/:house/:mpc/:mpn/divisions/:date/:number" => "divisions#show", as: :member_division
 
   get "/divisions" => "divisions#index", as: :divisions
   get "/divisions/:house" => "divisions#index"

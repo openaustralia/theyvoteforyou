@@ -19,10 +19,6 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2009-11-25/8/policies/2", signed_in: true) }
     it { compare_static("/divisions/senate/2013-03-14/1/policies", signed_in: true) }
     it { compare_static("/divisions/senate/2013-03-14/1/policies", suffix: "_2") }
-
-    it { compare_static("/people/representatives/griffith/kevin_rudd/divisions/2006-12-06/3") }
-    it { compare_static("/people/representatives/warringah/tony_abbott/divisions/2006-12-06/3") }
-    it { compare_static("/people/senate/tasmania/christine_milne/divisions/2013-03-14/1") }
   end
 
   describe "#index" do

@@ -75,17 +75,6 @@ class DivisionsController < ApplicationController
       @whips = @division.whips.order(:party)
       @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 
-      # If a member is included
-      if params[:mpn] && params[:mpc]
-        name = params[:mpn].gsub("_", " ")
-        electorate = params[:mpc].gsub("_", " ")
-        # TODO: Also ensure that the member is current on the date of this division
-        member = Member.in_house(house).with_name(name)
-                       .where(constituency: electorate).first
-        @member = member&.person&.member_who_voted_on_division(@division)
-        return render "home/error404", status: :not_found if @member.nil?
-      end
-
       @members = Member.in_house(house).current_on(@division.date)
                        .joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}")
                        .order("members.party", "vote", "members.last_name", "members.first_name")
