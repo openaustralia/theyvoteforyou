@@ -18,7 +18,7 @@
           %td
             %h3.division-title.h4
               %small.pre-title= division_date_and_time(division) + " – " + division.house_name
-              = member ? link_to(division.name, [member, division]) : link_to(division.name, division)
+              = link_to(division.name, division)
             - if member
               - # TODO Add the button style and disclosure behaviour as progressive enhancement through js
               - # Change the text to say 'hide detail' when open.
