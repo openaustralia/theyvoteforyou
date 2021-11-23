@@ -58,7 +58,19 @@ class MembersController < ApplicationController
     @member = @member.where(constituency: electorate)
     @member = @member.order(entered_house: :desc).first
 
-    render "member_not_found", status: :not_found if @member.nil?
+    if @member.nil?
+      render "member_not_found", status: :not_found
+      return
+    end
+
+    canonical_member = @member.person.latest_member
+    return if canonical_member == @member
+
+    redirect_to member_url(
+      house: canonical_member.house,
+      mpc: canonical_member.url_electorate.downcase,
+      mpn: canonical_member.url_name.downcase
+    )
   end
 
   def compare
