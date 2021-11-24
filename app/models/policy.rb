@@ -139,7 +139,7 @@ class Policy < ApplicationRecord
   private
 
   def current_members(policy_person_distances)
-    members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
+    members = policy_person_distances.map { |ppd| ppd.person.latest_member }
     members.select(&:currently_in_parliament?).sort_by { |m| [m.last_name, m.first_name] }
   end
 end
