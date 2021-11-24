@@ -11,14 +11,10 @@
 
   %section.page-section#members
     .policy-comparisions
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', distances: @policy.policy_person_distances.currently_in_parliament.very_strongly_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', distances: @policy.policy_person_distances.currently_in_parliament.strongly_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', distances: @policy.policy_person_distances.currently_in_parliament.moderately_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted a mixture of for and against', distances: @policy.policy_person_distances.currently_in_parliament.for_and_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately against', distances: @policy.policy_person_distances.currently_in_parliament.moderately_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', distances: @policy.policy_person_distances.currently_in_parliament.strongly_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', distances: @policy.policy_person_distances.currently_in_parliament.very_strongly_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', distances: @policy.policy_person_distances.currently_in_parliament.never_voted
+      - distances = @policy.policy_person_distances.currently_in_parliament
+      - ranges.each do |range, description|
+        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{description}", distances: distances.select{ |d| d.voted? && range.include?(d.agreement_fraction) }
+      = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', distances: distances.select{ |d| !d.voted? }
 
   %section.page-section#divisions
     %h2 Relevant divisions
