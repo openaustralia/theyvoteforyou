@@ -8,7 +8,7 @@
         = link_to "edit or make a policy", policies_path
         that will appear here.
   - else
-    - distances = member.person.policy_person_distances.published
+    - distances = member.person.policy_person_distances.published.includes(:policy)
     - ranges.each do |range, description|
       = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.voted? && range.include?(d.agreement_fraction) }, title: "Voted #{description}"
     = render "policy_comparisons_block", member: member, distances: distances.select { |d| !d.voted? }, title: "Has never voted on"

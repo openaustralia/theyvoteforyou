@@ -11,7 +11,7 @@
 
   %section.page-section#members
     .policy-comparisions
-      - distances = @policy.policy_person_distances.currently_in_parliament
+      - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
       - ranges.each do |range, description|
         = render 'policy_comparisons_block', policy: @policy, title: "Voted #{description}", distances: distances.select{ |d| d.voted? && range.include?(d.agreement_fraction) }
       = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', distances: distances.select{ |d| !d.voted? }
