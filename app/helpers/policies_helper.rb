@@ -116,9 +116,9 @@ module PoliciesHelper
 
       if version.changeset.key?("private")
         case version.changeset["private"].second
-        when 0
+        when 0, "published"
           changes << "status to not draft"
-        when 2
+        when 2, "provisional"
           changes << "status to draft"
         else
           raise
@@ -229,6 +229,7 @@ module PoliciesHelper
     safe_join(out)
   end
 
+  # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
   def version_sentence(version, options = {})
     case version.item_type
     when "Policy"
