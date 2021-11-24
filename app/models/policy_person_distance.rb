@@ -23,6 +23,9 @@ class PolicyPersonDistance < ApplicationRecord
   scope :very_strongly_against, -> { where(distance_a: (0.95..1.0)) }
   scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
 
+  # People who are currently in parliament
+  scope :currently_in_parliament, -> { joins(:person).merge(Person.current) }
+
   def voted?
     nvotessame.positive? || nvotessamestrong.positive? || nvotesdiffer.positive? || nvotesdifferstrong.positive?
   end
