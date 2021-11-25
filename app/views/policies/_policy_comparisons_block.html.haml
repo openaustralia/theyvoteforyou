@@ -1,7 +1,7 @@
 - unless distances.empty?
-  .policy-comparision-block.row{class: "position-#{title.parameterize}"}
-    %h3.policy-comparision-position.col-xs-12{:id => title.parameterize}
-      %a.anchor{:href => "##{title.parameterize}"}
+  .policy-comparision-block.row{class: "position-#{label}"}
+    %h3.policy-comparision-position.col-xs-12{:id => label}
+      %a.anchor{:href => "##{label}"}
         %span.fi-link
       = title
       = policy.name
