@@ -28,18 +28,14 @@ module PoliciesHelper
     elsif policy_member_distance.number_of_votes.zero?
       "never voted on"
     else
-      ranges2.find { |r| r[:range].include?(policy_member_distance.agreement_fraction) }[:text]
+      ranges.find { |r| r[:range].include?(policy_member_distance.agreement_fraction) }[:text]
     end
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
-  def ranges
-    ranges2.map { |r| [r[:range], r[:text]] }.to_h
-  end
-
   # "text" is how a particular range is shown to the user.
   # "label" is used for css classes and ids (machine readable and probably shouldn't change)
-  def ranges2
+  def ranges
     [
       { range: 0.95..1.00, text: "very strongly for", label: "voted-very-strongly-for" },
       { range: 0.85..0.95, text: "strongly for", label: "voted-strongly-for" },
