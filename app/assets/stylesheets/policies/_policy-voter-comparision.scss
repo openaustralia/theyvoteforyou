@@ -22,39 +22,39 @@
     padding-bottom: 3em;
   }
 
-  &.position-voted-very-strongly-for {
-    border-top-color: $color-very-strongly-for;
-    color: $color-very-strongly-for;
+  &.position-for3 {
+    border-top-color: $color-for3;
+    color: $color-for3;
   }
 
-  &.position-voted-strongly-for {
-    border-top-color: $color-strongly-for;
-    color: $color-strongly-for;
+  &.position-for2 {
+    border-top-color: $color-for2;
+    color: $color-for2;
   }
 
-  &.position-voted-moderately-for {
-    border-top-color: $color-moderately-for;
-    color: $color-moderately-for;
+  &.position-for1 {
+    border-top-color: $color-for1;
+    color: $color-for1;
   }
 
-  &.position-voted-a-mixture-of-for-and-against {
+  &.position-mixture {
     border-top-color: $color-mixed-position;
     color: $color-mixed-position;
   }
 
-  &.position-voted-moderately-against {
-    border-top-color: $color-moderately-against;
-    color: $color-moderately-against;
+  &.position-against1 {
+    border-top-color: $color-against1;
+    color: $color-against1;
   }
 
-  &.position-voted-strongly-against {
-    border-top-color: $color-strongly-against;
-    color: $color-strongly-against;
+  &.position-against2 {
+    border-top-color: $color-against2;
+    color: $color-against2;
   }
 
-  &.position-voted-very-strongly-against {
-    border-top-color: $color-very-strongly-against;
-    color: $color-very-strongly-against;
+  &.position-against3 {
+    border-top-color: $color-against3;
+    color: $color-against3;
   }
 
   h2 + & {

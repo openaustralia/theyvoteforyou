@@ -31,7 +31,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: $color-very-strongly-against;
+      color: $color-against3;
       background-image: url(image-path("cross-red.svg"));
       padding-right: .95em;
       text-decoration: none;
@@ -58,7 +58,7 @@
 
     &:hover,
     &:focus {
-      color: $color-very-strongly-against;
+      color: $color-against3;
     }
 
     i.fi-x {

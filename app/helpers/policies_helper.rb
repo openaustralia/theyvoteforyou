@@ -37,13 +37,13 @@ module PoliciesHelper
   # "label" is used for css classes and ids (machine readable and probably shouldn't change)
   def ranges
     [
-      { range: 0.95..1.00, text: "very strongly for", label: "voted-very-strongly-for" },
-      { range: 0.85..0.95, text: "strongly for", label: "voted-strongly-for" },
-      { range: 0.60..0.85, text: "moderately for", label: "voted-moderately-for" },
-      { range: 0.40..0.60, text: "a mixture of for and against", label: "voted-a-mixture-of-for-and-against" },
-      { range: 0.15..0.40, text: "moderately against", label: "voted-moderately-against" },
-      { range: 0.05..0.15, text: "strongly against", label: "voted-strongly-against" },
-      { range: 0.00..0.05, text: "very strongly against", label: "voted-very-strongly-against" }
+      { range: 0.95..1.00, text: "very strongly for", label: "for3" },
+      { range: 0.85..0.95, text: "strongly for", label: "for2" },
+      { range: 0.60..0.85, text: "moderately for", label: "for1" },
+      { range: 0.40..0.60, text: "a mixture of for and against", label: "mixture" },
+      { range: 0.15..0.40, text: "moderately against", label: "against1" },
+      { range: 0.05..0.15, text: "strongly against", label: "against2" },
+      { range: 0.00..0.05, text: "very strongly against", label: "against3" }
     ]
   end
 
