@@ -34,15 +34,21 @@ module PoliciesHelper
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges
-    {
-      0.95..1.00 => "very strongly for",
-      0.85..0.95 => "strongly for",
-      0.60..0.85 => "moderately for",
-      0.40..0.60 => "a mixture of for and against",
-      0.15..0.40 => "moderately against",
-      0.05..0.15 => "strongly against",
-      0.00..0.05 => "very strongly against"
-    }
+    ranges2.map { |r| [r[:range], r[:text]] }.to_h
+  end
+
+  # "text" is how a particular range is shown to the user.
+  # "label" is used for css classes and ids (machine readable and probably shouldn't change)
+  def ranges2
+    [
+      { range: 0.95..1.00, text: "very strongly for", label: "voted-very-strongly-for" },
+      { range: 0.85..0.95, text: "strongly for", label: "voted-strongly-for" },
+      { range: 0.60..0.85, text: "moderately for", label: "voted-moderately-for" },
+      { range: 0.40..0.60, text: "a mixture of for and against", label: "voted-a-mixture-of-for-and-against" },
+      { range: 0.15..0.40, text: "moderately against", label: "voted-moderately-against" },
+      { range: 0.05..0.15, text: "strongly against", label: "voted-strongly-against" },
+      { range: 0.00..0.05, text: "very strongly against", label: "voted-very-strongly-against" }
+    ]
   end
 
   def quote(word)
