@@ -28,7 +28,7 @@ module PoliciesHelper
     elsif policy_member_distance.number_of_votes.zero?
       "never voted on"
     else
-      ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
+      ranges2.find { |r| r[:range].include?(policy_member_distance.agreement_fraction) }[:text]
     end
   end
 
