@@ -11,44 +11,19 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
   end
 
-  it "/mp.php?display=allvotes&dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz -> /mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz" do
-    get "/mp.php?display=allvotes&dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz", params: {}
-    expect(response).to redirect_to("/mp.php?dmp=1&house=senate&mpc=Tasmania&mpn=Eric_Abetz")
+  it do
+    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1", params: {}
+    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1"
   end
 
-  it "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1 -> /mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
-    get "/mp.php?display=allvotes&id=uk.org.publicwhip/member/1", params: {}
-    expect(response).to redirect_to("/mp.php?display=allvotes&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
+  it do
+    get "/members/representatives/warringah/tony_abbott/policies/1", params: {}
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
   end
 
-  it "/mp.php?display=summary&house=representatives&mpc=Warringah&mpn=Tony_Abbott -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
-    get "/mp.php?display=summary&house=representatives&mpc=Warringah&mpn=Tony_Abbott", params: {}
+  it "/mp.php?id=uk.org.publicwhip/member/1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
+    get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
     expect(response).to redirect_to("/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott")
-  end
-
-  it do
-    get "/mp.php?house=representatives&mpc=Warringah", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah"
-  end
-
-  it do
-    get "/mp.php?display=alldreams&house=senate&mpc=Tasmania&mpn=Eric_Abetz", params: {}
-    expect(response).to redirect_to "/mp.php?house=senate&mpc=Tasmania&mpn=Eric_Abetz"
-  end
-
-  it do
-    get "/mp.php?house=senate&mpc=Senate&mpn=Judith_Adams", params: {}
-    expect(response).to redirect_to "/mp.php?house=senate&mpc=WA&mpn=Judith_Adams"
-  end
-
-  it do
-    get "/mp.php?house=representatives&mpn=Tony_Abbott", params: {}
-    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
-  end
-
-  it do
-    get "/mp.php?mpn=Tony_Abbott", params: {}
-    expect(response).to redirect_to "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott"
   end
 
   it do
@@ -56,36 +31,7 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to "/members/representatives/warringah/tony_abbott"
   end
 
-  it do
-    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott?display=allvotes", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott?display=allvotes"
-  end
-
-  it do
-    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1"
-  end
-
-  it do
-    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&display=motions&dmp=1", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1/full"
-  end
-
-  it do
-    get "/mp.php?display=allfriends&house=senate&mpc=Tasmania&mpn=Eric_Abetz", params: {}
-    expect(response).to redirect_to "/members/senate/tasmania/eric_abetz/friends"
-  end
-
-  it do
-    get "/mp.php?display=everyvote&house=senate&mpc=Tasmania&mpn=Eric_Abetz", params: {}
-    expect(response).to redirect_to "/members/senate/tasmania/eric_abetz/divisions"
-  end
-
-  it do
-    get "/mp.php?mpn=Tony_Windsor&mpc=New%20England&house=representatives", params: {}
-    expect(response).to redirect_to "/members/representatives/new_england/tony_windsor"
-  end
-
+  ####
   it do
     get "/members/representatives/lilley/wayne_swan/policies/3/full", params: {}
     expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
@@ -184,10 +130,5 @@ describe "routing redirects", type: :request do
       get "/mp.php?id=uk.org.publicwhip/member/100114", params: {}
       expect(response).to redirect_to "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
     end
-  end
-
-  it "404s with an unknown person" do
-    get "/mp.php?mpn=Foo_Bar", params: {}
-    expect(response.status).to eq 404
   end
 end

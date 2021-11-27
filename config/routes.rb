@@ -6,29 +6,9 @@ Publicwhip::Application.routes.draw do
   # These ancient php redirects are still needed to support links from openaustralia.org.au
   get "mp.php" => "members#show_redirect",
       constraints: ->(r) { r.query_parameters["mpid"] || r.query_parameters["id"] }
-  get "mp.php" => redirect { |_p, r| "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].to_s.downcase.gsub(' ', '_')}" },
-      constraints: ->(r) { r.query_parameters["mpn"].nil? }
-  get "mp.php" => "members#show_redirect",
-      constraints: ->(r) { r.query_parameters["dmp"] && r.query_parameters["display"] == "allvotes" }
-  get "mp.php" => "members#show_redirect",
-      constraints: ->(r) { r.query_parameters["display"] == "summary" || r.query_parameters["display"] == "alldreams" || r.query_parameters["display"] == "allvotes" || r.query_parameters["showall"] == "yes" }
-  get "mp.php" => "members#show_redirect",
-      constraints: ->(r) { r.query_parameters["mpc"] == "Senate" || r.query_parameters["mpc"].nil? || r.query_parameters["house"].nil? }
-  get "mp.php" => redirect { |_p, r|
-    "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/friends"
-  }, constraints: ->(r) { r.query_parameters["display"] == "allfriends" && r.query_parameters[:dmp].nil? }
-  get "mp.php" => redirect { |_p, r|
-    "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/divisions"
-  }, constraints: ->(r) { r.query_parameters["display"] == "everyvote" && r.query_parameters[:dmp].nil? }
-  get "mp.php" => redirect { |_p, r|
-    "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}/policies/#{r.query_parameters['dmp']}/full"
-  }, constraints: ->(r) { r.query_parameters["display"] == "motions" && r.query_parameters[:dmp] }
   get "mp.php" => redirect { |_p, r|
     result = "/members/#{r.query_parameters['house']}/#{r.query_parameters['mpc'].downcase.gsub(' ', '_')}/#{r.query_parameters['mpn'].downcase}"
     result += "/policies/#{r.query_parameters['dmp']}" if r.query_parameters["dmp"]
-    queries = []
-    queries << "display=#{r.query_parameters['display']}" if r.query_parameters["display"]
-    result += "?#{queries.join('&')}" unless queries.empty?
     result
   }
 
