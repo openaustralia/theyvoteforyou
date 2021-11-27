@@ -8,13 +8,13 @@ describe "routing redirects", type: :request do
   # This is an old url still being used by openaustralia.org.au
   it do
     get "/mp.php?mpid=1&dmp=1", params: {}
-    expect(response).to redirect_to("/people/representatives/warringah/tony_abbott/policies/1")
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
   end
 
   # This is an old url still being used by openaustralia.org.au
   it do
     get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
-    expect(response).to redirect_to("/people/representatives/warringah/tony_abbott")
+    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
   end
 
   context "with Barnaby Joyce" do
