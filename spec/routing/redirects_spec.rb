@@ -5,23 +5,18 @@ require "spec_helper"
 describe "routing redirects", type: :request do
   fixtures :all
 
-  # These are old urls still being used by openaustralia.org.au
+  # This is an old url still being used by openaustralia.org.au
   it do
     get "/mp.php?mpid=1&dmp=1", params: {}
-    expect(response).to redirect_to( "/members/representatives/warringah/tony_abbott/policies/1")
+    expect(response).to redirect_to("/people/representatives/warringah/tony_abbott/policies/1")
   end
 
-  it do
-    get "/members/representatives/warringah/tony_abbott/policies/1", params: {}
-    expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
-  end
-
+  # This is an old url still being used by openaustralia.org.au
   it do
     get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
-    expect(response).to redirect_to("/members/representatives/warringah/tony_abbott")
+    expect(response).to redirect_to("/people/representatives/warringah/tony_abbott")
   end
 
-  ####
   it do
     get "/members/representatives/lilley/wayne_swan/policies/3/full", params: {}
     expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
@@ -118,7 +113,7 @@ describe "routing redirects", type: :request do
       # Barnaby has been set up above as a member and a senator.
       # Let's refer to his senator record but incorrectly using `member` instead of `lord`
       get "/mp.php?id=uk.org.publicwhip/member/100114", params: {}
-      expect(response).to redirect_to "/members/senate/queensland/barnaby_joyce"
+      expect(response).to redirect_to "/people/senate/queensland/barnaby_joyce"
     end
   end
 end

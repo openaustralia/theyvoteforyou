@@ -39,9 +39,20 @@ class MembersController < ApplicationController
              else
                raise
              end
-    result = "/members/#{member.house}/#{member.url_electorate.downcase.gsub(' ', '_')}/#{member.url_name.downcase}"
-    result += "/policies/#{params['dmp']}" if params["dmp"]
-    redirect_to result
+    if params[:dmp]
+      redirect_to member_policy_url(
+        house: member.house,
+        mpc: member.url_electorate.downcase,
+        mpn: member.url_name.downcase,
+        id: params[:dmp]
+      )
+    else
+      redirect_to member_url(
+        house: member.house,
+        mpc: member.url_electorate.downcase,
+        mpn: member.url_name.downcase
+      )
+    end
   end
 
   def friends
