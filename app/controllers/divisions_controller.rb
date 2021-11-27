@@ -34,6 +34,7 @@ class DivisionsController < ApplicationController
         end
 
         @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
+        @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
         render "index_with_member"
       else
         render "members/member_not_found", status: :not_found
