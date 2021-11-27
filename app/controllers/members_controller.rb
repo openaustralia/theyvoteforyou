@@ -39,14 +39,9 @@ class MembersController < ApplicationController
              else
                raise
              end
-    redirect_to params.to_unsafe_hash.merge(
-      only_path: true,
-      mpn: member.url_name,
-      mpc: member.url_electorate,
-      house: member.house,
-      mpid: nil,
-      id: nil
-    )
+    result = "/members/#{member.house}/#{member.url_electorate.downcase.gsub(' ', '_')}/#{member.url_name.downcase}"
+    result += "/policies/#{params['dmp']}" if params["dmp"]
+    redirect_to result
   end
 
   def friends

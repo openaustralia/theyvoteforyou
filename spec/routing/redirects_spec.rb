@@ -5,15 +5,10 @@ require "spec_helper"
 describe "routing redirects", type: :request do
   fixtures :all
 
-  # This is an old url still being used by openaustralia.org.au
-  it "/mp.php?mpid=1&dmp=1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1" do
-    get "/mp.php?mpid=1&dmp=1", params: {}
-    expect(response).to redirect_to("/mp.php?dmp=1&house=representatives&mpc=Warringah&mpn=Tony_Abbott")
-  end
-
+  # These are old urls still being used by openaustralia.org.au
   it do
-    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott&dmp=1", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott/policies/1"
+    get "/mp.php?mpid=1&dmp=1", params: {}
+    expect(response).to redirect_to( "/members/representatives/warringah/tony_abbott/policies/1")
   end
 
   it do
@@ -21,14 +16,9 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
   end
 
-  it "/mp.php?id=uk.org.publicwhip/member/1 -> /mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott" do
-    get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
-    expect(response).to redirect_to("/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott")
-  end
-
   it do
-    get "/mp.php?house=representatives&mpc=Warringah&mpn=Tony_Abbott", params: {}
-    expect(response).to redirect_to "/members/representatives/warringah/tony_abbott"
+    get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
+    expect(response).to redirect_to("/members/representatives/warringah/tony_abbott")
   end
 
   ####
@@ -128,7 +118,7 @@ describe "routing redirects", type: :request do
       # Barnaby has been set up above as a member and a senator.
       # Let's refer to his senator record but incorrectly using `member` instead of `lord`
       get "/mp.php?id=uk.org.publicwhip/member/100114", params: {}
-      expect(response).to redirect_to "/mp.php?house=senate&mpc=Queensland&mpn=Barnaby_Joyce"
+      expect(response).to redirect_to "/members/senate/queensland/barnaby_joyce"
     end
   end
 end
