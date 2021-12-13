@@ -8,8 +8,8 @@ class PolicyDivision < ApplicationRecord
   belongs_to :division
   validates :policy, :division, presence: true
   validates :vote, inclusion: { in: %w[aye3 aye no no3] }
-  after_save    :calculate_policy_member_distances, :alert_policy_watches
-  after_destroy :calculate_policy_member_distances, :alert_policy_watches
+  after_save    :calculate_policy_person_distances, :alert_policy_watches
+  after_destroy :calculate_policy_person_distances, :alert_policy_watches
 
   delegate :name, :house, :house_name, :date, :number, to: :division
 
@@ -30,8 +30,8 @@ class PolicyDivision < ApplicationRecord
 
   private
 
-  def calculate_policy_member_distances
-    policy.delay.calculate_member_distances!
+  def calculate_policy_person_distances
+    policy.delay.calculate_person_distances!
   end
 
   def alert_policy_watches

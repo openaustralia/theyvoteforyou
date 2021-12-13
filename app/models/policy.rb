@@ -53,10 +53,10 @@ class Policy < ApplicationRecord
   end
 
   def self.update_all!
-    all.find_each(&:calculate_member_distances!)
+    all.find_each(&:calculate_person_distances!)
   end
 
-  def calculate_member_distances!
+  def calculate_person_distances!
     policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
