@@ -28,7 +28,7 @@
           - if person
             -# Find the member current at the time of this division
             - current_member = Member.where(person_id: person.id).current_on(division.date).first
-            %td.division-member-vote{data: {member: "#{current_member.name}"}}
+            %td.division-member-vote{data: {member: "#{person.name}"}}
               = vote_display(current_member.vote_on_division_without_tell(division))
           %td.division-policy-vote
             = vote_display(division.policy_vote(policy))
