@@ -5,7 +5,6 @@
       - if person
         %th= person.name
       %th.policyvotehead Supporters vote
-      %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
     - divisions = divisions.select{ |d| person.could_have_voted_in_division?(d) } if person
@@ -30,5 +29,3 @@
               = vote_display(person.vote_on_division_without_tell(division))
           %td.division-policy-vote
             = vote_display(division.policy_vote(policy))
-          %td.division-outcome
-            = division_outcome_with_majority_strength(division)
