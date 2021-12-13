@@ -94,10 +94,14 @@ class Person < ApplicationRecord
 
   # Was this person a member of parliament in the right house on the day of the division?
   def could_have_voted_in_division?(division)
-    members.current_on(division.date).where(house: division.house).exists?
+    !member_in_division(division).nil?
+  end
+
+  def member_in_division(division)
+    members.current_on(division.date).find_by(house: division.house)
   end
 
   def vote_on_division_without_tell(division)
-    Member.where(person_id: id).current_on(division.date).first.vote_on_division_without_tell(division)
+    member_in_division(division).vote_on_division_without_tell(division)
   end
 end
