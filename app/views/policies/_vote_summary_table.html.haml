@@ -2,13 +2,13 @@
   %thead
     %tr
       %th Division
-      - if member
-        %th= member.name
+      - if person
+        %th= person.latest_member.name
       %th.policyvotehead Supporters vote
       %th Division outcome
   %tbody
     - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
-    - divisions = divisions.select{ |d| member.person.could_have_voted_in_division?(d) } if member
+    - divisions = divisions.select{ |d| person.could_have_voted_in_division?(d) } if person
     - if divisions.empty?
       %tr
         %td{colspan: 7} no votes listed
@@ -19,18 +19,17 @@
             %h3.division-title.h4
               %small.pre-title= division_date_and_time(division) + " – " + division.house_name
               = link_to(division.name, division)
-            - if member
+            - if person
               - # TODO Add the button style and disclosure behaviour as progressive enhancement through js
               - # Change the text to say 'hide detail' when open.
               %span.btn.btn-link.btn-sm.btn-lone-link{type: 'button', data: {toggle: 'collapse', target: "#id_#{division.id}"}} Show detail
               %article.motion.collapse{id: "id_#{division.id}"}= division.formatted_motion_text
 
-          - if member
+          - if person
             -# Find the member current at the time of this division
-            - current_member = Member.where(person_id: member.person_id).current_on(division.date).first
-            - member = current_member || member
-            %td.division-member-vote{data: {member: "#{member.name}"}}
-              = vote_display(member.vote_on_division_without_tell(division))
+            - current_member = Member.where(person_id: person.id).current_on(division.date).first
+            %td.division-member-vote{data: {member: "#{current_member.name}"}}
+              = vote_display(current_member.vote_on_division_without_tell(division))
           %td.division-policy-vote
             = vote_display(division.policy_vote(policy))
           %td.division-outcome
