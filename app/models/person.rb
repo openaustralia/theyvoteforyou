@@ -7,6 +7,8 @@ class Person < ApplicationRecord
   # People who are currently in parliament
   scope :current, -> { joins(:members).merge(Member.current) }
 
+  delegate :name, to: :latest_member
+
   # Total number of rebellions across all members for this person
   def rebellions
     members.to_a.sum { |m| m.rebellions.to_i }
