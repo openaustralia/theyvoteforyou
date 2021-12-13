@@ -96,4 +96,8 @@ class Person < ApplicationRecord
   def could_have_voted_in_division?(division)
     members.current_on(division.date).where(house: division.house).exists?
   end
+
+  def vote_on_division_without_tell(division)
+    Member.where(person_id: id).current_on(division.date).first.vote_on_division_without_tell(division)
+  end
 end
