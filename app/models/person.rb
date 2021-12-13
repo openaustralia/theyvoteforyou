@@ -89,4 +89,9 @@ class Person < ApplicationRecord
   def offices_on_date(date)
     offices.where("? >= from_date AND ? <= to_date", date, date)
   end
+
+  # Was this person a member of parliament in the right house on the day of the division?
+  def could_have_voted_in_division?(division)
+    members.current_on(division.date).where(house: division.house).exists?
+  end
 end
