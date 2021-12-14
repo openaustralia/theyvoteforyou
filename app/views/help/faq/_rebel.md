@@ -1,6 +1,6 @@
 An MP or Senator rebels by voting against the
-[party whip](http://www.peo.gov.au/learning/fact-sheets/party-whip.html). This is known as
-[crossing the floor](http://www.peo.gov.au/learning/fact-sheets/crossing-the-floor.html).
+[party whip](https://peo.gov.au/understand-our-parliament/parliament-and-its-people/people-in-parliament/party-whip/). This is known as
+[crossing the floor](https://peo.gov.au/understand-our-parliament/how-parliament-works/parliament-at-work/crossing-the-floor/).
 
 Currently in the Australian Federal Parliament MPs and Senators nearly always vote along party lines.
 
