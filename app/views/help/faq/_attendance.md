@@ -1,4 +1,4 @@
-"Attendence" figure describes the amount of times a representative has attended the Chamber as a percentage.
+"Attendance" figure describes the amount of times a representative has attended the Chamber as a percentage.
 	
 Where 100% attendence means the representative has not missed a single parlimentary sitting.
 
