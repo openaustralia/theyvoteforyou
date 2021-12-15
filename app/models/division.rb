@@ -118,7 +118,7 @@ class Division < ApplicationRecord
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    total_votes.to_f / possible_votes if possible_votes.positive?
+    [total_votes.to_f / possible_votes, 100.0].min if possible_votes.positive?
   end
 
   def edited?
