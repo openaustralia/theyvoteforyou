@@ -41,18 +41,9 @@ class MembersController < ApplicationController
                raise
              end
     if params[:dmp]
-      redirect_to member_policy_url(
-        house: member.house,
-        mpc: member.url_electorate.downcase,
-        mpn: member.url_name.downcase,
-        id: params[:dmp]
-      )
+      redirect_to member_policy_url(helpers.member_params(member).merge(id: params[:dmp]))
     else
-      redirect_to member_url(
-        house: member.house,
-        mpc: member.url_electorate.downcase,
-        mpn: member.url_name.downcase
-      )
+      redirect_to member_url(helpers.member_params(member))
     end
   end
 
@@ -70,11 +61,7 @@ class MembersController < ApplicationController
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
 
-    redirect_to(
-      house: canonical_member.house,
-      mpc: canonical_member.url_electorate.downcase,
-      mpn: canonical_member.url_name.downcase
-    )
+    redirect_to helpers.member_params(canonical_member)
   end
 
   def show
@@ -91,11 +78,7 @@ class MembersController < ApplicationController
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
 
-    redirect_to(
-      house: canonical_member.house,
-      mpc: canonical_member.url_electorate.downcase,
-      mpn: canonical_member.url_name.downcase
-    )
+    redirect_to helpers.member_params(canonical_member)
   end
 
   def policy
@@ -112,13 +95,7 @@ class MembersController < ApplicationController
     return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
-    if canonical_member != @member
-      return redirect_to(
-        house: canonical_member.house,
-        mpc: canonical_member.url_electorate.downcase,
-        mpn: canonical_member.url_name.downcase
-      )
-    end
+    return redirect_to helpers.member_params(canonical_member) if canonical_member != @member
 
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
@@ -146,10 +123,7 @@ class MembersController < ApplicationController
     canonical_member1 = @member1.person.latest_member
     canonical_member2 = @member2.person.latest_member
     if canonical_member1 != @member1 || canonical_member2 != @member2
-      redirect_to(
-        house: canonical_member1.house,
-        mpc: canonical_member1.url_electorate.downcase,
-        mpn: canonical_member1.url_name.downcase,
+      redirect_to helpers.member_params(canonical_member1).merge(
         mpc2: canonical_member2.url_electorate.downcase,
         mpn2: canonical_member2.url_name.downcase
       )
