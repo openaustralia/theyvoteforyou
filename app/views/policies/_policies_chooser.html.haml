@@ -3,6 +3,8 @@
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if @sort == "name"
         Sorted by Name
+      - elsif @sort == "date"
+        Sorted by Date Edited
       - elsif @sort.nil?
         Sorted by Subscribers
       %span.caret
@@ -12,3 +14,5 @@
         = link_to "Name", {sort: "name"}, title: "Sort by name", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
         = link_to "Subscribers", {sort: nil}, title: "Sort by subscribers", role: "menuitem", tabindex: "-1"
+      %li{role: "presentation", class: "#{'disabled' if @sort == 'date'}"}
+        = link_to "Date Edited", {sort: "date"}, title: "Sort by date edited", role: "menuitem", tabindex: "-1"
