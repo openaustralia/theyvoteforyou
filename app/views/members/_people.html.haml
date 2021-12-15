@@ -1,5 +1,6 @@
 %ol.members-list.list-unstyled{:class => active_house_for_list_class(house)}
-  - members.each do |member|
+  - people.each do |person|
+    - member = person.latest_member
     %li
       = link_to member, class: 'member-item object-item panel-link' do
         %article.media{class: ("member-no-photo" unless member.show_small_image?)}

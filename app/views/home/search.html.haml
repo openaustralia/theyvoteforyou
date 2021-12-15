@@ -23,7 +23,7 @@
               %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 
 - if @postcode && !@postcode_error
-  = render "members/members", members: @mps, house: nil
+  = render "members/people", people: @mps.map(&:person), house: nil
 - elsif @postcode_error
   = render "home/no_search_results.html.haml", postcode: @postcode
 - elsif !params[:query].blank?
@@ -33,7 +33,7 @@
   - if !@mps.empty?
     %section.page-section#people
       %h2= pluralize(@mps.count, "person")
-      = render "members/members", members: @mps, house: nil
+      = render "members/people", people: @mps.map(&:person), house: nil
 
   - if !@policies.empty?
     %section.page-section#policies
