@@ -17,6 +17,10 @@ module PathHelper
     Rails.application.routes.url_helpers.edit_division_path(division_params(division))
   end
 
+  def person_path(person)
+    Rails.application.routes.url_helpers.member_path(member_params(person.latest_member))
+  end
+
   def member_path(member)
     Rails.application.routes.url_helpers.member_path(member_params(member))
   end
