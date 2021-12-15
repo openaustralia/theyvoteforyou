@@ -48,14 +48,7 @@ class MembersController < ApplicationController
   end
 
   def friends
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
+    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
     return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
@@ -65,14 +58,7 @@ class MembersController < ApplicationController
   end
 
   def show
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
+    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
     return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
@@ -82,20 +68,13 @@ class MembersController < ApplicationController
   end
 
   def policy
-    @policy = Policy.find(params[:id])
-
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
+    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
     return render "member_not_found", status: :not_found if @member.nil?
 
     canonical_member = @member.person.latest_member
     return redirect_to helpers.member_params(canonical_member) if canonical_member != @member
+
+    @policy = Policy.find(params[:id])
 
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
@@ -103,21 +82,8 @@ class MembersController < ApplicationController
   end
 
   def compare
-    electorate1 = params[:mpc].gsub("_", " ")
-    electorate2 = params[:mpc2].gsub("_", " ")
-    name1 = params[:mpn].gsub("_", " ")
-    name2 = params[:mpn2].gsub("_", " ")
-
-    @member1 = Member.with_name(name1)
-    @member1 = @member1.in_house(params[:house])
-    @member1 = @member1.where(constituency: electorate1)
-    @member1 = @member1.order(entered_house: :desc).first
-
-    @member2 = Member.with_name(name2)
-    @member2 = @member2.in_house(params[:house])
-    @member2 = @member2.where(constituency: electorate2)
-    @member2 = @member2.order(entered_house: :desc).first
-
+    @member1 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
+    @member2 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc2], mpn: params[:mpn2])
     return render "member_not_found", status: :not_found if @member1.nil? || @member2.nil?
 
     canonical_member1 = @member1.person.latest_member
