@@ -70,7 +70,7 @@ class MembersController < ApplicationController
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
 
-    redirect_to friends_member_url(
+    redirect_to(
       house: canonical_member.house,
       mpc: canonical_member.url_electorate.downcase,
       mpn: canonical_member.url_name.downcase
@@ -91,7 +91,7 @@ class MembersController < ApplicationController
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
 
-    redirect_to member_url(
+    redirect_to(
       house: canonical_member.house,
       mpc: canonical_member.url_electorate.downcase,
       mpn: canonical_member.url_name.downcase
@@ -113,11 +113,10 @@ class MembersController < ApplicationController
 
     canonical_member = @member.person.latest_member
     if canonical_member != @member
-      return redirect_to member_policy_url(
+      return redirect_to(
         house: canonical_member.house,
         mpc: canonical_member.url_electorate.downcase,
-        mpn: canonical_member.url_name.downcase,
-        id: params[:id]
+        mpn: canonical_member.url_name.downcase
       )
     end
 
@@ -147,7 +146,7 @@ class MembersController < ApplicationController
     canonical_member1 = @member1.person.latest_member
     canonical_member2 = @member2.person.latest_member
     if canonical_member1 != @member1 || canonical_member2 != @member2
-      redirect_to compare_member_url(
+      redirect_to(
         house: canonical_member1.house,
         mpc: canonical_member1.url_electorate.downcase,
         mpn: canonical_member1.url_name.downcase,
