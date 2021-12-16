@@ -53,10 +53,10 @@ class Policy < ApplicationRecord
   end
 
   def self.update_all!
-    all.find_each(&:calculate_member_distances!)
+    all.find_each(&:calculate_person_distances!)
   end
 
-  def calculate_member_distances!
+  def calculate_person_distances!
     policy_person_distances.delete_all
 
     policy_divisions.each do |policy_division|
@@ -96,38 +96,6 @@ class Policy < ApplicationRecord
     end
   end
 
-  def current_members_very_strongly_for
-    current_members(policy_person_distances.very_strongly_for)
-  end
-
-  def current_members_strongly_for
-    current_members(policy_person_distances.strongly_for)
-  end
-
-  def current_members_moderately_for
-    current_members(policy_person_distances.moderately_for)
-  end
-
-  def current_members_for_and_against
-    current_members(policy_person_distances.for_and_against)
-  end
-
-  def current_members_moderately_against
-    current_members(policy_person_distances.moderately_against)
-  end
-
-  def current_members_strongly_against
-    current_members(policy_person_distances.strongly_against)
-  end
-
-  def current_members_very_strongly_against
-    current_members(policy_person_distances.very_strongly_against)
-  end
-
-  def current_members_never_voted
-    current_members(policy_person_distances.never_voted)
-  end
-
   def alert_watches(version)
     watches.each do |watch|
       AlertMailer.policy_updated(self, version, watch.user).deliver
@@ -135,11 +103,4 @@ class Policy < ApplicationRecord
   end
 
   handle_asynchronously :alert_watches
-
-  private
-
-  def current_members(policy_person_distances)
-    members = policy_person_distances.map { |ppd| ppd.person.member_for_policy(self) }
-    members.select(&:currently_in_parliament?).sort_by { |m| [m.last_name, m.first_name] }
-  end
 end

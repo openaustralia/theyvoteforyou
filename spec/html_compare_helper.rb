@@ -46,8 +46,8 @@ module HTMLCompareHelper
     o = normalise(old_text, format)
     return if n == o
 
-    # Switch overwrite to true (temporarily) if you want changes to be automatically written out
-    overwrite = false
+    # Switch overwrite to false if you don't want changes to be automatically written out
+    overwrite = true
 
     raise "Don't match" unless overwrite
 

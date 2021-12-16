@@ -41,8 +41,7 @@ gem "diffy"
 gem "ranker"
 gem "honeybadger"
 gem "delayed_job_active_record"
-# TODO: Display of /people is broken when we upgrade to 3.3.5
-gem "bootstrap-sass", "3.3.1.0"
+gem "bootstrap-sass", "~> 3.3"
 gem "autoprefixer-rails"
 gem "config"
 gem "mechanize" # Used to download debates
@@ -54,12 +53,17 @@ gem "reverse_markdown"
 gem "paper_trail", "~> 4"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
-gem "simple_form", "~> 3"
+gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
 gem "meta-tags"
 gem "numbers_and_words", "~> 0.10.0"
+
 gem "searchkick", "<= 1.5.1"
+# We also need to use an old version of the elasticsearch gem to work with
+# this old version of searchkick
+gem "elasticsearch", "~> 6.2.0"
+
 gem "typhoeus"
 gem "foreman"
 
@@ -76,7 +80,7 @@ group :test do
   gem "factory_bot_rails"
   gem "capybara"
   gem "email_spec"
-  gem "codeclimate-test-reporter", group: :test, require: nil
+  gem "simplecov", require: false
   gem "timecop"
   gem "rails-controller-testing"
 end

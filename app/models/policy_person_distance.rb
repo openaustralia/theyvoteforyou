@@ -14,14 +14,9 @@ class PolicyPersonDistance < ApplicationRecord
   belongs_to :person
 
   scope :published, -> { joins(:policy).merge(Policy.published) }
-  scope :very_strongly_for,     -> { where(distance_a: (0.00...0.05)) }
-  scope :strongly_for,          -> { where(distance_a: (0.05...0.15)) }
-  scope :moderately_for,        -> { where(distance_a: (0.15...0.40)) }
-  scope :for_and_against,       -> { where(distance_a: (0.40...0.60)).where("(nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong) > 0") }
-  scope :moderately_against,    -> { where(distance_a: (0.60...0.85)) }
-  scope :strongly_against,      -> { where(distance_a: (0.85...0.95)) }
-  scope :very_strongly_against, -> { where(distance_a: (0.95..1.0)) }
-  scope :never_voted,           -> { where(nvotessame: 0, nvotessamestrong: 0, nvotesdiffer: 0, nvotesdifferstrong: 0) }
+
+  # People who are currently in parliament
+  scope :currently_in_parliament, -> { joins(:person).merge(Person.current) }
 
   def voted?
     nvotessame.positive? || nvotessamestrong.positive? || nvotesdiffer.positive? || nvotesdifferstrong.positive?

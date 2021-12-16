@@ -41,4 +41,4 @@
       %li{role: "presentation", class: "#{'disabled' if @sort == 'attendance'}"}
         = link_to "Attendance", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
 
-= render "members", members: @members, house: @house
+= render "people", people: @people, house: @house

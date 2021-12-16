@@ -32,7 +32,7 @@ namespace :application do
       DivisionInfo.update_all!
     end
 
-    desc "Update cache of guessed whips"
+    desc "Update cache of policy distances"
     task policy_distances: :environment do
       puts "Updating policy distance cache..."
       Policy.update_all!

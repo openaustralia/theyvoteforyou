@@ -4,7 +4,18 @@ class PoliciesController < ApplicationController
   before_action :authenticate_user!, except: %i[index drafts show history]
 
   def index
-    @policies = Policy.published.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
+    @policies = Policy.published
+    @sort = params[:sort]
+
+    case @sort
+    when "name"
+      @policies = @policies.order(:name)
+    when "date"
+      @policies = @policies.order("updated_at DESC")
+    else
+      @policies = @policies.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
+      @sort = nil
+    end
   end
 
   def drafts
@@ -13,23 +24,6 @@ class PoliciesController < ApplicationController
 
   def show
     @policy = Policy.find(params[:id])
-    return if params[:mpc].nil? || params[:mpn].nil?
-
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
-    if @member
-      # Pick the member where the votes took place
-      @member = @member.person.member_for_policy(@policy)
-      render "show_with_member"
-    else
-      render "members/member_not_found", status: :not_found
-    end
   end
 
   def edit

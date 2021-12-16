@@ -1,5 +1,5 @@
 %ul.row.list-unstyled
-  - @history.each do |version|
+  - history.each do |version|
     %li.object-item
       - if version.kind_of?(WikiMotion)
         %p
@@ -7,7 +7,7 @@
           = link_to version.division.name, version.division
 
       - else
-        - if !@policy
+        - if !policy
           %p.change-policy-name
             On policy
             = link_to version_policy(version).name, version_policy(version)

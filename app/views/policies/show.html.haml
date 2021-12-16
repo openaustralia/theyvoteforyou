@@ -1,7 +1,7 @@
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
-    = render 'layouts/history_notice', policy: @policy
+    = render 'layouts/history_notice', policy: @policy, division: @division
 
 = render 'page_header', policy: @policy
 
@@ -11,19 +11,15 @@
 
   %section.page-section#members
     .policy-comparisions
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly for', members: @policy.current_members_very_strongly_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly for', members: @policy.current_members_strongly_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately for', members: @policy.current_members_moderately_for
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted a mixture of for and against', members: @policy.current_members_for_and_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted moderately against', members: @policy.current_members_moderately_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted strongly against', members: @policy.current_members_strongly_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Voted very strongly against', members: @policy.current_members_very_strongly_against
-      = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', members: @policy.current_members_never_voted
+      - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
+      - ranges.each do |r|
+        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{r[:text]}", label: r[:label], distances: distances.select{ |d| d.voted? && r[:range].include?(d.agreement_fraction) }
+      = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', label: "never-voted-on", distances: distances.select{ |d| !d.voted? }
 
   %section.page-section#divisions
     %h2 Relevant divisions
     = render 'vote_table_leader', policy: @policy
-    = render 'vote_summary_table', member: @member, policy: @policy
+    = render 'vote_summary_table', person: nil, policy: @policy
     %p.alert.alert-postnote.small
       If you know of other
       = link_to 'divisions', divisions_path

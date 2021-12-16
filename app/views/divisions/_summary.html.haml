@@ -6,7 +6,7 @@
         = division_outcome_with_majority_strength(division)
 
     .division-policies#related-policies
-      = render "current_policies_list", division: @division, display: @display
+      = render "current_policies_list", division: division, display: display
 
     %p.division-rebellions-sentence
       - if division.rebellions > 0
@@ -17,16 +17,16 @@
       - else
         Nobody rebelled against their party.
 
-    - if @rebellions
+    - if rebellions
       %ul.list-unstyled.small
-        - @rebellions.each do |vote|
+        - rebellions.each do |vote|
           %li
             = link_to vote.member.name, vote.member
             voted
             = vote_display vote.vote
             against the majority of the #{vote.member.party}.
 
-    = render 'summary_table', division: division
+    = render 'summary_table', division: division, whips: whips, votes: votes, members_vote_null: members_vote_null
 
     %figcaption.panel-footer.small
       - if division.rebellions > 0

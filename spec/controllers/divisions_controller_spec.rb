@@ -12,9 +12,6 @@ describe DivisionsController, type: :controller do
 
     let!(:december_2016_division) { create(:division, date: Date.new(2016, 12, 25)) }
     let!(:june_2016_division) { create(:division, date: Date.new(2016, 0o6, 0o1)) }
-    let!(:older_division) { create(:division, date: Date.new(2013, 0o4, 29)) }
-
-    let!(:representative) { create(:member, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo") }
 
     context "when there are no parameters" do
       it "renders the index template with divisions of the same year as the last one stored" do
@@ -109,44 +106,73 @@ describe DivisionsController, type: :controller do
         end
       end
     end
+  end
 
-    context "when request to see votes from a member" do
-      context "when no date is specified" do
-        it "gets votes based on last year on divisions table" do
-          get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives" }
+  describe "#index_with_member" do
+    # TODO: Remove this hack to delete fixtures
+    before do
+      Division.delete_all
+      Member.delete_all
+    end
+
+    let!(:december_2016_division) { create(:division, date: Date.new(2016, 12, 25)) }
+    let!(:june_2016_division) { create(:division, date: Date.new(2016, 0o6, 0o1)) }
+    let!(:older_division) { create(:division, date: Date.new(2013, 0o4, 29)) }
+
+    let!(:representative) do
+      # Returns the most recent member for this particular fictional person
+      person = create(:person)
+      create(:member, person: person, house: "representatives", constituency: "Oldtown", first_name: "Jane", last_name: "Lo", entered_house: Date.new(2005, 8, 21), left_house: Date.new(2010, 5, 18))
+      create(:member, person: person, house: "representatives", constituency: "Newtown", first_name: "Jane", last_name: "Lo", entered_house: Date.new(2010, 5, 18), left_house: Date.new(9999, 12, 31))
+    end
+
+    context "when no date is specified" do
+      it "gets votes based on last year on divisions table" do
+        get :index_with_member, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives" }
+
+        expect(response).to render_template "divisions/index_with_member"
+        expect(response.status).to be 200
+        expect(assigns(:member)).to eq(representative)
+        expect(assigns(:date_start)).to eq(Date.new(2016, 0o1, 0o1))
+        expect(assigns(:date_end)).to eq(Date.new(2017, 0o1, 0o1))
+        expect(assigns(:date_range)).to eq(:year)
+        expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
+      end
+
+      it "redirects to canonical url when old member is referenced" do
+        get :index_with_member, params: { mpc: "oldtown", mpn: "jane_lo", house: "representatives" }
+
+        expect(response).to redirect_to("/people/representatives/newtown/jane_lo/divisions")
+      end
+    end
+
+    context "when a date is specified" do
+      context "when date is valid" do
+        it "gets votes based on the date specified" do
+          get :index_with_member, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013" }
 
           expect(response).to render_template "divisions/index_with_member"
           expect(response.status).to be 200
           expect(assigns(:member)).to eq(representative)
-          expect(assigns(:date_start)).to eq(Date.new(2016, 0o1, 0o1))
-          expect(assigns(:date_end)).to eq(Date.new(2017, 0o1, 0o1))
+          expect(assigns(:date_start)).to eq(Date.new(2013, 0o1, 0o1))
+          expect(assigns(:date_end)).to eq(Date.new(2014, 0o1, 0o1))
           expect(assigns(:date_range)).to eq(:year)
-          expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
+          expect(assigns(:divisions)).to eq([older_division])
+        end
+
+        it "redirects to canonical url when old member is referenced" do
+          get :index_with_member, params: { mpc: "oldtown", mpn: "jane_lo", house: "representatives", date: "2013" }
+
+          expect(response).to redirect_to("/people/representatives/newtown/jane_lo/divisions/2013")
         end
       end
 
-      context "when a date is specified" do
-        context "when date is valid" do
-          it "gets votes based on the date specified" do
-            get :index, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013" }
+      context "when date is not valid" do
+        it "returns the generic 404 page" do
+          get :index_with_member, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
 
-            expect(response).to render_template "divisions/index_with_member"
-            expect(response.status).to be 200
-            expect(assigns(:member)).to eq(representative)
-            expect(assigns(:date_start)).to eq(Date.new(2013, 0o1, 0o1))
-            expect(assigns(:date_end)).to eq(Date.new(2014, 0o1, 0o1))
-            expect(assigns(:date_range)).to eq(:year)
-            expect(assigns(:divisions)).to eq([older_division])
-          end
-        end
-
-        context "when date is not valid" do
-          it "returns the generic 404 page" do
-            get :index, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
-
-            expect(response).to render_template "home/error404"
-            expect(response.status).to be 404
-          end
+          expect(response).to render_template "home/error404"
+          expect(response.status).to be 404
         end
       end
     end

@@ -1,4 +1,4 @@
 %nav.index-pagination
   %ul.pagination
     - years.reverse.each do |year|
-      = nav_link(year, path.merge({date: year}), "Divisions held in #{year}", (date_start && date_start.year == year))
+      = nav_link(year, { date: year }, "Divisions held in #{year}", (date_start && date_start.year == year))

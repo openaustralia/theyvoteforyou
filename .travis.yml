@@ -12,6 +12,9 @@ before_script:
   - cp config/secrets.yml.example config/secrets.yml
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter -d before-build
 
 script:
   - bundle exec rake
@@ -19,8 +22,7 @@ script:
   - bundle exec rubocop
 
 after_script:
-  # See https://github.com/codeclimate/ruby-test-reporter/blob/master/CHANGELOG.md#v100-2016-11-03
-  - bundle exec codeclimate-test-reporter
+  - ./cc-test-reporter -d after-build -t simplecov --exit-code $TRAVIS_TEST_RESULT
 
 services:
   - mysql

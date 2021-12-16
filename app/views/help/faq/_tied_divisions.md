@@ -8,8 +8,8 @@ but these have not always been applied consistently (of course!).
 There are also rare cases where the Speaker has not exercised a casting vote. For example when a
 vote that
 [requires an absolute majority](http://www.aph.gov.au/about_parliament/house_of_representatives/powers_practice_and_procedure/~/link.aspx?_id=9401351F60524BBF93050639FBA28300&_z=z#abs)
-is tied, the Speaker’s casting vote may not acheive an absolute majority so there’s no reason for
-them to excise that vote.
+is tied, the Speaker’s casting vote may not achieve an absolute majority so there’s no reason for
+them to exercise that vote.
 
 In the Senate, the President of the Senate may always vote along with other senators so they do not
 have a casting vote. If a vote in the Senate is tied it is

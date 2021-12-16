@@ -119,11 +119,11 @@
       And then
 
     %ul
-      - ranges.each do |range|
+      - ranges.each do |r|
         %li
           between
-          = fraction_to_percentage_display(range.first.min)
+          = fraction_to_percentage_display(r[:range].min)
           and
-          = fraction_to_percentage_display(range.first.max)
+          = fraction_to_percentage_display(r[:range].max)
           becomes
-          "#{range.second}"
+          "#{r[:text]}"

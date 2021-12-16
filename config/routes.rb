@@ -3,6 +3,9 @@
 Publicwhip::Application.routes.draw do
   devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
 
+  # These ancient php redirects are still needed to support links from openaustralia.org.au
+  get "mp.php" => "members#show_redirect"
+
   # Redirects
   get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
   get "/members" => redirect { |_p, r|
@@ -27,8 +30,16 @@ Publicwhip::Application.routes.draw do
   get "/members/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}")
   get "/policies/:id/detail" => redirect("/policies/%{id}")
   get "/people/:house/:mpc" => redirect("/people/%{house}")
+  get "/people/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/divisions/%{date}/%{number}")
   get "/parties/:party/divisions/:house" => redirect("/divisions/%{house}")
   get "/parties/:party/divisions" => redirect("/divisions")
+  get "/divisions" => redirect { |_p, r|
+    if r.query_parameters["sort"]
+      "/divisions/all?sort=#{r.query_parameters['sort']}"
+    else
+      "/divisions/all"
+    end
+  }, as: :divisions
 
   #################
   #  Main routes  #
@@ -42,15 +53,12 @@ Publicwhip::Application.routes.draw do
 
   get "/people(/:house)" => "members#index", as: :members
   get "/people/:house/:mpc/:mpn" => "members#show", as: :member
-  get "/people/:house/:mpc/:mpn/policies/:id" => "policies#show", as: :member_policy
+  get "/people/:house/:mpc/:mpn/policies/:id" => "members#policy", as: :member_policy
   get "/people/:house/:mpc/:mpn/friends" => "members#friends", as: :friends_member
   get "/people/:house/:mpc/:mpn/compare/:mpc2/:mpn2" => "members#compare", as: :compare_member
-  get "/people/:house/:mpc/:mpn/divisions" => "divisions#index", as: :member_divisions
-  get "/people/:house/:mpc/:mpn/divisions/:date" => "divisions#index"
-  get "/people/:house/:mpc/:mpn/divisions/:date/:number" => "divisions#show", as: :member_division
+  get "/people/:house/:mpc/:mpn/divisions/(:date)" => "divisions#index_with_member", as: :member_divisions
 
-  get "/divisions" => "divisions#index", as: :divisions
-  get "/divisions/:house" => "divisions#index"
+  get "/divisions/(:house)" => "divisions#index"
   get "/divisions/:house/:date" => "divisions#index"
 
   get "/divisions/:house/:date/:number" => "divisions#show", as: :division

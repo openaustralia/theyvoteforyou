@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 module PathHelper
-  def member_division_path(member, division)
-    Rails.application.routes.url_helpers
-         .member_division_path(division_params(division).merge(member_params(member)))
-  end
-
   def division_path(division, options = {})
     Rails.application.routes.url_helpers.division_path(options.merge(division_params(division)))
   end
@@ -20,6 +15,10 @@ module PathHelper
 
   def edit_division_path(division)
     Rails.application.routes.url_helpers.edit_division_path(division_params(division))
+  end
+
+  def person_path(person)
+    Rails.application.routes.url_helpers.member_path(member_params(person.latest_member))
   end
 
   def member_path(member)

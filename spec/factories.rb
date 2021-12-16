@@ -73,6 +73,7 @@ FactoryBot.define do
     left_house { "9999-12-31" }
     entered_reason { "general_election" }
     left_reason { "still_in_office" }
+    # TODO: Why are we using person_id here rather than person?
     person_id { "10458" }
   end
 
@@ -86,4 +87,11 @@ FactoryBot.define do
       private { 2 }
     end
   end
+
+  factory :policy_person_distance do
+    association :policy
+    association :person
+  end
+
+  factory :person
 end

@@ -2,7 +2,7 @@
 
 module Api
   module V1
-    class ApplicationController < ApplicationController
+    class ApplicationController < ::ApplicationController
       before_action :require_key
       after_action :log_api_request
 

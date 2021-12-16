@@ -28,21 +28,23 @@ module PoliciesHelper
     elsif policy_member_distance.number_of_votes.zero?
       "never voted on"
     else
-      ranges.find { |r| r.first.include?(policy_member_distance.agreement_fraction) }.second
+      ranges.find { |r| r[:range].include?(policy_member_distance.agreement_fraction) }[:text]
     end
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
+  # "text" is how a particular range is shown to the user.
+  # "label" is used for css classes and ids (machine readable and probably shouldn't change)
   def ranges
-    {
-      0.95..1.00 => "very strongly for",
-      0.85..0.95 => "strongly for",
-      0.60..0.85 => "moderately for",
-      0.40..0.60 => "a mixture of for and against",
-      0.15..0.40 => "moderately against",
-      0.05..0.15 => "strongly against",
-      0.00..0.05 => "very strongly against"
-    }
+    [
+      { range: 0.95..1.00, text: "consistently for", label: "for3" },
+      { range: 0.85..0.95, text: "almost always for", label: "for2" },
+      { range: 0.60..0.85, text: "generally for", label: "for1" },
+      { range: 0.40..0.60, text: "a mixture of for and against", label: "mixture" },
+      { range: 0.15..0.40, text: "generally against", label: "against1" },
+      { range: 0.05..0.15, text: "almost always against", label: "against2" },
+      { range: 0.00..0.05, text: "consistently against", label: "against3" }
+    ]
   end
 
   def quote(word)
@@ -116,9 +118,9 @@ module PoliciesHelper
 
       if version.changeset.key?("private")
         case version.changeset["private"].second
-        when 0
+        when 0, "published"
           changes << "status to not draft"
-        when 2
+        when 2, "provisional"
           changes << "status to draft"
         else
           raise
@@ -229,6 +231,7 @@ module PoliciesHelper
     safe_join(out)
   end
 
+  # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
   def version_sentence(version, options = {})
     case version.item_type
     when "Policy"

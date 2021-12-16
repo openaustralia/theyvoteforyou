@@ -73,9 +73,10 @@ Steps required to configure, install and start the Rails application:
 bundle install
 
 # Copy the default config files over.
+cp config/database.yml.example config/database.yml
+
 # (Edit config/database.yml and fill in your username, password and database settings.)
 bundle exec rake application:config:dev
-cp config/database.yml.example config/database.yml
 
 # Copy secrets config
 cp config/secrets.yml.example config/secrets.yml
