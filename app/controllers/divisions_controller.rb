@@ -177,13 +177,7 @@ class DivisionsController < ApplicationController
   end
 
   def member
-    electorate = @mpc.gsub("_", " ")
-    name = @mpn.gsub("_", " ")
-
-    Member.with_name(name)
-          .in_house(@house)
-          .where(constituency: electorate)
-          .order(entered_house: :desc).first
+    Member.find_with_url_params(house: @house, mpc: @mpc, mpn: @mpn)
   end
 
   def division(house, date, number)
