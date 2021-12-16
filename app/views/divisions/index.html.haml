@@ -19,4 +19,4 @@
 - # if sort by rebellions or attendance provide some brief, contextual explanation here.
 
 = render partial: "divisions", locals: {member: @member}, object: @divisions
-= render "pagination", years: @years, path: {house: (@house.nil? ? "all" : @house)}, date_start: @date_start
+= render "pagination", years: @years, path: {}, date_start: @date_start
