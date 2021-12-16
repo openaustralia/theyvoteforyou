@@ -50,8 +50,7 @@ class DivisionsController < ApplicationController
 
     @mpc = params[:mpc]
     @mpn = params[:mpn]
-
-    @member = member
+    @member = Member.find_with_url_params(house: @house, mpc: @mpc, mpn: @mpn)
 
     if @member
       canonical_member = @member.person.latest_member
@@ -174,10 +173,6 @@ class DivisionsController < ApplicationController
     else
       DivisionParameterParser.date_range(@years.last.to_s)
     end
-  end
-
-  def member
-    Member.find_with_url_params(house: @house, mpc: @mpc, mpn: @mpn)
   end
 
   def division(house, date, number)
