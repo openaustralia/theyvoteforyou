@@ -12,4 +12,4 @@
 %p Divisions #{@member.full_name_no_electorate} could have attended.
 
 = render "divisions", member: @member, divisions: @divisions
-= render "pagination", years: @years, path: {house: (@house.nil? ? "all" : @house) }, date_start: @date_start
+= render "pagination", years: @years, path: { house: @house }, date_start: @date_start

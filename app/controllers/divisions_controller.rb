@@ -45,8 +45,8 @@ class DivisionsController < ApplicationController
       return render "home/error404", status: :not_found
     end
 
-    @house = params[:house] unless params[:house] == "all"
-    raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
+    @house = params[:house]
+    raise ActiveRecord::RecordNotFound unless House.valid?(@house)
 
     @member = Member.find_with_url_params(house: @house, mpc: params[:mpc], mpn: params[:mpn])
 
