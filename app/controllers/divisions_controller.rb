@@ -15,50 +15,60 @@ class DivisionsController < ApplicationController
     @house = params[:house] unless params[:house] == "all"
     raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
 
-    if params[:mpc] && params[:mpn]
+    @sort = params[:sort]
 
-      @mpc = params[:mpc]
-      @mpn = params[:mpn]
+    order = case @sort
+            when "subject"
+              ["name", "date DESC", "clock_time DESC", "number DESC"]
+            when "rebellions"
+              ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+            when "turnout"
+              ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+            else
+              @sort = nil
+              ["date DESC", "clock_time DESC", "name", "number DESC"]
+            end
 
-      @member = member
+    @divisions = Division.order(order)
+    @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
+    @divisions = @divisions.in_house(@house) if @house
+    @divisions = @divisions.in_date_range(@date_start, @date_end)
+    @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+  end
 
-      if @member
-        canonical_member = @member.person.latest_member
-        if canonical_member != @member
-          return redirect_to member_divisions_url(
-            house: canonical_member.house,
-            mpc: canonical_member.url_electorate.downcase,
-            mpn: canonical_member.url_name.downcase,
-            date: params[:date]
-          )
-        end
+  def index_with_member
+    @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
 
-        @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-        @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-        render "index_with_member"
-      else
-        render "members/member_not_found", status: :not_found
+    begin
+      @date_start, @date_end, @date_range = date_range(params[:date])
+    rescue ArgumentError
+      return render "home/error404", status: :not_found
+    end
+
+    @house = params[:house] unless params[:house] == "all"
+    raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
+
+    @mpc = params[:mpc]
+    @mpn = params[:mpn]
+
+    @member = member
+
+    if @member
+      canonical_member = @member.person.latest_member
+      if canonical_member != @member
+        return redirect_to member_divisions_url(
+          house: canonical_member.house,
+          mpc: canonical_member.url_electorate.downcase,
+          mpn: canonical_member.url_name.downcase,
+          date: params[:date]
+        )
       end
-    else
-      @sort = params[:sort]
 
-      order = case @sort
-              when "subject"
-                ["name", "date DESC", "clock_time DESC", "number DESC"]
-              when "rebellions"
-                ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
-              when "turnout"
-                ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
-              else
-                @sort = nil
-                ["date DESC", "clock_time DESC", "name", "number DESC"]
-              end
-
-      @divisions = Division.order(order)
-      @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
-      @divisions = @divisions.in_house(@house) if @house
-      @divisions = @divisions.in_date_range(@date_start, @date_end)
+      @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
       @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+      render "index_with_member"
+    else
+      render "members/member_not_found", status: :not_found
     end
   end
 
