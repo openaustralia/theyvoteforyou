@@ -10,6 +10,6 @@
 - if @history.empty?
   %p No contributions… yet :)
 - else
-  = render partial: "layouts/history_list"
+  = render partial: "layouts/history_list", locals: { policy: @policy, history: @history }
 
 %p See other #{link_to 'recent changes', history_path}.

@@ -1,4 +1,4 @@
-= render "members/rebellious_divisions", member: member
+= render "members/rebellious_divisions", member: member, house: house, party: party, policy: policy
 
 - if member.person.free_votes_with_whip > 0
-  = render "members/free_divisions", member: member
+  = render "members/free_divisions", member: member, house: house, party: party, policy: policy

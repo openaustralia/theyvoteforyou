@@ -1,18 +1,18 @@
-- unless @division.policies.empty?
+- unless division.policies.empty?
   %ul.division-policies-list.list-unstyled
-    - @division.policies.order(:name).each do |policy|
+    - division.policies.order(:name).each do |policy|
       %li.division-policy
-        - if @display == "policies" && user_signed_in?
-          = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+        - if display == "policies" && user_signed_in?
+          = simple_form_for :policy_division, url: update_policy_division_path(division_params(division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
             %label.division-policy-statement
               People who are
               = link_to policy.name_with_for, policy
               - if policy.provisional?
                 %em (draft)
               would have voted
-            = vote_select(f, policy.vote_for_division(@division))
+            = vote_select(f, policy.vote_for_division(division))
             = f.submit 'Update', class: 'btn btn-primary btn-xs'
-          = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
+          = button_to 'remove', destroy_policy_division_path(division_params(division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
         - else
           %p.division-policy-statement
             People who are
@@ -20,9 +20,9 @@
             - if policy.provisional?
               %em (draft)
             would have
-            %span.division-policy-statement-vote{class: "voted-" + PolicyDivision.vote_without_strong(@division.policy_division(policy).vote).downcase}
+            %span.division-policy-statement-vote{class: "voted-" + PolicyDivision.vote_without_strong(division.policy_division(policy).vote).downcase}
               voted
-              = vote_display PolicyDivision.vote_without_strong(@division.policy_division(policy).vote)
+              = vote_display PolicyDivision.vote_without_strong(division.policy_division(policy).vote)
 
-- if @display != "policies"
-  = link_to("#{@division.policies.empty? ? "Does this division relate to a policy?" : "Add or update related policies"}", division_policies_path(division_params(@division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")
+- if display != "policies"
+  = link_to("#{division.policies.empty? ? "Does this division relate to a policy?" : "Add or update related policies"}", division_policies_path(division_params(division)), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")

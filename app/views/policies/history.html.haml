@@ -10,4 +10,4 @@
   -# TODO This title is just a stop-gap. Make it not suck.
   %h1.col-md-9= yield :title
 
-= render partial: "layouts/history_list"
+= render partial: "layouts/history_list", locals: { policy: @policy, history: @history }

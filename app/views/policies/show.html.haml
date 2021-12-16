@@ -1,7 +1,7 @@
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
-    = render 'layouts/history_notice', policy: @policy
+    = render 'layouts/history_notice', policy: @policy, division: @division
 
 = render 'page_header', policy: @policy
 
