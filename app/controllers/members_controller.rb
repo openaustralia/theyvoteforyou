@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MembersController < ApplicationController
+  before_action :find_member_and_redirect_to_canonical, only: %i[show policy friends]
+
   def index
     @sort = params[:sort]
     @house = params[:house]
@@ -47,33 +49,11 @@ class MembersController < ApplicationController
     end
   end
 
-  def friends
-    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
-    return render "member_not_found", status: :not_found if @member.nil?
+  def friends; end
 
-    canonical_member = @member.person.latest_member
-    return if canonical_member == @member
-
-    redirect_to helpers.member_params(canonical_member)
-  end
-
-  def show
-    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
-    return render "member_not_found", status: :not_found if @member.nil?
-
-    canonical_member = @member.person.latest_member
-    return if canonical_member == @member
-
-    redirect_to helpers.member_params(canonical_member)
-  end
+  def show; end
 
   def policy
-    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
-    return render "member_not_found", status: :not_found if @member.nil?
-
-    canonical_member = @member.person.latest_member
-    return redirect_to helpers.member_params(canonical_member) if canonical_member != @member
-
     @policy = Policy.find(params[:id])
 
     # Pick the member where the votes took place
@@ -112,5 +92,17 @@ class MembersController < ApplicationController
       }
     end
     @policies = @policies.sort_by { |p| p[:difference] }.reverse
+  end
+
+  private
+
+  def find_member_and_redirect_to_canonical
+    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
+    return render "member_not_found", status: :not_found if @member.nil?
+
+    canonical_member = @member.person.latest_member
+    return if canonical_member == @member
+
+    redirect_to helpers.member_params(canonical_member)
   end
 end
