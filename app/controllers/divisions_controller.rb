@@ -49,24 +49,21 @@ class DivisionsController < ApplicationController
     raise ActiveRecord::RecordNotFound unless House.valid?(@house)
 
     @member = Member.find_with_url_params(house: @house, mpc: params[:mpc], mpn: params[:mpn])
+    return render "members/member_not_found", status: :not_found if @member.nil?
 
-    if @member
-      canonical_member = @member.person.latest_member
-      if canonical_member != @member
-        return redirect_to member_divisions_url(
-          house: canonical_member.house,
-          mpc: canonical_member.url_electorate.downcase,
-          mpn: canonical_member.url_name.downcase,
-          date: params[:date]
-        )
-      end
-
-      @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-      @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-      render "index_with_member"
-    else
-      render "members/member_not_found", status: :not_found
+    canonical_member = @member.person.latest_member
+    if canonical_member != @member
+      return redirect_to member_divisions_url(
+        house: canonical_member.house,
+        mpc: canonical_member.url_electorate.downcase,
+        mpn: canonical_member.url_name.downcase,
+        date: params[:date]
+      )
     end
+
+    @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
+    @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+    render "index_with_member"
   end
 
   def show
