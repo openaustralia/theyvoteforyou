@@ -48,9 +48,7 @@ class DivisionsController < ApplicationController
     @house = params[:house] unless params[:house] == "all"
     raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
 
-    @mpc = params[:mpc]
-    @mpn = params[:mpn]
-    @member = Member.find_with_url_params(house: @house, mpc: @mpc, mpn: @mpn)
+    @member = Member.find_with_url_params(house: @house, mpc: params[:mpc], mpn: params[:mpn])
 
     if @member
       canonical_member = @member.person.latest_member
