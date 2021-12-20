@@ -2,7 +2,20 @@
 
 %h2 Related Policies
 
-= render "current_policies_list", division: @division, display: "policies"
+- unless @division.policies.empty?
+  %ul.division-policies-list.list-unstyled
+    - @division.policies.order(:name).each do |policy|
+      %li.division-policy
+        = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+          %label.division-policy-statement
+            People who are
+            = link_to policy.name_with_for, policy
+            - if policy.provisional?
+              %em (draft)
+            would have voted
+          = vote_select(f, policy.vote_for_division(@division))
+          = f.submit 'Update', class: 'btn btn-primary btn-xs'
+        = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
 
 %h3 Make a new connection
 
