@@ -18,6 +18,6 @@
 
     %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
 
-  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(house)}
+  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
     - member.person.members.order(entered_house: :desc).each do |member|
-      = render partial: 'divisions/division', locals: {member: member, party: party, policy: policy, house: house}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+      = render partial: 'divisions/division', locals: {member: member, party: nil, policy: nil, house: nil}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
