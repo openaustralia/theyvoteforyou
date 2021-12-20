@@ -13,8 +13,8 @@ describe Devise::Mailer do
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "Confirm your email address" }
     it { expect(mail).to be_multipart }
-    it { expect(mail.html_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.html") }
-    it { expect(mail.text_part.body.to_s).to eq File.read("spec/devise/regression/confirmation.txt") }
+    it { expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to eq File.read("spec/devise/regression/confirmation.html").gsub("\r\n", "\n") }
+    it { expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq File.read("spec/devise/regression/confirmation.txt").gsub("\r\n", "\n") }
   end
 
   describe "#reset_password_instructions" do
@@ -25,7 +25,7 @@ describe Devise::Mailer do
     it { expect(mail.to).to eq ["foo@bar.com"] }
     it { expect(mail.subject).to eq "Reset your password" }
     it { expect(mail).to be_multipart }
-    it { expect(mail.html_part.body.to_s).to eq File.read("spec/devise/regression/reset.html") }
-    it { expect(mail.text_part.body.to_s).to eq File.read("spec/devise/regression/reset.txt") }
+    it { expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to eq File.read("spec/devise/regression/reset.html").gsub("\r\n", "\n") }
+    it { expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq File.read("spec/devise/regression/reset.txt").gsub("\r\n", "\n") }
   end
 end

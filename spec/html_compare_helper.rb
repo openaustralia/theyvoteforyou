@@ -34,7 +34,7 @@ module HTMLCompareHelper
       get(response.headers["Location"], params: {})
     end
 
-    text = File.read("spec/fixtures/static_pages#{path}#{suffix}.html")
+    text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html")
 
     compare_text(text, response.body, path, suffix, format)
   end
@@ -52,7 +52,7 @@ module HTMLCompareHelper
     raise "Don't match" unless overwrite
 
     # Write it out to a file
-    File.open("spec/fixtures/static_pages#{path}#{suffix}.html", "w") do |f|
+    File.open("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html", "w") do |f|
       f.write new_text
     end
     raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
