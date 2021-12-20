@@ -63,7 +63,6 @@ class DivisionsController < ApplicationController
 
     @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
     @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-    render "index_with_member"
   end
 
   def show
