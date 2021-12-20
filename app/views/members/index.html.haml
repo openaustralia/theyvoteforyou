@@ -10,9 +10,9 @@
 
 .list-filters.clearfix
   %nav.list-house-switcher.btn-group
-    = nav_button_link("All", {house: nil, sort: params[:sort]}, members_type_long("all"), @house.nil?)
-    = nav_button_link("Representatives", {house: "representatives", sort: params[:sort]}, members_type_long("representatives"), @house == "representatives")
-    = nav_button_link("Senate", {house: "senate", sort: params[:sort]}, members_type_long("senate"), @house == 'senate')
+    = nav_button_link("All", {house: nil, sort: @sort}, members_type_long("all"), @house.nil?)
+    = nav_button_link("Representatives", {house: "representatives", sort: @sort}, members_type_long("representatives"), @house == "representatives")
+    = nav_button_link("Senate", {house: "senate", sort: @sort}, members_type_long("senate"), @house == 'senate')
 
   .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
@@ -31,14 +31,14 @@
 
     %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if @sort.nil?}"}
-        = link_to "Name", {sort: nil, house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Name", {sort: nil, house: @house}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'constituency'}"}
-        = link_to electorate_label(@house), {sort: "constituency", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to electorate_label(@house), {sort: "constituency", house: @house}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'party'}"}
-        = link_to "Party", {sort: "party", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Party", {sort: "party", house: @house}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'rebellions'}"}
-        = link_to "Rebellions", {sort: "rebellions", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Rebellions", {sort: "rebellions", house: @house}, role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if @sort == 'attendance'}"}
-        = link_to "Attendance", {sort: "attendance", house: params[:house]}, role: "menuitem", tabindex: "-1"
+        = link_to "Attendance", {sort: "attendance", house: @house}, role: "menuitem", tabindex: "-1"
 
 = render "people", people: @people, house: @house
