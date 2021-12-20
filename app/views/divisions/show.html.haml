@@ -36,4 +36,4 @@
       to the same
       = @division.bills.count == 1 ? "bill" : "bills"
       as this one:
-    = render partial: "divisions", locals: {member: nil, house: nil, party: nil, policy: nil}, object: @division.related_divisions
+    = render partial: "divisions", locals: {member: nil, house: nil}, object: @division.related_divisions
