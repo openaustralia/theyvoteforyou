@@ -16,13 +16,13 @@
 
 - if @division.edited?
   - content_for :history_notice do
-    =render "layouts/history_notice", policy: @policy, division: @division
+    =render "layouts/history_notice", policy: nil, division: @division
 
-= render "header", division: @division, display: @display
+= render "header", division: @division, display: nil
 = render "social_share"
 = render "motion", division: @division
 = render "external_links", division: @division
-= render "summary", division: @division, members: @members, rebellions: @rebellions, whips: @whips, display: @display, votes: @votes, members_vote_null: @members_vote_null
+= render "summary", division: @division, members: @members, rebellions: @rebellions, whips: @whips, display: nil, votes: @votes, members_vote_null: @members_vote_null
 
 - unless @division.related_divisions.empty?
   %section.page-section#related-divisions
@@ -36,4 +36,4 @@
       to the same
       = @division.bills.count == 1 ? "bill" : "bills"
       as this one:
-    = render partial: "divisions", locals: {member: nil, house: @house, party: @party, policy: @policy}, object: @division.related_divisions
+    = render partial: "divisions", locals: {member: nil, house: nil, party: nil, policy: nil}, object: @division.related_divisions
