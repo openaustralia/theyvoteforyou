@@ -6,7 +6,7 @@
         = division_outcome_with_majority_strength(division)
 
     .division-policies#related-policies
-      = render "current_policies_list", division: division, display: nil
+      = render "current_policies_list", division: division
 
     %p.division-rebellions-sentence
       - if division.rebellions > 0
