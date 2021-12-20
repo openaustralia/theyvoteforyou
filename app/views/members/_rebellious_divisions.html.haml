@@ -20,4 +20,4 @@
 
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
     - member.person.members.order(entered_house: :desc).each do |member|
-      = render partial: 'divisions/division', locals: {member: member, party: nil, policy: nil, house: nil}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+      = render partial: 'divisions/division', locals: {member: member, house: nil}, collection: member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc)
