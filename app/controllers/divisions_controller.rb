@@ -88,7 +88,6 @@ class DivisionsController < ApplicationController
   end
 
   def show_policies
-    @display = "policies"
     @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new
   end
