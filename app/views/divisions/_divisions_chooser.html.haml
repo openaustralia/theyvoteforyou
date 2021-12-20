@@ -7,15 +7,9 @@
   .list-sorter.dropdown
     %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
       - if sort == "turnout"
-        Sorted by
-        - if party
-          = party
-        Attendance
+        Sorted by Attendance
       - elsif sort == "rebellions"
-        Sorted by
-        - if party
-          = party
-        Rebellions
+        Sorted by Rebellions
       - elsif sort == "subject"
         Sorted Alphabetically
       - elsif sort.nil?
@@ -24,9 +18,9 @@
 
     %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if sort == 'turnout'}"}
-        = link_to "#{party + ' ' if party}Attendance", {sort: "turnout", house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
+        = link_to "Attendance", {sort: "turnout", house: params[:house]}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort == 'rebellions'}"}
-        = link_to "#{party + ' ' if party}Rebellions", {sort: "rebellions", house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
+        = link_to "Rebellions", {sort: "rebellions", house: params[:house]}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort == 'subject'}"}
         = link_to "Alphabetically", {sort: "subject", house: params[:house]}, title: "Sort by subject", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort.nil?}"}
