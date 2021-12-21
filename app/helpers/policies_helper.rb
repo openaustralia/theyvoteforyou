@@ -1,20 +1,12 @@
 # frozen_string_literal: true
 
 module PoliciesHelper
+  # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary_without_html(policy_member_distance)
     out = []
     out << policy_agreement_summary_first_word(policy_member_distance)
     out << " "
     out << policy_agreement_summary_short(policy_member_distance)
-    safe_join(out)
-  end
-
-  # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy_member_distance)
-    out = []
-    out << policy_agreement_summary_first_word(policy_member_distance)
-    out << " "
-    out << content_tag(:strong, policy_agreement_summary_short(policy_member_distance))
     safe_join(out)
   end
 
