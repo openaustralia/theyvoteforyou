@@ -41,6 +41,10 @@ module PoliciesHelper
     ranges2.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
   end
 
+  def all_categories
+    ranges2.map { |r| r[:category] }
+  end
+
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges2
     [
