@@ -31,12 +31,6 @@ module PoliciesHelper
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
-  # "text" is how a particular range is shown to the user.
-  # "label" is used for css classes and ids (machine readable and probably shouldn't change)
-  def ranges
-    ranges2.map { |r| { range: r[:range], text: ranges3[r[:category]], label: r[:category].to_s } }
-  end
-
   def ranges2
     [
       { range: 0.95..1.00, category: :for3 },
