@@ -59,6 +59,31 @@ class Person < ApplicationRecord
     !!small_image_url
   end
 
+  # Currently hardcoded to the image sizes that openaustralia.org.au uses
+  def large_image_width
+    88
+  end
+
+  def large_image_height
+    115
+  end
+
+  def small_image_width
+    44
+  end
+
+  def small_image_height
+    58
+  end
+
+  def large_image_size
+    "#{large_image_width}x#{large_image_height}"
+  end
+
+  def small_image_size
+    "#{small_image_width}x#{small_image_height}"
+  end
+
   def latest_member
     members.first
   end

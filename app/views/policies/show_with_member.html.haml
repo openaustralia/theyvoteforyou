@@ -33,7 +33,7 @@
     .media
       - if @member.show_large_image?
         = link_to @member, class: "pull-left" do
-          = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: "88x115", class: "media-object")
+          = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: @member.large_image_size, class: "media-object")
       .media-body
         %h1.media-heading.long-title
           = link_to @member.name, @member
