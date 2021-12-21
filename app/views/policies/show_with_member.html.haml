@@ -9,7 +9,7 @@
 :ruby
   set_meta_tags og: {
     title: "#{@member.name_without_title} #{policy_agreement_summary(policy_person_distance)} #{@policy.name}.",
-    description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament.",
+    description: "Discover how #{@member.name_without_title} voted on #{@policy.name}.",
     type: "profile",
     url: request.original_url,
     image: {
@@ -26,7 +26,7 @@
       alt: "Photo of #{@member.name_without_title}",
     },
     title: "#{@member.name_without_title} #{policy_agreement_summary(policy_person_distance)} #{@policy.name}.",
-    description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament."
+    description: "Discover how #{@member.name_without_title} voted on #{@policy.name}."
   }
 .page-header.row
   .col-md-9.col-lg-10
