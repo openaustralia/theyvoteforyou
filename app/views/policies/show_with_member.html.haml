@@ -15,6 +15,8 @@
     image: {
       _: @member.large_image_url,
       alt: "Photo of #{@member.name_without_title}",
+      width: @member.large_image_width,
+      height: @member.large_image_height
     },
     site_name: Settings.project_name
   }
