@@ -25,6 +25,8 @@ module PoliciesHelper
   end
 
   def category(policy_person_distance)
+    return :never if policy_person_distance.number_of_votes.zero?
+
     ranges2.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
   end
 
