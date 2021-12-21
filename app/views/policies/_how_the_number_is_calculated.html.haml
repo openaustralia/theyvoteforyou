@@ -1,7 +1,5 @@
 %section.page-section#ratioexpl
-  - if policy_person_distance.nil?
-    -# This person could never have voted on this policy so show nothing
-  - elsif policy_person_distance.number_of_votes == 0
+  - if policy_person_distance.number_of_votes == 0
     %h2
       How "never voted" is worked out
 
