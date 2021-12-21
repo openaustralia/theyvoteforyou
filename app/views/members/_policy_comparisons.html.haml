@@ -9,8 +9,8 @@
         that will appear here.
   - else
     - distances = member.person.policy_person_distances.published.includes(:policy)
-    - ranges.each do |r|
-      = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.voted? && r[:range].include?(d.agreement_fraction) }, title: "Voted #{r[:text]}", label: r[:label]
+    - ranges2.each do |r|
+      = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.voted? && r[:range].include?(d.agreement_fraction) }, title: "Voted #{ranges3[r[:category]]}", label: r[:category].to_s
     = render "policy_comparisons_block", member: member, distances: distances.select { |d| !d.voted? }, title: "Has never voted on", label: "has-never-voted-on"
 
   %p.small.text-muted
