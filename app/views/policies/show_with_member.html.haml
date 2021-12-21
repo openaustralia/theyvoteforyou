@@ -13,7 +13,7 @@
       .media-body
         %h1.media-heading.long-title
           = link_to @member.name, @member
-          = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
+          = policy_agreement_summary_without_html(@member.person.policy_person_distances.find_by(policy: @policy))
           = link_to @policy.name, @policy
   .header-secondary.col-sm-12
     -# We don't want people sharing incomplete policies
