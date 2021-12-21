@@ -20,8 +20,12 @@ module PoliciesHelper
     elsif policy_person_distance.number_of_votes.zero?
       "never voted on"
     else
-      ranges.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:text]
+      ranges3[category(policy_person_distance)]
     end
+  end
+
+  def category(policy_person_distance)
+    ranges2.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
