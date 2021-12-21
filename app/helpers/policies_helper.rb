@@ -28,15 +28,33 @@ module PoliciesHelper
   # "text" is how a particular range is shown to the user.
   # "label" is used for css classes and ids (machine readable and probably shouldn't change)
   def ranges
+    ranges2.map do |r|
+      { range: r[:range], text: ranges3[r[:category]], label: r[:category].to_s }
+    end
+  end
+
+  def ranges2
     [
-      { range: 0.95..1.00, text: "consistently for", label: "for3" },
-      { range: 0.85..0.95, text: "almost always for", label: "for2" },
-      { range: 0.60..0.85, text: "generally for", label: "for1" },
-      { range: 0.40..0.60, text: "a mixture of for and against", label: "mixture" },
-      { range: 0.15..0.40, text: "generally against", label: "against1" },
-      { range: 0.05..0.15, text: "almost always against", label: "against2" },
-      { range: 0.00..0.05, text: "consistently against", label: "against3" }
+      { range: 0.95..1.00, category: :for3 },
+      { range: 0.85..0.95, category: :for2 },
+      { range: 0.60..0.85, category: :for1 },
+      { range: 0.40..0.60, category: :mixture },
+      { range: 0.15..0.40, category: :against1 },
+      { range: 0.05..0.15, category: :against2 },
+      { range: 0.00..0.05, category: :against3 }
     ]
+  end
+
+  def ranges3
+    {
+      for3: "consistently for",
+      for2: "almost always for",
+      for1: "generally for",
+      mixture: "a mixture of for and against",
+      against1: "generally against",
+      against2: "almost always against",
+      against3: "consistently against"
+    }
   end
 
   def quote(word)
