@@ -2,25 +2,25 @@
 
 module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy_member_distance)
+  def policy_agreement_summary(policy_person_distance)
     out = []
-    out << policy_agreement_summary_first_word(policy_member_distance)
+    out << policy_agreement_summary_first_word(policy_person_distance)
     out << " "
-    out << policy_agreement_summary_short(policy_member_distance)
+    out << policy_agreement_summary_short(policy_person_distance)
     safe_join(out)
   end
 
-  def policy_agreement_summary_first_word(policy_member_distance)
-    policy_member_distance&.number_of_votes&.zero? ? "has" : "voted"
+  def policy_agreement_summary_first_word(policy_person_distance)
+    policy_person_distance&.number_of_votes&.zero? ? "has" : "voted"
   end
 
-  def policy_agreement_summary_short(policy_member_distance)
-    if policy_member_distance.nil?
+  def policy_agreement_summary_short(policy_person_distance)
+    if policy_person_distance.nil?
       "unknown about"
-    elsif policy_member_distance.number_of_votes.zero?
+    elsif policy_person_distance.number_of_votes.zero?
       "never voted on"
     else
-      ranges.find { |r| r[:range].include?(policy_member_distance.agreement_fraction) }[:text]
+      ranges.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:text]
     end
   end
 
