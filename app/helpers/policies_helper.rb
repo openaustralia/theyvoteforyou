@@ -3,16 +3,19 @@
 module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_person_distance)
-    c = category(policy_person_distance)
-    out = []
-    out << (c == :never ? "has" : "voted")
-    out << " "
-    out << category_words_short(c)
-    safe_join(out)
+    category_words(category(policy_person_distance))
   end
 
   def policy_agreement_summary_short(policy_person_distance)
     category_words_short(category(policy_person_distance))
+  end
+
+  def category_words(category)
+    out = []
+    out << (category == :never ? "has" : "voted")
+    out << " "
+    out << category_words_short(category)
+    safe_join(out)
   end
 
   def category_words_short(category)
