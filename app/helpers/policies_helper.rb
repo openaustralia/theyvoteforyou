@@ -23,7 +23,16 @@ module PoliciesHelper
   end
 
   def category_words_short(category)
-    ranges3[category]
+    {
+      for3: "consistently for",
+      for2: "almost always for",
+      for1: "generally for",
+      mixture: "a mixture of for and against",
+      against1: "generally against",
+      against2: "almost always against",
+      against3: "consistently against",
+      never: "never voted on"
+    }[category]
   end
 
   def category(policy_person_distance)
@@ -43,19 +52,6 @@ module PoliciesHelper
       { range: 0.05..0.15, category: :against2 },
       { range: 0.00..0.05, category: :against3 }
     ]
-  end
-
-  def ranges3
-    {
-      for3: "consistently for",
-      for2: "almost always for",
-      for1: "generally for",
-      mixture: "a mixture of for and against",
-      against1: "generally against",
-      against2: "almost always against",
-      against3: "consistently against",
-      never: "never voted on"
-    }
   end
 
   def quote(word)
