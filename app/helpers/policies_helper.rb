@@ -11,7 +11,11 @@ module PoliciesHelper
   end
 
   def policy_agreement_summary_first_word(policy_person_distance)
-    policy_person_distance&.number_of_votes&.zero? ? "has" : "voted"
+    if policy_person_distance.nil?
+      "voted"
+    else
+      category(policy_person_distance) == :never ? "has" : "voted"
+    end
   end
 
   def policy_agreement_summary_short(policy_person_distance)
