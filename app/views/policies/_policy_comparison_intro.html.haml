@@ -1,9 +1,0 @@
-.h1mppolicy
-  %p
-    = link_to member.full_name2, member
-    = policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))
-    = link_to policy.name, policy
-    by
-    = link_to "scoring", "#ratioexpl"
-    = fraction_to_percentage_display(member.person.agreement_fraction_with_policy(policy))
-    in the votes below
