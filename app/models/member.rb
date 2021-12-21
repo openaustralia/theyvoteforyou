@@ -56,6 +56,13 @@ class Member < ApplicationRecord
     [first_name, last_name]
   end
 
+  def self.find_with_url_params(house:, mpc:, mpn:)
+    electorate = mpc.gsub("_", " ")
+    name = mpn.gsub("_", " ")
+
+    with_name(name).in_house(house).where(constituency: electorate).order(entered_house: :desc).first
+  end
+
   def changed_party?
     entered_reason == "changed_party" || left_reason == "changed_party"
   end

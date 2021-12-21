@@ -18,7 +18,7 @@
 
     %small= link_to "explain “Free Votes”", help_faq_path(anchor: "free")
 
-  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(@house)}
+  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
     - member.person.members.order(entered_house: :desc).each do |member|
       - if member.subject_to_whip?
-        = render partial: 'divisions/division', locals: {member: member}, collection: member.free_divisions.order(date: :desc, clock_time: :desc, name: :asc)
+        = render partial: 'divisions/division', locals: {member: member, house: nil}, collection: member.free_divisions.order(date: :desc, clock_time: :desc, name: :asc)

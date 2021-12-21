@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DivisionsController < ApplicationController
-  before_action :authenticate_user!, only: %i[edit update create_policy_division update_policy_division destroy_policy_division]
+  before_action :authenticate_user!, only: %i[edit update show_policies create_policy_division update_policy_division destroy_policy_division]
 
   def index
     @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
@@ -15,51 +15,54 @@ class DivisionsController < ApplicationController
     @house = params[:house] unless params[:house] == "all"
     raise ActiveRecord::RecordNotFound if @house && !House.valid?(@house)
 
-    if params[:mpc] && params[:mpn]
+    @sort = params[:sort]
 
-      @mpc = params[:mpc]
-      @mpn = params[:mpn]
+    order = case @sort
+            when "subject"
+              ["name", "date DESC", "clock_time DESC", "number DESC"]
+            when "rebellions"
+              ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+            when "turnout"
+              ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
+            else
+              @sort = nil
+              ["date DESC", "clock_time DESC", "name", "number DESC"]
+            end
 
-      @member = member
+    @divisions = Division.order(order)
+    @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
+    @divisions = @divisions.in_house(@house) if @house
+    @divisions = @divisions.in_date_range(@date_start, @date_end)
+    @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+  end
 
-      if @member
-        canonical_member = @member.person.latest_member
-        if canonical_member != @member
-          return redirect_to member_divisions_url(
-            house: canonical_member.house,
-            mpc: canonical_member.url_electorate.downcase,
-            mpn: canonical_member.url_name.downcase,
-            date: params[:date]
-          )
-        end
+  def index_with_member
+    @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
 
-        @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
-        @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-        render "index_with_member"
-      else
-        render "members/member_not_found", status: :not_found
-      end
-    else
-      @sort = params[:sort]
-
-      order = case @sort
-              when "subject"
-                ["name", "date DESC", "clock_time DESC", "number DESC"]
-              when "rebellions"
-                ["rebellions DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
-              when "turnout"
-                ["turnout DESC", "date DESC", "clock_time DESC", "name", "number DESC"]
-              else
-                @sort = nil
-                ["date DESC", "clock_time DESC", "name", "number DESC"]
-              end
-
-      @divisions = Division.order(order)
-      @divisions = @divisions.joins(:division_info) if @sort == "rebellions" || @sort == "turnout"
-      @divisions = @divisions.in_house(@house) if @house
-      @divisions = @divisions.in_date_range(@date_start, @date_end)
-      @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+    begin
+      @date_start, @date_end, @date_range = date_range(params[:date])
+    rescue ArgumentError
+      return render "home/error404", status: :not_found
     end
+
+    @house = params[:house]
+    raise ActiveRecord::RecordNotFound unless House.valid?(@house)
+
+    @member = Member.find_with_url_params(house: @house, mpc: params[:mpc], mpn: params[:mpn])
+    return render "members/member_not_found", status: :not_found if @member.nil?
+
+    canonical_member = @member.person.latest_member
+    if canonical_member != @member
+      return redirect_to member_divisions_url(
+        house: canonical_member.house,
+        mpc: canonical_member.url_electorate.downcase,
+        mpn: canonical_member.url_name.downcase,
+        date: params[:date]
+      )
+    end
+
+    @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
+    @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
   end
 
   def show
@@ -85,7 +88,6 @@ class DivisionsController < ApplicationController
   end
 
   def show_policies
-    @display = "policies"
     @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new
   end
@@ -164,16 +166,6 @@ class DivisionsController < ApplicationController
     else
       DivisionParameterParser.date_range(@years.last.to_s)
     end
-  end
-
-  def member
-    electorate = @mpc.gsub("_", " ")
-    name = @mpn.gsub("_", " ")
-
-    Member.with_name(name)
-          .in_house(@house)
-          .where(constituency: electorate)
-          .order(entered_house: :desc).first
   end
 
   def division(house, date, number)

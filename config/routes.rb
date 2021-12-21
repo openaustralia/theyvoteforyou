@@ -33,6 +33,13 @@ Publicwhip::Application.routes.draw do
   get "/people/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/divisions/%{date}/%{number}")
   get "/parties/:party/divisions/:house" => redirect("/divisions/%{house}")
   get "/parties/:party/divisions" => redirect("/divisions")
+  get "/divisions" => redirect { |_p, r|
+    if r.query_parameters["sort"]
+      "/divisions/all?sort=#{r.query_parameters['sort']}"
+    else
+      "/divisions/all"
+    end
+  }, as: :divisions
 
   #################
   #  Main routes  #
@@ -49,10 +56,9 @@ Publicwhip::Application.routes.draw do
   get "/people/:house/:mpc/:mpn/policies/:id" => "members#policy", as: :member_policy
   get "/people/:house/:mpc/:mpn/friends" => "members#friends", as: :friends_member
   get "/people/:house/:mpc/:mpn/compare/:mpc2/:mpn2" => "members#compare", as: :compare_member
-  get "/people/:house/:mpc/:mpn/divisions/(:date)" => "divisions#index", as: :member_divisions
+  get "/people/:house/:mpc/:mpn/divisions/(:date)" => "divisions#index_with_member", as: :member_divisions
 
-  get "/divisions" => "divisions#index", as: :divisions
-  get "/divisions/:house" => "divisions#index"
+  get "/divisions/(:house)" => "divisions#index"
   get "/divisions/:house/:date" => "divisions#index"
 
   get "/divisions/:house/:date/:number" => "divisions#show", as: :division

@@ -10,6 +10,6 @@ class AlertMailer < ApplicationMailer
     @version = version
     @user = user
 
-    mail to: user.email, subject: render_to_string(partial: "policy_updated_subject").strip
+    mail to: user.email, subject: render_to_string(partial: "policy_updated_subject", locals: { policy: @policy }).strip
   end
 end

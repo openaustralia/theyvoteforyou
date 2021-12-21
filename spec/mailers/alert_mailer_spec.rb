@@ -27,11 +27,11 @@ RSpec.describe AlertMailer, type: :mailer do
       end
 
       it "has what we expect in the text part of the email" do
-        expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq(Rails.root.join("spec/mailers/regression/alert_mailer/email1.txt").read)
+        expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq(Rails.root.join("spec/mailers/regression/alert_mailer/email1.txt").read.gsub("\r\n", "\n"))
       end
 
       it "has what we expect in the html part of the email" do
-        expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to include Rails.root.join("spec/mailers/regression/alert_mailer/email1.html").read
+        expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to include Rails.root.join("spec/mailers/regression/alert_mailer/email1.html").read.gsub("\r\n", "\n")
       end
     end
 
@@ -47,11 +47,11 @@ RSpec.describe AlertMailer, type: :mailer do
       end
 
       it "has what we expect in the text part of the email" do
-        expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq(Rails.root.join("spec/mailers/regression/alert_mailer/email2.txt").read)
+        expect(mail.text_part.body.to_s.gsub("\r\n", "\n")).to eq(Rails.root.join("spec/mailers/regression/alert_mailer/email2.txt").read.gsub("\r\n", "\n"))
       end
 
       it "has what we expect in the html part of the email" do
-        expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to include Rails.root.join("spec/mailers/regression/alert_mailer/email2.html").read
+        expect(mail.html_part.body.to_s.gsub("\r\n", "\n")).to include Rails.root.join("spec/mailers/regression/alert_mailer/email2.html").read.gsub("\r\n", "\n")
       end
     end
   end

@@ -11,7 +11,7 @@
         Policies are a group of votes which, taken together, indicate a particular stance on an issue.
         You can research and create your own.
 
-= render "policies_chooser", party: @party, house: @house
+= render "policies_chooser", party: @party, house: @house, sort: @sort
 
 - if @policies
   = render "policies_list", policies: @policies

@@ -8,8 +8,8 @@
       %th.cell-vote Votes
       %th.cell-toggler
   %tbody
-    - @whips.each do |whip|
-      = render 'summary_whip', whip: whip
+    - whips.each do |whip|
+      = render 'summary_whip', whip: whip, votes: votes, members_vote_null: members_vote_null
 
     %tr
       %th.whip

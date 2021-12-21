@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class MembersController < ApplicationController
+  before_action :find_member_and_redirect_to_canonical, only: %i[show policy friends]
+
   def index
     @sort = params[:sort]
     @house = params[:house]
@@ -13,18 +15,19 @@ class MembersController < ApplicationController
     end
     members = members.includes(:member_info, person: [members: :member_info]).to_a
 
-    @members = case @sort
-               when "constituency"
-                 members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
-               when "party"
-                 members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
-               when "rebellions"
-                 members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
-               when "attendance"
-                 members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
-               else
-                 members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
-               end
+    members = case @sort
+              when "constituency"
+                members.sort_by { |m| [m.constituency, m.last_name, m.first_name, m.party, -m.entered_house.to_time.to_i] }
+              when "party"
+                members.sort_by { |m| [m.party, m.last_name, m.first_name, m.constituency, -m.entered_house.to_time.to_i] }
+              when "rebellions"
+                members.sort_by { |m| [-(m.person.rebellions_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+              when "attendance"
+                members.sort_by { |m| [-(m.person.attendance_fraction || -1), m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+              else
+                members.sort_by { |m| [m.last_name, m.first_name, m.constituency, m.party, -m.entered_house.to_time.to_i] }
+              end
+    @people = members.map(&:person)
   end
 
   def show_redirect
@@ -40,85 +43,18 @@ class MembersController < ApplicationController
                raise
              end
     if params[:dmp]
-      redirect_to member_policy_url(
-        house: member.house,
-        mpc: member.url_electorate.downcase,
-        mpn: member.url_name.downcase,
-        id: params[:dmp]
-      )
+      redirect_to member_policy_url(helpers.member_params(member).merge(id: params[:dmp]))
     else
-      redirect_to member_url(
-        house: member.house,
-        mpc: member.url_electorate.downcase,
-        mpn: member.url_name.downcase
-      )
+      redirect_to member_url(helpers.member_params(member))
     end
   end
 
-  def friends
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
+  def friends; end
 
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
-    return render "member_not_found", status: :not_found if @member.nil?
-
-    canonical_member = @member.person.latest_member
-    return if canonical_member == @member
-
-    redirect_to friends_member_url(
-      house: canonical_member.house,
-      mpc: canonical_member.url_electorate.downcase,
-      mpn: canonical_member.url_name.downcase
-    )
-  end
-
-  def show
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
-    return render "member_not_found", status: :not_found if @member.nil?
-
-    canonical_member = @member.person.latest_member
-    return if canonical_member == @member
-
-    redirect_to member_url(
-      house: canonical_member.house,
-      mpc: canonical_member.url_electorate.downcase,
-      mpn: canonical_member.url_name.downcase
-    )
-  end
+  def show; end
 
   def policy
     @policy = Policy.find(params[:id])
-
-    electorate = params[:mpc].gsub("_", " ")
-    name = params[:mpn].gsub("_", " ")
-
-    @member = Member.with_name(name)
-    @member = @member.in_house(params[:house])
-    @member = @member.where(constituency: electorate)
-    @member = @member.order(entered_house: :desc).first
-
-    return render "member_not_found", status: :not_found if @member.nil?
-
-    canonical_member = @member.person.latest_member
-    if canonical_member != @member
-      return redirect_to member_policy_url(
-        house: canonical_member.house,
-        mpc: canonical_member.url_electorate.downcase,
-        mpn: canonical_member.url_name.downcase,
-        id: params[:id]
-      )
-    end
 
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
@@ -126,30 +62,14 @@ class MembersController < ApplicationController
   end
 
   def compare
-    electorate1 = params[:mpc].gsub("_", " ")
-    electorate2 = params[:mpc2].gsub("_", " ")
-    name1 = params[:mpn].gsub("_", " ")
-    name2 = params[:mpn2].gsub("_", " ")
-
-    @member1 = Member.with_name(name1)
-    @member1 = @member1.in_house(params[:house])
-    @member1 = @member1.where(constituency: electorate1)
-    @member1 = @member1.order(entered_house: :desc).first
-
-    @member2 = Member.with_name(name2)
-    @member2 = @member2.in_house(params[:house])
-    @member2 = @member2.where(constituency: electorate2)
-    @member2 = @member2.order(entered_house: :desc).first
-
+    @member1 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
+    @member2 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc2], mpn: params[:mpn2])
     return render "member_not_found", status: :not_found if @member1.nil? || @member2.nil?
 
     canonical_member1 = @member1.person.latest_member
     canonical_member2 = @member2.person.latest_member
     if canonical_member1 != @member1 || canonical_member2 != @member2
-      redirect_to compare_member_url(
-        house: canonical_member1.house,
-        mpc: canonical_member1.url_electorate.downcase,
-        mpn: canonical_member1.url_name.downcase,
+      redirect_to helpers.member_params(canonical_member1).merge(
         mpc2: canonical_member2.url_electorate.downcase,
         mpn2: canonical_member2.url_name.downcase
       )
@@ -172,5 +92,17 @@ class MembersController < ApplicationController
       }
     end
     @policies = @policies.sort_by { |p| p[:difference] }.reverse
+  end
+
+  private
+
+  def find_member_and_redirect_to_canonical
+    @member = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
+    return render "member_not_found", status: :not_found if @member.nil?
+
+    canonical_member = @member.person.latest_member
+    return if canonical_member == @member
+
+    redirect_to helpers.member_params(canonical_member)
   end
 end

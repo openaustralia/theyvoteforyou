@@ -10,6 +10,8 @@ class PoliciesController < ApplicationController
     case @sort
     when "name"
       @policies = @policies.order(:name)
+    when "date"
+      @policies = @policies.order("updated_at DESC")
     else
       @policies = @policies.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
       @sort = nil
