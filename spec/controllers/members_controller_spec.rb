@@ -8,6 +8,7 @@ describe MembersController, type: :controller do
       person = create(:person)
       create(:member, person_id: person.id, first_name: "Andrew", last_name: "Wilkie", house: "representatives", constituency: "Clark", entered_house: Date.new(2019, 5, 18), left_house: Date.new(9999, 12, 31))
       create(:member, person_id: person.id, first_name: "Andrew", last_name: "Wilkie", house: "representatives", constituency: "Denison", entered_house: Date.new(2010, 8, 21), left_house: Date.new(2019, 5, 18))
+      create(:policy_person_distance, person: person, policy_id: 1)
     end
 
     describe "#show" do

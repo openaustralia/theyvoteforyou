@@ -36,7 +36,12 @@ describe MembersController, type: :request do
 
     it { compare_static("/people/representatives/warringah/tony_abbott/policies/1") }
     it { compare_static("/people/representatives/griffith/kevin_rudd/policies/1") }
-    it { compare_static("/people/senate/tasmania/christine_milne/policies/1") }
+
+    it "404s when a policy comparison is unknown" do
+      expect do
+        get "/people/senate/tasmania/christine_milne/policies/1", params: {}
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
 
     # Test free teller under Interesting Votes
     it { compare_static("/people/representatives/chifley/roger_price") }
