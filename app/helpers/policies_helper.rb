@@ -18,8 +18,12 @@ module PoliciesHelper
     if policy_person_distance.nil?
       "unknown about"
     else
-      ranges3[category(policy_person_distance)]
+      category_words_short(category(policy_person_distance))
     end
+  end
+
+  def category_words_short(category)
+    ranges3[category]
   end
 
   def category(policy_person_distance)

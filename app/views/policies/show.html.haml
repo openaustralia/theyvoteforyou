@@ -13,7 +13,7 @@
     .policy-comparisions
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
       - ranges2.each do |r|
-        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{ranges3[r[:category]]}", label: r[:category].to_s, distances: distances.select{ |d| d.voted? && r[:range].include?(d.agreement_fraction) }
+        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{category_words_short(r[:category])}", label: r[:category].to_s, distances: distances.select{ |d| d.voted? && r[:range].include?(d.agreement_fraction) }
       = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', label: "never-voted-on", distances: distances.select{ |d| !d.voted? }
 
   %section.page-section#divisions
