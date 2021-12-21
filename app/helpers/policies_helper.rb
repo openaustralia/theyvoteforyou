@@ -2,7 +2,7 @@
 
 module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary_without_html(policy_member_distance)
+  def policy_agreement_summary(policy_member_distance)
     out = []
     out << policy_agreement_summary_first_word(policy_member_distance)
     out << " "

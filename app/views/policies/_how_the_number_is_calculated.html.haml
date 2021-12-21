@@ -14,7 +14,7 @@
   - else
     %h2
       How
-      "#{policy_agreement_summary_without_html(member.person.policy_person_distances.find_by(policy: policy))}"
+      "#{policy_agreement_summary(member.person.policy_person_distances.find_by(policy: policy))}"
       is worked out
 
     %p
