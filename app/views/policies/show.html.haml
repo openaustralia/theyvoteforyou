@@ -12,8 +12,8 @@
   %section.page-section#members
     .policy-comparisions
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
-      - ranges2.each do |r|
-        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{category_words_short(r[:category])}", label: r[:category].to_s, distances: distances.select{ |d| category(d) == r[:category] }
+      - all_categories.each do |c|
+        = render 'policy_comparisons_block', policy: @policy, title: "Voted #{category_words_short(c)}", label: c.to_s, distances: distances.select{ |d| category(d) == c }
       = render 'policy_comparisons_block', policy: @policy, title: 'Never voted on', label: "never-voted-on", distances: distances.select{ |d| category(d) == :never }
 
   %section.page-section#divisions
