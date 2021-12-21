@@ -1,5 +1,5 @@
 Most decisions in Parliament are made
-[‘on the voices’](http://www.peo.gov.au/learning/fact-sheets/voting-in-the-chambers.html)
+[‘on the voices’](https://peo.gov.au/understand-our-parliament/how-parliament-works/parliament-at-work/voting-in-parliament/)
 and not by division. When a question is asked by the Chair, the Members of Parliament (MPs) or
 Senators call out Yes or No and the Chair decides which are in the majority without
 recording the names of who voted and how they voted.

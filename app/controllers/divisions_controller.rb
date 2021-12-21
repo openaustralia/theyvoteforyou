@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DivisionsController < ApplicationController
-  before_action :authenticate_user!, only: %i[edit update create_policy_division update_policy_division destroy_policy_division]
+  before_action :authenticate_user!, only: %i[edit update show_policies create_policy_division update_policy_division destroy_policy_division]
 
   def index
     @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
@@ -63,7 +63,6 @@ class DivisionsController < ApplicationController
 
     @divisions = @member.divisions_they_could_have_attended_between(@date_start, @date_end)
     @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
-    render "index_with_member"
   end
 
   def show
@@ -89,7 +88,6 @@ class DivisionsController < ApplicationController
   end
 
   def show_policies
-    @display = "policies"
     @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new
   end

@@ -13,12 +13,10 @@ describe DivisionsController, type: :request do
 
     it { compare_static("/divisions/representatives/2006-12-06/3/policies", signed_in: true) }
     it { compare_static("/divisions/representatives/2013-03-14/1/policies", signed_in: true) }
-    it { compare_static("/divisions/representatives/2013-03-14/1/policies", suffix: "_2") }
     it { compare_static("/divisions/senate/2009-11-25/8/policies", signed_in: true) }
     it { compare_static("/divisions/senate/2009-11-25/8/policies/1", signed_in: true) }
     it { compare_static("/divisions/senate/2009-11-25/8/policies/2", signed_in: true) }
     it { compare_static("/divisions/senate/2013-03-14/1/policies", signed_in: true) }
-    it { compare_static("/divisions/senate/2013-03-14/1/policies", suffix: "_2") }
   end
 
   describe "#index" do

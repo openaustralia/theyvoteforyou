@@ -1,6 +1,6 @@
 - content_for :title do
   = @member.name
-  = policy_agreement_summary_without_html(@member.person.policy_person_distances.find_by(policy: @policy))
+  = policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))
   = @policy.name
 - set_meta_tags description: "How #{@member.name_without_title} voted in parliament on #{@policy.name}."
 :ruby
@@ -50,4 +50,4 @@
   = link_to @policy.description, @policy
 
 = render 'policies/vote_summary_table', person: @member.person, policy: @policy
-= render "policies/how_the_number_is_calculated", member: @member, policy: @policy
+= render "policies/how_the_number_is_calculated", policy_person_distance: @member.person.policy_person_distances.find_by(policy: @policy)
