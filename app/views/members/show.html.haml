@@ -6,13 +6,19 @@
     description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament.",
     type: "profile",
     url: request.original_url,
-    image: @member.large_image_url,
+    image: {
+      _: @member.large_image_url,
+      alt: "Photo of #{@member.name_without_title}",
+    },
     site_name: Settings.project_name
   }
   set_meta_tags twitter: {
     card: "summary",
     site: "@" + Settings.project_twitter,
-    image: @member.large_image_url,
+    image: {
+      _: @member.large_image_url,
+      alt: "Photo of #{@member.name_without_title}",
+    },
     title: "How does #{@member.name} vote on issues that matter to you?",
     description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament."
   }
