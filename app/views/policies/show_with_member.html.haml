@@ -1,14 +1,11 @@
--# TODO: Should be set in controler and be the main object passed (rather than @member and @policy)
-- policy_person_distance = @member.person.policy_person_distances.find_by(policy: @policy)
-
 - content_for :title do
   = @member.name
-  = policy_agreement_summary(policy_person_distance)
+  = policy_agreement_summary(@policy_person_distance)
   = @policy.name
 - set_meta_tags description: "How #{@member.name_without_title} voted in parliament on #{@policy.name}."
 :ruby
   set_meta_tags og: {
-    title: "#{@member.name_without_title} #{policy_agreement_summary(policy_person_distance)} #{@policy.name}.",
+    title: "#{@member.name_without_title} #{policy_agreement_summary(@policy_person_distance)} #{@policy.name}.",
     description: "Discover how #{@member.name_without_title} voted on #{@policy.name}.",
     type: "profile",
     url: request.original_url,
@@ -27,7 +24,7 @@
       _: @member.large_image_url,
       alt: "Photo of #{@member.name_without_title}",
     },
-    title: "#{@member.name_without_title} #{policy_agreement_summary(policy_person_distance)} #{@policy.name}.",
+    title: "#{@member.name_without_title} #{policy_agreement_summary(@policy_person_distance)} #{@policy.name}.",
     description: "Discover how #{@member.name_without_title} voted on #{@policy.name}."
   }
 .page-header.row
@@ -39,7 +36,7 @@
       .media-body
         %h1.media-heading.long-title
           = link_to @member.name, @member
-          = policy_agreement_summary(policy_person_distance)
+          = policy_agreement_summary(@policy_person_distance)
           = link_to @policy.name, @policy
   .header-secondary.col-sm-12
     -# We don't want people sharing incomplete policies
@@ -55,4 +52,4 @@
   = link_to @policy.description, @policy
 
 = render 'policies/vote_summary_table', person: @member.person, policy: @policy
-= render "policies/how_the_number_is_calculated", policy_person_distance: policy_person_distance
+= render "policies/how_the_number_is_calculated", policy_person_distance: @policy_person_distance

@@ -58,6 +58,9 @@ class MembersController < ApplicationController
 
     # Pick the member where the votes took place
     @member = @member.person.member_for_policy(@policy)
+    # TODO: Ideally the view template below should only need @policy_person_distance not @policy and @member
+    @policy_person_distance = @member.person.policy_person_distances.find_by(policy: @policy)
+
     render "policies/show_with_member"
   end
 
