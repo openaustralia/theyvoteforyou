@@ -17,8 +17,6 @@ module PoliciesHelper
   def policy_agreement_summary_short(policy_person_distance)
     if policy_person_distance.nil?
       "unknown about"
-    elsif policy_person_distance.number_of_votes.zero?
-      "never voted on"
     else
       ranges3[category(policy_person_distance)]
     end
@@ -51,7 +49,8 @@ module PoliciesHelper
       mixture: "a mixture of for and against",
       against1: "generally against",
       against2: "almost always against",
-      against3: "consistently against"
+      against3: "consistently against",
+      never: "never voted on"
     }
   end
 
