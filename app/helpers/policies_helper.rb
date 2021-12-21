@@ -10,16 +10,6 @@ module PoliciesHelper
     safe_join(out)
   end
 
-  def policy_agreement_summary_plain(member, policy)
-    policy_member_distance = member.person.policy_person_distances.find_by(policy: policy)
-
-    out = []
-    out << policy_agreement_summary_first_word(policy_member_distance)
-    out << " "
-    out << policy_agreement_summary_short(policy_member_distance)
-    safe_join(out)
-  end
-
   def policy_agreement_summary_first_word(policy_member_distance)
     policy_member_distance&.number_of_votes&.zero? ? "has" : "voted"
   end

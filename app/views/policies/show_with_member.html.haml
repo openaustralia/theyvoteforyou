@@ -5,7 +5,7 @@
 - set_meta_tags description: "How #{@member.name_without_title} voted in parliament on #{@policy.name}."
 :ruby
   set_meta_tags og: {
-    title: "#{@member.name_without_title} #{policy_agreement_summary_plain(@member, @policy)} #{@policy.name}.",
+    title: "#{@member.name_without_title} #{policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))} #{@policy.name}.",
     description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament.",
     type: "profile",
     url: request.original_url,
@@ -22,7 +22,7 @@
       _: @member.large_image_url,
       alt: "Photo of #{@member.name_without_title}",
     },
-    title: "#{@member.name_without_title} #{policy_agreement_summary_plain(@member, @policy)} #{@policy.name}.",
+    title: "#{@member.name_without_title} #{policy_agreement_summary(@member.person.policy_person_distances.find_by(policy: @policy))} #{@policy.name}.",
     description: "Discover how #{member_party_type_place_name(@member)} votes in the Australian Parliament."
   }
 .page-header.row
