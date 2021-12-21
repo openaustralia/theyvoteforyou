@@ -11,11 +11,16 @@ module PoliciesHelper
   end
 
   def category_words(category)
-    out = []
-    out << (category == :never ? "has" : "voted")
-    out << " "
-    out << category_words_short(category)
-    safe_join(out)
+    {
+      for3: "voted consistently for",
+      for2: "voted almost always for",
+      for1: "voted generally for",
+      mixture: "voted a mixture of for and against",
+      against1: "voted generally against",
+      against2: "voted almost always against",
+      against3: "voted consistently against",
+      never: "has never voted on"
+    }[category]
   end
 
   def category_words_short(category)
