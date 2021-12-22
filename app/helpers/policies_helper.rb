@@ -36,6 +36,19 @@ module PoliciesHelper
     }[category]
   end
 
+  # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
+  def category_range_mapping
+    {
+      for3: 0.95..1.00,
+      for2: 0.85..0.95,
+      for1: 0.60..0.85,
+      mixture: 0.40..0.60,
+      against1: 0.15..0.40,
+      against2: 0.05..0.15,
+      against3: 0.00..0.05
+    }
+  end
+
   def all_categories
     %i[
       for3
@@ -55,17 +68,8 @@ module PoliciesHelper
     ranges.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
   end
 
-  # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges
-    [
-      { range: 0.95..1.00, category: :for3 },
-      { range: 0.85..0.95, category: :for2 },
-      { range: 0.60..0.85, category: :for1 },
-      { range: 0.40..0.60, category: :mixture },
-      { range: 0.15..0.40, category: :against1 },
-      { range: 0.05..0.15, category: :against2 },
-      { range: 0.00..0.05, category: :against3 }
-    ]
+    category_range_mapping.map { |category, range| { range: range, category: category } }
   end
 
   def quote(word)
