@@ -85,4 +85,37 @@ class PolicyPersonDistance < ApplicationRecord
   def number_of_votes
     nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong
   end
+
+  def self.category_range_mapping
+    {
+      for3: 0.95..1.00,
+      for2: 0.85..0.95,
+      for1: 0.60..0.85,
+      mixture: 0.40..0.60,
+      against1: 0.15..0.40,
+      against2: 0.05..0.15,
+      against3: 0.00..0.05
+    }
+  end
+
+  def self.all_categories
+    %i[
+      for3
+      for2
+      for1
+      mixture
+      against1
+      against2
+      against3
+      never
+    ]
+  end
+
+  def category
+    return :never if number_of_votes.zero?
+
+    PolicyPersonDistance.category_range_mapping.find do |_category, range|
+      range.include?(agreement_fraction)
+    end.first
+  end
 end
