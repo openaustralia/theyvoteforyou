@@ -70,10 +70,6 @@ module PoliciesHelper
     end.first
   end
 
-  def ranges
-    category_range_mapping.map { |category, range| { range: range, category: category } }
-  end
-
   def quote(word)
     "“#{word}”"
   end
