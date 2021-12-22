@@ -116,11 +116,11 @@
       And then
 
     %ul
-      - ranges.each do |r|
+      - category_range_mapping.each do |category, range|
         %li
           between
-          = fraction_to_percentage_display(r[:range].min)
+          = fraction_to_percentage_display(range.min)
           and
-          = fraction_to_percentage_display(r[:range].max)
+          = fraction_to_percentage_display(range.max)
           becomes
-          "#{category_words_short(r[:category])}"
+          "#{category_words_short(category)}"
