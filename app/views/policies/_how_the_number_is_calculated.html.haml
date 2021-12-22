@@ -1,8 +1,10 @@
 %section.page-section#ratioexpl
-  - if policy_person_distance.number_of_votes == 0
-    %h2
-      How "never voted" is worked out
+  %h2
+    How
+    "#{policy_agreement_summary_short(policy_person_distance)}"
+    is worked out
 
+  - if policy_person_distance.number_of_votes == 0
     %p
       Normally a person's votes count towards a score which is used to work out a simple
       phrase to summarise their position on a policy. However in this case
@@ -10,11 +12,6 @@
       was absent during all divisions for this policy. So, it's impossible to say anything concrete other
       than that they have "never voted" on this policy.
   - else
-    %h2
-      How
-      "#{policy_agreement_summary(policy_person_distance)}"
-      is worked out
-
     %p
       The MP's votes count towards a weighted average where the most important votes get
       #{pluralize(Distance.possible_points[:samestrong], "point")},
