@@ -116,7 +116,7 @@
       And then
 
     %ul
-      - category_range_mapping.each do |category, range|
+      - PolicyPersonDistance.category_range_mapping.each do |category, range|
         %li
           between
           = fraction_to_percentage_display(range.min)

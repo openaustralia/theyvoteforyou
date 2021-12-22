@@ -3,11 +3,11 @@
 module PoliciesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_person_distance)
-    category_words(category(policy_person_distance))
+    category_words(policy_person_distance.category)
   end
 
   def policy_agreement_summary_short(policy_person_distance)
-    category_words_short(category(policy_person_distance))
+    category_words_short(policy_person_distance.category)
   end
 
   def category_words(category)
@@ -34,19 +34,6 @@ module PoliciesHelper
       against3: "consistently against",
       never: "never voted on"
     }[category]
-  end
-
-  # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
-  def category_range_mapping
-    PolicyPersonDistance.category_range_mapping
-  end
-
-  def all_categories
-    PolicyPersonDistance.all_categories
-  end
-
-  def category(policy_person_distance)
-    policy_person_distance.category
   end
 
   def quote(word)

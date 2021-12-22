@@ -12,8 +12,8 @@
   %section.page-section#members
     .policy-comparisions
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
-      - all_categories.each do |c|
-        = render 'policy_comparisons_block', policy: @policy, title: category_words(c).capitalize, label: c.to_s, distances: distances.select{ |d| category(d) == c }
+      - PolicyPersonDistance.all_categories.each do |c|
+        = render 'policy_comparisons_block', policy: @policy, title: category_words(c).capitalize, label: c.to_s, distances: distances.select{ |d| d.category == c }
 
   %section.page-section#divisions
     %h2 Relevant divisions
