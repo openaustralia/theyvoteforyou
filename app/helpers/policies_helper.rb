@@ -36,14 +36,23 @@ module PoliciesHelper
     }[category]
   end
 
+  def all_categories
+    %i[
+      for3
+      for2
+      for1
+      mixture
+      against1
+      against2
+      against3
+      never
+    ]
+  end
+
   def category(policy_person_distance)
     return :never if policy_person_distance.number_of_votes.zero?
 
     ranges2.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
-  end
-
-  def all_categories
-    ranges2.map { |r| r[:category] } + [:never]
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
