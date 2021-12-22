@@ -4,7 +4,7 @@
     "#{policy_agreement_summary_short(policy_person_distance)}"
     is worked out
 
-  - if policy_person_distance.number_of_votes == 0
+  - if policy_person_distance.category == :never
     %p
       Normally a person's votes count towards a score which is used to work out a simple
       phrase to summarise their position on a policy. However in this case
