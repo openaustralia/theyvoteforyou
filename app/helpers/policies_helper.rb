@@ -46,6 +46,10 @@ module PoliciesHelper
     ranges2.map { |r| r[:category] }
   end
 
+  def all_categories2
+    all_categories + [:never]
+  end
+
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
   def ranges2
     [
