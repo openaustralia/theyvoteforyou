@@ -52,11 +52,11 @@ module PoliciesHelper
   def category(policy_person_distance)
     return :never if policy_person_distance.number_of_votes.zero?
 
-    ranges2.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
+    ranges.find { |r| r[:range].include?(policy_person_distance.agreement_fraction) }[:category]
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
-  def ranges2
+  def ranges
     [
       { range: 0.95..1.00, category: :for3 },
       { range: 0.85..0.95, category: :for2 },
