@@ -107,12 +107,14 @@ class PolicyPersonDistance < ApplicationRecord
       against1
       against2
       against3
+      not_enough
       never
     ]
   end
 
   def category
     return :never if number_of_votes.zero?
+    return :not_enough if number_of_votes < 3
 
     PolicyPersonDistance.category_range_mapping.find do |_category, range|
       range.include?(agreement_fraction)

@@ -11,6 +11,10 @@
       = policy_person_distance.person.name
       was absent during all divisions for this policy. So, it's impossible to say anything concrete other
       than that they have "never voted" on this policy.
+  - elsif policy_person_distance.category == :not_enough
+    %p
+      If a person has attended less than three votes it's hard to draw a clear conclusion about their position.
+      For example phrases like "consistently" and "almost always" only start properly making sense with three or more votes.
   - else
     %p
       The MP's votes count towards a weighted average where the most important votes get

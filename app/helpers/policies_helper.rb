@@ -19,7 +19,8 @@ module PoliciesHelper
       against1: "voted generally against",
       against2: "voted almost always against",
       against3: "voted consistently against",
-      never: "has never voted on"
+      never: "has never voted on",
+      not_enough: "has not voted enough to determine a position on"
     }[category]
   end
 
@@ -32,7 +33,8 @@ module PoliciesHelper
       against1: "generally against",
       against2: "almost always against",
       against3: "consistently against",
-      never: "never voted on"
+      never: "never voted on",
+      not_enough: "not voted enough to determine a position on"
     }[category]
   end
 
