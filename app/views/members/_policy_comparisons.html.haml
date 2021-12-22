@@ -11,7 +11,7 @@
     - distances = member.person.policy_person_distances.published.includes(:policy)
     - all_categories.each do |c|
       = render "policy_comparisons_block", member: member, distances: distances.select{ |d| category(d) == c }, title: "Voted #{category_words_short(c)}", label: c.to_s
-    = render "policy_comparisons_block", member: member, distances: distances.select { |d| category(d) == :never }, title: "Has never voted on", label: "has-never-voted-on"
+    = render "policy_comparisons_block", member: member, distances: distances.select { |d| category(d) == :never }, title: "Has never voted on", label: "never"
 
   %p.small.text-muted
     Please note that #{link_to 'our voting records start in 2006', help_faq_path(anchor: "timeperiod"), class: 'text-muted'}.
