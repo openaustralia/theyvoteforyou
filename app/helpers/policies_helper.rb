@@ -43,11 +43,7 @@ module PoliciesHelper
   end
 
   def all_categories
-    ranges2.map { |r| r[:category] }
-  end
-
-  def all_categories2
-    all_categories + [:never]
+    ranges2.map { |r| r[:category] } + [:never]
   end
 
   # TODO: This shouldn't really be in a helper should it? It smells a lot like "business" logic
