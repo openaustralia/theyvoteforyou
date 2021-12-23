@@ -126,12 +126,26 @@ namespace :application do
     desc "Checks that all links in markdown for divisions are valid"
     task divisions: :environment do
       base_url = "https://theyvoteforyou.org.au"
+      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 
       Division.find_each do |division|
         wiki_motion = division.wiki_motion
 
         if wiki_motion
+          summary_in_html = md.render(wiki_motion.description)
+          parsed_data = Nokogiri::HTML.parse(summary_in_html)
 
+          tags = parsed_data.xpath("//a")
+          tags.each do |tag|
+            url = tag[:href]
+            begin
+              res = Net::HTTP::get(url, '/')
+            rescue
+              puts "---------------------------------------------------------------------------------------------"
+              puts "URL seems broken! URL: #{url}"
+              puts "URL found in the summary of this division: #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
+            end
+          end
         end
       end
     puts "---------------------------------------------------------------------------------------------"
