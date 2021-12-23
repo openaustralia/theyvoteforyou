@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617030311) do
+ActiveRecord::Schema.define(version: 20211223010947) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20150617030311) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "api_key"
+    t.boolean  "admin",                                   default: false, null: false
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree

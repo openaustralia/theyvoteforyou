@@ -73,6 +73,9 @@ gem "mini_racer"
 
 gem "invisible_captcha"
 
+# For admin panel usable by admins
+gem "administrate"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"

@@ -209,6 +209,16 @@ bundle exec mina ukraine_dev rake[searchkick:reindex:all]
 
 To deploy to the **production** server, replace `ukraine_dev` with `ukraine_production` in the above commands.
 
+## Accessing the admin panel
+
+The administration panel, which currently doesn't do a whole lot, can be accessed in development at http://localhost:3000/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be able to access that page. Any user that is an admin can make another user and admin too using the admin panel. The first admin user must be created via the rails console:
+```
+$ bundle exec rails c
+irb> User.find_by(email: "matthew@oaf.org.au").update(admin: true)
+```
+
+Obviously substitute the email address in the command above.
+
 ## Other Credits
 
 This project uses some icons from the noun project under under creative commons licenses:
