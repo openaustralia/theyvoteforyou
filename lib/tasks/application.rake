@@ -127,7 +127,7 @@ namespace :application do
     task divisions: :environment do
       base_url = "https://theyvoteforyou.org.au"
 
-      Division.all.each do |division|
+      Division.find_each do |division|
         wiki_motion = division.wiki_motion
 
         if wiki_motion
