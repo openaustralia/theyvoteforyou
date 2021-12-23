@@ -223,6 +223,10 @@ GEM
     faraday-patron (1.0.0)
     faraday-rack (1.0.0)
     ffi (1.15.4)
+    flipper (0.17.2)
+    flipper-active_record (0.17.2)
+      activerecord (>= 4.2, < 7)
+      flipper (~> 0.17.2)
     foreman (0.87.2)
     formatador (0.2.5)
     foundation-icons-sass-rails (3.0.0)
@@ -601,6 +605,8 @@ DEPENDENCIES
   elasticsearch (~> 6.2.0)
   email_spec
   factory_bot_rails
+  flipper
+  flipper-active_record
   foreman
   foundation-icons-sass-rails
   fuubar
