@@ -121,4 +121,31 @@ namespace :application do
     Rails.logger = ActiveSupport::Logger.new($stdout)
     Rails.logger.level = 1
   end
+
+  namespace :links_valid do
+    desc "Checks that all links in markdown for divisions are valid"
+    task divisions: :environment do
+      base_url = "https://theyvoteforyou.org.au"
+
+      Division.all.each do |division|
+        wiki_motion = division.wiki_motion
+
+        if wiki_motion
+          expression = 
+          urls = wiki_motion.description.scan(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/)
+          
+          if urls
+            urls.each do |url|
+              if url[0].downcase.include? "php"
+                puts "---------------------------------------------------------------------------------------------"
+                puts "URL containing php found! URL to division: #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
+                puts "URL: #{url[0]}"
+              end
+            end
+          end
+        end
+      end
+    puts "---------------------------------------------------------------------------------------------"
+    end
+  end
 end
