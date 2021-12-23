@@ -123,7 +123,7 @@ namespace :application do
   end
 
   namespace :links_valid do
-    desc "Checks that all links in markdown for divisions are valid"
+    desc "Checks the validity of links in division summary"
     task divisions: :environment do
       base_url = "https://theyvoteforyou.org.au"
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
