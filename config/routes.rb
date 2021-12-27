@@ -4,7 +4,7 @@ Publicwhip::Application.routes.draw do
   namespace :admin do
     # Feature flag admin
     constraints CanAccessFlipperUI do
-      mount Flipper::UI.app(Flipper) => "flipper"
+      mount Flipper::UI.app(Flipper) => "flipper", as: :flipper
     end
 
     resources :users
