@@ -112,9 +112,9 @@ class PolicyPersonDistance < ApplicationRecord
     ]
   end
 
-  def category
+  def category(current_user)
     return :never if number_of_votes.zero?
-    return :not_enough if number_of_votes < 3
+    return :not_enough if Flipper.enabled?(:policy_summary_not_enough, current_user) && number_of_votes < 3
 
     PolicyPersonDistance.category_range_mapping.find do |_category, range|
       range.include?(agreement_fraction)

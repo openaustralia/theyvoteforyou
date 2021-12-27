@@ -4,14 +4,14 @@
     "#{policy_agreement_summary_short(policy_person_distance)}"
     is worked out
 
-  - if policy_person_distance.category == :never
+  - if policy_person_distance.category(current_user) == :never
     %p
       Normally a person's votes count towards a score which is used to work out a simple
       phrase to summarise their position on a policy. However in this case
       = policy_person_distance.person.name
       was absent during all divisions for this policy. So, it's impossible to say anything concrete other
       than that they have "never voted" on this policy.
-  - elsif policy_person_distance.category == :not_enough
+  - elsif policy_person_distance.category(current_user) == :not_enough
     %p
       If a person has attended less than three votes it's hard to draw a clear conclusion about their position.
       For example phrases like "consistently" and "almost always" only start properly making sense with three or more votes.
