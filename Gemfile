@@ -73,6 +73,14 @@ gem "mini_racer"
 
 gem "invisible_captcha"
 
+# For admin panel usable by admins
+gem "administrate"
+
+# Feature flag framework
+gem "flipper"
+gem "flipper-active_record"
+gem "flipper-ui"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"

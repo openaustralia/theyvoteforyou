@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150617030311) do
+ActiveRecord::Schema.define(version: 20211223050627) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -101,6 +101,22 @@ ActiveRecord::Schema.define(version: 20150617030311) do
   add_index "electorates", ["id", "name"], name: "cons_id", using: :btree
   add_index "electorates", ["name"], name: "name", using: :btree
   add_index "electorates", ["to_date"], name: "to_date", using: :btree
+
+  create_table "flipper_features", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "key",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_flipper_features_on_key", unique: true, using: :btree
+  end
+
+  create_table "flipper_gates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci" do |t|
+    t.string   "feature_key", null: false
+    t.string   "key",         null: false
+    t.string   "value"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true, using: :btree
+  end
 
   create_table "member_distances", force: true do |t|
     t.integer  "member1_id",              null: false
@@ -239,6 +255,7 @@ ActiveRecord::Schema.define(version: 20150617030311) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "api_key"
+    t.boolean  "admin",                                   default: false, null: false
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree

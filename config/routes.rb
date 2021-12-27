@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 Publicwhip::Application.routes.draw do
+  namespace :admin do
+    # Feature flag admin
+    constraints CanAccessFlipperUI do
+      mount Flipper::UI.app(Flipper) => "flipper", as: :flipper
+    end
+
+    resources :users
+
+    root to: "users#index"
+  end
+
   devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
