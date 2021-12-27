@@ -2,6 +2,11 @@
 
 Publicwhip::Application.routes.draw do
   namespace :admin do
+    # Feature flag admin
+    constraints CanAccessFlipperUI do
+      mount Flipper::UI.app(Flipper) => "flipper"
+    end
+
     resources :users
 
     root to: "users#index"
