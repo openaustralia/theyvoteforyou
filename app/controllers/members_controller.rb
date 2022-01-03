@@ -40,7 +40,7 @@ class MembersController < ApplicationController
                  Member.find_by!(gid: params[:id].gsub(/member/, "lord"))
                end
              else
-               raise
+               raise ActiveRecord::RecordNotFound
              end
     if params[:dmp]
       redirect_to member_policy_url(helpers.member_params(member).merge(id: params[:dmp]))
