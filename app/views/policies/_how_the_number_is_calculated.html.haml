@@ -13,8 +13,12 @@
       than that they have "never voted" on this policy.
   - elsif policy_person_distance.category(current_user) == :not_enough
     %p
-      If a person has attended less than three votes it's hard to draw a clear conclusion about their position.
-      For example phrases like "consistently" and "almost always" only start properly making sense with three or more votes.
+      = policy_person_distance.person.name
+      has voted in less than three votes connected to this policy and none of them were "strong" votes. So it's not possible to draw a clear conclusion about their position.
+    %p
+      This could be because there were simply not many relevant divisions (formal votes) during the time they've been in parliament (Most votes
+      happen on "the voices", so we simply have no decent record) or they were absent for votes that could have contributed to
+      their voting record.
   - else
     %p
       The MP's votes count towards a weighted average where the most important votes get
