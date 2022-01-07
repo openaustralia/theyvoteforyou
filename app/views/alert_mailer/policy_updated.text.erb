@@ -3,9 +3,9 @@
 
 <% if @version.kind_of?(WikiMotion) %>
 Changed text on related division: <%= @version.division.name %>
-<%= division_url_simple(@version.division, Rails.application.config.action_mailer.default_url_options) %>
+<%= division_url_simple(@version.division) %>
 <% else %>
-<%= version_sentence_text(@version, Rails.application.config.action_mailer.default_url_options) %>
+<%= version_sentence_text(@version) %>
 <% end %>
 
 <%= version_attribution_text(@version) %>

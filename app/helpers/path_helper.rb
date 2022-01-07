@@ -5,8 +5,8 @@ module PathHelper
     division_path(options.merge(division_params(division)))
   end
 
-  def division_url_simple(division, options = {})
-    division_url(options.merge(division_params(division)))
+  def division_url_simple(division)
+    division_url(division_params(division))
   end
 
   def history_division_path_simple(division)

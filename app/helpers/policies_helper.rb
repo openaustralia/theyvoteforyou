@@ -42,7 +42,7 @@ module PoliciesHelper
     "“#{word}”"
   end
 
-  def policy_version_sentence(version, _options)
+  def policy_version_sentence(version)
     changes = []
 
     case version.event
@@ -157,10 +157,10 @@ module PoliciesHelper
     Division.find(id)
   end
 
-  def policy_division_version_sentence(version, options)
+  def policy_division_version_sentence(version)
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    division_link = content_tag(:em, link_to(division.name, division_path_simple(division, options)))
+    division_link = content_tag(:em, link_to(division.name, division_path_simple(division)))
     out = []
 
     case version.event
@@ -189,21 +189,21 @@ module PoliciesHelper
     safe_join(out)
   end
 
-  def policy_division_version_sentence_text(version, options)
+  def policy_division_version_sentence_text(version)
     actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
 
     case version.event
     when "update"
-      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path_simple(division, options)}"
+      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path_simple(division)}"
     when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
                 "was "
               end
-      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path_simple(division, options)}"
+      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path_simple(division)}"
     else
       raise
     end
@@ -223,21 +223,21 @@ module PoliciesHelper
   end
 
   # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
-  def version_sentence(version, options = {})
+  def version_sentence(version)
     case version.item_type
     when "Policy"
-      policy_version_sentence(version, options)
+      policy_version_sentence(version)
     when "PolicyDivision"
-      content_tag(:p, policy_division_version_sentence(version, options), class: "change-action")
+      content_tag(:p, policy_division_version_sentence(version), class: "change-action")
     end
   end
 
-  def version_sentence_text(version, options = {})
+  def version_sentence_text(version)
     case version.item_type
     when "Policy"
       policy_version_sentence_text(version)
     when "PolicyDivision"
-      policy_division_version_sentence_text(version, options)
+      policy_division_version_sentence_text(version)
     end
   end
 
@@ -249,9 +249,9 @@ module PoliciesHelper
     end
   end
 
-  def version_author_link(version, options = {})
+  def version_author_link(version)
     user = version_author(version)
-    link_to user.name, user_url(user, options)
+    link_to user.name, user_url(user)
   end
 
   def version_attribution_text(version)
