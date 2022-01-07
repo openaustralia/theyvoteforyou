@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module PathHelper
-  def division_path_simple(division, options = {})
-    division_path(options.merge(division_params(division)))
+  def division_path_simple(division)
+    division_path(division_params(division))
   end
 
   def division_url_simple(division)
