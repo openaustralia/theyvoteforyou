@@ -21,7 +21,7 @@
       %ul.list-unstyled.small
         - rebellions.each do |vote|
           %li
-            = link_to vote.member.name, vote.member
+            = link_to vote.member.name, member_path_simple(vote.member)
             voted
             = vote_display vote.vote
             against the majority of the #{vote.member.party}.

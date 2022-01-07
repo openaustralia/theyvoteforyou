@@ -11,9 +11,9 @@
             %p{class: "policy-detail-#{p[:policy].id} collapse"}
               = member1.name_without_title
               voted
-              = link_to policy_agreement_summary_short(p[:ppd1]), [member1, p[:policy]]
+              = link_to policy_agreement_summary_short(p[:ppd1]), member_policy_path_simple(member1, p[:policy])
               = p[:policy].name
               while
               = member2.name_without_title
               voted
-              = link_to policy_agreement_summary_short(p[:ppd2]), [member2, p[:policy]]
+              = link_to policy_agreement_summary_short(p[:ppd2]), member_policy_path_simple(member2, p[:policy])

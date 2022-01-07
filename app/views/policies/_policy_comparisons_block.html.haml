@@ -8,7 +8,7 @@
     %ul.policy-comparision-list.list-unstyled.col-xs-12
       - distances.sort_by { |distance| [distance.person.latest_member.last_name, distance.person.latest_member.first_name] }.each do |distance|
         %li.policy-comparision-member.member-item
-          = link_to [distance.person.latest_member, policy], class: 'policy-comparision-member member-link has-tooltip', title: distance.person.latest_member.name do
+          = link_to member_policy_path_simple(distance.person.latest_member, policy), class: 'policy-comparision-member member-link has-tooltip', title: distance.person.latest_member.name do
             -# TODO: Rather than not display the member we should display a generic thumbnail if they don't have a photo
             - if distance.person.latest_member.show_large_image?
               = image_tag("", :data => {original: "#{distance.person.latest_member.large_image_url}"}, alt: "Photo of #{distance.person.latest_member.name_without_title}", class: 'lazy member-photo', width: 85, height: 114)

@@ -160,7 +160,7 @@ module PoliciesHelper
   def policy_division_version_sentence(version, options)
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    division_link = content_tag(:em, link_to(division.name, division_path(division, options)))
+    division_link = content_tag(:em, link_to(division.name, division_path_simple(division, options)))
     out = []
 
     case version.event
@@ -196,14 +196,14 @@ module PoliciesHelper
 
     case version.event
     when "update"
-      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path(division, options)}"
+      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path_simple(division, options)}"
     when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
                 "was "
               end
-      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path(division, options)}"
+      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path_simple(division, options)}"
     else
       raise
     end

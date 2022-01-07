@@ -6,5 +6,5 @@
       %ul.policy-comparision-list.object-list-compact.list-unstyled.col-xs-12
         - distances.sort_by{ |ppd| ppd.policy.name.downcase }.each do |ppd|
           %li.policy-comparision-policy.object-item
-            = link_to capitalise_initial_character(ppd.policy.name), [member, ppd.policy], class: 'policy-title'
+            = link_to capitalise_initial_character(ppd.policy.name), member_policy_path_simple(member, ppd.policy), class: 'policy-title'
       =link_to "Something not right?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how you can improve it.", class: 'policy-correction-notice small'

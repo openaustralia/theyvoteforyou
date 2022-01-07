@@ -42,9 +42,9 @@
         - possible_friends.each do |member_distance|
           %tr
             %td= fraction_to_percentage_display(member_distance.agreement_fraction)
-            %td= link_to member_distance.member2.name_without_title, member_distance.member2
+            %td= link_to member_distance.member2.name_without_title, member_path_simple(member_distance.member2)
             %td= party_long2(member_distance.member2)
   - unless all_friends
-    = link_to "More possible friends", friends_member_path(member), class: 'btn btn-default btn-sm'
+    = link_to "More possible friends", friends_member_path_simple(member), class: 'btn btn-default btn-sm'
   - if member.best_friends.count >= 5 && !all_friends
     (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)
