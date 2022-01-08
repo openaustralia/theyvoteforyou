@@ -4,7 +4,7 @@
       - if version.kind_of?(WikiMotion)
         %p
           Changed text on
-          = link_to version.division.name, version.division
+          = link_to version.division.name, division_path_simple(version.division)
 
       - else
         - if !policy
