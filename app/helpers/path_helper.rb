@@ -38,18 +38,10 @@ module PathHelper
   end
 
   def member_params(member)
-    {
-      house: member&.house,
-      mpc: member&.url_electorate&.downcase,
-      mpn: member.url_name.downcase
-    }
+    member&.url_params
   end
 
   def division_params(division)
-    {
-      date: division.date,
-      number: division.number,
-      house: division.house
-    }
+    division.url_params
   end
 end

@@ -20,6 +20,14 @@ class Division < ApplicationRecord
   scope :edited, -> { joins(:wiki_motions).distinct }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: { division_id: nil }) }
 
+  def url_params
+    {
+      date: date,
+      number: number,
+      house: house
+    }
+  end
+
   def wiki_motion
     wiki_motions.first
   end

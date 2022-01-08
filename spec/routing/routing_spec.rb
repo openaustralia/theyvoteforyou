@@ -4,11 +4,11 @@ require "spec_helper"
 
 describe "path helpers", type: :helper do
   let(:member) do
-    mock_model(Member, url_name: "Foo_Bar", url_electorate: "Twist",
+    stub_model(Member, url_name: "Foo_Bar", url_electorate: "Twist",
                        house: "representatives")
   end
   let(:policy) { mock_model(Policy, id: 123) }
-  let(:division) { mock_model(Division, house: "representatives", date: Date.new(2001, 1, 1), number: 3) }
+  let(:division) { stub_model(Division, house: "representatives", date: Date.new(2001, 1, 1), number: 3) }
   let(:party) { instance_double("party", url_name: "foo_bar") }
 
   it ".member_path_simple" do

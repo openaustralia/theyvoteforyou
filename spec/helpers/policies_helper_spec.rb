@@ -71,7 +71,7 @@ describe PoliciesHelper, type: :helper do
 
     context "with changing policy vote" do
       before do
-        allow(Division).to receive(:find).with(5).and_return(mock_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
+        allow(Division).to receive(:find).with(5).and_return(stub_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
       end
 
       context "with create vote on policy" do
