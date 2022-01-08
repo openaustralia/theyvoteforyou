@@ -43,9 +43,9 @@ class MembersController < ApplicationController
                raise ActiveRecord::RecordNotFound
              end
     if params[:dmp]
-      redirect_to member_policy_url(helpers.member_params(member).merge(id: params[:dmp]))
+      redirect_to member_policy_url(member.url_params.merge(id: params[:dmp]))
     else
-      redirect_to member_url(helpers.member_params(member))
+      redirect_to member_url(member.url_params)
     end
   end
 
@@ -73,7 +73,7 @@ class MembersController < ApplicationController
     canonical_member1 = @member1.person.latest_member
     canonical_member2 = @member2.person.latest_member
     if canonical_member1 != @member1 || canonical_member2 != @member2
-      redirect_to helpers.member_params(canonical_member1).merge(
+      redirect_to canonical_member1.url_params.merge(
         mpc2: canonical_member2.url_electorate.downcase,
         mpn2: canonical_member2.url_name.downcase
       )
@@ -107,6 +107,6 @@ class MembersController < ApplicationController
     canonical_member = @member.person.latest_member
     return if canonical_member == @member
 
-    redirect_to helpers.member_params(canonical_member)
+    redirect_to canonical_member.url_params
   end
 end

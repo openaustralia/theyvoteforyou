@@ -6,7 +6,7 @@
   %ul.division-policies-list.list-unstyled
     - @division.policies.order(:name).each do |policy|
       %li.division-policy
-        = simple_form_for :policy_division, url: update_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
+        = simple_form_for :policy_division, url: update_policy_division_path(@division.url_params.merge(policy_id: policy)), method: :patch, html: {class: 'division-policy-statement form-inline policyvote'} do |f|
           %label.division-policy-statement
             People who are
             = link_to policy.name_with_for, policy
@@ -15,11 +15,11 @@
             would have voted
           = vote_select(f, policy.vote_for_division(@division))
           = f.submit 'Update', class: 'btn btn-primary btn-xs'
-        = button_to 'remove', destroy_policy_division_path(division_params(@division).merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
+        = button_to 'remove', destroy_policy_division_path(@division.url_params.merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
 
 %h3 Make a new connection
 
-= simple_form_for @policy_division, url: create_policy_division_path(division_params(@division)), html: {class: 'form-inline policyvote'} do |f|
+= simple_form_for @policy_division, url: create_policy_division_path(@division.url_params), html: {class: 'form-inline policyvote'} do |f|
   %legend.small
     %p Connect this division with relevant policies.
     %p Please read policy definitions and the division’s description before altering list.
