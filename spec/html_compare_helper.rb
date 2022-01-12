@@ -83,7 +83,7 @@ module HTMLCompareHelper
     # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
-    command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha -utf8 -q -m temp"
+    command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha --drop-empty-elements no -utf8 -q -m temp"
     system(command)
 
     r = File.read("temp")
