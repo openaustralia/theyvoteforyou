@@ -90,8 +90,8 @@ class Policy < ApplicationRecord
 
     policy_person_distances.reload.each do |pmd|
       pmd.update!({
-                    distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
-                                                    pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
+                    distance_a: Distance.distance_a(same: pmd.nvotessame, differ: pmd.nvotesdiffer, absent: pmd.nvotesabsent,
+                                                    samestrong: pmd.nvotessamestrong, differstrong: pmd.nvotesdifferstrong, absentstrong: pmd.nvotesabsentstrong)
                   })
     end
   end

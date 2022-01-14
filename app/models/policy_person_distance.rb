@@ -23,7 +23,7 @@ class PolicyPersonDistance < ApplicationRecord
   end
 
   def distance_object
-    Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)
+    Distance.new(same: nvotessame, samestrong: nvotessamestrong, differ: nvotesdiffer, differstrong: nvotesdifferstrong, absent: nvotesabsent, absentstrong: nvotesabsentstrong)
   end
 
   def votes_same_strong_points

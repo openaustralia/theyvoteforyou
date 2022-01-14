@@ -38,7 +38,7 @@ class MemberDistance < ApplicationRecord
       nvotesdiffer: MemberDistance.calculate_nvotesdiffer(m1_id, m2_id),
       nvotesabsent: MemberDistance.calculate_nvotesabsent(m1_id, m1_entered_house, m1_left_house, m2_id, m2_entered_house, m2_left_house)
     }
-    result[:distance_a] = Distance.distance_a(result[:nvotessame], result[:nvotesdiffer], result[:nvotesabsent])
+    result[:distance_a] = Distance.distance_a(same: result[:nvotessame], differ: result[:nvotesdiffer], absent: result[:nvotesabsent])
     result
   end
 
