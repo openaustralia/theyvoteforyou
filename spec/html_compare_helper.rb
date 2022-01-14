@@ -52,9 +52,7 @@ module HTMLCompareHelper
     raise "Don't match" unless overwrite
 
     # Write it out to a file
-    File.open("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html", "w") do |f|
-      f.write new_text
-    end
+    File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html", new_text)
     raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
   end
 
@@ -79,7 +77,7 @@ module HTMLCompareHelper
   end
 
   def tidy(text, format = :html)
-    File.open("temp", "w") { |f| f.write(text) }
+    File.write("temp", text)
     # Requires HTML Tidy (http://tidy.sourceforge.net/) version 14 June 2007 or later
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"

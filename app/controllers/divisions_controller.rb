@@ -83,7 +83,7 @@ class DivisionsController < ApplicationController
                        .joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}")
                        .order("members.party", "vote", "members.last_name", "members.first_name")
 
-      @members_vote_null = @members.where("votes.id IS NULL")
+      @members_vote_null = @members.where(votes: { id: nil })
     end
   end
 

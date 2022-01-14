@@ -32,7 +32,7 @@ class MembersController < ApplicationController
 
   def show_redirect
     member = if params[:mpid]
-               Member.find_by!(id: params[:mpid])
+               Member.find(params[:mpid])
              elsif params[:id]
                begin
                  Member.find_by!(gid: params[:id])

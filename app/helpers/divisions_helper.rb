@@ -136,7 +136,7 @@ module DivisionsHelper
       ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
       if ayenodiff.zero?
         sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}" if member.vote_on_division_without_tell(division) != "absent"
-      elsif member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0 || member.vote_on_division_without_tell(division) == "no" && ayenodiff.negative?
+      elsif (member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0) || (member.vote_on_division_without_tell(division) == "no" && ayenodiff.negative?)
         sentence += "voted ".html_safe + content_tag(:em, "with the majority")
       elsif member.vote_on_division_without_tell(division) != "absent"
         sentence += "voted ".html_safe + content_tag(:em, "in the minority")
