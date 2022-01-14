@@ -3,41 +3,41 @@
 require "spec_helper"
 
 describe Distance do
-  describe ".distance_a" do
+  describe ".distance" do
     context "when no absent votes" do
       context "when two members that have never voted on the same thing" do
-        it { expect(described_class.distance_a(same: 0, differ: 0, absent: 0)).to eq(-1) }
+        it { expect(described_class.new(same: 0, differ: 0, absent: 0).distance).to eq(-1) }
       end
 
       context "with two members always agreeing" do
-        it { expect(described_class.distance_a(same: 3)).to eq 0 }
-        it { expect(described_class.distance_a(same: 10)).to eq 0 }
+        it { expect(described_class.new(same: 3).distance).to eq 0 }
+        it { expect(described_class.new(same: 10).distance).to eq 0 }
       end
 
       context "with two members always disagreeing" do
-        it { expect(described_class.distance_a(differ: 3)).to eq 1 }
-        it { expect(described_class.distance_a(differ: 10)).to eq 1 }
+        it { expect(described_class.new(differ: 3).distance).to eq 1 }
+        it { expect(described_class.new(differ: 10).distance).to eq 1 }
       end
 
       context "with two members agreeing half the time" do
-        it { expect(described_class.distance_a(same: 3, differ: 3)).to eq 0.5 }
-        it { expect(described_class.distance_a(same: 10, differ: 10)).to eq 0.5 }
+        it { expect(described_class.new(same: 3, differ: 3).distance).to eq 0.5 }
+        it { expect(described_class.new(same: 10, differ: 10).distance).to eq 0.5 }
       end
 
-      it { expect(described_class.distance_a(same: 3, differ: 1)).to eq 0.25 }
+      it { expect(described_class.new(same: 3, differ: 1).distance).to eq 0.25 }
     end
 
     context "when only absent votes" do
       it "sees them as neither agreeing or disagreeing" do
-        expect(described_class.distance_a(absent: 3)).to eq 0.5
+        expect(described_class.new(absent: 3).distance).to eq 0.5
       end
     end
 
     # With 5 absent votes versus 1 agree vote we are half way between agreeing completely (0)
     # and what we would get by both parties being absent all the time (0.5)
-    it { expect(described_class.distance_a(same: 1, absent: 5)).to eq 0.25 }
+    it { expect(described_class.new(same: 1, absent: 5).distance).to eq 0.25 }
     # Similarly here for disagreeing
-    it { expect(described_class.distance_a(differ: 1, absent: 5)).to eq 0.75 }
+    it { expect(described_class.new(differ: 1, absent: 5).distance).to eq 0.75 }
   end
 
   describe ".agreement" do

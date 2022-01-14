@@ -103,8 +103,4 @@ class Distance
       2.0
     end
   end
-
-  def self.distance_a(same: 0, differ: 0, absent: 0, samestrong: 0, differstrong: 0, absentstrong: 0)
-    Distance.new(same: same, samestrong: samestrong, differ: differ, differstrong: differstrong, absent: absent, absentstrong: absentstrong).distance
-  end
 end
