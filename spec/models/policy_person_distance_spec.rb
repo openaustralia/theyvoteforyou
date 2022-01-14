@@ -20,8 +20,8 @@ describe PolicyPersonDistance, type: :model do
     end
 
     it "two normal votes" do
-      ppd = described_class.new(nvotessame: 2)
-      expect(ppd.category_with_not_enough).to eq :not_enough
+      ppd = described_class.new(nvotessame: 2, distance_a: 0.04)
+      expect(ppd.category_with_not_enough).to eq :for3
     end
 
     it "three normal votes" do

@@ -128,7 +128,7 @@ class PolicyPersonDistance < ApplicationRecord
     return :never if number_of_votes.zero?
     # If a person has voted on a policy less than three times and none of the votes were "strong" then we really
     # can't make a clear statement of their stance on a policy. So we say "we don't have enough information"
-    return :not_enough if number_of_votes < 3 && number_of_votes_strong.zero?
+    return :not_enough if number_of_votes < 2 && number_of_votes_strong.zero?
 
     PolicyPersonDistance.category_range_mapping.find do |_category, range|
       range.include?(agreement_fraction)
