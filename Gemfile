@@ -122,7 +122,9 @@ group :test, :development do
 end
 
 group :production do
-  gem "dalli"
+  # TODO: To upgrade to dalli 3 we need to make changes to the configuration
+  # See https://github.com/petergoldstein/dalli/blob/main/3.0-Upgrade.md
+  gem "dalli", "~>2"
 end
 
 group :doc do
