@@ -1,0 +1,14 @@
+- if policy_person_distance.number_of_votes.zero?
+  %p
+    Normally a person's votes count towards a score which is used to work out a simple
+    phrase to summarise their position on a policy. However in this case
+    = policy_person_distance.person.name
+    was absent during all divisions for this policy. So, it's impossible to say anything concrete.
+- else
+  %p
+    = policy_person_distance.person.name
+    has only voted once on this policy and it wasn't on a "strong" vote. So it's not possible to draw a clear conclusion about their position.
+  %p
+    This could be because there were simply not many relevant divisions (formal votes) during the time they've been in parliament (Most votes
+    happen on "the voices", so we simply have no decent record) or they were absent for votes that could have contributed to
+    their voting record.
