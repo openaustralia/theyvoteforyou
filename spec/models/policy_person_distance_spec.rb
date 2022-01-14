@@ -6,7 +6,7 @@ describe PolicyPersonDistance, type: :model do
   describe ".category_with_not_enough" do
     it "no votes" do
       ppd = described_class.new
-      expect(ppd.category_with_not_enough).to eq :never
+      expect(ppd.category_with_not_enough).to eq :not_enough
     end
 
     it "one normal vote" do
