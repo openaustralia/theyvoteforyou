@@ -157,10 +157,12 @@ module PoliciesHelper
     Division.find(id)
   end
 
+  # This helper is both used in the main application as well as the mailer. Therefore the links
+  # need to be full URLs including the host
   def policy_division_version_sentence(version)
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    division_link = content_tag(:em, link_to(division.name, division_path_simple(division)))
+    division_link = content_tag(:em, link_to(division.name, division_url_simple(division)))
     out = []
 
     case version.event
@@ -196,14 +198,14 @@ module PoliciesHelper
 
     case version.event
     when "update"
-      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_path_simple(division)}"
+      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_url_simple(division)}"
     when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
                 "was "
               end
-      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_path_simple(division)}"
+      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_url_simple(division)}"
     else
       raise
     end
@@ -223,6 +225,8 @@ module PoliciesHelper
   end
 
   # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
+  # This helper is both used in the main application as well as the mailer. Therefore the links
+  # need to be full URLs including the host
   def version_sentence(version)
     case version.item_type
     when "Policy"
