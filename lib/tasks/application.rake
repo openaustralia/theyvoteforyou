@@ -137,7 +137,13 @@ namespace :application do
 
           tags = parsed_data.xpath("//a")
           tags.each do |tag|
-            url = tag[:href]
+            url_from_page = tag[:href]
+            url = url_from_page
+
+            if !url[/\Ahttp:\/\//] && !url[/\Ahttps:\/\//] # adds http to the start of the URL to avoid failure 
+              url = "http://#{url}"
+            end
+
             begin
               uri = URI(url)
               res = Net::HTTP.get(uri)
