@@ -149,7 +149,7 @@ namespace :application do
               res = Net::HTTP.get(uri)
             rescue
               puts "---------------------------------------------------------------------------------------------"
-              puts "URL seems broken! URL: #{url}"
+              puts "URL seems broken! URL: #{url_from_page}"
               puts "URL found in the summary of this division: #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
             end
           end
