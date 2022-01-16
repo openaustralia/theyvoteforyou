@@ -139,7 +139,8 @@ namespace :application do
           tags.each do |tag|
             url = tag[:href]
             begin
-              res = Net::HTTP::get(url, '/')
+              uri = URI(url)
+              res = Net::HTTP.get(uri)
             rescue
               puts "---------------------------------------------------------------------------------------------"
               puts "URL seems broken! URL: #{url}"
