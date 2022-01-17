@@ -153,7 +153,7 @@ namespace :application do
                 Net::HTTP.get(uri)
               end
             rescue StandardError
-              broken_urls.append(url_from_page)
+              broken_urls << url_from_page
             end
           end
           puts "There are broken links in the description for division #{division_url(division)}"
