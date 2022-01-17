@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 include Rails.application.routes.url_helpers
 
 namespace :application do
@@ -126,7 +127,6 @@ namespace :application do
   namespace :links_valid do
     desc "Checks the validity of links in division summary"
     task divisions: :environment do
-      base_url = "https://theyvoteforyou.org.au"
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
 
       Division.find_each do |division|
@@ -144,7 +144,7 @@ namespace :application do
             url = url_from_page
 
             # adds http to the start of the URL to avoid failure since web request will fail without http://
-            url = "http://#{url}" if !url[%r{\Ahttp://}] && !url[%r{\Ahttps://}] 
+            url = "http://#{url}" if !url[%r{\Ahttp://}] && !url[%r{\Ahttps://}]
 
             begin
               if (url_hash_table[url]).zero?
