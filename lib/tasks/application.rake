@@ -143,8 +143,7 @@ namespace :application do
 
           tags = parsed_data.xpath("//a")
           tags.each do |tag|
-            url_from_page = tag[:href]
-            url = url_from_page
+            url = tag[:href]
 
             begin
               if (url_hash_table[url]).zero?
@@ -152,11 +151,11 @@ namespace :application do
                 uri = URI(url)
                 Net::HTTP.get(uri)
               elsif url_hash_table[url] == broken_url_constant
-                broken_urls << url_from_page
+                broken_urls << url
               end
             rescue StandardError
               url_hash_table[url] = broken_url_constant
-              broken_urls << url_from_page
+              broken_urls << url
             end
           end
           puts "There are broken links in the description for division #{division_url_simple(division)}"
