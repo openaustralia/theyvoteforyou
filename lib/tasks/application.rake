@@ -149,7 +149,6 @@ namespace :application do
             begin
               if (url_hash_table[url]).zero?
                 url_hash_table[url] += 1
-                throw StandardError
                 uri = URI(url)
                 Net::HTTP.get(uri)
               end
