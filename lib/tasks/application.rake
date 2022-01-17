@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+include Rails.application.routes.url_helpers
 
 namespace :application do
   namespace :cache do
@@ -156,13 +157,12 @@ namespace :application do
               broken_urls.append(url_from_page)
             end
           end
-          puts "Broken URLS in #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
+          puts "Broken URLS in #{division_url(division)}"
           broken_urls.each do |broken_url|
             puts "\t#{broken_url}"
           end
         end
       end
-      puts "---------------------------------------------------------------------------------------------"
     end
   end
 end
