@@ -134,7 +134,8 @@ namespace :application do
         if wiki_motion
           summary_in_html = md.render(wiki_motion.description)
           parsed_data = Nokogiri::HTML.parse(summary_in_html)
-
+          url_hash_table = Hash.new(0)
+          
           tags = parsed_data.xpath("//a")
           tags.each do |tag|
             url_from_page = tag[:href]
@@ -145,8 +146,11 @@ namespace :application do
             end
 
             begin
-              uri = URI(url)
-              res = Net::HTTP.get(uri)
+              if url_hash_table[url] == 0
+                url_hash_table[url] += 1
+                uri = URI(url)
+                res = Net::HTTP.get(uri)
+              end
             rescue
               puts "---------------------------------------------------------------------------------------------"
               puts "URL seems broken! URL: #{url_from_page}"
