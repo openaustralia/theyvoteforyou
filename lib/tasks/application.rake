@@ -130,14 +130,14 @@ namespace :application do
     desc "Checks the validity of links in division summary"
     task divisions: :environment do
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-
+      BROKEN_URL = 999
+      url_hash_table = Hash.new(0)
       Division.find_each do |division|
         wiki_motion = division.wiki_motion
 
         if wiki_motion
           summary_in_html = md.render(wiki_motion.description)
           parsed_data = Nokogiri::HTML.parse(summary_in_html)
-          url_hash_table = Hash.new(0)
           broken_urls = []
 
           tags = parsed_data.xpath("//a")
@@ -150,8 +150,11 @@ namespace :application do
                 url_hash_table[url] += 1
                 uri = URI(url)
                 Net::HTTP.get(uri)
+              elsif url_hash_table[url] == BROKEN_URL
+                broken_urls << url_from_page
               end
             rescue StandardError
+              url_hash_table[url] = BROKEN_URL
               broken_urls << url_from_page
             end
           end
