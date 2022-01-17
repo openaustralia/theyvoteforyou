@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-include Rails.application.routes.url_helpers
+require "#{Rails.root}/app/helpers/path_helper"
+include PathHelper
 
 namespace :application do
   namespace :cache do
@@ -154,7 +155,7 @@ namespace :application do
               broken_urls << url_from_page
             end
           end
-          puts "There are broken links in the description for division #{division_url(division)}"
+          puts "There are broken links in the description for division #{division_url_simple(division)}"
           broken_urls.each do |broken_url|
             puts "\t#{broken_url}"
           end
