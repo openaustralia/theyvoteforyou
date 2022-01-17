@@ -157,7 +157,7 @@ namespace :application do
               broken_urls.append(url_from_page)
             end
           end
-          puts "Broken URLS in #{division_url(division)}"
+          puts "There are broken links in the description for division #{division_url(division)}"
           broken_urls.each do |broken_url|
             puts "\t#{broken_url}"
           end
