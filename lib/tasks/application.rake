@@ -143,9 +143,6 @@ namespace :application do
             url_from_page = tag[:href]
             url = url_from_page
 
-            # adds http to the start of the URL to avoid failure since web request will fail without http://
-            url = "http://#{url}" if !url[%r{\Ahttp://}] && !url[%r{\Ahttps://}]
-
             begin
               if (url_hash_table[url]).zero?
                 url_hash_table[url] += 1
