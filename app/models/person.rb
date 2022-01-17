@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Person < ApplicationRecord
-  has_many :members, -> { order(entered_house: :desc) }, inverse_of: :person
+  has_many :members, -> { order(entered_house: :desc) }, inverse_of: :person, dependent: :destroy
   has_many :policy_person_distances, dependent: :destroy
   has_many :offices, dependent: :destroy
   # People who are currently in parliament

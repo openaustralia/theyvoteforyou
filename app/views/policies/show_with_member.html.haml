@@ -31,11 +31,11 @@
   .col-md-9.col-lg-10
     .media
       - if @member.show_large_image?
-        = link_to @member, class: "pull-left" do
+        = link_to member_path_simple(@member), class: "pull-left" do
           = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: @member.large_image_size, class: "media-object")
       .media-body
         %h1.media-heading.long-title
-          = link_to @member.name, @member
+          = link_to @member.name, member_path_simple(@member)
           = policy_agreement_summary(@policy_person_distance)
           = link_to @policy.name, @policy
   .header-secondary.col-sm-12
@@ -47,7 +47,7 @@
 
 %p.col-sm-7.remove-padding
   How
-  = link_to @member.name, @member
+  = link_to @member.name, member_path_simple(@member)
   voted compared to someone who believes that
   = link_to @policy.description, @policy
 

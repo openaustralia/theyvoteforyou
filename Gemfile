@@ -5,8 +5,7 @@ source "https://rubygems.org"
 gem "rails", "5.0.7.2"
 gem "mysql2"
 
-# TODO: Sprockets 4 is causing trouble for the time being
-gem "sprockets", "< 4"
+gem "sprockets"
 
 # Use SCSS for stylesheets
 gem "sass-rails"
@@ -14,21 +13,14 @@ gem "sass-rails"
 # Use Uglifier as compressor for JavaScript assets
 gem "uglifier", ">= 2.7.2"
 
-# Use CoffeeScript for .js.coffee assets and views
-gem "coffee-rails"
-
 # Use jquery as the JavaScript library
 gem "jquery-rails"
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem "turbolinks"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 1.2"
 
 gem "haml"
 gem "htmlentities"
-gem "marker", git: "https://github.com/openaustralia/marker", branch: "publicwhip", ref: "aa7ce85"
 # Necessary because we have a column called "valid" in the pw_divisions table.
 # TODO Change the name of the column with a migration and remove this gem
 gem "safe_attributes"
@@ -75,6 +67,11 @@ gem "invisible_captcha"
 
 # For admin panel usable by admins
 gem "administrate"
+
+# Feature flag framework
+gem "flipper"
+gem "flipper-active_record"
+gem "flipper-ui"
 
 group :test do
   gem "rspec-activemodel-mocks"
@@ -125,7 +122,9 @@ group :test, :development do
 end
 
 group :production do
-  gem "dalli"
+  # TODO: To upgrade to dalli 3 we need to make changes to the configuration
+  # See https://github.com/petergoldstein/dalli/blob/main/3.0-Upgrade.md
+  gem "dalli", "~>2"
 end
 
 group :doc do

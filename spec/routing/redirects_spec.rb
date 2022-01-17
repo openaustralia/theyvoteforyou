@@ -17,6 +17,13 @@ describe "routing redirects", type: :request do
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
   end
 
+  # This is an old style php url which we have removed support for
+  it do
+    expect do
+      get "/mp.php?dmp=38&house=representatives&mpc=Wakefield&mpn=Nick_Champion", params: {}
+    end.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
   context "with Barnaby Joyce" do
     before do
       Person.create(id: 10350, large_image_url: "https://www.openaustralia.org.au/images/mpsL/10350.jpg")

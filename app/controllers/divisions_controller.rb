@@ -83,7 +83,7 @@ class DivisionsController < ApplicationController
                        .joins("LEFT OUTER JOIN votes ON members.id = votes.member_id AND votes.division_id = #{@division.id}")
                        .order("members.party", "vote", "members.last_name", "members.first_name")
 
-      @members_vote_null = @members.where("votes.id IS NULL")
+      @members_vote_null = @members.where(votes: { id: nil })
     end
   end
 
@@ -106,9 +106,9 @@ class DivisionsController < ApplicationController
     wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
 
     if wiki_motion.save
-      redirect_to view_context.division_path(@division), notice: "Division updated"
+      redirect_to view_context.division_path_simple(@division), notice: "Division updated"
     else
-      redirect_to view_context.edit_division_path(@division), alert: "Could not update division"
+      redirect_to view_context.edit_division_path_simple(@division), alert: "Could not update division"
     end
   end
 

@@ -8,7 +8,7 @@ class Division < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> { order(edit_date: :desc) }, inverse_of: :division
+  has_many :wiki_motions, -> { order(edit_date: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
@@ -19,6 +19,14 @@ class Division < ApplicationRecord
   scope :possible_for_member, ->(member) { where(house: member.house).where("date >= ? AND date < ?", member.entered_house, member.left_house) }
   scope :edited, -> { joins(:wiki_motions).distinct }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: { division_id: nil }) }
+
+  def url_params
+    {
+      date: date,
+      number: number,
+      house: house
+    }
+  end
 
   def wiki_motion
     wiki_motions.first
@@ -239,8 +247,8 @@ class Division < ApplicationRecord
       # FIXME: Remove nasty SQL below that was ported from PHP direct
       joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
         .where("LOWER(convert(name using utf8)) LIKE :query " \
-                    "OR LOWER(convert(motion using utf8)) LIKE :query " \
-                    "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
+               "OR LOWER(convert(motion using utf8)) LIKE :query " \
+               "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 

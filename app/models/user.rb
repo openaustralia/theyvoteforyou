@@ -27,9 +27,13 @@ class User < ApplicationRecord
   end
 
   def api_key
-    api_key = self[:api_key] || User.random_api_key
-    update(api_key: api_key)
-    api_key
+    if self[:api_key]
+      self[:api_key]
+    else
+      api_key = User.random_api_key
+      update(api_key: api_key)
+      api_key
+    end
   end
 
   def watched_policy_ids

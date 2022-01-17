@@ -90,9 +90,10 @@ namespace :application do
       Member.find_each { |member| member.destroy unless members.include?(member) }
       Rake::Task["application:cache:all"].invoke
       # TODO: This doesn't yet create policy information nor edited motion text
-      File.open("db/seeds.rb", "w") do |f|
-        f.write("PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n")
-      end
+      File.write(
+        "db/seeds.rb",
+        "PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n"
+      )
       [Division, DivisionInfo, Electorate, Member, MemberDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
         SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: %i[created_at updated_at])
       end
