@@ -135,6 +135,7 @@ namespace :application do
           summary_in_html = md.render(wiki_motion.description)
           parsed_data = Nokogiri::HTML.parse(summary_in_html)
           url_hash_table = Hash.new(0)
+          broken_urls = []
 
           tags = parsed_data.xpath("//a")
           tags.each do |tag|
@@ -147,14 +148,17 @@ namespace :application do
             begin
               if (url_hash_table[url]).zero?
                 url_hash_table[url] += 1
+                throw StandardError
                 uri = URI(url)
                 Net::HTTP.get(uri)
               end
             rescue StandardError
-              puts "---------------------------------------------------------------------------------------------"
-              puts "URL seems broken! URL: #{url_from_page}"
-              puts "URL found in the summary of this division: #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
+              broken_urls.append(url_from_page)
             end
+          end
+          puts "Broken URLS in #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
+          broken_urls.each do |broken_url|
+            puts "\t#{broken_url}"
           end
         end
       end
