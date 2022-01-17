@@ -135,23 +135,21 @@ namespace :application do
           summary_in_html = md.render(wiki_motion.description)
           parsed_data = Nokogiri::HTML.parse(summary_in_html)
           url_hash_table = Hash.new(0)
-          
+
           tags = parsed_data.xpath("//a")
           tags.each do |tag|
             url_from_page = tag[:href]
             url = url_from_page
 
-            if !url[/\Ahttp:\/\//] && !url[/\Ahttps:\/\//] # adds http to the start of the URL to avoid failure 
-              url = "http://#{url}"
-            end
+            url = "http://#{url}" if !url[%r{\Ahttp://}] && !url[%r{\Ahttps://}] # adds http to the start of the URL to avoid failure
 
             begin
-              if url_hash_table[url] == 0
+              if (url_hash_table[url]).zero?
                 url_hash_table[url] += 1
                 uri = URI(url)
-                res = Net::HTTP.get(uri)
+                Net::HTTP.get(uri)
               end
-            rescue
+            rescue StandardError
               puts "---------------------------------------------------------------------------------------------"
               puts "URL seems broken! URL: #{url_from_page}"
               puts "URL found in the summary of this division: #{base_url}/divisions/#{division.house}/#{division.date}/#{division.number}"
@@ -159,7 +157,7 @@ namespace :application do
           end
         end
       end
-    puts "---------------------------------------------------------------------------------------------"
+      puts "---------------------------------------------------------------------------------------------"
     end
   end
 end
