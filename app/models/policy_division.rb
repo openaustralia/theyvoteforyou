@@ -6,10 +6,9 @@ class PolicyDivision < ApplicationRecord
   has_paper_trail meta: { policy_id: proc { |pd| pd.policy_id }, division_id: proc { |pd| pd.division_id } }
   belongs_to :policy
   belongs_to :division
-  validates :policy, :division, presence: true
   validates :vote, inclusion: { in: %w[aye3 aye no no3] }
-  after_save    :calculate_policy_person_distances, :alert_policy_watches
   after_destroy :calculate_policy_person_distances, :alert_policy_watches
+  after_save    :calculate_policy_person_distances, :alert_policy_watches
 
   delegate :name, :house, :house_name, :date, :number, to: :division
 

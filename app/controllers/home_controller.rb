@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 
       if electorates.count == 1
         member = Member.current.find_by!(constituency: electorates.first["name"])
-        redirect_to view_context.member_path(member)
+        redirect_to view_context.member_path_simple(member)
       elsif electorates.count > 1
         electorates.each do |e|
           member = Member.current_on(Time.zone.today).find_by(constituency: e["name"])
@@ -37,7 +37,7 @@ class HomeController < ApplicationController
         end
       end
     elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
-      redirect_to view_context.member_path(Member.with_name(params[:query]).first)
+      redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
       @mps = Member.search_with_sql_fallback params[:query]
       @divisions = Division.search_with_sql_fallback params[:query]

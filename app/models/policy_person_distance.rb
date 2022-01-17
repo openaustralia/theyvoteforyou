@@ -23,7 +23,7 @@ class PolicyPersonDistance < ApplicationRecord
   end
 
   def distance_object
-    Distance.new(nvotessame, nvotessamestrong, nvotesdiffer, nvotesdifferstrong, nvotesabsent, nvotesabsentstrong)
+    Distance.new(same: nvotessame, samestrong: nvotessamestrong, differ: nvotesdiffer, differstrong: nvotesdifferstrong, absent: nvotesabsent, absentstrong: nvotesabsentstrong)
   end
 
   def votes_same_strong_points
@@ -86,6 +86,10 @@ class PolicyPersonDistance < ApplicationRecord
     nvotessame + nvotessamestrong + nvotesdiffer + nvotesdifferstrong
   end
 
+  def number_of_votes_strong
+    nvotessamestrong + nvotesdifferstrong
+  end
+
   def self.category_range_mapping
     {
       for3: 0.95..1.00,
@@ -107,11 +111,30 @@ class PolicyPersonDistance < ApplicationRecord
       against1
       against2
       against3
+      not_enough
       never
     ]
   end
 
-  def category
+  def category(current_user)
+    if Flipper.enabled?(:policy_summary_not_enough, current_user)
+      category_with_not_enough
+    else
+      category_default
+    end
+  end
+
+  def category_with_not_enough
+    # If a person has voted on a policy less than three times and none of the votes were "strong" then we really
+    # can't make a clear statement of their stance on a policy. So we say "we don't have enough information"
+    return :not_enough if number_of_votes < 2 && number_of_votes_strong.zero?
+
+    PolicyPersonDistance.category_range_mapping.find do |_category, range|
+      range.include?(agreement_fraction)
+    end.first
+  end
+
+  def category_default
     return :never if number_of_votes.zero?
 
     PolicyPersonDistance.category_range_mapping.find do |_category, range|

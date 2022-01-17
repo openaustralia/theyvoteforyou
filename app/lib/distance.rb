@@ -8,7 +8,7 @@ class Distance
 
   attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
 
-  def initialize(same, samestrong, differ, differstrong, absent, absentstrong)
+  def initialize(same: 0, samestrong: 0, differ: 0, differstrong: 0, absent: 0, absentstrong: 0)
     @same = same
     @samestrong = samestrong
     @differ = differ
@@ -102,9 +102,5 @@ class Distance
     else
       2.0
     end
-  end
-
-  def self.distance_a(same, diff, absent, same_strong = 0, diff_strong = 0, absent_strong = 0)
-    Distance.new(same, same_strong, diff, diff_strong, absent, absent_strong).distance
   end
 end

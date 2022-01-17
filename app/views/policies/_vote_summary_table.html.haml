@@ -17,7 +17,7 @@
           %td
             %h3.division-title.h4
               %small.pre-title= division_date_and_time(division) + " – " + division.house_name
-              = link_to(division.name, division)
+              = link_to(division.name, division_path_simple(division))
           - if person
             %td.division-member-vote{data: {member: "#{person.name}"}}
               = vote_display(person.vote_on_division_without_tell(division))

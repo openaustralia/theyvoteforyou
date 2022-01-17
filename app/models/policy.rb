@@ -12,7 +12,7 @@ class Policy < ApplicationRecord
   has_many :watches, as: :watchable, dependent: :destroy, inverse_of: :watchable
   belongs_to :user
 
-  validates :name, :description, :user_id, :private, presence: true
+  validates :name, :description, :private, presence: true
   validates :name, uniqueness: true, length: { maximum: 100 }
 
   enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
@@ -48,7 +48,7 @@ class Policy < ApplicationRecord
       search(query)
     else
       where("LOWER(convert(name using utf8)) LIKE :query " \
-             "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
+            "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
     end
   end
 
@@ -89,10 +89,7 @@ class Policy < ApplicationRecord
     end
 
     policy_person_distances.reload.each do |pmd|
-      pmd.update!({
-                    distance_a: Distance.distance_a(pmd.nvotessame, pmd.nvotesdiffer, pmd.nvotesabsent,
-                                                    pmd.nvotessamestrong, pmd.nvotesdifferstrong, pmd.nvotesabsentstrong)
-                  })
+      pmd.update!(distance_a: pmd.distance_object.distance)
     end
   end
 

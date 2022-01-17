@@ -71,30 +71,30 @@ describe PoliciesHelper, type: :helper do
 
     context "with changing policy vote" do
       before do
-        allow(Division).to receive(:find).with(5).and_return(mock_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
+        allow(Division).to receive(:find).with(5).and_return(stub_model(Division, name: "blah", date: Date.new(2001, 1, 1), number: 2, house: "representatives"))
       end
 
       context "with create vote on policy" do
         let(:version) { instance_double("version", item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: { "vote" => [nil, "aye3"], "division_id" => [nil, 5] }, policy_id: 3) }
 
-        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Added division <em><a href="/divisions/representatives/2001-01-01/2">blah</a></em>. Policy vote set to <span class="division-policy-statement-vote voted-aye">Yes (strong)</span>.</p>' }
-        it { expect(helper.version_sentence_text(version)).to eq "Added division blah. Policy vote set to Yes (strong).\n/divisions/representatives/2001-01-01/2" }
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Added division <em><a href="http://test.host/divisions/representatives/2001-01-01/2">blah</a></em>. Policy vote set to <span class="division-policy-statement-vote voted-aye">Yes (strong)</span>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Added division blah. Policy vote set to Yes (strong).\nhttp://test.host/divisions/representatives/2001-01-01/2" }
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
 
       context "with remove vote on policy" do
         let(:version) { instance_double("version", item_type: "PolicyDivision", event: "destroy", whodunnit: 1, created_at: 1.hour.ago, changeset: nil, reify: instance_double("policy_division", division_id: 5, vote: "no"), policy_id: 3) }
 
-        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Removed division <em><a href="/divisions/representatives/2001-01-01/2">blah</a></em>. Policy vote was <span class="division-policy-statement-vote voted-no">No</span>.</p>' }
-        it { expect(helper.version_sentence_text(version)).to eq "Removed division blah. Policy vote was No.\n/divisions/representatives/2001-01-01/2" }
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Removed division <em><a href="http://test.host/divisions/representatives/2001-01-01/2">blah</a></em>. Policy vote was <span class="division-policy-statement-vote voted-no">No</span>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Removed division blah. Policy vote was No.\nhttp://test.host/divisions/representatives/2001-01-01/2" }
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
 
       context "with change vote on policy" do
         let(:version) { instance_double("version", item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: { "vote" => %w[no aye] }, reify: instance_double("policy_division", division_id: 5), policy_id: 3) }
 
-        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Changed vote from <span class="division-policy-statement-vote voted-no">No</span> to <span class="division-policy-statement-vote voted-aye">Yes</span> on division <em><a href="/divisions/representatives/2001-01-01/2">blah</a></em>.</p>' }
-        it { expect(helper.version_sentence_text(version)).to eq "Changed vote from No to Yes on division blah.\n/divisions/representatives/2001-01-01/2" }
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Changed vote from <span class="division-policy-statement-vote voted-no">No</span> to <span class="division-policy-statement-vote voted-aye">Yes</span> on division <em><a href="http://test.host/divisions/representatives/2001-01-01/2">blah</a></em>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Changed vote from No to Yes on division blah.\nhttp://test.host/divisions/representatives/2001-01-01/2" }
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
     end

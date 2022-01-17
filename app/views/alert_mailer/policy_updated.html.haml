@@ -5,9 +5,9 @@
 - if @version.kind_of?(WikiMotion)
   %p
     Changed text on related division
-    = link_to @version.division.name, division_url(@version.division, Rails.application.config.action_mailer.default_url_options)
+    = link_to @version.division.name, division_url_simple(@version.division)
 - else
-  = version_sentence(@version, Rails.application.config.action_mailer.default_url_options)
+  = version_sentence(@version)
 
 %p.small.object-primary
   = version_author_link(@version)

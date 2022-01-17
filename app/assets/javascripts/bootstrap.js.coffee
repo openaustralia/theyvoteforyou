@@ -1,3 +1,0 @@
-
-jQuery ->
-  $(".has-tooltip").tooltip()

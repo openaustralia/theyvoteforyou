@@ -66,6 +66,14 @@ class Member < ApplicationRecord
     with_name(name).in_house(house).where(constituency: electorate).order(entered_house: :desc).first
   end
 
+  def url_params
+    {
+      house: house,
+      mpc: url_electorate.downcase,
+      mpn: url_name.downcase
+    }
+  end
+
   def changed_party?
     entered_reason == "changed_party" || left_reason == "changed_party"
   end

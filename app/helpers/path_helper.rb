@@ -1,55 +1,39 @@
 # frozen_string_literal: true
 
 module PathHelper
-  def division_path(division, options = {})
-    Rails.application.routes.url_helpers.division_path(options.merge(division_params(division)))
+  def division_path_simple(division)
+    division_path(division.url_params)
   end
 
-  def division_url(division, options = {})
-    Rails.application.routes.url_helpers.division_url(options.merge(division_params(division)))
+  def division_url_simple(division)
+    division_url(division.url_params)
   end
 
-  def history_division_path(division)
-    Rails.application.routes.url_helpers.history_division_path(division_params(division))
+  def history_division_path_simple(division)
+    history_division_path(division.url_params)
   end
 
-  def edit_division_path(division)
-    Rails.application.routes.url_helpers.edit_division_path(division_params(division))
+  def edit_division_path_simple(division)
+    edit_division_path(division.url_params)
   end
 
-  def person_path(person)
-    Rails.application.routes.url_helpers.member_path(member_params(person.latest_member))
+  def person_path_simple(person)
+    member_path_simple(person.latest_member)
   end
 
-  def member_path(member)
-    Rails.application.routes.url_helpers.member_path(member_params(member))
+  def member_path_simple(member)
+    member_path(member.url_params)
   end
 
-  def member_policy_path(member, policy)
-    Rails.application.routes.url_helpers.member_policy_path(member_params(member).merge(id: policy.id))
+  def member_policy_path_simple(member, policy)
+    member_policy_path(member.url_params.merge(id: policy.id))
   end
 
-  def member_divisions_path(member)
-    Rails.application.routes.url_helpers.member_divisions_path(member_params(member))
+  def member_divisions_path_simple(member)
+    member_divisions_path(member.url_params)
   end
 
-  def friends_member_path(member)
-    Rails.application.routes.url_helpers.friends_member_path(member_params(member))
-  end
-
-  def member_params(member)
-    {
-      house: member&.house,
-      mpc: member&.url_electorate&.downcase,
-      mpn: member.url_name.downcase
-    }
-  end
-
-  def division_params(division)
-    {
-      date: division.date,
-      number: division.number,
-      house: division.house
-    }
+  def friends_member_path_simple(member)
+    friends_member_path(member.url_params)
   end
 end
