@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require Rails.root.join("app/helpers/path_helper")
+
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
@@ -121,5 +123,47 @@ namespace :application do
   task set_logger_to_stdout: :environment do
     Rails.logger = ActiveSupport::Logger.new($stdout)
     Rails.logger.level = 1
+  end
+
+  namespace :links_valid do
+    desc "Checks the validity of links in division summary"
+    task divisions: :environment do
+      include PathHelper
+
+      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
+      broken_url_constant = 999
+      url_hash_table = Hash.new(0)
+      Division.find_each do |division|
+        wiki_motion = division.wiki_motion
+
+        if wiki_motion
+          summary_in_html = md.render(wiki_motion.description)
+          parsed_data = Nokogiri::HTML.parse(summary_in_html)
+          broken_urls = []
+
+          tags = parsed_data.xpath("//a")
+          tags.each do |tag|
+            url = tag[:href]
+
+            begin
+              if (url_hash_table[url]).zero?
+                url_hash_table[url] += 1
+                uri = URI(url)
+                Net::HTTP.get(uri)
+              elsif url_hash_table[url] == broken_url_constant
+                broken_urls << url
+              end
+            rescue StandardError
+              url_hash_table[url] = broken_url_constant
+              broken_urls << url
+            end
+          end
+          puts "There are broken links in the description for division #{division_url_simple(division)}"
+          broken_urls.each do |broken_url|
+            puts "\t#{broken_url}"
+          end
+        end
+      end
+    end
   end
 end
