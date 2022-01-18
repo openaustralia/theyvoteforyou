@@ -131,23 +131,23 @@ namespace :application do
       include PathHelper
       include Rails.application.routes.url_helpers
 
-      url_hash_table = Hash.new(0)
-
       # Checks if URL goes to a working web page by doing an actual web requests
       # Caches results so multiple requests don't get made to the same URL
-      def broken_url?(url, url_hash_table)
+      def broken_url?(url)
         broken_url_constant = 999
 
-        if url_hash_table[url].zero?
-          url_hash_table[url] += 1
+        @url_hash_table = Hash.new(0) if @url_hash_table.nil?
+
+        if @url_hash_table[url].zero?
+          @url_hash_table[url] += 1
           uri = URI(url)
           Net::HTTP.get(uri)
           false
-        elsif url_hash_table[url] == broken_url_constant
+        elsif @url_hash_table[url] == broken_url_constant
           true
         end
       rescue StandardError
-        url_hash_table[url] = broken_url_constant
+        @url_hash_table[url] = broken_url_constant
         true
       end
 
@@ -158,7 +158,7 @@ namespace :application do
         tags = parsed_data.xpath("//a")
         tags.each do |tag|
           url = tag[:href]
-          broken_urls << url if broken_url?(url, url_hash_table)
+          broken_urls << url if broken_url?(url)
         end
         if broken_urls.empty?
           puts "No broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
