@@ -151,13 +151,11 @@ namespace :application do
       end
 
       Division.find_each do |division|
-        parsed_data = Nokogiri::HTML.parse(division.formatted_motion_text)
         broken_urls = []
 
-        tags = parsed_data.xpath("//a")
+        tags = Nokogiri::HTML.parse(division.formatted_motion_text).xpath("//a")
         tags.each do |tag|
-          url = tag[:href]
-          broken_urls << url if broken_url?(url)
+          broken_urls << tag[:href] if broken_url?(tag[:href])
         end
         unless broken_urls.empty?
           # Horrible hack to get same host and protocol settings as used by the mailer
