@@ -133,6 +133,7 @@ namespace :application do
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
       broken_url_constant = 999
       visited_urls = Hash.new(0)
+      broken_urls_table = Hash.new(0)
       Division.find_each do |division|
         wiki_motion = division.wiki_motion
 
@@ -150,11 +151,11 @@ namespace :application do
                 visited_urls[url] += 1
                 uri = URI(url)
                 Net::HTTP.get(uri)
-              elsif visited_urls[url] == broken_url_constant
+              elsif broken_urls_table[url].positive?
                 broken_urls << url
               end
             rescue StandardError
-              visited_urls[url] = broken_url_constant
+              broken_urls_table[url] += 1
               broken_urls << url
             end
           end
