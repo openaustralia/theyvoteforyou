@@ -140,13 +140,14 @@ namespace :application do
       end
 
       def broken_url_no_caching?(url)
-        uri = URI(url)
         begin
-          Net::HTTP.get(uri)
-          false
+          result = HTTParty.get(url)
         rescue StandardError
-          true
+          return true
         end
+        # Anything that is not a 200 we consider broken
+        # Redirects are handled by HTTParty so they can be ignored here
+        result.code != 200
       end
 
       Division.find_each do |division|

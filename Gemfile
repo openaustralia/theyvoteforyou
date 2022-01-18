@@ -73,6 +73,9 @@ gem "flipper"
 gem "flipper-active_record"
 gem "flipper-ui"
 
+# Used for checking whether URLs are valid in rake task
+gem "httparty"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
