@@ -143,8 +143,8 @@ namespace :application do
           uri = URI(url)
           Net::HTTP.get(uri)
           false
-        elsif @url_hash_table[url] == broken_url_constant
-          true
+        else
+          @url_hash_table[url] == broken_url_constant
         end
       rescue StandardError
         @url_hash_table[url] = broken_url_constant
