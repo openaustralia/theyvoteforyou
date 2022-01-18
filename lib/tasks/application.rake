@@ -141,14 +141,16 @@ namespace :application do
         if @url_hash_table[url].zero?
           @url_hash_table[url] += 1
           uri = URI(url)
-          Net::HTTP.get(uri)
-          false
+          begin
+            Net::HTTP.get(uri)
+            false
+          rescue StandardError
+            @url_hash_table[url] = broken_url_constant
+            true
+          end
         else
           @url_hash_table[url] == broken_url_constant
         end
-      rescue StandardError
-        @url_hash_table[url] = broken_url_constant
-        true
       end
 
       Division.find_each do |division|
