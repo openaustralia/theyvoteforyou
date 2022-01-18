@@ -10,6 +10,14 @@ AllCops:
     - bin/*
     - vendor/**/*
     - db/migrate/*.rb
+    - config/spring.rb
+    - config/puma.rb
+    - config/routes.rb
+    - config/environment.rb
+    - config/boot.rb
+    - config/application.rb
+    - config/environments/*.rb
+    - config/initializers/*.rb
 
 # Disabling warnings about line length because it's so common through
 # the codebase currently. It would be good to fix as it would make things
