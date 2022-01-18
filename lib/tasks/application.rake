@@ -131,40 +131,36 @@ namespace :application do
       include PathHelper
       include Rails.application.routes.url_helpers
 
-      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
       broken_url_constant = 999
       url_hash_table = Hash.new(0)
       Division.find_each do |division|
-        wiki_motion = division.wiki_motion
+        parsed_data = Nokogiri::HTML.parse(division.formatted_motion_text)
+        broken_urls = []
 
-        if wiki_motion
-          summary_in_html = md.render(wiki_motion.description)
-          parsed_data = Nokogiri::HTML.parse(summary_in_html)
-          broken_urls = []
+        tags = parsed_data.xpath("//a")
+        tags.each do |tag|
+          url = tag[:href]
 
-          tags = parsed_data.xpath("//a")
-          tags.each do |tag|
-            url = tag[:href]
-
-            begin
-              if (url_hash_table[url]).zero?
-                url_hash_table[url] += 1
-                uri = URI(url)
-                Net::HTTP.get(uri)
-              elsif url_hash_table[url] == broken_url_constant
-                broken_urls << url
-              end
-            rescue StandardError
-              url_hash_table[url] = broken_url_constant
+          begin
+            if (url_hash_table[url]).zero?
+              url_hash_table[url] += 1
+              uri = URI(url)
+              Net::HTTP.get(uri)
+            elsif url_hash_table[url] == broken_url_constant
               broken_urls << url
             end
+          rescue StandardError
+            url_hash_table[url] = broken_url_constant
+            broken_urls << url
           end
-          unless broken_urls.empty?
-            # Horrible hack to get same host and protocol settings as used by the mailer
-            puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
-            broken_urls.each do |broken_url|
-              puts "\t#{broken_url}"
-            end
+        end
+        if broken_urls.empty?
+          puts "No broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
+        else
+          # Horrible hack to get same host and protocol settings as used by the mailer
+          puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
+          broken_urls.each do |broken_url|
+            puts "\t#{broken_url}"
           end
         end
       end
