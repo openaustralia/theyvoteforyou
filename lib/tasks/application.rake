@@ -131,8 +131,26 @@ namespace :application do
       include PathHelper
       include Rails.application.routes.url_helpers
 
-      broken_url_constant = 999
       url_hash_table = Hash.new(0)
+
+      # Checks if URL goes to a working web page by doing an actual web requests
+      # Caches results so multiple requests don't get made to the same URL
+      def broken_url?(url, url_hash_table)
+        broken_url_constant = 999
+
+        if url_hash_table[url].zero?
+          url_hash_table[url] += 1
+          uri = URI(url)
+          Net::HTTP.get(uri)
+          false
+        elsif url_hash_table[url] == broken_url_constant
+          true
+        end
+      rescue StandardError
+        url_hash_table[url] = broken_url_constant
+        true
+      end
+
       Division.find_each do |division|
         parsed_data = Nokogiri::HTML.parse(division.formatted_motion_text)
         broken_urls = []
@@ -140,19 +158,7 @@ namespace :application do
         tags = parsed_data.xpath("//a")
         tags.each do |tag|
           url = tag[:href]
-
-          begin
-            if (url_hash_table[url]).zero?
-              url_hash_table[url] += 1
-              uri = URI(url)
-              Net::HTTP.get(uri)
-            elsif url_hash_table[url] == broken_url_constant
-              broken_urls << url
-            end
-          rescue StandardError
-            url_hash_table[url] = broken_url_constant
-            broken_urls << url
-          end
+          broken_urls << url if broken_url?(url, url_hash_table)
         end
         if broken_urls.empty?
           puts "No broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
