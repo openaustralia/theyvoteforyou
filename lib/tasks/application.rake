@@ -134,18 +134,8 @@ namespace :application do
       # Checks if URL goes to a working web page by doing an actual web requests
       # Caches results so multiple requests don't get made to the same URL
       def broken_url?(url)
-        broken_url_constant = 999
-
-        @url_hash_table ||= Hash.new(0)
-
-        if @url_hash_table[url].zero?
-          @url_hash_table[url] += 1
-          r = broken_url_no_caching?(url)
-          @url_hash_table[url] = broken_url_constant if r
-          r
-        else
-          @url_hash_table[url] == broken_url_constant
-        end
+        @broken ||= {}
+        @broken[url] ||= broken_url_no_caching?(url)
       end
 
       def broken_url_no_caching?(url)
