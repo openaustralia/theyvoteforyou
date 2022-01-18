@@ -159,9 +159,7 @@ namespace :application do
           url = tag[:href]
           broken_urls << url if broken_url?(url)
         end
-        if broken_urls.empty?
-          puts "No broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
-        else
+        unless broken_urls.empty?
           # Horrible hack to get same host and protocol settings as used by the mailer
           puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
           broken_urls.each do |broken_url|
