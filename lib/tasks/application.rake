@@ -136,7 +136,7 @@ namespace :application do
       def broken_url?(url)
         broken_url_constant = 999
 
-        @url_hash_table = Hash.new(0) if @url_hash_table.nil?
+        @url_hash_table ||= Hash.new(0)
 
         if @url_hash_table[url].zero?
           @url_hash_table[url] += 1
