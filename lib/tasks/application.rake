@@ -129,6 +129,7 @@ namespace :application do
     desc "Checks the validity of links in division summary"
     task divisions: :environment do
       include PathHelper
+      include Rails.application.routes.url_helpers
 
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
       broken_url_constant = 999
@@ -158,7 +159,8 @@ namespace :application do
               broken_urls << url
             end
           end
-          puts "There are broken links in the description for division #{division_url_simple(division)}"
+          # Horrible hack to get same host and protocol settings as used by the mailer
+          puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
           broken_urls.each do |broken_url|
             puts "\t#{broken_url}"
           end
