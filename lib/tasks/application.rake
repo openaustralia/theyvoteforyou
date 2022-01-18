@@ -140,16 +140,21 @@ namespace :application do
 
         if @url_hash_table[url].zero?
           @url_hash_table[url] += 1
-          uri = URI(url)
-          begin
-            Net::HTTP.get(uri)
-            false
-          rescue StandardError
-            @url_hash_table[url] = broken_url_constant
-            true
-          end
+          r = broken_url_no_caching?(url)
+          @url_hash_table[url] = broken_url_constant if r
+          r
         else
           @url_hash_table[url] == broken_url_constant
+        end
+      end
+
+      def broken_url_no_caching?(url)
+        uri = URI(url)
+        begin
+          Net::HTTP.get(uri)
+          false
+        rescue StandardError
+          true
         end
       end
 
