@@ -131,7 +131,6 @@ namespace :application do
       include PathHelper
 
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML)
-      broken_url_constant = 999
       visited_urls = Hash.new(0)
       broken_urls_table = Hash.new(0)
       Division.find_each do |division|
