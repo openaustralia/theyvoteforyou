@@ -159,10 +159,12 @@ namespace :application do
               broken_urls << url
             end
           end
-          # Horrible hack to get same host and protocol settings as used by the mailer
-          puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
-          broken_urls.each do |broken_url|
-            puts "\t#{broken_url}"
+          unless broken_urls.empty?
+            # Horrible hack to get same host and protocol settings as used by the mailer
+            puts "There are broken links in the description for division #{division_url_simple(division, ActionMailer::Base.default_url_options)}"
+            broken_urls.each do |broken_url|
+              puts "\t#{broken_url}"
+            end
           end
         end
       end
