@@ -135,7 +135,8 @@ namespace :application do
       # Caches results so multiple requests don't get made to the same URL
       def broken_url?(url)
         @broken ||= {}
-        @broken[url] ||= broken_url_no_caching?(url)
+        @broken[url] = broken_url_no_caching?(url) unless @broken.key?(url)
+        @broken[url]
       end
 
       def broken_url_no_caching?(url)
