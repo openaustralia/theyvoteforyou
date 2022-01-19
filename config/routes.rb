@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-Publicwhip::Application.routes.draw do
+Rails.application.routes.draw do
   namespace :admin do
     # Feature flag admin
     constraints CanAccessFlipperUI do
