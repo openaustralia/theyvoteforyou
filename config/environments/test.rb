@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-Publicwhip::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # The test environment is used exclusively to run your application's
@@ -14,9 +12,11 @@ Publicwhip::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Configure static asset server for tests with Cache-Control for performance.
+  # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
-  config.public_file_server.headers = { "Cache-Control" => "public, max-age=3600" }
+  config.public_file_server.headers = {
+    'Cache-Control' => 'public, max-age=3600'
+  }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -27,6 +27,7 @@ Publicwhip::Application.configure do
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
+  config.action_mailer.perform_caching = false
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -38,5 +39,10 @@ Publicwhip::Application.configure do
 
   config.action_mailer.default_url_options = { host: "pw.org.au" }
 
+  # We don't want asset digests to be generated during testing. If we didn't do this the generated
+  # html for the regression tests would change every time we updated the css. That would be a giant pain.
   config.assets.digest = false
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = true
 end
