@@ -52,12 +52,4 @@ describe WikiMotion, type: :model do
       end
     end
   end
-
-  describe "#edit_date_without_timezone" do
-    it "is edit_date formatted to have no timezone" do
-      wiki_motion = create(:wiki_motion, edit_date: Time.new(2014, 1, 1, 1, 1, 1, 1))
-
-      expect(wiki_motion.edit_date_without_timezone).to eq "2014-01-01 01:01:01"
-    end
-  end
 end

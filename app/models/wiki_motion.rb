@@ -25,13 +25,8 @@ class WikiMotion < ApplicationRecord
     self[:edit_date] = date_set_in_utc
   end
 
-  # TODO: Doing this horrible workaround to deal with storing local time in db
-  def edit_date_without_timezone
-    edit_date.strftime("%F %T")
-  end
-
   def previous_edit
-    division.wiki_motions.find_by("edit_date < ?", edit_date_without_timezone)
+    division.wiki_motions.find_by("created_at < ?", created_at)
   end
 
   def title
