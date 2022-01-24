@@ -14,17 +14,6 @@ class WikiMotion < ApplicationRecord
     division.reindex if Settings.elasticsearch
   end
 
-  # Strip timezone as it's stored in the DB as local time
-  def edit_date
-    Time.zone.parse(self[:edit_date].in_time_zone("UTC").strftime("%F %T"))
-  end
-
-  # FIXME: Stop this nonsense of storing local times in the DB to match PHP
-  def edit_date=(date)
-    date_set_in_utc = date.strftime("%F %T #{date.in_time_zone('UTC').formatted_offset}")
-    self[:edit_date] = date_set_in_utc
-  end
-
   def previous_edit
     division.wiki_motions.find_by("created_at < ?", created_at)
   end

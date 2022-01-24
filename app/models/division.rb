@@ -235,9 +235,7 @@ class Division < ApplicationRecord
   def build_wiki_motion(title, description, user)
     wiki_motions.new(title: title,
                      description: description,
-                     user: user,
-                     # TODO: Use default rails created_at instead
-                     edit_date: Time.zone.now)
+                     user: user)
   end
 
   def self.search_with_sql_fallback(query)
