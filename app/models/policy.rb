@@ -13,7 +13,7 @@ class Policy < ApplicationRecord
   belongs_to :user
 
   validates :name, :description, :private, presence: true
-  validates :name, uniqueness: true, length: { maximum: 100 }
+  validates :name, uniqueness: { case_sensitive: false }, length: { maximum: 100 }
 
   enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
   alias_attribute :status, :private
