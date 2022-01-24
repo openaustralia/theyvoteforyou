@@ -187,7 +187,7 @@ Person.create!([
                  { id: 10001, small_image_url: "https://www.openaustralia.org.au/images/mps/10001.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10001.jpg" },
                  { id: 10003, small_image_url: "https://www.openaustralia.org.au/images/mps/10003.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10003.jpg" },
                  { id: 10007, small_image_url: "https://www.openaustralia.org.au/images/mps/10007.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10007.jpg" },
-                 { id: 10038, small_image_url: "https://www.openaustralia.org.au/images/mps/10038.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10038.jpg" },
+                 { id: 10038, small_image_url: "https://www.openaustralia.org.au/images/mps/10038.jpg", large_image_url: "https://www.openaustralia.org.au/images/mpsL/10038.jpg" }
                ])
 Member.create!([
                  { id: 1, gid: "uk.org.publicwhip/member/1", source_gid: "", first_name: "Tony", last_name: "Abbott", title: "", constituency: "Warringah", party: "Liberal Party", house: "representatives", entered_house: "1994-03-26", left_house: "9999-12-31", entered_reason: "by_election", left_reason: "still_in_office", person_id: 10001 },
