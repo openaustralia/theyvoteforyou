@@ -183,6 +183,12 @@ Electorate.create!([
                      { id: 171, name: "O&#39;Connor", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "representatives" },
                      { id: 172, name: "Wright", main_name: true, from_date: "1000-01-01", to_date: "9999-12-31", house: "representatives" }
                    ])
+Person.create!([
+                 { id: 10001 },
+                 { id: 10007 },
+                 { id: 10003 },
+                 { id: 10038 }
+               ])
 Member.create!([
                  { id: 1, gid: "uk.org.publicwhip/member/1", source_gid: "", first_name: "Tony", last_name: "Abbott", title: "", constituency: "Warringah", party: "Liberal Party", house: "representatives", entered_house: "1994-03-26", left_house: "9999-12-31", entered_reason: "by_election", left_reason: "still_in_office", person_id: 10001 },
                  { id: 6, gid: "uk.org.publicwhip/member/6", source_gid: "", first_name: "Anthony", last_name: "Albanese", title: "", constituency: "Grayndler", party: "Australian Labor Party", house: "representatives", entered_house: "1996-03-02", left_house: "9999-12-31", entered_reason: "general_election", left_reason: "still_in_office", person_id: 10007 },
