@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220124004540) do
+ActiveRecord::Schema.define(version: 20220124013958) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -303,10 +303,10 @@ ActiveRecord::Schema.define(version: 20220124004540) do
   create_table "wiki_motions", force: true do |t|
     t.text     "text_body",   null: false
     t.integer  "user_id",     null: false
-    t.datetime "edit_date"
     t.integer  "division_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["division_id"], name: "index_wiki_motions_on_division_id", using: :btree
   end
+
 end
