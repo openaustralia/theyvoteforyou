@@ -35,7 +35,7 @@
             = link_to wiki_motion.user.name, wiki_motion.user
           %p
             on
-            = wiki_motion.edit_date.strftime('%F %T')
+            = wiki_motion.created_at.strftime('%F %T')
         %td
           %p Title
           = Diffy::Diff.new(wiki_motion.previous_title.strip, wiki_motion.title.strip).to_s(:html).html_safe

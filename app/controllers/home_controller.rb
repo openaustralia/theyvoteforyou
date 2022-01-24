@@ -47,7 +47,7 @@ class HomeController < ApplicationController
 
   def history
     @history = PaperTrail::Version.where("created_at > ?", 1.week.ago) +
-               WikiMotion.where("edit_date > ?", 1.week.ago)
+               WikiMotion.where("created_at > ?", 1.week.ago)
     @history.sort_by! { |v| -v.created_at.to_i }
   end
 

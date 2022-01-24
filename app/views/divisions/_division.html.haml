@@ -4,7 +4,7 @@
       .division-edit-notice.pull-right.text-muted
         - if division.edited?
           edited
-          = relative_time division.wiki_motion.edit_date
+          = relative_time division.wiki_motion.created_at
       .division-meta
         %time.division-datetime{datetime: division.date}= division_date_and_time(division)
         %span.division-house.pre= division.house_name if house.nil?
