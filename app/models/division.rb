@@ -8,7 +8,7 @@ class Division < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> { order(edit_date: :desc) }, inverse_of: :division, dependent: :destroy
+  has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
@@ -235,9 +235,7 @@ class Division < ApplicationRecord
   def build_wiki_motion(title, description, user)
     wiki_motions.new(title: title,
                      description: description,
-                     user: user,
-                     # TODO: Use default rails created_at instead
-                     edit_date: Time.zone.now)
+                     user: user)
   end
 
   def self.search_with_sql_fallback(query)

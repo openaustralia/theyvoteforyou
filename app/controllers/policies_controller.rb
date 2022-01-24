@@ -13,7 +13,7 @@ class PoliciesController < ApplicationController
     when "date"
       @policies = @policies.order("updated_at DESC")
     else
-      @policies = @policies.left_joins(:watches).group(:id).order("COUNT(watches.id) DESC")
+      @policies = @policies.left_joins(:watches).group(:id).order(Arel.sql("COUNT(watches.id) DESC"))
       @sort = nil
     end
   end

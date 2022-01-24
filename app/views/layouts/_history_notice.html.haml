@@ -1,7 +1,7 @@
 .history-notice
   %p.container
     -if division
-      = link_to "Division last edited #{relative_time division.wiki_motion.edit_date}", history_division_path_simple(division), title: "View the edit history of this division."
+      = link_to "Division last edited #{relative_time division.wiki_motion.created_at}", history_division_path_simple(division), title: "View the edit history of this division."
     -elsif policy
       = link_to "Policy last edited #{time_ago_in_words(policy.last_edited_at)} ago", history_policy_path(policy), title: "View the edit history of this policy."
     by

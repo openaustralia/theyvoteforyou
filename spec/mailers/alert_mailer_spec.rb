@@ -9,7 +9,7 @@ RSpec.describe AlertMailer, type: :mailer do
     let(:policy) do
       # Manually tell paper trail who made the change. This would normally be done
       # automatically
-      PaperTrail.whodunnit = user1.id
+      PaperTrail.request.whodunnit = user1.id
       Timecop.freeze(Date.new(2020, 1, 1)) do
         create(:policy, name: "red being a nice colour", id: 50)
       end

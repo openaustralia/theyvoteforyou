@@ -198,7 +198,7 @@ class Member < ApplicationRecord
   end
 
   def possible_friends
-    member_distances.where.not(member2_id: id, distance_a: -1)
+    member_distances.where.not(member2_id: id).where.not(distance_a: -1)
   end
 
   # Friends who have voted exactly the same

@@ -17,7 +17,7 @@ describe PoliciesController, type: :request do
     PaperTrail::Version.delete_all
     User.delete_all
 
-    PaperTrail.whodunnit = user.id
+    PaperTrail.request.whodunnit = user.id
     Timecop.freeze(25.hours.ago) do
       create(:policy, id: 1, name: "marriage equality", description: "access to marriage should be equal")
       create(:policy, id: 2, name: "offshore processing", description: "refugees arrving by boat should be processed offshore")

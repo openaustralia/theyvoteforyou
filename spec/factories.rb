@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :wiki_motion do
     title { "An edited division" }
     description { "This division relates to all sorts of interesting things." }
-    edit_date { Time.zone.local(2014, 1, 1, 1, 1, 1) }
+    created_at { Time.zone.local(2014, 1, 1, 1, 1, 1) }
     association :user
     association :division
   end
@@ -73,8 +73,7 @@ FactoryBot.define do
     left_house { "9999-12-31" }
     entered_reason { "general_election" }
     left_reason { "still_in_office" }
-    # TODO: Why are we using person_id here rather than person?
-    person_id { "10458" }
+    association :person
   end
 
   factory :policy do

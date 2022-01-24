@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "rails", "5.0.7.2"
+gem "rails", "6.0.4.4"
 gem "mysql2"
 
 gem "sprockets"
@@ -41,8 +41,7 @@ gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when te
 gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
-# TODO: Update to a not ancient version of paper_trail
-gem "paper_trail", "~> 4"
+gem "paper_trail"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
 gem "simple_form"
@@ -75,6 +74,9 @@ gem "flipper-ui"
 
 # Used for checking whether URLs are valid in rake task
 gem "httparty"
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap"
 
 group :test do
   gem "rspec-activemodel-mocks"
