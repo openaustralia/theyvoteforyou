@@ -31,7 +31,7 @@ describe "Policies", type: :feature do
   end
 
   it "editing existing" do
-    PaperTrail.whodunnit = user.id
+    PaperTrail.request.whodunnit = user.id
 
     policy = create(:policy, name: "test", description: "testing")
     visit edit_policy_path(policy)
