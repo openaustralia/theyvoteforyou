@@ -69,6 +69,8 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
+    bootsnap (1.10.2)
+      msgpack (~> 1.2)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
@@ -346,6 +348,7 @@ GEM
     minitest (5.15.0)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
+    msgpack (1.4.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -586,6 +589,7 @@ DEPENDENCIES
   autoprefixer-rails
   better_errors
   binding_of_caller
+  bootsnap
   bootstrap-sass (~> 3.3)
   bootstrap-select-rails
   brakeman

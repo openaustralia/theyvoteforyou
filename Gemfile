@@ -76,6 +76,9 @@ gem "flipper-ui"
 # Used for checking whether URLs are valid in rake task
 gem "httparty"
 
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
