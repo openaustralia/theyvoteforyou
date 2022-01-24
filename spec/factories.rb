@@ -4,7 +4,7 @@ FactoryBot.define do
   factory :wiki_motion do
     title { "An edited division" }
     description { "This division relates to all sorts of interesting things." }
-    edit_date { Time.zone.local(2014, 1, 1, 1, 1, 1) }
+    created_at { Time.zone.local(2014, 1, 1, 1, 1, 1) }
     association :user
     association :division
   end

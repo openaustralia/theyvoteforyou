@@ -8,7 +8,6 @@ class WikiMotion < ApplicationRecord
 
   attr_writer :title, :description
 
-  alias_attribute :created_at, :edit_date
   before_save :set_text_body, unless: :text_body
   after_create do
     alert_policy_watches
