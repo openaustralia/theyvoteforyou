@@ -47,7 +47,6 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    Delayed::Worker.delay_jobs = false
     FactoryBot.lint
   end
 
