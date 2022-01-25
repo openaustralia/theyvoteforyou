@@ -48,7 +48,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Delayed::Worker.delay_jobs = false
-    # FactoryBot.lint
+    FactoryBot.lint
   end
 
   # If true, the base class of anonymous controllers will be inferred
