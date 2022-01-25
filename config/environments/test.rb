@@ -51,4 +51,9 @@ Rails.application.configure do
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
+
+  # Hacky workaround for problems with background queue during testing when
+  # we switch over to using active job
+  # TODO: Get rid of the line below and use the defaults
+  config.active_job.queue_adapter = :delayed_job
 end

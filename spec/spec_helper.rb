@@ -47,6 +47,8 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:suite) do
+    Delayed::Worker.delay_jobs = false
+
     # See https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#linting-factories
     ActiveRecord::Base.transaction do
       FactoryBot.lint
