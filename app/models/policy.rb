@@ -94,10 +94,6 @@ class Policy < ApplicationRecord
   end
 
   def alert_watches(version)
-    watches.each do |watch|
-      AlertMailer.policy_updated(self, version, watch.user).deliver
-    end
+    AlertWatchesJob.perform_later(self, version)
   end
-
-  handle_asynchronously :alert_watches
 end
