@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mechanize"
+require_relative "people"
 
 module DataLoader
   class Members
