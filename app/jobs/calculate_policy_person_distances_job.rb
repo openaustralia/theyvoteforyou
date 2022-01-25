@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class CalculatePolicyPersonDistancesJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
-    # Do something later
+  def perform(policy)
+    policy.calculate_person_distances!
   end
 end
