@@ -30,5 +30,10 @@ module Publicwhip
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
+
+    # Really we should be able to set this in config/initializers/new_framework_defaults_6_0.rb but
+    # it doesn't work.
+    # TODO: Remove this once we switch to "config.load_defaults 6.0" above
+    config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
   end
 end

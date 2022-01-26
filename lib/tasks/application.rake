@@ -45,8 +45,9 @@ namespace :application do
     desc "Reloads members, offices and electorates from XML files and updates people images"
     task members: %i[environment set_logger_to_stdout] do
       DataLoader::Electorates.load!
-      DataLoader::Offices.load!
       DataLoader::Members.load!
+      # Offices need to be loaded after new people/members
+      DataLoader::Offices.load!
       DataLoader::People.load_missing_images!
     end
 

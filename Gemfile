@@ -26,8 +26,6 @@ gem "htmlentities"
 gem "safe_attributes"
 gem "newrelic_rpm"
 gem "devise"
-# TODO: Re-add devise-async once upgraded Devise to 4.x and Rails to 5.x
-# gem 'devise-async'
 gem "attribute-defaults"
 gem "diffy"
 gem "ranker"

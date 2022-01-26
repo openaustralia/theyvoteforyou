@@ -48,7 +48,12 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Delayed::Worker.delay_jobs = false
-    # FactoryBot.lint
+
+    # See https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#linting-factories
+    ActiveRecord::Base.transaction do
+      FactoryBot.lint
+      raise ActiveRecord::Rollback
+    end
   end
 
   # If true, the base class of anonymous controllers will be inferred

@@ -79,4 +79,10 @@ class User < ApplicationRecord
   def self.random_api_key
     Digest::MD5.base64digest(rand.to_s + Time.zone.now.to_s)[0...20]
   end
+
+  # Send all devise emails in the background
+  # See https://github.com/heartcombo/devise#activejob-integration
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 end

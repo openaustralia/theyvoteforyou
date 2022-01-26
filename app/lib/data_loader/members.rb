@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "mechanize"
+require_relative "people"
 
 module DataLoader
   class Members
@@ -13,9 +14,6 @@ module DataLoader
           Rails.logger.info "Loading #{file}..."
           xml = agent.get "#{Settings.xml_data_base_url}members/#{file}.xml"
           xml.search(:member).each do |member|
-            # Ignores entries older than the 1997 UK General Election
-            next if member[:todate] <= "1997-04-08"
-
             gid = member[:id]
             if gid.include?("uk.org.publicwhip/member/")
               raise "House mismatch" unless member[:house] == "representatives"

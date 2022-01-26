@@ -30,7 +30,7 @@ class PolicyDivision < ApplicationRecord
   private
 
   def calculate_policy_person_distances
-    policy.delay.calculate_person_distances!
+    CalculatePolicyPersonDistancesJob.perform_later(policy)
   end
 
   def alert_policy_watches

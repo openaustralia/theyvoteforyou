@@ -59,7 +59,7 @@ Rails.application.configure do
   config.cache_store = :dalli_store, nil, { namespace: "publicwhip" }
 
   # Use a real queuing backend for Active Job (and separate queues per environment).
-  # config.active_job.queue_adapter     = :resque
+  config.active_job.queue_adapter     = :delayed_job
   # config.active_job.queue_name_prefix = "publicwhip_production"
 
   config.action_mailer.perform_caching = false
