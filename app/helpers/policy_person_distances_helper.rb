@@ -2,8 +2,14 @@
 
 module PolicyPersonDistancesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy_person_distance)
-    category_words(policy_person_distance.category(current_user))
+  def policy_agreement_summary(policy_person_distance, with_person: false)
+    out = []
+    if with_person
+      out << policy_person_distance.person.name
+      out << " "
+    end
+    out << category_words(policy_person_distance.category(current_user))
+    safe_join(out)
   end
 
   def category_words(category)
