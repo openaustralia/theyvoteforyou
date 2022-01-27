@@ -30,12 +30,12 @@
           or
           %strong name
         .input-group
-          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. #{Member.random_postcode} or #{Member.random_current.name_without_title}", list: "members-datalist"}
+          %input.form-control#query{maxlength: "256", name: "query", type: "search", placeholder: "e.g. #{Member.random_postcode} or #{Member.random_current.name}", list: "members-datalist"}
           %span.input-group-btn
             %button.btn.btn-primary{name: "button", type: "submit", value: "hero_search"} Search
         %datalist#members-datalist
           - @current_members.each do |member|
-            %option{value: member.name_without_title}
+            %option{value: member.name}
 
 .front-panels-block.banner-section
   .container

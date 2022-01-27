@@ -4,11 +4,11 @@
       = link_to person_path_simple(person), class: 'member-item object-item panel-link' do
         %article.media{class: ("member-no-photo" unless person.show_small_image?)}
           - if person.show_small_image?
-            = image_tag("", data: {original: person.small_image_url}, alt: "Photo of #{person.name_without_title}", class: "member-photo lazy", width: 44, height: 58)
+            = image_tag("", data: {original: person.small_image_url}, alt: "Photo of #{person.name}", class: "member-photo lazy", width: 44, height: 58)
             %noscript
-              = image_tag(person.small_image_url, alt: "Photo of #{person.name_without_title}", class: 'member-photo', width: 44, height: 58)
+              = image_tag(person.small_image_url, alt: "Photo of #{person.name}", class: 'member-photo', width: 44, height: 58)
           .media-body
-            %h2.media-heading.member-name.panel-link-title= person.name_without_title
+            %h2.media-heading.member-name.panel-link-title= person.name
             %p.member-role.object-primary
               %span.member-party.inline-post-title
                 - if !person.currently_in_parliament?
