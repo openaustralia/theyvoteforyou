@@ -34,7 +34,7 @@ module PolicyPersonDistancesHelper
     when :against2 then "voted almost always against"
     when :against3 then "voted consistently against"
     when :never then "has never voted on"
-    when :not_enough then "has not voted enough to determine a position on"
+    when :not_enough then "we can't say anything concrete about how they voted on"
     else
       raise "Unsupported category #{category}"
     end
