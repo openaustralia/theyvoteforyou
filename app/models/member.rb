@@ -113,7 +113,7 @@ class Member < ApplicationRecord
   end
 
   def name
-    "#{title} #{name_without_title}".strip
+    name_without_title
   end
 
   def name_without_title
