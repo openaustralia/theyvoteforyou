@@ -6,10 +6,6 @@ module PoliciesHelper
     category_words(policy_person_distance.category(current_user))
   end
 
-  def policy_agreement_summary_short(policy_person_distance)
-    category_words_short(policy_person_distance.category(current_user))
-  end
-
   def category_words(category)
     first_word = %i[never not_enough].include?(category) ? "has" : "voted"
     "#{first_word} #{category_words_short(category)}"

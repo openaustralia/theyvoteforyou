@@ -1,7 +1,7 @@
 %section.page-section#ratioexpl
   %h2
     How
-    "#{policy_agreement_summary_short(policy_person_distance)}"
+    "#{policy_agreement_summary(policy_person_distance)}"
     is worked out
 
   - if policy_person_distance.category(current_user) == :never
