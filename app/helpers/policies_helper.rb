@@ -11,31 +11,35 @@ module PoliciesHelper
   end
 
   def category_words(category)
-    {
-      for3: "voted consistently for",
-      for2: "voted almost always for",
-      for1: "voted generally for",
-      mixture: "voted a mixture of for and against",
-      against1: "voted generally against",
-      against2: "voted almost always against",
-      against3: "voted consistently against",
-      never: "has never voted on",
-      not_enough: "has not voted enough to determine a position on"
-    }[category]
+    case category
+    when :for3 then "voted consistently for"
+    when :for2 then "voted almost always for"
+    when :for1 then "voted generally for"
+    when :mixture then "voted a mixture of for and against"
+    when :against1 then "voted generally against"
+    when :against2 then "voted almost always against"
+    when :against3 then "voted consistently against"
+    when :never then "has never voted on"
+    when :not_enough then "has not voted enough to determine a position on"
+    else
+      raise "Unsupported category #{category}"
+    end
   end
 
   def category_words_short(category)
-    {
-      for3: "consistently for",
-      for2: "almost always for",
-      for1: "generally for",
-      mixture: "a mixture of for and against",
-      against1: "generally against",
-      against2: "almost always against",
-      against3: "consistently against",
-      never: "never voted on",
-      not_enough: "not voted enough to determine a position on"
-    }[category]
+    case category
+    when :for3 then "consistently for"
+    when :for2 then "almost always for"
+    when :for1 then "generally for"
+    when :mixture then "a mixture of for and against"
+    when :against1 then "generally against"
+    when :against2 then "almost always against"
+    when :against3 then "consistently against"
+    when :never then "never voted on"
+    when :not_enough then "not voted enough to determine a position on"
+    else
+      raise "Unsupported category #{category}"
+    end
   end
 
   def quote(word)
