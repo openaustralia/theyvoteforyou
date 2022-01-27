@@ -11,19 +11,8 @@ module PoliciesHelper
   end
 
   def category_words(category)
-    case category
-    when :for3 then "voted consistently for"
-    when :for2 then "voted almost always for"
-    when :for1 then "voted generally for"
-    when :mixture then "voted a mixture of for and against"
-    when :against1 then "voted generally against"
-    when :against2 then "voted almost always against"
-    when :against3 then "voted consistently against"
-    when :never then "has never voted on"
-    when :not_enough then "has not voted enough to determine a position on"
-    else
-      raise "Unsupported category #{category}"
-    end
+    first_word = %i[never not_enough].include?(category) ? "has" : "voted"
+    "#{first_word} #{category_words_short(category)}"
   end
 
   def category_words_short(category)
