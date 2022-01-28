@@ -61,4 +61,20 @@ describe PolicyPersonDistancesHelper, type: :helper do
       end
     end
   end
+
+  describe ".category_words_sentence" do
+    let(:member) { create(:member) }
+    # We want a fixed id so we expect fixed url for the policy
+    let(:policy) { create(:policy, id: 567, name: "dusty ponies being dusty") }
+
+    # The capitalising here is a bit of a hack
+    # TODO: Do this more consistently
+    it do
+      expect(helper.category_words_sentence(category: :not_enough, member: member, policy: policy)).to eq "We can't say anything concrete about how they voted on"
+    end
+
+    it do
+      expect(helper.category_words_sentence(category: :not_enough, member: member, policy: policy, with_person: true)).to eq "We can't say anything concrete about how Christine Milne voted on"
+    end
+  end
 end
