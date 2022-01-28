@@ -42,6 +42,10 @@ describe PolicyPersonDistancesHelper, type: :helper do
         it do
           expect(helper.policy_agreement_summary(ppd, with_person: true, with_policy: true)).to eq "Christine Milne has never voted on dusty ponies being dusty"
         end
+
+        it do
+          expect(helper.policy_agreement_summary(ppd, with_person: true, with_policy: true, link_policy: true)).to eq 'Christine Milne has never voted on <a href="/policies/567">dusty ponies being dusty</a>'
+        end
       end
 
       context "when voted twice and distance is zero" do
