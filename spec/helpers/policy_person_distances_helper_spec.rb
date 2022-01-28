@@ -18,7 +18,7 @@ describe PolicyPersonDistancesHelper, type: :helper do
 
       let(:person) { create(:person) }
       # We want a fixed id so we expect fixed url for the policy
-      let(:policy) { create(:policy, id: 567) }
+      let(:policy) { create(:policy, id: 567, name: "dusty ponies being dusty") }
 
       context "when never voted" do
         let(:ppd) { create(:policy_person_distance, person: person, policy: policy) }
@@ -37,6 +37,10 @@ describe PolicyPersonDistancesHelper, type: :helper do
 
         it do
           expect(helper.policy_agreement_summary(ppd, with_person: true, link_category: true)).to eq 'Christine Milne <a href="/people/representatives/newtown/christine_milne/policies/567">has never voted on</a>'
+        end
+
+        it do
+          expect(helper.policy_agreement_summary(ppd, with_person: true, with_policy: true)).to eq "Christine Milne has never voted on dusty ponies being dusty"
         end
       end
 

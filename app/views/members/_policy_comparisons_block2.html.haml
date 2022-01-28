@@ -9,7 +9,6 @@
             %p.policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{p[:policy].id}"}}
               = capitalise_initial_character(p[:policy].name)
             %p{class: "policy-detail-#{p[:policy].id} collapse"}
-              = policy_agreement_summary(p[:ppd1], with_person: true, link_category: true)
-              = p[:policy].name
+              = policy_agreement_summary(p[:ppd1], with_person: true, link_category: true, with_policy: true)
               while
               = policy_agreement_summary(p[:ppd2], with_person: true, link_category: true)

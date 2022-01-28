@@ -1,10 +1,9 @@
 - content_for :title do
-  = policy_agreement_summary(@policy_person_distance, with_person: true)
-  = @policy.name
+  = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
 - set_meta_tags description: "How #{@member.name} voted in parliament on #{@policy.name}."
 :ruby
   set_meta_tags og: {
-    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true)} #{@policy.name}.",
+    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)}.",
     description: "Discover how #{@member.name} voted on #{@policy.name}.",
     type: "profile",
     url: request.original_url,
@@ -23,7 +22,7 @@
       _: @member.large_image_url,
       alt: "Photo of #{@member.name}",
     },
-    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true)} #{@policy.name}.",
+    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)}.",
     description: "Discover how #{@member.name} voted on #{@policy.name}."
   }
 .page-header.row
