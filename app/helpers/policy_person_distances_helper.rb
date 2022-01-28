@@ -7,26 +7,17 @@ module PolicyPersonDistancesHelper
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
     if with_person
-      out << if link_person
-               link_to(member.name, member_path_simple(member))
-             else
-               member.name
-             end
+      out << link_to_if(link_person, member.name, member_path_simple(member))
       out << " "
     end
-    words = category_words(policy_person_distance.category(current_user))
-    out << if link_category
-             link_to(words, member_policy_path_simple(member, policy))
-           else
-             words
-           end
+    out << link_to_if(
+      link_category,
+      category_words(policy_person_distance.category(current_user)),
+      member_policy_path_simple(policy_person_distance.person.latest_member, policy_person_distance.policy)
+    )
     if with_policy
       out << " "
-      out << if link_policy
-               link_to(policy.name, policy)
-             else
-               policy.name
-             end
+      out << link_to_if(link_policy, policy.name, policy)
     end
     safe_join(out)
   end
