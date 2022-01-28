@@ -5,6 +5,7 @@ module PolicyPersonDistancesHelper
   def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, link_category: false, with_policy: false, link_policy: false)
     out = []
     member = policy_person_distance.person.latest_member
+    policy = policy_person_distance.policy
     if with_person
       out << if link_person
                link_to(member.name, member_path_simple(member))
@@ -15,16 +16,16 @@ module PolicyPersonDistancesHelper
     end
     words = category_words(policy_person_distance.category(current_user))
     out << if link_category
-             link_to(words, member_policy_path_simple(member, policy_person_distance.policy))
+             link_to(words, member_policy_path_simple(member, policy))
            else
              words
            end
     if with_policy
       out << " "
       out << if link_policy
-               link_to(policy_person_distance.policy.name, policy_person_distance.policy)
+               link_to(policy.name, policy)
              else
-               policy_person_distance.policy.name
+               policy.name
              end
     end
     safe_join(out)
