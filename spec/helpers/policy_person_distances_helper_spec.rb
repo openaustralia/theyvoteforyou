@@ -17,9 +17,11 @@ describe PolicyPersonDistancesHelper, type: :helper do
       end
 
       let(:person) { create(:person) }
+      # We want a fixed id so we expect fixed url for the policy
+      let(:policy) { create(:policy, id: 567) }
 
       context "when never voted" do
-        let(:ppd) { create(:policy_person_distance, person: person) }
+        let(:ppd) { create(:policy_person_distance, person: person, policy: policy) }
 
         it do
           expect(helper.policy_agreement_summary(ppd)).to eq "has never voted on"
@@ -32,10 +34,14 @@ describe PolicyPersonDistancesHelper, type: :helper do
         it do
           expect(helper.policy_agreement_summary(ppd, with_person: true, link_person: true)).to eq '<a href="/people/representatives/newtown/christine_milne">Christine Milne</a> has never voted on'
         end
+
+        it do
+          expect(helper.policy_agreement_summary(ppd, with_person: true, link_category: true)).to eq 'Christine Milne <a href="/people/representatives/newtown/christine_milne/policies/567">has never voted on</a>'
+        end
       end
 
       context "when voted twice and distance is zero" do
-        let(:ppd) { create(:policy_person_distance, person: person, distance_a: 0, nvotessame: 2) }
+        let(:ppd) { create(:policy_person_distance, person: person, policy: policy, distance_a: 0, nvotessame: 2) }
 
         it do
           expect(helper.policy_agreement_summary(ppd)).to eq "voted consistently for"
