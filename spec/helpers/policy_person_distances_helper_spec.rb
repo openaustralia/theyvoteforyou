@@ -13,7 +13,7 @@ describe PolicyPersonDistancesHelper, type: :helper do
     context "when user does not see the new policy category yet" do
       before do
         allow(helper).to receive(:current_user).and_return(nil)
-        create(:member, person: person, first_name: "Peter", last_name: "Pepper")
+        create(:member, person: person)
       end
 
       let(:person) { create(:person) }
@@ -26,11 +26,11 @@ describe PolicyPersonDistancesHelper, type: :helper do
         end
 
         it do
-          expect(helper.policy_agreement_summary(ppd, with_person: true)).to eq "Peter Pepper has never voted on"
+          expect(helper.policy_agreement_summary(ppd, with_person: true)).to eq "Christine Milne has never voted on"
         end
 
         it do
-          expect(helper.policy_agreement_summary(ppd, with_person: true, link_person: true)).to eq '<a href="/people/representatives/newtown/peter_pepper">Peter Pepper</a> has never voted on'
+          expect(helper.policy_agreement_summary(ppd, with_person: true, link_person: true)).to eq '<a href="/people/representatives/newtown/christine_milne">Christine Milne</a> has never voted on'
         end
       end
 
@@ -42,7 +42,7 @@ describe PolicyPersonDistancesHelper, type: :helper do
         end
 
         it do
-          expect(helper.policy_agreement_summary(ppd, with_person: true)).to eq "Peter Pepper voted consistently for"
+          expect(helper.policy_agreement_summary(ppd, with_person: true)).to eq "Christine Milne voted consistently for"
         end
       end
     end
