@@ -28,6 +28,10 @@ describe PolicyPersonDistancesHelper, type: :helper do
         it do
           expect(helper.policy_agreement_summary(ppd, with_person: true)).to eq "Peter Pepper has never voted on"
         end
+
+        it do
+          expect(helper.policy_agreement_summary(ppd, with_person: true, link_person: true)).to eq '<a href="/people/representatives/newtown/peter_pepper">Peter Pepper</a> has never voted on'
+        end
       end
 
       context "when voted twice and distance is zero" do
