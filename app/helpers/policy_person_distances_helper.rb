@@ -3,17 +3,19 @@
 module PolicyPersonDistancesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
   def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, link_category: false, with_policy: false, link_policy: false)
-    out = []
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
+    category = policy_person_distance.category(current_user)
+
+    out = []
     if with_person
       out << link_to_if(link_person, member.name, member_path_simple(member))
       out << " "
     end
     out << link_to_if(
       link_category,
-      category_words(policy_person_distance.category(current_user)),
-      member_policy_path_simple(policy_person_distance.person.latest_member, policy_person_distance.policy)
+      category_words(category),
+      member_policy_path_simple(member, policy)
     )
     if with_policy
       out << " "
