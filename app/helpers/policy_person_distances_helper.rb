@@ -20,7 +20,7 @@ module PolicyPersonDistancesHelper
     category_words_sentence2(category, person_content: person_content, policy_content: policy_content)
   end
 
-  # This helper has to just concern itself with getting the correct word order for a particular category
+  # This helper has to just concern itself with getting the correct wording and order for a particular category
   # So it's simpler to understand and test than category_words_sentence above
   def category_words_sentence2(category, person_content: nil, policy_content: nil)
     out = []
@@ -36,7 +36,18 @@ module PolicyPersonDistancesHelper
         out << person_content
         out << " "
       end
-      out << category_words(category)
+      out << case category
+             when :for3 then "voted consistently for"
+             when :for2 then "voted almost always for"
+             when :for1 then "voted generally for"
+             when :mixture then "voted a mixture of for and against"
+             when :against1 then "voted generally against"
+             when :against2 then "voted almost always against"
+             when :against3 then "voted consistently against"
+             when :never then "has never voted on"
+             else
+               raise "Unsupported category #{category}"
+             end
     end
 
     if policy_content
@@ -44,21 +55,5 @@ module PolicyPersonDistancesHelper
       out << policy_content
     end
     safe_join(out)
-  end
-
-  def category_words(category)
-    case category
-    when :for3 then "voted consistently for"
-    when :for2 then "voted almost always for"
-    when :for1 then "voted generally for"
-    when :mixture then "voted a mixture of for and against"
-    when :against1 then "voted generally against"
-    when :against2 then "voted almost always against"
-    when :against3 then "voted consistently against"
-    when :never then "has never voted on"
-    when :not_enough then "we can't say anything concrete about how they voted on".html_safe
-    else
-      raise "Unsupported category #{category}"
-    end
   end
 end
