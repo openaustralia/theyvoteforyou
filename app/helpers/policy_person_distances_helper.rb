@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 module PolicyPersonDistancesHelper
-  # Returns things like "voted strongly against", "has never voted on", etc..
+  # Returns things like "voted consistently against", "voted generally for", etc..
   def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, with_policy: false, link_policy: false)
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
     category_words_sentence(
-      policy_person_distance.category(current_user),
+      policy_person_distance.category,
       person: (link_to_if(link_person, member.name, member_path_simple(member)) if with_person),
       policy: (link_to_if(link_policy, policy.name, policy) if with_policy)
     )
@@ -35,7 +35,6 @@ module PolicyPersonDistancesHelper
              when :against1 then "voted generally against"
              when :against2 then "voted almost always against"
              when :against3 then "voted consistently against"
-             when :never then "has never voted on"
              else
                raise "Unsupported category #{category}"
              end
