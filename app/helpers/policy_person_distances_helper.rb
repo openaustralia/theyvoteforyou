@@ -8,12 +8,12 @@ module PolicyPersonDistancesHelper
     category = policy_person_distance.category(current_user)
     person_content = (link_to_if(link_person, member.name, member_path_simple(member)) if with_person)
     policy_content = (link_to_if(link_policy, policy.name, policy) if with_policy)
-    category_words_sentence2(category, person_content: person_content, policy_content: policy_content)
+    category_words_sentence(category, person_content: person_content, policy_content: policy_content)
   end
 
   # This helper has to just concern itself with getting the correct wording and order for a particular category
   # So it's simpler to understand and test than category_words_sentence above
-  def category_words_sentence2(category, person_content: nil, policy_content: nil)
+  def category_words_sentence(category, person_content: nil, policy_content: nil)
     out = []
     if category == :not_enough
       # For this category we have to order the sentence differently because it doesn't have the
