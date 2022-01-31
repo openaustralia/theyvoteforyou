@@ -15,29 +15,33 @@ module PolicyPersonDistancesHelper
   def category_words_sentence(category:, member:, policy:,
                               with_person: false, with_policy: false,
                               link_person: false, link_category: false, link_policy: false)
+    person_content = (link_to_if(link_person, member.name, member_path_simple(member)) if with_person)
+    category_content = link_to_if(link_category, category_words(category), member_policy_path_simple(member, policy))
+    policy_content = (link_to_if(link_policy, policy.name, policy) if with_policy)
+
     out = []
     if category == :not_enough
       # For this category we have to order the sentence differently because it doesn't have the
       # same structure as the other sentences
       # Note that we're capitalising the first letter
       out << "We can't say anything concrete about how ".html_safe
-      out << if with_person
-               link_to_if(link_person, member.name, member_path_simple(member))
-             else
+      out << if person_content.nil?
                "they"
+             else
+               person_content
              end
       out << " voted on"
     else
-      if with_person
-        out << link_to_if(link_person, member.name, member_path_simple(member))
+      if person_content
+        out << person_content
         out << " "
       end
-      out << link_to_if(link_category, category_words(category), member_policy_path_simple(member, policy))
+      out << category_content
     end
 
-    if with_policy
+    if policy_content
       out << " "
-      out << link_to_if(link_policy, policy.name, policy)
+      out << policy_content
     end
     safe_join(out)
   end
