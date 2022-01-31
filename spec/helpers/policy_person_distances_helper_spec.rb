@@ -36,10 +36,6 @@ describe PolicyPersonDistancesHelper, type: :helper do
         end
 
         it do
-          expect(helper.policy_agreement_summary(ppd, with_person: true, link_category: true)).to eq 'Christine Milne <a href="/people/representatives/newtown/christine_milne/policies/567">has never voted on</a>'
-        end
-
-        it do
           expect(helper.policy_agreement_summary(ppd, with_person: true, with_policy: true)).to eq "Christine Milne has never voted on dusty ponies being dusty"
         end
 

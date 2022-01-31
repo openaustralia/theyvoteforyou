@@ -2,28 +2,27 @@
 
 module PolicyPersonDistancesHelper
   # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, link_category: false, with_policy: false, link_policy: false)
+  def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, with_policy: false, link_policy: false)
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
     category = policy_person_distance.category(current_user)
 
     category_words_sentence(category: category, member: member, policy: policy,
                             with_person: with_person, with_policy: with_policy,
-                            link_person: link_person, link_category: link_category, link_policy: link_policy)
+                            link_person: link_person, link_policy: link_policy)
   end
 
   def category_words_sentence(category:, member:, policy:,
                               with_person: false, with_policy: false,
-                              link_person: false, link_category: false, link_policy: false)
+                              link_person: false, link_policy: false)
     person_content = (link_to_if(link_person, member.name, member_path_simple(member)) if with_person)
     policy_content = (link_to_if(link_policy, policy.name, policy) if with_policy)
-    category_path = (member_policy_path_simple(member, policy) if link_category)
-    category_words_sentence2(category: category, category_path: category_path, person_content: person_content, policy_content: policy_content)
+    category_words_sentence2(category: category, person_content: person_content, policy_content: policy_content)
   end
 
   # This helper has to just concern itself with getting the correct word order for a particular category
   # So it's simpler to understand and test than category_words_sentence above
-  def category_words_sentence2(category:, category_path:, person_content:, policy_content:)
+  def category_words_sentence2(category:, person_content:, policy_content:)
     out = []
     if category == :not_enough
       # For this category we have to order the sentence differently because it doesn't have the
@@ -41,7 +40,7 @@ module PolicyPersonDistancesHelper
         out << person_content
         out << " "
       end
-      out << link_to_if(category_path, category_words(category), category_path)
+      out << category_words(category)
     end
 
     if policy_content
