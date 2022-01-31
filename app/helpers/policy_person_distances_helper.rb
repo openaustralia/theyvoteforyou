@@ -12,7 +12,6 @@ module PolicyPersonDistancesHelper
   end
 
   # This helper has to just concern itself with getting the correct wording and order for a particular category
-  # So it's simpler to understand and test than category_words_sentence above
   def category_words_sentence(category, person: nil, policy: nil)
     out = []
     if category == :not_enough
