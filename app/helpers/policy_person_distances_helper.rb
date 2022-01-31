@@ -29,11 +29,7 @@ module PolicyPersonDistancesHelper
       # same structure as the other sentences
       # Note that we're capitalising the first letter
       out << "We can't say anything concrete about how ".html_safe
-      out << if person_content.nil?
-               "they"
-             else
-               person_content
-             end
+      out << (person_content || "they")
       out << " voted on"
     else
       if person_content
