@@ -117,7 +117,7 @@ class PolicyPersonDistance < ApplicationRecord
   end
 
   def category(current_user)
-    if Flipper.enabled?(:policy_summary_not_enough, current_user)
+    if true
       category_with_not_enough
     else
       category_default
