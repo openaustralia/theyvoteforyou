@@ -3,10 +3,10 @@
 require "spec_helper"
 
 describe PolicyPersonDistancesHelper, type: :helper do
-  describe ".category_words" do
-    it { expect(helper.category_words(:for3)).to eq "voted consistently for" }
-    it { expect(helper.category_words(:never)).to eq "has never voted on" }
-    it { expect(helper.category_words(:not_enough)).to eq "we can't say anything concrete about how they voted on" }
+  describe ".category_words_sentence2" do
+    it { expect(helper.category_words_sentence2(:for3)).to eq "voted consistently for" }
+    it { expect(helper.category_words_sentence2(:never)).to eq "has never voted on" }
+    it { expect(helper.category_words_sentence2(:not_enough)).to eq "We can't say anything concrete about how they voted on" }
   end
 
   describe ".policy_agreement_summary" do
