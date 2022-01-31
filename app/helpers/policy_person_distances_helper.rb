@@ -6,15 +6,6 @@ module PolicyPersonDistancesHelper
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
     category = policy_person_distance.category(current_user)
-
-    category_words_sentence(category: category, member: member, policy: policy,
-                            with_person: with_person, with_policy: with_policy,
-                            link_person: link_person, link_policy: link_policy)
-  end
-
-  def category_words_sentence(category:, member:, policy:,
-                              with_person: false, with_policy: false,
-                              link_person: false, link_policy: false)
     person_content = (link_to_if(link_person, member.name, member_path_simple(member)) if with_person)
     policy_content = (link_to_if(link_policy, policy.name, policy) if with_policy)
     category_words_sentence2(category, person_content: person_content, policy_content: policy_content)
