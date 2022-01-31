@@ -5,10 +5,11 @@ module PolicyPersonDistancesHelper
   def policy_agreement_summary(policy_person_distance, with_person: false, link_person: false, with_policy: false, link_policy: false)
     member = policy_person_distance.person.latest_member
     policy = policy_person_distance.policy
-    category = policy_person_distance.category(current_user)
-    person_content = (link_to_if(link_person, member.name, member_path_simple(member)) if with_person)
-    policy_content = (link_to_if(link_policy, policy.name, policy) if with_policy)
-    category_words_sentence(category, person: person_content, policy: policy_content)
+    category_words_sentence(
+      policy_person_distance.category(current_user),
+      person: (link_to_if(link_person, member.name, member_path_simple(member)) if with_person),
+      policy: (link_to_if(link_policy, policy.name, policy) if with_policy)
+    )
   end
 
   # This helper has to just concern itself with getting the correct wording and order for a particular category
