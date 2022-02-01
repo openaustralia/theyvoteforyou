@@ -178,15 +178,6 @@ module PoliciesHelper
     Policy.find(version.policy_id)
   end
 
-  def version_attribution_sentence(version)
-    user = User.find(version.whodunnit)
-    out = []
-    out << "by "
-    out << link_to(user.name, user)
-    out << ", #{time_ago_in_words(version.created_at)} ago"
-    safe_join(out)
-  end
-
   # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
   # This helper is both used in the main application as well as the mailer. Therefore the links
   # need to be full URLs including the host
