@@ -207,11 +207,6 @@ module PoliciesHelper
     end
   end
 
-  def version_author_link(version)
-    user = version_author(version)
-    link_to user.name, user_url(user)
-  end
-
   def version_attribution_text(version)
     user = version_author(version)
     "By #{user.name} at #{version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"

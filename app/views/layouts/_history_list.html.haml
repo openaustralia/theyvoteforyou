@@ -15,6 +15,6 @@
         = version_sentence(version)
 
       %p.small.object-primary.text-muted
-        = version_author_link(version)
+        = link_to version_author(version).name, version_author(version)
         = time_ago_in_words(version.created_at)
         ago
