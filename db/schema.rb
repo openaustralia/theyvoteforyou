@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_01_015710) do
+ActiveRecord::Schema.define(version: 2022_02_02_004503) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -244,6 +244,7 @@ ActiveRecord::Schema.define(version: 2022_02_01_015710) do
     t.datetime "updated_at"
     t.string   "api_key"
     t.boolean  "admin",                                   default: false, null: false
+    t.boolean "staff", default: false, null: false
     t.index ["api_key"], name: "index_users_on_api_key", unique: true, using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
