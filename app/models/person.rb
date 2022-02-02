@@ -7,7 +7,7 @@ class Person < ApplicationRecord
   # People who are currently in parliament
   scope :current, -> { joins(:members).merge(Member.current) }
 
-  delegate :name, :name_without_title, :currently_in_parliament?, :party_name, :role, to: :latest_member
+  delegate :name, :currently_in_parliament?, :party_name, :role, to: :latest_member
 
   # Total number of rebellions across all members for this person
   def rebellions

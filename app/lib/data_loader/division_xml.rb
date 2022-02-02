@@ -177,7 +177,7 @@ module DataLoader
 
     def speech_speaker(speech)
       member = Member.find_by(gid: speech.attr(:speakerid))
-      member ? member.name_without_title : speech.attr(:speakername)
+      member ? member.name : speech.attr(:speakername)
     end
 
     def title_case(title)

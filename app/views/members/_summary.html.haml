@@ -1,6 +1,6 @@
 %p.member-description
   - if !member.person.current_offices.empty?
-    = member.name_without_title
+    = member.name
     is
     -# TODO: The UK uses extra Offices data like department so this will need to be expanded
     %span.role= member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."

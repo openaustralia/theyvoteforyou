@@ -4,7 +4,7 @@ class Vote < ApplicationRecord
   belongs_to :division
   belongs_to :member
 
-  delegate :party, :name, :name_without_title, :electorate, to: :member
+  delegate :party, :name, :electorate, to: :member
   delegate :whip_guess, :free?, to: :whip
   delegate :date, to: :division
 

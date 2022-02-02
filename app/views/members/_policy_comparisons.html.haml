@@ -10,7 +10,7 @@
   - else
     - distances = member.person.policy_person_distances.published.includes(:policy)
     - PolicyPersonDistance.all_categories.each do |c|
-      = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.category(current_user) == c }, title: category_words(c).capitalize, label: c.to_s
+      = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.category == c }, title: category_words_sentence(c).capitalize, label: c.to_s
 
   %p.small.text-muted
     Please note that #{link_to 'our voting records start in 2006', help_faq_path(anchor: "timeperiod"), class: 'text-muted'}.

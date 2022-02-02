@@ -2,10 +2,15 @@
 
 %h2
   - if @you
-    Your recent recent contributions
+    Your recent contributions
   - else
     Recent contributions by
     = @user.name
+
+- if !@you && @user.staff
+  %p
+    = @user.name
+    is an OpenAustralia Foundation staff member
 
 - if @history.empty?
   %p No contributions… yet :)

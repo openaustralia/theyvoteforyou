@@ -14,6 +14,8 @@ class Member < ApplicationRecord
   # TODO: Make this more resilient by using current_on(Date.today)
   scope :current, -> { where(left_house: "9999-12-31") }
 
+  # TODO: "title" is unused in application. Remove it from the schema (after removing it from the data_loader)
+
   # Divisions that have been attended
   has_many :divisions, through: :votes
   has_many :member_distances, foreign_key: :member1_id, dependent: :destroy, inverse_of: :member1
@@ -113,10 +115,6 @@ class Member < ApplicationRecord
   end
 
   def name
-    "#{title} #{name_without_title}".strip
-  end
-
-  def name_without_title
     "#{first_name} #{last_name}".strip
   end
 
@@ -186,7 +184,7 @@ class Member < ApplicationRecord
   end
 
   def url_name
-    name_without_title.gsub(" ", "_")
+    name.gsub(" ", "_")
   end
 
   def url_electorate
