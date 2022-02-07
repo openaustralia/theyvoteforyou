@@ -6,8 +6,6 @@ xml_data_base_url: http://data.openaustralia.org.au/
 
 # Enable smarter searching with elasticsearch?
 elasticsearch: false
-# Optionally change the address of the elasticsearch service
-elasticsearch_url: http://localhost:9200
 
 # Name of project to display thoughout the application
 project_name: They Vote For You

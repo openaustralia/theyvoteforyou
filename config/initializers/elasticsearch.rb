@@ -3,4 +3,4 @@
 # To reduce log noise
 Ethon.logger = Logger.new(nil)
 
-ENV["ELASTICSEARCH_URL"] = Settings.elasticsearch_url if Settings.elasticsearch_url
+ENV["ELASTICSEARCH_URL"] = Rails.application.secrets.elasticsearch_url if Rails.application.secrets.elasticsearch_url
