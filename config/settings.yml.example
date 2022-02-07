@@ -17,3 +17,7 @@ time_zone: Sydney
 facebook_admins:
   - 1234
   - 4567
+
+# Hack so that application can know what stage we're in (used for creating sensible partitioned index names
+# for elasticsearch). This would be more sensibly be done with the environment
+stage: production
