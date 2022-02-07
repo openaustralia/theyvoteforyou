@@ -180,13 +180,13 @@ GEM
       dry-equalizer (~> 0.2)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5, >= 1.5.2)
-    elasticsearch (6.2.0)
-      elasticsearch-api (= 6.2.0)
-      elasticsearch-transport (= 6.2.0)
-    elasticsearch-api (6.2.0)
+    elasticsearch (7.13.3)
+      elasticsearch-api (= 7.13.3)
+      elasticsearch-transport (= 7.13.3)
+    elasticsearch-api (7.13.3)
       multi_json
-    elasticsearch-transport (6.2.0)
-      faraday
+    elasticsearch-transport (7.13.3)
+      faraday (~> 1)
       multi_json
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
@@ -284,7 +284,7 @@ GEM
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.8.11)
+    i18n (1.9.1)
       concurrent-ruby (~> 1.0)
     invisible_captcha (2.0.0)
       rails (>= 5.0)
@@ -521,9 +521,9 @@ GEM
       tilt
     sdoc (2.3.0)
       rdoc (>= 5.0, < 6.4.0)
-    searchkick (1.5.1)
-      activemodel
-      elasticsearch (>= 1)
+    searchkick (4.6.3)
+      activemodel (>= 5)
+      elasticsearch (>= 6, < 7.14)
       hashie
     seed_dump (3.3.1)
       activerecord (>= 4)
@@ -594,7 +594,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.3)
+    zeitwerk (2.5.4)
 
 PLATFORMS
   ruby
@@ -619,7 +619,6 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   diffy
-  elasticsearch (~> 6.2.0)
   email_spec
   factory_bot_rails
   flipper
@@ -668,7 +667,7 @@ DEPENDENCIES
   safe_attributes
   sass-rails
   sdoc
-  searchkick (<= 1.5.1)
+  searchkick
   seed_dump
   simple_form
   simplecov
