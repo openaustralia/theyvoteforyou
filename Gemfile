@@ -50,7 +50,11 @@ gem "numbers_and_words", "~> 0.10.0"
 
 gem "searchkick"
 
+# oj and typhoeus used for better performance with searchkick
+# see https://github.com/ankane/searchkick#performance
+gem "oj"
 gem "typhoeus"
+
 gem "foreman"
 
 gem "rack-cors"
