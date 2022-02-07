@@ -6,8 +6,6 @@ xml_data_base_url: http://data.openaustralia.org.au/
 
 # Enable smarter searching with elasticsearch?
 elasticsearch: false
-# Optionally change the address of the elasticsearch service
-elasticsearch_url: http://localhost:9200
 
 # Name of project to display thoughout the application
 project_name: They Vote For You
@@ -17,3 +15,7 @@ time_zone: Sydney
 facebook_admins:
   - 1234
   - 4567
+
+# Hack so that application can know what stage we're in (used for creating sensible partitioned index names
+# for elasticsearch). This would be more sensibly be done with the environment
+stage: production

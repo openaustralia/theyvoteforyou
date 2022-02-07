@@ -46,7 +46,7 @@ Once the people data has been loaded you can start loading votes. These are scra
 ## Development
 
 If your machine is already set up to develop Rails applications with MySQL just
-carry out the following steps and you should be good to go. 
+carry out the following steps and you should be good to go.
 
 Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
 mainly useful with the retired PHP application. A new Vagrant setup can be found in the
@@ -155,10 +155,6 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
 Enable the setting in `config/settings.yml` then [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
-
-We're currently using a very old version of ElasticSearch in production,
-version 1.4.0, so we can't use the latest versions of the searchkick gem
-either.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.

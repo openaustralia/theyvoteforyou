@@ -6,3 +6,7 @@ project_name: They Vote For You
 project_twitter: TheyVote4You
 contact_email: contact@theyvoteforyou.org.au
 time_zone: Sydney
+
+# Hack so that application can know what stage we're in (used for creating sensible partitioned index names
+# for elasticsearch). This would be more sensibly be done with the environment
+stage: test

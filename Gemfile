@@ -48,12 +48,13 @@ gem "foundation-icons-sass-rails"
 gem "meta-tags"
 gem "numbers_and_words", "~> 0.10.0"
 
-gem "searchkick", "<= 1.5.1"
-# We also need to use an old version of the elasticsearch gem to work with
-# this old version of searchkick
-gem "elasticsearch", "~> 6.2.0"
+gem "searchkick"
 
+# oj and typhoeus used for better performance with searchkick
+# see https://github.com/ankane/searchkick#performance
+gem "oj"
 gem "typhoeus"
+
 gem "foreman"
 
 gem "rack-cors"

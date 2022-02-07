@@ -1,0 +1,8 @@
+- if Rails.application.secrets.honeybadger_javascript_api_key
+  = javascript_include_tag "//js.honeybadger.io/v3.0/honeybadger.min.js"
+  -# We're using a different API key for the js front end to what's used by the backend
+  :javascript
+    Honeybadger.configure({
+      apiKey: '#{Rails.application.secrets.honeybadger_javascript_api_key}',
+      environment: '#{Rails.env}'
+    });
