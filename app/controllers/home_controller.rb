@@ -40,16 +40,16 @@ class HomeController < ApplicationController
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
       res = helpers.senator_search(params[:query])
-      
-      if !res.empty?
-        member = Member.current.where(:house => res[0], :constituency => res[1])
+
+      if res.empty?
+        @mps = Member.search_with_sql_fallback params[:query]
+      else
+        member = Member.current.where(house: res[0], constituency: res[1])
 
         member.each do |m|
           @mps << m unless m.nil?
         end
 
-      else
-        @mps = Member.search_with_sql_fallback params[:query]
       end
 
       @divisions = Division.search_with_sql_fallback params[:query]
