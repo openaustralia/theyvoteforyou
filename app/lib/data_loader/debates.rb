@@ -50,7 +50,9 @@ module DataLoader
 
               division.votes.delete_all(:delete_all)
               d.votes.each do |gid, vote|
-                member = Member.find_by!(gid: gid)
+                member = Member.find_by(gid: gid)
+                raise "Couldn't find member by gid #{gid}" if member.nil?
+
                 Vote.create!(division: division, member: member, vote: vote[0], teller: vote[1])
               end
             end
