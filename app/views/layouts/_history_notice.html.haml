@@ -6,6 +6,6 @@
       = link_to "Policy last edited #{time_ago_in_words(policy.last_edited_at)} ago", history_policy_path(policy), title: "View the edit history of this policy."
     by
     -if division
-      = link_to division.wiki_motion.user.name, division.wiki_motion.user
+      = name_with_badge(division.wiki_motion.user)
     -elsif policy
-      = link_to policy.last_edited_by.name, policy.last_edited_by
+      = name_with_badge(policy.last_edited_by)

@@ -67,7 +67,7 @@ module MembersHelper
     out = []
     out << "Before being "
     out << member_type_party_place_sentence_without_former(member)
-    out << ", #{member.name_without_title} was "
+    out << ", #{member.name} was "
     # TODO: This looks like it assumes the member is the most recent one. Is that always the case?
     t = member.person.members.order(entered_house: :desc).offset(1).map do |member2, _i|
       out2 = []

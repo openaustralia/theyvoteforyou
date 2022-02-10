@@ -32,7 +32,8 @@ class UserDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     api_key: Field::String,
-    admin: Field::Boolean
+    admin: Field::Boolean,
+    staff: Field::Boolean
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -43,6 +44,7 @@ class UserDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = %i[
     name
     email
+    staff
     admin
   ].freeze
 
@@ -52,6 +54,7 @@ class UserDashboard < Administrate::BaseDashboard
     id
     name
     email
+    staff
     admin
     created_at
     updated_at
@@ -63,6 +66,7 @@ class UserDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     name
     email
+    staff
     admin
   ].freeze
 

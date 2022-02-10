@@ -2,7 +2,7 @@
 
 class Division < ApplicationRecord
   # TODO: Remove markdown from db schema because it is no longer used
-  searchkick if Settings.elasticsearch
+  searchkick index_name: "tvfy_divisions_#{Settings.stage}" if Settings.elasticsearch
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy
   has_many :votes, dependent: :destroy

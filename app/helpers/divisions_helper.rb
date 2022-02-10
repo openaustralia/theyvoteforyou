@@ -148,11 +148,11 @@ module DivisionsHelper
   end
 
   def member_vote(member, division)
-    member.name_without_title + " voted #{vote_display(division.vote_for(member))}"
+    member.name + " voted #{vote_display(division.vote_for(member))}"
   end
 
   def member_vote_with_type(member, division)
-    sentence = member.name_without_title
+    sentence = member.name
     if member.attended_division?(division)
       sentence += " voted #{vote_display(division.vote_for(member))}"
       if member.division_vote(division).rebellion?
@@ -168,7 +168,7 @@ module DivisionsHelper
   end
 
   def member_vote_with_party(member, division)
-    sentence = member.name_without_title
+    sentence = member.name
     if member.attended_division?(division)
       sentence += " voted #{vote_display(division.vote_for(member))}"
       if member.subject_to_whip? && !division.whip_for_party(member.party).free_vote?

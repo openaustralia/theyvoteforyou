@@ -1,17 +1,15 @@
 - content_for :title do
-  = @member.name
-  = policy_agreement_summary(@policy_person_distance)
-  = @policy.name
-- set_meta_tags description: "How #{@member.name_without_title} voted in parliament on #{@policy.name}."
+  = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
+- set_meta_tags description: "How #{@member.name} voted in parliament on #{@policy.name}."
 :ruby
   set_meta_tags og: {
-    title: "#{@member.name_without_title} #{policy_agreement_summary(@policy_person_distance)} #{@policy.name}.",
-    description: "Discover how #{@member.name_without_title} voted on #{@policy.name}.",
+    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)}.",
+    description: "Discover how #{@member.name} voted on #{@policy.name}.",
     type: "profile",
     url: request.original_url,
     image: {
       _: @member.large_image_url,
-      alt: "Photo of #{@member.name_without_title}",
+      alt: "Photo of #{@member.name}",
       width: @member.large_image_width,
       height: @member.large_image_height
     },
@@ -22,22 +20,20 @@
     site: "@" + Settings.project_twitter,
     image: {
       _: @member.large_image_url,
-      alt: "Photo of #{@member.name_without_title}",
+      alt: "Photo of #{@member.name}",
     },
-    title: "#{@member.name_without_title} #{policy_agreement_summary(@policy_person_distance)} #{@policy.name}.",
-    description: "Discover how #{@member.name_without_title} voted on #{@policy.name}."
+    title: "#{policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)}.",
+    description: "Discover how #{@member.name} voted on #{@policy.name}."
   }
 .page-header.row
   .col-md-9.col-lg-10
     .media
       - if @member.show_large_image?
         = link_to member_path_simple(@member), class: "pull-left" do
-          = image_tag(@member.large_image_url, alt: "Photo of #{@member.name_without_title}", size: @member.large_image_size, class: "media-object")
+          = image_tag(@member.large_image_url, alt: "Photo of #{@member.name}", size: @member.large_image_size, class: "media-object")
       .media-body
         %h1.media-heading.long-title
-          = link_to @member.name, member_path_simple(@member)
-          = policy_agreement_summary(@policy_person_distance)
-          = link_to @policy.name, @policy
+          = policy_agreement_summary(@policy_person_distance, with_person: true, link_person: true, with_policy: true, link_policy: true)
   .header-secondary.col-sm-12
     -# We don't want people sharing incomplete policies
     - if @policy.published?

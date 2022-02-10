@@ -16,7 +16,7 @@
   division.
 
 %p
-  = link_to "View division", @division
+  = link_to "View division", division_path_simple(@division)
   |
   = link_to "Edit description", edit_division_path_simple(@division), class: "link-division-edit"
 
@@ -29,10 +29,10 @@
     - @division.wiki_motions.each do |wiki_motion|
       %tr
         %td{width: "16%"}
-          = link_to "#{@division.house} vote #{@division.date}##{@division.number}", @division
+          = link_to "#{@division.house} vote #{@division.date}##{@division.number}", division_path_simple(@division)
           %p
             Edited by
-            = link_to wiki_motion.user.name, wiki_motion.user
+            = name_with_badge(wiki_motion.user)
           %p
             on
             = wiki_motion.created_at.strftime('%F %T')

@@ -10,7 +10,7 @@ class HomeController < ApplicationController
   def about; end
 
   def search
-    @current_members = Member.current.map { |m| m.name_without_title.downcase }
+    @current_members = Member.current.map { |m| m.name.downcase }
     @mps = []
     @divisions = []
 

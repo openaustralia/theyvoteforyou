@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Member < ApplicationRecord
-  searchkick if Settings.elasticsearch
+  searchkick index_name: "tvfy_members_#{Settings.stage}" if Settings.elasticsearch
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
@@ -13,6 +13,8 @@ class Member < ApplicationRecord
   }
   # TODO: Make this more resilient by using current_on(Date.today)
   scope :current, -> { where(left_house: "9999-12-31") }
+
+  # TODO: "title" is unused in application. Remove it from the schema (after removing it from the data_loader)
 
   # Divisions that have been attended
   has_many :divisions, through: :votes
@@ -113,10 +115,6 @@ class Member < ApplicationRecord
   end
 
   def name
-    "#{title} #{name_without_title}".strip
-  end
-
-  def name_without_title
     "#{first_name} #{last_name}".strip
   end
 
@@ -186,7 +184,7 @@ class Member < ApplicationRecord
   end
 
   def url_name
-    name_without_title.gsub(" ", "_")
+    name.gsub(" ", "_")
   end
 
   def url_electorate

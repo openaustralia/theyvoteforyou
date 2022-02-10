@@ -10,7 +10,7 @@
   = version_sentence(@version)
 
 %p.small.object-primary
-  = version_author_link(@version)
+  = link_to version_author(@version).name, version_author(@version)
   %span.text-muted.small
     = @version.created_at.strftime("%l:%M%p - %d %b %Y")
 

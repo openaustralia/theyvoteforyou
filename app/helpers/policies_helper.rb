@@ -1,43 +1,6 @@
 # frozen_string_literal: true
 
 module PoliciesHelper
-  # Returns things like "voted strongly against", "has never voted on", etc..
-  def policy_agreement_summary(policy_person_distance)
-    category_words(policy_person_distance.category(current_user))
-  end
-
-  def policy_agreement_summary_short(policy_person_distance)
-    category_words_short(policy_person_distance.category(current_user))
-  end
-
-  def category_words(category)
-    {
-      for3: "voted consistently for",
-      for2: "voted almost always for",
-      for1: "voted generally for",
-      mixture: "voted a mixture of for and against",
-      against1: "voted generally against",
-      against2: "voted almost always against",
-      against3: "voted consistently against",
-      never: "has never voted on",
-      not_enough: "has not voted enough to determine a position on"
-    }[category]
-  end
-
-  def category_words_short(category)
-    {
-      for3: "consistently for",
-      for2: "almost always for",
-      for1: "generally for",
-      mixture: "a mixture of for and against",
-      against1: "generally against",
-      against2: "almost always against",
-      against3: "consistently against",
-      never: "never voted on",
-      not_enough: "not voted enough to determine a position on"
-    }[category]
-  end
-
   def quote(word)
     "“#{word}”"
   end
@@ -215,15 +178,6 @@ module PoliciesHelper
     Policy.find(version.policy_id)
   end
 
-  def version_attribution_sentence(version)
-    user = User.find(version.whodunnit)
-    out = []
-    out << "by "
-    out << link_to(user.name, user)
-    out << ", #{time_ago_in_words(version.created_at)} ago"
-    safe_join(out)
-  end
-
   # TODO: Remove duplication between version_sentence and version_sentence_text and methods they call
   # This helper is both used in the main application as well as the mailer. Therefore the links
   # need to be full URLs including the host
@@ -251,11 +205,6 @@ module PoliciesHelper
     else
       User.find(version.whodunnit)
     end
-  end
-
-  def version_author_link(version)
-    user = version_author(version)
-    link_to user.name, user_url(user)
   end
 
   def version_attribution_text(version)
