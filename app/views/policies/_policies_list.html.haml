@@ -18,3 +18,27 @@
 
           %p.policy-subscriber-count.visible-md.visible-lg.col-md-7.text-muted.small
             = pluralize(policy.watches.count, "subscriber")
+
+:javascript
+  input = document.getElementById('policy-search');
+  input.addEventListener('keyup', list_filter_search)
+
+  function list_filter_search() {
+    var input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById('policy-search');
+    filter = input.value.toLowerCase();
+    ul = document.querySelector(".policies-list.list-unstyled");
+    li = ul.getElementsByTagName('li');
+
+    for (i = 0; i < li.length; i++) {
+      a = li[i].getElementsByTagName("a")[0];
+      element = a.getElementsByClassName('policy-title object-heading panel-link-title col-md-7')
+      text = element[0].innerText.trim()
+      
+      if (text.toLowerCase().includes(filter.trim())) {
+        li[i].style.display = "";
+      } else {
+        li[i].style.display = "none";
+      }
+    }
+  }
