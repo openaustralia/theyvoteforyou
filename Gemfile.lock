@@ -310,7 +310,7 @@ GEM
     kaminari-core (1.2.2)
     launchy (2.5.0)
       addressable (~> 2.7)
-    libv8-node (15.14.0.1)
+    libv8-node (15.14.0.1-x86_64-linux)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -355,7 +355,6 @@ GEM
     mina-multistage (1.0.3)
       mina (~> 1.0)
     mini_mime (1.1.2)
-    mini_portile2 (2.6.1)
     mini_racer (0.4.0)
       libv8-node (~> 15.14.0.0)
     minitest (5.15.0)
@@ -377,8 +376,7 @@ GEM
     net-ssh (6.1.0)
     newrelic_rpm (8.4.0)
     nio4r (2.5.8)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -598,7 +596,7 @@ GEM
     zeitwerk (2.5.4)
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   administrate
@@ -681,4 +679,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.17.3
+   2.3.7
