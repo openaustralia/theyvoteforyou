@@ -46,7 +46,7 @@ gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
 gem "meta-tags"
-gem "numbers_and_words", "~> 0.10.0"
+gem "numbers_and_words"
 
 gem "searchkick"
 
