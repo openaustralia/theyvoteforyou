@@ -7,7 +7,7 @@ set :repo_url, "https://github.com/openaustralia/publicwhip.git"
 
 set :rails_env, "production"
 
-set :rvm_ruby_version, "2.5.8"
+set :rvm_ruby_version, "3.0.0"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
