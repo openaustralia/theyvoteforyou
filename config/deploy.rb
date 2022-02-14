@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-lock "3.7.2"
-
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/publicwhip.git"
 

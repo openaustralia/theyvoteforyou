@@ -105,11 +105,10 @@ group :development do
   gem "mailcatcher"
   gem "rack-mini-profiler"
 
-  # We've also locked the version if config/deploy.rb for some reason
-  gem "capistrano", "3.7.2", require: false
-  gem "capistrano-rails", "~> 1.1", require: false
+  gem "capistrano", require: false
+  gem "capistrano-rails", require: false
   gem "capistrano-rvm"
-  gem "capistrano-maintenance", "~> 1.0", require: false
+  gem "capistrano-maintenance", require: false
 
   gem "mina"
   gem "mina-multistage", require: false
