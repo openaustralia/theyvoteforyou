@@ -20,7 +20,7 @@ module ApplicationHelper
   end
 
   def body_class
-    if current_page?(controller: "/home", action: "about")
+    if current_page?({controller: "/home", action: "about"})
       "about"
     else
       controller.controller_path
