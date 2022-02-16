@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "rails", "6.0.4.4"
+gem "rails", "6.0.4.6"
 gem "mysql2"
 
 gem "sprockets"
