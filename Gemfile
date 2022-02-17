@@ -73,6 +73,9 @@ gem "flipper-ui"
 # Used for checking whether URLs are valid in rake task
 gem "httparty"
 
+# Used for taking screenshots of the social media cards in rake tas
+gem "selenium-webdriver"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap"
 
