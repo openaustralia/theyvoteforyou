@@ -170,6 +170,11 @@ namespace :application do
   end
 
   namespace :generate do
+    desc "A task to capture all screenshots of the social media sharing cards"
+    task cards: :environment do
+      task("application:generate:member_policy_vote").invoke
+    end
+
     desc "Screenshot and save urls given by their names."
     task :capture_screenshots, %i[urls save_path width height] => :environment do |_t, args|
       require "selenium-webdriver"
