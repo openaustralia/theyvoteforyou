@@ -193,5 +193,22 @@ namespace :application do
       driver.quit
     end
 
+    desc "Generate screenshots for social media sharing"
+    task member_policy_vote: :environment do
+      include PathHelper
+      include Rails.application.routes.url_helpers
+      urls_and_name = []
+
+      PolicyPersonDistance.find_each do |ppd|
+        temp = []
+        member = Person.find(ppd.person_id).latest_member
+        policy = Policy.find(ppd.policy_id)
+        temp << "http://#{ActionMailer::Base.default_url_options[:host]}#{member_policy_path_simple(member, policy)}?card=true&pp=disable"
+        temp << "#{member.id}_#{policy.id}.png"
+        urls_and_name << temp
+      end
+      save_path = Rails.root.join("app/assets/images/production_cards/member_policy_vote")
+      task("application:generate:capture_screenshots").invoke(urls_and_name, save_path, 600, 350)
+    end
   end
 end
