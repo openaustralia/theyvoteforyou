@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_004503) do
+ActiveRecord::Schema.define(version: 2022_02_17_004002) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -225,8 +225,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_004503) do
   end
 
   create_table "users", force: true do |t|
-    t.text     "name", null: false
-    t.text     "email"
+    t.string "name", null: false
+    t.string "email"
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
