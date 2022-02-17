@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class DivisionParameterParser
-  YEAR_ONLY_REGEX = /^\d{4}$/.freeze
-  YEAR_AND_MONTH_REGEX = /^\d{4}-\d{1,2}$/.freeze
-  COMPLETE_DATE_REGEX = /^\d{4}-\d{1,2}-\d{1,2}$/.freeze
+  YEAR_ONLY_REGEX = /^\d{4}$/
+  YEAR_AND_MONTH_REGEX = /^\d{4}-\d{1,2}$/
+  COMPLETE_DATE_REGEX = /^\d{4}-\d{1,2}-\d{1,2}$/
 
   def self.date_range(date)
     if date =~ YEAR_ONLY_REGEX

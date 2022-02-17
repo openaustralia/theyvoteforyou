@@ -12,7 +12,7 @@ FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "henare#{n}@oaf.org.au" }
     password { "password" }
-    sequence(:name) { |n| "Henare Degan #{n}" }
+    name { "Henare Degan" }
   end
 
   factory :division do

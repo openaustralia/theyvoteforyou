@@ -57,7 +57,7 @@ class Member < ApplicationRecord
     # Strip titles like "Ms"
     name.slice!(0) if name[0] == "Ms" || name[0] == "Mrs" || name[0] == "Mr"
     first_name = name[0]
-    last_name = name[1..-1].join(" ")
+    last_name = name[1..].join(" ")
     [first_name, last_name]
   end
 
