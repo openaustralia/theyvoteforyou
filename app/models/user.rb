@@ -16,7 +16,7 @@ class User < ApplicationRecord
   has_many :policies, dependent: :restrict_with_exception
   has_many :watches, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :name, presence: true
 
   def password_required?
     name != User.system_name && (!persisted? || !password.nil? || !password_confirmation.nil?)
