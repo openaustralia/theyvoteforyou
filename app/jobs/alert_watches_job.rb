@@ -5,7 +5,9 @@ class AlertWatchesJob < ApplicationJob
 
   def perform(policy, version)
     policy.watches.each do |watch|
-      AlertMailer.policy_updated(policy, version, watch.user).deliver
+      # Workaround for problem where a small number of users' email has been set to nil
+      # https://github.com/openaustralia/publicwhip/issues/1344
+      AlertMailer.policy_updated(policy, version, watch.user).deliver unless watch.user.email.blank?
     end
   end
 end
