@@ -6,7 +6,7 @@ class ConvertUsersTextFieldsToString < ActiveRecord::Migration[6.0]
 
     # There's only spam accounts that have long names or emails. So we can just chop them off
     User.find_each do |user|
-      user.update(temp_name: user.name[0..254], temp_email: user.email&.[](0..254))
+      user.update!(temp_name: user.name[0..254], temp_email: user.email&.[](0..254))
     end
 
     remove_column :users, :name
