@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
     resources :users
     resources :policies
+    resources :watches
 
     root to: "users#index"
   end
