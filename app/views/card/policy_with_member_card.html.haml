@@ -1,0 +1,33 @@
+.card-container
+    %p.logo 
+        %span.subtext They Vote For You 
+    .row
+        .col-sm-12 
+            .image-card 
+                .member-image 
+                    %img{:src => @member.large_image_url} 
+                %div.fitin
+                    .heading-text
+                        = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
+    %p.disclaimer 
+        %span.subtext
+            = @link_to_policy
+
+
+
+:javascript
+    window.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed');
+
+        fitin = document.querySelector('.fitin');
+        fitin_inner = document.querySelector('div .heading-text');
+
+        while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+            fontStyling = window
+                .getComputedStyle(fitin_inner, null)
+                .getPropertyValue('font-size');
+            fontSize = parseFloat(fontStyling);
+            fitin_inner.style.fontSize = fontSize - 1 + 'px';
+        }
+
+    });
