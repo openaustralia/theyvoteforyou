@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_004503) do
+ActiveRecord::Schema.define(version: 2022_02_17_035040) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -193,6 +193,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_004503) do
     t.datetime "updated_at"
     t.index ["id", "name", "user_id"], name: "dream_id", unique: true, using: :btree
     t.index ["user_id"], name: "user_id", using: :btree
+    t.index ["name"], name: "index_policies_on_name", unique: true
   end
 
   create_table "policy_divisions", force: true do |t|
@@ -225,8 +226,8 @@ ActiveRecord::Schema.define(version: 2022_02_02_004503) do
   end
 
   create_table "users", force: true do |t|
-    t.text     "name", null: false
-    t.text     "email"
+    t.string "name", null: false
+    t.string "email"
     t.string   "encrypted_password",     default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"

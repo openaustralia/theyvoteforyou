@@ -4,7 +4,7 @@ dist: focal
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y tidy
-  - gem install bundler:1.17.3
+  - gem install bundler
 
 before_script:
   # TODO: Reinstate brakeman as soon as we've upgrade to rails 5.2

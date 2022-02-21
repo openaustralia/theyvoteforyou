@@ -15,7 +15,7 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 <%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. We owe Julian and Francis a massive debt of gratitude for everything they've done.
 
-A huge thank you to [Google Australia](http://www.google.com.au) whose donation made the development of this project possible.
+A huge thank you to [Google Australia](http://www.google.com.au) whose donation in 2013 made the initial development of this project possible.
 
 <%= inline_project_name %> was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies before launch was done by the magnificent Micaela Ash and Natasha Burrows.
 

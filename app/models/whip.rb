@@ -95,6 +95,10 @@ class Whip < ApplicationRecord
       elsif division.date == Date.new(2017, 12, 7)
         # Assuming that only the two major parties had a free vote
         ["Liberal Party", "National Party", "Australian Labor Party"].include?(party)
+      # Mitochondrial Donation Law Reform (Maeve's Law) Bill 2021
+      # See https://www.theguardian.com/australia-news/2021/dec/01/controversial-mitochondrial-donation-legalised-after-conscience-vote
+      elsif division.date == Date.new(2021, 12, 1) && division.number == 3
+        ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
       end
     when "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
@@ -124,6 +128,10 @@ class Whip < ApplicationRecord
       elsif division.date == Date.new(2019, 10, 16) && division.number == 3
         # Congratulate NSW on decriminalising abortion
         party == "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
+      # Mitochondrial Donation Law Reform (Maeve's Law) Bill 2021
+      # See https://www.theguardian.com/australia-news/2021/dec/01/controversial-mitochondrial-donation-legalised-after-conscience-vote
+      elsif (division.date == Date.new(2022, 2, 9) && division.number >= 5) || (division.date == Date.new(2022, 2, 10) && [6, 8, 9, 10].include?(division.number))
+        ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
       end
     end
     # rubocop:enable Lint/DuplicateBranch
