@@ -20,9 +20,8 @@
   were against the majority vote for their party giving an average rebellion rate of
   <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
 %p
-  %strong= User.count
-  contributors have created
+  There are
   %strong= Policy.count
-  policies and summarised
+  policies and
   %strong= Division.edited.count
-  divisions.
+  summarised divisions.
