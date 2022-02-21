@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
 
     resources :users
+    resources :policies
 
     root to: "users#index"
   end
