@@ -102,8 +102,8 @@ class PolicyPersonDistance < ApplicationRecord
     }
   end
 
-  def self.all_categories
-    %i[
+  def self.all_categories(reverse: false)
+    list = %i[
       for3
       for2
       for1
@@ -111,8 +111,10 @@ class PolicyPersonDistance < ApplicationRecord
       against1
       against2
       against3
-      not_enough
     ]
+    list.reverse! if reverse
+    # Always put :not_enough at the end irrespective of whether we're reversing the list
+    list + [:not_enough]
   end
 
   def category
