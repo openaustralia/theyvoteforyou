@@ -24,6 +24,8 @@ class PoliciesController < ApplicationController
 
   def show
     @policy = Policy.find(params[:id])
+    @sort = params[:sort]
+    @categories = PolicyPersonDistance.all_categories(reverse: (@sort == "against"))
   end
 
   def edit

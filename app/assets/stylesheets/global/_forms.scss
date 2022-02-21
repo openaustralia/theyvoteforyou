@@ -20,6 +20,13 @@
       display: inline-block;
     }
   }
+
+  .lead {
+    @media (min-width: 33em) {
+      margin-bottom: 0;
+      float: left;
+    }
+  }
 }
 
 .list-house-switcher {

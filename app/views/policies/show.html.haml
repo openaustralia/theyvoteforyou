@@ -6,13 +6,32 @@
 = render 'page_header', policy: @policy
 
 - if @policy.divisions.count > 0
-  %p.lead
-    = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+  .list-filters.clearfix
+    %p.lead
+      = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+
+    .list-sorter.dropdown
+      .btn-group
+        %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", data: {toggle: "dropdown"}}
+          Show
+          %em
+            = @sort.nil? ? "for" : "against"
+          first
+          %span.caret
+        %ul.dropdown-menu
+          %li{class: ("disabled" if @sort.nil?)}
+            = link_to({sort: nil}, title: "Show people voting for the policy first and those against it last") do
+              %em for
+              first
+          %li{class: ("disabled" if @sort == "against")}
+            = link_to({sort: "against"}, title: "Show people voting against the policy first and those for it last") do
+              %em against
+              first
 
   %section.page-section#members
     .policy-comparisions
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
-      - PolicyPersonDistance.all_categories.each do |c|
+      - @categories.each do |c|
         = render 'policy_comparisons_block', policy: @policy, title: category_words_sentence(c).capitalize, label: c.to_s, distances: distances.select{ |d| d.category == c }
 
   %section.page-section#divisions
