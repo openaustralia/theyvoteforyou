@@ -45,6 +45,7 @@ class PolicyDashboard < Administrate::BaseDashboard
     user
     created_at
     updated_at
+    watches
   ].freeze
 
   # FORM_ATTRIBUTES

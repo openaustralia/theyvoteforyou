@@ -45,6 +45,8 @@ module Admin
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
 
+    # This should also stop these actions when viewing the watches for a particular user
+    # but it doesn't. See the bug https://github.com/thoughtbot/administrate/issues/2060
     def valid_action?(name, resource = resource_class)
       %w[new edit destroy].exclude?(name.to_s) && super
     end

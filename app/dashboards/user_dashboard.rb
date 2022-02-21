@@ -46,6 +46,7 @@ class UserDashboard < Administrate::BaseDashboard
     email
     staff
     admin
+    watches
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -58,6 +59,7 @@ class UserDashboard < Administrate::BaseDashboard
     admin
     created_at
     updated_at
+    watches
   ].freeze
 
   # FORM_ATTRIBUTES
