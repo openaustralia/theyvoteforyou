@@ -1,8 +1,15 @@
 - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
 - divisions = divisions.select{ |d| person.could_have_voted_in_division?(d) } if person
 
-%h3 Most important divisions for this policy
+%h3 Most important divisions relevant to this policy
+%p
+  These are the most importants divisions related to the policy “#{policy.name_with_for}”. They are weighted much
+  more strongly than other divisions when calculating the position of
+  = person&.name || "a person"
+  on this policy.
 = render "policies/vote_summary_table", person: person, policy: policy, divisions: divisions.select{ |d| d.policy_vote_strong?(policy) }
 
 %h3 Other divisions relevant to this policy
+%p
+  These are less importants divisions which are related to the policy “#{policy.name_with_for}”.
 = render "policies/vote_summary_table", person: person, policy: policy, divisions: divisions.select{ |d| !d.policy_vote_strong?(policy) }
