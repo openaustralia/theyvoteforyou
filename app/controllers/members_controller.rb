@@ -63,11 +63,6 @@ class MembersController < ApplicationController
     @policy_person_distance = @member.person.policy_person_distances.find_by!(policy: @policy)
 
     return render "policies/show_with_member" if params[:card].nil?
-
-    @link_to_policy = "How is this worked out? #{request.original_url}"
-    @link_to_policy = @link_to_policy.sub("https://", "")
-    @link_to_policy = @link_to_policy.sub("?card=true", "")
-
     render "card/policy_with_member_card", layout: "card_layout"
   end
 
