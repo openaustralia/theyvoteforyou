@@ -1,3 +1,8 @@
 - divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc)
 - divisions = divisions.select{ |d| person.could_have_voted_in_division?(d) } if person
-= render "policies/vote_summary_table2", person: person, policy: policy, divisions: divisions
+
+%h3 Most important divisions for this policy
+= render "policies/vote_summary_table2", person: person, policy: policy, divisions: divisions.select{ |d| d.policy_vote_strong?(policy) }
+
+%h3 Other divisions relevant to this policy
+= render "policies/vote_summary_table2", person: person, policy: policy, divisions: divisions.select{ |d| !d.policy_vote_strong?(policy) }
