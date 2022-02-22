@@ -63,6 +63,7 @@ class MembersController < ApplicationController
     @policy_person_distance = @member.person.policy_person_distances.find_by!(policy: @policy)
 
     return render "policies/show_with_member" if params[:card].nil?
+
     render "card/policy_with_member_card", layout: "card_layout"
   end
 
