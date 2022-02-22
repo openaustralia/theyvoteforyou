@@ -1,0 +1,23 @@
+%table.table.divisions-table
+  %thead
+    %tr
+      %th Division
+      - if person
+        %th= person.name
+      %th.policyvotehead Supporters vote
+  %tbody
+    - if divisions.empty?
+      %tr
+        %td{colspan: 7} no votes listed
+    - else
+      - divisions.each do |division|
+        %tr{class: ('strong' if division.policy_vote_strong?(policy))}
+          %td
+            %h3.division-title.h4
+              %small.pre-title= division_date_and_time(division) + " – " + division.house_name
+              = link_to(division.name, division_path_simple(division))
+          - if person
+            %td.division-member-vote{data: {member: "#{person.name}"}}
+              = vote_display(person.vote_on_division_without_tell(division))
+          %td.division-policy-vote
+            = vote_display(division.policy_vote(policy))
