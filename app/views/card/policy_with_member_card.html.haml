@@ -1,0 +1,19 @@
+.socialmedia-card
+    %p.logo 
+        %span.subtext They Vote For You 
+    .row
+        .col-sm-12 
+            .image-card 
+                .member-image 
+                    %img{src: @member.large_image_url} 
+                %div.fitin
+                    .heading-text
+                        = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
+    %p.disclaimer 
+        %span.subtext
+            How is this worked out? 
+            = remove_slash(get_hostname(root_url) + member_policy_path_simple(@member, @policy)) 
+            
+
+
+= javascript_include_tag "card"

@@ -62,7 +62,9 @@ class MembersController < ApplicationController
     # If policy_person_distance doesn't exist then return a 404
     @policy_person_distance = @member.person.policy_person_distances.find_by!(policy: @policy)
 
-    render "policies/show_with_member"
+    return render "policies/show_with_member" if params[:card].nil?
+
+    render "card/policy_with_member_card", layout: "card_layout"
   end
 
   def compare
