@@ -168,4 +168,29 @@ namespace :application do
       end
     end
   end
+
+  namespace :generate do
+    desc "Screenshot and save urls given by their names."
+    task :capture_screenshots, %i[urls save_path width height] => :environment do |_t, args|
+      require "selenium-webdriver"
+      include PathHelper
+      include Rails.application.routes.url_helpers
+
+      options = Selenium::WebDriver::Chrome::Options.new
+      options.add_argument("--headless")
+      driver = Selenium::WebDriver.for :chrome, options: options
+
+      args[:urls].each do |url_and_name|
+        url, file_name = url_and_name
+        driver.get(url)
+        driver.manage.window.resize_to(args[:width], args[:height])
+        picture = driver.screenshot_as(:png)
+        File.open("#{args[:save_path]}/#{file_name}", "wb+") do |fh|
+          fh.write picture
+        end
+      end
+
+      driver.quit
+    end
+  end
 end
