@@ -2,13 +2,6 @@
 !!! 5
 %html.no-js(lang="en")
   %head
-    %meta(charset="utf-8")
-    %meta(http-equiv="X-UA-Compatible" content="IE=edge")
-    %meta(name="viewport" content="width=device-width, initial-scale=1")
-    %meta{:name => "robots", :content => "noindex"}
-    - if Settings.facebook_admins
-      - Settings.facebook_admins.each do |admin_id|
-        %meta(property="fb:admins" content="#{admin_id}")
     %title
       - if content_for? :title
         = yield :title
@@ -19,10 +12,6 @@
     = stylesheet_link_tag "//code.cdn.mozilla.net/fonts/fira.css"
     = stylesheet_link_tag "application"
 
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     = csrf_meta_tag
     = display_meta_tags
   %body{class: "#{body_class}"}
