@@ -21,6 +21,10 @@ module PathHelper
     member_path_simple(person.latest_member)
   end
 
+  def person_policy_path_simple(person, policy)
+    member_policy_path_simple(person.latest_member, policy)
+  end
+
   def member_path_simple(member)
     member_path(member.url_params)
   end
