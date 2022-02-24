@@ -74,12 +74,15 @@ class Policy < ApplicationRecord
                       else
                         :nvotesdifferstrong
                       end
-                    elsif member_vote == "absent"
-                      :nvotesabsent
-                    elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-                      :nvotessame
                     else
-                      :nvotesdiffer
+                      case member_vote
+                      when "absent"
+                        :nvotesabsent
+                      when PolicyDivision.vote_without_strong(policy_division.vote)
+                        :nvotessame
+                      else
+                        :nvotesdiffer
+                      end
                     end
 
         ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
