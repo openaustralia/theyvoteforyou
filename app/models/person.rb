@@ -63,7 +63,7 @@ class Person < ApplicationRecord
     !!small_image_url
   end
 
-  # Currently hardcoded to the image sizes that openaustralia.org.au uses
+  # These are images sizes only used on the social cards
   def extra_large_image_width
     150
   end
@@ -72,12 +72,14 @@ class Person < ApplicationRecord
     200
   end
 
+  # Currently hardcoded to the image sizes that openaustralia.org.au uses
+  # Matches sizes set in https://github.com/openaustralia/openaustralia-parser/blob/master/lib/people_image_downloader.rb#L13
   def large_image_width
     88
   end
 
   def large_image_height
-    115
+    118
   end
 
   def small_image_width
@@ -85,7 +87,7 @@ class Person < ApplicationRecord
   end
 
   def small_image_height
-    58
+    59
   end
 
   def extra_large_image_size
