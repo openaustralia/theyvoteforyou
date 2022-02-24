@@ -51,6 +51,10 @@ class Person < ApplicationRecord
     votes_attended.to_f / votes_possible if votes_possible.positive?
   end
 
+  def show_extra_large_image?
+    !!extra_large_image_url
+  end
+
   def show_large_image?
     !!large_image_url
   end
@@ -60,6 +64,14 @@ class Person < ApplicationRecord
   end
 
   # Currently hardcoded to the image sizes that openaustralia.org.au uses
+  def extra_large_image_width
+    150
+  end
+
+  def extra_large_image_height
+    200
+  end
+
   def large_image_width
     88
   end
@@ -74,6 +86,10 @@ class Person < ApplicationRecord
 
   def small_image_height
     58
+  end
+
+  def extra_large_image_size
+    "#{extra_large_image_width}x#{extra_large_image_height}"
   end
 
   def large_image_size

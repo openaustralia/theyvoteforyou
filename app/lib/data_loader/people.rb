@@ -20,6 +20,11 @@ module DataLoader
         url = "https://www.openaustralia.org.au/images/mpsL/#{person.id}.jpg"
         person.update(large_image_url: url) if CheckResourceExists.call(url)
       end
+      Person.where(extra_large_image_url: nil).find_each do |person|
+        Rails.logger.info "Checking extra large photo for person #{person.id}..."
+        url = "https://www.openaustralia.org.au/images/mpsXL/#{person.id}.jpg"
+        person.update(extra_large_image_url: url) if CheckResourceExists.call(url)
+      end
     end
 
     # people.xml
