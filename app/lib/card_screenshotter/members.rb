@@ -5,7 +5,6 @@ include Rails.application.routes.url_helpers
 module CardScreenshotter
   class Members
     def self.update_screenshots
-      include PathHelper
       driver = CardScreenshotter::Utils.open_headless_driver
 
       card_width = 600

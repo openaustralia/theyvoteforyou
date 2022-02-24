@@ -172,6 +172,7 @@ namespace :application do
   namespace :generate do
     desc "A task to capture all screenshots of the social media sharing cards"
     task cards: :environment do
+      include PathHelper
       CardScreenshotter::Members.update_screenshots
     end
   end
