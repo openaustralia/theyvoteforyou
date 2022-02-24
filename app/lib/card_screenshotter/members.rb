@@ -9,12 +9,12 @@ module CardScreenshotter
 
       card_width = 600
       card_height = 350
-      save_path = Rails.root.join("public/cards/member_policy_vote")
 
       PolicyPersonDistance.find_each do |ppd|
         person = ppd.person
         policy = ppd.policy
         url = "https://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
+        save_path = get_save_path(person)
         file_name = "#{policy.id}.png"
 
         image = CardScreenshotter::Utils.screenshot(driver, url, card_width, card_height)
