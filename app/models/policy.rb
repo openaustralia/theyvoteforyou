@@ -59,7 +59,9 @@ class Policy < ApplicationRecord
   def calculate_person_distances!
     policy_person_distances.delete_all
 
+    # Step through all the divisions related to this policy
     policy_divisions.each do |policy_division|
+      # Step through all members that could have voted in this division
       Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
