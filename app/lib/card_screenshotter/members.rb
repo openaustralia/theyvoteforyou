@@ -14,7 +14,7 @@ module CardScreenshotter
       PolicyPersonDistance.find_each do |ppd|
         person = ppd.person
         policy = ppd.policy
-        url = "http://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
+        url = "https://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
         file_name = person_policy_path_simple(person, policy).gsub("/", "_")
         file_name = "#{file_name}.png"
 
