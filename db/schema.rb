@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_17_035040) do
+ActiveRecord::Schema.define(version: 2022_02_24_001347) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(version: 2022_02_17_035040) do
     t.datetime "updated_at"
     t.text     "small_image_url"
     t.text     "large_image_url"
+    t.text "extra_large_image_url"
   end
 
   create_table "policies", force: true do |t|
