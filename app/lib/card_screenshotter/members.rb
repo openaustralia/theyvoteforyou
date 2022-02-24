@@ -22,5 +22,13 @@ module CardScreenshotter
       end
       CardScreenshotter::Utils.close_driver(driver)
     end
+
+    def self.get_save_path(person)
+      member = person.latest_member
+      house = member.house.downcase
+      constituency = member.constituency.downcase
+      name = member.first_name.concat("_", member.last_name).downcase
+      "public/cards/people/#{house}/#{constituency}/#{name}/policies"
+    end
   end
 end
