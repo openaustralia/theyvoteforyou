@@ -172,52 +172,6 @@ namespace :application do
   namespace :generate do
     desc "A task to capture all screenshots of the social media sharing cards"
     task cards: :environment do
-      task("application:generate:member_policy_vote").invoke
-    end
-
-    desc "Screenshot and save urls given by their names."
-    task :capture_screenshots, %i[urls save_path width height] => :environment do |_t, args|
-      require "selenium-webdriver"
-      require "fileutils"
-      include PathHelper
-      include Rails.application.routes.url_helpers
-
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.add_argument("--headless")
-      driver = Selenium::WebDriver.for :chrome, capabilities: [options]
-
-      args[:urls].each do |url_and_name|
-        url, file_name = url_and_name
-        driver.get(url)
-        driver.manage.window.resize_to(args[:width], args[:height])
-        picture = driver.screenshot_as(:png)
-
-        FileUtils.mkdir_p(args[:save_path]) unless File.directory?(args[:save_path])
-
-        File.open("#{args[:save_path]}/#{file_name}", "wb+") do |f|
-          f.write picture
-        end
-      end
-
-      driver.quit
-    end
-
-    desc "Generate screenshots for social media sharing of how a member voted on a policy"
-    task member_policy_vote: :environment do
-      include PathHelper
-      include Rails.application.routes.url_helpers
-      urls_and_name = []
-
-      PolicyPersonDistance.find_each do |ppd|
-        temp = []
-        member = Person.find(ppd.person_id).latest_member
-        policy = Policy.find(ppd.policy_id)
-        temp << "http://#{ActionMailer::Base.default_url_options[:host]}#{member_policy_path_simple(member, policy)}?card=true&pp=disable"
-        temp << "#{member.id}_#{policy.id}.png"
-        urls_and_name << temp
-      end
-      save_path = Rails.root.join("app/assets/images/production_cards/member_policy_vote")
-      task("application:generate:capture_screenshots").invoke(urls_and_name, save_path, 600, 350)
     end
   end
 end
