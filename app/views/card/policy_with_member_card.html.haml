@@ -5,7 +5,7 @@
     .col-sm-12
       .image-card
         .member-image
-          %img{src: @member.large_image_url}
+          = image_tag(@member.extra_large_image_url, size: @member.extra_large_image_size)
 
         %div.fitin
           .heading-text
