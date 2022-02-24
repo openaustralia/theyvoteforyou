@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-include PathHelper
 include Rails.application.routes.url_helpers
 
 module CardScreenshotter
   class Members
     def self.update_screenshots
+      include PathHelper
       driver = CardScreenshotter::Utils.open_headless_driver
 
       card_width = 600
@@ -17,7 +17,7 @@ module CardScreenshotter
         policy = ppd.policy
         url = "http://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
         file_name = "#{person.id}_#{policy.id}.png"
-        
+
         image = CardScreenshotter::Utils.screenshot(driver, url, card_width, card_height)
         CardScreenshotter::Utils.save_image(image, save_path, file_name)
       end

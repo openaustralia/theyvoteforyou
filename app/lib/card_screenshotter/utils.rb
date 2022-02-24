@@ -9,9 +9,7 @@ module CardScreenshotter
       def open_headless_driver
         options = Selenium::WebDriver::Chrome::Options.new
         options.add_argument("--headless")
-        driver = Selenium::WebDriver.for :chrome, capabilities: [options]
-
-        driver
+        Selenium::WebDriver.for :chrome, capabilities: [options]
       end
 
       def close_driver(driver)
@@ -21,8 +19,7 @@ module CardScreenshotter
       def screenshot(driver, url, width, height)
         driver.get(url)
         driver.manage.window.resize_to(width, height)
-        screenshot = driver.screenshot_as(:png)
-        screenshot
+        driver.screenshot_as(:png)
       end
 
       def save_image(image, save_path, file_name)
