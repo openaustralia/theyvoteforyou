@@ -2,7 +2,6 @@
 
 # This provides a cache for several distance measures between members
 class MemberDistance < ApplicationRecord
-  # TODO: Remove distance_b from database schema
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
 
@@ -39,6 +38,7 @@ class MemberDistance < ApplicationRecord
       nvotesabsent: MemberDistance.calculate_nvotesabsent(m1_id, m1_entered_house, m1_left_house, m2_id, m2_entered_house, m2_left_house)
     }
     result[:distance_a] = Distance.new(same: result[:nvotessame], differ: result[:nvotesdiffer], absent: result[:nvotesabsent]).distance
+    result[:distance_b] = Distance.new(same: result[:nvotessame], differ: result[:nvotesdiffer]).distance
     result
   end
 

@@ -125,13 +125,16 @@ describe MemberDistance, type: :model do
       it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
 
       it ".calculate_distances" do
-        distance = instance_double(Distance, distance: 0.1)
-        allow(Distance).to receive(:new).with(same: 2, differ: 1, absent: 2).and_return(distance)
+        distance_a = instance_double(Distance, distance: 0.1)
+        distance_b = instance_double(Distance, distance: 0.2)
+        allow(Distance).to receive(:new).with(same: 2, differ: 1, absent: 2).and_return(distance_a)
+        allow(Distance).to receive(:new).with(same: 2, differ: 1).and_return(distance_b)
         expect(described_class.calculate_distances(membera, memberb)).to eq({
                                                                               nvotessame: 2,
                                                                               nvotesdiffer: 1,
                                                                               nvotesabsent: 2,
-                                                                              distance_a: 0.1
+                                                                              distance_a: 0.1,
+                                                                              distance_b: 0.2
                                                                             })
       end
     end
