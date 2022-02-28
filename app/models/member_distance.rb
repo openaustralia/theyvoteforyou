@@ -2,12 +2,9 @@
 
 # This provides a cache for several distance measures between members
 class MemberDistance < ApplicationRecord
+  # TODO: Remove distance_a and nvotesabsent from schema as they are no longer used
   belongs_to :member1, class_name: "Member"
   belongs_to :member2, class_name: "Member"
-
-  def agreement_fraction
-    1 - distance_a
-  end
 
   def agreement_fraction_without_absences
     1 - distance_b
@@ -32,18 +29,10 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.calculate_distances(member1, member2)
-    m1_id = member1.id
-    m1_entered_house = member1.entered_house
-    m1_left_house = member2.left_house
-    m2_id = member2.id
-    m2_entered_house = member2.entered_house
-    m2_left_house = member2.left_house
     result = {
-      nvotessame: MemberDistance.calculate_nvotessame(m1_id, m2_id),
-      nvotesdiffer: MemberDistance.calculate_nvotesdiffer(m1_id, m2_id),
-      nvotesabsent: MemberDistance.calculate_nvotesabsent(m1_id, m1_entered_house, m1_left_house, m2_id, m2_entered_house, m2_left_house)
+      nvotessame: MemberDistance.calculate_nvotessame(member1.id, member2.id),
+      nvotesdiffer: MemberDistance.calculate_nvotesdiffer(member1.id, member2.id)
     }
-    result[:distance_a] = Distance.new(same: result[:nvotessame], differ: result[:nvotesdiffer], absent: result[:nvotesabsent]).distance
     result[:distance_b] = Distance.new(same: result[:nvotessame], differ: result[:nvotesdiffer]).distance
     result
   end
@@ -103,36 +92,5 @@ WHERE
 }
 
     ActiveRecord::Base.connection.execute(nvd_sql).first.first
-  end
-
-  # Count the number of times one of the two members is absent (but not both)
-  # someone is absent only if they could vote on a division but didn't
-  def self.calculate_nvotesabsent(member1_id, member1_entered_house, member1_left_house, member2_id, member2_entered_house, member2_left_house)
-    # Division
-    #   .where("divisions.date >= ?", member1_entered_house)
-    #   .where("divisions.date <= ?", member1_left_house)
-    #   .where("divisions.date >= ?", member2_entered_house)
-    #   .where("divisions.date <= ?", member2_left_house)
-    #   .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{member1_id}")
-    #   .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{member2_id}")
-    #   .where("(votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL)")
-    #   .count
-
-    nva_sql = %{
-SELECT
-  COUNT(*)
-FROM
-  divisions
-LEFT JOIN
-  votes AS votes1 on votes1.division_id = divisions.id AND votes1.member_id = #{ActiveRecord::Base.connection.quote member1_id}
-LEFT JOIN
-  votes AS votes2 on votes2.division_id = divisions.id AND votes2.member_id = #{ActiveRecord::Base.connection.quote member2_id}
-WHERE
-  (divisions.date >= #{ActiveRecord::Base.connection.quote member1_entered_house}) AND (divisions.date <= #{ActiveRecord::Base.connection.quote member1_left_house}) AND
-  (divisions.date >= #{ActiveRecord::Base.connection.quote member2_entered_house}) AND (divisions.date <= #{ActiveRecord::Base.connection.quote member2_left_house}) AND
-  ((votes1.vote IS NULL AND votes2.vote IS NOT NULL) OR (votes1.vote IS NOT NULL AND votes2.vote IS NULL))
-}
-
-    ActiveRecord::Base.connection.execute(nva_sql).first.first
   end
 end

@@ -33,14 +33,12 @@ describe MemberDistance, type: :model do
 
     it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
     it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0 }
-    it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 0 }
 
-    def check_vote_combination(vote1, teller1, vote2, teller2, same, differ, absent)
+    def check_vote_combination(vote1, teller1, vote2, teller2, same, differ)
       membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
       memberb.votes.create(division: division, vote: vote2, teller: teller2) unless vote2 == "absent"
       expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq same
       expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq differ
-      expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq absent
     end
 
     context "with votes in one division that only member A could vote on" do
@@ -50,11 +48,11 @@ describe MemberDistance, type: :model do
                         source_gid: "", debate_gid: "")
       end
 
-      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("no",     false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 0) }
-      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 0) }
+      it { check_vote_combination("absent", false, "absent", false, 0, 0) }
+      it { check_vote_combination("aye",    false, "absent", false, 0, 0) }
+      it { check_vote_combination("no",     false, "absent", false, 0, 0) }
+      it { check_vote_combination("aye",    true,  "absent", false, 0, 0) }
+      it { check_vote_combination("no",     true,  "absent", false, 0, 0) }
     end
 
     context "with votes in one division that both members could vote on" do
@@ -64,31 +62,31 @@ describe MemberDistance, type: :model do
                         source_gid: "", debate_gid: "")
       end
 
-      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("absent", false, "aye",    false, 0, 0, 1) }
-      it { check_vote_combination("absent", false, "no",     false, 0, 0, 1) }
-      it { check_vote_combination("absent", false, "aye",    true,  0, 0, 1) }
-      it { check_vote_combination("absent", false, "no",     true,  0, 0, 1) }
-      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 1) }
-      it { check_vote_combination("aye",    false, "aye",    false, 1, 0, 0) }
-      it { check_vote_combination("aye",    false, "no",     false, 0, 1, 0) }
-      it { check_vote_combination("aye",    false, "aye",    true,  1, 0, 0) }
-      it { check_vote_combination("aye",    false, "no",     true,  0, 1, 0) }
-      it { check_vote_combination("no",     false, "absent", false, 0, 0, 1) }
-      it { check_vote_combination("no",     false, "aye",    false, 0, 1, 0) }
-      it { check_vote_combination("no",     false, "no",     false, 1, 0, 0) }
-      it { check_vote_combination("no",     false, "aye",    true,  0, 1, 0) }
-      it { check_vote_combination("no",     false, "no",     true,  1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 1) }
-      it { check_vote_combination("aye",    true,  "aye",    false, 1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "no",     false, 0, 1, 0) }
-      it { check_vote_combination("aye",    true,  "aye",    true,  1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "no",     true,  0, 1, 0) }
-      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 1) }
-      it { check_vote_combination("no",     true,  "aye",    false, 0, 1, 0) }
-      it { check_vote_combination("no",     true,  "no",     false, 1, 0, 0) }
-      it { check_vote_combination("no",     true,  "aye",    true,  0, 1, 0) }
-      it { check_vote_combination("no",     true,  "no",     true,  1, 0, 0) }
+      it { check_vote_combination("absent", false, "absent", false, 0, 0) }
+      it { check_vote_combination("absent", false, "aye",    false, 0, 0) }
+      it { check_vote_combination("absent", false, "no",     false, 0, 0) }
+      it { check_vote_combination("absent", false, "aye",    true,  0, 0) }
+      it { check_vote_combination("absent", false, "no",     true,  0, 0) }
+      it { check_vote_combination("aye",    false, "absent", false, 0, 0) }
+      it { check_vote_combination("aye",    false, "aye",    false, 1, 0) }
+      it { check_vote_combination("aye",    false, "no",     false, 0, 1) }
+      it { check_vote_combination("aye",    false, "aye",    true,  1, 0) }
+      it { check_vote_combination("aye",    false, "no",     true,  0, 1) }
+      it { check_vote_combination("no",     false, "absent", false, 0, 0) }
+      it { check_vote_combination("no",     false, "aye",    false, 0, 1) }
+      it { check_vote_combination("no",     false, "no",     false, 1, 0) }
+      it { check_vote_combination("no",     false, "aye",    true,  0, 1) }
+      it { check_vote_combination("no",     false, "no",     true,  1, 0) }
+      it { check_vote_combination("aye",    true,  "absent", false, 0, 0) }
+      it { check_vote_combination("aye",    true,  "aye",    false, 1, 0) }
+      it { check_vote_combination("aye",    true,  "no",     false, 0, 1) }
+      it { check_vote_combination("aye",    true,  "aye",    true,  1, 0) }
+      it { check_vote_combination("aye",    true,  "no",     true,  0, 1) }
+      it { check_vote_combination("no",     true,  "absent", false, 0, 0) }
+      it { check_vote_combination("no",     true,  "aye",    false, 0, 1) }
+      it { check_vote_combination("no",     true,  "no",     false, 1, 0) }
+      it { check_vote_combination("no",     true,  "aye",    true,  0, 1) }
+      it { check_vote_combination("no",     true,  "no",     true,  1, 0) }
     end
 
     context "with votes on five divisions" do
@@ -122,18 +120,13 @@ describe MemberDistance, type: :model do
 
       it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
       it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
-      it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
 
       it ".calculate_distances" do
-        distance_a = instance_double(Distance, distance: 0.1)
         distance_b = instance_double(Distance, distance: 0.2)
-        allow(Distance).to receive(:new).with(same: 2, differ: 1, absent: 2).and_return(distance_a)
         allow(Distance).to receive(:new).with(same: 2, differ: 1).and_return(distance_b)
         expect(described_class.calculate_distances(membera, memberb)).to eq({
                                                                               nvotessame: 2,
                                                                               nvotesdiffer: 1,
-                                                                              nvotesabsent: 2,
-                                                                              distance_a: 0.1,
                                                                               distance_b: 0.2
                                                                             })
       end
