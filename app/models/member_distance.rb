@@ -9,7 +9,7 @@ class MemberDistance < ApplicationRecord
     1 - distance_a
   end
 
-  def agreement_fraction_without_abstentions
+  def agreement_fraction_without_absences
     1 - distance_b
   end
 
