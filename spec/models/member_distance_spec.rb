@@ -31,14 +31,14 @@ describe MemberDistance, type: :model do
                      person: personb)
     end
 
-    it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
-    it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0 }
+    it { expect(described_class.calculate_distances(membera, memberb)[:nvotessame]).to eq 0 }
+    it { expect(described_class.calculate_distances(membera, memberb)[:nvotesdiffer]).to eq 0 }
 
     def check_vote_combination(vote1, teller1, vote2, teller2, same, differ)
       membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
       memberb.votes.create(division: division, vote: vote2, teller: teller2) unless vote2 == "absent"
-      expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq same
-      expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq differ
+      expect(MemberDistance.calculate_distances(membera, memberb)[:nvotessame]).to eq same
+      expect(MemberDistance.calculate_distances(membera, memberb)[:nvotesdiffer]).to eq differ
     end
 
     context "with votes in one division that only member A could vote on" do
@@ -118,8 +118,8 @@ describe MemberDistance, type: :model do
         memberb.votes.create(division: division5, vote: "no")
       end
 
-      it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
-      it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
+      it { expect(described_class.calculate_distances(membera, memberb)[:nvotessame]).to eq 2 }
+      it { expect(described_class.calculate_distances(membera, memberb)[:nvotesdiffer]).to eq 1 }
 
       it ".calculate_distances" do
         distance_b = instance_double(Distance, distance: 0.2)
