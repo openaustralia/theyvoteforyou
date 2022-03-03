@@ -40,22 +40,20 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.calculate_nvotessame(member1_id, member2_id)
-    Division
-      .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
-      .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
-      .where(votes1: { member_id: member1_id })
-      .where(votes2: { member_id: member2_id })
-      .where("votes1.vote = votes2.vote")
-      .count
+    calculate_nvotessame_and_nvotesdiffer(member1_id, member2_id)[1] || 0
   end
 
   def self.calculate_nvotesdiffer(member1_id, member2_id)
+    calculate_nvotessame_and_nvotesdiffer(member1_id, member2_id)[0] || 0
+  end
+
+  def self.calculate_nvotessame_and_nvotesdiffer(member1_id, member2_id)
     Division
       .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
       .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
       .where(votes1: { member_id: member1_id })
       .where(votes2: { member_id: member2_id })
-      .where("votes1.vote != votes2.vote")
+      .group("votes1.vote = votes2.vote")
       .count
   end
 end
