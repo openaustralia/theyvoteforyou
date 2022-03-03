@@ -45,7 +45,7 @@ class MemberDistance < ApplicationRecord
       .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
       .where(votes1: { member_id: member1_id })
       .where(votes2: { member_id: member2_id })
-      .where("(votes1.vote = 'aye' AND votes2.vote = 'aye') OR (votes1.vote = 'no' AND votes2.vote = 'no')")
+      .where("votes1.vote = votes2.vote")
       .count
   end
 
@@ -55,7 +55,7 @@ class MemberDistance < ApplicationRecord
       .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
       .where(votes1: { member_id: member1_id })
       .where(votes2: { member_id: member2_id })
-      .where("(votes1.vote = 'aye' AND votes2.vote = 'no') OR (votes1.vote = 'no' AND votes2.vote = 'aye')")
+      .where("votes1.vote != votes2.vote")
       .count
   end
 end
