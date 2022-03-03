@@ -40,59 +40,22 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.calculate_nvotessame(member1_id, member2_id)
-    # TODO: Move knowledge of tells out of here. Shouldn't have to know about this to do this
-    # kind of query
-    # Division
-    #   .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
-    #   .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
-    #   .where("votes1.member_id = ?", member1_id)
-    #   .where("votes2.member_id = ?", member2_id)
-    #   .where("(votes1.vote = 'aye' AND votes2.vote = 'aye') OR (votes1.vote = 'no' AND votes2.vote = 'no')")
-    #   .count
-
-    nvs_sql = %{
-SELECT
-  COUNT(*)
-FROM
-  divisions
-INNER JOIN
-  votes AS votes1 on votes1.division_id = divisions.id
-LEFT JOIN
-  votes AS votes2 on votes2.division_id = divisions.id
-WHERE
-  (votes1.member_id = #{ActiveRecord::Base.connection.quote member1_id}) AND
-  (votes2.member_id = #{ActiveRecord::Base.connection.quote member2_id}) AND
-  ((votes1.vote = 'aye' AND votes2.vote = 'aye') OR
-   (votes1.vote = 'no' AND votes2.vote = 'no'))
-}
-    ActiveRecord::Base.connection.execute(nvs_sql).first.first
+    Division
+      .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
+      .where(votes1: { member_id: member1_id })
+      .where(votes2: { member_id: member2_id })
+      .where("(votes1.vote = 'aye' AND votes2.vote = 'aye') OR (votes1.vote = 'no' AND votes2.vote = 'no')")
+      .count
   end
 
   def self.calculate_nvotesdiffer(member1_id, member2_id)
-    # Division
-    #   .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
-    #   .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
-    #   .where("votes1.member_id = ?", member1_id)
-    #   .where("votes2.member_id = ?", member2_id)
-    #   .where("(votes1.vote = 'aye' AND votes2.vote = 'no') OR (votes1.vote = 'no' AND votes2.vote = 'aye')")
-    #   .count
-
-    nvd_sql = %{
-SELECT
-  COUNT(*)
-FROM
-  divisions
-LEFT JOIN
-  votes AS votes1 on votes1.division_id = divisions.id
-LEFT JOIN
-  votes AS votes2 on votes2.division_id = divisions.id
-WHERE
-  (votes1.member_id = #{ActiveRecord::Base.connection.quote member1_id}) AND
-  (votes2.member_id = #{ActiveRecord::Base.connection.quote member2_id}) AND
-  ((votes1.vote = 'aye' AND votes2.vote = 'no') OR
-   (votes1.vote = 'no' AND votes2.vote = 'aye'))
-}
-
-    ActiveRecord::Base.connection.execute(nvd_sql).first.first
+    Division
+      .joins("LEFT JOIN votes AS votes1 on votes1.division_id = divisions.id")
+      .joins("LEFT JOIN votes AS votes2 on votes2.division_id = divisions.id")
+      .where(votes1: { member_id: member1_id })
+      .where(votes2: { member_id: member2_id })
+      .where("(votes1.vote = 'aye' AND votes2.vote = 'no') OR (votes1.vote = 'no' AND votes2.vote = 'aye')")
+      .count
   end
 end
