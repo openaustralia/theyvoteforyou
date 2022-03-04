@@ -72,12 +72,12 @@ class Policy < ApplicationRecord
 
     # Step through all the people that could have voted on this policy
     people_who_could_have_voted_on_this_policy.each do |person|
-      nvotesabsentstrong = 0
-      nvotesabsent = 0
-      nvotessamestrong = 0
-      nvotessame = 0
-      nvotesdifferstrong = 0
-      nvotesdiffer = 0
+      absentstrong = 0
+      absent = 0
+      samestrong = 0
+      same = 0
+      differstrong = 0
+      differ = 0
 
       # Step through all members for this person
       person.members.each do |member|
@@ -88,29 +88,25 @@ class Policy < ApplicationRecord
           member_vote = member.votes.find_by(division: policy_division.division)
 
           if member_vote.nil?
-            policy_division.strong_vote? ? nvotesabsentstrong += 1 : nvotesabsent += 1
+            policy_division.strong_vote? ? absentstrong += 1 : absent += 1
           elsif member_vote.vote == PolicyDivision.vote_without_strong(policy_division.vote)
-            policy_division.strong_vote? ? nvotessamestrong += 1 : nvotessame += 1
+            policy_division.strong_vote? ? samestrong += 1 : same += 1
           else
-            policy_division.strong_vote? ? nvotesdifferstrong += 1 : nvotesdiffer += 1
+            policy_division.strong_vote? ? differstrong += 1 : differ += 1
           end
         end
       end
 
       ppd = PolicyPersonDistance.find_or_initialize_by(person_id: person.id, policy_id: id)
       ppd.update(
-        nvotesabsentstrong: nvotesabsentstrong,
-        nvotesabsent: nvotesabsent,
-        nvotessamestrong: nvotessamestrong,
-        nvotessame: nvotessame,
-        nvotesdifferstrong: nvotesdifferstrong,
-        nvotesdiffer: nvotesdiffer
+        nvotesabsentstrong: absentstrong,
+        nvotesabsent: absent,
+        nvotessamestrong: samestrong,
+        nvotessame: same,
+        nvotesdifferstrong: differstrong,
+        nvotesdiffer: differ,
+        distance_a: Distance.new(same: same, samestrong: samestrong, differ: differ, differstrong: differstrong, absent: absent, absentstrong: absentstrong).distance
       )
-    end
-
-    # TODO: Don't do this as a separate step
-    policy_person_distances.reload.each do |pmd|
-      pmd.update!(distance_a: pmd.distance_object.distance)
     end
   end
 
