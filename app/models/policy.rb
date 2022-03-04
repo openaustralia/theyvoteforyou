@@ -72,6 +72,13 @@ class Policy < ApplicationRecord
 
     # Step through all the people that could have voted on this policy
     people_who_could_have_voted_on_this_policy.each do |person|
+      nvotesabsentstrong = 0
+      nvotesabsent = 0
+      nvotessamestrong = 0
+      nvotessame = 0
+      nvotesdifferstrong = 0
+      nvotesdiffer = 0
+
       # Step through all members for this person
       person.members.each do |member|
         # Step through all the divisions related to this policy
@@ -80,23 +87,28 @@ class Policy < ApplicationRecord
 
           member_vote = member.votes.find_by(division: policy_division.division)
 
-          attribute = if member_vote.nil?
-                        policy_division.strong_vote? ? :nvotesabsentstrong : :nvotesabsent
-                      elsif member_vote.vote == PolicyDivision.vote_without_strong(policy_division.vote)
-                        policy_division.strong_vote? ? :nvotessamestrong : :nvotessame
-                      else
-                        policy_division.strong_vote? ? :nvotesdifferstrong : :nvotesdiffer
-                      end
-
-          ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
-          # TODO: Do all of this counting in memory rather than overloading the database with it
-          # rubocop:disable Rails/SkipsModelValidations
-          ppd.increment!(attribute)
-          # rubocop:enable Rails/SkipsModelValidations
+          if member_vote.nil?
+            policy_division.strong_vote? ? nvotesabsentstrong += 1 : nvotesabsent += 1
+          elsif member_vote.vote == PolicyDivision.vote_without_strong(policy_division.vote)
+            policy_division.strong_vote? ? nvotessamestrong += 1 : nvotessame += 1
+          else
+            policy_division.strong_vote? ? nvotesdifferstrong += 1 : nvotesdiffer += 1
+          end
         end
       end
+
+      ppd = PolicyPersonDistance.find_or_initialize_by(person_id: person.id, policy_id: id)
+      ppd.update(
+        nvotesabsentstrong: nvotesabsentstrong,
+        nvotesabsent: nvotesabsent,
+        nvotessamestrong: nvotessamestrong,
+        nvotessame: nvotessame,
+        nvotesdifferstrong: nvotesdifferstrong,
+        nvotesdiffer: nvotesdiffer
+      )
     end
 
+    # TODO: Don't do this as a separate step
     policy_person_distances.reload.each do |pmd|
       pmd.update!(distance_a: pmd.distance_object.distance)
     end
