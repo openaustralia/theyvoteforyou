@@ -50,10 +50,11 @@ describe Policy, type: :model do
 
   describe "#calculate_person_distances!" do
     # Look at a single member and see how their votes match against the policy
+    let(:division1) { create(:division, house: "representatives", date: Date.new(2014, 1, 1)) }
+    let(:division2) { create(:division, house: "representatives", date: Date.new(2014, 2, 1)) }
+    let(:division3) { create(:division, house: "representatives", date: Date.new(2014, 3, 1)) }
+
     before do
-      division1 = create(:division, house: "representatives", date: Date.new(2014, 1, 1))
-      division2 = create(:division, house: "representatives", date: Date.new(2014, 2, 1))
-      division3 = create(:division, house: "representatives", date: Date.new(2014, 3, 1))
       create(:policy_division, policy: policy, division: division1, vote: "aye")
       create(:policy_division, policy: policy, division: division2, vote: "no")
       create(:policy_division, policy: policy, division: division3, vote: "aye3")
@@ -92,6 +93,27 @@ describe Policy, type: :model do
         policy.calculate_person_distances!
         ppd = PolicyPersonDistance.find_by(person: member.person, policy: policy)
         expect(ppd).to be_nil
+      end
+    end
+
+    describe "member was present during two of the votes" do
+      let!(:member) { create(:member, house: "representatives", entered_house: Date.new(2005, 7, 1), left_house: Date.new(9999, 12, 31)) }
+
+      before do
+        create(:vote, member: member, division: division1, vote: "aye")
+        create(:vote, member: member, division: division3, vote: "no")
+      end
+
+      it do
+        policy.calculate_person_distances!
+        ppd = PolicyPersonDistance.find_by(person: member.person, policy: policy)
+        expect(ppd.nvotessame).to eq 1
+        expect(ppd.nvotessamestrong).to eq 0
+        expect(ppd.nvotesdiffer).to eq 0
+        expect(ppd.nvotesdifferstrong).to eq 1
+        expect(ppd.nvotesabsent).to eq 1
+        expect(ppd.nvotesabsentstrong).to eq 0
+        expect(ppd.distance_a).to eq 0.822581
       end
     end
   end
