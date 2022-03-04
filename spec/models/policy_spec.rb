@@ -116,5 +116,29 @@ describe Policy, type: :model do
         expect(ppd.distance_a).to eq 0.822581
       end
     end
+
+    describe "person has two members that voted on different divisions" do
+      let(:person) { create(:person) }
+      let!(:member1) { create(:member, person: person, house: "representatives", entered_house: Date.new(2005, 7, 1), left_house: Date.new(2014, 2, 2)) }
+      let!(:member2) { create(:member, person: person, house: "representatives", entered_house: Date.new(2014, 2, 2), left_house: Date.new(9999, 12, 31)) }
+
+      before do
+        create(:vote, member: member1, division: division1, vote: "aye")
+        create(:vote, member: member1, division: division2, vote: "no")
+        create(:vote, member: member2, division: division3, vote: "no")
+      end
+
+      it do
+        policy.calculate_person_distances!
+        ppd = PolicyPersonDistance.find_by(person: person, policy: policy)
+        expect(ppd.nvotessame).to eq 2
+        expect(ppd.nvotessamestrong).to eq 0
+        expect(ppd.nvotesdiffer).to eq 0
+        expect(ppd.nvotesdifferstrong).to eq 1
+        expect(ppd.nvotesabsent).to eq 0
+        expect(ppd.nvotesabsentstrong).to eq 0
+        expect(ppd.distance_a).to eq 0.714286
+      end
+    end
   end
 end
