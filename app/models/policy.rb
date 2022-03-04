@@ -67,24 +67,13 @@ class Policy < ApplicationRecord
       Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
         member_vote = member.vote_on_division_without_tell(policy_division.division)
 
-        attribute = if policy_division.strong_vote?
-                      case member_vote
-                      when "absent"
-                        :nvotesabsentstrong
-                      when PolicyDivision.vote_without_strong(policy_division.vote)
-                        :nvotessamestrong
-                      else
-                        :nvotesdifferstrong
-                      end
+        attribute = case member_vote
+                    when "absent"
+                      policy_division.strong_vote? ? :nvotesabsentstrong : :nvotesabsent
+                    when PolicyDivision.vote_without_strong(policy_division.vote)
+                      policy_division.strong_vote? ? :nvotessamestrong : :nvotessame
                     else
-                      case member_vote
-                      when "absent"
-                        :nvotesabsent
-                      when PolicyDivision.vote_without_strong(policy_division.vote)
-                        :nvotessame
-                      else
-                        :nvotesdiffer
-                      end
+                      policy_division.strong_vote? ? :nvotesdifferstrong : :nvotesdiffer
                     end
 
         ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
