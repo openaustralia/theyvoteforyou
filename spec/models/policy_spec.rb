@@ -47,4 +47,29 @@ describe Policy, type: :model do
       expect(policy.provisional?).to be false
     end
   end
+
+  describe "#calculate_person_distances!" do
+    # Look at a single member and see how their votes match against the policy
+    before do
+      create(:policy_division, policy: policy, vote: "aye")
+      create(:policy_division, policy: policy, vote: "no")
+      create(:policy_division, policy: policy, vote: "aye3")
+    end
+
+    describe "member could have voted but is absent for each vote on the policy" do
+      let!(:member) { create(:member) }
+
+      it do
+        policy.calculate_person_distances!
+        ppd = PolicyPersonDistance.find_by(person: member.person, policy: policy)
+        expect(ppd.nvotessame).to eq 0
+        expect(ppd.nvotessamestrong).to eq 0
+        expect(ppd.nvotesdiffer).to eq 0
+        expect(ppd.nvotesdifferstrong).to eq 0
+        expect(ppd.nvotesabsent).to eq 2
+        expect(ppd.nvotesabsentstrong).to eq 1
+        expect(ppd.distance_a).to eq 0.5
+      end
+    end
+  end
 end
