@@ -2,6 +2,8 @@
 
 class Division < ApplicationRecord
   # TODO: Remove markdown from db schema because it is no longer used
+  # TODO: Remove source_gid from schema as it's not being used (but still loaded by the loaders)
+  # TODO: Remove debate_gid from schema as it's not being used (but still loaded by the loaders)
   searchkick index_name: "tvfy_divisions_#{Settings.stage}" if Settings.elasticsearch
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy

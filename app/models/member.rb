@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Member < ApplicationRecord
+  # TODO: Remove source_gid from schema as it's not being used (but still loaded by the loaders)
   searchkick index_name: "tvfy_members_#{Settings.stage}" if Settings.elasticsearch
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
