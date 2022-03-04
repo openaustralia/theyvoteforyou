@@ -83,11 +83,13 @@ class Policy < ApplicationRecord
 
       # Step through all members for this person
       person.members.each do |member|
+        # Get the votes for all the divisions in a single query
+        member_votes = member.votes.where(division: divisions).to_a
         # Step through all the divisions related to this policy
         policy_divisions.each do |policy_division|
           next unless member.in_parliament_on_date(policy_division.date) && member.house == policy_division.house
 
-          member_vote = member.votes.find_by(division: policy_division.division)
+          member_vote = member_votes.find { |v| v.division_id == policy_division.division_id }
 
           if member_vote.nil?
             policy_division.strong_vote? ? absentstrong += 1 : absent += 1
