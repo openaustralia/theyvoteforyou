@@ -65,7 +65,7 @@ class Policy < ApplicationRecord
     policy_divisions.each do |policy_division|
       # Step through all members that could have voted in this division
       Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
-        member_vote = member.division_vote(policy_division.division)
+        member_vote = member.votes.find_by(division: policy_division.division)
 
         attribute = if member_vote.nil?
                       policy_division.strong_vote? ? :nvotesabsentstrong : :nvotesabsent
