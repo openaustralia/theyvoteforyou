@@ -68,6 +68,8 @@ class Policy < ApplicationRecord
   end
 
   def calculate_person_distances!
+    # TODO: We could be more clever here and avoid deleting all the values at the start. Instead we could update
+    # the values in place and delete ones for people that could not have voted on this policy
     policy_person_distances.delete_all
 
     # Step through all the people that could have voted on this policy
