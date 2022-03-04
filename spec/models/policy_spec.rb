@@ -51,13 +51,16 @@ describe Policy, type: :model do
   describe "#calculate_person_distances!" do
     # Look at a single member and see how their votes match against the policy
     before do
-      create(:policy_division, policy: policy, vote: "aye")
-      create(:policy_division, policy: policy, vote: "no")
-      create(:policy_division, policy: policy, vote: "aye3")
+      division1 = create(:division, house: "representatives", date: Date.new(2014, 1, 1))
+      division2 = create(:division, house: "representatives", date: Date.new(2014, 2, 1))
+      division3 = create(:division, house: "representatives", date: Date.new(2014, 3, 1))
+      create(:policy_division, policy: policy, division: division1, vote: "aye")
+      create(:policy_division, policy: policy, division: division2, vote: "no")
+      create(:policy_division, policy: policy, division: division3, vote: "aye3")
     end
 
     describe "member could have voted but is absent for each vote on the policy" do
-      let!(:member) { create(:member) }
+      let!(:member) { create(:member, house: "representatives", entered_house: Date.new(2005, 7, 1), left_house: Date.new(9999, 12, 31)) }
 
       it do
         policy.calculate_person_distances!
@@ -69,6 +72,26 @@ describe Policy, type: :model do
         expect(ppd.nvotesabsent).to eq 2
         expect(ppd.nvotesabsentstrong).to eq 1
         expect(ppd.distance_a).to eq 0.5
+      end
+    end
+
+    describe "member was not in parliament during any of the votes" do
+      let!(:member) { create(:member, house: "representatives", entered_house: Date.new(2015, 1, 1), left_house: Date.new(9999, 12, 31)) }
+
+      it do
+        policy.calculate_person_distances!
+        ppd = PolicyPersonDistance.find_by(person: member.person, policy: policy)
+        expect(ppd).to be_nil
+      end
+    end
+
+    describe "member was in a different house to the ones where the divisions took place" do
+      let!(:member) { create(:member, house: "senate", entered_house: Date.new(2005, 7, 1), left_house: Date.new(9999, 12, 31)) }
+
+      it do
+        policy.calculate_person_distances!
+        ppd = PolicyPersonDistance.find_by(person: member.person, policy: policy)
+        expect(ppd).to be_nil
       end
     end
   end
