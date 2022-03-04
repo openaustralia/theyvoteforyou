@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Vote < ApplicationRecord
+  # TODO: I would expect vote should be null: false in the schema
   belongs_to :division
   belongs_to :member
 
