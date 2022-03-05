@@ -13,7 +13,7 @@ namespace :application do
     desc "Rebuilds the whole cache of agreement between members"
     task member_distances: :environment do
       puts "Updating member distance cache..."
-      MemberDistance.update_all!
+      Member.all.find_each { |member| MemberDistance.update_member(member) }
     end
 
     desc "Update cache of guessed whips"

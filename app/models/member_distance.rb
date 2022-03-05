@@ -10,10 +10,6 @@ class MemberDistance < ApplicationRecord
     1 - distance_b
   end
 
-  def self.update_all!
-    Member.all.find_each { |member| update_member(member) }
-  end
-
   def self.update_member(member1)
     Rails.logger.info "Updating distances for #{member1.name}..."
     # Find all members who overlap with this member
