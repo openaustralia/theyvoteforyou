@@ -1,0 +1,5 @@
+
+# {{ ansible_managed }}
+# Docker Ubuntu apt repo
+
+deb [arch={{ docker_ubuntu_apt_arch }} signed-by={{ docker_ubuntu_gpg_keyring_path }}] {{ docker_ubuntu_apt_url }} {{ docker_ubuntu_apt_dist }} stable
