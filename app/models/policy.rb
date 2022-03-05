@@ -79,7 +79,7 @@ class Policy < ApplicationRecord
     end
   end
 
-  def calculate_distance(person)
+  def self.calculate_distance2(person, policy)
     absentstrong = 0
     absent = 0
     samestrong = 0
@@ -90,9 +90,9 @@ class Policy < ApplicationRecord
     # Step through all members for this person
     person.members.each do |member|
       # Get the votes for all the divisions in a single query
-      member_votes = member.votes.where(division: divisions).to_a
+      member_votes = member.votes.where(division: policy.divisions).to_a
       # Step through all the divisions related to this policy
-      policy_divisions.each do |policy_division|
+      policy.policy_divisions.each do |policy_division|
         next unless member.in_parliament_on_date(policy_division.date) && member.house == policy_division.house
 
         member_vote = member_votes.find { |v| v.division_id == policy_division.division_id }
@@ -116,6 +116,10 @@ class Policy < ApplicationRecord
       nvotesdiffer: differ,
       distance_a: Distance.new(same: same, samestrong: samestrong, differ: differ, differstrong: differstrong, absent: absent, absentstrong: absentstrong).distance
     }
+  end
+
+  def calculate_distance(person)
+    Policy.calculate_distance2(person, self)
   end
 
   def alert_watches(version)
