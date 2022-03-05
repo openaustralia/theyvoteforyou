@@ -54,10 +54,6 @@ class Policy < ApplicationRecord
     end
   end
 
-  def self.update_all!
-    all.find_each(&:calculate_person_distances!)
-  end
-
   def members_who_could_have_voted_on_this_policy
     member_ids = []
     divisions.each do |division|

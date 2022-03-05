@@ -37,7 +37,7 @@ namespace :application do
     desc "Update cache of policy distances"
     task policy_distances: :environment do
       puts "Updating policy distance cache..."
-      Policy.update_all!
+      Policy.all.find_each(&:calculate_person_distances!)
     end
   end
 
