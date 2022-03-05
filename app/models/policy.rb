@@ -58,13 +58,16 @@ class Policy < ApplicationRecord
     all.find_each(&:calculate_person_distances!)
   end
 
-  def people_who_could_have_voted_on_this_policy
-    # Find all members that could have voted on this policy
+  def members_who_could_have_voted_on_this_policy
     member_ids = []
     divisions.each do |division|
       member_ids += division.members_who_could_have_voted.pluck(:id)
     end
-    member_ids.uniq.map { |id| Member.find(id).person_id }.uniq.map { |id| Person.find(id) }
+    member_ids.uniq.map { |id| Member.find(id) }
+  end
+
+  def people_who_could_have_voted_on_this_policy
+    members_who_could_have_voted_on_this_policy.map(&:person_id).uniq.map { |id| Person.find(id) }
   end
 
   def calculate_person_distances!
