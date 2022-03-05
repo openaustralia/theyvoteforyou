@@ -83,6 +83,40 @@ class Member < ApplicationRecord
     entered_reason == "changed_party" || left_reason == "changed_party"
   end
 
+  def entered_display
+    case entered_reason
+    when "changed_party"
+      "changed party"
+    when "general_election", "by_election"
+      "elected"
+    when "unknown"
+      ""
+    else
+      entered_reason or ""
+    end
+  end
+
+  def left_display
+    case left_reason
+    when "general_election", "by_election"
+      "elected"
+    when "still_in_office", "unknown"
+      ""
+    when "changed_party"
+      "changed party"
+    when "resigned"
+      "resigned"
+    when "disqualified", "declared_void"
+      "disqualified"
+    when "died"
+      "died"
+    when "retired"
+      "retired"
+    else
+      left_reason or ""
+    end
+  end
+
   def divisions_they_could_have_attended
     Division.possible_for_member(self).order(date: :desc, clock_time: :desc, name: :asc)
   end

@@ -65,14 +65,16 @@ module MembersHelper
 
   def member_history_sentence(member)
     out = []
-    out << "Before being "
-    out << member_type_party_place_sentence_without_former(member)
-    out << ", #{member.name} was "
+    out << "#{member.name} has also been "
     # TODO: This looks like it assumes the member is the most recent one. Is that always the case?
     t = member.person.members.order(entered_house: :desc).offset(1).map do |member2, _i|
       out2 = []
       out2 << "#{member2.party_name} "
       out2 << member_type_electorate_sentence(member2)
+      out2 << " (#{member2.entered_display}" + (" " if member2.entered_display.size > 0)
+      out2 << "#{member2.since} - "
+      out2 << member2.left_display + (" " if member2.left_display.size > 0)
+      out2 << "#{member2.until})"
       safe_join(out2)
     end
     out << to_sentence(t)
