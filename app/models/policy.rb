@@ -75,7 +75,7 @@ class Policy < ApplicationRecord
     # Step through all the people that could have voted on this policy
     people.each do |person|
       ppd = policy_person_distances.find_or_initialize_by(person_id: person.id)
-      ppd.update(ppd.calculate_distance2)
+      ppd.update_distance!
     end
   end
 

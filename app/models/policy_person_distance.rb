@@ -127,6 +127,10 @@ class PolicyPersonDistance < ApplicationRecord
     end.first
   end
 
+  def update_distance!
+    update(calculate_distance2)
+  end
+
   def calculate_distance2
     PolicyPersonDistance.calculate_distance(person, policy)
   end
