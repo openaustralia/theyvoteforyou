@@ -9,7 +9,6 @@ FactoryBot.define do
     motion { "I move that this division be very, very interesting" }
     source_url { "http://parlinfo.aph.gov.au/foobar" }
     debate_url { "http://parlinfo.aph.gov.au/bazbar" }
-    source_gid { "uk.org.publicwhip/representatives/2014-01-1.1.1" }
     debate_gid { "uk.org.publicwhip/representatives/2014-01-1.1.1" }
 
     after(:create) do |division|

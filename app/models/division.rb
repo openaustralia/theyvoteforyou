@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class Division < ApplicationRecord
-  # TODO: Remove markdown from db schema because it is no longer used
-  # TODO: Remove source_gid from schema as it's not being used (but still loaded by the loaders)
-  # TODO: Remove debate_gid from schema as it's not being used (but still loaded by the loaders)
+  # debate_gid is currently used to generate links to debates on openaustralia.org.au. It would be better
+  # to use the debate_url field for that. Currently that's completely ignored as it's overridden
+  # below.
+  # TODO: Do a data migration so that the debate_url field is the openaustralia.org.au url and debate_gid can be removed
+
   searchkick index_name: "tvfy_divisions_#{Settings.stage}" if Settings.elasticsearch
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy
