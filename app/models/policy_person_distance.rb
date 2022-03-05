@@ -128,14 +128,6 @@ class PolicyPersonDistance < ApplicationRecord
   end
 
   def update_distance!
-    update(calculate_distance2)
-  end
-
-  def calculate_distance2
-    PolicyPersonDistance.calculate_distance(person, policy)
-  end
-
-  def self.calculate_distance(person, policy)
     absentstrong = 0
     absent = 0
     samestrong = 0
@@ -163,7 +155,7 @@ class PolicyPersonDistance < ApplicationRecord
       end
     end
 
-    {
+    update(
       nvotesabsentstrong: absentstrong,
       nvotesabsent: absent,
       nvotessamestrong: samestrong,
@@ -171,6 +163,6 @@ class PolicyPersonDistance < ApplicationRecord
       nvotesdifferstrong: differstrong,
       nvotesdiffer: differ,
       distance_a: Distance.new(same: same, samestrong: samestrong, differ: differ, differstrong: differstrong, absent: absent, absentstrong: absentstrong).distance
-    }
+    )
   end
 end
