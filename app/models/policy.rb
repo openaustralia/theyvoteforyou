@@ -68,12 +68,13 @@ class Policy < ApplicationRecord
   end
 
   def calculate_person_distances!
-    # TODO: We could be more clever here and avoid deleting all the values at the start. Instead we could update
-    # the values in place and delete ones for people that could not have voted on this policy
-    policy_person_distances.delete_all
+    people = people_who_could_have_voted_on_this_policy
+
+    # Delete records that shouldn't be there anymore and won't be update further below
+    policy_person_distances.where(PolicyPersonDistance.arel_table[:person_id].not_in(people.map(&:id))).delete_all
 
     # Step through all the people that could have voted on this policy
-    people_who_could_have_voted_on_this_policy.each do |person|
+    people.each do |person|
       ppd = PolicyPersonDistance.find_or_initialize_by(person_id: person.id, policy_id: id)
       ppd.update_distance!
     end
