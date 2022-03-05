@@ -127,6 +127,10 @@ class PolicyPersonDistance < ApplicationRecord
     end.first
   end
 
+  def calculate_distance2
+    PolicyPersonDistance.calculate_distance(person, policy)
+  end
+
   def self.calculate_distance(person, policy)
     absentstrong = 0
     absent = 0
