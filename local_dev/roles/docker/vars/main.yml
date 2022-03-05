@@ -1,0 +1,7 @@
+---
+docker_ubuntu_gpg_url: 'https://download.docker.com/linux/ubuntu/gpg'
+docker_ubuntu_gpg_text_path: '/tmp/docker-archive-keyring.gpg'
+docker_ubuntu_gpg_keyring_path: '/usr/share/keyrings/docker-archive-keyring.gpg'
+docker_ubuntu_apt_url: 'https://download.docker.com/linux/ubuntu'
+docker_ubuntu_apt_arch: 'amd64'  # {{ ansible_architecture | lower }} - this gives 'x86_64', which is not valid
+docker_ubuntu_apt_dist: '{{ ansible_distribution_release | lower }}'
