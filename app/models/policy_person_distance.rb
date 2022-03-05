@@ -126,43 +126,4 @@ class PolicyPersonDistance < ApplicationRecord
       range.include?(agreement_fraction)
     end.first
   end
-
-  def update_distance!
-    absentstrong = 0
-    absent = 0
-    samestrong = 0
-    same = 0
-    differstrong = 0
-    differ = 0
-
-    # Step through all members for this person
-    person.members.each do |member|
-      # Get the votes for all the divisions in a single query
-      member_votes = member.votes.where(division: policy.divisions).to_a
-      # Step through all the divisions related to this policy
-      policy.policy_divisions.each do |policy_division|
-        next unless member.in_parliament_on_date(policy_division.date) && member.house == policy_division.house
-
-        member_vote = member_votes.find { |v| v.division_id == policy_division.division_id }
-
-        if member_vote.nil?
-          policy_division.strong_vote? ? absentstrong += 1 : absent += 1
-        elsif member_vote.vote == PolicyDivision.vote_without_strong(policy_division.vote)
-          policy_division.strong_vote? ? samestrong += 1 : same += 1
-        else
-          policy_division.strong_vote? ? differstrong += 1 : differ += 1
-        end
-      end
-    end
-
-    update(
-      nvotesabsentstrong: absentstrong,
-      nvotesabsent: absent,
-      nvotessamestrong: samestrong,
-      nvotessame: same,
-      nvotesdifferstrong: differstrong,
-      nvotesdiffer: differ,
-      distance_a: Distance.new(same: same, samestrong: samestrong, differ: differ, differstrong: differstrong, absent: absent, absentstrong: absentstrong).distance
-    )
-  end
 end
