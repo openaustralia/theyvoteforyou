@@ -36,8 +36,12 @@ namespace :application do
 
     desc "Update cache of policy distances"
     task policy_distances: :environment do
-      puts "Updating policy distance cache..."
-      Policy.all.find_each(&:calculate_person_distances!)
+      policies = Policy.all
+      progressbar = ProgressBar.create(title: "Updating policy distance cache", total: policies.count, format: "%t: |%B| %E %a")
+      policies.find_each do |policy|
+        policy.calculate_person_distances!
+        progressbar.increment
+      end
     end
   end
 

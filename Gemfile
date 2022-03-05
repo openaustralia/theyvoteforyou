@@ -77,6 +77,9 @@ gem "httparty"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap"
 
+# To show progress during some long running rake tasks
+gem "ruby-progressbar"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"

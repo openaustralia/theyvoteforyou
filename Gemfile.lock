@@ -660,6 +660,7 @@ DEPENDENCIES
   rubocop
   rubocop-rails
   rubocop-rspec
+  ruby-progressbar
   ruby_parser
   safe_attributes
   sass-rails
