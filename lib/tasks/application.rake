@@ -12,8 +12,12 @@ namespace :application do
 
     desc "Rebuilds the whole cache of agreement between members"
     task member_distances: :environment do
-      puts "Updating member distance cache..."
-      Member.all.find_each { |member| MemberDistance.update_member(member) }
+      members = Member.all
+      progressbar = ProgressBar.create(title: "Updating member distance cache", total: members.count, format: "%t: |%B| %E %a")
+      members.find_each do |member|
+        MemberDistance.update_member(member)
+        progressbar.increment
+      end
     end
 
     desc "Update cache of guessed whips"
