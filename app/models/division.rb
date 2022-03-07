@@ -30,6 +30,10 @@ class Division < ApplicationRecord
     }
   end
 
+  def members_who_could_have_voted
+    Member.current_on(date).where(house: house)
+  end
+
   def wiki_motion
     wiki_motions.first
   end

@@ -54,37 +54,27 @@ class Policy < ApplicationRecord
     end
   end
 
-  def self.update_all!
-    all.find_each(&:calculate_person_distances!)
+  def members_who_could_have_voted_on_this_policy
+    member_ids = []
+    divisions.each do |division|
+      member_ids += division.members_who_could_have_voted.pluck(:id)
+    end
+    member_ids.uniq.map { |id| Member.find(id) }
+  end
+
+  def people_who_could_have_voted_on_this_policy
+    members_who_could_have_voted_on_this_policy.map(&:person_id).uniq.map { |id| Person.find(id) }
   end
 
   def calculate_person_distances!
-    policy_person_distances.delete_all
+    people = people_who_could_have_voted_on_this_policy
 
-    # Step through all the divisions related to this policy
-    policy_divisions.each do |policy_division|
-      # Step through all members that could have voted in this division
-      Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
-        member_vote = member.votes.find_by(division: policy_division.division)
+    # Delete records that shouldn't be there anymore and won't be update further below
+    policy_person_distances.where(PolicyPersonDistance.arel_table[:person_id].not_in(people.map(&:id))).delete_all
 
-        attribute = if member_vote.nil?
-                      policy_division.strong_vote? ? :nvotesabsentstrong : :nvotesabsent
-                    elsif member_vote.vote == PolicyDivision.vote_without_strong(policy_division.vote)
-                      policy_division.strong_vote? ? :nvotessamestrong : :nvotessame
-                    else
-                      policy_division.strong_vote? ? :nvotesdifferstrong : :nvotesdiffer
-                    end
-
-        ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
-        # TODO: Do all of this counting in memory rather than overloading the database with it
-        # rubocop:disable Rails/SkipsModelValidations
-        ppd.increment!(attribute)
-        # rubocop:enable Rails/SkipsModelValidations
-      end
-    end
-
-    policy_person_distances.reload.each do |pmd|
-      pmd.update!(distance_a: pmd.distance_object.distance)
+    # Step through all the people that could have voted on this policy
+    people.each do |person|
+      policy_person_distances.find_or_initialize_by(person_id: person.id).update_distance!
     end
   end
 
