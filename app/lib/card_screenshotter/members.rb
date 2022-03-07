@@ -4,11 +4,11 @@ include Rails.application.routes.url_helpers
 
 module CardScreenshotter
   class Members
+    CARD_WIDTH = 600
+    CARD_HEIGHT = 350
+
     def self.update_screenshots
       driver = CardScreenshotter::Utils.open_headless_driver
-
-      card_width = 600
-      card_height = 350
 
       PolicyPersonDistance.find_each do |ppd|
         person = ppd.person
@@ -17,7 +17,7 @@ module CardScreenshotter
         save_path = get_save_path(person)
         file_name = "#{policy.id}.png"
 
-        image = CardScreenshotter::Utils.screenshot(driver, url, card_width, card_height)
+        image = CardScreenshotter::Utils.screenshot(driver, url, CARD_WIDTH, CARD_HEIGHT)
         CardScreenshotter::Utils.save_image(image, save_path, file_name)
       end
       CardScreenshotter::Utils.close_driver(driver)
