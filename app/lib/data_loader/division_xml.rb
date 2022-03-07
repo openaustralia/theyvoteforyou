@@ -40,10 +40,6 @@ module DataLoader
       preceeding_minor_heading_element.attr(:url)
     end
 
-    def source_gid
-      division_xml.attr(:id)
-    end
-
     def debate_gid
       # TODO: PHP always gets the previous heading, major or minor. Is this to support missing headings?
       preceeding_minor_heading_element.attr(:id)

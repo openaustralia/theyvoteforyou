@@ -38,11 +38,9 @@ module DataLoader
               end
 
               division = Division.find_or_initialize_by(date: d.date, number: d.number, house: d.house)
-              division.update!(valid: true,
-                               name: d.name,
+              division.update!(name: d.name,
                                source_url: d.source_url,
                                debate_url: d.debate_url,
-                               source_gid: d.source_gid,
                                debate_gid: d.debate_gid,
                                motion: d.motion,
                                clock_time: d.clock_time,

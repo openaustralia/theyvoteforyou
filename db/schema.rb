@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_17_035040) do
+ActiveRecord::Schema.define(version: 2022_03_05_211148) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -62,7 +62,6 @@ ActiveRecord::Schema.define(version: 2022_02_17_035040) do
   end
 
   create_table "divisions", force: true do |t|
-    t.boolean  "valid"
     t.date     "date",                      null: false
     t.integer  "number",                    null: false
     t.string   "house",                     null: false
@@ -71,9 +70,7 @@ ActiveRecord::Schema.define(version: 2022_02_17_035040) do
     t.text     "debate_url",                null: false
     t.text     "motion",                    null: false
     t.string   "clock_time"
-    t.text     "source_gid",                null: false
     t.text     "debate_gid",                null: false
-    t.boolean  "markdown",   default: true, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["date", "number", "house"], name: "division_date_2", unique: true, using: :btree
@@ -182,6 +179,7 @@ ActiveRecord::Schema.define(version: 2022_02_17_035040) do
     t.datetime "updated_at"
     t.text     "small_image_url"
     t.text     "large_image_url"
+    t.text "extra_large_image_url"
   end
 
   create_table "policies", force: true do |t|

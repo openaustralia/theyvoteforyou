@@ -1,33 +1,30 @@
 .socialmedia-card
-    %p.logo 
-        %span.subtext They Vote For You 
-    .row
-        .col-sm-12 
-            .image-card 
-                .member-image 
-                    %img{src: @member.large_image_url} 
-                %div.fitin
-                    .heading-text
-                        = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
-    %p.disclaimer 
-        %span.subtext
-            How is this worked out? 
-            = remove_slash(get_hostname(root_url) + member_policy_path_simple(@member, @policy)) 
-            
+  %p.logo
+    %span.subtext They Vote For You
+  .row
+    .col-sm-12
+      .image-card
+        .member-image
+          = image_tag(@member.extra_large_image_url, size: @member.extra_large_image_size)
 
+        %div.fitin
+          .heading-text
+            = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
+  %p.disclaimer
+    %span.subtext
+      How is this worked out?
+      = remove_slash(get_hostname(root_url) + member_policy_path_simple(@member, @policy))
 
 :javascript
-    window.addEventListener('DOMContentLoaded', (event) => {
+  window.addEventListener('DOMContentLoaded', (event) => {
+    fitin = document.querySelector('.fitin');
+    fitin_inner = document.querySelector('div .heading-text');
 
-        fitin = document.querySelector('.fitin');
-        fitin_inner = document.querySelector('div .heading-text');
-
-        while (fitin_inner.offsetHeight > fitin.offsetHeight) {
-            fontStyling = window
-                .getComputedStyle(fitin_inner, null)
-                .getPropertyValue('font-size');
-            fontSize = parseFloat(fontStyling);
-            fitin_inner.style.fontSize = fontSize - 1 + 'px';
-        }
-
-    });
+    while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+      fontStyling = window
+        .getComputedStyle(fitin_inner, null)
+        .getPropertyValue('font-size');
+      fontSize = parseFloat(fontStyling);
+      fitin_inner.style.fontSize = fontSize - 1 + 'px';
+    }
+  });

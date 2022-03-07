@@ -30,19 +30,16 @@ describe MemberInfo, type: :model do
 
     let(:division1) do
       Division.create(name: "1", date: Date.new(2000, 1, 1),
-                      number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-                      source_gid: "", debate_gid: "")
+                      number: 1, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
     end
     let(:division2) do
       Division.create(name: "2", date: Date.new(2000, 1, 1),
-                      number: 2, house: "commons", source_url: "", debate_url: "", motion: "",
-                      source_gid: "", debate_gid: "")
+                      number: 2, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
     end
     # This division neither of the members could have voted on
     let(:division3) do
       Division.create(name: "3", date: Date.new(2002, 1, 1),
-                      number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-                      source_gid: "", debate_gid: "")
+                      number: 1, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
     end
 
     before do

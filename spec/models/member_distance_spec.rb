@@ -31,64 +31,46 @@ describe MemberDistance, type: :model do
                      person: personb)
     end
 
-    it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 0 }
-    it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 0 }
-    it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 0 }
+    it do
+      expect(described_class.calculate_distances(membera, memberb)).to eq(
+        { nvotessame: 0, nvotesdiffer: 0, distance_b: -1 }
+      )
+    end
 
-    def check_vote_combination(vote1, teller1, vote2, teller2, same, differ, absent)
-      membera.votes.create(division: division, vote: vote1, teller: teller1) unless vote1 == "absent"
-      memberb.votes.create(division: division, vote: vote2, teller: teller2) unless vote2 == "absent"
-      expect(MemberDistance.calculate_nvotessame(membera.id, memberb.id)).to eq same
-      expect(MemberDistance.calculate_nvotesdiffer(membera.id, memberb.id)).to eq differ
-      expect(MemberDistance.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq absent
+    def check_vote_combination(vote1, vote2, same, differ)
+      membera.votes.create(division: division, vote: vote1) unless vote1 == "absent"
+      memberb.votes.create(division: division, vote: vote2) unless vote2 == "absent"
+      r = MemberDistance.calculate_distances(membera, memberb)
+      expect(r[:nvotessame]).to eq same
+      expect(r[:nvotesdiffer]).to eq differ
     end
 
     context "with votes in one division that only member A could vote on" do
       let(:division) do
         Division.create(name: "1", date: Date.new(1995, 1, 1),
-                        number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-                        source_gid: "", debate_gid: "")
+                        number: 1, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
       end
 
-      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("no",     false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 0) }
-      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 0) }
+      it { check_vote_combination("absent", "absent", 0, 0) }
+      it { check_vote_combination("aye",    "absent", 0, 0) }
+      it { check_vote_combination("no",     "absent", 0, 0) }
     end
 
     context "with votes in one division that both members could vote on" do
       let(:division) do
         Division.create(name: "1", date: Date.new(2000, 1, 1),
-                        number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-                        source_gid: "", debate_gid: "")
+                        number: 1, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
       end
 
-      it { check_vote_combination("absent", false, "absent", false, 0, 0, 0) }
-      it { check_vote_combination("absent", false, "aye",    false, 0, 0, 1) }
-      it { check_vote_combination("absent", false, "no",     false, 0, 0, 1) }
-      it { check_vote_combination("absent", false, "aye",    true,  0, 0, 1) }
-      it { check_vote_combination("absent", false, "no",     true,  0, 0, 1) }
-      it { check_vote_combination("aye",    false, "absent", false, 0, 0, 1) }
-      it { check_vote_combination("aye",    false, "aye",    false, 1, 0, 0) }
-      it { check_vote_combination("aye",    false, "no",     false, 0, 1, 0) }
-      it { check_vote_combination("aye",    false, "aye",    true,  1, 0, 0) }
-      it { check_vote_combination("aye",    false, "no",     true,  0, 1, 0) }
-      it { check_vote_combination("no",     false, "absent", false, 0, 0, 1) }
-      it { check_vote_combination("no",     false, "aye",    false, 0, 1, 0) }
-      it { check_vote_combination("no",     false, "no",     false, 1, 0, 0) }
-      it { check_vote_combination("no",     false, "aye",    true,  0, 1, 0) }
-      it { check_vote_combination("no",     false, "no",     true,  1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "absent", false, 0, 0, 1) }
-      it { check_vote_combination("aye",    true,  "aye",    false, 1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "no",     false, 0, 1, 0) }
-      it { check_vote_combination("aye",    true,  "aye",    true,  1, 0, 0) }
-      it { check_vote_combination("aye",    true,  "no",     true,  0, 1, 0) }
-      it { check_vote_combination("no",     true,  "absent", false, 0, 0, 1) }
-      it { check_vote_combination("no",     true,  "aye",    false, 0, 1, 0) }
-      it { check_vote_combination("no",     true,  "no",     false, 1, 0, 0) }
-      it { check_vote_combination("no",     true,  "aye",    true,  0, 1, 0) }
-      it { check_vote_combination("no",     true,  "no",     true,  1, 0, 0) }
+      it { check_vote_combination("absent", "absent", 0, 0) }
+      it { check_vote_combination("absent", "aye",    0, 0) }
+      it { check_vote_combination("absent", "no",     0, 0) }
+      it { check_vote_combination("aye",    "absent", 0, 0) }
+      it { check_vote_combination("aye",    "aye",    1, 0) }
+      it { check_vote_combination("aye",    "no",     0, 1) }
+      it { check_vote_combination("no",     "absent", 0, 0) }
+      it { check_vote_combination("no",     "aye",    0, 1) }
+      it { check_vote_combination("no",     "no",     1, 0) }
     end
 
     context "with votes on five divisions" do
@@ -96,42 +78,32 @@ describe MemberDistance, type: :model do
         # Member A: 1 aye,    2 aye,     3 aye, 4 tellno, 5 absent
         # Member B: 1 absent, 2 tellaye, 3 no,  4 no,     5 no
         division1 = Division.create(name: "1", date: Date.new(2000, 1, 1),
-                                    number: 1, house: "commons", source_url: "", debate_url: "", motion: "",
-                                    source_gid: "", debate_gid: "")
+                                    number: 1, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
         division2 = Division.create(name: "2", date: Date.new(2000, 1, 1),
-                                    number: 2, house: "commons", source_url: "", debate_url: "", motion: "",
-                                    source_gid: "", debate_gid: "")
+                                    number: 2, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
         division3 = Division.create(name: "3", date: Date.new(2000, 1, 1),
-                                    number: 3, house: "commons", source_url: "", debate_url: "", motion: "",
-                                    source_gid: "", debate_gid: "")
+                                    number: 3, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
         division4 = Division.create(name: "4", date: Date.new(2000, 1, 1),
-                                    number: 4, house: "commons", source_url: "", debate_url: "", motion: "",
-                                    source_gid: "", debate_gid: "")
+                                    number: 4, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
         division5 = Division.create(name: "5", date: Date.new(2000, 1, 1),
-                                    number: 5, house: "commons", source_url: "", debate_url: "", motion: "",
-                                    source_gid: "", debate_gid: "")
+                                    number: 5, house: "commons", source_url: "", debate_url: "", motion: "", debate_gid: "")
         membera.votes.create(division: division1, vote: "aye")
         membera.votes.create(division: division2, vote: "aye")
         membera.votes.create(division: division3, vote: "aye")
-        membera.votes.create(division: division4, vote: "no", teller: true)
-        memberb.votes.create(division: division2, vote: "aye", teller: true)
+        membera.votes.create(division: division4, vote: "no")
+        memberb.votes.create(division: division2, vote: "aye")
         memberb.votes.create(division: division3, vote: "no")
         memberb.votes.create(division: division4, vote: "no")
         memberb.votes.create(division: division5, vote: "no")
       end
 
-      it { expect(described_class.calculate_nvotessame(membera.id, memberb.id)).to eq 2 }
-      it { expect(described_class.calculate_nvotesdiffer(membera.id, memberb.id)).to eq 1 }
-      it { expect(described_class.calculate_nvotesabsent(membera.id, membera.entered_house, membera.left_house, memberb.id, memberb.entered_house, memberb.left_house)).to eq 2 }
-
       it ".calculate_distances" do
-        distance = instance_double(Distance, distance: 0.1)
-        allow(Distance).to receive(:new).with(same: 2, differ: 1, absent: 2).and_return(distance)
+        distance_b = instance_double(Distance, distance: 0.2)
+        allow(Distance).to receive(:new).with(same: 2, differ: 1).and_return(distance_b)
         expect(described_class.calculate_distances(membera, memberb)).to eq({
                                                                               nvotessame: 2,
                                                                               nvotesdiffer: 1,
-                                                                              nvotesabsent: 2,
-                                                                              distance_a: 0.1
+                                                                              distance_b: 0.2
                                                                             })
       end
     end

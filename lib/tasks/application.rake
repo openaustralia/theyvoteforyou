@@ -12,8 +12,12 @@ namespace :application do
 
     desc "Rebuilds the whole cache of agreement between members"
     task member_distances: :environment do
-      puts "Updating member distance cache..."
-      MemberDistance.update_all!
+      members = Member.all
+      progressbar = ProgressBar.create(title: "Updating member distance cache", total: members.count, format: "%t: |%B| %E %a")
+      members.find_each do |member|
+        MemberDistance.update_member(member)
+        progressbar.increment
+      end
     end
 
     desc "Update cache of guessed whips"
@@ -36,8 +40,12 @@ namespace :application do
 
     desc "Update cache of policy distances"
     task policy_distances: :environment do
-      puts "Updating policy distance cache..."
-      Policy.update_all!
+      policies = Policy.all
+      progressbar = ProgressBar.create(title: "Updating policy distance cache", total: policies.count, format: "%t: |%B| %E %a")
+      policies.find_each do |policy|
+        policy.calculate_person_distances!
+        progressbar.increment
+      end
     end
   end
 
