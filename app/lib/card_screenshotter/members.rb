@@ -9,7 +9,12 @@ module CardScreenshotter
 
     def self.update_screenshots
       driver = CardScreenshotter::Utils.open_headless_driver
-      PolicyPersonDistance.find_each { |ppd| update_screenshot(driver, ppd) }
+      ppds = PolicyPersonDistance.all
+      progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
+      ppds.find_each do |ppd|
+        update_screenshot(driver, ppd)
+        progress.increment
+      end
       CardScreenshotter::Utils.close_driver(driver)
     end
 
