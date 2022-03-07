@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# TODO: Should this be renamed to PolicyVote? Would that be clearer?
 class PolicyDivision < ApplicationRecord
   # Using proc form of meta so that associated IDs are set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
