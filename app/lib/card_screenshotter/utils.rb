@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require "selenium-webdriver"
-require "fileutils"
-
 module CardScreenshotter
   class Utils
     class << self
