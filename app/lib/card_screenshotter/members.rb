@@ -19,8 +19,7 @@ module CardScreenshotter
       person = ppd.person
       policy = ppd.policy
       url = "http://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
-      image = CardScreenshotter::Utils.screenshot(driver, url)
-      CardScreenshotter::Utils.save_image(image, save_path(person, policy))
+      CardScreenshotter::Utils.screenshot_and_save(driver, url, save_path(person, policy))
     end
 
     def self.save_path(person, policy)

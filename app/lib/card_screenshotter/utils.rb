@@ -21,6 +21,11 @@ module CardScreenshotter
         driver.quit
       end
 
+      def screenshot_and_save(driver, url, path)
+        image = screenshot(driver, url)
+        save_image(image, path)
+      end
+
       def screenshot(driver, url)
         driver.get(url)
         driver.screenshot_as(:png)
