@@ -26,10 +26,10 @@ module CardScreenshotter
         driver.screenshot_as(:png)
       end
 
-      def save_image(image, save_path, file_name)
-        FileUtils.mkdir_p(save_path)
+      def save_image(image, path)
+        FileUtils.mkdir_p(File.dirname(path))
 
-        File.open("#{save_path}/#{file_name}", "wb+") do |f|
+        File.open(path, "wb+") do |f|
           f.write image
         end
       end

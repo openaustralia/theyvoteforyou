@@ -19,19 +19,16 @@ module CardScreenshotter
       person = ppd.person
       policy = ppd.policy
       url = "http://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
-      save_path = get_save_path(person)
-      file_name = "#{policy.id}.png"
-
       image = CardScreenshotter::Utils.screenshot(driver, url)
-      CardScreenshotter::Utils.save_image(image, save_path, file_name)
+      CardScreenshotter::Utils.save_image(image, save_path(person, policy))
     end
 
-    def self.get_save_path(person)
+    def self.save_path(person, policy)
       member = person.latest_member
       house = member.house.downcase
       constituency = member.constituency.downcase
       name = member.first_name.concat("_", member.last_name).downcase
-      "public/cards/people/#{house}/#{constituency}/#{name}/policies"
+      "public/cards/people/#{house}/#{constituency}/#{name}/policies/#{policy.id}.png"
     end
   end
 end
