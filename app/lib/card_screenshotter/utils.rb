@@ -27,7 +27,7 @@ module CardScreenshotter
       end
 
       def save_image(image, save_path, file_name)
-        FileUtils.mkdir_p(save_path) unless File.directory?(save_path)
+        FileUtils.mkdir_p(save_path)
 
         File.open("#{save_path}/#{file_name}", "wb+") do |f|
           f.write image
