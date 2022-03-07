@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-include Rails.application.routes.url_helpers
-
 module CardScreenshotter
   class Members
     def self.update_screenshots

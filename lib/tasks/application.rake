@@ -180,6 +180,8 @@ namespace :application do
   namespace :generate do
     desc "A task to capture all screenshots of the social media sharing cards"
     task cards: :environment do
+      # TODO: These should really be included in CardScreenshotter::Members
+      include Rails.application.routes.url_helpers
       include PathHelper
       CardScreenshotter::Members.update_screenshots
     end
