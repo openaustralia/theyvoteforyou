@@ -52,7 +52,7 @@ class MembersController < ApplicationController
   def friends; end
 
   def show
-    return render "card/member_card", layout: "card_layout" if !params[:card].nil? 
+    return render "card/member_card", layout: "card_layout" unless params[:card].nil?
   end
 
   def policy
