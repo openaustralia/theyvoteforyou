@@ -51,7 +51,9 @@ class MembersController < ApplicationController
 
   def friends; end
 
-  def show; end
+  def show
+    return render "card/member_card", layout: "card_layout" if !params[:card].nil? 
+  end
 
   def policy
     @policy = Policy.find(params[:id])
