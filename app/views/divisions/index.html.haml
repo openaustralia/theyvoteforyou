@@ -11,7 +11,10 @@
         %small= divisions_period(@date_range, @date_start)
 
       %p.lead
-        In the Australian Parliament a vote is called a <em>division</em>. Through these votes, elected members shape legislation that affects us all. #{link_to "Learn more...", help_faq_path(anchor: "division")}
+        They Vote For You tracks divisions, the <em>formal</em> votes that are recorded in Parliament, to learn how our
+        elected members vote on legislation that affects us all. Many votes in Parliament go <em>unrecorded</em>, so we
+        can't include them here.
+        = link_to "Learn more...", help_faq_path(anchor: "division")
 
 - if @divisions.any?
   = render "divisions_chooser", house: @house, sort: @sort
