@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -6,7 +8,6 @@ Vagrant.require_version ">= 2.2.0"
 vm_hostname = "local-publicwhip.example.com"
 
 Vagrant.configure("2") do |config|
-
   # provider-specific config
   config.vm.provider "virtualbox" do |vb|
     vb.memory = 2048 # in MB
@@ -22,19 +23,19 @@ Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu2004"
 
   # guest VM directories
-  work_base_dir = '/opt'
+  work_base_dir = "/opt"
   work_source_dir = "#{work_base_dir}/source"
   ansible_venv_dir = "#{work_base_dir}/ansible-venv"
 
   # synchronised directory
   rsync_exclude = %w[.vagrant/ .vscode/ .idea/]
-  config.vm.synced_folder "./", work_source_dir, type: 'rsync', rsync__exclude: rsync_exclude, group: 'vagrant', owner: 'vagrant', create: true
+  config.vm.synced_folder "./", work_source_dir, type: "rsync", rsync__exclude: rsync_exclude, group: "vagrant", owner: "vagrant", create: true
 
   # Set this to a local ubuntu mirror to speed up the apt package installations.
   # Find your local mirrors here: https://launchpad.net/ubuntu/+archivemirrors
-  old_apt_url = 'http://us.archive.ubuntu.com/ubuntu'
-  new_apt_url = 'https://mirror.internet.asn.au/pub/ubuntu/archive'
-  ubuntu_release = 'focal'
+  old_apt_url = "http://us.archive.ubuntu.com/ubuntu"
+  new_apt_url = "https://mirror.internet.asn.au/pub/ubuntu/archive"
+  ubuntu_release = "focal"
 
   # install ansible
   config.vm.provision "install_ansible", type: "shell", inline: <<-SHELL
@@ -121,16 +122,16 @@ Vagrant.configure("2") do |config|
       port_http_reload: port_http_reload,
 
       # set the time zone
-      time_zone: 'Australia/Sydney',
+      time_zone: "Australia/Sydney",
 
       # hard-coded passwords / secrets
       # WARING: These passwords and secrets are hard-coded because this should be fine in a development environment.
       # Change these before running `vagrant up` if you want to use your own local, secure, settings.
-      mysql_root_password: 'INSECURE-PASSWORD-IsztHxGhtcCy4Ebo-m0up97BL3ZIGsE34WkfMu4u',
-      rails_dev_secret_key_base: 'aa0277cec08c6369786be25e1a2e96929e724528ea30ca0a73d53e490a5bf9e3334efa23edb091c4edcd8c02737af6ec7ae3d5a2709993d55226c6db2f1bd1a3',
-      rails_dev_secret_key: 'ed7a1cc2576daf4a432030839f0b974a21e1a9c5dd2b6d0bca27738b3485b93a79a1f60be7cdf3dd96e656a655802d3f9a72079882bd28b6a5aecf55db40ecf7',
-      rails_test_secret_key_base: '17c7e185df60114a89a54cdb1b57cc651152d98b452e30d9614a87ac99ce8994c1fd5d8d3c8ac93e20493415d1f45a04c4fa1a1cc3d023257fc25c96c24b9c81',
-      rails_test_secret_key: '68f2b4836d6583f92df486fd6b106decb9c3253e42dbe8d16444c8854236e39e053876bf33e30576a91eb3687ae8803cb467dbd1e697b69025566d77389a6be1',
+      mysql_root_password: "INSECURE-PASSWORD-IsztHxGhtcCy4Ebo-m0up97BL3ZIGsE34WkfMu4u",
+      rails_dev_secret_key_base: "aa0277cec08c6369786be25e1a2e96929e724528ea30ca0a73d53e490a5bf9e3334efa23edb091c4edcd8c02737af6ec7ae3d5a2709993d55226c6db2f1bd1a3",
+      rails_dev_secret_key: "ed7a1cc2576daf4a432030839f0b974a21e1a9c5dd2b6d0bca27738b3485b93a79a1f60be7cdf3dd96e656a655802d3f9a72079882bd28b6a5aecf55db40ecf7",
+      rails_test_secret_key_base: "17c7e185df60114a89a54cdb1b57cc651152d98b452e30d9614a87ac99ce8994c1fd5d8d3c8ac93e20493415d1f45a04c4fa1a1cc3d023257fc25c96c24b9c81",
+      rails_test_secret_key: "68f2b4836d6583f92df486fd6b106decb9c3253e42dbe8d16444c8854236e39e053876bf33e30576a91eb3687ae8803cb467dbd1e697b69025566d77389a6be1"
     }
   end
 
