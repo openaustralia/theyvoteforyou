@@ -25,11 +25,7 @@ module CardScreenshotter
     end
 
     def self.save_path(person, policy)
-      member = person.latest_member
-      house = member.house.downcase
-      constituency = member.constituency.downcase
-      name = member.first_name.concat("_", member.last_name).downcase
-      "public/cards/people/#{house}/#{constituency}/#{name}/policies/#{policy.id}.png"
+      "public/cards#{person_policy_path_simple(person, policy)}.png"
     end
   end
 end
