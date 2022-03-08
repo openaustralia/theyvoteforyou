@@ -52,3 +52,19 @@
 .front-quote-block.banner-section
   .container
     = render "quote"
+
+:javascript
+  input = document.querySelectorAll('.form-control#query')[1]
+  vals = ['e.g. Senate for Tasmania', 'e.g. Senate for NSW']
+  index = 0
+
+  current_placeholder = input.getAttribute('placeholder')
+  vals.push(current_placeholder)
+
+  setInterval(updatePlaceholder, 2500);
+
+  function updatePlaceholder() {
+    input.setAttribute('placeholder', vals[index % vals.length])
+    index++
+  }
+  
