@@ -39,7 +39,18 @@ class HomeController < ApplicationController
     elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
-      @mps = Member.search_with_sql_fallback params[:query]
+      res = helpers.house_constituency_from_query(params[:query])
+      if res.empty?
+        @mps = Member.search_with_sql_fallback params[:query]
+      else
+        house, con = res
+        member = Member.current.where(house: house, constituency: con)
+
+        member.each do |m|
+          @mps << m unless m.nil?
+        end
+      end
+
       @divisions = Division.search_with_sql_fallback params[:query]
       @policies = Policy.search_with_sql_fallback params[:query]
     end
