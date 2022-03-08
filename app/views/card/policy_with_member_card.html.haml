@@ -1,16 +1,16 @@
-.socialmedia-card
-  %p.logo
+.socialmedia-card-container
+  %p.socialmedia-card-logo
     %span.subtext They Vote For You
   .row
     .col-sm-12
-      .image-card
-        .member-image
+      .socialmedia-card-image-card
+        .socialmedia-card-member-image
           = image_tag(@member.extra_large_image_url, size: @member.extra_large_image_size)
 
         %div.fitin
-          .heading-text
+          .socialmedia-card-heading-text
             = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
-  %p.disclaimer
+  %p.socialmedia-card-disclaimer
     %span.subtext
       How is this worked out?
       = remove_slash(get_hostname(root_url) + member_policy_path_simple(@member, @policy))
@@ -18,7 +18,7 @@
 :javascript
   window.addEventListener('DOMContentLoaded', (event) => {
     fitin = document.querySelector('.fitin');
-    fitin_inner = document.querySelector('div .heading-text');
+    fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
 
     while (fitin_inner.offsetHeight > fitin.offsetHeight) {
       fontStyling = window
