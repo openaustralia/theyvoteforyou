@@ -14,17 +14,15 @@ module CardScreenshotter
     end
 
     def self.update_screenshot(driver, ppd)
-      person = ppd.person
-      policy = ppd.policy
-      CardScreenshotter::Utils.screenshot_and_save(driver, url(person, policy), save_path(person, policy))
+      CardScreenshotter::Utils.screenshot_and_save(driver, url(ppd), save_path(ppd))
     end
 
-    def self.url(person, policy)
-      person_policy_url_simple(person, policy, ActionMailer::Base.default_url_options.merge(card: true))
+    def self.url(ppd)
+      person_policy_url_simple(ppd.person, ppd.policy, ActionMailer::Base.default_url_options.merge(card: true))
     end
 
-    def self.save_path(person, policy)
-      "public/cards#{person_policy_path_simple(person, policy)}.png"
+    def self.save_path(ppd)
+      "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
     end
   end
 end
