@@ -20,8 +20,7 @@ module CardScreenshotter
     end
 
     def self.url(person, policy)
-      # TODO: Make this work in development and production
-      "https://#{ActionMailer::Base.default_url_options[:host]}#{person_policy_path_simple(person, policy)}?card=true"
+      person_policy_url_simple(person, policy, ActionMailer::Base.default_url_options.merge(card: true))
     end
 
     def self.save_path(person, policy)
