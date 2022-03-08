@@ -26,6 +26,7 @@ They Vote For You — How does your MP vote?
 <meta name="twitter:image" content="http://www.example.com/assets/theyvoteforyou_logo_200x200.jpg">
 <meta name="twitter:title" content="How does your MP vote on the issues that matter to you?">
 <meta name="twitter:description" content="Forget what politicians say. What truly matters is what they do. And what they do is vote, to write our laws which affect us all.">
+
 </head>
 <body class='home'>
 <nav class='site-header navbar' role='navigation'>
@@ -243,6 +244,21 @@ This is brilliant stuff. My member is about to get a few "please explain" letter
 
 </div>
 </div>
+<script>
+  input = document.querySelectorAll('.form-control#query')[1]
+  vals = ['e.g. Senate for Tasmania', 'e.g. Senate for NSW']
+  index = 0
+  
+  current_placeholder = input.getAttribute('placeholder')
+  vals.push(current_placeholder)
+  
+  setInterval(updatePlaceholder, 2500);
+  
+  function updatePlaceholder() {
+    input.setAttribute('placeholder', vals[index % vals.length])
+    index++
+  }
+</script>
 
 <footer class='site-footer'>
 <div class='footer-main'>
