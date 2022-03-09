@@ -5,8 +5,12 @@
     .col-sm-12
       .socialmedia-card-image-card
         .socialmedia-card-member-image
-          = image_tag(@member.extra_large_image_url, size: @member.extra_large_image_size)
-
+          - if @member.show_extra_large_image?
+            = image_tag(@member.extra_large_image_url, size: @member.extra_large_image_size)
+          - elsif @member.show_large_image?
+            = image_tag(@member.large_image_url, size: @member.extra_large_image_size)
+          - elsif @member.show_small_image?
+            = image_tag(@member.small_image_url, size: @member.extra_large_image_size)          
         %div.fitin
           .socialmedia-card-heading-text
             = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
