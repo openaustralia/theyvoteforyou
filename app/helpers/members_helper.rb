@@ -91,4 +91,14 @@ module MembersHelper
       "#{rebel_text} #{percentage} of the time"
     end
   end
+
+  def extra_large_member_image(member)
+    if member.show_extra_large_image?
+      image_tag(member.extra_large_image_url, size: member.extra_large_image_size)
+    elsif member.show_large_image?
+      image_tag(member.large_image_url, size: member.extra_large_image_size)
+    elsif member.show_small_image?
+      image_tag(member.small_image_url, size: member.extra_large_image_size)
+    end
+  end
 end
