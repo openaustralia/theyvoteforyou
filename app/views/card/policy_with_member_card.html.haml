@@ -5,7 +5,7 @@
     .col-sm-12
       .socialmedia-card-image-card
         .socialmedia-card-member-image
-          = extra_large_member_image(@member)
+          = member_image(@member, :extra_large)
         %div.fitin
           .socialmedia-card-heading-text
             = policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true)
