@@ -24,7 +24,12 @@ module CardScreenshotter
       end
 
       def screenshot(driver, url)
-        driver.get(url)
+        begin
+          driver.get(url)
+        rescue StandardError => e
+          # Make the error a little more useful by including the failing url
+          raise "Error #{e} while loading url: #{url}"
+        end
         driver.screenshot_as(:png)
       end
 
