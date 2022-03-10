@@ -1,16 +1,16 @@
 .socialmedia-card-container
-    %p.socialmedia-card-logo
-        %span.subtext They Vote For You 
-    .row
-        .col-sm-12 
-            .socialmedia-card-image-card 
-                .socialmedia-card-member-image 
-                    %img{src: @member.extra_large_image_url} 
-                %div.fitin
-                    .socialmedia-card-heading-text
-                        Find out how 
-                        = @member.name
-                        votes on issues that matter to you 
-    %p.socialmedia-card-disclaimer 
-        %span.socialcard2_url 
-            = remove_slash(get_hostname(root_url) + member_path_simple(@member)) 
+  %p.socialmedia-card-logo
+    %span.subtext They Vote For You
+  .row
+    .col-sm-12
+      .socialmedia-card-image-card
+        .socialmedia-card-member-image
+          %img{src: @member.extra_large_image_url}
+        %div.fitin
+          .socialmedia-card-heading-text
+            Find out how
+            = @member.name
+            votes on issues that matter to you
+  %p.socialmedia-card-disclaimer
+    %span.socialcard2_url
+      = remove_slash(get_hostname(root_url) + member_path_simple(@member)) 
