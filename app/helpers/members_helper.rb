@@ -92,13 +92,29 @@ module MembersHelper
     end
   end
 
-  def extra_large_member_image(member)
+  # Size of image and other options can be overridden with "options"
+  def small_member_image(member, options = {})
+    options = { size: member.small_image_size }.merge(options)
+    image_tag(member.small_image_url, options) if member.show_small_image?
+  end
+
+  # Size of image and other options can be overridden with "options"
+  def large_member_image(member, options = {})
+    options = { size: member.large_image_size }.merge(options)
+    if member.show_large_image?
+      image_tag(member.large_image_url, options)
+    else
+      small_member_image(member, options)
+    end
+  end
+
+  # Size of image and other options can be overridden with "options"
+  def extra_large_member_image(member, options = {})
+    options = { size: member.extra_large_image_size }.merge(options)
     if member.show_extra_large_image?
-      image_tag(member.extra_large_image_url, size: member.extra_large_image_size)
-    elsif member.show_large_image?
-      image_tag(member.large_image_url, size: member.extra_large_image_size)
-    elsif member.show_small_image?
-      image_tag(member.small_image_url, size: member.extra_large_image_size)
+      image_tag(member.extra_large_image_url, options)
+    else
+      large_member_image(member, options)
     end
   end
 end
