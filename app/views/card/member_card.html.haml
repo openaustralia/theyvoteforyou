@@ -5,7 +5,7 @@
     .col-sm-12
       .socialmedia-card-image-card
         .socialmedia-card-member-image
-          %img{src: @member.extra_large_image_url}
+          = member_image(@member, :extra_large)
         %div.fitin
           .socialmedia-card-heading-text
             Find out how
