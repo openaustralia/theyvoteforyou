@@ -6,6 +6,10 @@ module CardScreenshotter
     CARD_HEIGHT = 350
     attr_reader :driver
 
+    def initialize
+      open_headless_driver!
+    end
+
     def open_headless_driver!
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument("--headless")

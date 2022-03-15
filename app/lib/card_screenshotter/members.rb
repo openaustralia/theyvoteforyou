@@ -8,7 +8,6 @@ module CardScreenshotter
 
       def update_screenshots
         screenshotter = CardScreenshotter::Utils.new
-        screenshotter.open_headless_driver!
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         count = 0
