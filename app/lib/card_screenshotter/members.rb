@@ -7,26 +7,27 @@ module CardScreenshotter
       include PathHelper
 
       def update_screenshots
-        driver = CardScreenshotter::Utils.open_headless_driver
+        screenshotter = CardScreenshotter::Utils.new
+        screenshotter.open_headless_driver!
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         count = 0
         ppds.find_each do |ppd|
           # Close and restart chrome every 50 requests
           if count > 50
-            driver.quit
-            driver = CardScreenshotter::Utils.open_headless_driver
+            screenshotter.close_driver!
+            screenshotter.open_headless_driver!
             count = 0
           end
-          update_screenshot(driver, ppd)
+          update_screenshot(screenshotter, ppd)
           count += 1
           progress.increment
         end
-        CardScreenshotter::Utils.close_driver(driver)
+        screenshotter.close_driver!
       end
 
-      def update_screenshot(driver, ppd)
-        CardScreenshotter::Utils.screenshot_and_save(driver, url(ppd), save_path(ppd))
+      def update_screenshot(screenshotter, ppd)
+        screenshotter.screenshot_and_save(url(ppd), save_path(ppd))
       end
 
       def url(ppd)
