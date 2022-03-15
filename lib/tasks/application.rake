@@ -49,6 +49,13 @@ namespace :application do
     end
   end
 
+  namespace :cron do
+    desc "Run this every night. Generates screenshots"
+    task nightly: :environment do
+      task("application:generate:cards").invoke
+    end
+  end
+
   namespace :load do
     desc "Reloads members, offices and electorates from XML files and updates people images"
     task members: %i[environment set_logger_to_stdout] do
