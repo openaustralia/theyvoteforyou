@@ -10,23 +10,15 @@ module CardScreenshotter
         screenshotter = CardScreenshotter::Utils.new
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
-        count = 0
         ppds.find_each do |ppd|
-          # Close and restart chrome every 50 requests
-          if count > 50
-            screenshotter.close_driver!
-            screenshotter.open_headless_driver!
-            count = 0
-          end
           update_screenshot(screenshotter, ppd)
-          count += 1
           progress.increment
         end
         screenshotter.close_driver!
       end
 
       def update_screenshot(screenshotter, ppd)
-        screenshotter.screenshot_and_save(url(ppd), save_path(ppd))
+        screenshotter.screenshot_and_save_with_restart(url(ppd), save_path(ppd))
       end
 
       def url(ppd)

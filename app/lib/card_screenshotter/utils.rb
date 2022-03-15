@@ -10,6 +10,13 @@ module CardScreenshotter
       open_headless_driver!
     end
 
+    # Restart the browser. This takes a little extra time but it helps to keep the memory usage
+    # under control
+    def restart_browser!
+      close_driver!
+      open_headless_driver!
+    end
+
     def open_headless_driver!
       options = Selenium::WebDriver::Chrome::Options.new
       options.add_argument("--headless")
@@ -19,6 +26,17 @@ module CardScreenshotter
 
     def close_driver!
       driver.quit
+    end
+
+    def screenshot_and_save_with_restart(url, path)
+      @count ||= 0
+      # Restart the browser every certain number of requests
+      if @count > 50
+        restart_browser!
+        @count = 0
+      end
+      screenshot_and_save(url, path)
+      @count += 1
     end
 
     def screenshot_and_save(url, path)
