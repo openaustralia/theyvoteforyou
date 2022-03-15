@@ -5,9 +5,11 @@ module CardScreenshotter
     class << self
       include Rails.application.routes.url_helpers
       include PathHelper
+      CARD_WIDTH = 600
+      CARD_HEIGHT = 350
 
       def update_screenshots
-        screenshotter = CardScreenshotter::Utils.new
+        screenshotter = CardScreenshotter::Utils.new(CARD_WIDTH, CARD_HEIGHT)
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         ppds.find_each do |ppd|
