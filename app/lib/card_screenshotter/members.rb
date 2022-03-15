@@ -18,7 +18,7 @@ module CardScreenshotter
       end
 
       def update_screenshot(screenshotter, ppd)
-        screenshotter.screenshot_and_save_with_restart(url(ppd), save_path(ppd))
+        screenshotter.screenshot_and_save(url(ppd), save_path(ppd))
       end
 
       def url(ppd)

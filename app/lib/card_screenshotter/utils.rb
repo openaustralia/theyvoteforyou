@@ -30,18 +30,18 @@ module CardScreenshotter
       driver.quit
     end
 
-    def screenshot_and_save_with_restart(url, path)
+    def screenshot_and_save(url, path)
       @count ||= 0
       # Restart the browser every certain number of requests
       if @count > RESTART_BROWSER_AFTER_NUMBER_OF_REQUESTS
         restart_browser!
         @count = 0
       end
-      screenshot_and_save(url, path)
+      screenshot_and_save_without_restart(url, path)
       @count += 1
     end
 
-    def screenshot_and_save(url, path)
+    def screenshot_and_save_without_restart(url, path)
       image = screenshot(url)
       save_image(image, path)
     end
