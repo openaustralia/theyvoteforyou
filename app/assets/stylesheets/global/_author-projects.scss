@@ -1,4 +1,4 @@
-.author-projects {
+.author-details {
   padding-top: 36px;
   background: darken($color-blue-dark, 20%);
   // color: $text-color;
@@ -8,73 +8,47 @@
   }
 
   a {
-    color: $color-blue;
+    font-weight: normal;
   }
-}
 
-.author-projects-list {
-  margin-bottom: 0;
-  padding-right: 0 !important;
-  padding-left: 0 !important;
+  .author-msg {
+    font-size: 27px;
+  }
 
-  li {
+  .acknowledgement {
+    font-weight: 300;
+
     @media (min-width: $screen-sm-min) {
-      float: left;
-      margin-bottom: 1em;
+      padding-top: 8.8em;
+    }
+    @media (min-width: $screen-md-min) {
+      padding-top: 6em;
     }
   }
-}
 
-.author-projects-heading {
-  padding-bottom: 10px;
-  display: block;
-}
+  .author-media {
+    li + li {
+      margin-left: 10px;
+    }
+  
+    i {
+      vertical-align: middle;
+      margin-right: 3px;
+      font-size: 30px;
+      display: inline-block;
+  
+      &.fi-mail {
+        padding: 2px 0 0;
+      }
+    }
 
-.author-projects-list-item {
-  // border-top: 1px $color-blue-dark solid;
-  padding: 10px 0;
-  display: block;
-  background: transparent;
-  transition: .3s all ease;
+    @media (min-width: $screen-sm-min) {
+      padding-top: 8em;
+      float: right;
+    }
 
-  @media (min-width: $screen-sm-min) {
-    border: 1px darken($color-blue-dark, 10%) solid;
-    padding: 10px 15px;
-  }
-
-  @media (min-width: $screen-sm-min) {
-    min-height: 128px;
-  }
-
- @media (min-width: $screen-md-min) {
-    min-height: 156px;
-  }
-
- @media (min-width: $screen-lg-min) {
-    min-height: 136px;
-  }
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    background: $color-blue-dark;
-    color: lighten($color-blue, 10%);
-
-    .author-project-name {
-      color: #ddd;
+    @media (min-width: $screen-md-min) {
+      padding-top: 5.2em;
     }
   }
-}
-
-.author-project-name {
-  margin: 0 !important;
-  font-weight: normal;
-  color: #ddd;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  transition: .2s color ease;
-}
-
-.author-project-description {
-  margin-bottom: 0;
 }

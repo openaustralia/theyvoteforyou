@@ -16,24 +16,58 @@
     color: #ddd;
   }
 
-  .navbar-nav {
-    margin-top: 0;
+  .footer-main {
+    padding-bottom: 18px;
 
     @media (min-width: $screen-md-min) {
-      float: right;
+      padding-bottom: 24px;
+    }
+  }
+
+  .footer-main-sitename {
+    margin-top: 18px;
+    font-size: 27px;
+    
+    @media (min-width: $screen-sm-min) {
+      // padding-top: 36px;
+      // display: inline-block;
+      // margin-right: 1em;
+    }
+  
+    @media (min-width: $screen-md-min) {
+      margin-top: 5px;
+      margin-right: 0;
+      padding-top: 0;
+      clear: none;
+      display: block;
+    }
+  }
+
+  .footer-main-description {
+    font-weight: 300;
+  }
+
+  .footer-main-mid {
+    @media (min-width: $screen-sm-min) {
+      padding-top: 4.1em;
+    }
+    @media (min-width: $screen-md-min) {
+      padding-top: 3.4em;
+    }
+  }
+
+  .nav-footer {
+    list-style: none;
+    padding-left: 0px !important;
+    margin-bottom: 0px !important;
+
+    @media (min-width: $screen-sm-min) {
+      float: left;
+      width: 50%;
+      padding: 0 1em;
     }
 
     a {
-      @media (min-width: $screen-md-min) {
-        padding-right: 10px;
-        padding-left: 10px;
-      }
-
-      @media (min-width: $screen-lg-min) {
-        padding-right: 15px;
-        padding-left: 15px;
-      }
-
       &:hover,
       &:focus {
         background: transparent;
@@ -41,104 +75,13 @@
         color: #ffffff;
       }
     }
-
-    li:first-child a {
-      @media (min-width: $grid-float-breakpoint) {
-        padding-left: 0;
-      }
-    }
-
-    li:last-child a {
-      @media (min-width: $screen-md-min) {
-        padding-right: 0;
-      }
-    }
-  }
-}
-
-.footer-main {
-  padding-bottom: 18px;
-
-  @media (min-width: $screen-md-min) {
-    padding-bottom: 24px;
-  }
-}
-
-.license-msg,
-.author-msg {
-  a {
-    border-bottom: 2px solid darken($color-blue, 10%);
-
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      border-bottom: 2px solid $color-blue;
-    }
-  }
-}
-
-.license-msg {
-  @media (min-width: $screen-sm-min) {
-    padding-top: 24px;
-  }
-  @media (min-width: $screen-md-min) {
-    margin-top: 8px;
-    padding-top: 0;
-    float: right;
   }
 
-  .issues-link {
-    display: inline-block;
-
-    &:before {
-      content: "\00a0\25CF\00a0";
-      color: $color-blue;
-    }
-  }
-}
-
-.author-msg,
-.author-media {
-  @media (min-width: $screen-md-min) {
-    float: left;
-    clear: left;
-  }
-}
-
-.author-msg {
-  margin-top: 18px;
-  clear: left;
-  @media (min-width: $screen-sm-min) {
-    padding-top: 36px;
-    font-size: 24px;
-    // display: inline-block;
-    // margin-right: 1em;
-  }
-
-  @media (min-width: $screen-md-min) {
-    margin-top: 5px;
-    margin-right: 0;
-    padding-top: 0;
-    clear: none;
-    display: block;
-  }
-}
-
-.author-media {
-  display: inline-block;
-
-  li + li {
-    margin-left: 10px;
-  }
-
-  i {
-    vertical-align: middle;
-    margin-right: 3px;
-    font-size: 22px;
-    display: inline-block;
-
-    &.fi-mail {
-      padding: 2px 0 0;
-    }
+  .donate-btn {
+    margin-top: 17px;
+    margin-bottom: 14px;
+    padding: 18px 16px;
+    background-color: lighten($color-blue-dark, 10%);
+    border-radius: 0.3em;
   }
 }
