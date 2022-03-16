@@ -1,0 +1,85 @@
+---
+# Install docker by following: https://docs.docker.com/engine/install/ubuntu
+
+- name: Remove old docker packages
+  become_user: 'root'
+  ansible.builtin.apt:
+    name:
+      - 'docker'
+      - 'docker-engine'
+      - 'docker.io'
+      - 'containerd'
+      - 'runc'
+    state: 'absent'
+
+- name: Install required packages
+  become_user: 'root'
+  ansible.builtin.apt:
+    name:
+      - 'ca-certificates'
+      - 'curl'
+      - 'gnupg'
+      - 'lsb-release'
+    state: 'latest'
+
+- name: Get docker apt repo gpg key
+  become_user: 'root'
+  ansible.builtin.get_url:
+    url: '{{ docker_ubuntu_gpg_url }}'
+    dest: '{{ docker_ubuntu_gpg_text_path }}'
+    mode: 'u=rw,g=r,o=r'
+
+- name: Add docker apt repo gpg key
+  become_user: 'root'
+  ansible.builtin.command: 'gpg --dearmor --output {{ docker_ubuntu_gpg_keyring_path }} {{ docker_ubuntu_gpg_text_path }}'
+  args:
+    creates: '{{ docker_ubuntu_gpg_keyring_path }}'
+
+- name: Add docker apt repo source file
+  become_user: 'root'
+  ansible.builtin.template:
+    src: 'docker.list'
+    dest: '/etc/apt/sources.list.d/docker.list'
+    owner: 'root'
+    group: 'root'
+    mode: 'u=rw,g=r,o=r'
+
+- name: Update apt cache
+  become_user: 'root'
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install docker packages
+  become_user: 'root'
+  ansible.builtin.apt:
+    name:
+      - 'docker-ce'
+      - 'docker-ce-cli'
+      - 'containerd.io'
+    state: 'latest'
+    update_cache: true
+    autoclean: true
+    autoremove: true
+
+- name: Add docker group
+  become_user: 'root'
+  ansible.builtin.group:
+    name: 'docker'
+    state: 'present'
+
+- name: Add vagrant to docker group
+  become_user: 'root'
+  ansible.builtin.user:
+    name: 'vagrant'
+    groups: 'docker'
+    append: true
+
+- name: Install docker compose
+  become_user: 'root'
+  ansible.builtin.get_url:
+    url: 'https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64'
+    dest: '/usr/libexec/docker/cli-plugins/docker-compose'
+    checksum: 'sha256:https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-linux-x86_64.sha256'
+    owner: 'root'
+    group: 'root'
+    mode: 'u=rwx,g=rx,o=rx'

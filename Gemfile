@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "rails", "6.0.4.6"
+gem "rails", "6.0.4.7"
 gem "mysql2"
 
 gem "sprockets"
@@ -74,8 +74,14 @@ gem "flipper-ui"
 # Used for checking whether URLs are valid in rake task
 gem "httparty"
 
+# Used for taking screenshots of the social media cards in rake tas
+gem "selenium-webdriver"
+
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap"
+
+# To show progress during some long running rake tasks
+gem "ruby-progressbar"
 
 group :test do
   gem "rspec-activemodel-mocks"

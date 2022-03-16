@@ -1,0 +1,45 @@
+---
+- name: Ensure ufw firewall is disabled, as this is a dev machine
+  become_user: 'root'
+  ansible.builtin.ufw:
+    state: 'disabled'
+
+- name: Install packages that are useful for development
+  become_user: 'root'
+  ansible.builtin.apt:
+    name:
+      - 'unzip'
+      - 'jq'
+      - 'curl'
+      - 'dos2unix'
+      - 'libsqlite3-dev'
+      - 'libmysqlclient-dev'
+      - 'tidy'
+    state: 'latest'
+
+- name: Create directory for docker-compose
+  become_user: 'root'
+  ansible.builtin.file:
+    path: '{{ docker_compose_dir }}'
+    owner: 'vagrant'
+    group: 'vagrant'
+    state: 'directory'
+
+- name: Template the ruby config files and docker compose file
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    owner: 'vagrant'
+    group: 'vagrant'
+    mode: 'u=rw,g=r,o=r'
+  loop:
+    - src: 'database.yml'
+      dest: '{{ work_source_dir }}/config/database.yml'
+    - src: 'docker-compose.yml'
+      dest: '{{ docker_compose_path }}'
+    - src: 'newrelic.yml'
+      dest: '{{ work_source_dir }}/config/newrelic.yml'
+    - src: 'secrets.yml'
+      dest: '{{ work_source_dir }}/config/secrets.yml'
+    - src: 'settings.yml'
+      dest: '{{ work_source_dir }}/config/settings/development.yml'

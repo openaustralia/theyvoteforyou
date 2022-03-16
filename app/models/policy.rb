@@ -15,7 +15,9 @@ class Policy < ApplicationRecord
   validates :name, :description, :private, presence: true
   validates :name, uniqueness: { case_sensitive: false }, length: { maximum: 100 }
 
+  # TODO: Remove "legacy Dream MP"
   enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
+  # TODO: Rename field in schema
   alias_attribute :status, :private
 
   def name_with_for
@@ -52,44 +54,27 @@ class Policy < ApplicationRecord
     end
   end
 
-  def self.update_all!
-    all.find_each(&:calculate_person_distances!)
+  def members_who_could_have_voted_on_this_policy
+    member_ids = []
+    divisions.each do |division|
+      member_ids += division.members_who_could_have_voted.pluck(:id)
+    end
+    member_ids.uniq.map { |id| Member.find(id) }
+  end
+
+  def people_who_could_have_voted_on_this_policy
+    members_who_could_have_voted_on_this_policy.map(&:person_id).uniq.map { |id| Person.find(id) }
   end
 
   def calculate_person_distances!
-    policy_person_distances.delete_all
+    people = people_who_could_have_voted_on_this_policy
 
-    policy_divisions.each do |policy_division|
-      Member.current_on(policy_division.date).where(house: policy_division.house).find_each do |member|
-        member_vote = member.vote_on_division_without_tell(policy_division.division)
+    # Delete records that shouldn't be there anymore and won't be update further below
+    policy_person_distances.where(PolicyPersonDistance.arel_table[:person_id].not_in(people.map(&:id))).delete_all
 
-        attribute = if policy_division.strong_vote?
-                      case member_vote
-                      when "absent"
-                        :nvotesabsentstrong
-                      when PolicyDivision.vote_without_strong(policy_division.vote)
-                        :nvotessamestrong
-                      else
-                        :nvotesdifferstrong
-                      end
-                    elsif member_vote == "absent"
-                      :nvotesabsent
-                    elsif member_vote == PolicyDivision.vote_without_strong(policy_division.vote)
-                      :nvotessame
-                    else
-                      :nvotesdiffer
-                    end
-
-        ppd = PolicyPersonDistance.find_or_create_by(person_id: member.person_id, policy_id: id)
-        # TODO: Do all of this counting in memory rather than overloading the database with it
-        # rubocop:disable Rails/SkipsModelValidations
-        ppd.increment!(attribute)
-        # rubocop:enable Rails/SkipsModelValidations
-      end
-    end
-
-    policy_person_distances.reload.each do |pmd|
-      pmd.update!(distance_a: pmd.distance_object.distance)
+    # Step through all the people that could have voted on this policy
+    people.each do |person|
+      policy_person_distances.find_or_initialize_by(person_id: person.id).update_distance!
     end
   end
 

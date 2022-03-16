@@ -70,7 +70,6 @@ module DataLoader
             division.debate_url = v_e["sources"].find { |s| s["note"] == "Debate URL" }["url"]
             division.motion = ""
             division.clock_time = DateTime.parse(v_e["start_date"]).strftime("%T")
-            division.source_gid = v_e["identifier"]
             division.debate_gid = ""
             division.save!
 

@@ -91,4 +91,44 @@ module MembersHelper
       "#{rebel_text} #{percentage} of the time"
     end
   end
+
+  # Use helper member_image below instead of this one directly
+  def small_member_image(member, options = {})
+    options = { size: member.small_image_size }.merge(options)
+    image_tag(member.small_image_url, options) if member.show_small_image?
+  end
+
+  # Use helper member_image below instead of this one directly
+  def large_member_image(member, options = {})
+    options = { size: member.large_image_size }.merge(options)
+    if member.show_large_image?
+      image_tag(member.large_image_url, options)
+    else
+      small_member_image(member, options)
+    end
+  end
+
+  # Use helper member_image below instead of this one directly
+  def extra_large_member_image(member, options = {})
+    options = { size: member.extra_large_image_size }.merge(options)
+    if member.show_extra_large_image?
+      image_tag(member.extra_large_image_url, options)
+    else
+      large_member_image(member, options)
+    end
+  end
+
+  # size can be one of :small, :large, :extra_large
+  def member_image(member, size, options = {})
+    case size
+    when :small
+      small_member_image(member, options)
+    when :large
+      large_member_image(member, options)
+    when :extra_large
+      extra_large_member_image(member, options)
+    else
+      raise "Unexpected size #{size}"
+    end
+  end
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Member < ApplicationRecord
+  # TODO: Remove source_gid from schema as it's not being used (but still loaded by the loaders)
   searchkick index_name: "tvfy_members_#{Settings.stage}" if Settings.elasticsearch
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
@@ -21,9 +22,12 @@ class Member < ApplicationRecord
   has_many :member_distances, foreign_key: :member1_id, dependent: :destroy, inverse_of: :member1
   belongs_to :person, touch: true
 
-  delegate :show_large_image?, :show_small_image?, :small_image_url, :large_image_url,
-           :small_image_width, :small_image_height, :small_image_size,
-           :large_image_width, :large_image_height, :large_image_size,
+  delegate :show_small_image?, :small_image_url, :small_image_width, :small_image_height,
+           :small_image_size,
+           :show_large_image?, :large_image_url, :large_image_width, :large_image_height,
+           :large_image_size,
+           :show_extra_large_image?, :extra_large_image_url, :extra_large_image_width, :extra_large_image_height,
+           :extra_large_image_size,
            to: :person
 
   def self.random(collection)

@@ -54,7 +54,7 @@ describe Whip, type: :model do
       member5
     end
 
-    let(:division) { Division.create(id: 1, date: Date.new(2000, 1, 1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", source_gid: "", debate_gid: "") }
+    let(:division) { Division.create(id: 1, date: Date.new(2000, 1, 1), number: 1, house: "commons", name: "Foo", source_url: "", debate_url: "", motion: "", debate_gid: "") }
     let(:person1) { create(:person) }
     let(:person2) { create(:person) }
     let(:person3) { create(:person) }

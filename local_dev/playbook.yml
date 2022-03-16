@@ -1,0 +1,9 @@
+---
+- hosts: all
+  tasks:
+    - import_role:
+        name: docker
+    - import_role:
+        name: ruby
+    - import_role:
+        name: app

@@ -1,0 +1,12 @@
+---
+ruby_rbenv_git_url: 'https://github.com/rbenv/rbenv.git'
+ruby_rbenv_path: '/home/vagrant/.rbenv'
+ruby_rbenv_plugins_path: '{{ ruby_rbenv_path }}/plugins'
+
+ruby_rbenv_bash_path: '/home/vagrant/.bashrc'
+
+ruby_rbenv_build_git_url: 'https://github.com/rbenv/ruby-build.git'
+ruby_rbenv_build_path: '{{ ruby_rbenv_plugins_path }}/ruby-build'
+
+ruby_rbenv_doctor_url: 'https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-doctor'
+ruby_rbenv_doctor_path: '/home/vagrant/rbenv-doctor.sh'

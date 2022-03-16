@@ -1,0 +1,56 @@
+---
+# Install rbenv by following: https://github.com/rbenv/rbenv
+
+- name: Install packages
+  become_user: 'root'
+  ansible.builtin.apt:
+    name:
+      - 'git'
+      - 'autoconf'
+      - 'bison'
+      - 'build-essential'
+      - 'libssl-dev'
+      - 'libyaml-dev'
+      - 'libreadline6-dev'
+      - 'zlib1g-dev'
+      - 'libncurses5-dev'
+      - 'libffi-dev'
+      - 'libgdbm6'
+      - 'libgdbm-dev'
+      - 'libdb-dev'
+    state: 'latest'
+
+- name: Install rbenv
+  ansible.builtin.git:
+    repo: '{{ ruby_rbenv_git_url }}'
+    dest: '{{ ruby_rbenv_path }}'
+
+- name: Add rbenv bin directory to path
+  ansible.builtin.lineinfile:
+    line: 'export PATH="{{ ruby_rbenv_path }}/bin:$PATH"'
+    path: '{{ ruby_rbenv_bash_path }}'
+
+- name: Add rbenv shell integration
+  ansible.builtin.lineinfile:
+    line: 'eval "$(rbenv init -)"'
+    path: '{{ ruby_rbenv_bash_path }}'
+
+- name: Create directory for rbenv-build
+  ansible.builtin.file:
+    path: '{{ ruby_rbenv_plugins_path }}'
+    state: 'directory'
+
+- name: Install rbenv-build plugin
+  ansible.builtin.git:
+    repo: '{{ ruby_rbenv_build_git_url }}'
+    dest: '{{ ruby_rbenv_build_path }}'
+
+- name: Download rbenv checker
+  ansible.builtin.get_url:
+    url: '{{ ruby_rbenv_doctor_url }}'
+    dest: '{{ ruby_rbenv_doctor_path }}'
+    backup: false
+    force: true
+    mode: 'u=rwx,g=rx,o=rx'
+    owner: 'vagrant'
+    group: 'vagrant'

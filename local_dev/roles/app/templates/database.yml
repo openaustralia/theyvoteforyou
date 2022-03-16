@@ -1,0 +1,22 @@
+# Database connections
+
+development:
+  adapter: mysql2
+  pool: 5
+  host: '127.0.0.1'
+  port: 3306
+  database: pw
+  username: root
+  password: '{{ mysql_root_password }}'
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql2
+  pool: 5
+  host: '127.0.0.1'
+  port: 3306
+  database: pw_test
+  username: root
+  password: '{{ mysql_root_password }}'

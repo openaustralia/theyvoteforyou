@@ -1,0 +1,21 @@
+
+!!! 5
+%html.no-js(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(name="viewport" content="width=device-width, initial-scale=1")
+    %meta{:name => "robots", :content => "noindex"} 
+    %title
+      - if content_for? :title
+        = yield :title
+        = "— #{Settings.project_name}"
+      - else
+        #{Settings.project_name} — How does your MP vote?
+
+    = stylesheet_link_tag "//code.cdn.mozilla.net/fonts/fira.css"
+    = stylesheet_link_tag "application"
+
+    = csrf_meta_tag
+    = display_meta_tags
+  %body{class: "social_media_cards"}
+    = yield 

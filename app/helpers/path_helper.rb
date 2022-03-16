@@ -21,12 +21,24 @@ module PathHelper
     member_path_simple(person.latest_member)
   end
 
+  def person_policy_path_simple(person, policy)
+    member_policy_path_simple(person.latest_member, policy)
+  end
+
+  def person_policy_url_simple(person, policy, options = {})
+    member_policy_url_simple(person.latest_member, policy, options)
+  end
+
   def member_path_simple(member)
     member_path(member.url_params)
   end
 
   def member_policy_path_simple(member, policy)
     member_policy_path(member.url_params.merge(id: policy.id))
+  end
+
+  def member_policy_url_simple(member, policy, options = {})
+    member_policy_url(options.merge(member.url_params).merge(id: policy.id))
   end
 
   def member_divisions_path_simple(member)
