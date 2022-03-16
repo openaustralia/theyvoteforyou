@@ -2,8 +2,8 @@
 
 module CardScreenshotter
   class Utils
-    CARD_WIDTH = 600
-    CARD_HEIGHT = 350
+    CARD_WIDTH = 1200
+    CARD_HEIGHT = 628
     RESTART_BROWSER_AFTER_NUMBER_OF_REQUESTS = 50
 
     attr_reader :driver
