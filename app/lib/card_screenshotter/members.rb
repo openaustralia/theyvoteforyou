@@ -8,6 +8,11 @@ module CardScreenshotter
 
       def update_screenshots
         screenshotter = CardScreenshotter::Utils.new
+        update_policy_vote_screenshot(screenshotter)
+        update_member_screenshot(screenshotter)
+        screenshotter.close_driver!
+      end
+
       def update_policy_vote_screenshot(screenshotter)
         options = { type: "ppd" }
         ppds = PolicyPersonDistance.all
