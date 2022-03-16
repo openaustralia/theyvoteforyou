@@ -33,8 +33,18 @@ module CardScreenshotter
         end
       end
 
-      def url(ppd)
-        person_policy_url_simple(ppd.person, ppd.policy, ActionMailer::Base.default_url_options.merge(card: true))
+
+      def url(object, options = {})
+        case options[:type]
+        when "ppd"
+          ppd = object
+          person_policy_url_simple(ppd.person, ppd.policy, ActionMailer::Base.default_url_options.merge(card: true))
+        when "member"
+          member = object
+          member_url(member.url_params.merge(ActionMailer::Base.default_url_options.merge(card: true)))
+        else
+          raise StandardError, "Invalid Options! Cannot generate URL"
+        end
       end
 
       def save_path(ppd)
