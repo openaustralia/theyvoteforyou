@@ -1,50 +1,59 @@
 %footer.site-footer
   .footer-main
     .container
-      %ul.nav.navbar-nav
-        %li= link_to "About", about_path
-        %li= link_to "Help / FAQ", help_faq_path
-        %li= link_to "Recent changes", history_path
-        %li= link_to "API", help_data_path
-
-      %p.author-msg
-        An
-        = link_to "OpenAustralia Foundation", "https://www.oaf.org.au/"
-        project
-
-      %ul.author-media.list-inline.small
-        %li.email
-          = mail_to Settings.contact_email do
-            %i.fi-mail
-            Contact
-        %li.twitter
-          = link_to "https://twitter.com/#{Settings.project_twitter}" do
-            %i.fi-social-twitter
-            Twitter
-        %li.blog= link_to "Blog", "https://www.oaf.org.au/blog/"
-        %li.donate= link_to "Donate", "https://www.oaf.org.au/donate/"
-
-
-      %p.license-msg.small
-        This data and software are
-        = link_to "free and open source", help_licencing_path
-        %span.issues-link= link_to "report an issue", "https://github.com/openaustralia/publicwhip/issues", title: "Report a bug or contribute an idea"
-
-  .author-projects
-    .container
-      .author-projects-heading Explore our other projects:
-
       .row
-        %ul.author-projects-list.list-unstyled.container
-          %li.col-sm-4
-            = link_to "https://www.openaustralia.org.au", class: 'author-projects-list-item' do
-              %h4.author-project-name OpenAustralia.org
-              %p.author-project-description.small Keep tabs on what your representative is saying in Parliament
-          %li.col-sm-4
-            = link_to "https://www.righttoknow.org.au", class: 'author-projects-list-item' do
-              %h4.author-project-name Right To Know
-              %p.author-project-description.small Access inside information about what your government is doing
-          %li.col-sm-4
-            = link_to "https://www.planningalerts.org.au/", class: 'author-projects-list-item' do
-              %h4.author-project-name PlanningAlerts
-              %p.author-project-description.small Email alerts of planning applications near you
+        .col-sm-5
+          %p.footer-main-sitename They Vote For You
+
+          %p.footer-main-description.small
+            A site dedicated to making parliamentary voting information accessible, 
+            understandable, and easy to use so that you can hold your elected representatives to account.
+
+        .col-sm-4
+          %nav.footer-main-mid
+            %ul.nav-footer
+              %li= link_to "About", about_path 
+              %li= link_to "API", help_data_path
+              %li.blog= link_to "Blog", "https://www.oaf.org.au/blog/"
+              %li= link_to "Help/FAQ", help_faq_path
+              
+            %ul.nav-footer
+              %li= link_to "Licensing", help_licencing_path
+              %li= link_to "Recent changes", history_path
+              %li.issues-link= link_to "Report an issue", "https://github.com/openaustralia/publicwhip/issues", title: "Report a bug or contribute an idea"
+
+        .col-sm-3 
+          .donate-btn 
+            %p.donate-text 
+              Help keep They Vote For You trusted and indpendent
+            = link_to "Donate Now", "https://www.oaf.org.au/donate/", class: "btn btn-primary", role: 'button'
+
+  .author-details
+    .container
+      .row
+        .col-sm-5 
+          %p.author-msg-intro.small Built & maintained by 
+          %p.author-msg
+            = link_to "OpenAustralia Foundation", "https://www.oaf.org.au/"
+          %p.footer-main-description.small
+            = link_to "OpenAustralia Foundation", "https://www.oaf.org.au/" 
+            is a
+            = link_to "registered charity", "https://www.acnc.gov.au/charity/55c2c06e21ac71e9359a0590b9fc100e"
+            in Australia - company limited by guarantee and endorsed as a deductible <br> gift recipient. ABN 
+            = link_to "24 138 089 942", "https://www.abr.business.gov.au/ABN/View/24138089942"
+
+        .col-sm-4 
+          -# .footer-main-mid
+          %p.acknowledgement.small
+            We acknowledge the traditional owners of the land now known as Australia.
+            We pay our respects to their elders past, present and emerging.
+              
+        .col-sm-3
+          %ul.author-media.list-inline.small
+            %li.email
+              = mail_to Settings.contact_email do
+                %i.fi-mail
+                -# Contact
+            %li.twitter
+              = link_to "https://twitter.com/#{Settings.project_twitter}" do
+                %i.fi-social-twitter
