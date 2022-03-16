@@ -33,6 +33,9 @@ module CardScreenshotter
         end
       end
 
+      def update_screenshot(screenshotter, object, options = {})
+        screenshotter.screenshot_and_save(url(object, options), save_path(object, options))
+      end
 
       def url(object, options = {})
         case options[:type]
