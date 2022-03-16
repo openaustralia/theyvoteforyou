@@ -57,7 +57,6 @@ module CardScreenshotter
           "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
         when "member"
           member = object
-          puts "public/cards#{member_path_simple(member)}.png"
           "public/cards#{member_path_simple(member)}.png"
         else
           raise StandardError, "Invalid Options! Cannot generate save path"
