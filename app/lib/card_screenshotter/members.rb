@@ -47,8 +47,18 @@ module CardScreenshotter
         end
       end
 
-      def save_path(ppd)
-        "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
+      def save_path(object, options = {})
+        case options[:type]
+        when "ppd"
+          ppd = object
+          "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
+        when "member"
+          member = object
+          puts "public/cards#{member_path_simple(member)}.png"
+          "public/cards#{member_path_simple(member)}.png"
+        else
+          raise StandardError, "Invalid Options! Cannot generate save path"
+        end
       end
     end
   end
