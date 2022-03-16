@@ -18,8 +18,14 @@ module CardScreenshotter
         end
       end
 
-      def update_screenshot(screenshotter, ppd)
-        screenshotter.screenshot_and_save(url(ppd), save_path(ppd))
+      def update_member_screenshot(screenshotter)
+        options = { type: "member" }
+        members = Member.all
+        progress = ProgressBar.create(title: "Members page screenshots", total: members.count, format: "%t: |%B| %E %a")
+        members.each do |member|
+          update_screenshot(screenshotter, member, options)
+          progress.increment
+        end
       end
 
       def url(ppd)
