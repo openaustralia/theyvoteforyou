@@ -37,14 +37,28 @@ module CardScreenshotter
         screenshotter.screenshot_and_save(url(object, options), save_path(object, options))
       end
 
+      def url_member(member)
+        member_url(member.url_params.merge(ActionMailer::Base.default_url_options.merge(card: true)))
+      end
+
+      def url_person_policy(ppd)
+        person_policy_url_simple(ppd.person, ppd.policy, ActionMailer::Base.default_url_options.merge(card: true))
+      end
+
+      def save_path_person_policy(ppd)
+        "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
+      end
+
+      def save_path_member(member)
+        "public/cards#{member_path_simple(member)}.png"
+      end
+
       def url(object, options = {})
         case options[:type]
         when "ppd"
-          ppd = object
-          person_policy_url_simple(ppd.person, ppd.policy, ActionMailer::Base.default_url_options.merge(card: true))
+          url_person_policy(object)
         when "member"
-          member = object
-          member_url(member.url_params.merge(ActionMailer::Base.default_url_options.merge(card: true)))
+          url_member(object)
         else
           raise StandardError, "Invalid Options! Cannot generate URL"
         end
@@ -53,11 +67,9 @@ module CardScreenshotter
       def save_path(object, options = {})
         case options[:type]
         when "ppd"
-          ppd = object
-          "public/cards#{person_policy_path_simple(ppd.person, ppd.policy)}.png"
+          save_path_person_policy(object)
         when "member"
-          member = object
-          "public/cards#{member_path_simple(member)}.png"
+          save_path_member(object)
         else
           raise StandardError, "Invalid Options! Cannot generate save path"
         end
