@@ -34,7 +34,14 @@ module CardScreenshotter
       end
 
       def update_screenshot(screenshotter, object, options = {})
-        screenshotter.screenshot_and_save(url(object, options), save_path(object, options))
+        case options[:type]
+        when "ppd"
+          screenshotter.screenshot_and_save(url_person_policy(object), save_path_person_policy(object))
+        when "member"
+          screenshotter.screenshot_and_save(url_member(object), save_path_member(object))
+        else
+          raise StandardError, "Invalid Options!"
+        end
       end
 
       def url_member(member)
@@ -51,28 +58,6 @@ module CardScreenshotter
 
       def save_path_member(member)
         "public/cards#{member_path_simple(member)}.png"
-      end
-
-      def url(object, options = {})
-        case options[:type]
-        when "ppd"
-          url_person_policy(object)
-        when "member"
-          url_member(object)
-        else
-          raise StandardError, "Invalid Options! Cannot generate URL"
-        end
-      end
-
-      def save_path(object, options = {})
-        case options[:type]
-        when "ppd"
-          save_path_person_policy(object)
-        when "member"
-          save_path_member(object)
-        else
-          raise StandardError, "Invalid Options! Cannot generate save path"
-        end
       end
     end
   end
