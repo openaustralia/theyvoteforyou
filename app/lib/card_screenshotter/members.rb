@@ -14,33 +14,20 @@ module CardScreenshotter
       end
 
       def update_policy_vote_screenshot(screenshotter)
-        options = { type: "ppd" }
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members votes on policies screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         ppds.find_each do |ppd|
-          update_screenshot(screenshotter, ppd, options)
+          screenshotter.screenshot_and_save(url_person_policy(ppd), save_path_person_policy(ppd))
           progress.increment
         end
       end
 
       def update_member_screenshot(screenshotter)
-        options = { type: "member" }
         members = Member.all
         progress = ProgressBar.create(title: "Members page screenshots", total: members.count, format: "%t: |%B| %E %a")
         members.each do |member|
-          update_screenshot(screenshotter, member, options)
+          screenshotter.screenshot_and_save(url_member(member), save_path_member(member))
           progress.increment
-        end
-      end
-
-      def update_screenshot(screenshotter, object, options = {})
-        case options[:type]
-        when "ppd"
-          screenshotter.screenshot_and_save(url_person_policy(object), save_path_person_policy(object))
-        when "member"
-          screenshotter.screenshot_and_save(url_member(object), save_path_member(object))
-        else
-          raise StandardError, "Invalid Options!"
         end
       end
 
