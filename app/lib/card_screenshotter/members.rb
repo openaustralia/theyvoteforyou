@@ -8,13 +8,14 @@ module CardScreenshotter
 
       def update_screenshots
         screenshotter = CardScreenshotter::Utils.new
+      def update_policy_vote_screenshot(screenshotter)
+        options = { type: "ppd" }
         ppds = PolicyPersonDistance.all
-        progress = ProgressBar.create(title: "Members screenshots", total: ppds.count, format: "%t: |%B| %E %a")
+        progress = ProgressBar.create(title: "Members votes on policies screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         ppds.find_each do |ppd|
-          update_screenshot(screenshotter, ppd)
+          update_screenshot(screenshotter, ppd, options)
           progress.increment
         end
-        screenshotter.close_driver!
       end
 
       def update_screenshot(screenshotter, ppd)
