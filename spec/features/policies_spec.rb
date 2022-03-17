@@ -26,8 +26,8 @@ describe "Policies", type: :feature do
     end
     click_button "Make Policy"
     expect(page).to have_content "Successfully made new policy"
-    expect(page).to have_content "For the creation of quality policies on this site"
-    expect(page).to have_content "Quality contributions are the bedrock of community projects"
+    expect(page).to have_content "The creation of quality policies on this site"
+    expect(page).to have_content "Those for this policy agree that quality contributions are the bedrock of community projects"
   end
 
   it "editing existing" do

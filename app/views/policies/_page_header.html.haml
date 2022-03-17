@@ -1,4 +1,4 @@
-- content_for :title, capitalise_initial_character(policy.name_with_for)
+- content_for :title, capitalise_initial_character(policy.name)
 - set_meta_tags description: "Find out how people in parliament stand on #{policy.name}."
 
 .page-header.row
@@ -7,7 +7,9 @@
     = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
   %h1.col-md-9.col-lg-10.long-title
     = yield :title
-  .lead.policytext.col-md-12= capitalise_initial_character policy.description
+  .lead.policytext.col-md-12
+    Those for this policy agree that
+    = policy.description
 
   .header-secondary.col-sm-12
     .header-secondary-primary-block.subscribe-block
