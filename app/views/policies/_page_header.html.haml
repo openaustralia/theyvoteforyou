@@ -7,7 +7,9 @@
     = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
   %h1.col-md-9.col-lg-10.long-title
     = yield :title
-  .lead.policytext.col-md-12= capitalise_initial_character policy.description
+  .lead.policytext.col-md-12
+    Those for this policy agree that
+    = policy.description
 
   .header-secondary.col-sm-12
     .header-secondary-primary-block.subscribe-block
