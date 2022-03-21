@@ -190,12 +190,12 @@ namespace :application do
 
     desc "Generate social media cards for how people vote on particular policies"
     task person_policies: :environment do
-      CardScreenshotter::Members.update_screenshots_policy_votes
+      CardScreenshotter::PersonPolicies.run
     end
 
     desc "Generate social media cards for all people"
     task people: :environment do
-      CardScreenshotter::Members.update_screenshots_members
+      CardScreenshotter::Members.run
     end
   end
 end
