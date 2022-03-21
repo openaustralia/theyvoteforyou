@@ -6,11 +6,6 @@ module CardScreenshotter
       include Rails.application.routes.url_helpers
       include PathHelper
 
-      def update_screenshots
-        update_screenshots_policy_votes
-        update_screenshots_members
-      end
-
       def update_screenshots_policy_votes
         screenshotter = CardScreenshotter::Utils.new
         update_policy_vote_screenshot(screenshotter)

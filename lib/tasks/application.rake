@@ -187,7 +187,8 @@ namespace :application do
   namespace :cards do
     desc "A task to capture all screenshots of the social media sharing cards"
     task all: :environment do
-      CardScreenshotter::Members.update_screenshots
+      CardScreenshotter::Members.update_screenshots_policy_votes
+      CardScreenshotter::Members.update_screenshots_members
     end
   end
 end
