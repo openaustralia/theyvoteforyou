@@ -8,32 +8,24 @@ module CardScreenshotter
 
       def update_screenshots_policy_votes
         screenshotter = CardScreenshotter::Utils.new
-        update_policy_vote_screenshot(screenshotter)
-        screenshotter.close_driver!
-      end
-
-      def update_screenshots_members
-        screenshotter = CardScreenshotter::Utils.new
-        update_member_screenshot(screenshotter)
-        screenshotter.close_driver!
-      end
-
-      def update_policy_vote_screenshot(screenshotter)
         ppds = PolicyPersonDistance.all
         progress = ProgressBar.create(title: "Members votes on policies screenshots", total: ppds.count, format: "%t: |%B| %E %a")
         ppds.find_each do |ppd|
           screenshotter.screenshot_and_save(url_person_policy(ppd), save_path_person_policy(ppd))
           progress.increment
         end
+        screenshotter.close_driver!
       end
 
-      def update_member_screenshot(screenshotter)
+      def update_screenshots_members
+        screenshotter = CardScreenshotter::Utils.new
         members = Member.all
         progress = ProgressBar.create(title: "Members page screenshots", total: members.count, format: "%t: |%B| %E %a")
         members.each do |member|
           screenshotter.screenshot_and_save(url_member(member), save_path_member(member))
           progress.increment
         end
+        screenshotter.close_driver!
       end
 
       def url_member(member)
