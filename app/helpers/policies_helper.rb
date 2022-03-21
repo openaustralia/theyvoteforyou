@@ -221,27 +221,27 @@ module PoliciesHelper
   def randomise_people_voting_on_policy(policy)
     distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
 
-    # Insert members into each category
-    members_category_table = {}
+    # Insert people into each category
+    people_category_table = {}
     distances.each do |ppd|
       category = ppd.category
-      members_category_table[category] ||= []
-      members_category_table[category] << ppd
+      people_category_table[category] ||= []
+      people_category_table[category] << ppd.person
     end
 
     # Randomly shuffle the members within each category
-    members_category_table.each_key do |category|
-      members_category_table[category] = members_category_table[category].shuffle
+    people_category_table.each_key do |category|
+      people_category_table[category] = people_category_table[category].shuffle
     end
 
     # Put the categories themselves in a random order
-    category_order = members_category_table.keys.shuffle
+    category_order = people_category_table.keys.shuffle
 
     people = []
     # Go through and pick one from each category until we've picked them all
     while people.length < distances.length
       category_order.each do |category|
-        people << members_category_table[category].shift.person unless members_category_table[category].empty?
+        people << people_category_table[category].shift unless people_category_table[category].empty?
       end
     end
 
