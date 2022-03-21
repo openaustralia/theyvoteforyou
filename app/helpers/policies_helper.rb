@@ -246,8 +246,7 @@ module PoliciesHelper
     people
   end
 
-  def shortened_randomised_people_voting_on_policy(policy)
-    max_people = 19
+  def shortened_randomised_people_voting_on_policy(policy, max_people:)
     people = randomise_people_voting_on_policy(policy)
     chosen_people = people[0..(max_people - 1)]
     # return the chosen people and the number of people not included
