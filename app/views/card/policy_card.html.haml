@@ -10,9 +10,9 @@
 
     %div.socialmedia-card-policy-image
       %ul.socialmedia-card-policy-image-list
-        - @images.each do |image|
+        - @people.each do |person|
           %li.socialmedia-card-policy-image-list-inline
-            = image_tag image
+            = image_tag person.latest_member.large_image_url
         +
         = @number_left
         Others

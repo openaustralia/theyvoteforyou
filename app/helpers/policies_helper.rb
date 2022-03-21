@@ -253,12 +253,4 @@ module PoliciesHelper
     # return the chosen people and the number of people not included
     [chosen_people, people.length - chosen_people.length]
   end
-
-  # This finds all people who can vote on a policy and orders them randomly but picking one from each category
-  # at a time so that each category is roughly evenly represented in the final list
-  def policy_card_images(policy)
-    people, count = shortened_randomised_people_voting_on_policy(policy)
-    images = people.map { |p| p.latest_member.large_image_url }
-    [images, count]
-  end
 end

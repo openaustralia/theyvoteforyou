@@ -29,7 +29,7 @@ class PoliciesController < ApplicationController
 
     return if params[:card].nil?
 
-    @images, @number_left = helpers.policy_card_images(@policy)
+    @people, @number_left = helpers.shortened_randomised_people_voting_on_policy(@policy)
     render "card/policy_card", layout: "card_layout"
   end
 
