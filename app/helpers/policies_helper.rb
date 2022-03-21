@@ -222,28 +222,25 @@ module PoliciesHelper
     number_of_members = 0
     chosen_images = []
     max_images = 19
-    image_limit = 0
-    counter = 0
     i = 0
 
     # Insert members into each category
     categories.each do |category|
-      relevant_distances = []
-      ppd = distances.select{ |d| d.category == category }
+      ppd = distances.select { |d| d.category == category }
       members_category_table[category] = ppd
       number_of_members += ppd.length
     end
-    
-    if number_of_members >= max_images
-      image_limit = max_images
-    else
-      image_limit = number_of_members
-    end
+
+    image_limit = if number_of_members >= max_images
+                    max_images
+                  else
+                    number_of_members
+                  end
 
     keys = members_category_table.keys
-    
+
     while image_limit > chosen_images.length
-      if members_category_table[keys[i]].length != 0
+      unless members_category_table[keys[i]].empty?
         random_index = rand(members_category_table[keys[i]].length)
         chosen_images << members_category_table[keys[i]][random_index].person.latest_member.large_image_url
         members_category_table[keys[i]].delete_at(random_index)
@@ -252,9 +249,6 @@ module PoliciesHelper
     end
 
     # return the chosen images and the number of members not included
-    return [chosen_images, number_of_members - image_limit]
-
+    [chosen_images, number_of_members - image_limit]
   end
 end
-
-
