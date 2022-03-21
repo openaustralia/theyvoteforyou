@@ -229,17 +229,19 @@ module PoliciesHelper
       members_category_table[category] << ppd
     end
 
+    # Randomly shuffle the members within each category
+    members_category_table.each_key do |category|
+      members_category_table[category] = members_category_table[category].shuffle
+    end
+
     # Put the categories themselves in a random order
     category_order = members_category_table.keys.shuffle
 
     people = []
+    # Go through and pick one from each category until we've picked them all
     while people.length < distances.length
       category_order.each do |category|
-        next if members_category_table[category].empty?
-
-        random_index = rand(members_category_table[category].length)
-        people << members_category_table[category][random_index].person
-        members_category_table[category].delete_at(random_index)
+        people << members_category_table[category].shift.person unless members_category_table[category].empty?
       end
     end
 
