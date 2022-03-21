@@ -230,9 +230,12 @@ module PoliciesHelper
       number_of_members += ppd.length
     end
 
+    # Put the categories themselves in a random order
+    category_order = members_category_table.keys.shuffle
+
     images = []
     while images.length < number_of_members
-      members_category_table.each_key do |category|
+      category_order.each do |category|
         next if members_category_table[category].empty?
 
         random_index = rand(members_category_table[category].length)
