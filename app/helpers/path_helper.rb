@@ -33,6 +33,10 @@ module PathHelper
     "#{root_url}cards#{member_path_simple(member)}.png"
   end
 
+  def card_policy_url(policy)
+    "#{root_url}cards#{policy_path(policy)}.png"
+  end
+
   def person_policy_url_simple(person, policy, options = {})
     member_policy_url_simple(person.latest_member, policy, options)
   end

@@ -1,5 +1,20 @@
 - content_for :title, capitalise_initial_character(policy.name)
 - set_meta_tags description: "Find out how people in parliament stand on #{policy.name}."
+:ruby
+  set_meta_tags og: {
+    title: "See How They Vote On #{capitalise_initial_character(policy.name)}",
+    description: "Find out more and see how they voted on other issues that matter to you",
+    type: "website",
+    url: request.original_url,
+    image: {
+      _: card_policy_url(policy),
+      alt: "See How They Vote On #{capitalise_initial_character(policy.name)}",
+      width: CardScreenshotter::Utils::CARD_WIDTH,
+      height: CardScreenshotter::Utils::CARD_HEIGHT
+    },
+    site_name: Settings.project_name
+  }
+  set_meta_tags twitter: { card: "summary_large_image" }
 
 .page-header.row
   %nav.header-actions.col-md-3.col-lg-2
