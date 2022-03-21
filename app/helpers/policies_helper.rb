@@ -218,7 +218,7 @@ module PoliciesHelper
 
   # This finds all people who can vote on a policy and orders them randomly but picking one from each category
   # at a time so that each category is roughly evenly represented throughout in the final list
-  def all_policy_card_images(policy)
+  def randomise_people_voting_on_policy(policy)
     distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
 
     # Insert members into each category
@@ -232,18 +232,24 @@ module PoliciesHelper
     # Put the categories themselves in a random order
     category_order = members_category_table.keys.shuffle
 
-    images = []
-    while images.length < distances.length
+    people = []
+    while people.length < distances.length
       category_order.each do |category|
         next if members_category_table[category].empty?
 
         random_index = rand(members_category_table[category].length)
-        images << members_category_table[category][random_index].person.latest_member.large_image_url
+        people << members_category_table[category][random_index].person
         members_category_table[category].delete_at(random_index)
       end
     end
 
-    images
+    people
+  end
+
+  # This finds all people who can vote on a policy and orders them randomly but picking one from each category
+  # at a time so that each category is roughly evenly represented throughout in the final list
+  def all_policy_card_images(policy)
+    randomise_people_voting_on_policy(policy).map { |p| p.latest_member.large_image_url }
   end
 
   # This finds all people who can vote on a policy and orders them randomly but picking one from each category
