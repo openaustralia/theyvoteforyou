@@ -230,17 +230,15 @@ module PoliciesHelper
       number_of_members += ppd.length
     end
 
-    keys = members_category_table.keys
-
     images = []
-    i = 0
     while images.length < number_of_members
-      unless members_category_table[keys[i]].empty?
-        random_index = rand(members_category_table[keys[i]].length)
-        images << members_category_table[keys[i]][random_index].person.latest_member.large_image_url
-        members_category_table[keys[i]].delete_at(random_index)
+      members_category_table.each_key do |category|
+        next if members_category_table[category].empty?
+
+        random_index = rand(members_category_table[category].length)
+        images << members_category_table[category][random_index].person.latest_member.large_image_url
+        members_category_table[category].delete_at(random_index)
       end
-      i = (i + 1) % keys.length
     end
 
     images
