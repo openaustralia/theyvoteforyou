@@ -7,8 +7,18 @@ module CardScreenshotter
       include PathHelper
 
       def update_screenshots
+        update_screenshots_policy_votes
+        update_screenshots_members
+      end
+
+      def update_screenshots_policy_votes
         screenshotter = CardScreenshotter::Utils.new
         update_policy_vote_screenshot(screenshotter)
+        screenshotter.close_driver!
+      end
+
+      def update_screenshots_members
+        screenshotter = CardScreenshotter::Utils.new
         update_member_screenshot(screenshotter)
         screenshotter.close_driver!
       end
