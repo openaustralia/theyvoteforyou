@@ -6,7 +6,7 @@
       .socialmedia-card-heading-text
         %span.socialmedia-card-policy-heading See How They Vote On <br>
         %span.socialmedia-card-policy-body-text
-          = @policy.name.capitalize
+          = capitalise_initial_character(@policy.name)
 
     %div.socialmedia-card-policy-image
       %ul.socialmedia-card-policy-image-list
