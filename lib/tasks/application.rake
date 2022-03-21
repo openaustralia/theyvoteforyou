@@ -52,7 +52,7 @@ namespace :application do
   namespace :cron do
     desc "Run this every night. Generates screenshots"
     task nightly: :environment do
-      task("application:generate:cards").invoke
+      task("application:cards:all").invoke
     end
   end
 
@@ -184,9 +184,9 @@ namespace :application do
     end
   end
 
-  namespace :generate do
+  namespace :cards do
     desc "A task to capture all screenshots of the social media sharing cards"
-    task cards: :environment do
+    task all: :environment do
       CardScreenshotter::Members.update_screenshots
     end
   end
