@@ -217,13 +217,12 @@ module PoliciesHelper
   end
 
   # This finds all people who can vote on a policy and orders them randomly but picking one from each category
-  # at a time so that each category is roughly evenly represented in the final list
-  def policy_card_images(policy, categories)
+  # at a time so that each category is roughly evenly represented throughout in the final list
+  def all_policy_card_images(policy, categories)
     distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
     members_category_table = {}
     number_of_members = 0
-    chosen_images = []
-    max_images = 19
+    images = []
     i = 0
 
     # Insert members into each category
@@ -233,24 +232,27 @@ module PoliciesHelper
       number_of_members += ppd.length
     end
 
-    image_limit = if number_of_members >= max_images
-                    max_images
-                  else
-                    number_of_members
-                  end
-
     keys = members_category_table.keys
 
-    while image_limit > chosen_images.length
+    while images.length < number_of_members
       unless members_category_table[keys[i]].empty?
         random_index = rand(members_category_table[keys[i]].length)
-        chosen_images << members_category_table[keys[i]][random_index].person.latest_member.large_image_url
+        images << members_category_table[keys[i]][random_index].person.latest_member.large_image_url
         members_category_table[keys[i]].delete_at(random_index)
       end
       i = (i + 1) % keys.length
     end
 
+    images
+  end
+
+  # This finds all people who can vote on a policy and orders them randomly but picking one from each category
+  # at a time so that each category is roughly evenly represented in the final list
+  def policy_card_images(policy, categories)
+    max_images = 19
+    images = all_policy_card_images(policy, categories)
+    chosen_images = images[0..(max_images - 1)]
     # return the chosen images and the number of members not included
-    [chosen_images, number_of_members - image_limit]
+    [chosen_images, images.length - chosen_images.length]
   end
 end
