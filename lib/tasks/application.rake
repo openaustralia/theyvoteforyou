@@ -186,16 +186,21 @@ namespace :application do
 
   namespace :cards do
     desc "Generate all social media sharing cards"
-    task all: %i[people person_policies]
+    task all: %i[policies people person_policies]
 
     desc "Generate social media cards for how people vote on particular policies"
     task person_policies: :environment do
       CardScreenshotter::PersonPolicies.run
     end
 
-    desc "Generate social media cards for all people"
+    desc "Generate social media cards for people"
     task people: :environment do
       CardScreenshotter::Members.run
+    end
+
+    desc "Generate social media cards for policies"
+    task policies: :environment do
+      CardScreenshotter::Policies.run
     end
   end
 end
