@@ -216,6 +216,8 @@ module PoliciesHelper
     text[0].upcase + text[1..]
   end
 
+  # This finds all people who can vote on a policy and orders them randomly but picking one from each category
+  # at a time so that each category is roughly evenly represented in the final list
   def policy_card_images(policy, categories)
     distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
     members_category_table = {}
