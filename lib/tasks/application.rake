@@ -186,7 +186,7 @@ namespace :application do
 
   namespace :cards do
     desc "Generate all social media sharing cards"
-    task all: %i[person_policies people]
+    task all: %i[people person_policies]
 
     desc "Generate social media cards for how people vote on particular policies"
     task person_policies: :environment do
