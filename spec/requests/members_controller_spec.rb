@@ -5,7 +5,6 @@ require "spec_helper"
 
 describe MembersController, type: :request do
   include HTMLCompareHelper
-  fixtures :all
 
   describe "#index" do
     it { compare_static("/people/representatives") }

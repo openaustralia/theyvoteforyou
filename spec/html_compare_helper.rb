@@ -11,7 +11,7 @@ module HTMLCompareHelper
   Warden.test_mode!
 
   def compare_static(path, signed_in: false, form_params: false, suffix: "", method: :post, format: "html")
-    login_as(users(:one), scope: :user) if signed_in
+    login_as(User.first, scope: :user) if signed_in
 
     if form_params
       case method

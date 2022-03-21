@@ -3,8 +3,6 @@
 require "spec_helper"
 
 describe "routing redirects", type: :request do
-  fixtures :all
-
   # This is an old url still being used by openaustralia.org.au
   it do
     get "/mp.php?mpid=1&dmp=1", params: {}
