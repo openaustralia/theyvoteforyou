@@ -247,16 +247,10 @@ module PoliciesHelper
   end
 
   # This finds all people who can vote on a policy and orders them randomly but picking one from each category
-  # at a time so that each category is roughly evenly represented throughout in the final list
-  def all_policy_card_images(policy)
-    randomise_people_voting_on_policy(policy).map { |p| p.latest_member.large_image_url }
-  end
-
-  # This finds all people who can vote on a policy and orders them randomly but picking one from each category
   # at a time so that each category is roughly evenly represented in the final list
   def policy_card_images(policy)
     max_images = 19
-    images = all_policy_card_images(policy)
+    images = randomise_people_voting_on_policy(policy).map { |p| p.latest_member.large_image_url }
     chosen_images = images[0..(max_images - 1)]
     # return the chosen images and the number of members not included
     [chosen_images, images.length - chosen_images.length]
