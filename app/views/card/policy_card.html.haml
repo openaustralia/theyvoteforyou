@@ -1,37 +1,37 @@
 .socialmedia-card-container
-    %p.socialmedia-card-logo
-        %span.subtext They Vote For You
-    %div.socialmedia-card-policy-element
-        %div.fitin2
-            .socialmedia-card-heading-text
-                %span.socialmedia-card-policy-heading See How They Vote On <br>
-                %span.socialmedia-card-policy-body-text 
-                    = @policy.name.capitalize
-                
-        %div.socialmedia-card-policy-image
-            %ul.socialmedia-card-policy-image-list
-                - @images.each do |image|
-                    %li.socialmedia-card-policy-image-list-inline 
-                        = image_tag image
-                + 
-                = @number_left
-                Others
-    
-    %p.socialmedia-card-disclaimer
-        %span.subtext
-            Find it out more:
-            = remove_slash(get_hostname(root_url)) + policy_path(@policy)
+  %p.socialmedia-card-logo
+    %span.subtext They Vote For You
+  %div.socialmedia-card-policy-element
+    %div.fitin2
+      .socialmedia-card-heading-text
+        %span.socialmedia-card-policy-heading See How They Vote On <br>
+        %span.socialmedia-card-policy-body-text
+          = @policy.name.capitalize
+
+    %div.socialmedia-card-policy-image
+      %ul.socialmedia-card-policy-image-list
+        - @images.each do |image|
+          %li.socialmedia-card-policy-image-list-inline
+            = image_tag image
+        +
+        = @number_left
+        Others
+
+  %p.socialmedia-card-disclaimer
+    %span.subtext
+      Find it out more:
+      = remove_slash(get_hostname(root_url)) + policy_path(@policy)
 
 :javascript
-    window.addEventListener('DOMContentLoaded', (event) => {
-        fitin = document.querySelector('.fitin2');
-        fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
+  window.addEventListener('DOMContentLoaded', (event) => {
+    fitin = document.querySelector('.fitin2');
+    fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
 
-        while (fitin_inner.offsetHeight > fitin.offsetHeight) {
-            fontStyling = window
-            .getComputedStyle(fitin_inner, null)
-            .getPropertyValue('font-size');
-            fontSize = parseFloat(fontStyling);
-            fitin_inner.style.fontSize = fontSize - 1 + 'px';
-        }
-    });
+    while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+      fontStyling = window
+      .getComputedStyle(fitin_inner, null)
+      .getPropertyValue('font-size');
+      fontSize = parseFloat(fontStyling);
+      fitin_inner.style.fontSize = fontSize - 1 + 'px';
+    }
+  });
