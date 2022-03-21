@@ -12,7 +12,7 @@
       %ul.socialmedia-card-policy-image-list
         - @people.each do |person|
           %li.socialmedia-card-policy-image-list-inline
-            = image_tag person.latest_member.large_image_url
+            = member_image(person.latest_member, :large)
         +
         = @number_left
         Others
