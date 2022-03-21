@@ -10,8 +10,8 @@
     image: {
       _: card_person_policy_url(@policy_person_distance.person, @policy_person_distance.policy),
       alt: policy_agreement_summary(@policy_person_distance, with_person: true, with_policy: true),
-      width: 1200,
-      height: 628
+      width: CardScreenshotter::Utils::CARD_WIDTH,
+      height: CardScreenshotter::Utils::CARD_HEIGHT
     },
     site_name: Settings.project_name
   }
