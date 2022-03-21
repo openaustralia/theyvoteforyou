@@ -215,4 +215,46 @@ module PoliciesHelper
   def capitalise_initial_character(text)
     text[0].upcase + text[1..]
   end
+
+  def policy_card_images(policy, categories)
+    distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
+    members_category_table = {}
+    number_of_members = 0
+    chosen_images = []
+    max_images = 19
+    image_limit = 0
+    counter = 0
+    i = 0
+
+    # Insert members into each category
+    categories.each do |category|
+      relevant_distances = []
+      ppd = distances.select{ |d| d.category == category }
+      members_category_table[category] = ppd
+      number_of_members += ppd.length
+    end
+    
+    if number_of_members >= max_images
+      image_limit = max_images
+    else
+      image_limit = number_of_members
+    end
+
+    keys = members_category_table.keys
+    
+    while image_limit > chosen_images.length
+      if members_category_table[keys[i]].length != 0
+        random_index = rand(members_category_table[keys[i]].length)
+        chosen_images << members_category_table[keys[i]][random_index].person.latest_member.large_image_url
+        members_category_table[keys[i]].delete_at(random_index)
+      end
+      i = (i + 1) % keys.length
+    end
+
+    # return the chosen images and the number of members not included
+    return [chosen_images, number_of_members - image_limit]
+
+  end
 end
+
+
