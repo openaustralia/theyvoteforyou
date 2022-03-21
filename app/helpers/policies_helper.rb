@@ -220,12 +220,10 @@ module PoliciesHelper
   # at a time so that each category is roughly evenly represented throughout in the final list
   def all_policy_card_images(policy, categories)
     distances = policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
-    members_category_table = {}
-    number_of_members = 0
-    images = []
-    i = 0
 
     # Insert members into each category
+    members_category_table = {}
+    number_of_members = 0
     categories.each do |category|
       ppd = distances.select { |d| d.category == category }
       members_category_table[category] = ppd
@@ -234,6 +232,8 @@ module PoliciesHelper
 
     keys = members_category_table.keys
 
+    images = []
+    i = 0
     while images.length < number_of_members
       unless members_category_table[keys[i]].empty?
         random_index = rand(members_category_table[keys[i]].length)
