@@ -27,8 +27,10 @@ class PoliciesController < ApplicationController
     @sort = params[:sort]
     @categories = PolicyPersonDistance.all_categories(reverse: (@sort == "against"))
 
+    return if params[:card].nil?
+
     @images, @number_left = helpers.policy_card_images(@policy)
-    return render "card/policy_card", layout: "card_layout" unless params[:card].nil?
+    render "card/policy_card", layout: "card_layout"
   end
 
   def edit
