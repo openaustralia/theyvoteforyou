@@ -52,7 +52,12 @@ class MembersController < ApplicationController
   def friends; end
 
   def show
-    return render "card/member_card", layout: "card_layout" unless params[:card].nil?
+    if !params[:card].nil? && params[:category].nil?
+      render "card/member_card", layout: "card_layout"
+    elsif !params[:card].nil? && !params[:category].nil?
+      @card_title, @policies, @number_left = helpers.member_policy_category(@member, params[:category], max_policies: 4)
+      render "card/member_category_card", layout: "card_layout"
+    end
   end
 
   def policy
