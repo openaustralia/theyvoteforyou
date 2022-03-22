@@ -144,8 +144,8 @@ describe DivisionsController, type: :request do
       --- MOTION EFFECT ---
 
       This is some test text.
-       
-       It might relate to bills containing HTML characters like the Carbon Pollution Reduction Scheme Bill&#160;2009 and Bills &#8212; National Disability Insurance Scheme Bill
+
+      It might relate to bills containing HTML characters like the Carbon Pollution Reduction Scheme Bill&#160;2009 and Bills &#8212; National Disability Insurance Scheme Bill
       --- COMMENTS AND NOTES ---
 
       (put thoughts and notes for other researchers here)
