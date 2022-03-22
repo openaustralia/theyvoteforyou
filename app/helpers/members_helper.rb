@@ -144,4 +144,13 @@ module MembersHelper
     policies
   end
 
+  def card_title_from_category(member, category)
+    case category.to_sym
+    when :not_enough
+      "We can't say anything concrete about how #{member.name} voted on"
+    else
+      "#{member.name} #{category_words_sentence(category.to_sym)}"
+    end
+  end
+
 end
