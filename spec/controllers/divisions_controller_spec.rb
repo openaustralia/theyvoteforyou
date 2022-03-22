@@ -187,7 +187,15 @@ describe DivisionsController, type: :controller do
       Division.delete_all
     end
 
-    let!(:one_division) { create(:division, date: Date.new(2017, 0o4, 0o6), house: "representatives", number: 100) }
+    let!(:one_division) do
+      division = create(:division, date: Date.new(2017, 0o4, 0o6), house: "representatives", number: 100)
+      division.update!(
+        division_info: create(:division_info, division: division),
+        whips: [create(:whip, division: division)],
+        votes: [create(:vote, division: division)]
+      )
+      division
+    end
 
     context "when request a specific division" do
       context "when parameters match a division" do
