@@ -131,4 +131,17 @@ module MembersHelper
       raise "Unexpected size #{size}"
     end
   end
+
+  def policies_under_category(member, category)
+    distances = member.person.policy_person_distances.published
+    policies = []
+    distances.each do |d|
+      if d.category.to_s == category
+        Rails.logger.debug Policy.find(d.policy_id)
+        policies << Policy.find(d.policy_id)
+      end
+    end
+    policies
+  end
+
 end
