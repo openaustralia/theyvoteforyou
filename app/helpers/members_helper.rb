@@ -153,4 +153,10 @@ module MembersHelper
     end
   end
 
+  def member_policy_category(member, category, max_policies:)
+    policies = policies_under_category(member, category)
+    chosen_policies = policies[0..(max_policies - 1)]
+    card_title = card_title_from_category(member, category)
+    [card_title, chosen_policies, policies.length - chosen_policies.length]
+  end
 end
