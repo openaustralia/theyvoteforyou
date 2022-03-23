@@ -19,6 +19,21 @@ describe DivisionsController, type: :request do
         member265
         compare_static("/divisions/representatives/2006-12-06/3")
       end
+
+      it do
+        division1
+        policy1
+        member1
+        member589
+        compare_static("/divisions/representatives/2013-03-14/1")
+      end
+
+      it do
+        division9
+        policy2
+        policy3
+        compare_static("/divisions/senate/2013-03-14/1")
+      end
     end
   end
 
@@ -30,9 +45,6 @@ describe DivisionsController, type: :request do
     end
 
     describe "#show" do
-      it { compare_static("/divisions/representatives/2013-03-14/1") }
-      it { compare_static("/divisions/senate/2013-03-14/1") }
-
       it { compare_static("/divisions/representatives/2006-12-06/3/policies", signed_in: true) }
       it { compare_static("/divisions/representatives/2013-03-14/1/policies", signed_in: true) }
       it { compare_static("/divisions/senate/2009-11-25/8/policies", signed_in: true) }
