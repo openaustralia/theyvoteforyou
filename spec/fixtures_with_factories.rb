@@ -25,14 +25,10 @@ RSpec.shared_context "with fixtures" do
   def add_new_fixtures
     divisions_fixtures
     users_fixtures
-    wiki_motions_fixtures
-    division_infos_fixtures
-    whips_fixtures
     people_fixtures
     members_fixtures
     votes_fixtures
     policies_fixtures
-    policy_divisions_fixtures
     member_infos_fixtures
     member_distances_fixtures
     policy_person_distances_fixtures
@@ -48,8 +44,48 @@ RSpec.shared_context "with fixtures" do
     division6
   end
 
+  def users_fixtures
+    user
+  end
+
+  def policies_fixtures
+    policy1
+    policy2
+    policy3
+  end
+
+  def people_fixtures
+    person10001
+    person10552
+    person10458
+    person10313
+    person10439
+    person10725
+    person10722
+    person10005
+    person10694
+    person22221
+    person33331
+    person10519
+  end
+
+  def members_fixtures
+    member1
+    member450
+    member100156
+    member265
+    member367
+    member589
+    member100279
+    member100002
+    member562
+    member222222
+    member333333
+    member424
+  end
+
   let(:division1) do
-    create(
+    division = create(
       :division,
       id: 1,
       date: "2013-3-14",
@@ -62,105 +98,42 @@ RSpec.shared_context "with fixtures" do
       motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>',
       debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
     )
-  end
-
-  let(:division2) do
     create(
-      :division,
-      id: 9,
-      date: "2013-3-14",
-      number: 1,
-      house: "senate",
-      name: "Motions &#8212; Renewable Energy Certificates",
-      source_url: "http://aph.gov.au/somedebate",
-      debate_url: "",
-      motion: "",
-      debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
+      :division_info,
+      division_id: division.id,
+      rebellions: 0,
+      tells: 0,
+      turnout: 136,
+      possible_turnout: 150,
+      aye_majority: -1
     )
-  end
-
-  let(:division3) do
     create(
-      :division,
-      id: 347,
-      date: "2006-12-06",
-      clock_time: "019:29:00",
-      number: 3,
-      house: "representatives",
-      name: "Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
-      motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>',
-      debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
+      :whip,
+      division_id: division.id,
+      party: "Australian Labor Party",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 1,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "no"
     )
-  end
-
-  let(:division4) do
     create(
-      :division,
-      id: 2037,
-      date: "2009-11-25",
-      clock_time: "016:13:00",
-      number: 8,
-      house: "senate",
-      name: "Carbon Pollution Reduction Scheme Legislation",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
-      motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>',
-      debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
+      :whip,
+      division_id: division.id,
+      party: "Liberal Party",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 0,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "unknown"
     )
-  end
-
-  let(:division5) do
-    create(
-      :division,
-      id: 59,
-      date: "2009-11-30",
-      clock_time: "012:00:00",
-      number: 8,
-      house: "senate",
-      name: "Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
-      motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>',
-      debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
-    )
-  end
-
-  # This one used for checking the ordering of divisions by date.
-  # Chronologically it is later than division_id 59, but the sql returns it
-  # before that division when no orderby clause is used.
-  # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
-  # the environment will likely change that order. One Solution would be to
-  # mock out the sql calls.
-  let(:division6) do
-    create(
-      :division,
-      id: 4444,
-      date: "2009-12-30",
-      clock_time: "012:00:00",
-      number: 8,
-      house: "senate",
-      name: "Proceedural ban of flatulence during divisions",
-      source_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
-      debate_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
-      motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>',
-      debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
-    )
-  end
-
-  def users_fixtures
-    create(
-      :user,
-      id: 1,
-      name: "Henare Degan",
-      email: "henare@oaf.org.au",
-      confirmed_at: "2013-10-20 10:10:53"
-    )
-  end
-
-  def wiki_motions_fixtures
-    text_body1 = <<~TEXT
+    text_body = <<~TEXT
       --- DIVISION TITLE ---
 
       test
@@ -174,17 +147,170 @@ RSpec.shared_context "with fixtures" do
 
       (put thoughts and notes for other researchers here)
     TEXT
-
     create(
       :wiki_motion,
       id: 1,
-      division_id: 1,
-      text_body: text_body1,
-      user_id: 1,
+      division_id: division.id,
+      text_body: text_body,
+      user_id: user.id,
       created_at: "2013-10-20 00:12:13"
     )
+    division
+  end
 
-    text_body2 = <<~TEXT
+  let(:division2) do
+    division = create(
+      :division,
+      id: 9,
+      date: "2013-3-14",
+      number: 1,
+      house: "senate",
+      name: "Motions &#8212; Renewable Energy Certificates",
+      source_url: "http://aph.gov.au/somedebate",
+      debate_url: "",
+      motion: "",
+      debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
+    )
+    create(
+      :division_info,
+      division_id: division.id,
+      rebellions: 0,
+      tells: 0,
+      turnout: 69,
+      possible_turnout: 88,
+      aye_majority: -3
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "Australian Greens",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 1,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "no"
+    )
+    division
+  end
+
+  let(:division3) do
+    division = create(
+      :division,
+      id: 347,
+      date: "2006-12-06",
+      clock_time: "019:29:00",
+      number: 3,
+      house: "representatives",
+      name: "Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail",
+      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
+      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
+      motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>',
+      debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
+    )
+    create(
+      :division_info,
+      division_id: division.id,
+      rebellions: 0,
+      tells: 4,
+      turnout: 129,
+      possible_turnout: 150,
+      aye_majority: -23
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "Australian Labor Party",
+      aye_votes: 6,
+      aye_tells: 1,
+      no_votes: 40,
+      no_tells: 1,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 59,
+      whip_guess: "none"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "Country Liberal Party",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 0,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "unknown"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "CWM",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 0,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "none"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "Independent",
+      aye_votes: 3,
+      aye_tells: 0,
+      no_votes: 0,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 4,
+      whip_guess: "none"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "Liberal Party",
+      aye_votes: 33,
+      aye_tells: 0,
+      no_votes: 33,
+      no_tells: 1,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 73,
+      whip_guess: "none"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "National Party",
+      aye_votes: 9,
+      aye_tells: 1,
+      no_votes: 1,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 11,
+      whip_guess: "none"
+    )
+    create(
+      :whip,
+      division_id: division.id,
+      party: "SPK",
+      aye_votes: 0,
+      aye_tells: 0,
+      no_votes: 0,
+      no_tells: 0,
+      both_votes: 0,
+      abstention_votes: 0,
+      possible_votes: 1,
+      whip_guess: "unknown"
+    )
+    text_body = <<~TEXT
       --- DIVISION TITLE ---
 
       Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 - Consideration in Detail
@@ -202,223 +328,43 @@ RSpec.shared_context "with fixtures" do
 
       (put thoughts and notes for other researchers here)
     TEXT
-
     create(
       :wiki_motion,
       id: 2,
-      division_id: 347,
-      text_body: text_body2,
-      user_id: 1,
+      division_id: division.id,
+      text_body: text_body,
+      user_id: user.id,
       created_at: "2014-05-15 08:44:37"
     )
+    division
   end
 
-  def division_infos_fixtures
-    create(
-      :division_info,
-      division_id: 1,
-      rebellions: 0,
-      tells: 0,
-      turnout: 136,
-      possible_turnout: 150,
-      aye_majority: -1
+  let(:division4) do
+    division = create(
+      :division,
+      id: 2037,
+      date: "2009-11-25",
+      clock_time: "016:13:00",
+      number: 8,
+      house: "senate",
+      name: "Carbon Pollution Reduction Scheme Legislation",
+      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
+      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
+      motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>',
+      debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
     )
-
     create(
       :division_info,
-      division_id: 9,
-      rebellions: 0,
-      tells: 0,
-      turnout: 69,
-      possible_turnout: 88,
-      aye_majority: -3
-    )
-
-    create(
-      :division_info,
-      division_id: 347,
-      rebellions: 0,
-      tells: 4,
-      turnout: 129,
-      possible_turnout: 150,
-      aye_majority: -23
-    )
-
-    create(
-      :division_info,
-      division_id: 2037,
+      division_id: division.id,
       rebellions: 11,
       tells: 2,
       turnout: 65,
       possible_turnout: 76,
       aye_majority: -31
     )
-
-    create(
-      :division_info,
-      division_id: 59,
-      rebellions: 1,
-      tells: 2,
-      turnout: 73,
-      possible_turnout: 76,
-      aye_majority: -9
-    )
-
-    create(
-      :division_info,
-      division_id: 4444,
-      rebellions: 0,
-      tells: 2,
-      turnout: 73,
-      possible_turnout: 76,
-      aye_majority: -9
-    )
-  end
-
-  def whips_fixtures
     create(
       :whip,
-      division_id: 1,
-      party: "Australian Labor Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "no"
-    )
-
-    create(
-      :whip,
-      division_id: 1,
-      party: "Liberal Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "unknown"
-    )
-
-    create(
-      :whip,
-      division_id: 9,
-      party: "Australian Greens",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "no"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "Australian Labor Party",
-      aye_votes: 6,
-      aye_tells: 1,
-      no_votes: 40,
-      no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 59,
-      whip_guess: "none"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "Country Liberal Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "unknown"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "CWM",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "none"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "Independent",
-      aye_votes: 3,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 4,
-      whip_guess: "none"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "Liberal Party",
-      aye_votes: 33,
-      aye_tells: 0,
-      no_votes: 33,
-      no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 73,
-      whip_guess: "none"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "National Party",
-      aye_votes: 9,
-      aye_tells: 1,
-      no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 11,
-      whip_guess: "none"
-    )
-
-    create(
-      :whip,
-      division_id: 347,
-      party: "SPK",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
-      possible_votes: 1,
-      whip_guess: "unknown"
-    )
-
-    create(
-      :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Australian Greens",
       aye_votes: 0,
       aye_tells: 0,
@@ -429,10 +375,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 5,
       whip_guess: "no"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Australian Labor Party",
       aye_votes: 0,
       aye_tells: 0,
@@ -443,10 +388,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 31,
       whip_guess: "no"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Country Liberal Party",
       aye_votes: 0,
       aye_tells: 0,
@@ -457,10 +401,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "unknown"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "DPRES",
       aye_votes: 1,
       aye_tells: 0,
@@ -471,10 +414,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "aye"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Family First Party",
       aye_votes: 1,
       aye_tells: 0,
@@ -485,10 +427,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "aye"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Independent",
       aye_votes: 0,
       aye_tells: 0,
@@ -499,10 +440,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "none"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "Liberal Party",
       aye_votes: 11,
       aye_tells: 0,
@@ -513,10 +453,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 30,
       whip_guess: "no"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "National Party",
       aye_votes: 3,
       aye_tells: 1,
@@ -527,10 +466,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 5,
       whip_guess: "aye"
     )
-
     create(
       :whip,
-      division_id: 2037,
+      division_id: division.id,
       party: "PRES",
       aye_votes: 0,
       aye_tells: 0,
@@ -541,10 +479,35 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "no"
     )
+    division
+  end
 
+  let(:division5) do
+    division = create(
+      :division,
+      id: 59,
+      date: "2009-11-30",
+      clock_time: "012:00:00",
+      number: 8,
+      house: "senate",
+      name: "Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading",
+      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
+      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
+      motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>',
+      debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
+    )
+    create(
+      :division_info,
+      division_id: division.id,
+      rebellions: 1,
+      tells: 2,
+      turnout: 73,
+      possible_turnout: 76,
+      aye_majority: -9
+    )
     create(
       :whip,
-      division_id: 59,
+      division_id: division.id,
       party: "Australian Greens",
       aye_votes: 0,
       aye_tells: 0,
@@ -555,10 +518,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 5,
       whip_guess: "no"
     )
-
     create(
       :whip,
-      division_id: 59,
+      division_id: division.id,
       party: "Liberal Party",
       aye_votes: 1,
       aye_tells: 0,
@@ -569,10 +531,41 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 30,
       whip_guess: "no"
     )
+    division
+  end
 
+  # This one used for checking the ordering of divisions by date.
+  # Chronologically it is later than division_id 59, but the sql returns it
+  # before that division when no orderby clause is used.
+  # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
+  # the environment will likely change that order. One Solution would be to
+  # mock out the sql calls.
+  let(:division6) do
+    division = create(
+      :division,
+      id: 4444,
+      date: "2009-12-30",
+      clock_time: "012:00:00",
+      number: 8,
+      house: "senate",
+      name: "Proceedural ban of flatulence during divisions",
+      source_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
+      debate_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
+      motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>',
+      debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
+    )
+    create(
+      :division_info,
+      division_id: division.id,
+      rebellions: 0,
+      tells: 2,
+      turnout: 73,
+      possible_turnout: 76,
+      aye_majority: -9
+    )
     create(
       :whip,
-      division_id: 4444,
+      division_id: division.id,
       party: "Australian Greens",
       aye_votes: 5,
       aye_tells: 0,
@@ -583,10 +576,9 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 5,
       whip_guess: "aye"
     )
-
     create(
       :whip,
-      division_id: 4444,
+      division_id: division.id,
       party: "Liberal Party",
       aye_votes: 1,
       aye_tells: 0,
@@ -597,86 +589,185 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 30,
       whip_guess: "no"
     )
+    division
   end
 
-  def people_fixtures
+  let(:policy1) do
+    policy = create(
+      :policy,
+      id: 1,
+      name: "marriage equality",
+      user_id: user.id,
+      description: "access to marriage should be equal",
+      private: 0,
+      created_at: 1.day.ago,
+      updated_at: 1.day.ago
+    )
+    create(
+      :policy_division,
+      division_id: division1.id,
+      policy_id: policy.id,
+      vote: "aye"
+    )
+    policy
+  end
+
+  let(:policy2) do
+    policy = create(
+      :policy,
+      id: 2,
+      name: "offshore processing",
+      user_id: user.id,
+      description: "refugees arrving by boat should be processed offshore",
+      private: 0,
+      created_at: 1.day.ago,
+      updated_at: 1.day.ago
+    )
+    create(
+      :policy_division,
+      division_id: division2.id,
+      policy_id: policy.id,
+      vote: "no3"
+    )
+    create(
+      :policy_division,
+      division_id: division3.id,
+      policy_id: policy.id,
+      vote: "no"
+    )
+    policy
+  end
+
+  let(:policy3) do
+    policy = create(
+      :policy,
+      id: 3,
+      name: "provisional policies",
+      user_id: user.id,
+      description: "A provisional policy",
+      private: 2,
+      created_at: 1.day.ago,
+      updated_at: 1.day.ago
+    )
+    create(
+      :policy_division,
+      division_id: division2.id,
+      policy_id: policy.id,
+      vote: "no3"
+    )
+    policy
+  end
+
+  let(:user) do
+    create(
+      :user,
+      id: 1,
+      name: "Henare Degan",
+      email: "henare@oaf.org.au",
+      confirmed_at: "2013-10-20 10:10:53"
+    )
+  end
+
+  let(:person10001) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10001.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10001.jpg",
       id: 10001
     )
+  end
 
+  let(:person10552) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10552.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10552.jpg",
       id: 10552
     )
+  end
 
+  let(:person10458) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10458.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10458.jpg",
       id: 10458
     )
+  end
 
+  let(:person10313) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10313.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10313.jpg",
       id: 10313
     )
+  end
 
+  let(:person10439) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10439.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10439.jpg",
       id: 10439
     )
+  end
 
+  let(:person10725) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10725.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10725.jpg",
       id: 10725
     )
+  end
 
+  let(:person10722) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10722.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10722.jpg",
       id: 10722
     )
+  end
 
+  let(:person10005) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10005.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10005.jpg",
       id: 10005
     )
+  end
 
+  let(:person10694) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10694.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10694.jpg",
       id: 10694
     )
+  end
 
+  let(:person22221) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/22221.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/22221.jpg",
       id: 22221
     )
+  end
 
+  let(:person33331) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/33331.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/33331.jpg",
       id: 33331
     )
+  end
 
+  let(:person10519) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10519.jpg",
@@ -685,7 +776,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  def members_fixtures
+  let(:member1) do
     create(
       :member,
       id: 1,
@@ -701,9 +792,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "by_election",
       left_reason: "still_in_office",
-      person_id: 10001
+      person_id: person10001.id
     )
+  end
 
+  let(:member450) do
     create(
       :member,
       id: 450,
@@ -719,9 +812,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2013-11-22",
       entered_reason: "general_election",
       left_reason: "resigned",
-      person_id: 10552
+      person_id: person10552.id
     )
+  end
 
+  let(:member100156) do
     create(
       :member,
       id: 100156,
@@ -737,9 +832,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: 10458
+      person_id: person10458.id
     )
+  end
 
+  let(:member265) do
     create(
       :member,
       id: 265,
@@ -755,9 +852,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2007-11-24",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 10313
+      person_id: person10313.id
     )
+  end
 
+  let(:member367) do
     create(
       :member,
       id: 367,
@@ -773,9 +872,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-08-21",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 10439
+      person_id: person10439.id
     )
+  end
 
+  let(:member589) do
     create(
       :member,
       id: 589,
@@ -791,9 +892,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: 10725
+      person_id: person10725.id
     )
+  end
 
+  let(:member100279) do
     create(
       :member,
       id: 100279,
@@ -809,9 +912,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: 10722
+      person_id: person10722.id
     )
+  end
 
+  let(:member100002) do
     create(
       :member,
       id: 100002,
@@ -827,9 +932,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2012-03-31",
       entered_reason: "general_election",
       left_reason: "died",
-      person_id: 10005
+      person_id: person10005.id
     )
+  end
 
+  let(:member562) do
     create(
       :member,
       id: 562,
@@ -845,9 +952,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "1998-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 10694
+      person_id: person10694.id
     )
+  end
 
+  let(:member222222) do
     create(
       :member,
       id: 222222,
@@ -863,9 +972,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 22221
+      person_id: person22221.id
     )
+  end
 
+  let(:member333333) do
     create(
       :member,
       id: 333333,
@@ -881,9 +992,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 33331
+      person_id: person33331.id
     )
+  end
 
+  let(:member424) do
     create(
       :member,
       id: 424,
@@ -899,7 +1012,7 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-08-21",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: 10519
+      person_id: person10519.id
     )
   end
 
@@ -1014,71 +1127,6 @@ RSpec.shared_context "with fixtures" do
       member_id: 424,
       vote: "aye",
       teller: true
-    )
-  end
-
-  def policies_fixtures
-    create(
-      :policy,
-      id: 1,
-      name: "marriage equality",
-      user_id: 1,
-      description: "access to marriage should be equal",
-      private: 0,
-      created_at: 1.day.ago,
-      updated_at: 1.day.ago
-    )
-
-    create(
-      :policy,
-      id: 2,
-      name: "offshore processing",
-      user_id: 1,
-      description: "refugees arrving by boat should be processed offshore",
-      private: 0,
-      created_at: 1.day.ago,
-      updated_at: 1.day.ago
-    )
-
-    create(
-      :policy,
-      id: 3,
-      name: "provisional policies",
-      user_id: 1,
-      description: "A provisional policy",
-      private: 2,
-      created_at: 1.day.ago,
-      updated_at: 1.day.ago
-    )
-  end
-
-  def policy_divisions_fixtures
-    create(
-      :policy_division,
-      division_id: 1,
-      policy_id: 1,
-      vote: "aye"
-    )
-
-    create(
-      :policy_division,
-      division_id: 9,
-      policy_id: 2,
-      vote: "no3"
-    )
-
-    create(
-      :policy_division,
-      division_id: 347,
-      policy_id: 2,
-      vote: "no"
-    )
-
-    create(
-      :policy_division,
-      division_id: 9,
-      policy_id: 3,
-      vote: "no3"
     )
   end
 

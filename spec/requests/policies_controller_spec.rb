@@ -7,8 +7,6 @@ describe PoliciesController, type: :request do
   include HTMLCompareHelper
   include_context "with fixtures"
 
-  let(:user) { create(:user, id: 1, name: "Henare Degan") }
-
   # TODO: Remove this hack to delete fixtures
   before do
     remove_old_fixtures
@@ -18,7 +16,6 @@ describe PoliciesController, type: :request do
     # trail are setup the way we want
     Policy.delete_all
     PaperTrail::Version.delete_all
-    User.delete_all
 
     PaperTrail.request.whodunnit = user.id
     Timecop.freeze(25.hours.ago) do
