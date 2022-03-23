@@ -5,6 +5,13 @@ require "spec_helper"
 
 describe MembersController, type: :request do
   include HTMLCompareHelper
+  include FixturesWithFactories
+
+  # TODO: Remove this hack to delete fixtures
+  before do
+    remove_old_fixtures
+    add_new_fixtures
+  end
 
   describe "#index" do
     it { compare_static("/people/representatives") }
