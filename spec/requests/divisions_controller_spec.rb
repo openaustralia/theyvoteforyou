@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
+  fixtures :all
 
   describe "#show" do
     it { compare_static("/divisions/representatives/2006-12-06/3") }

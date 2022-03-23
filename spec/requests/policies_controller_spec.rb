@@ -5,6 +5,7 @@ require "spec_helper"
 
 describe PoliciesController, type: :request do
   include HTMLCompareHelper
+  fixtures :all
 
   let(:user) { create(:user, id: 1, name: "Henare Degan") }
 
