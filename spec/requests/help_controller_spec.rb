@@ -5,6 +5,12 @@ require "spec_helper"
 
 describe HelpController, type: :request do
   include HTMLCompareHelper
+  include FixturesWithFactories
+
+  # TODO: Remove this hack to delete fixtures
+  before do
+    remove_old_fixtures
+  end
 
   it "#research" do
     compare_static("/help/research")
