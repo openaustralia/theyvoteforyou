@@ -27,7 +27,6 @@ RSpec.shared_context "with fixtures" do
     users_fixtures
     people_fixtures
     members_fixtures
-    votes_fixtures
     policies_fixtures
     member_infos_fixtures
     member_distances_fixtures
@@ -155,6 +154,13 @@ RSpec.shared_context "with fixtures" do
       user_id: user.id,
       created_at: "2013-10-20 00:12:13"
     )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member450.id,
+      vote: "no",
+      teller: false
+    )
     division
   end
 
@@ -192,6 +198,13 @@ RSpec.shared_context "with fixtures" do
       abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "no"
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100156.id,
+      vote: "no",
+      teller: false
     )
     division
   end
@@ -336,6 +349,27 @@ RSpec.shared_context "with fixtures" do
       user_id: user.id,
       created_at: "2014-05-15 08:44:37"
     )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member1.id,
+      vote: "aye",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member450.id,
+      vote: "aye",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member424.id,
+      vote: "aye",
+      teller: true
+    )
     division
   end
 
@@ -479,6 +513,41 @@ RSpec.shared_context "with fixtures" do
       possible_votes: 1,
       whip_guess: "no"
     )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100156.id,
+      vote: "no",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100279.id,
+      vote: "aye",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100002.id,
+      vote: "aye",
+      teller: true
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member222222.id,
+      vote: "no",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member333333.id,
+      vote: "aye",
+      teller: false
+    )
     division
   end
 
@@ -530,6 +599,20 @@ RSpec.shared_context "with fixtures" do
       abstention_votes: 0,
       possible_votes: 30,
       whip_guess: "no"
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100156.id,
+      vote: "no",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100279.id,
+      vote: "no",
+      teller: false
     )
     division
   end
@@ -588,6 +671,20 @@ RSpec.shared_context "with fixtures" do
       abstention_votes: 0,
       possible_votes: 30,
       whip_guess: "no"
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100156.id,
+      vote: "aye",
+      teller: false
+    )
+    create(
+      :vote,
+      division_id: division.id,
+      member_id: member100279.id,
+      vote: "no",
+      teller: false
     )
     division
   end
@@ -1013,120 +1110,6 @@ RSpec.shared_context "with fixtures" do
       entered_reason: "general_election",
       left_reason: "",
       person_id: person10519.id
-    )
-  end
-
-  def votes_fixtures
-    create(
-      :vote,
-      division_id: 1,
-      member_id: 450,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 9,
-      member_id: 100156,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 347,
-      member_id: 1,
-      vote: "aye",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 347,
-      member_id: 450,
-      vote: "aye",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 2037,
-      member_id: 100156,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 2037,
-      member_id: 100279,
-      vote: "aye",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 2037,
-      member_id: 100002,
-      vote: "aye",
-      teller: true
-    )
-
-    create(
-      :vote,
-      division_id: 59,
-      member_id: 100156,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 59,
-      member_id: 100279,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 2037,
-      member_id: 222222,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 2037,
-      member_id: 333333,
-      vote: "aye",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 4444,
-      member_id: 100156,
-      vote: "aye",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 4444,
-      member_id: 100279,
-      vote: "no",
-      teller: false
-    )
-
-    create(
-      :vote,
-      division_id: 347,
-      member_id: 424,
-      vote: "aye",
-      teller: true
     )
   end
 
