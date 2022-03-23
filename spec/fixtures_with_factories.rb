@@ -37,11 +37,11 @@ RSpec.shared_context "with fixtures" do
 
   def divisions_fixtures
     division1
-    division2
-    division3
-    division4
-    division5
-    division6
+    division9
+    division347
+    division2037
+    division59
+    division4444
   end
 
   def users_fixtures
@@ -158,7 +158,7 @@ RSpec.shared_context "with fixtures" do
     division
   end
 
-  let(:division2) do
+  let(:division9) do
     division = create(
       :division,
       id: 9,
@@ -196,7 +196,7 @@ RSpec.shared_context "with fixtures" do
     division
   end
 
-  let(:division3) do
+  let(:division347) do
     division = create(
       :division,
       id: 347,
@@ -339,7 +339,7 @@ RSpec.shared_context "with fixtures" do
     division
   end
 
-  let(:division4) do
+  let(:division2037) do
     division = create(
       :division,
       id: 2037,
@@ -482,7 +482,7 @@ RSpec.shared_context "with fixtures" do
     division
   end
 
-  let(:division5) do
+  let(:division59) do
     division = create(
       :division,
       id: 59,
@@ -540,7 +540,7 @@ RSpec.shared_context "with fixtures" do
   # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
   # the environment will likely change that order. One Solution would be to
   # mock out the sql calls.
-  let(:division6) do
+  let(:division4444) do
     division = create(
       :division,
       id: 4444,
@@ -625,13 +625,13 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division2.id,
+      division_id: division9.id,
       policy_id: policy.id,
       vote: "no3"
     )
     create(
       :policy_division,
-      division_id: division3.id,
+      division_id: division347.id,
       policy_id: policy.id,
       vote: "no"
     )
@@ -651,7 +651,7 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division2.id,
+      division_id: division9.id,
       policy_id: policy.id,
       vote: "no3"
     )
