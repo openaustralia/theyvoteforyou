@@ -52,11 +52,14 @@ class MembersController < ApplicationController
   def friends; end
 
   def show
-    if !params[:card].nil? && params[:category].nil?
-      render "card/member_card", layout: "card_layout"
-    elsif !params[:card].nil? && !params[:category].nil?
+    # If this isn't a social sharing card then just use the default view
+    return if params[:card].nil?
+
+    if params[:category]
       @card_title, @policies, @number_left = helpers.member_policy_category(@member, params[:category], max_policies: 4)
       render "card/member_category_card", layout: "card_layout"
+    else
+      render "card/member_card", layout: "card_layout"
     end
   end
 
