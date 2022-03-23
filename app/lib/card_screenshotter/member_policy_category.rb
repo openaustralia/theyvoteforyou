@@ -28,7 +28,7 @@ module CardScreenshotter
       end
 
       def save_path(member, category)
-        "public/cards#{member_path_simple(member)}/#{category}.png"
+        "public/cards#{member_path_simple(member)}/categories/#{category}.png"
       end
     end
   end
