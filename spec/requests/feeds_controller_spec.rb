@@ -4,6 +4,13 @@ require "spec_helper"
 
 describe FeedsController, type: :request do
   include HTMLCompareHelper
+  include FixturesWithFactories
+
+  # TODO: Remove this hack to delete fixtures
+  before do
+    remove_old_fixtures
+    add_new_fixtures
+  end
 
   describe "#mp-info" do
     it { compare_static("/feeds/mp-info.xml", format: "xml") }

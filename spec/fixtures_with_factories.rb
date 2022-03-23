@@ -33,6 +33,9 @@ module FixturesWithFactories
     votes_fixtures
     policies_fixtures
     policy_divisions_fixtures
+    member_infos_fixtures
+    member_distances_fixtures
+    policy_person_distances_fixtures
   end
 
   def divisions_fixtures
@@ -1056,6 +1059,316 @@ module FixturesWithFactories
       division_id: 9,
       policy_id: 3,
       vote: "no3"
+    )
+  end
+
+  def member_infos_fixtures
+    create(
+      :member_info,
+      member_id: 1,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 2,
+      aye_majority: 1
+    )
+
+    create(
+      :member_info,
+      member_id: 450,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 2,
+      votes_possible: 2,
+      aye_majority: 0
+    )
+
+    create(
+      :member_info,
+      member_id: 100156,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 4,
+      votes_possible: 4,
+      aye_majority: -2
+    )
+
+    create(
+      :member_info,
+      member_id: 265,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 0,
+      votes_possible: 1,
+      aye_majority: 0
+    )
+
+    create(
+      :member_info,
+      member_id: 589,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 0,
+      votes_possible: 1,
+      aye_majority: 0
+    )
+
+    create(
+      :member_info,
+      member_id: 100279,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 3,
+      votes_possible: 4,
+      aye_majority: -1
+    )
+
+    create(
+      :member_info,
+      member_id: 100002,
+      rebellions: 0,
+      tells: 1,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: 1
+    )
+
+    create(
+      :member_info,
+      member_id: 424,
+      rebellions: 0,
+      tells: 1,
+      votes_attended: 1,
+      votes_possible: 1,
+      aye_majority: 1
+    )
+
+    create(
+      :member_info,
+      member_id: 222222,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: -1
+    )
+
+    create(
+      :member_info,
+      member_id: 333333,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: 1
+    )
+  end
+
+  def member_distances_fixtures
+    create(
+      :member_distance,
+      member1_id: 1,
+      member2_id: 1,
+      nvotessame: 1,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: 0.0,
+      distance_b: 0.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 1,
+      member2_id: 265,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 1,
+      member2_id: 367,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 1,
+      member2_id: 450,
+      nvotessame: 1,
+      nvotesdiffer: 0,
+      nvotesabsent: 2,
+      distance_a: 0.142857,
+      distance_b: 0.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 1,
+      member2_id: 589,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 265,
+      member2_id: 265,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 265,
+      member2_id: 450,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 2,
+      distance_a: 0.5,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 367,
+      member2_id: 367,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 367,
+      member2_id: 450,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 450,
+      member2_id: 450,
+      nvotessame: 2,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: 0.0,
+      distance_b: 0.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 450,
+      member2_id: 589,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 589,
+      member2_id: 589,
+      nvotessame: 0,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: -1.0,
+      distance_b: -1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 100156,
+      member2_id: 100156,
+      nvotessame: 2,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: 0.0,
+      distance_b: 0.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 100156,
+      member2_id: 100279,
+      nvotessame: 0,
+      nvotesdiffer: 1,
+      nvotesabsent: 0,
+      distance_a: 1.0,
+      distance_b: 1.0
+    )
+
+    create(
+      :member_distance,
+      member1_id: 100279,
+      member2_id: 100279,
+      nvotessame: 1,
+      nvotesdiffer: 0,
+      nvotesabsent: 0,
+      distance_a: 0.0,
+      distance_b: 0.0
+    )
+  end
+
+  def policy_person_distances_fixtures
+    create(
+      :policy_person_distance,
+      policy_id: 1,
+      person_id: 10001,
+      nvotessame: 0,
+      nvotessamestrong: 0,
+      nvotesdiffer: 0,
+      nvotesdifferstrong: 0,
+      nvotesabsent: 1,
+      nvotesabsentstrong: 0,
+      distance_a: 0.5
+    )
+
+    create(
+      :policy_person_distance,
+      policy_id: 1,
+      person_id: 10552,
+      nvotessame: 0,
+      nvotessamestrong: 0,
+      nvotesdiffer: 1,
+      nvotesdifferstrong: 0,
+      nvotesabsent: 0,
+      nvotesabsentstrong: 0,
+      distance_a: 1.0
+    )
+
+    create(
+      :policy_person_distance,
+      policy_id: 1,
+      person_id: 10725,
+      nvotessame: 0,
+      nvotessamestrong: 0,
+      nvotesdiffer: 0,
+      nvotesdifferstrong: 0,
+      nvotesabsent: 1,
+      nvotesabsentstrong: 0,
+      distance_a: 0.5
     )
   end
 end
