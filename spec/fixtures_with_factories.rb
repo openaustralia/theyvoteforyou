@@ -36,6 +36,7 @@ module FixturesWithFactories
     member_infos_fixtures
     member_distances_fixtures
     policy_person_distances_fixtures
+    offices_fixtures
   end
 
   def divisions_fixtures
@@ -1369,6 +1370,63 @@ module FixturesWithFactories
       nvotesabsent: 1,
       nvotesabsentstrong: 0,
       distance_a: 0.5
+    )
+  end
+
+  def offices_fixtures
+    create(
+      :office,
+      id: 504,
+      position: "Minister for Health and Ageing",
+      from_date: "2003-10-7",
+      to_date: "2007-12-3",
+      person_id: 10001,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1201,
+      position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
+      from_date: "2007-12-6",
+      to_date: "2008-9-22",
+      person_id: 10001,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1202,
+      position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
+      from_date: "2008-9-22",
+      to_date: "2009-12-8",
+      person_id: 10001,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1200,
+      position: "Leader of the Opposition",
+      from_date: "2009-12-8",
+      to_date: "9999-12-31",
+      person_id: 10001,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 380,
+      position: "Prime Minister",
+      from_date: "2013-6-27",
+      to_date: "9999-12-31",
+      person_id: 10552,
+      dept: "",
+      responsibility: ""
     )
   end
 end

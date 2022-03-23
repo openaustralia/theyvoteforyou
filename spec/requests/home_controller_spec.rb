@@ -5,6 +5,13 @@ require "spec_helper"
 
 describe HomeController, type: :request do
   include HTMLCompareHelper
+  include FixturesWithFactories
+
+  # TODO: Remove this hack to delete fixtures
+  before do
+    remove_old_fixtures
+    add_new_fixtures
+  end
 
   it "#index" do
     compare_static("/")
