@@ -40,6 +40,15 @@ RSpec.shared_context "with fixtures" do
   end
 
   def divisions_fixtures
+    division1
+    division2
+    division3
+    division4
+    division5
+    division6
+  end
+
+  let(:division1) do
     create(
       :division,
       id: 1,
@@ -53,7 +62,9 @@ RSpec.shared_context "with fixtures" do
       motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>',
       debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
     )
+  end
 
+  let(:division2) do
     create(
       :division,
       id: 9,
@@ -66,7 +77,9 @@ RSpec.shared_context "with fixtures" do
       motion: "",
       debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
     )
+  end
 
+  let(:division3) do
     create(
       :division,
       id: 347,
@@ -80,7 +93,9 @@ RSpec.shared_context "with fixtures" do
       motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>',
       debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
     )
+  end
 
+  let(:division4) do
     create(
       :division,
       id: 2037,
@@ -94,7 +109,9 @@ RSpec.shared_context "with fixtures" do
       motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>',
       debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
     )
+  end
 
+  let(:division5) do
     create(
       :division,
       id: 59,
@@ -108,13 +125,15 @@ RSpec.shared_context "with fixtures" do
       motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>',
       debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
     )
+  end
 
-    # This one used for checking the ordering of divisions by date.
-    # Chronologically it is later than division_id 59, but the sql returns it
-    # before that division when no orderby clause is used.
-    # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
-    # the environment will likely change that order. One Solution would be to
-    # mock out the sql calls.
+  # This one used for checking the ordering of divisions by date.
+  # Chronologically it is later than division_id 59, but the sql returns it
+  # before that division when no orderby clause is used.
+  # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
+  # the environment will likely change that order. One Solution would be to
+  # mock out the sql calls.
+  let(:division6) do
     create(
       :division,
       id: 4444,
