@@ -3,7 +3,7 @@
 # Everything is a temporary workaround as a step towards moving away from using fixtures to just using factory bot.
 # Here's we're basically recreating the entire fixtures set in one big lump
 
-module FixturesWithFactories
+RSpec.shared_context "with fixtures" do
   def remove_old_fixtures
     DivisionInfo.delete_all
     Division.delete_all

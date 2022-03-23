@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
-  include FixturesWithFactories
+  include_context "with fixtures"
 
   # TODO: Remove this hack to delete fixtures
   before do
