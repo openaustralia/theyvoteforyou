@@ -131,4 +131,32 @@ module MembersHelper
       raise "Unexpected size #{size}"
     end
   end
+
+  def policies_under_category(member, category)
+    distances = member.person.policy_person_distances.published
+    policies = []
+    distances.each do |d|
+      if d.category.to_s == category
+        Rails.logger.debug Policy.find(d.policy_id)
+        policies << Policy.find(d.policy_id)
+      end
+    end
+    policies
+  end
+
+  def card_title_from_category(member, category)
+    case category.to_sym
+    when :not_enough
+      "We can't say anything concrete about how #{member.name} voted on"
+    else
+      "#{member.name} #{category_words_sentence(category.to_sym)}"
+    end
+  end
+
+  def member_policy_category(member, category, max_policies:)
+    policies = policies_under_category(member, category)
+    chosen_policies = policies[0..(max_policies - 1)]
+    card_title = card_title_from_category(member, category)
+    [card_title, chosen_policies, policies.length - chosen_policies.length]
+  end
 end
