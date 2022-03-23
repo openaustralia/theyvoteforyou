@@ -8,9 +8,10 @@ module CardScreenshotter
 
       def run
         screenshotter = CardScreenshotter::Utils.new
-        members = Member.all
-        progress = ProgressBar.create(title: "Members page screenshots", total: members.count, format: "%t: |%B| %E %a")
-        members.each do |member|
+        people = Person.all
+        progress = ProgressBar.create(title: "Members page screenshots", total: people.count, format: "%t: |%B| %E %a")
+        people.each do |person|
+          member = person.latest_member
           screenshotter.screenshot_and_save(url(member), save_path(member))
           progress.increment
         end

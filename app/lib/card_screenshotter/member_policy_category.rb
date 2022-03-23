@@ -8,10 +8,13 @@ module CardScreenshotter
 
       def run
         screenshotter = CardScreenshotter::Utils.new
-        members = Member.all
-        number_of_images = members.count * PolicyPersonDistance.all_categories.count
+        people = Person.all
+        number_of_images = people.count * PolicyPersonDistance.all_categories.count
         progress = ProgressBar.create(title: "Members policies per category screenshots", total: number_of_images, format: "%t: |%B| %E %a")
-        members.each do |member|
+        people.each do |person|
+          # Only do screenshots for the latest member for each person. Because every other member gets redirected to the "latest member"
+          # in the web application
+          member = person.latest_member
           PolicyPersonDistance.all_categories.each do |category|
             screenshotter.screenshot_and_save(url(member, category), save_path(member, category))
             progress.increment
