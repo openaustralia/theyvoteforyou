@@ -21,7 +21,7 @@ describe DivisionsController, type: :request do
       end
 
       it do
-        division_representatives_2013_3_14_1
+        division_representatives_2013_03_14_1
         policy1
         member_tony_abbott
         member_john_alexander
