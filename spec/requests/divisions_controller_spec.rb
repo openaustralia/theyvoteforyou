@@ -14,22 +14,22 @@ describe DivisionsController, type: :request do
 
     describe "#show" do
       it do
-        division347
+        division_representatives_2006_12_06_3
         policy2
-        member265
+        member_john_howard
         compare_static("/divisions/representatives/2006-12-06/3")
       end
 
       it do
-        division1
+        division_representatives_2013_3_14_1
         policy1
-        member1
-        member589
+        member_tony_abbott
+        member_john_alexander
         compare_static("/divisions/representatives/2013-03-14/1")
       end
 
       it do
-        division9
+        division_senate_2013_3_14_1
         policy2
         policy3
         compare_static("/divisions/senate/2013-03-14/1")

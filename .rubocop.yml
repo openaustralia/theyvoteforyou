@@ -41,6 +41,11 @@ Style/NumericLiterals:
 Style/Documentation:
   Enabled: false
 
+# There are a few places where we used names like division_senate_2009_12_30_8
+# and that convention is reasonable in this case
+Naming/VariableNumber:
+  Enabled: false
+
 Style/FormatStringToken:
   EnforcedStyle: template
 

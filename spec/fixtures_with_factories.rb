@@ -35,12 +35,12 @@ RSpec.shared_context "with fixtures" do
   end
 
   def divisions_fixtures
-    division1
-    division9
-    division347
-    division2037
-    division59
-    division4444
+    division_representatives_2013_3_14_1
+    division_senate_2013_3_14_1
+    division_representatives_2006_12_06_3
+    division_senate_2009_11_25_8
+    division_senate_2009_11_30_8
+    division_senate_2009_12_30_8
   end
 
   def users_fixtures
@@ -54,36 +54,36 @@ RSpec.shared_context "with fixtures" do
   end
 
   def people_fixtures
-    person10001
-    person10552
-    person10458
-    person10313
-    person10439
-    person10725
-    person10722
-    person10005
-    person10694
-    person22221
-    person33331
-    person10519
+    person_tony_abbott
+    person_kevin_rudd
+    person_christine_milne
+    person_john_howard
+    person_maxine_mckew
+    person_john_alexander
+    person_christopher_back
+    person_judith_adams
+    person_paul_zammit
+    person_disagreeable_curmudgeon
+    person_surly_nihilist
+    person_roger_price
   end
 
   def members_fixtures
-    member1
-    member450
-    member100156
-    member265
-    member367
-    member589
-    member100279
-    member100002
-    member562
-    member222222
-    member333333
-    member424
+    member_tony_abbott
+    member_kevin_rudd
+    member_christine_milne
+    member_john_howard
+    member_maxine_mckew
+    member_john_alexander
+    member_christopher_back
+    member_judith_adams
+    member_paul_zammit
+    member_disagreeable_curmudgeon
+    member_surly_nihilist
+    member_roger_price
   end
 
-  let(:division1) do
+  let(:division_representatives_2013_3_14_1) do
     division = create(
       :division,
       id: 1,
@@ -157,14 +157,14 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member450.id,
+      member_id: member_kevin_rudd.id,
       vote: "no",
       teller: false
     )
     division
   end
 
-  let(:division9) do
+  let(:division_senate_2013_3_14_1) do
     division = create(
       :division,
       id: 9,
@@ -202,14 +202,14 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member100156.id,
+      member_id: member_christine_milne.id,
       vote: "no",
       teller: false
     )
     division
   end
 
-  let(:division347) do
+  let(:division_representatives_2006_12_06_3) do
     division = create(
       :division,
       id: 347,
@@ -352,28 +352,28 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member1.id,
+      member_id: member_tony_abbott.id,
       vote: "aye",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member450.id,
+      member_id: member_kevin_rudd.id,
       vote: "aye",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member424.id,
+      member_id: member_roger_price.id,
       vote: "aye",
       teller: true
     )
     division
   end
 
-  let(:division2037) do
+  let(:division_senate_2009_11_25_8) do
     division = create(
       :division,
       id: 2037,
@@ -516,42 +516,42 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member100156.id,
+      member_id: member_christine_milne.id,
       vote: "no",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member100279.id,
+      member_id: member_christopher_back.id,
       vote: "aye",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member100002.id,
+      member_id: member_judith_adams.id,
       vote: "aye",
       teller: true
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member222222.id,
+      member_id: member_disagreeable_curmudgeon.id,
       vote: "no",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member333333.id,
+      member_id: member_surly_nihilist.id,
       vote: "aye",
       teller: false
     )
     division
   end
 
-  let(:division59) do
+  let(:division_senate_2009_11_30_8) do
     division = create(
       :division,
       id: 59,
@@ -603,14 +603,14 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member100156.id,
+      member_id: member_christine_milne.id,
       vote: "no",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member100279.id,
+      member_id: member_christopher_back.id,
       vote: "no",
       teller: false
     )
@@ -623,7 +623,7 @@ RSpec.shared_context "with fixtures" do
   # Unfortunately that behaviour is arbitrary, and changing the test fixtures or
   # the environment will likely change that order. One Solution would be to
   # mock out the sql calls.
-  let(:division4444) do
+  let(:division_senate_2009_12_30_8) do
     division = create(
       :division,
       id: 4444,
@@ -675,14 +675,14 @@ RSpec.shared_context "with fixtures" do
     create(
       :vote,
       division_id: division.id,
-      member_id: member100156.id,
+      member_id: member_christine_milne.id,
       vote: "aye",
       teller: false
     )
     create(
       :vote,
       division_id: division.id,
-      member_id: member100279.id,
+      member_id: member_christopher_back.id,
       vote: "no",
       teller: false
     )
@@ -702,7 +702,7 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division1.id,
+      division_id: division_representatives_2013_3_14_1.id,
       policy_id: policy.id,
       vote: "aye"
     )
@@ -722,13 +722,13 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division9.id,
+      division_id: division_senate_2013_3_14_1.id,
       policy_id: policy.id,
       vote: "no3"
     )
     create(
       :policy_division,
-      division_id: division347.id,
+      division_id: division_representatives_2006_12_06_3.id,
       policy_id: policy.id,
       vote: "no"
     )
@@ -748,7 +748,7 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division9.id,
+      division_id: division_senate_2013_3_14_1.id,
       policy_id: policy.id,
       vote: "no3"
     )
@@ -765,7 +765,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10001) do
+  let(:person_tony_abbott) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10001.jpg",
@@ -774,7 +774,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10552) do
+  let(:person_kevin_rudd) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10552.jpg",
@@ -783,7 +783,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10458) do
+  let(:person_christine_milne) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10458.jpg",
@@ -792,7 +792,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10313) do
+  let(:person_john_howard) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10313.jpg",
@@ -801,7 +801,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10439) do
+  let(:person_maxine_mckew) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10439.jpg",
@@ -810,7 +810,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10725) do
+  let(:person_john_alexander) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10725.jpg",
@@ -819,7 +819,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10722) do
+  let(:person_christopher_back) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10722.jpg",
@@ -828,7 +828,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10005) do
+  let(:person_judith_adams) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10005.jpg",
@@ -837,7 +837,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10694) do
+  let(:person_paul_zammit) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10694.jpg",
@@ -846,7 +846,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person22221) do
+  let(:person_disagreeable_curmudgeon) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/22221.jpg",
@@ -855,7 +855,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person33331) do
+  let(:person_surly_nihilist) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/33331.jpg",
@@ -864,7 +864,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:person10519) do
+  let(:person_roger_price) do
     create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10519.jpg",
@@ -873,7 +873,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:member1) do
+  let(:member_tony_abbott) do
     create(
       :member,
       id: 1,
@@ -889,11 +889,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "by_election",
       left_reason: "still_in_office",
-      person_id: person10001.id
+      person_id: person_tony_abbott.id
     )
   end
 
-  let(:member450) do
+  let(:member_kevin_rudd) do
     create(
       :member,
       id: 450,
@@ -909,11 +909,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2013-11-22",
       entered_reason: "general_election",
       left_reason: "resigned",
-      person_id: person10552.id
+      person_id: person_kevin_rudd.id
     )
   end
 
-  let(:member100156) do
+  let(:member_christine_milne) do
     create(
       :member,
       id: 100156,
@@ -929,11 +929,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: person10458.id
+      person_id: person_christine_milne.id
     )
   end
 
-  let(:member265) do
+  let(:member_john_howard) do
     create(
       :member,
       id: 265,
@@ -949,11 +949,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2007-11-24",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person10313.id
+      person_id: person_john_howard.id
     )
   end
 
-  let(:member367) do
+  let(:member_maxine_mckew) do
     create(
       :member,
       id: 367,
@@ -969,11 +969,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-08-21",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person10439.id
+      person_id: person_maxine_mckew.id
     )
   end
 
-  let(:member589) do
+  let(:member_john_alexander) do
     create(
       :member,
       id: 589,
@@ -989,11 +989,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: person10725.id
+      person_id: person_john_alexander.id
     )
   end
 
-  let(:member100279) do
+  let(:member_christopher_back) do
     create(
       :member,
       id: 100279,
@@ -1009,11 +1009,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "9999-12-31",
       entered_reason: "general_election",
       left_reason: "still_in_office",
-      person_id: person10722.id
+      person_id: person_christopher_back.id
     )
   end
 
-  let(:member100002) do
+  let(:member_judith_adams) do
     create(
       :member,
       id: 100002,
@@ -1029,11 +1029,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2012-03-31",
       entered_reason: "general_election",
       left_reason: "died",
-      person_id: person10005.id
+      person_id: person_judith_adams.id
     )
   end
 
-  let(:member562) do
+  let(:member_paul_zammit) do
     create(
       :member,
       id: 562,
@@ -1049,11 +1049,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "1998-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person10694.id
+      person_id: person_paul_zammit.id
     )
   end
 
-  let(:member222222) do
+  let(:member_disagreeable_curmudgeon) do
     create(
       :member,
       id: 222222,
@@ -1069,11 +1069,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person22221.id
+      person_id: person_disagreeable_curmudgeon.id
     )
   end
 
-  let(:member333333) do
+  let(:member_surly_nihilist) do
     create(
       :member,
       id: 333333,
@@ -1089,11 +1089,11 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-10-03",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person33331.id
+      person_id: person_surly_nihilist.id
     )
   end
 
-  let(:member424) do
+  let(:member_roger_price) do
     create(
       :member,
       id: 424,
@@ -1109,14 +1109,14 @@ RSpec.shared_context "with fixtures" do
       left_house: "2010-08-21",
       entered_reason: "general_election",
       left_reason: "",
-      person_id: person10519.id
+      person_id: person_roger_price.id
     )
   end
 
   def member_infos_fixtures
     create(
       :member_info,
-      member_id: member1.id,
+      member_id: member_tony_abbott.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1126,7 +1126,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member450.id,
+      member_id: member_kevin_rudd.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 2,
@@ -1136,7 +1136,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member100156.id,
+      member_id: member_christine_milne.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 4,
@@ -1146,7 +1146,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member265.id,
+      member_id: member_john_howard.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 0,
@@ -1156,7 +1156,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member589.id,
+      member_id: member_john_alexander.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 0,
@@ -1166,7 +1166,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member100279.id,
+      member_id: member_christopher_back.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 3,
@@ -1176,7 +1176,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member100002.id,
+      member_id: member_judith_adams.id,
       rebellions: 0,
       tells: 1,
       votes_attended: 1,
@@ -1186,7 +1186,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member424.id,
+      member_id: member_roger_price.id,
       rebellions: 0,
       tells: 1,
       votes_attended: 1,
@@ -1196,7 +1196,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member222222.id,
+      member_id: member_disagreeable_curmudgeon.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1206,7 +1206,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: member333333.id,
+      member_id: member_surly_nihilist.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1218,8 +1218,8 @@ RSpec.shared_context "with fixtures" do
   def member_distances_fixtures
     create(
       :member_distance,
-      member1_id: member1.id,
-      member2_id: member1.id,
+      member1_id: member_tony_abbott.id,
+      member2_id: member_tony_abbott.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1229,8 +1229,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member1.id,
-      member2_id: member265.id,
+      member1_id: member_tony_abbott.id,
+      member2_id: member_john_howard.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1240,8 +1240,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member1.id,
-      member2_id: member367.id,
+      member1_id: member_tony_abbott.id,
+      member2_id: member_maxine_mckew.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1251,8 +1251,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member1.id,
-      member2_id: member450.id,
+      member1_id: member_tony_abbott.id,
+      member2_id: member_kevin_rudd.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 2,
@@ -1262,8 +1262,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member1.id,
-      member2_id: member589.id,
+      member1_id: member_tony_abbott.id,
+      member2_id: member_john_alexander.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1273,8 +1273,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member265.id,
-      member2_id: member265.id,
+      member1_id: member_john_howard.id,
+      member2_id: member_john_howard.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1284,8 +1284,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member265.id,
-      member2_id: member450.id,
+      member1_id: member_john_howard.id,
+      member2_id: member_kevin_rudd.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 2,
@@ -1295,8 +1295,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member367.id,
-      member2_id: member367.id,
+      member1_id: member_maxine_mckew.id,
+      member2_id: member_maxine_mckew.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1306,8 +1306,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member367.id,
-      member2_id: member450.id,
+      member1_id: member_maxine_mckew.id,
+      member2_id: member_kevin_rudd.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1317,8 +1317,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member450.id,
-      member2_id: member450.id,
+      member1_id: member_kevin_rudd.id,
+      member2_id: member_kevin_rudd.id,
       nvotessame: 2,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1328,8 +1328,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member450.id,
-      member2_id: member589.id,
+      member1_id: member_kevin_rudd.id,
+      member2_id: member_john_alexander.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1339,8 +1339,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member589.id,
-      member2_id: member589.id,
+      member1_id: member_john_alexander.id,
+      member2_id: member_john_alexander.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1350,8 +1350,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member100156.id,
-      member2_id: member100156.id,
+      member1_id: member_christine_milne.id,
+      member2_id: member_christine_milne.id,
       nvotessame: 2,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1361,8 +1361,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member100156.id,
-      member2_id: member100279.id,
+      member1_id: member_christine_milne.id,
+      member2_id: member_christopher_back.id,
       nvotessame: 0,
       nvotesdiffer: 1,
       nvotesabsent: 0,
@@ -1372,8 +1372,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: member100279.id,
-      member2_id: member100279.id,
+      member1_id: member_christopher_back.id,
+      member2_id: member_christopher_back.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1386,7 +1386,7 @@ RSpec.shared_context "with fixtures" do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
-      person_id: person10001.id,
+      person_id: person_tony_abbott.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 0,
@@ -1399,7 +1399,7 @@ RSpec.shared_context "with fixtures" do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
-      person_id: person10552.id,
+      person_id: person_kevin_rudd.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 1,
@@ -1412,7 +1412,7 @@ RSpec.shared_context "with fixtures" do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
-      person_id: person10725.id,
+      person_id: person_john_alexander.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 0,
@@ -1430,7 +1430,7 @@ RSpec.shared_context "with fixtures" do
       position: "Minister for Health and Ageing",
       from_date: "2003-10-7",
       to_date: "2007-12-3",
-      person_id: person10001.id,
+      person_id: person_tony_abbott.id,
       dept: "",
       responsibility: ""
     )
@@ -1441,7 +1441,7 @@ RSpec.shared_context "with fixtures" do
       position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
       from_date: "2007-12-6",
       to_date: "2008-9-22",
-      person_id: person10001.id,
+      person_id: person_tony_abbott.id,
       dept: "",
       responsibility: ""
     )
@@ -1452,7 +1452,7 @@ RSpec.shared_context "with fixtures" do
       position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
       from_date: "2008-9-22",
       to_date: "2009-12-8",
-      person_id: person10001.id,
+      person_id: person_tony_abbott.id,
       dept: "",
       responsibility: ""
     )
@@ -1463,7 +1463,7 @@ RSpec.shared_context "with fixtures" do
       position: "Leader of the Opposition",
       from_date: "2009-12-8",
       to_date: "9999-12-31",
-      person_id: person10001.id,
+      person_id: person_tony_abbott.id,
       dept: "",
       responsibility: ""
     )
@@ -1474,7 +1474,7 @@ RSpec.shared_context "with fixtures" do
       position: "Prime Minister",
       from_date: "2013-6-27",
       to_date: "9999-12-31",
-      person_id: person10552.id,
+      person_id: person_kevin_rudd.id,
       dept: "",
       responsibility: ""
     )
