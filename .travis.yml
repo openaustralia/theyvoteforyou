@@ -12,6 +12,8 @@ before_script:
   - cp config/secrets.yml.example config/secrets.yml
   - cp config/database.travis.yml config/database.yml
   - bundle exec rake db:setup
+  # But we want to have an empty test database to start with (not populated by seeds.rb)
+  - bundle exec rake db:test:prepare
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter -d before-build
