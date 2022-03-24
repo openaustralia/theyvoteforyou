@@ -74,16 +74,17 @@ describe DivisionsController, type: :request do
         end
       end
     end
-  end
-
-  context "with complete fixtures environment" do
-    # TODO: Remove this hack to delete fixtures
-    before do
-      remove_old_fixtures
-      add_new_fixtures
-    end
 
     describe "#index" do
+      before do
+        division_representatives_2006_12_06_3
+        division_senate_2009_11_25_8
+        division_senate_2009_11_30_8
+        division_senate_2009_12_30_8
+        division_representatives_2013_03_14_1
+        division_senate_2013_03_14_1
+      end
+
       it { compare_static("/divisions") }
       it { compare_static("/divisions/all/2007") }
       it { compare_static("/divisions/all/2004") }
@@ -127,6 +128,14 @@ describe DivisionsController, type: :request do
       it { compare_static("/divisions/senate?sort=turnout") }
       it { compare_static("/divisions/senate/2007?sort=turnout") }
       it { compare_static("/divisions/senate/2004?sort=turnout") }
+    end
+  end
+
+  context "with complete fixtures environment" do
+    # TODO: Remove this hack to delete fixtures
+    before do
+      remove_old_fixtures
+      add_new_fixtures
     end
 
     describe "#edit" do
