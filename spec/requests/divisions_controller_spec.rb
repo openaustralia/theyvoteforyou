@@ -35,58 +35,43 @@ describe DivisionsController, type: :request do
         compare_static("/divisions/senate/2013-03-14/1")
       end
 
-      it do
-        user
-        division_representatives_2006_12_06_3
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/representatives/2006-12-06/3/policies", signed_in: true)
-      end
+      describe "editing connected policies" do
+        before do
+          user
+          policy1
+          policy2
+          policy3
+        end
 
-      it do
-        user
-        division_representatives_2013_03_14_1
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/representatives/2013-03-14/1/policies", signed_in: true)
-      end
+        it do
+          division_representatives_2006_12_06_3
+          compare_static("/divisions/representatives/2006-12-06/3/policies", signed_in: true)
+        end
 
-      it do
-        user
-        division_senate_2009_11_25_8
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/senate/2009-11-25/8/policies", signed_in: true)
-      end
+        it do
+          division_representatives_2013_03_14_1
+          compare_static("/divisions/representatives/2013-03-14/1/policies", signed_in: true)
+        end
 
-      it do
-        user
-        division_senate_2009_11_25_8
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/senate/2009-11-25/8/policies/1", signed_in: true)
-      end
+        it do
+          division_senate_2009_11_25_8
+          compare_static("/divisions/senate/2009-11-25/8/policies", signed_in: true)
+        end
 
-      it do
-        user
-        division_senate_2009_11_25_8
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/senate/2009-11-25/8/policies/2", signed_in: true)
-      end
+        it do
+          division_senate_2009_11_25_8
+          compare_static("/divisions/senate/2009-11-25/8/policies/1", signed_in: true)
+        end
 
-      it do
-        user
-        division_senate_2013_03_14_1
-        policy1
-        policy2
-        policy3
-        compare_static("/divisions/senate/2013-03-14/1/policies", signed_in: true)
+        it do
+          division_senate_2009_11_25_8
+          compare_static("/divisions/senate/2009-11-25/8/policies/2", signed_in: true)
+        end
+
+        it do
+          division_senate_2013_03_14_1
+          compare_static("/divisions/senate/2013-03-14/1/policies", signed_in: true)
+        end
       end
     end
   end
