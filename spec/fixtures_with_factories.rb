@@ -1116,7 +1116,7 @@ RSpec.shared_context "with fixtures" do
   def member_infos_fixtures
     create(
       :member_info,
-      member_id: 1,
+      member_id: member1.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1126,7 +1126,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 450,
+      member_id: member450.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 2,
@@ -1136,7 +1136,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 100156,
+      member_id: member100156.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 4,
@@ -1146,7 +1146,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 265,
+      member_id: member265.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 0,
@@ -1156,7 +1156,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 589,
+      member_id: member589.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 0,
@@ -1166,7 +1166,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 100279,
+      member_id: member100279.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 3,
@@ -1176,7 +1176,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 100002,
+      member_id: member100002.id,
       rebellions: 0,
       tells: 1,
       votes_attended: 1,
@@ -1186,7 +1186,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 424,
+      member_id: member424.id,
       rebellions: 0,
       tells: 1,
       votes_attended: 1,
@@ -1196,7 +1196,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 222222,
+      member_id: member222222.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1206,7 +1206,7 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_info,
-      member_id: 333333,
+      member_id: member333333.id,
       rebellions: 0,
       tells: 0,
       votes_attended: 1,
@@ -1218,8 +1218,8 @@ RSpec.shared_context "with fixtures" do
   def member_distances_fixtures
     create(
       :member_distance,
-      member1_id: 1,
-      member2_id: 1,
+      member1_id: member1.id,
+      member2_id: member1.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1229,8 +1229,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 1,
-      member2_id: 265,
+      member1_id: member1.id,
+      member2_id: member265.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1240,8 +1240,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 1,
-      member2_id: 367,
+      member1_id: member1.id,
+      member2_id: member367.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1251,8 +1251,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 1,
-      member2_id: 450,
+      member1_id: member1.id,
+      member2_id: member450.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 2,
@@ -1262,8 +1262,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 1,
-      member2_id: 589,
+      member1_id: member1.id,
+      member2_id: member589.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1273,8 +1273,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 265,
-      member2_id: 265,
+      member1_id: member265.id,
+      member2_id: member265.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1284,8 +1284,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 265,
-      member2_id: 450,
+      member1_id: member265.id,
+      member2_id: member450.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 2,
@@ -1295,8 +1295,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 367,
-      member2_id: 367,
+      member1_id: member367.id,
+      member2_id: member367.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1306,8 +1306,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 367,
-      member2_id: 450,
+      member1_id: member367.id,
+      member2_id: member450.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1317,8 +1317,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 450,
-      member2_id: 450,
+      member1_id: member450.id,
+      member2_id: member450.id,
       nvotessame: 2,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1328,8 +1328,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 450,
-      member2_id: 589,
+      member1_id: member450.id,
+      member2_id: member589.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1339,8 +1339,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 589,
-      member2_id: 589,
+      member1_id: member589.id,
+      member2_id: member589.id,
       nvotessame: 0,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1350,8 +1350,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 100156,
-      member2_id: 100156,
+      member1_id: member100156.id,
+      member2_id: member100156.id,
       nvotessame: 2,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1361,8 +1361,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 100156,
-      member2_id: 100279,
+      member1_id: member100156.id,
+      member2_id: member100279.id,
       nvotessame: 0,
       nvotesdiffer: 1,
       nvotesabsent: 0,
@@ -1372,8 +1372,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :member_distance,
-      member1_id: 100279,
-      member2_id: 100279,
+      member1_id: member100279.id,
+      member2_id: member100279.id,
       nvotessame: 1,
       nvotesdiffer: 0,
       nvotesabsent: 0,
@@ -1385,8 +1385,8 @@ RSpec.shared_context "with fixtures" do
   def policy_person_distances_fixtures
     create(
       :policy_person_distance,
-      policy_id: 1,
-      person_id: 10001,
+      policy_id: policy1.id,
+      person_id: person10001.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 0,
@@ -1398,8 +1398,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :policy_person_distance,
-      policy_id: 1,
-      person_id: 10552,
+      policy_id: policy1.id,
+      person_id: person10552.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 1,
@@ -1411,8 +1411,8 @@ RSpec.shared_context "with fixtures" do
 
     create(
       :policy_person_distance,
-      policy_id: 1,
-      person_id: 10725,
+      policy_id: policy1.id,
+      person_id: person10725.id,
       nvotessame: 0,
       nvotessamestrong: 0,
       nvotesdiffer: 0,
@@ -1430,7 +1430,7 @@ RSpec.shared_context "with fixtures" do
       position: "Minister for Health and Ageing",
       from_date: "2003-10-7",
       to_date: "2007-12-3",
-      person_id: 10001,
+      person_id: person10001.id,
       dept: "",
       responsibility: ""
     )
@@ -1441,7 +1441,7 @@ RSpec.shared_context "with fixtures" do
       position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
       from_date: "2007-12-6",
       to_date: "2008-9-22",
-      person_id: 10001,
+      person_id: person10001.id,
       dept: "",
       responsibility: ""
     )
@@ -1452,7 +1452,7 @@ RSpec.shared_context "with fixtures" do
       position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
       from_date: "2008-9-22",
       to_date: "2009-12-8",
-      person_id: 10001,
+      person_id: person10001.id,
       dept: "",
       responsibility: ""
     )
@@ -1463,7 +1463,7 @@ RSpec.shared_context "with fixtures" do
       position: "Leader of the Opposition",
       from_date: "2009-12-8",
       to_date: "9999-12-31",
-      person_id: 10001,
+      person_id: person10001.id,
       dept: "",
       responsibility: ""
     )
@@ -1474,7 +1474,7 @@ RSpec.shared_context "with fixtures" do
       position: "Prime Minister",
       from_date: "2013-6-27",
       to_date: "9999-12-31",
-      person_id: 10552,
+      person_id: person10552.id,
       dept: "",
       responsibility: ""
     )
