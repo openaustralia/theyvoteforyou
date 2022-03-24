@@ -36,7 +36,7 @@ RSpec.shared_context "with fixtures" do
 
   def divisions_fixtures
     division_representatives_2013_03_14_1
-    division_senate_2013_3_14_1
+    division_senate_2013_03_14_1
     division_representatives_2006_12_06_3
     division_senate_2009_11_25_8
     division_senate_2009_11_30_8
@@ -164,7 +164,7 @@ RSpec.shared_context "with fixtures" do
     division
   end
 
-  let(:division_senate_2013_3_14_1) do
+  let(:division_senate_2013_03_14_1) do
     division = create(
       :division,
       id: 9,
@@ -722,7 +722,7 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division_senate_2013_3_14_1.id,
+      division_id: division_senate_2013_03_14_1.id,
       policy_id: policy.id,
       vote: "no3"
     )
@@ -748,7 +748,7 @@ RSpec.shared_context "with fixtures" do
     )
     create(
       :policy_division,
-      division_id: division_senate_2013_3_14_1.id,
+      division_id: division_senate_2013_03_14_1.id,
       policy_id: policy.id,
       vote: "no3"
     )
