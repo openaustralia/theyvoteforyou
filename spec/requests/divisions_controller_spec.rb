@@ -28,34 +28,34 @@ describe DivisionsController, type: :request do
       policy3
       compare_static("/divisions/senate/2013-03-14/1")
     end
+  end
 
-    describe "editing connected policies" do
-      before do
-        login_as(user)
-        policy1
-        policy2
-        policy3
-      end
+  describe "#show_policies" do
+    before do
+      login_as(user)
+      policy1
+      policy2
+      policy3
+    end
 
-      it do
-        division_representatives_2006_12_06_3
-        compare_static("/divisions/representatives/2006-12-06/3/policies")
-      end
+    it do
+      division_representatives_2006_12_06_3
+      compare_static("/divisions/representatives/2006-12-06/3/policies")
+    end
 
-      it do
-        division_representatives_2013_03_14_1
-        compare_static("/divisions/representatives/2013-03-14/1/policies")
-      end
+    it do
+      division_representatives_2013_03_14_1
+      compare_static("/divisions/representatives/2013-03-14/1/policies")
+    end
 
-      it do
-        division_senate_2009_11_25_8
-        compare_static("/divisions/senate/2009-11-25/8/policies")
-      end
+    it do
+      division_senate_2009_11_25_8
+      compare_static("/divisions/senate/2009-11-25/8/policies")
+    end
 
-      it do
-        division_senate_2013_03_14_1
-        compare_static("/divisions/senate/2013-03-14/1/policies")
-      end
+    it do
+      division_senate_2013_03_14_1
+      compare_static("/divisions/senate/2013-03-14/1/policies")
     end
   end
 
