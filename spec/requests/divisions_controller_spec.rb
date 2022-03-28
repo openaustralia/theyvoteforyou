@@ -30,35 +30,6 @@ describe DivisionsController, type: :request do
     end
   end
 
-  describe "#show_policies" do
-    before do
-      login_as(user)
-      policy1
-      policy2
-      policy3
-    end
-
-    it do
-      division_representatives_2006_12_06_3
-      compare_static("/divisions/representatives/2006-12-06/3/policies")
-    end
-
-    it do
-      division_representatives_2013_03_14_1
-      compare_static("/divisions/representatives/2013-03-14/1/policies")
-    end
-
-    it do
-      division_senate_2009_11_25_8
-      compare_static("/divisions/senate/2009-11-25/8/policies")
-    end
-
-    it do
-      division_senate_2013_03_14_1
-      compare_static("/divisions/senate/2013-03-14/1/policies")
-    end
-  end
-
   describe "#index" do
     before do
       division_representatives_2006_12_06_3
@@ -114,28 +85,56 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2004?sort=turnout") }
   end
 
-  describe "#edit" do
+  context "when logged in" do
     before do
       login_as(user)
     end
 
-    it do
-      division_senate_2009_11_25_8
-      compare_static "/divisions/senate/2009-11-25/8/edit"
+    describe "#show_policies" do
+      before do
+        policy1
+        policy2
+        policy3
+      end
+
+      it do
+        division_representatives_2006_12_06_3
+        compare_static("/divisions/representatives/2006-12-06/3/policies")
+      end
+
+      it do
+        division_representatives_2013_03_14_1
+        compare_static("/divisions/representatives/2013-03-14/1/policies")
+      end
+
+      it do
+        division_senate_2009_11_25_8
+        compare_static("/divisions/senate/2009-11-25/8/policies")
+      end
+
+      it do
+        division_senate_2013_03_14_1
+        compare_static("/divisions/senate/2013-03-14/1/policies")
+      end
     end
 
-    it do
-      division_representatives_2013_03_14_1
-      compare_static "/divisions/representatives/2013-03-14/1/edit"
-    end
-  end
+    describe "#edit" do
+      it do
+        division_senate_2009_11_25_8
+        compare_static "/divisions/senate/2009-11-25/8/edit"
+      end
 
-  describe "#update" do
-    before do
-      login_as(user)
-      division_senate_2009_11_25_8
+      it do
+        division_representatives_2013_03_14_1
+        compare_static "/divisions/representatives/2013-03-14/1/edit"
+      end
     end
 
-    it { compare_static "/divisions/senate/2009-11-25/8", form_params: { submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" } }
+    describe "#update" do
+      it do
+        division_senate_2009_11_25_8
+        compare_static "/divisions/senate/2009-11-25/8", form_params: { submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" }
+      end
+    end
   end
 end
