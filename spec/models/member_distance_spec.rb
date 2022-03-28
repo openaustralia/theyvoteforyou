@@ -3,15 +3,6 @@
 require "spec_helper"
 
 describe MemberDistance, type: :model do
-  # TODO: Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
-  before do
-    Member.delete_all
-    described_class.delete_all
-    Division.delete_all
-    Vote.delete_all
-  end
-
   # Just making sure we're not loading any fixtures
   it { expect(Member.all).to be_empty }
 

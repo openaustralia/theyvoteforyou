@@ -3,15 +3,6 @@
 require "spec_helper"
 
 describe Whip, type: :model do
-  # TODO: Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
-  before do
-    Member.delete_all
-    Division.delete_all
-    Vote.delete_all
-    described_class.delete_all
-  end
-
   describe "#free_vote?" do
     it do
       division = Division.new(house: "senate", date: "2006-02-09", number: 3)

@@ -7,9 +7,7 @@ describe PoliciesController, type: :request do
   include HTMLCompareHelper
   include_context "with fixtures"
 
-  # TODO: Remove this hack to delete fixtures
   before do
-    remove_old_fixtures
     add_new_fixtures
     # To workaround paper trail and fixtures problems we're deleting the static
     # fixtures data and recreating here in such a way that the versions in paper

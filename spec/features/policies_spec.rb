@@ -6,10 +6,6 @@ describe "Policies", type: :feature do
   let(:user) { create(:user, confirmed_at: Time.zone.now) }
 
   before do
-    # TODO: Remove this hack to delete fixtures
-    Member.delete_all
-    User.delete_all
-
     visit new_user_session_path
     within "#new_user" do
       fill_in "Email", with: user.email

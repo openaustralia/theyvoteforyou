@@ -3,11 +3,6 @@
 require "spec_helper"
 
 describe PoliciesHelper, type: :helper do
-  before do
-    User.delete_all
-    Policy.delete_all
-  end
-
   describe ".version_sentence" do
     before do
       allow(Policy).to receive(:find).with(3).and_return(mock_model(Policy, id: 3, name: "chickens"))

@@ -4,12 +4,6 @@ require "spec_helper"
 
 describe DivisionsController, type: :controller do
   describe "#index" do
-    # TODO: Remove this hack to delete fixtures
-    before do
-      Division.delete_all
-      Member.delete_all
-    end
-
     let!(:december_2016_division) { create(:division, date: Date.new(2016, 12, 25)) }
     let!(:june_2016_division) { create(:division, date: Date.new(2016, 0o6, 0o1)) }
 
@@ -109,12 +103,6 @@ describe DivisionsController, type: :controller do
   end
 
   describe "#index_with_member" do
-    # TODO: Remove this hack to delete fixtures
-    before do
-      Division.delete_all
-      Member.delete_all
-    end
-
     let!(:december_2016_division) { create(:division, date: Date.new(2016, 12, 25)) }
     let!(:june_2016_division) { create(:division, date: Date.new(2016, 0o6, 0o1)) }
     let!(:older_division) { create(:division, date: Date.new(2013, 0o4, 29)) }
@@ -179,14 +167,6 @@ describe DivisionsController, type: :controller do
   end
 
   describe "#show" do
-    before do
-      DivisionInfo.delete_all
-      Whip.delete_all
-      Vote.delete_all
-      Member.delete_all
-      Division.delete_all
-    end
-
     let!(:one_division) do
       division = create(:division, date: Date.new(2017, 0o4, 0o6), house: "representatives", number: 100)
       division.update!(

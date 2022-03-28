@@ -7,11 +7,6 @@ describe DivisionsController, type: :request do
   include_context "with fixtures"
 
   context "with individual setup" do
-    # TODO: Remove this hack to delete fixtures
-    before do
-      remove_old_fixtures
-    end
-
     describe "#show" do
       it do
         division_representatives_2006_12_06_3
@@ -132,9 +127,7 @@ describe DivisionsController, type: :request do
   end
 
   context "with complete fixtures environment" do
-    # TODO: Remove this hack to delete fixtures
     before do
-      remove_old_fixtures
       add_new_fixtures
     end
 

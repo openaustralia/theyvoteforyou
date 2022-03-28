@@ -4,10 +4,6 @@ require "spec_helper"
 
 describe "Signing up", type: :feature do
   before do
-    # TODO: Remove this hack to delete fixtures
-    Member.delete_all
-    User.delete_all
-
     create :member
   end
 

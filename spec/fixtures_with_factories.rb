@@ -4,24 +4,6 @@
 # Here's we're basically recreating the entire fixtures set in one big lump
 
 RSpec.shared_context "with fixtures" do
-  def remove_old_fixtures
-    DivisionInfo.delete_all
-    Division.delete_all
-    Electorate.delete_all
-    MemberDistance.delete_all
-    MemberInfo.delete_all
-    Member.delete_all
-    Office.delete_all
-    Person.delete_all
-    Policy.delete_all
-    PolicyDivision.delete_all
-    PolicyPersonDistance.delete_all
-    User.delete_all
-    Vote.delete_all
-    Whip.delete_all
-    WikiMotion.delete_all
-  end
-
   def add_new_fixtures
     divisions_fixtures
     users_fixtures

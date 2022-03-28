@@ -3,15 +3,6 @@
 require "spec_helper"
 
 describe MemberInfo, type: :model do
-  # TODO: Figure out why we need to do this horrible hack to remove the fixtures
-  # we shouldn't have them loaded
-  before do
-    Member.delete_all
-    Division.delete_all
-    Whip.delete_all
-    Vote.delete_all
-  end
-
   describe "counts" do
     let(:persona) { create(:person) }
     let(:personb) { create(:person) }
