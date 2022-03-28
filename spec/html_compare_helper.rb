@@ -19,7 +19,7 @@ module HTMLCompareHelper
     # Follow multiple redirects
     get(response.headers["Location"]) while response.headers["Location"]
 
-    text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html")
+    text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.#{format}")
 
     compare_text(text, response.body, path, suffix, format)
   end
