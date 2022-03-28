@@ -13,11 +13,11 @@ module HTMLCompareHelper
   def compare_static(path, form_params: false, format: "html")
     if form_params
       post(path, params: form_params)
+      # Follow multiple redirects
+      get(response.headers["Location"]) while response.headers["Location"]
     else
       get(path)
     end
-    # Follow multiple redirects
-    get(response.headers["Location"]) while response.headers["Location"]
 
     text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}.#{format}")
 
