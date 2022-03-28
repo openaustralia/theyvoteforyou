@@ -135,4 +135,14 @@ describe "routing redirects", type: :request do
     get "/divisions", params: { sort: "rebellions" }
     expect(response).to redirect_to "/divisions/all?sort=rebellions"
   end
+
+  it do
+    get "/divisions/senate/2009-11-25/8/policies/1", params: {}
+    expect(response).to redirect_to "/divisions/senate/2009-11-25/8/policies"
+  end
+
+  it do
+    get "/divisions/senate/2009-11-25/8/policies/2", params: {}
+    expect(response).to redirect_to "/divisions/senate/2009-11-25/8/policies"
+  end
 end

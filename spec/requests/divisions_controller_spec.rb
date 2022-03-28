@@ -53,16 +53,6 @@ describe DivisionsController, type: :request do
       end
 
       it do
-        division_senate_2009_11_25_8
-        compare_static("/divisions/senate/2009-11-25/8/policies/1")
-      end
-
-      it do
-        division_senate_2009_11_25_8
-        compare_static("/divisions/senate/2009-11-25/8/policies/2")
-      end
-
-      it do
         division_senate_2013_03_14_1
         compare_static("/divisions/senate/2013-03-14/1/policies")
       end
