@@ -10,16 +10,9 @@ module HTMLCompareHelper
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  def compare_static(path, form_params: false, suffix: "", method: :post, format: "html")
+  def compare_static(path, form_params: false, suffix: "", format: "html")
     if form_params
-      case method
-      when :post
-        post(path, params: form_params)
-      when :put
-        put(path, params: form_params)
-      else
-        raise "Unexpected value for method"
-      end
+      post(path, params: form_params)
     else
       # Adding empty parameter to stop deprecation warnings under Rails 5.0
       # TODO: Remove once upgrade to rails 5.1
