@@ -10,7 +10,6 @@ RSpec.shared_context "with fixtures" do
     people_fixtures
     members_fixtures
     policies_fixtures
-    member_infos_fixtures
     member_distances_fixtures
     policy_person_distances_fixtures
     offices_fixtures
@@ -856,7 +855,7 @@ RSpec.shared_context "with fixtures" do
   end
 
   let(:member_tony_abbott) do
-    create(
+    member = create(
       :member,
       id: 1,
       gid: "uk.org.publicwhip/member/1",
@@ -873,10 +872,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "still_in_office",
       person_id: person_tony_abbott.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 2,
+      aye_majority: 1
+    )
+    member
   end
 
   let(:member_kevin_rudd) do
-    create(
+    member = create(
       :member,
       id: 450,
       gid: "uk.org.publicwhip/member/450",
@@ -893,10 +902,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "resigned",
       person_id: person_kevin_rudd.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 2,
+      votes_possible: 2,
+      aye_majority: 0
+    )
+    member
   end
 
   let(:member_christine_milne) do
-    create(
+    member = create(
       :member,
       id: 100156,
       gid: "uk.org.publicwhip/lord/100156",
@@ -913,10 +932,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "still_in_office",
       person_id: person_christine_milne.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 4,
+      votes_possible: 4,
+      aye_majority: -2
+    )
+    member
   end
 
   let(:member_john_howard) do
-    create(
+    member = create(
       :member,
       id: 265,
       first_name: "John",
@@ -933,10 +962,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_john_howard.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 0,
+      votes_possible: 1,
+      aye_majority: 0
+    )
+    member
   end
 
   let(:member_maxine_mckew) do
-    create(
+    member = create(
       :member,
       id: 367,
       first_name: "Maxine",
@@ -953,10 +992,11 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_maxine_mckew.id
     )
+    member
   end
 
   let(:member_john_alexander) do
-    create(
+    member = create(
       :member,
       id: 589,
       first_name: "John",
@@ -973,10 +1013,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "still_in_office",
       person_id: person_john_alexander.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 0,
+      votes_possible: 1,
+      aye_majority: 0
+    )
+    member
   end
 
   let(:member_christopher_back) do
-    create(
+    member = create(
       :member,
       id: 100279,
       gid: "uk.org.publicwhip/lord/100279",
@@ -993,10 +1043,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "still_in_office",
       person_id: person_christopher_back.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 3,
+      votes_possible: 4,
+      aye_majority: -1
+    )
+    member
   end
 
   let(:member_judith_adams) do
-    create(
+    member = create(
       :member,
       id: 100002,
       gid: "uk.org.publicwhip/lord/100002",
@@ -1013,10 +1073,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "died",
       person_id: person_judith_adams.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 1,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: 1
+    )
+    member
   end
 
   let(:member_paul_zammit) do
-    create(
+    member = create(
       :member,
       id: 562,
       gid: "uk.org.publicwhip/member/562",
@@ -1033,10 +1103,11 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_paul_zammit.id
     )
+    member
   end
 
   let(:member_disagreeable_curmudgeon) do
-    create(
+    member = create(
       :member,
       id: 222222,
       gid: "uk.org.publicwhip/member/222222",
@@ -1053,10 +1124,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_disagreeable_curmudgeon.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: -1
+    )
+    member
   end
 
   let(:member_surly_nihilist) do
-    create(
+    member = create(
       :member,
       id: 333333,
       gid: "uk.org.publicwhip/member/333333",
@@ -1073,10 +1154,20 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_surly_nihilist.id
     )
+    create(
+      :member_info,
+      member_id: member.id,
+      rebellions: 0,
+      tells: 0,
+      votes_attended: 1,
+      votes_possible: 3,
+      aye_majority: 1
+    )
+    member
   end
 
   let(:member_roger_price) do
-    create(
+    member = create(
       :member,
       id: 424,
       gid: "uk.org.publicwhip/member/424",
@@ -1093,108 +1184,16 @@ RSpec.shared_context "with fixtures" do
       left_reason: "",
       person_id: person_roger_price.id
     )
-  end
-
-  def member_infos_fixtures
     create(
       :member_info,
-      member_id: member_tony_abbott.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 1,
-      votes_possible: 2,
-      aye_majority: 1
-    )
-
-    create(
-      :member_info,
-      member_id: member_kevin_rudd.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 2,
-      votes_possible: 2,
-      aye_majority: 0
-    )
-
-    create(
-      :member_info,
-      member_id: member_christine_milne.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 4,
-      votes_possible: 4,
-      aye_majority: -2
-    )
-
-    create(
-      :member_info,
-      member_id: member_john_howard.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 0,
-      votes_possible: 1,
-      aye_majority: 0
-    )
-
-    create(
-      :member_info,
-      member_id: member_john_alexander.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 0,
-      votes_possible: 1,
-      aye_majority: 0
-    )
-
-    create(
-      :member_info,
-      member_id: member_christopher_back.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 3,
-      votes_possible: 4,
-      aye_majority: -1
-    )
-
-    create(
-      :member_info,
-      member_id: member_judith_adams.id,
-      rebellions: 0,
-      tells: 1,
-      votes_attended: 1,
-      votes_possible: 3,
-      aye_majority: 1
-    )
-
-    create(
-      :member_info,
-      member_id: member_roger_price.id,
+      member_id: member.id,
       rebellions: 0,
       tells: 1,
       votes_attended: 1,
       votes_possible: 1,
       aye_majority: 1
     )
-
-    create(
-      :member_info,
-      member_id: member_disagreeable_curmudgeon.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 1,
-      votes_possible: 3,
-      aye_majority: -1
-    )
-
-    create(
-      :member_info,
-      member_id: member_surly_nihilist.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 1,
-      votes_possible: 3,
-      aye_majority: 1
-    )
+    member
   end
 
   def member_distances_fixtures
