@@ -24,7 +24,10 @@ describe HomeController, type: :request do
 
     # Goes direct to MP page (only one MP covered by this postcode)
     it do
-      VCR.use_cassette("openaustralia_postcode_api") { compare_static("/search?query=2088") }
+      VCR.use_cassette("openaustralia_postcode_api") do
+        get("/search?query=2088")
+        expect(response).to redirect_to("/people/representatives/warringah/tony_abbott")
+      end
     end
 
     # Two electorates cover this postcode
