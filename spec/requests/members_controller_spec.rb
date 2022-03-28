@@ -43,7 +43,7 @@ describe MembersController, type: :request do
 
     it "404s when a policy comparison is unknown" do
       expect do
-        get "/people/senate/tasmania/christine_milne/policies/1", params: {}
+        get "/people/senate/tasmania/christine_milne/policies/1"
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
 
@@ -71,7 +71,7 @@ describe MembersController, type: :request do
     end
 
     it "404s when the wrong name is given for a correct electorate" do
-      get "/people/representatives/warringah/foo_bar", params: {}
+      get "/people/representatives/warringah/foo_bar"
       expect(response.status).to eq(404)
     end
   end

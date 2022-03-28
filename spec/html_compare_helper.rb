@@ -14,16 +14,10 @@ module HTMLCompareHelper
     if form_params
       post(path, params: form_params)
     else
-      # Adding empty parameter to stop deprecation warnings under Rails 5.0
-      # TODO: Remove once upgrade to rails 5.1
-      get(path, params: {})
+      get(path)
     end
     # Follow multiple redirects
-    while response.headers["Location"]
-      # Adding empty parameter to stop deprecation warnings under Rails 5.0
-      # TODO: Remove once upgrade to rails 5.1
-      get(response.headers["Location"], params: {})
-    end
+    get(response.headers["Location"]) while response.headers["Location"]
 
     text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html")
 
