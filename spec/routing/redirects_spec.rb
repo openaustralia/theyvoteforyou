@@ -5,12 +5,16 @@ require "spec_helper"
 describe "routing redirects", type: :request do
   # This is an old url still being used by openaustralia.org.au
   it do
+    create(:policy, id: 1)
+    create(:member, id: 1, first_name: "Tony", last_name: "Abbott", constituency: "Warringah", house: "representatives")
     get "/mp.php?mpid=1&dmp=1", params: {}
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott/policies/1"
   end
 
   # This is an old url still being used by openaustralia.org.au
   it do
+    create(:member, id: 1, gid: "uk.org.publicwhip/member/1", first_name: "Tony", last_name: "Abbott",
+                    constituency: "Warringah", house: "representatives")
     get "/mp.php?id=uk.org.publicwhip/member/1", params: {}
     expect(response).to redirect_to "/people/representatives/warringah/tony_abbott"
   end
