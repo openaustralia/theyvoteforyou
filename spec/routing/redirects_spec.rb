@@ -3,6 +3,8 @@
 require "spec_helper"
 
 describe "routing redirects", type: :request do
+  fixtures :all
+
   # This is an old url still being used by openaustralia.org.au
   it do
     create(:policy, id: 1)
