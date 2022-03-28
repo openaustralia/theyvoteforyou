@@ -40,7 +40,6 @@ describe DivisionsController, type: :request do
       division_senate_2013_03_14_1
     end
 
-    it { compare_static("/divisions") }
     it { compare_static("/divisions/all/2007") }
     it { compare_static("/divisions/all/2004") }
     it { compare_static("/divisions/all") }
@@ -51,7 +50,6 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2007") }
     it { compare_static("/divisions/senate/2004") }
 
-    it { compare_static("/divisions?sort=subject") }
     it { compare_static("/divisions/all/2007?sort=subject") }
     it { compare_static("/divisions/all/2004?sort=subject") }
     it { compare_static("/divisions/all?sort=subject") }
@@ -62,7 +60,6 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2007?sort=subject") }
     it { compare_static("/divisions/senate/2004?sort=subject") }
 
-    it { compare_static("/divisions?sort=rebellions") }
     it { compare_static("/divisions/all/2007?sort=rebellions") }
     it { compare_static("/divisions/all/2004?sort=rebellions") }
     it { compare_static("/divisions/all?sort=rebellions") }
@@ -73,7 +70,6 @@ describe DivisionsController, type: :request do
     it { compare_static("/divisions/senate/2007?sort=rebellions") }
     it { compare_static("/divisions/senate/2004?sort=rebellions") }
 
-    it { compare_static("/divisions?sort=turnout") }
     it { compare_static("/divisions/all/2007?sort=turnout") }
     it { compare_static("/divisions/all/2004?sort=turnout") }
     it { compare_static("/divisions/all?sort=turnout") }
