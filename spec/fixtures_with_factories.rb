@@ -12,7 +12,6 @@ RSpec.shared_context "with fixtures" do
     policies_fixtures
     member_distances_fixtures
     policy_person_distances_fixtures
-    offices_fixtures
   end
 
   def divisions_fixtures
@@ -747,21 +746,76 @@ RSpec.shared_context "with fixtures" do
   end
 
   let(:person_tony_abbott) do
-    create(
+    person = create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10001.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10001.jpg",
       id: 10001
     )
+    create(
+      :office,
+      id: 504,
+      position: "Minister for Health and Ageing",
+      from_date: "2003-10-7",
+      to_date: "2007-12-3",
+      person_id: person.id,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1201,
+      position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
+      from_date: "2007-12-6",
+      to_date: "2008-9-22",
+      person_id: person.id,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1202,
+      position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
+      from_date: "2008-9-22",
+      to_date: "2009-12-8",
+      person_id: person.id,
+      dept: "",
+      responsibility: ""
+    )
+
+    create(
+      :office,
+      id: 1200,
+      position: "Leader of the Opposition",
+      from_date: "2009-12-8",
+      to_date: "9999-12-31",
+      person_id: person.id,
+      dept: "",
+      responsibility: ""
+    )
+    person
   end
 
   let(:person_kevin_rudd) do
-    create(
+    person = create(
       :person,
       small_image_url: "https://www.openaustralia.org.au/images/mps/10552.jpg",
       large_image_url: "https://www.openaustralia.org.au/images/mpsL/10552.jpg",
       id: 10552
     )
+    create(
+      :office,
+      id: 380,
+      position: "Prime Minister",
+      from_date: "2013-6-27",
+      to_date: "9999-12-31",
+      person_id: person.id,
+      dept: "",
+      responsibility: ""
+    )
+    person
   end
 
   let(:person_christine_milne) do
@@ -1401,63 +1455,6 @@ RSpec.shared_context "with fixtures" do
       nvotesabsent: 1,
       nvotesabsentstrong: 0,
       distance_a: 0.5
-    )
-  end
-
-  def offices_fixtures
-    create(
-      :office,
-      id: 504,
-      position: "Minister for Health and Ageing",
-      from_date: "2003-10-7",
-      to_date: "2007-12-3",
-      person_id: person_tony_abbott.id,
-      dept: "",
-      responsibility: ""
-    )
-
-    create(
-      :office,
-      id: 1201,
-      position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
-      from_date: "2007-12-6",
-      to_date: "2008-9-22",
-      person_id: person_tony_abbott.id,
-      dept: "",
-      responsibility: ""
-    )
-
-    create(
-      :office,
-      id: 1202,
-      position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
-      from_date: "2008-9-22",
-      to_date: "2009-12-8",
-      person_id: person_tony_abbott.id,
-      dept: "",
-      responsibility: ""
-    )
-
-    create(
-      :office,
-      id: 1200,
-      position: "Leader of the Opposition",
-      from_date: "2009-12-8",
-      to_date: "9999-12-31",
-      person_id: person_tony_abbott.id,
-      dept: "",
-      responsibility: ""
-    )
-
-    create(
-      :office,
-      id: 380,
-      position: "Prime Minister",
-      from_date: "2013-6-27",
-      to_date: "9999-12-31",
-      person_id: person_kevin_rudd.id,
-      dept: "",
-      responsibility: ""
     )
   end
 end
