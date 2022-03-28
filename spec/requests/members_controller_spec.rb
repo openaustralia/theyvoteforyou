@@ -8,32 +8,44 @@ describe MembersController, type: :request do
   include_context "with fixtures"
 
   context "with partial fixtures" do
-    before do
-      member_tony_abbott
-      member_john_alexander
-    end
-
     describe "#index" do
-      it { compare_static("/people/representatives") }
+      context "with members of the house of representatives" do
+        before do
+          # Current members
+          member_tony_abbott
+          member_john_alexander
+          # Former member
+          member_kevin_rudd
+        end
+
+        it { compare_static("/people/representatives") }
+        it { compare_static("/people/representatives?sort=constituency") }
+        it { compare_static("/people/representatives?sort=party") }
+        it { compare_static("/people/representatives?sort=rebellions") }
+        it { compare_static("/people/representatives?sort=attendance") }
+      end
+
+      context "with members of the senate" do
+        before do
+          # Current members
+          member_christopher_back
+          member_christine_milne
+          # Former member
+          member_judith_adams
+        end
+
+        it { compare_static("/people/senate") }
+        it { compare_static("/people/senate?sort=constituency") }
+        it { compare_static("/people/senate?sort=party") }
+        it { compare_static("/people/senate?sort=rebellions") }
+        it { compare_static("/people/senate?sort=attendance") }
+      end
     end
   end
 
   context "with full fixtures" do
     before do
       add_new_fixtures
-    end
-
-    describe "#index" do
-      it { compare_static("/people/representatives?sort=constituency") }
-      it { compare_static("/people/representatives?sort=party") }
-      it { compare_static("/people/representatives?sort=rebellions") }
-      it { compare_static("/people/representatives?sort=attendance") }
-
-      it { compare_static("/people/senate") }
-      it { compare_static("/people/senate?sort=constituency") }
-      it { compare_static("/people/senate?sort=party") }
-      it { compare_static("/people/senate?sort=rebellions") }
-      it { compare_static("/people/senate?sort=attendance") }
     end
 
     describe "#show" do
