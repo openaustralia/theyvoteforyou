@@ -10,7 +10,7 @@ module HTMLCompareHelper
   include Warden::Test::Helpers
   Warden.test_mode!
 
-  def compare_static(path, form_params: false, suffix: "", format: "html")
+  def compare_static(path, form_params: false, format: "html")
     if form_params
       post(path, params: form_params)
     else
@@ -19,14 +19,14 @@ module HTMLCompareHelper
     # Follow multiple redirects
     get(response.headers["Location"]) while response.headers["Location"]
 
-    text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.#{format}")
+    text = File.read("spec/fixtures/static_pages#{path.gsub '?', '__'}.#{format}")
 
-    compare_text(text, response.body, path, suffix, format)
+    compare_text(text, response.body, path, format)
   end
 
   private
 
-  def compare_text(old_text, new_text, path, suffix = "", format = "html")
+  def compare_text(old_text, new_text, path, format = "html")
     n = normalise(new_text, format)
     o = normalise(old_text, format)
     return if n == o
@@ -37,7 +37,7 @@ module HTMLCompareHelper
     raise "Don't match" unless overwrite
 
     # Write it out to a file
-    File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}#{suffix}.html", new_text)
+    File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}.html", new_text)
     raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
   end
 
