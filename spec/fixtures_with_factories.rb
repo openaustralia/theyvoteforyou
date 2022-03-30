@@ -69,6 +69,24 @@ RSpec.shared_context "with fixtures" do
     policy1_john_alexander
   end
 
+  def member_distances_fixtures
+    tony_abbott_tony_abbott
+    tony_abbott_john_howard
+    tony_abbott_maxine_mckew
+    tony_abbott_kevin_rudd
+    tony_abbott_john_alexander
+    john_howard_john_howard
+    john_howard_kevin_rudd
+    maxine_mckew_maxine_mckew
+    maxine_mckew_kevin_rudd
+    kevin_rudd_kevin_rudd
+    kevin_rudd_john_alexander
+    john_alexander_john_alexander
+    christine_milne_christine_milne
+    christine_milne_christopher_back
+    christopher_back_christopher_back
+  end
+
   let(:division_representatives_2013_03_14_1) do
     division = create(
       :division,
@@ -1256,7 +1274,7 @@ RSpec.shared_context "with fixtures" do
     member
   end
 
-  def member_distances_fixtures
+  let(:tony_abbott_tony_abbott) do
     create(
       :member_distance,
       member1_id: member_tony_abbott.id,
@@ -1267,7 +1285,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+  end
 
+  let(:tony_abbott_john_howard) do
     create(
       :member_distance,
       member1_id: member_tony_abbott.id,
@@ -1278,7 +1298,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:tony_abbott_maxine_mckew) do
     create(
       :member_distance,
       member1_id: member_tony_abbott.id,
@@ -1289,7 +1311,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:tony_abbott_kevin_rudd) do
     create(
       :member_distance,
       member1_id: member_tony_abbott.id,
@@ -1300,7 +1324,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.142857,
       distance_b: 0.0
     )
+  end
 
+  let(:tony_abbott_john_alexander) do
     create(
       :member_distance,
       member1_id: member_tony_abbott.id,
@@ -1311,7 +1337,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:john_howard_john_howard) do
     create(
       :member_distance,
       member1_id: member_john_howard.id,
@@ -1322,7 +1350,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:john_howard_kevin_rudd) do
     create(
       :member_distance,
       member1_id: member_john_howard.id,
@@ -1333,7 +1363,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.5,
       distance_b: -1.0
     )
+  end
 
+  let(:maxine_mckew_maxine_mckew) do
     create(
       :member_distance,
       member1_id: member_maxine_mckew.id,
@@ -1344,7 +1376,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:maxine_mckew_kevin_rudd) do
     create(
       :member_distance,
       member1_id: member_maxine_mckew.id,
@@ -1355,7 +1389,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:kevin_rudd_kevin_rudd) do
     create(
       :member_distance,
       member1_id: member_kevin_rudd.id,
@@ -1366,7 +1402,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+  end
 
+  let(:kevin_rudd_john_alexander) do
     create(
       :member_distance,
       member1_id: member_kevin_rudd.id,
@@ -1377,7 +1415,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:john_alexander_john_alexander) do
     create(
       :member_distance,
       member1_id: member_john_alexander.id,
@@ -1388,7 +1428,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+  end
 
+  let(:christine_milne_christine_milne) do
     create(
       :member_distance,
       member1_id: member_christine_milne.id,
@@ -1399,7 +1441,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+  end
 
+  let(:christine_milne_christopher_back) do
     create(
       :member_distance,
       member1_id: member_christine_milne.id,
@@ -1410,7 +1454,9 @@ RSpec.shared_context "with fixtures" do
       distance_a: 1.0,
       distance_b: 1.0
     )
+  end
 
+  let(:christopher_back_christopher_back) do
     create(
       :member_distance,
       member1_id: member_christopher_back.id,
