@@ -37,7 +37,7 @@ module HTMLCompareHelper
     raise "Don't match" unless overwrite
 
     # Write it out to a file
-    File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}.html", new_text)
+    File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}.#{format}", new_text)
     raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
   end
 
