@@ -168,9 +168,9 @@ describe DivisionsController, type: :controller do
 
   describe "#show" do
     let!(:one_division) do
-      division = create(:division, date: Date.new(2017, 0o4, 0o6), house: "representatives", number: 100)
+      division = create(:division, date: Date.new(2017, 4, 6), house: "representatives", number: 100)
       division.update!(
-        division_info: create(:division_info, division: division),
+        division_info: create(:division_info, division: division, rebellions: 3),
         whips: [create(:whip, division: division)],
         votes: [create(:vote, division: division)]
       )
