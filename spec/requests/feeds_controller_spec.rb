@@ -28,7 +28,12 @@ describe FeedsController, type: :request do
 
   describe "#mpdream-info" do
     before do
-      add_new_fixtures
+      member_tony_abbott
+      member_kevin_rudd
+      member_john_alexander
+      policy1_tony_abbott
+      policy1_kevin_rudd
+      policy1_john_alexander
     end
 
     it { compare_static("/feeds/mpdream-info.xml?id=1", format: "xml") }
