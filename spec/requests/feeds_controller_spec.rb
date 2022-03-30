@@ -6,16 +6,31 @@ describe FeedsController, type: :request do
   include HTMLCompareHelper
   include_context "with fixtures"
 
-  before do
-    add_new_fixtures
-  end
-
   describe "#mp-info" do
+    before do
+      division_representatives_2013_03_14_1
+      # Representatives
+      member_tony_abbott
+      member_john_howard
+      member_john_alexander
+      member_roger_price
+      # Senate
+      member_disagreeable_curmudgeon
+      member_surly_nihilist
+      member_judith_adams
+      member_christine_milne
+      member_christopher_back
+    end
+
     it { compare_static("/feeds/mp-info.xml", format: "xml") }
     it { compare_static("/feeds/mp-info.xml?house=senate", format: "xml") }
   end
 
   describe "#mpdream-info" do
+    before do
+      add_new_fixtures
+    end
+
     it { compare_static("/feeds/mpdream-info.xml?id=1", format: "xml") }
   end
 end
