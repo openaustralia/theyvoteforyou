@@ -1256,19 +1256,6 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:john_howard_john_howard) do
-    create(
-      :member_distance,
-      member1_id: member_john_howard.id,
-      member2_id: member_john_howard.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
-      distance_a: -1.0,
-      distance_b: -1.0
-    )
-  end
-
   let(:john_howard_kevin_rudd) do
     create(
       :member_distance,
@@ -1278,19 +1265,6 @@ RSpec.shared_context "with fixtures" do
       nvotesdiffer: 0,
       nvotesabsent: 2,
       distance_a: 0.5,
-      distance_b: -1.0
-    )
-  end
-
-  let(:maxine_mckew_maxine_mckew) do
-    create(
-      :member_distance,
-      member1_id: member_maxine_mckew.id,
-      member2_id: member_maxine_mckew.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
-      distance_a: -1.0,
       distance_b: -1.0
     )
   end
@@ -1334,19 +1308,6 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  let(:john_alexander_john_alexander) do
-    create(
-      :member_distance,
-      member1_id: member_john_alexander.id,
-      member2_id: member_john_alexander.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
-      distance_a: -1.0,
-      distance_b: -1.0
-    )
-  end
-
   let(:christine_milne_christine_milne) do
     create(
       :member_distance,
@@ -1370,19 +1331,6 @@ RSpec.shared_context "with fixtures" do
       nvotesabsent: 0,
       distance_a: 1.0,
       distance_b: 1.0
-    )
-  end
-
-  let(:christopher_back_christopher_back) do
-    create(
-      :member_distance,
-      member1_id: member_christopher_back.id,
-      member2_id: member_christopher_back.id,
-      nvotessame: 1,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
-      distance_a: 0.0,
-      distance_b: 0.0
     )
   end
 
