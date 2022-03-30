@@ -63,6 +63,12 @@ RSpec.shared_context "with fixtures" do
     member_roger_price
   end
 
+  def policy_person_distances_fixtures
+    policy1_tony_abbott
+    policy1_kevin_rudd
+    policy1_john_alexander
+  end
+
   let(:division_representatives_2013_03_14_1) do
     division = create(
       :division,
@@ -1417,7 +1423,7 @@ RSpec.shared_context "with fixtures" do
     )
   end
 
-  def policy_person_distances_fixtures
+  let(:policy1_tony_abbott) do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
@@ -1430,7 +1436,9 @@ RSpec.shared_context "with fixtures" do
       nvotesabsentstrong: 0,
       distance_a: 0.5
     )
+  end
 
+  let(:policy1_kevin_rudd) do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
@@ -1443,7 +1451,9 @@ RSpec.shared_context "with fixtures" do
       nvotesabsentstrong: 0,
       distance_a: 1.0
     )
+  end
 
+  let(:policy1_john_alexander) do
     create(
       :policy_person_distance,
       policy_id: policy1.id,
