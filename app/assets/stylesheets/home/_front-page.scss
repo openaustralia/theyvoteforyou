@@ -119,7 +119,7 @@
 
   .quote-avatar-container {
     margin-right: 5px;
-    display: inline;    
+    display: inline;
 
     .no-js & {
       visibility: hidden;
@@ -130,6 +130,15 @@
   .quote-avatar {
     border-radius: 3px;
     border: 0;
+  }
+}
+
+.front-explanation {
+  margin-top: 3em;
+  p {
+    text-align: center;
+    max-width: 30em;
+    margin: auto;
   }
 }
 
