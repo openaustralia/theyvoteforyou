@@ -4,13 +4,13 @@ FactoryBot.define do
   factory :whip do
     association :division
     sequence(:party) { |n| "Party #{n}" }
-    aye_votes { 5 }
-    aye_tells { 5 }
-    no_votes { 3 }
-    no_tells { 3 }
-    both_votes { 1 }
+    aye_votes { 0 }
+    aye_tells { 0 }
+    no_votes { 0 }
+    no_tells { 0 }
+    both_votes { 0 }
     abstention_votes { 0 }
-    possible_votes { 20 }
+    possible_votes { 0 }
     whip_guess { "guess" }
   end
 end

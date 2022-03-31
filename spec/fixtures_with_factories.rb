@@ -13,16 +13,12 @@ RSpec.shared_context "with fixtures" do
       number: 1,
       house: "representatives",
       name: "Bills &#8212; National Disability Insurance Scheme Bill 2012; Consideration in Detail",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;adv=yes;orderBy=_fragment_number,doc_date-rev;page=0;query=Dataset%3Ahansardr,hansardr80%20Date%3A14%2F3%2F2013;rec=0;resCount=Default",
-      debate_url: "",
       motion: '<p class="speaker">Jenny Macklin</p><p>I present a supplementary explanatory memorandum to the bill and ask leave of the House to move government amendments (1) to (77), as circulated, together.</p>',
       debate_gid: "uk.org.publicwhip/debate/2013-03-14.17.1"
     )
     create(
       :division_info,
       division_id: division.id,
-      rebellions: 0,
-      tells: 0,
       turnout: 136,
       possible_turnout: 150,
       aye_majority: -1
@@ -31,12 +27,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Australian Labor Party",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "no"
     )
@@ -44,12 +35,6 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Liberal Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "unknown"
     )
@@ -79,8 +64,7 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_kevin_rudd.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     division
   end
@@ -93,16 +77,12 @@ RSpec.shared_context "with fixtures" do
       number: 1,
       house: "senate",
       name: "Motions &#8212; Renewable Energy Certificates",
-      source_url: "http://aph.gov.au/somedebate",
-      debate_url: "",
       motion: "",
       debate_gid: "uk.org.publicwhip/lords/2013-03-14.22.1"
     )
     create(
       :division_info,
       division_id: division.id,
-      rebellions: 0,
-      tells: 0,
       turnout: 69,
       possible_turnout: 88,
       aye_majority: -3
@@ -111,12 +91,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Australian Greens",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "no"
     )
@@ -124,8 +99,7 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_christine_milne.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     division
   end
@@ -139,15 +113,12 @@ RSpec.shared_context "with fixtures" do
       number: 3,
       house: "representatives",
       name: "Prohibition of Human Cloning for Reproduction and the Regulation of Human Embryo Research Amendment Bill 2006 &#8212; Consideration in Detail",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansardr/2006-12-06/0000",
       motion: '<p pwmotiontext="moved">That the amendments (<b>Mr Michael Ferguson&#8217;s</b>) be agreed to.</p>',
       debate_gid: "uk.org.publicwhip/debate/2006-12-06.98.1"
     )
     create(
       :division_info,
       division_id: division.id,
-      rebellions: 0,
       tells: 4,
       turnout: 129,
       possible_turnout: 150,
@@ -161,8 +132,6 @@ RSpec.shared_context "with fixtures" do
       aye_tells: 1,
       no_votes: 40,
       no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 59,
       whip_guess: "none"
     )
@@ -170,12 +139,6 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Country Liberal Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "unknown"
     )
@@ -183,12 +146,6 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "CWM",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "none"
     )
@@ -197,11 +154,6 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Independent",
       aye_votes: 3,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 4,
       whip_guess: "none"
     )
@@ -210,11 +162,8 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Liberal Party",
       aye_votes: 33,
-      aye_tells: 0,
       no_votes: 33,
       no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 73,
       whip_guess: "none"
     )
@@ -225,9 +174,6 @@ RSpec.shared_context "with fixtures" do
       aye_votes: 9,
       aye_tells: 1,
       no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 11,
       whip_guess: "none"
     )
@@ -235,12 +181,6 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "SPK",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "unknown"
     )
@@ -274,15 +214,13 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_tony_abbott.id,
-      vote: "aye",
-      teller: false
+      vote: "aye"
     )
     create(
       :vote,
       division_id: division.id,
       member_id: member_kevin_rudd.id,
-      vote: "aye",
-      teller: false
+      vote: "aye"
     )
     create(
       :vote,
@@ -303,8 +241,6 @@ RSpec.shared_context "with fixtures" do
       number: 8,
       house: "senate",
       name: "Carbon Pollution Reduction Scheme Legislation",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-25/0000",
       motion: '<p pwmotiontext="moved">That the question for the third reading of the Carbon Pollution Reduction Scheme Bill&#160;2009&#160;[No. 2] and 10 related bills not be put until the third sitting day in February 2010.</p>',
       debate_gid: "uk.org.publicwhip/lords/2009-11-25.76.2"
     )
@@ -321,12 +257,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Australian Greens",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 5,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 5,
       whip_guess: "no"
     )
@@ -334,12 +265,8 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Australian Labor Party",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 28,
       no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 31,
       whip_guess: "no"
     )
@@ -347,12 +274,6 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Country Liberal Party",
-      aye_votes: 0,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "unknown"
     )
@@ -361,11 +282,6 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "DPRES",
       aye_votes: 1,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "aye"
     )
@@ -374,11 +290,6 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Family First Party",
       aye_votes: 1,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "aye"
     )
@@ -386,12 +297,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Independent",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "none"
     )
@@ -400,11 +306,7 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Liberal Party",
       aye_votes: 11,
-      aye_tells: 0,
       no_votes: 12,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 30,
       whip_guess: "no"
     )
@@ -414,10 +316,6 @@ RSpec.shared_context "with fixtures" do
       party: "National Party",
       aye_votes: 3,
       aye_tells: 1,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 5,
       whip_guess: "aye"
     )
@@ -425,12 +323,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "PRES",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 1,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 1,
       whip_guess: "no"
     )
@@ -438,15 +331,13 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_christine_milne.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     create(
       :vote,
       division_id: division.id,
       member_id: member_christopher_back.id,
-      vote: "aye",
-      teller: false
+      vote: "aye"
     )
     create(
       :vote,
@@ -459,15 +350,13 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_disagreeable_curmudgeon.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     create(
       :vote,
       division_id: division.id,
       member_id: member_surly_nihilist.id,
-      vote: "aye",
-      teller: false
+      vote: "aye"
     )
     division
   end
@@ -481,8 +370,6 @@ RSpec.shared_context "with fixtures" do
       number: 8,
       house: "senate",
       name: "Carbon Pollution Reduction Scheme (Cprs Fuel Credits) Bill 2009 [No. 2]; Carbon Pollution Reduction Scheme Amendment (Household Assistance) Bill 2009 [No. 2] &#8212; Third Reading",
-      source_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
-      debate_url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:chamber/hansards/2009-11-30/0000",
       motion: '<p pwmotiontext="moved">That these bills be now read a third time.</p>',
       debate_gid: "uk.org.publicwhip/lords/2009-11-30.559.1"
     )
@@ -499,12 +386,7 @@ RSpec.shared_context "with fixtures" do
       :whip,
       division_id: division.id,
       party: "Australian Greens",
-      aye_votes: 0,
-      aye_tells: 0,
       no_votes: 5,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 5,
       whip_guess: "no"
     )
@@ -513,11 +395,8 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Liberal Party",
       aye_votes: 1,
-      aye_tells: 0,
       no_votes: 27,
       no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 30,
       whip_guess: "no"
     )
@@ -525,15 +404,13 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_christine_milne.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     create(
       :vote,
       division_id: division.id,
       member_id: member_christopher_back.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     division
   end
@@ -553,15 +430,12 @@ RSpec.shared_context "with fixtures" do
       number: 8,
       house: "senate",
       name: "Proceedural ban of flatulence during divisions",
-      source_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
-      debate_url: "https://www.youtube.com/watch?v=yUGw_l3G-JE",
       motion: '<p pwmotiontext="moved">That the member for Grayndler stop using biological means to influence the outcome of divisions.</p>',
       debate_gid: "uk.org.publicwhip/lords/2009-11-10.559.1"
     )
     create(
       :division_info,
       division_id: division.id,
-      rebellions: 0,
       tells: 2,
       turnout: 73,
       possible_turnout: 76,
@@ -572,11 +446,6 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Australian Greens",
       aye_votes: 5,
-      aye_tells: 0,
-      no_votes: 0,
-      no_tells: 0,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 5,
       whip_guess: "aye"
     )
@@ -585,11 +454,8 @@ RSpec.shared_context "with fixtures" do
       division_id: division.id,
       party: "Liberal Party",
       aye_votes: 1,
-      aye_tells: 0,
       no_votes: 27,
       no_tells: 1,
-      both_votes: 0,
-      abstention_votes: 0,
       possible_votes: 30,
       whip_guess: "no"
     )
@@ -597,15 +463,13 @@ RSpec.shared_context "with fixtures" do
       :vote,
       division_id: division.id,
       member_id: member_christine_milne.id,
-      vote: "aye",
-      teller: false
+      vote: "aye"
     )
     create(
       :vote,
       division_id: division.id,
       member_id: member_christopher_back.id,
-      vote: "no",
-      teller: false
+      vote: "no"
     )
     division
   end
@@ -617,7 +481,6 @@ RSpec.shared_context "with fixtures" do
       name: "marriage equality",
       user_id: user.id,
       description: "access to marriage should be equal",
-      private: 0,
       created_at: 1.day.ago,
       updated_at: 1.day.ago
     )
@@ -637,7 +500,6 @@ RSpec.shared_context "with fixtures" do
       name: "offshore processing",
       user_id: user.id,
       description: "refugees arrving by boat should be processed offshore",
-      private: 0,
       created_at: 1.day.ago,
       updated_at: 1.day.ago
     )
@@ -658,12 +520,11 @@ RSpec.shared_context "with fixtures" do
 
   let(:policy3) do
     policy = create(
-      :policy,
+      :provisional_policy,
       id: 3,
       name: "provisional policies",
       user_id: user.id,
       description: "A provisional policy",
-      private: 2,
       created_at: 1.day.ago,
       updated_at: 1.day.ago
     )
@@ -678,11 +539,10 @@ RSpec.shared_context "with fixtures" do
 
   let(:user) do
     create(
-      :user,
+      :confirmed_user,
       id: 1,
       name: "Henare Degan",
-      email: "henare@oaf.org.au",
-      confirmed_at: "2013-10-20 10:10:53"
+      email: "henare@oaf.org.au"
     )
   end
 
@@ -699,42 +559,31 @@ RSpec.shared_context "with fixtures" do
       position: "Minister for Health and Ageing",
       from_date: "2003-10-7",
       to_date: "2007-12-3",
-      person_id: person.id,
-      dept: "",
-      responsibility: ""
+      person_id: person.id
     )
-
     create(
       :office,
       id: 1201,
       position: "Shadow Minister for Families, Community Services, Indigenous Affairs and the Voluntary Sector",
       from_date: "2007-12-6",
       to_date: "2008-9-22",
-      person_id: person.id,
-      dept: "",
-      responsibility: ""
+      person_id: person.id
     )
-
     create(
       :office,
       id: 1202,
       position: "Shadow Minister for Families, Housing, Community Services and Indigenous Affairs",
       from_date: "2008-9-22",
       to_date: "2009-12-8",
-      person_id: person.id,
-      dept: "",
-      responsibility: ""
+      person_id: person.id
     )
-
     create(
       :office,
       id: 1200,
       position: "Leader of the Opposition",
       from_date: "2009-12-8",
       to_date: "9999-12-31",
-      person_id: person.id,
-      dept: "",
-      responsibility: ""
+      person_id: person.id
     )
     person
   end
@@ -752,9 +601,7 @@ RSpec.shared_context "with fixtures" do
       position: "Prime Minister",
       from_date: "2013-6-27",
       to_date: "9999-12-31",
-      person_id: person.id,
-      dept: "",
-      responsibility: ""
+      person_id: person.id
     )
     person
   end
@@ -853,11 +700,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 1,
-      gid: "uk.org.publicwhip/member/1",
-      source_gid: "",
       first_name: "Tony",
       last_name: "Abbott",
-      title: "",
       constituency: "Warringah",
       party: "Liberal Party",
       house: "representatives",
@@ -870,8 +714,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 1,
       votes_possible: 2,
       aye_majority: 1
@@ -883,11 +725,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 450,
-      gid: "uk.org.publicwhip/member/450",
-      source_gid: "",
       first_name: "Kevin",
       last_name: "Rudd",
-      title: "",
       constituency: "Griffith",
       party: "Australian Labor Party",
       house: "representatives",
@@ -900,11 +739,8 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 2,
-      votes_possible: 2,
-      aye_majority: 0
+      votes_possible: 2
     )
     member
   end
@@ -913,11 +749,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 100156,
-      gid: "uk.org.publicwhip/lord/100156",
-      source_gid: "",
       first_name: "Christine",
       last_name: "Milne",
-      title: "",
       constituency: "Tasmania",
       party: "Australian Greens",
       house: "senate",
@@ -930,8 +763,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 4,
       votes_possible: 4,
       aye_majority: -2
@@ -948,9 +779,6 @@ RSpec.shared_context "with fixtures" do
       party: "Liberal Party",
       constituency: "Bennelong",
       house: "representatives",
-      gid: "uk.org.publicwhip/member/265",
-      source_gid: "",
-      title: "",
       entered_house: "1974-05-18",
       left_house: "2007-11-24",
       entered_reason: "general_election",
@@ -960,11 +788,7 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 0,
-      votes_possible: 1,
-      aye_majority: 0
+      votes_possible: 1
     )
     member
   end
@@ -978,9 +802,6 @@ RSpec.shared_context "with fixtures" do
       party: "Australian Labor Party",
       constituency: "Bennelong",
       house: "representatives",
-      gid: "uk.org.publicwhip/member/367",
-      source_gid: "",
-      title: "",
       entered_house: "2007-11-24",
       left_house: "2010-08-21",
       entered_reason: "general_election",
@@ -999,9 +820,6 @@ RSpec.shared_context "with fixtures" do
       party: "Liberal Party",
       constituency: "Bennelong",
       house: "representatives",
-      gid: "uk.org.publicwhip/member/589",
-      source_gid: "",
-      title: "",
       entered_house: "2010-08-21",
       left_house: "9999-12-31",
       entered_reason: "general_election",
@@ -1011,11 +829,7 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
-      votes_attended: 0,
-      votes_possible: 1,
-      aye_majority: 0
+      votes_possible: 1
     )
     member
   end
@@ -1024,11 +838,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 100279,
-      gid: "uk.org.publicwhip/lord/100279",
-      source_gid: "",
       first_name: "Christopher",
       last_name: "Back",
-      title: "",
       constituency: "WA",
       party: "Liberal Party",
       house: "senate",
@@ -1041,8 +852,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 3,
       votes_possible: 4,
       aye_majority: -1
@@ -1054,11 +863,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 100002,
-      gid: "uk.org.publicwhip/lord/100002",
-      source_gid: "",
       first_name: "Judith",
       last_name: "Adams",
-      title: "",
       constituency: "WA",
       party: "Liberal Party",
       house: "senate",
@@ -1071,7 +877,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
       tells: 1,
       votes_attended: 1,
       votes_possible: 3,
@@ -1084,11 +889,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 562,
-      gid: "uk.org.publicwhip/member/562",
-      source_gid: "",
       first_name: "Paul",
       last_name: "Zammit",
-      title: "",
       constituency: "Lowe",
       party: "Independent",
       house: "representatives",
@@ -1105,11 +907,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 222222,
-      gid: "uk.org.publicwhip/member/222222",
-      source_gid: "",
       first_name: "Disagreeable",
       last_name: "Curmudgeon",
-      title: "",
       constituency: "WA",
       party: "Independent",
       house: "senate",
@@ -1122,8 +921,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 1,
       votes_possible: 3,
       aye_majority: -1
@@ -1135,11 +932,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 333333,
-      gid: "uk.org.publicwhip/member/333333",
-      source_gid: "",
       first_name: "Surly",
       last_name: "Nihilist",
-      title: "",
       constituency: "WA",
       party: "Independent",
       house: "senate",
@@ -1152,8 +946,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
-      tells: 0,
       votes_attended: 1,
       votes_possible: 3,
       aye_majority: 1
@@ -1165,11 +957,8 @@ RSpec.shared_context "with fixtures" do
     member = create(
       :member,
       id: 424,
-      gid: "uk.org.publicwhip/member/424",
-      source_gid: "",
       first_name: "Roger",
       last_name: "Price",
-      title: "",
       constituency: "Chifley",
       party: "Australian Labor Party",
       house: "representatives",
@@ -1182,7 +971,6 @@ RSpec.shared_context "with fixtures" do
     create(
       :member_info,
       member_id: member.id,
-      rebellions: 0,
       tells: 1,
       votes_attended: 1,
       votes_possible: 1,
@@ -1197,8 +985,6 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_tony_abbott.id,
       member2_id: member_tony_abbott.id,
       nvotessame: 1,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: 0.0,
       distance_b: 0.0
     )
@@ -1209,9 +995,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_tony_abbott.id,
       member2_id: member_john_howard.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: -1.0,
       distance_b: -1.0
     )
@@ -1222,9 +1005,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_tony_abbott.id,
       member2_id: member_maxine_mckew.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: -1.0,
       distance_b: -1.0
     )
@@ -1236,7 +1016,6 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_tony_abbott.id,
       member2_id: member_kevin_rudd.id,
       nvotessame: 1,
-      nvotesdiffer: 0,
       nvotesabsent: 2,
       distance_a: 0.142857,
       distance_b: 0.0
@@ -1248,9 +1027,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_tony_abbott.id,
       member2_id: member_john_alexander.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: -1.0,
       distance_b: -1.0
     )
@@ -1261,8 +1037,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_john_howard.id,
       member2_id: member_kevin_rudd.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
       nvotesabsent: 2,
       distance_a: 0.5,
       distance_b: -1.0
@@ -1274,9 +1048,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_maxine_mckew.id,
       member2_id: member_kevin_rudd.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: -1.0,
       distance_b: -1.0
     )
@@ -1288,8 +1059,6 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_kevin_rudd.id,
       member2_id: member_kevin_rudd.id,
       nvotessame: 2,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: 0.0,
       distance_b: 0.0
     )
@@ -1300,9 +1069,6 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_kevin_rudd.id,
       member2_id: member_john_alexander.id,
-      nvotessame: 0,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: -1.0,
       distance_b: -1.0
     )
@@ -1314,8 +1080,6 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_christine_milne.id,
       member2_id: member_christine_milne.id,
       nvotessame: 2,
-      nvotesdiffer: 0,
-      nvotesabsent: 0,
       distance_a: 0.0,
       distance_b: 0.0
     )
@@ -1326,9 +1090,7 @@ RSpec.shared_context "with fixtures" do
       :member_distance,
       member1_id: member_christine_milne.id,
       member2_id: member_christopher_back.id,
-      nvotessame: 0,
       nvotesdiffer: 1,
-      nvotesabsent: 0,
       distance_a: 1.0,
       distance_b: 1.0
     )
@@ -1339,12 +1101,7 @@ RSpec.shared_context "with fixtures" do
       :policy_person_distance,
       policy_id: policy1.id,
       person_id: person_tony_abbott.id,
-      nvotessame: 0,
-      nvotessamestrong: 0,
-      nvotesdiffer: 0,
-      nvotesdifferstrong: 0,
       nvotesabsent: 1,
-      nvotesabsentstrong: 0,
       distance_a: 0.5
     )
   end
@@ -1354,12 +1111,7 @@ RSpec.shared_context "with fixtures" do
       :policy_person_distance,
       policy_id: policy1.id,
       person_id: person_kevin_rudd.id,
-      nvotessame: 0,
-      nvotessamestrong: 0,
       nvotesdiffer: 1,
-      nvotesdifferstrong: 0,
-      nvotesabsent: 0,
-      nvotesabsentstrong: 0,
       distance_a: 1.0
     )
   end
@@ -1369,12 +1121,7 @@ RSpec.shared_context "with fixtures" do
       :policy_person_distance,
       policy_id: policy1.id,
       person_id: person_john_alexander.id,
-      nvotessame: 0,
-      nvotessamestrong: 0,
-      nvotesdiffer: 0,
-      nvotesdifferstrong: 0,
       nvotesabsent: 1,
-      nvotesabsentstrong: 0,
       distance_a: 0.5
     )
   end
