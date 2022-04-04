@@ -26,9 +26,7 @@ class PolicyPersonDistance < ApplicationRecord
     Distance.new(same: nvotessame, samestrong: nvotessamestrong, differ: nvotesdiffer, differstrong: nvotesdifferstrong, absent: nvotesabsent, absentstrong: nvotesabsentstrong)
   end
 
-  delegate :total_points, to: :distance_object
-
-  delegate :possible_total_points, to: :distance_object
+  delegate :total_points, :possible_total_points, :votes_points, :possible_votes_points, to: :distance_object
 
   def agreement_fraction
     1 - distance_a
