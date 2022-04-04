@@ -36,35 +36,35 @@
       %th{rowspan: 3, scope: "rowgroup"} Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
       %td MP voted with policy
       %td= policy_person_distance.nvotessamestrong
-      %td= policy_person_distance.votes_same_strong_points
-      %td= policy_person_distance.possible_same_strong_points
+      %td= policy_person_distance.distance_object.votes_points(:samestrong)
+      %td= policy_person_distance.distance_object.possible_votes_points(:samestrong)
     %tr
       %td MP voted against policy
       %td= policy_person_distance.nvotesdifferstrong
-      %td= policy_person_distance.votes_differ_strong_points
-      %td= policy_person_distance.possible_differ_strong_points
+      %td= policy_person_distance.distance_object.votes_points(:differstrong)
+      %td= policy_person_distance.distance_object.possible_votes_points(:differstrong)
     %tr
       %td MP absent
       %td= policy_person_distance.nvotesabsentstrong
-      %td= policy_person_distance.votes_absent_strong_points
-      %td= policy_person_distance.possible_absent_strong_points
+      %td= policy_person_distance.distance_object.votes_points(:absentstrong)
+      %td= policy_person_distance.distance_object.possible_votes_points(:absentstrong)
     %tr
       %th{rowspan: 2, scope: "rowgroup"} Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
       %td MP voted with policy
       %td= policy_person_distance.nvotessame
-      %td= policy_person_distance.votes_same_points
-      %td= policy_person_distance.possible_same_points
+      %td= policy_person_distance.distance_object.votes_points(:same)
+      %td= policy_person_distance.distance_object.possible_votes_points(:same)
     %tr
       %td MP voted against policy
       %td= policy_person_distance.nvotesdiffer
-      %td= policy_person_distance.votes_differ_points
-      %td= policy_person_distance.possible_differ_points
+      %td= policy_person_distance.distance_object.votes_points(:differ)
+      %td= policy_person_distance.distance_object.possible_votes_points(:differ)
     %tr
       %th{rowspan: 1, scope: "rowgroup"} Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
       %td MP absent*
       %td= policy_person_distance.nvotesabsent
-      %td= policy_person_distance.votes_absent_points
-      %td= policy_person_distance.possible_absent_points
+      %td= policy_person_distance.distance_object.votes_points(:absent)
+      %td= policy_person_distance.distance_object.possible_votes_points(:absent)
     %tr
       %th{colspan: 3} Total:
       %td= policy_person_distance.total_points
