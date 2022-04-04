@@ -69,14 +69,7 @@
       %th{colspan: 3} Total:
       %td= policy_person_distance.total_points
       %td= policy_person_distance.possible_total_points
-    %tr
-      %td{colspan: 4}
-        %p
-          *Pressure of other work means MPs or
-          Senators are not always available to vote – it does not always
-          indicate they have abstained. Therefore, being absent on a less
-          important vote makes a disproportionatly small
-          difference.
+
 %p
   Agreement score = MP's points / total points
   \= #{policy_person_distance.total_points} / #{policy_person_distance.possible_total_points}
@@ -96,3 +89,10 @@
       = fraction_to_percentage_display(range.max)
       becomes
       "#{category_words_sentence(category)}"
+
+%p
+  *Pressure of other work means MPs or
+  Senators are not always available to vote – it does not always
+  indicate they have abstained. Therefore, being absent on a less
+  important vote makes a disproportionatly small
+  difference.
