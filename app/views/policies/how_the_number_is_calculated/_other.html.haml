@@ -26,14 +26,14 @@
 %table.table
   %thead
     %tr.headings
+      %th Type of vote
       %th
       %th No of votes
       %th Points
       %th Out of
   %tbody
     %tr
-      %th{colspan: 4} Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
-    %tr
+      %th{rowspan: 3, scope: "rowgroup"} Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
       %td MP voted with policy
       %td= policy_person_distance.nvotessamestrong
       %td= policy_person_distance.votes_same_strong_points
@@ -49,8 +49,7 @@
       %td= policy_person_distance.votes_absent_strong_points
       %td= policy_person_distance.possible_absent_strong_points
     %tr
-      %th{colspan: 4} Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
-    %tr
+      %th{rowspan: 2, scope: "rowgroup"} Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
       %td MP voted with policy
       %td= policy_person_distance.nvotessame
       %td= policy_person_distance.votes_same_points
@@ -61,14 +60,13 @@
       %td= policy_person_distance.votes_differ_points
       %td= policy_person_distance.possible_differ_points
     %tr
-      %th{colspan: 4} Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
-    %tr
+      %th{rowspan: 1, scope: "rowgroup"} Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
       %td MP absent*
       %td= policy_person_distance.nvotesabsent
       %td= policy_person_distance.votes_absent_points
       %td= policy_person_distance.possible_absent_points
     %tr
-      %th{colspan: 2} Total:
+      %th{colspan: 3} Total:
       %td= policy_person_distance.total_points
       %td= policy_person_distance.possible_total_points
     %tr
