@@ -32,10 +32,7 @@
       %th Out of
   %tbody
     %tr
-      %th Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %th{colspan: 4} Most important votes (#{pluralize(Distance.possible_points[:samestrong], "point")})
     %tr
       %td MP voted with policy
       %td= policy_person_distance.nvotessamestrong
@@ -52,10 +49,7 @@
       %td= policy_person_distance.votes_absent_strong_points
       %td= policy_person_distance.possible_absent_strong_points
     %tr
-      %th Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %th{colspan: 4} Less important votes (#{pluralize(Distance.possible_points[:same], "point")})
     %tr
       %td MP voted with policy
       %td= policy_person_distance.nvotessame
@@ -67,21 +61,18 @@
       %td= policy_person_distance.votes_differ_points
       %td= policy_person_distance.possible_differ_points
     %tr
-      %th Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
-      %td &nbsp;
-      %td &nbsp;
-      %td &nbsp;
+      %th{colspan: 4} Less important absentees (#{pluralize(Distance.possible_points[:absent], "point")})
     %tr
       %td MP absent*
       %td= policy_person_distance.nvotesabsent
       %td= policy_person_distance.votes_absent_points
       %td= policy_person_distance.possible_absent_points
     %tr
-      %th{colspan: "2"} Total:
+      %th{colspan: 2} Total:
       %td= policy_person_distance.total_points
       %td= policy_person_distance.possible_total_points
     %tr
-      %td{colspan: "4"}
+      %td{colspan: 4}
         %p
           *Pressure of other work means MPs or
           Senators are not always available to vote – it does not always
