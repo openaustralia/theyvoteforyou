@@ -70,25 +70,17 @@ class Distance
     2 * weights(type)
   end
 
-  def total_points
-    types.sum { |type| no_votes(type) * Distance.points(type) }
-  end
-
-  def possible_total_points
-    types.sum { |type| no_votes(type) * Distance.possible_points(type) }
-  end
-
   def sum_weighted_scores
-    total_points / 2
+    types.sum { |type| no_votes(type) * Distance.points(type) } / 2
   end
 
   def sum_weights
-    possible_total_points / 2
+    types.sum { |type| no_votes(type) * Distance.possible_points(type) } / 2
   end
 
   def agreement
-    if possible_total_points.positive?
-      total_points.to_f / possible_total_points
+    if sum_weights.positive?
+      sum_weighted_scores.to_f / sum_weights
     else
       2.0
     end

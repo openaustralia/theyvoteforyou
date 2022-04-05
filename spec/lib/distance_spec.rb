@@ -95,14 +95,6 @@ describe Distance do
   context "with a distance with all kinds of votes" do
     let(:distance) { described_class.new(same: 1, differ: 2, absent: 3, samestrong: 4, differstrong: 5, absentstrong: 6) }
 
-    describe "#total_points" do
-      it { expect(distance.total_points).to eq 363 }
-    end
-
-    describe "#possible_total_points" do
-      it { expect(distance.possible_total_points).to eq 786 }
-    end
-
     describe "#sum_weighted_scores" do
       it { expect(distance.sum_weighted_scores).to eq 181.5 }
     end
