@@ -69,17 +69,8 @@
 
 %ul
   - PolicyPersonDistance.category_range_mapping.each do |category, range|
-    - if category == policy_person_distance.category
-      %li
-        %strong
-          between
-          = fraction_to_percentage_display(range.min)
-          and
-          = fraction_to_percentage_display(range.max)
-          becomes
-          "#{category_words_sentence(category)}"
-    - else
-      %li
+    %li
+      = optional_strong(category == policy_person_distance.category) do
         between
         = fraction_to_percentage_display(range.min)
         and

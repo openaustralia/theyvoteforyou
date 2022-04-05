@@ -104,4 +104,10 @@ module ApplicationHelper
   def inline_project_name
     content_tag(:em, Settings.project_name, class: "project-name")
   end
+
+  # Put the rest of the content in a block
+  def optional_strong(strong, &block)
+    content = capture(&block)
+    strong ? content_tag(:strong, content) : content
+  end
 end
