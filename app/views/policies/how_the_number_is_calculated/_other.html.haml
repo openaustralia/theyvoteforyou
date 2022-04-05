@@ -39,9 +39,9 @@
         = Distance.points(:samestrong)
         \/
         = Distance.possible_points(:samestrong)
-      %td= policy_person_distance.nvotessamestrong
+      %td= policy_person_distance.no_votes(:samestrong)
       %td
-        - if policy_person_distance.nvotessamestrong.positive?
+        - if policy_person_distance.no_votes(:samestrong).positive?
           = policy_person_distance.votes_points(:samestrong)
           \/
           = policy_person_distance.possible_votes_points(:samestrong)
@@ -51,9 +51,9 @@
         = Distance.points(:differstrong)
         \/
         = Distance.possible_points(:differstrong)
-      %td= policy_person_distance.nvotesdifferstrong
+      %td= policy_person_distance.no_votes(:differstrong)
       %td
-        - if policy_person_distance.nvotesdifferstrong.positive?
+        - if policy_person_distance.no_votes(:differstrong).positive?
           = policy_person_distance.votes_points(:differstrong)
           \/
           = policy_person_distance.possible_votes_points(:differstrong)
@@ -63,9 +63,9 @@
         = Distance.points(:absentstrong)
         \/
         = Distance.possible_points(:absentstrong)
-      %td= policy_person_distance.nvotesabsentstrong
+      %td= policy_person_distance.no_votes(:absentstrong)
       %td
-        - if policy_person_distance.nvotesabsentstrong.positive?
+        - if policy_person_distance.no_votes(:absentstrong).positive?
           = policy_person_distance.votes_points(:absentstrong)
           \/
           = policy_person_distance.possible_votes_points(:absentstrong)
@@ -76,9 +76,9 @@
         = Distance.points(:same)
         \/
         = Distance.possible_points(:same)
-      %td= policy_person_distance.nvotessame
+      %td= policy_person_distance.no_votes(:same)
       %td
-        - if policy_person_distance.nvotessame.positive?
+        - if policy_person_distance.no_votes(:same).positive?
           = policy_person_distance.votes_points(:same)
           \/
           = policy_person_distance.possible_votes_points(:same)
@@ -88,9 +88,9 @@
         = Distance.points(:differ)
         \/
         = Distance.possible_points(:differ)
-      %td= policy_person_distance.nvotesdiffer
+      %td= policy_person_distance.no_votes(:differ)
       %td
-        - if policy_person_distance.nvotesdiffer.positive?
+        - if policy_person_distance.no_votes(:differ).positive?
           = policy_person_distance.votes_points(:differ)
           \/
           = policy_person_distance.possible_votes_points(:differ)
@@ -100,9 +100,9 @@
         = Distance.points(:absent)
         \/
         = Distance.possible_points(:absent)
-      %td= policy_person_distance.nvotesabsent
+      %td= policy_person_distance.no_votes(:absent)
       %td
-        - if policy_person_distance.nvotesabsent.positive?
+        - if policy_person_distance.no_votes(:absent).positive?
           = policy_person_distance.votes_points(:absent)
           \/
           = policy_person_distance.possible_votes_points(:absent)
