@@ -74,24 +74,6 @@ describe Distance do
     end
   end
 
-  describe ".points" do
-    it { expect(described_class.points(:same)).to eq 10 }
-    it { expect(described_class.points(:differ)).to eq 0 }
-    it { expect(described_class.points(:absent)).to eq 1 }
-    it { expect(described_class.points(:samestrong)).to eq 50 }
-    it { expect(described_class.points(:differstrong)).to eq 0 }
-    it { expect(described_class.points(:absentstrong)).to eq 25 }
-  end
-
-  describe ".possible_points" do
-    it { expect(described_class.possible_points(:same)).to eq 10 }
-    it { expect(described_class.possible_points(:differ)).to eq 10 }
-    it { expect(described_class.possible_points(:absent)).to eq 2 }
-    it { expect(described_class.possible_points(:samestrong)).to eq 50 }
-    it { expect(described_class.possible_points(:differstrong)).to eq 50 }
-    it { expect(described_class.possible_points(:absentstrong)).to eq 50 }
-  end
-
   context "with a distance with all kinds of votes" do
     let(:distance) { described_class.new(same: 1, differ: 2, absent: 3, samestrong: 4, differstrong: 5, absentstrong: 6) }
 

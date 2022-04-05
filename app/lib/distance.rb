@@ -58,24 +58,12 @@ class Distance
     end
   end
 
-  def self.points(type)
-    # On a scale between 0 and 2, 0 is voting differently, 1 is when
-    # one of two sides is absent and 2 is voting the same.
-    2 * score(type) * weights(type)
-  end
-
-  def self.possible_points(type)
-    # 2 is the maximum we can get but it's all weighted by the same amounts
-    # used in self.points above
-    2 * weights(type)
-  end
-
   def sum_weighted_scores
-    types.sum { |type| no_votes(type) * Distance.points(type) } / 2
+    types.sum { |type| no_votes(type) * Distance.score(type) * Distance.weights(type) }
   end
 
   def sum_weights
-    types.sum { |type| no_votes(type) * Distance.possible_points(type) } / 2
+    types.sum { |type| no_votes(type) * Distance.weights(type) }
   end
 
   def agreement
