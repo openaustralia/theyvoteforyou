@@ -28,9 +28,11 @@
     %tr.headings
       %th Type of vote
       %th
-      %th Points / out of
+      %th Score
+      %th Weight
       %th No of votes
-      %th Total points / out of
+      %th Sum weighted scores
+      %th Sum weights
   %tbody
     %tr
       %th{rowspan: 3, scope: "rowgroup"} Most important votes
@@ -53,15 +55,19 @@
       %td MP absent*
       = render "policies/how_the_number_is_calculated/cells", policy_person_distance: policy_person_distance, type: :absent
     %tr
-      %th{colspan: 4} Total:
-      %td
-        = policy_person_distance.total_points
-        \/
-        = policy_person_distance.possible_total_points
+      %th{colspan: 5} Total:
+      %td= policy_person_distance.total_points / 2
+      %td= policy_person_distance.possible_total_points / 2
+
+%p
+  The final agreement score is a weighted average (weighted arithmetic mean) of the scores of the individual votes. It looks
+  more complicated than it actually is. Wikipedia has an explanation of
+  #{link_to "weighted arithmetic means", "https://en.wikipedia.org/wiki/Weighted_arithmetic_mean"}.
 
 %p
   Agreement score
-  \= #{policy_person_distance.total_points} / #{policy_person_distance.possible_total_points}
+  \= sum weighted scores / sum weights
+  \= #{policy_person_distance.total_points / 2} / #{policy_person_distance.possible_total_points / 2}
   \=
   = succeed "." do
     %b= fraction_to_percentage_display(policy_person_distance.agreement_fraction)

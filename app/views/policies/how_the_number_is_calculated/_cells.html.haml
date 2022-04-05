@@ -1,10 +1,5 @@
-%td
-  = Distance.points(type)
-  \/
-  = Distance.possible_points(type)
+%td= Distance.score(type)
+%td= Distance.weights(type)
 %td= policy_person_distance.no_votes(type)
-%td
-  - if policy_person_distance.no_votes(type).positive?
-    = policy_person_distance.votes_points(type)
-    \/
-    = policy_person_distance.possible_votes_points(type)
+%td= policy_person_distance.votes_points(type) / 2
+%td= policy_person_distance.possible_votes_points(type) / 2
