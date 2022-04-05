@@ -1,38 +1,34 @@
 %p
-  The MP's votes count towards a weighted average where the most important votes get
-  #{pluralize(Distance.possible_points(:samestrong), "point")},
-  less important votes get
-  #{pluralize(Distance.possible_points(:same), "point")},
-  and less important votes for which the MP was absent get
-  #{pluralize(Distance.possible_points(:absent), "point")}.
-  In important votes the MP gets awarded the full
-  = pluralize(Distance.points(:samestrong), "point")
-  for voting the same as the policy,
-  = pluralize(Distance.points(:differstrong), "point")
-  for voting against the policy, and
-  = pluralize(Distance.points(:absentstrong), "point")
-  for not voting. In less important votes, the MP gets
-  = pluralize(Distance.points(:same), "point")
-  for voting with the policy,
-  = pluralize(Distance.points(:differ), "point")
-  for voting against, and
-  = Distance.points(:absent)
-  (out of #{Distance.possible_points(:absent)})
-  if absent.
+  They Vote For You gives each vote a score based on whether the MP voted in agreement with the policy or not. These scores are then
+  averaged across all votes relevant to the policy with a weighting. The overall average score is then converted to a simple
+  english language phrase based on the range of values it's within.
 
 %p
-  Then, the number gets converted to a simple english language phrase based on the range of values it's within.
+  When an MP votes in agreement with a policy the vote is scored as
+  #{fraction_to_percentage_display(Distance.score(:same))}.
+  When they vote against the policy it is scored as
+  = fraction_to_percentage_display(Distance.score(:differ))
+  and
+  when they are absent it is scored half way between the two at
+  #{fraction_to_percentage_display(Distance.score(:absent))}.
+  The half way point effectively says "we don't know whether they are for or against this policy".
+
+%p
+  The overall agreement score for the policy is worked out by
+  a weighted average of the scores for each vote. The weighting has been chosen so that the most important votes have a weighting
+  = Distance::STRONG_FACTOR
+  times that of the less important votes. Also, absent votes on less important votes are weighted
+  = Distance::ABSENT_FACTOR
+  times less again to not penalise MPs for not attending the less important votes. Pressure of other work means MPs or
+  Senators are not always available to vote – it does not always mean they've abstained.
 
 %table.table
   %thead
     %tr.headings
-      %th Type of vote
-      %th
-      %th Score
-      %th Weight
-      %th No of votes
-      %th Sum weighted scores
-      %th Sum weights
+      %th{colspan: 2} Type of vote
+      %th Agreement score (s)
+      %th Weight (w)
+      %th No of votes (n)
   %tbody
     %tr
       %th{rowspan: 3, scope: "rowgroup"} Most important votes
@@ -52,42 +48,41 @@
       %td MP voted against policy
       = render "policies/how_the_number_is_calculated/cells", policy_person_distance: policy_person_distance, type: :differ
     %tr
-      %td MP absent*
+      %td MP absent
       = render "policies/how_the_number_is_calculated/cells", policy_person_distance: policy_person_distance, type: :absent
-    %tr
-      %th{colspan: 5} Total:
-      %td= policy_person_distance.total_points / 2
-      %td= policy_person_distance.possible_total_points / 2
 
 %p
-  The final agreement score is a weighted average (weighted arithmetic mean) of the scores of the individual votes. It looks
-  more complicated than it actually is. Wikipedia has an explanation of
-  #{link_to "weighted arithmetic means", "https://en.wikipedia.org/wiki/Weighted_arithmetic_mean"}.
+  The final agreement score is a weighted average
+  (#{link_to "weighted arithmetic mean", "https://en.wikipedia.org/wiki/Weighted_arithmetic_mean"})
+  of the scores of the individual votes.
 
 %p
-  Agreement score
-  \= sum weighted scores / sum weights
-  \= #{policy_person_distance.total_points / 2} / #{policy_person_distance.possible_total_points / 2}
+  Average agreement score =
+  sum(n×w×s) / sum(n×w) =
+  #{policy_person_distance.total_points / 2} / #{policy_person_distance.possible_total_points / 2}
   \=
   = succeed "." do
     %b= fraction_to_percentage_display(policy_person_distance.agreement_fraction)
 
 %p
-  And then
+  And then this average agreement score
 
 %ul
   - PolicyPersonDistance.category_range_mapping.each do |category, range|
-    %li
-      between
-      = fraction_to_percentage_display(range.min)
-      and
-      = fraction_to_percentage_display(range.max)
-      becomes
-      "#{category_words_sentence(category)}"
-
-%p
-  *Pressure of other work means MPs or
-  Senators are not always available to vote – it does not always
-  indicate they have abstained. Therefore, being absent on a less
-  important vote makes a disproportionatly small
-  difference.
+    - if category == policy_person_distance.category
+      %li
+        %strong
+          between
+          = fraction_to_percentage_display(range.min)
+          and
+          = fraction_to_percentage_display(range.max)
+          becomes
+          "#{category_words_sentence(category)}"
+    - else
+      %li
+        between
+        = fraction_to_percentage_display(range.min)
+        and
+        = fraction_to_percentage_display(range.max)
+        becomes
+        "#{category_words_sentence(category)}"
