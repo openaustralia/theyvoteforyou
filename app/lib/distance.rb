@@ -47,17 +47,21 @@ class Distance
     end
   end
 
+  def self.score(type)
+    case type
+    when :same, :samestrong
+      1
+    when :differ, :differstrong
+      0
+    when :absent, :absentstrong
+      0.5
+    end
+  end
+
   def self.points(type)
     # On a scale between 0 and 2, 0 is voting differently, 1 is when
     # one of two sides is absent and 2 is voting the same.
-    case type
-    when :same, :samestrong
-      2 * weights(type)
-    when :differ, :differstrong
-      0 * weights(type)
-    when :absent, :absentstrong
-      1 * weights(type)
-    end
+    2 * score(type) * weights(type)
   end
 
   def self.possible_points(type)
