@@ -38,4 +38,16 @@
         fontSize = parseFloat(fontStyling);
         fitin_inner.style.fontSize = fontSize - 1 + 'px';
     }
+
+    // fetch neccessary html elements to shrink list font
+    ul = document.querySelector('.socialmedia-card-member-votes-list');
+    li_last = document.querySelector('li.socialmedia-card-member-votes-list-inline:last-child');
+    card_source = document.querySelector('.socialmedia-card-disclaimer > span:nth-child(1)');
+
+    // keep shrinking font of items in the unordered list when the last listem item overlaps with the card source
+    while (card_source.getBoundingClientRect().top <= li_last.getBoundingClientRect().bottom){
+      ul_fontStyling = window.getComputedStyle(ul, null).getPropertyValue('font-size');
+      fontSize = parseFloat(ul_fontStyling);
+      ul.style.fontSize = fontSize - 1 + 'px';
+    }
   });
