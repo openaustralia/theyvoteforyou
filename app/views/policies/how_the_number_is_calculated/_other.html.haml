@@ -59,7 +59,7 @@
 %p
   Average agreement score =
   sum(n×w×s) / sum(n×w) =
-  #{policy_person_distance.total_points / 2} / #{policy_person_distance.possible_total_points / 2}
+  #{policy_person_distance.sum_weighted_scores} / #{policy_person_distance.sum_weights}
   \=
   = succeed "." do
     %b= fraction_to_percentage_display(policy_person_distance.agreement_fraction)

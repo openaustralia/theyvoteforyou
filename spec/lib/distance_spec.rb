@@ -92,15 +92,23 @@ describe Distance do
     it { expect(described_class.possible_points(:absentstrong)).to eq 50 }
   end
 
-  describe "#total_points" do
+  context "with a distance with all kinds of votes" do
     let(:distance) { described_class.new(same: 1, differ: 2, absent: 3, samestrong: 4, differstrong: 5, absentstrong: 6) }
 
-    it { expect(distance.total_points).to eq 363 }
-  end
+    describe "#total_points" do
+      it { expect(distance.total_points).to eq 363 }
+    end
 
-  describe "#possible_total_points" do
-    let(:distance) { described_class.new(same: 1, differ: 2, absent: 3, samestrong: 4, differstrong: 5, absentstrong: 6) }
+    describe "#possible_total_points" do
+      it { expect(distance.possible_total_points).to eq 786 }
+    end
 
-    it { expect(distance.possible_total_points).to eq 786 }
+    describe "#sum_weighted_scores" do
+      it { expect(distance.sum_weighted_scores).to eq 181.5 }
+    end
+
+    describe "#sum_weights" do
+      it { expect(distance.sum_weights).to eq 393 }
+    end
   end
 end
