@@ -84,7 +84,7 @@ module ApplicationHelper
     end
   end
 
-  def fraction_to_percentage_display(fraction, options = { precision: 2, significant: true })
+  def fraction_to_percentage_display(fraction, options = { precision: 2, significant: true, strip_insignificant_zeros: true })
     if fraction
       percentage = fraction * 100
       number_to_percentage(percentage, options)
