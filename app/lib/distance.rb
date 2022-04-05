@@ -70,20 +70,12 @@ class Distance
     2 * weights(type)
   end
 
-  def votes_points(type)
-    no_votes(type) * Distance.points(type)
-  end
-
-  def possible_votes_points(type)
-    no_votes(type) * Distance.possible_points(type)
-  end
-
   def total_points
-    types.sum { |a| votes_points(a) }
+    types.sum { |type| no_votes(type) * Distance.points(type) }
   end
 
   def possible_total_points
-    types.sum { |a| possible_votes_points(a) }
+    types.sum { |type| no_votes(type) * Distance.possible_points(type) }
   end
 
   def agreement
