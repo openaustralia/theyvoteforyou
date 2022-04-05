@@ -6,15 +6,23 @@ class Distance
 
   STRONG_FACTOR = 5
 
-  attr_reader :same, :samestrong, :differ, :differstrong, :absent, :absentstrong
-
   def initialize(same: 0, samestrong: 0, differ: 0, differstrong: 0, absent: 0, absentstrong: 0)
-    @same = same
-    @samestrong = samestrong
-    @differ = differ
-    @differstrong = differstrong
-    @absent = absent
-    @absentstrong = absentstrong
+    @votes = {
+      same: same,
+      samestrong: samestrong,
+      differ: differ,
+      differstrong: differstrong,
+      absent: absent,
+      absentstrong: absentstrong
+    }
+  end
+
+  def no_votes(type)
+    @votes[type]
+  end
+
+  def types
+    @votes.keys
   end
 
   def distance
@@ -23,77 +31,55 @@ class Distance
 
   # Weights are picked to ensure they have the properties we want and that the
   # points are the smallest they can be while still all being integers
-  def self.weights
-    {
+  def self.weights(type)
+    case type
+    when :same, :differ
       # Regular votes are weighted STRONG_FACTOR less than strong votes
-      same: ABSENT_FACTOR,
-      differ: ABSENT_FACTOR,
+      ABSENT_FACTOR
+    when :absent
       # With the exception of regular absent votes which are weighted less
       # again by a factor of ABSENT_FACTOR
-      absent: 1,
+      1
+    when :samestrong, :differstrong, :absentstrong
       # Strong votes are weighted the same but are more important by
       # a factor of STRONG_FACTOR than regular votes
-      samestrong: STRONG_FACTOR * ABSENT_FACTOR,
-      differstrong: STRONG_FACTOR * ABSENT_FACTOR,
-      absentstrong: STRONG_FACTOR * ABSENT_FACTOR
-    }
+      STRONG_FACTOR * ABSENT_FACTOR
+    end
   end
 
-  def self.points
+  def self.points(type)
     # On a scale between 0 and 2, 0 is voting differently, 1 is when
     # one of two sides is absent and 2 is voting the same.
-    {
-      same: 2 * weights[:same],
-      differ: 0 * weights[:differ],
-      absent: 1 * weights[:absent],
-      samestrong: 2 * weights[:samestrong],
-      differstrong: 0 * weights[:differstrong],
-      absentstrong: 1 * weights[:absentstrong]
-    }
+    case type
+    when :same, :samestrong
+      2 * weights(type)
+    when :differ, :differstrong
+      0 * weights(type)
+    when :absent, :absentstrong
+      1 * weights(type)
+    end
   end
 
-  def self.possible_points
+  def self.possible_points(type)
     # 2 is the maximum we can get but it's all weighted by the same amounts
     # used in self.points above
-    {
-      same: 2 * weights[:same],
-      differ: 2 * weights[:differ],
-      absent: 2 * weights[:absent],
-      samestrong: 2 * weights[:samestrong],
-      differstrong: 2 * weights[:differstrong],
-      absentstrong: 2 * weights[:absentstrong]
-    }
-  end
-
-  def no_votes
-    {
-      same: same,
-      differ: differ,
-      absent: absent,
-      samestrong: samestrong,
-      differstrong: differstrong,
-      absentstrong: absentstrong
-    }
-  end
-
-  def attributes
-    no_votes.keys
+    2 * weights(type)
   end
 
   def votes_points(type)
-    no_votes[type] * Distance.points[type]
+    no_votes(type) * Distance.points(type)
   end
 
   def possible_votes_points(type)
-    no_votes[type] * Distance.possible_points[type]
+    no_votes(type) * Distance.possible_points(type)
   end
 
   def total_points
-    attributes.sum { |a| votes_points(a) }
+    types.sum { |a| votes_points(a) }
   end
 
   def possible_total_points
-    attributes.sum { |a| possible_votes_points(a) }
+    types.sum { |a| possible_votes_points(a) }
   end
 
   def agreement

@@ -1,23 +1,23 @@
 %p
   The MP's votes count towards a weighted average where the most important votes get
-  #{pluralize(Distance.possible_points[:samestrong], "point")},
+  #{pluralize(Distance.possible_points(:samestrong), "point")},
   less important votes get
-  #{pluralize(Distance.possible_points[:same], "point")},
+  #{pluralize(Distance.possible_points(:same), "point")},
   and less important votes for which the MP was absent get
-  #{pluralize(Distance.possible_points[:absent], "point")}.
+  #{pluralize(Distance.possible_points(:absent), "point")}.
   In important votes the MP gets awarded the full
-  = pluralize(Distance.points[:samestrong], "point")
+  = pluralize(Distance.points(:samestrong), "point")
   for voting the same as the policy,
-  = pluralize(Distance.points[:differstrong], "point")
+  = pluralize(Distance.points(:differstrong), "point")
   for voting against the policy, and
-  = pluralize(Distance.points[:absentstrong], "point")
+  = pluralize(Distance.points(:absentstrong), "point")
   for not voting. In less important votes, the MP gets
-  = pluralize(Distance.points[:same], "point")
+  = pluralize(Distance.points(:same), "point")
   for voting with the policy,
-  = pluralize(Distance.points[:differ], "point")
+  = pluralize(Distance.points(:differ), "point")
   for voting against, and
-  = Distance.points[:absent]
-  (out of #{Distance.possible_points[:absent]})
+  = Distance.points(:absent)
+  (out of #{Distance.possible_points(:absent)})
   if absent.
 
 %p
@@ -36,9 +36,9 @@
       %th{rowspan: 3, scope: "rowgroup"} Most important votes
       %td MP voted with policy
       %td
-        = Distance.points[:samestrong]
+        = Distance.points(:samestrong)
         \/
-        = Distance.possible_points[:samestrong]
+        = Distance.possible_points(:samestrong)
       %td= policy_person_distance.nvotessamestrong
       %td
         - if policy_person_distance.nvotessamestrong.positive?
@@ -48,9 +48,9 @@
     %tr
       %td MP voted against policy
       %td
-        = Distance.points[:differstrong]
+        = Distance.points(:differstrong)
         \/
-        = Distance.possible_points[:differstrong]
+        = Distance.possible_points(:differstrong)
       %td= policy_person_distance.nvotesdifferstrong
       %td
         - if policy_person_distance.nvotesdifferstrong.positive?
@@ -60,9 +60,9 @@
     %tr
       %td MP absent
       %td
-        = Distance.points[:absentstrong]
+        = Distance.points(:absentstrong)
         \/
-        = Distance.possible_points[:absentstrong]
+        = Distance.possible_points(:absentstrong)
       %td= policy_person_distance.nvotesabsentstrong
       %td
         - if policy_person_distance.nvotesabsentstrong.positive?
@@ -73,9 +73,9 @@
       %th{rowspan: 3, scope: "rowgroup"} Less important votes
       %td MP voted with policy
       %td
-        = Distance.points[:same]
+        = Distance.points(:same)
         \/
-        = Distance.possible_points[:same]
+        = Distance.possible_points(:same)
       %td= policy_person_distance.nvotessame
       %td
         - if policy_person_distance.nvotessame.positive?
@@ -85,9 +85,9 @@
     %tr
       %td MP voted against policy
       %td
-        = Distance.points[:differ]
+        = Distance.points(:differ)
         \/
-        = Distance.possible_points[:differ]
+        = Distance.possible_points(:differ)
       %td= policy_person_distance.nvotesdiffer
       %td
         - if policy_person_distance.nvotesdiffer.positive?
@@ -97,9 +97,9 @@
     %tr
       %td MP absent*
       %td
-        = Distance.points[:absent]
+        = Distance.points(:absent)
         \/
-        = Distance.possible_points[:absent]
+        = Distance.possible_points(:absent)
       %td= policy_person_distance.nvotesabsent
       %td
         - if policy_person_distance.nvotesabsent.positive?

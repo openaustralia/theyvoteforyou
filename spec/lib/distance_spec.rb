@@ -75,21 +75,21 @@ describe Distance do
   end
 
   describe ".points" do
-    it do
-      expect(described_class.points).to eq({
-                                             same: 10, differ: 0, absent: 1,
-                                             samestrong: 50, differstrong: 0, absentstrong: 25
-                                           })
-    end
+    it { expect(described_class.points(:same)).to eq 10 }
+    it { expect(described_class.points(:differ)).to eq 0 }
+    it { expect(described_class.points(:absent)).to eq 1 }
+    it { expect(described_class.points(:samestrong)).to eq 50 }
+    it { expect(described_class.points(:differstrong)).to eq 0 }
+    it { expect(described_class.points(:absentstrong)).to eq 25 }
   end
 
   describe ".possible_points" do
-    it do
-      expect(described_class.possible_points).to eq({
-                                                      same: 10, differ: 10, absent: 2,
-                                                      samestrong: 50, differstrong: 50, absentstrong: 50
-                                                    })
-    end
+    it { expect(described_class.possible_points(:same)).to eq 10 }
+    it { expect(described_class.possible_points(:differ)).to eq 10 }
+    it { expect(described_class.possible_points(:absent)).to eq 2 }
+    it { expect(described_class.possible_points(:samestrong)).to eq 50 }
+    it { expect(described_class.possible_points(:differstrong)).to eq 50 }
+    it { expect(described_class.possible_points(:absentstrong)).to eq 50 }
   end
 
   describe "#votes_points" do
