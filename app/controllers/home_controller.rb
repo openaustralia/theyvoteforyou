@@ -17,8 +17,8 @@ class HomeController < ApplicationController
     if params[:query] =~ /^\d{4}$/
       @postcode = params[:query]
 
-      # Temporary work around for https://github.com/openaustralia/openaustralia/issues/502
       json_response = URI.open("https://www.openaustralia.org.au/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read
+      # Temporary work around for https://github.com/openaustralia/openaustralia/issues/502
       json_response = "{\"error\":\"Unknown postcode\"}" if json_response == "{\"error\":\"Unknown postcode\"}{}"
       electorates = JSON.parse(json_response)
 
