@@ -30,6 +30,15 @@ class Member < ApplicationRecord
            :extra_large_image_size,
            to: :person
 
+  # Tell searchkick that we want to index only certain things
+  def search_data
+    {
+      # Indexing full name so we can search on full name
+      name: name,
+      constituency: constituency
+    }
+  end
+
   def self.random(collection)
     # While testing make this deterministic
     if Rails.env.test?
