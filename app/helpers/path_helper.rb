@@ -29,12 +29,22 @@ module PathHelper
     "#{root_url}cards#{person_policy_path_simple(person, policy)}.png"
   end
 
-  def card_member_url(member)
-    "#{root_url}cards#{member_path_simple(member)}.png"
+  def card_member_url(member, cardtype)
+    case cardtype
+    when nil
+      "#{root_url}cards#{member_path_simple(member)}.png"
+    else
+      "#{root_url}cards#{member_path_simple(member)}/categories/#{cardtype}.png"
+    end
   end
 
-  def card_policy_url(policy)
-    "#{root_url}cards#{policy_path(policy)}.png"
+  def card_policy_url(policy, cardtype)
+    case cardtype
+    when nil
+      "#{root_url}cards#{policy_path(policy)}.png"
+    else
+      "#{root_url}cards#{policy_path(policy)}/categories/#{cardtype}.png"
+    end
   end
 
   def person_policy_url_simple(person, policy, options = {})
