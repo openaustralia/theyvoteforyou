@@ -7,7 +7,7 @@
     type: "website",
     url: request.original_url,
     image: {
-      _: card_member_url(@member),
+      _: card_member_url(@member, @cardtype),
       alt: "Find out how #{@member.name} votes on issues that matter to you",
       width: CardScreenshotter::Utils::CARD_WIDTH,
       height: CardScreenshotter::Utils::CARD_HEIGHT

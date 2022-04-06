@@ -26,7 +26,7 @@ class PoliciesController < ApplicationController
     @policy = Policy.find(params[:id])
     @sort = params[:sort]
     @categories = PolicyPersonDistance.all_categories(reverse: (@sort == "against"))
-
+    @cardtype = params[:type]
     return if params[:card].nil?
 
     if params[:category]
