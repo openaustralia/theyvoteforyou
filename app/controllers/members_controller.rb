@@ -52,6 +52,7 @@ class MembersController < ApplicationController
   def friends; end
 
   def show
+    @cardtype = params[:type] # needs to be placed here otherwise it will not work (when placed within the else block)
     # If this isn't a social sharing card then just use the default view
     return if params[:card].nil?
 
