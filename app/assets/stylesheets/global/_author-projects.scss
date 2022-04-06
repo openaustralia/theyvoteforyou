@@ -1,10 +1,12 @@
 .author-details {
   padding-top: 36px;
+  padding-bottom: 36px;
   background: darken($color-blue-dark, 20%);
   // color: $text-color;
 
   @media (min-width: $screen-md-min) {
     padding-top: 24px;
+    padding-bottom: 24px;
   }
 
   a {
