@@ -7,7 +7,7 @@
     type: "website",
     url: request.original_url,
     image: {
-      _: card_policy_url(policy),
+      _: card_policy_url(policy, @cardtype),
       alt: "See How They Vote On #{capitalise_initial_character(policy.name)}",
       width: CardScreenshotter::Utils::CARD_WIDTH,
       height: CardScreenshotter::Utils::CARD_HEIGHT
