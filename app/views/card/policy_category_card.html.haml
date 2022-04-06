@@ -1,0 +1,39 @@
+.socialmedia-card-container
+  %p.socialmedia-card-logo
+    %span.subtext They Vote For You
+  %div.socialmedia-card-policy-element
+    %div.fitin2
+      .socialmedia-card-heading-text
+        %span.socialmedia-card-policy-heading
+          = @card_title 
+
+    %div.socialmedia-card-policy-image
+      %ul.socialmedia-card-policy-image-list
+        - @rep.each do |person|
+          %li.socialmedia-card-policy-image-list-inline
+            = member_image(person.latest_member, :large)
+        - if @number_left > 0
+          %li.socialmedia-card-policy-image-list-inline
+            +
+            = @number_left
+            Others
+
+  %p.socialmedia-card-disclaimer
+    %span.subtext
+      Find out more:
+      = remove_slash(get_hostname(root_url)) + policy_path(@policy) + "##{@category}"
+
+:javascript
+  window.addEventListener('load', (event) => {
+    fitin = document.querySelector('.fitin2');
+    fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
+
+    while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+      fontStyling = window
+      .getComputedStyle(fitin_inner, null)
+      .getPropertyValue('font-size');
+      fontSize = parseFloat(fontStyling);
+      fitin_inner.style.fontSize = fontSize - 1 + 'px';
+    }
+  });
+

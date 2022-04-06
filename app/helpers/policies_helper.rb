@@ -254,4 +254,31 @@ module PoliciesHelper
     # return the chosen people and the number of people not included
     [chosen_people, people.length - chosen_people.length]
   end
+
+  def people_under_policy_category(policy, category)
+    distances = policy.policy_person_distances.currently_in_parliament
+
+    # Insert people into each category
+    rep = []
+    distances.each do |ppd|
+      rep << ppd.person if ppd.category.to_s == category
+    end
+    rep
+  end
+
+  def card_title_from_category(policy, category)
+    case category.to_sym
+    when :not_enough
+      "We can't say anything concrete about how they voted on #{policy.name}"
+    else
+      "See who #{category_words_sentence(category.to_sym)}"
+    end
+  end
+
+  def policy_member_category(policy, category, max_person:)
+    rep = people_under_policy_category(policy, category)
+    chosen_rep = rep[0..(max_person - 1)]
+    card_title = card_title_from_category(policy, category)
+    [card_title, chosen_rep, rep.length - chosen_rep.length]
+  end
 end
