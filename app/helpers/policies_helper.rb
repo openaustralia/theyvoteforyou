@@ -271,7 +271,7 @@ module PoliciesHelper
     when :not_enough
       "We can't say anything concrete about how they voted on #{policy.name}"
     else
-      "See the representatives who #{category_words_sentence(category.to_sym)}"
+      "See who #{category_words_sentence(category.to_sym)}"
     end
   end
 
