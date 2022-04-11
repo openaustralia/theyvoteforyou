@@ -134,13 +134,17 @@
 }
 
 .front-explanation {
-  margin-top: 5em;
-  margin-bottom: 5em;
+  margin-top: 36px;
+  margin-bottom: 8px;
 
-  p {
-    text-align: center;
-    max-width: 30em;
-    margin: auto;
+  @media (min-width: $screen-sm-min) {
+    margin-top: 90px;
+    margin-bottom: 90px;
+    p {
+      text-align: center;
+      max-width: 30em;
+      margin: auto;
+    }
   }
 }
 
