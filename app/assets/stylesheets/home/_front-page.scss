@@ -51,6 +51,7 @@
 .front-panels-block {
   padding-top: 15px;
   padding-bottom: 30px;
+  background: lighten($gray-lighter, 2%);
 
   @media (min-width: $screen-sm-min) {
     padding-top: 30px;
@@ -88,8 +89,13 @@
 }
 
 .front-quote-block {
-  padding-top: 45px;
-  background: lighten($gray-lighter, 2%);
+  padding-top: 36px;
+  padding-bottom: 8px;
+
+  @media (min-width: $screen-sm-min) {
+    padding-top: 90px;
+    padding-bottom: 50px;
+  }
 
   figure {
     margin-bottom: 45px;
@@ -134,12 +140,13 @@
 }
 
 .front-explanation {
-  margin-top: 36px;
-  margin-bottom: 8px;
+  padding-top: 36px;
+  padding-bottom: 8px;
+  background-color: $color-lemon-light;
 
   @media (min-width: $screen-sm-min) {
-    margin-top: 90px;
-    margin-bottom: 90px;
+    padding-top: 90px;
+    padding-bottom: 90px;
     p {
       text-align: center;
       max-width: 30em;
@@ -155,10 +162,13 @@
 }
 
 .supporting-orgs-block {
-  padding-bottom: 90px;
+  padding-top: 36px;
+  padding-bottom: 36px;
 
   @media (min-width: $screen-sm-min) {
     text-align: center;
+    padding-top: 90px;
+    padding-bottom: 90px;
   }
 
   h2 {
