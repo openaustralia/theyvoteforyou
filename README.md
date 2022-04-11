@@ -1,4 +1,4 @@
-# Public Whip [![Build Status](https://travis-ci.com/openaustralia/publicwhip.svg?branch=master)](https://travis-ci.com/openaustralia/publicwhip) [![Code Climate](https://codeclimate.com/github/openaustralia/publicwhip.png)](https://codeclimate.com/github/openaustralia/publicwhip) [![Test Coverage](https://codeclimate.com/github/openaustralia/publicwhip/badges/coverage.svg)](https://codeclimate.com/github/openaustralia/publicwhip/coverage)
+# They Vote For You [![Build Status](https://travis-ci.com/openaustralia/publicwhip.svg?branch=master)](https://travis-ci.com/openaustralia/publicwhip) [![Code Climate](https://codeclimate.com/github/openaustralia/publicwhip.png)](https://codeclimate.com/github/openaustralia/publicwhip) [![Test Coverage](https://codeclimate.com/github/openaustralia/publicwhip/badges/coverage.svg)](https://codeclimate.com/github/openaustralia/publicwhip/coverage)
 
 ## Introduction
 
