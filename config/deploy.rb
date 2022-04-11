@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 set :application, "theyvoteforyou.org.au"
-set :repo_url, "https://github.com/openaustralia/publicwhip.git"
+set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
 set :rails_env, "production"
 

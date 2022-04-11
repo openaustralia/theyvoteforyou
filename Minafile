@@ -15,7 +15,7 @@ require 'mina/foreman'
 
 set :domain, 'theyvoteforyou.org.au.dev'
 set :deploy_to, '/srv/www'
-set :repository, 'https://github.com/openaustralia/publicwhip.git'
+set :repository, 'https://github.com/openaustralia/theyvoteforyou.git'
 set :branch, 'master'
 set :application, 'theyvoteforyou'
 # TODO: Replace `Procfile.production`, which is used when deploying to kedumba
