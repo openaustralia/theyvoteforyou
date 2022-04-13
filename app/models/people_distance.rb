@@ -5,11 +5,12 @@ class PeopleDistance < ApplicationRecord
   belongs_to :person2, class_name: "Person"
 
   def self.update_person(person1)
-    # Doing the dumb super-inefficient thing first. Just compare every person to every other person
-    # TODO: Make this faster and less dumb
-    Person.find_each do |person2|
+    # We're only populating half of the matrix
+    person1.overlapping_people.select { |p| p.id >= person1.id }.each do |person2|
       params = calculate_distances(person1, person2)
-      # Matrix is symmetric
+      # TODO: If distance_b is -1 then we don't even want a PeopleDistance record. This would
+      # allow us to remove further checks for distance_b != -1
+      # Matrix is symmetric so we don't have to calculate twice
       PeopleDistance.find_or_initialize_by(person1: person1, person2: person2).update!(params)
       PeopleDistance.find_or_initialize_by(person1: person2, person2: person1).update!(params)
     end

@@ -147,4 +147,11 @@ class Person < ApplicationRecord
   def vote_on_division_without_tell(division)
     member_in_division(division).vote_on_division_without_tell(division)
   end
+
+  # People who were in parliament (in the same house) at the same time
+  # Note that this also includes themselves
+  def overlapping_people
+    members.map { |member| member.overlapping_members.to_a }.flatten
+           .uniq.map(&:person).uniq
+  end
 end
