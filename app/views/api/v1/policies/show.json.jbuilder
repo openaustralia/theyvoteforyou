@@ -20,5 +20,6 @@ json.people_comparisons do
     end
     json.agreement number_with_precision(ppd.agreement_fraction * 100, precision: 2, significant: true)
     json.voted ppd.voted?
+    json.category ppd.category
   end
 end

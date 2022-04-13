@@ -19,4 +19,4 @@ Parameter            | Description
 `provisional`        | `true` or `false`. A provisional policy isn't yet "complete" and isn't visible by default in comparisons with people
 `last_edited_at`     | Time that the policy was last edited (in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format)
 `policy_divisions`   | An array of divisions connected to this policy. Each division also has an associated `vote` which can be `strong` which makes the vote more important
-`people_comparisons` | An array of people who could have voted on this division and their calculated `agreement` score in range from 0 to 100. `voted` says whether they ever vote on a division from this policy.
+`people_comparisons` | An array of people who could have voted on this division and their calculated `agreement` score in range from 0 to 100. `voted` says whether they ever vote on a division from this policy. `category` gives the overall summary of the agreement corresponding to the wording used on the site (e.g. "voted consistently for"). `category` can have one of the values <%= PolicyPersonDistance.all_categories.map{|c| "\"#{c}\"" }.join(", ") %>.
