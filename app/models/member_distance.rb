@@ -11,11 +11,8 @@ class MemberDistance < ApplicationRecord
   end
 
   def self.update_member(member1)
-    # Find all members who overlap with this member
-    members = Member.where(house: member1.house).where("left_house >= ?", member1.entered_house)
-                    .where("entered_house <= ?", member1.left_house)
     # We're only populating half of the matrix
-    members.where("id >= ?", member1.id).find_each do |member2|
+    member1.overlapping_members.where("id >= ?", member1.id).find_each do |member2|
       params = calculate_distances(member1, member2)
       # TODO: If distance_b is -1 then we don't even want a MemberDistance record. This would
       # allow us to remove further checks for distance_b != -1

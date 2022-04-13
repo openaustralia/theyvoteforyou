@@ -258,6 +258,12 @@ class Member < ApplicationRecord
     end
   end
 
+  # Members who were in parliament (in the same house) at the same time
+  # Note that this also includes themselves
+  def overlapping_members
+    Member.where(house: house).where("left_house >= ?", entered_house).where("entered_house <= ?", left_house)
+  end
+
   private
 
   def free_vote
