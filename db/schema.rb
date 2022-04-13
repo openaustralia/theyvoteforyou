@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_05_211148) do
+ActiveRecord::Schema.define(version: 2022_04_13_041820) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -180,6 +180,19 @@ ActiveRecord::Schema.define(version: 2022_03_05_211148) do
     t.text     "small_image_url"
     t.text     "large_image_url"
     t.text "extra_large_image_url"
+  end
+
+  create_table "people_distances", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci", force: :cascade do |t|
+    t.integer "person1_id", null: false
+    t.integer "person2_id", null: false
+    t.integer "nvotessame", null: false
+    t.integer "nvotesdiffer", null: false
+    t.float "distance_b", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["person1_id", "person2_id"], name: "index_people_distances_on_person1_id_and_person2_id", unique: true
+    t.index ["person1_id"], name: "index_people_distances_on_person1_id"
+    t.index ["person2_id"], name: "index_people_distances_on_person2_id"
   end
 
   create_table "policies", force: true do |t|
