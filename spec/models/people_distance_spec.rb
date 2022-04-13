@@ -40,5 +40,36 @@ RSpec.describe PeopleDistance, type: :model do
         )
       end
     end
+
+    describe "#update_person" do
+      before do
+        described_class.update_person(person1)
+      end
+
+      it "creates three records" do
+        expect(described_class.count).to eq 3
+      end
+
+      it "gives the expected result comparing person1 to person2" do
+        r = described_class.find_by(person1: person1, person2: person2)
+        expect(r.nvotessame).to eq 1
+        expect(r.nvotesdiffer).to eq 1
+        expect(r.distance_b).to eq 0.5
+      end
+
+      it "gives the expected result comparing person2 to person1" do
+        r = described_class.find_by(person1: person2, person2: person1)
+        expect(r.nvotessame).to eq 1
+        expect(r.nvotesdiffer).to eq 1
+        expect(r.distance_b).to eq 0.5
+      end
+
+      it "gives the expected result comparing person1 to themselves" do
+        r = described_class.find_by(person1: person1, person2: person1)
+        expect(r.nvotessame).to eq 3
+        expect(r.nvotesdiffer).to eq 0
+        expect(r.distance_b).to eq 0
+      end
+    end
   end
 end
