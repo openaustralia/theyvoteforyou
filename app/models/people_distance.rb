@@ -43,4 +43,16 @@ class PeopleDistance < ApplicationRecord
       distance_b: Distance.new(same: nvotessame, differ: nvotesdiffer).distance
     }
   end
+
+  # Divisions where the two people voted differently
+  def divisions_different
+    Division
+      .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
+      .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
+      .joins("INNER JOIN members AS members1 on members1.id = votes1.member_id")
+      .joins("INNER JOIN members AS members2 on members2.id = votes2.member_id")
+      .where(members1: { person_id: person1_id })
+      .where(members2: { person_id: person2_id })
+      .where("votes1.vote != votes2.vote")
+  end
 end

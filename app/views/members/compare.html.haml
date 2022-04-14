@@ -36,6 +36,9 @@
       differently
       = pluralize(@person_distance.nvotesdiffer, "time")
 
+%h2 Divisions in which they voted differently
+= render "divisions/divisions", member: nil, divisions: @person_distance.divisions_different, house: nil
+
 = render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.95, 1.0)}, title: "Voted very differently on"
 = render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.85, 0.95)}, title: "Voted differently on"
 = render "policy_comparisons_block2", member1: @member1, member2: @member2, policies: @policies.select {|p| p[:difference].between?(0.60, 0.85)}, title: "Voted slightly differently on"
