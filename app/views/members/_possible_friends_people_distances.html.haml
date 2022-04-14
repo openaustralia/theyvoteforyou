@@ -30,7 +30,7 @@
           %tr
             %td= fraction_to_percentage_display(person_distance.agreement_fraction_without_absences)
             %td= link_to person_distance.person2.name, member_path_simple(person_distance.person2.latest_member)
-            %td= party_long2(person_distance.person2.latest_member)
+            %td= member_type_party_place_sentence(person_distance.person2.latest_member)
   - unless all_friends
     = link_to "More possible friends", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
   - if person.best_friends.count >= 5 && !all_friends
