@@ -4,6 +4,8 @@ class Person < ApplicationRecord
   has_many :members, -> { order(entered_house: :desc) }, inverse_of: :person, dependent: :destroy
   has_many :policy_person_distances, dependent: :destroy
   has_many :offices, dependent: :destroy
+  has_many :people_distances, foreign_key: :person1_id, dependent: :destroy, inverse_of: :person1
+
   # People who are currently in parliament
   scope :current, -> { joins(:members).merge(Member.current) }
 
@@ -153,5 +155,14 @@ class Person < ApplicationRecord
   def overlapping_people
     members.map { |member| member.overlapping_members.to_a }.flatten
            .uniq.map(&:person).uniq
+  end
+
+  def possible_friends
+    people_distances.where.not(person2_id: id).where.not(distance_b: -1)
+  end
+
+  # Friends who have voted exactly the same
+  def best_friends
+    possible_friends.where(distance_b: 0)
   end
 end

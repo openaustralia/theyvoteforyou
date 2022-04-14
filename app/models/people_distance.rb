@@ -4,6 +4,10 @@ class PeopleDistance < ApplicationRecord
   belongs_to :person1, class_name: "Person"
   belongs_to :person2, class_name: "Person"
 
+  def agreement_fraction_without_absences
+    1 - distance_b
+  end
+
   def self.update_person(person1)
     # We're only populating half of the matrix
     person1.overlapping_people.select { |p| p.id >= person1.id }.each do |person2|
