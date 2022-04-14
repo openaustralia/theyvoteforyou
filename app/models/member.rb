@@ -209,12 +209,12 @@ class Member < ApplicationRecord
   end
 
   def possible_friends
-    member_distances.where.not(member2_id: id).where.not(distance_a: -1)
+    member_distances.where.not(member2_id: id).where.not(distance_b: -1)
   end
 
   # Friends who have voted exactly the same
   def best_friends
-    possible_friends.where(distance_a: 0)
+    possible_friends.where(distance_b: 0)
   end
 
   def self.search_with_sql_fallback(query_string)
