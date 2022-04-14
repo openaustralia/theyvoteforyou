@@ -1,0 +1,50 @@
+%section.page-section#friends
+  %h2
+    - if all_friends
+      All
+    Possible Friends
+
+  %p
+    Shows which
+    = members_type(member.house)
+    voted most similarly to this one in the
+    -# TODO This displays the parliament when the MP entered the house, which
+    -# matches PHP. But that doesn't seem right, sure it displays data *since* they entered
+    = Parliament.at_date(member.entered_house)[1][:name] if Parliament.at_date(member.entered_house)
+
+    - if member.changed_party?
+      Parliament
+      <span title="At some point, this MP changed party. They are listed separately for each party they were a member of. This entry contains details only for whilst they were in the party shown.">
+      (whilst #{member.party_name})</span>.
+    - else
+      Parliament.
+
+    This is measured from 0% agreement (never voted the
+    same) to 100% (always voted the same). Only votes that both
+    = members_type(member.house)
+    attended are counted. This may reveal relationships between
+    = members_type(member.house)
+    that were previously unsuspected. Or it may be nonsense.
+
+  %table.table
+    %thead
+      %tr.headings
+        %th Agreement
+        %th Name
+        %th Party
+    %tbody
+      - if member.possible_friends.empty?
+        %tr
+          %td{colspan: "4"} No results found
+      - else
+        - possible_friends = member.possible_friends.joins(:member2).order(:distance_b, "members.last_name", "members.first_name").where("distance_b != -1")
+        - possible_friends = possible_friends.limit(5) if !all_friends
+        - possible_friends.each do |member_distance|
+          %tr
+            %td= fraction_to_percentage_display(member_distance.agreement_fraction_without_absences)
+            %td= link_to member_distance.member2.name, member_path_simple(member_distance.member2)
+            %td= party_long2(member_distance.member2)
+  - unless all_friends
+    = link_to "More possible friends", friends_member_path_simple(member), class: 'btn btn-default btn-sm'
+  - if member.best_friends.count >= 5 && !all_friends
+    (#{pluralize(member.best_friends.count, "MP")} voted exactly the same as this one)
