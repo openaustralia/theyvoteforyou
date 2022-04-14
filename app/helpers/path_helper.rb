@@ -70,4 +70,11 @@ module PathHelper
   def friends_member_path_simple(member)
     friends_member_path(member.url_params)
   end
+
+  # TODO: Add ability to compare people in different houses
+  def compare_member_path_simple(member1, member2)
+    p1 = member1.url_params
+    p2 = member2.url_params
+    compare_member_path(p1.merge(mpc2: p2[:mpc], mpn2: p2[:mpn]))
+  end
 end

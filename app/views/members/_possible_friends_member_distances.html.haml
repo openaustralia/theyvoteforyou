@@ -42,7 +42,11 @@
         - possible_friends.each do |member_distance|
           %tr
             %td= fraction_to_percentage_display(member_distance.agreement_fraction_without_absences)
-            %td= link_to member_distance.member2.name, member_path_simple(member_distance.member2)
+            - if Flipper.enabled?(:link_to_people_compare, current_user)
+              %td= link_to member_distance.member2.name, compare_member_path_simple(member, member_distance.member2)
+            - else
+              %td= link_to member_distance.member2.name, member_path_simple(member_distance.member2)
+
             %td= party_long2(member_distance.member2)
   - unless all_friends
     = link_to "More possible friends", friends_member_path_simple(member), class: 'btn btn-default btn-sm'
