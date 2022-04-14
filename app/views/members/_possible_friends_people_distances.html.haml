@@ -24,10 +24,8 @@
         %tr
           %td{colspan: "4"} No results found
       - else
-        -# TODO: Do proper sorting
-        -# - possible_friends = person.possible_friends.joins(:person2).order(:distance_b, "members.last_name", "members.first_name").where("distance_b != -1")
-        - possible_friends = person.possible_friends.joins(:person2).order(:distance_b).where("distance_b != -1")
-        - possible_friends = possible_friends.limit(5) if !all_friends
+        - possible_friends = person.possible_friends.where("distance_b != -1").sort_by{|pd| [pd.distance_b, pd.person2.last_name, pd.person2.first_name]}
+        - possible_friends = possible_friends[0..4] if !all_friends
         - possible_friends.each do |person_distance|
           %tr
             %td= fraction_to_percentage_display(person_distance.agreement_fraction_without_absences)
