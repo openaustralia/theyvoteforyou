@@ -8,6 +8,10 @@ class PeopleDistance < ApplicationRecord
     1 - distance_b
   end
 
+  def total_votes
+    nvotessame + nvotesdiffer
+  end
+
   def self.update_person(person1)
     # We're only populating half of the matrix
     person1.overlapping_people.select { |p| p.id >= person1.id }.each do |person2|

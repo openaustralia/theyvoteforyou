@@ -93,6 +93,8 @@ class MembersController < ApplicationController
       return
     end
 
+    @person_distance = PeopleDistance.find_by(person1: @member1.person, person2: @member2.person)
+
     @policies = []
     @member1.person.policy_person_distances.published.each do |ppd1|
       # TODO: This is very inefficient. Doing many database lookups
