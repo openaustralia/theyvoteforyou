@@ -86,7 +86,19 @@ module ApplicationHelper
 
   def fraction_to_percentage_display(fraction)
     if fraction
-      number_to_percentage(fraction * 100, precision: 2, significant: true, strip_insignificant_zeros: true)
+      percentage = fraction * 100
+      # Special handling for number very close to 0 or 100
+      # These are numbers that would get rounded to 0% or 100% but are not exactly that so we want
+      # to make it clear that those number are different by using higher precision. We figure out
+      # the precision which rounds it to a value that doesn't look like 0 or 100.
+      precision = if percentage.positive? && percentage < 0.5
+                    -Math.log10(2 * percentage).floor
+                  elsif percentage >= 99.5 && percentage < 100
+                    -Math.log10(2 * (100 - percentage)).floor
+                  else
+                    0
+                  end
+      number_to_percentage(percentage, precision: precision)
     else
       "n/a"
     end
