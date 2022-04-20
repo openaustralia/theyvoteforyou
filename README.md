@@ -212,6 +212,14 @@ irb> User.find_by(email: "matthew@oaf.org.au").update(admin: true)
 
 Obviously substitute the email address in the command above.
 
+## Feature flags
+
+Some features that are still in development are enabled via "feature flags". The features can optionally switched on for certain users, block of users or everyone. These flags are administered at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3000/admin/flipper/features when in development.
+
+The names of the features added in the admin panel need to match those in the code at `config/initializers/flipper.rb`.
+
+To enable a feature for a particular user: Go to the feature on the flipper admin panel. Then click the button "Add an actor". Then add the `flipper_id` which for a user will be of the form `User;<user id>`. So for example it could be `User;3`.
+
 ## Other Credits
 
 This project uses some icons from the noun project under under creative commons licenses:
