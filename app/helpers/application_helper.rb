@@ -84,10 +84,19 @@ module ApplicationHelper
     end
   end
 
-  def fraction_to_percentage_display(fraction, options = { precision: 2, significant: true, strip_insignificant_zeros: true })
+  def fraction_to_percentage_display(fraction)
     if fraction
-      percentage = fraction * 100
-      number_to_percentage(percentage, options)
+      number_to_percentage(fraction * 100, precision: 2, significant: true, strip_insignificant_zeros: true)
+    else
+      "n/a"
+    end
+  end
+
+  # A slightly modified version of the helper above as only used in:
+  # app/views/feeds/mp_info.xml.builder
+  def fraction_to_percentage_display_mp_info(fraction)
+    if fraction
+      number_to_percentage(fraction * 100, precision: 2)
     else
       "n/a"
     end
