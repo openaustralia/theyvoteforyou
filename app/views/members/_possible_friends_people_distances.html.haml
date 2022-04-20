@@ -24,7 +24,7 @@
         %tr
           %td{colspan: "4"} No results found
       - else
-        - possible_friends = person.possible_friends.sort_by{|pd| [pd.distance_b, pd.person2.last_name, pd.person2.first_name]}
+        - possible_friends = person.possible_friends.includes(person2: :members).sort_by{|pd| [pd.distance_b, pd.person2.last_name, pd.person2.first_name]}
         - possible_friends = possible_friends[0..4] if !all_friends
         - possible_friends.each do |person_distance|
           %tr
