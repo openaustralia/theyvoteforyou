@@ -89,7 +89,6 @@ namespace :deploy do
   after :restart, "foreman:export"
   after "foreman:export", "foreman:enable"
   after "foreman:enable", "foreman:restart"
-  after :restart, "newrelic:notice_deployment"
 end
 
 namespace :app do
