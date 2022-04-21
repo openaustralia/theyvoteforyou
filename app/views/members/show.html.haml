@@ -23,4 +23,4 @@
 - if @member.person.subject_to_whip?
   = render "interesting_votes", member: @member
 = render "recent_votes", member: @member
-= render "possible_friends", member: @member, all_friends: false
+= render "possible_friends", person: @member.person, all_friends: false

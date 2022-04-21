@@ -4,4 +4,4 @@
 - set_meta_tags description: "#{members_type(@member.house)} that voted similarly to #{@member.name}."
 
 = render "member_page_header", member: @member
-= render "possible_friends", member: @member, all_friends: true
+= render "possible_friends", person: @member.person, all_friends: true
