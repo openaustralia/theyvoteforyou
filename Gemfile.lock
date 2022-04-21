@@ -566,6 +566,7 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    stackprof (0.2.19)
     temple (0.8.2)
     thin (1.8.1)
       daemons (~> 1.0, >= 1.0.9)
@@ -681,6 +682,7 @@ DEPENDENCIES
   simple_form
   simplecov
   sprockets
+  stackprof
   timecop
   typhoeus
   uglifier (>= 2.7.2)

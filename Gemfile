@@ -111,6 +111,10 @@ group :development do
   gem "mailcatcher"
   gem "rack-mini-profiler"
 
+  # Used to show flamegraphs in development with rack-mini-profiler
+  # Add ?pp=flamegraph to the end of the url in development
+  gem "stackprof"
+
   gem "capistrano", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-rvm"
