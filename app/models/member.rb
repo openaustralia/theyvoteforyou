@@ -19,7 +19,6 @@ class Member < ApplicationRecord
 
   # Divisions that have been attended
   has_many :divisions, through: :votes
-  has_many :member_distances, foreign_key: :member1_id, dependent: :destroy, inverse_of: :member1
   belongs_to :person, touch: true
 
   delegate :show_small_image?, :small_image_url, :small_image_width, :small_image_height,
@@ -206,15 +205,6 @@ class Member < ApplicationRecord
 
   def electorate
     constituency
-  end
-
-  def possible_friends
-    member_distances.where.not(member2_id: id).where.not(distance_b: -1)
-  end
-
-  # Friends who have voted exactly the same
-  def best_friends
-    possible_friends.where(distance_b: 0)
   end
 
   def self.search_with_sql_fallback(query_string)

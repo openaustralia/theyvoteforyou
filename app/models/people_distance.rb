@@ -30,7 +30,7 @@ class PeopleDistance < ApplicationRecord
     nvotesdiffer = 0
     person1.members.each do |member1|
       person2.members.each do |member2|
-        params = MemberDistance.calculate_distances(member1, member2)
+        params = calculate_member_distances(member1, member2)
         nvotessame += params[:nvotessame]
         nvotesdiffer += params[:nvotesdiffer]
       end
@@ -39,6 +39,23 @@ class PeopleDistance < ApplicationRecord
       nvotessame: nvotessame,
       nvotesdiffer: nvotesdiffer,
       distance_b: Distance.new(same: nvotessame, differ: nvotesdiffer).distance
+    }
+  end
+
+  def self.calculate_member_distances(member1, member2)
+    r = Division
+        .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
+        .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
+        .where(votes1: { member_id: member1.id })
+        .where(votes2: { member_id: member2.id })
+        .group("votes1.vote = votes2.vote")
+        .count
+    same = r[1] || 0
+    differ = r[0] || 0
+    {
+      nvotessame: same,
+      nvotesdiffer: differ,
+      distance_b: Distance.new(same: same, differ: differ).distance
     }
   end
 
