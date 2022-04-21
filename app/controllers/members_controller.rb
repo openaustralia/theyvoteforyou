@@ -80,7 +80,7 @@ class MembersController < ApplicationController
 
   def compare
     @member1 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
-    @member2 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc2], mpn: params[:mpn2])
+    @member2 = Member.find_with_url_params(house: params[:house2], mpc: params[:mpc2], mpn: params[:mpn2])
     return render "member_not_found", status: :not_found if @member1.nil? || @member2.nil?
 
     canonical_member1 = @member1.person.latest_member
