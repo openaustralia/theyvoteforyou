@@ -194,7 +194,7 @@ bundle exec mina ukraine_dev rake[application:load:popolo[https://raw.githubuser
 bundle exec mina ukraine_dev rake[application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]]
 
 # Setup caches
-bundle exec mina ukraine_dev rake[application:cache:all_except_member_distances]
+bundle exec mina ukraine_dev rake[application:cache:all_except_people_distances]
 
 # Then build the index so search works
 bundle exec mina ukraine_dev rake[searchkick:reindex:all]

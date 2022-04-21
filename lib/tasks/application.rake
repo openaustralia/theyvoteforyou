@@ -5,20 +5,10 @@ require Rails.root.join("app/helpers/path_helper")
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
-    task all: %i[whip member division policy_distances member_distances people_distances]
+    task all: %i[whip member division policy_distances people_distances]
 
-    desc "Update all the caches, excluding member_distances (as they take ages)"
-    task all_except_member_distances: %i[whip member division policy_distances]
-
-    desc "Rebuilds the whole cache of agreement between members"
-    task member_distances: :environment do
-      members = Member.all
-      progressbar = ProgressBar.create(title: "Updating member distance cache", total: members.count, format: "%t: |%B| %E %a")
-      members.find_each do |member|
-        MemberDistance.update_member(member)
-        progressbar.increment
-      end
-    end
+    desc "Update all the caches, excluding people_distances (as they take ages)"
+    task all_except_people_distances: %i[whip member division policy_distances]
 
     desc "Rebuilds the whole cache of agreement between people"
     task people_distances: :environment do
