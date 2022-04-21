@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_13_041820) do
+ActiveRecord::Schema.define(version: 2022_04_21_041242) do
 
   create_table "api_statistics", force: true do |t|
     t.string   "ip_address"
@@ -108,21 +108,6 @@ ActiveRecord::Schema.define(version: 2022_04_13_041820) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true, using: :btree
-  end
-
-  create_table "member_distances", force: true do |t|
-    t.integer  "member1_id",              null: false
-    t.integer  "member2_id",              null: false
-    t.integer  "nvotessame"
-    t.integer  "nvotesdiffer"
-    t.integer  "nvotesabsent"
-    t.float    "distance_a",   limit: 24
-    t.float    "distance_b",   limit: 24
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["member1_id", "member2_id"], name: "mp_id1_2", unique: true, using: :btree
-    t.index ["member1_id"], name: "mp_id1", using: :btree
-    t.index ["member2_id"], name: "mp_id2", using: :btree
   end
 
   create_table "member_infos", force: true do |t|
