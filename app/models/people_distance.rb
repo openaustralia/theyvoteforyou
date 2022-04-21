@@ -24,18 +24,15 @@ class PeopleDistance < ApplicationRecord
     end
   end
 
-  # This currently depends on the MemberDistance cache being up to date
   # TODO: Make this calculation more efficient by using joins similar to what's used below in "divisions_different"
   def self.calculate_distances(person1, person2)
     nvotessame = 0
     nvotesdiffer = 0
     person1.members.each do |member1|
       person2.members.each do |member2|
-        d = MemberDistance.find_by(member1: member1, member2: member2)
-        if d
-          nvotessame += d.nvotessame
-          nvotesdiffer += d.nvotesdiffer
-        end
+        params = MemberDistance.calculate_distances(member1, member2)
+        nvotessame += params[:nvotessame]
+        nvotesdiffer += params[:nvotesdiffer]
       end
     end
     {

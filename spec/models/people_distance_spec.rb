@@ -23,12 +23,6 @@ RSpec.describe PeopleDistance, type: :model do
       create(:vote, member: member2a, division: division2, vote: "aye")
       create(:vote, member: member2a, division: division3, vote: "no")
       create(:vote, member: member2b, division: division4, vote: "no")
-
-      # Also this calculation all depends on the MemberDistance cache being updated
-      MemberDistance.update_member(member1a)
-      MemberDistance.update_member(member1b)
-      MemberDistance.update_member(member2a)
-      MemberDistance.update_member(member2b)
     end
 
     describe "#calculate_distances" do
