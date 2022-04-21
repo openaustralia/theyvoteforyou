@@ -988,6 +988,12 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+    create(
+      :people_distance,
+      person1_id: person_tony_abbott.id,
+      person2_id: person_tony_abbott.id,
+      nvotessame: 1
+    )
   end
 
   let(:tony_abbott_john_howard) do
@@ -998,6 +1004,12 @@ RSpec.shared_context "with fixtures" do
       distance_a: -1.0,
       distance_b: -1.0
     )
+    create(
+      :people_distance,
+      person1_id: person_tony_abbott.id,
+      person2_id: person_john_howard.id,
+      distance_b: -1.0
+    )
   end
 
   let(:tony_abbott_maxine_mckew) do
@@ -1006,6 +1018,12 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_tony_abbott.id,
       member2_id: member_maxine_mckew.id,
       distance_a: -1.0,
+      distance_b: -1.0
+    )
+    create(
+      :people_distance,
+      person1_id: person_tony_abbott.id,
+      person2_id: person_maxine_mckew.id,
       distance_b: -1.0
     )
   end
@@ -1020,6 +1038,13 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.142857,
       distance_b: 0.0
     )
+    create(
+      :people_distance,
+      person1_id: person_tony_abbott.id,
+      person2_id: person_kevin_rudd.id,
+      nvotessame: 1,
+      distance_b: 0.0
+    )
   end
 
   let(:tony_abbott_john_alexander) do
@@ -1028,6 +1053,12 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_tony_abbott.id,
       member2_id: member_john_alexander.id,
       distance_a: -1.0,
+      distance_b: -1.0
+    )
+    create(
+      :people_distance,
+      person1_id: person_tony_abbott.id,
+      person2_id: person_john_alexander.id,
       distance_b: -1.0
     )
   end
@@ -1041,6 +1072,12 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.5,
       distance_b: -1.0
     )
+    create(
+      :people_distance,
+      person1_id: person_john_howard.id,
+      person2_id: person_kevin_rudd.id,
+      distance_b: -1.0
+    )
   end
 
   let(:maxine_mckew_kevin_rudd) do
@@ -1049,6 +1086,12 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_maxine_mckew.id,
       member2_id: member_kevin_rudd.id,
       distance_a: -1.0,
+      distance_b: -1.0
+    )
+    create(
+      :people_distance,
+      person1_id: person_maxine_mckew.id,
+      person2_id: person_kevin_rudd.id,
       distance_b: -1.0
     )
   end
@@ -1062,6 +1105,13 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+    create(
+      :people_distance,
+      person1_id: person_kevin_rudd.id,
+      person2_id: person_kevin_rudd.id,
+      nvotessame: 2,
+      distance_b: 0.0
+    )
   end
 
   let(:kevin_rudd_john_alexander) do
@@ -1070,6 +1120,12 @@ RSpec.shared_context "with fixtures" do
       member1_id: member_kevin_rudd.id,
       member2_id: member_john_alexander.id,
       distance_a: -1.0,
+      distance_b: -1.0
+    )
+    create(
+      :people_distance,
+      person1_id: person_kevin_rudd.id,
+      person2_id: person_john_alexander.id,
       distance_b: -1.0
     )
   end
@@ -1083,6 +1139,13 @@ RSpec.shared_context "with fixtures" do
       distance_a: 0.0,
       distance_b: 0.0
     )
+    create(
+      :people_distance,
+      person1_id: person_christine_milne.id,
+      person2_id: person_christine_milne.id,
+      nvotessame: 2,
+      distance_b: 0.0
+    )
   end
 
   let(:christine_milne_christopher_back) do
@@ -1092,6 +1155,13 @@ RSpec.shared_context "with fixtures" do
       member2_id: member_christopher_back.id,
       nvotesdiffer: 1,
       distance_a: 1.0,
+      distance_b: 1.0
+    )
+    create(
+      :people_distance,
+      person1_id: person_christine_milne.id,
+      person2_id: person_christopher_back.id,
+      nvotesdiffer: 1,
       distance_b: 1.0
     )
   end
