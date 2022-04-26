@@ -52,13 +52,6 @@ module MembersHelper
     safe_join(out)
   end
 
-  def member_type_party_place_date_sentence(member)
-    text = member_type_party_place_sentence(member)
-    text += " "
-    text += content_tag(:span, formatted_date_range(member.date_range, format: :short), class: "member-period")
-    text
-  end
-
   def member_history_sentence(member)
     out = []
     out << "Before being "

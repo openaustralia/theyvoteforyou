@@ -6,7 +6,10 @@
     .media-body
       %h1.media-heading
         %span.fn= link_to_unless_current member.name, member_path_simple(member)
-      %p.member-role.lead= member_type_party_place_date_sentence(member)
+      %p.member-role.lead
+        = member_type_party_place_sentence(member)
+        %span.member-period
+          = formatted_date_range(member.date_range, format: :short)
 
       - if member.person.votes_attended > 0
         - if member.person.subject_to_whip?
