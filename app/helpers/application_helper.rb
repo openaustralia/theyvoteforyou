@@ -123,6 +123,14 @@ module ApplicationHelper
     date.strftime("%B %Y")
   end
 
+  def formatted_date_range(date_range)
+    if date_range.include?(Time.zone.today)
+      "since #{formatted_month(date_range.begin)}"
+    else
+      "#{formatted_month(date_range.begin)} – #{formatted_month(date_range.end)}"
+    end
+  end
+
   def inline_project_name
     content_tag(:em, Settings.project_name, class: "project-name")
   end

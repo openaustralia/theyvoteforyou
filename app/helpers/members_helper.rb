@@ -55,11 +55,7 @@ module MembersHelper
   def member_type_party_place_date_sentence(member)
     text = member_type_party_place_sentence(member)
     text += " "
-    text += if member.currently_in_parliament?
-              content_tag(:span, "since #{formatted_month(member.entered_house)}", class: "member-period")
-            else
-              content_tag(:span, "#{formatted_month(member.entered_house)} – #{formatted_month(member.left_house)}", class: "member-period")
-            end
+    text += content_tag(:span, formatted_date_range(member.date_range), class: "member-period")
     text
   end
 

@@ -29,6 +29,10 @@ class Member < ApplicationRecord
            :extra_large_image_size,
            to: :person
 
+  def date_range
+    entered_house...left_house
+  end
+
   # Tell searchkick that we want to index only certain things
   def search_data
     {
