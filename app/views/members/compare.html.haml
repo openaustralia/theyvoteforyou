@@ -18,14 +18,7 @@
   = @member2.name
   have voted in the same division
   = pluralize(@person_distance.total_votes, "time")
-  - if @person_distance.overlap_dates.last.include?(Time.zone.today)
-    since
-    = formatted_month(@person_distance.overlap_dates.first.begin)
-  - else
-    between
-    = formatted_month(@person_distance.overlap_dates.first.begin)
-    and
-    = formatted_month(@person_distance.overlap_dates.last.end)
+  = formatted_date_range_with_words(@person_distance.overlap_dates.first.begin...@person_distance.overlap_dates.last.end)
 
 %p
   - if @person_distance.nvotesdiffer.zero?

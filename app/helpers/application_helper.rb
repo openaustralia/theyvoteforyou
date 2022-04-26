@@ -131,6 +131,14 @@ module ApplicationHelper
     end
   end
 
+  def formatted_date_range_with_words(date_range)
+    if date_range.include?(Time.zone.today)
+      "since #{formatted_month(date_range.begin)}"
+    else
+      "between #{formatted_month(date_range.begin)} and #{formatted_month(date_range.end)}"
+    end
+  end
+
   def inline_project_name
     content_tag(:em, Settings.project_name, class: "project-name")
   end
