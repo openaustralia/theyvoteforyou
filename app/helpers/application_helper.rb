@@ -124,18 +124,26 @@ module ApplicationHelper
   end
 
   def formatted_date_range(date_range)
-    if date_range.include?(Time.zone.today)
-      "since #{formatted_month(date_range.begin)}"
-    else
-      "#{formatted_month(date_range.begin)} – #{formatted_month(date_range.end)}"
-    end
+    formatted_date_range2(date_range, format: :short)
   end
 
   def formatted_date_range_with_words(date_range)
-    if date_range.include?(Time.zone.today)
-      "since #{formatted_month(date_range.begin)}"
+    formatted_date_range2(date_range, format: :words)
+  end
+
+  def formatted_date_range2(date_range, format:)
+    start_text = formatted_month(date_range.begin)
+    end_text = formatted_month(date_range.end)
+
+    return "since #{start_text}" if date_range.include?(Time.zone.today)
+
+    case format
+    when :short
+      "#{start_text} – #{end_text}"
+    when :words
+      "between #{start_text} and #{end_text}"
     else
-      "between #{formatted_month(date_range.begin)} and #{formatted_month(date_range.end)}"
+      raise
     end
   end
 
