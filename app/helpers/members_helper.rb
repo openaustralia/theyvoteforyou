@@ -29,12 +29,7 @@ module MembersHelper
     if member.currently_in_parliament?
       member_type_party_place_sentence_without_former(member)
     else
-      out = []
-      out << "Former "
-      out << content_tag(:span, member.party_name, class: "org")
-      out << " "
-      out << content_tag(:span, member_type_electorate_sentence(member), class: "title")
-      safe_join(out)
+      safe_join(["Former ", member_type_party_place_sentence_without_former(member)])
     end
   end
 
