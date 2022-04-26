@@ -55,7 +55,7 @@ module MembersHelper
   def member_type_party_place_date_sentence(member)
     text = member_type_party_place_sentence(member)
     text += " "
-    text += content_tag(:span, formatted_date_range(member.date_range), class: "member-period")
+    text += content_tag(:span, formatted_date_range(member.date_range, format: :short), class: "member-period")
     text
   end
 

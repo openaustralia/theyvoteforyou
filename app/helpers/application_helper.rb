@@ -123,15 +123,10 @@ module ApplicationHelper
     date.strftime("%B %Y")
   end
 
-  def formatted_date_range(date_range)
-    formatted_date_range2(date_range, format: :short)
-  end
-
-  def formatted_date_range_with_words(date_range)
-    formatted_date_range2(date_range, format: :words)
-  end
-
-  def formatted_date_range2(date_range, format:)
+  # Formats dates. Will do different things depending on value of format:
+  # :short: November 2000 - January 2001
+  # :words: between November 2000 and January 2001
+  def formatted_date_range(date_range, format:)
     start_text = formatted_month(date_range.begin)
     end_text = formatted_month(date_range.end)
 
