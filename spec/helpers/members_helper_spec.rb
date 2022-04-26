@@ -40,4 +40,40 @@ describe MembersHelper, type: :helper do
       end
     end
   end
+
+  describe "#member_type_party_place_sentence" do
+    context "with a member currently in parliament" do
+      let(:member) { create(:member, house: "representatives", party: "Pool", constituency: "Acme") }
+
+      it do
+        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="org">Pool</span> <span class="title">Representative for <span class="electorate">Acme</span></span>'
+      end
+    end
+
+    context "with a senator currently in parliament" do
+      let(:member) { create(:member, house: "senate", party: "Pool", constituency: "NSW") }
+
+      it do
+        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="org">Pool</span> <span class="title">Senator for <span class="electorate">NSW</span></span>'
+      end
+    end
+
+    context "with a former member of parliament" do
+      let(:member) { create(:member, house: "representatives", party: "Pool", constituency: "Acme", left_house: Date.new(2000, 1, 1)) }
+
+      it do
+        # TODO: This has a weirdly inconsistent formatting from the current member
+        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="title">Former Pool Representative for <span class="electorate">Acme</span></span>'
+      end
+    end
+
+    context "with a former senator" do
+      let(:member) { create(:member, house: "senate", party: "Pool", constituency: "NSW", left_house: Date.new(2000, 1, 1)) }
+
+      it do
+        # TODO: This has a weirdly inconsistent formatting from the current senator
+        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="title">Former Pool Senator for <span class="electorate">NSW</span></span>'
+      end
+    end
+  end
 end
