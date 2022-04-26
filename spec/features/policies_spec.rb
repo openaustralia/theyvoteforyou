@@ -12,6 +12,7 @@ describe "Policies", type: :feature do
       fill_in "Password", with: user.password
     end
     click_button "Log in"
+    create(:division)
   end
 
   it "successfully creating new" do
