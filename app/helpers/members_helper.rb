@@ -30,9 +30,11 @@ module MembersHelper
       member_type_party_place_sentence_without_former(member)
     else
       out = []
-      out << "Former #{member.party_name} "
-      out << member_type_electorate_sentence(member)
-      content_tag(:span, safe_join(out), class: "title")
+      out << "Former "
+      out << content_tag(:span, member.party_name, class: "org")
+      out << " "
+      out << content_tag(:span, member_type_electorate_sentence(member), class: "title")
+      safe_join(out)
     end
   end
 

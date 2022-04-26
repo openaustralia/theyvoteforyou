@@ -62,8 +62,7 @@ describe MembersHelper, type: :helper do
       let(:member) { create(:member, house: "representatives", party: "Pool", constituency: "Acme", left_house: Date.new(2000, 1, 1)) }
 
       it do
-        # TODO: This has a weirdly inconsistent formatting from the current member
-        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="title">Former Pool Representative for <span class="electorate">Acme</span></span>'
+        expect(helper.member_type_party_place_sentence(member)).to eq 'Former <span class="org">Pool</span> <span class="title">Representative for <span class="electorate">Acme</span></span>'
       end
     end
 
@@ -71,8 +70,7 @@ describe MembersHelper, type: :helper do
       let(:member) { create(:member, house: "senate", party: "Pool", constituency: "NSW", left_house: Date.new(2000, 1, 1)) }
 
       it do
-        # TODO: This has a weirdly inconsistent formatting from the current senator
-        expect(helper.member_type_party_place_sentence(member)).to eq '<span class="title">Former Pool Senator for <span class="electorate">NSW</span></span>'
+        expect(helper.member_type_party_place_sentence(member)).to eq 'Former <span class="org">Pool</span> <span class="title">Senator for <span class="electorate">NSW</span></span>'
       end
     end
   end
