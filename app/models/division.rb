@@ -24,9 +24,8 @@ class Division < ApplicationRecord
   scope :edited, -> { joins(:wiki_motions).distinct }
   scope :unedited, -> { joins("LEFT JOIN wiki_motions ON wiki_motions.division_id = divisions.id").where(wiki_motions: { division_id: nil }) }
 
-  # TODO: Get this from the data instead
   def self.date_earliest_division
-    Date.new(2006, 2, 7)
+    Division.order(:date).first.date
   end
 
   def url_params
