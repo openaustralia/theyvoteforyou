@@ -114,10 +114,6 @@ module ApplicationHelper
     end
   end
 
-  def formatted_month(month)
-    Date.parse("#{month}-01").strftime("%B %Y")
-  end
-
   def formatted_date(date)
     date.strftime("#{date.day.ordinalize} %b %Y")
   end
