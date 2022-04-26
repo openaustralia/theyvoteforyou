@@ -12,6 +12,32 @@ class PeopleDistance < ApplicationRecord
     nvotessame + nvotesdiffer
   end
 
+  def overlap_dates
+    result = []
+    person1.members.reorder(:entered_house).each do |member1|
+      person2.members.reorder(:entered_house).each do |member2|
+        r = PeopleDistance.overlap_dates_members(member1, member2)
+        next if r.nil?
+
+        if !result.empty? && r.begin == result.last.end
+          # Merge new range with previous range because they're consecutive
+          p = result.pop
+          r = p.begin...r.end
+        end
+        result << r
+      end
+    end
+    result
+  end
+
+  # Returns nil if there is no overlap between members
+  def self.overlap_dates_members(member1, member2)
+    start_date = [member1.entered_house, member2.entered_house].max
+    end_date = [member1.left_house, member2.left_house].min
+
+    start_date...end_date if start_date < end_date && member1.house == member2.house
+  end
+
   def self.update_person(person1)
     # We're only populating half of the matrix
     person1.overlapping_people.select { |p| p.id >= person1.id }.each do |person2|

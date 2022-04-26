@@ -66,4 +66,66 @@ RSpec.describe PeopleDistance, type: :model do
       end
     end
   end
+
+  describe "#overlap_dates" do
+    context "when two members who were there some of the same time" do
+      let(:member1) { create(:member, entered_house: Date.new(2000, 1, 1), left_house: Date.new(2002, 1, 1)) }
+      let(:member2) { create(:member, entered_house: Date.new(2001, 1, 1), left_house: Date.new(2003, 1, 1)) }
+
+      it "only returns the date range for when both members were in parliament" do
+        d = build(:people_distance, person1: member1.person, person2: member2.person)
+        # Note the exclusive range here (three dots)
+        expect(d.overlap_dates).to eq [Date.new(2001, 1, 1)...Date.new(2002, 1, 1)]
+      end
+
+      it "returns the same date range if the order of the members is reversed" do
+        d = build(:people_distance, person1: member2.person, person2: member1.person)
+        expect(d.overlap_dates).to eq [Date.new(2001, 1, 1)...Date.new(2002, 1, 1)]
+      end
+
+      context "when one person has two almost consecutive memberships" do
+        before do
+          create(:member, entered_house: Date.new(2002, 2, 1), left_house: Date.new(2004, 1, 1), person: member1.person)
+        end
+
+        it "returns multiple date ranges" do
+          expect(member1.person.members.count).to eq 2
+          d = build(:people_distance, person1: member1.person, person2: member2.person)
+          expect(d.overlap_dates).to eq [Date.new(2001, 1, 1)...Date.new(2002, 1, 1), Date.new(2002, 2, 1)...Date.new(2003, 1, 1)]
+        end
+      end
+
+      context "when one person has two consecutive memberships" do
+        before do
+          create(:member, entered_house: Date.new(2002, 1, 1), left_house: Date.new(2004, 1, 1), person: member1.person)
+        end
+
+        it "returns one merged date range" do
+          expect(member1.person.members.count).to eq 2
+          d = build(:people_distance, person1: member1.person, person2: member2.person)
+          expect(d.overlap_dates).to eq [Date.new(2001, 1, 1)...Date.new(2003, 1, 1)]
+        end
+      end
+    end
+
+    context "when two member have not overlapped at all" do
+      let(:member1) { create(:member, entered_house: Date.new(2000, 1, 1), left_house: Date.new(2001, 1, 1)) }
+      let(:member2) { create(:member, entered_house: Date.new(2002, 1, 1), left_house: Date.new(2003, 1, 1)) }
+
+      it "returns an empty array because there is no overlap" do
+        d = build(:people_distance, person1: member1.person, person2: member2.person)
+        expect(d.overlap_dates).to eq []
+      end
+    end
+
+    context "when two members in different houses" do
+      let(:member1) { create(:member, entered_house: Date.new(2000, 1, 1), left_house: Date.new(2002, 1, 1), house: "representatives") }
+      let(:member2) { create(:member, entered_house: Date.new(2001, 1, 1), left_house: Date.new(2003, 1, 1), house: "senate") }
+
+      it "returns an empty array because there is no overlap" do
+        d = build(:people_distance, person1: member2.person, person2: member1.person)
+        expect(d.overlap_dates).to eq []
+      end
+    end
+  end
 end
