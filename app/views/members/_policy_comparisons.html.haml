@@ -13,4 +13,4 @@
       = render "policy_comparisons_block", member: member, distances: distances.select{ |d| d.category == c }, title: category_words_sentence(c).capitalize, label: c.to_s
 
   %p.small.text-muted
-    Please note that #{link_to 'our voting records start in 2006', help_faq_path(anchor: "timeperiod"), class: 'text-muted'}.
+    Please note that #{link_to "our voting records start in #{formatted_month(Division.date_earliest_division)}", help_faq_path(anchor: "timeperiod"), class: 'text-muted'}.
