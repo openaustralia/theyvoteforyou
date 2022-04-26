@@ -234,7 +234,7 @@ module DivisionsHelper
     when :year
       date_start.year.to_s
     when :month
-      date_start.strftime("%B %Y")
+      formatted_month(date_start)
     when :day
       formatted_date(date_start)
     else

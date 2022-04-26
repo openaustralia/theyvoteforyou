@@ -20,12 +20,12 @@
   = pluralize(@person_distance.total_votes, "time")
   - if @person_distance.overlap_dates.last.include?(Time.zone.today)
     since
-    = @person_distance.overlap_dates.first.begin.strftime("%B %Y")
+    = formatted_month(@person_distance.overlap_dates.first.begin)
   - else
     between
-    = @person_distance.overlap_dates.first.begin.strftime("%B %Y")
+    = formatted_month(@person_distance.overlap_dates.first.begin)
     and
-    = @person_distance.overlap_dates.last.end.strftime("%B %Y")
+    = formatted_month(@person_distance.overlap_dates.last.end)
 
 %p
   - if @person_distance.nvotesdiffer.zero?

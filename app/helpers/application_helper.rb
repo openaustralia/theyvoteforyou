@@ -118,6 +118,11 @@ module ApplicationHelper
     date.strftime("#{date.day.ordinalize} %b %Y")
   end
 
+  # Only show the month and year
+  def formatted_month(date)
+    date.strftime("%B %Y")
+  end
+
   def inline_project_name
     content_tag(:em, Settings.project_name, class: "project-name")
   end
