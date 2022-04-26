@@ -171,14 +171,6 @@ class Member < ApplicationRecord
     in_parliament_on_date(Time.zone.today)
   end
 
-  def since
-    entered_house.strftime("%B %Y")
-  end
-
-  def until
-    left_house > Time.zone.today ? "today" : left_house.strftime("%B %Y")
-  end
-
   # Long version of party name
   def party_name
     party_object.long_name
