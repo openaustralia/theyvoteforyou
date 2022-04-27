@@ -6,7 +6,7 @@ class Division < ApplicationRecord
   # below.
   # TODO: Do a data migration so that the debate_url field is the openaustralia.org.au url and debate_gid can be removed
 
-  searchkick index_name: "tvfy_divisions_#{Settings.stage}" if Settings.elasticsearch
+  searchkick index_name: "tvfy_divisions_#{Settings.stage}"
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy
   has_many :votes, dependent: :destroy
@@ -53,32 +53,8 @@ class Division < ApplicationRecord
     whips.find_by(party: party)
   end
 
-  def no_rebellions_in_party(party)
-    whip_for_party(party).no_rebels
-  end
-
-  def no_loyal_in_party(party)
-    whip_for_party(party).no_loyal
-  end
-
-  def attendance_fraction_in_party(party)
-    whip_for_party(party).attendance_fraction
-  end
-
   def self.most_recent_date
     order(date: :desc).first.date
-  end
-
-  def rebellious?
-    rebellions > 10
-  end
-
-  def whip_guess_for(party)
-    whips.find_by(party: party).whip_guess
-  end
-
-  def role_for(member)
-    (v = votes.find_by(member_id: member.id)) ? v.role : "absent"
   end
 
   def vote_for(member)
@@ -233,17 +209,6 @@ class Division < ApplicationRecord
     policy_division(policy).vote
   end
 
-  # Extracts specially formatted voting actions that the user enters as comments
-  # in the motion text. They're formatted like '@MP voted aye to say this vote was great'
-  # where the text will say "Tony Abbott voted to say this vote was great" if he votes aye
-  def action_text
-    motion.scan(/^@\s*MP voted (aye|no) (.*)/).to_h
-  end
-
-  def create_wiki_motion!(title, description, user)
-    build_wiki_motion(title, description, user).save!
-  end
-
   def build_wiki_motion(title, description, user)
     wiki_motions.new(title: title,
                      description: description,
@@ -251,15 +216,7 @@ class Division < ApplicationRecord
   end
 
   def self.search_with_sql_fallback(query)
-    if Settings.elasticsearch
-      search(query)
-    else
-      # FIXME: Remove nasty SQL below that was ported from PHP direct
-      joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
-        .where("LOWER(convert(name using utf8)) LIKE :query " \
-               "OR LOWER(convert(motion using utf8)) LIKE :query " \
-               "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
-    end
+    search(query)
   end
 
   # rubocop:disable Rails/OutputSafety
@@ -285,11 +242,5 @@ class Division < ApplicationRecord
 
   def self.next_month(month)
     (Date.parse("#{month}-01") + 1.month).to_s
-  end
-
-  private
-
-  def sanitize_motion(text)
-    ActionController::Base.helpers.sanitize(text, tags: %w[a b i p ol ul li blockquote br em sup sub dl dt dd], attributes: %w[href class pwmotiontext])
   end
 end

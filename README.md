@@ -150,10 +150,9 @@ which is run daily at 09:15 by cron.
 
 Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the `application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
 
-## Better Search
+## Search
 
-You can enable [elasticsearch](https://www.elasticsearch.org/) for a better search experience.
-Enable the setting in `config/settings.yml` then [download](http://www.elasticsearch.org/download)
+Search requires [elasticsearch](https://www.elasticsearch.org/). You will need to [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and

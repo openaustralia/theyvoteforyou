@@ -2,7 +2,7 @@
 
 class Member < ApplicationRecord
   # TODO: Remove source_gid from schema as it's not being used (but still loaded by the loaders)
-  searchkick index_name: "tvfy_members_#{Settings.stage}" if Settings.elasticsearch
+  searchkick index_name: "tvfy_members_#{Settings.stage}"
   has_one :member_info, dependent: :destroy
   delegate :rebellions, :votes_attended, :votes_possible, :tells, to: :member_info, allow_nil: true
   has_many :votes, dependent: :destroy
@@ -92,22 +92,12 @@ class Member < ApplicationRecord
     }
   end
 
-  def changed_party?
-    entered_reason == "changed_party" || left_reason == "changed_party"
-  end
-
   def divisions_they_could_have_attended
     Division.possible_for_member(self).order(date: :desc, clock_time: :desc, name: :asc)
   end
 
   def divisions_they_could_have_attended_between(date_start, date_end)
     divisions_they_could_have_attended.in_date_range(date_start, date_end)
-  end
-
-  # Divisions that this member has voted on where either they were a rebel or voting
-  # on a free vote
-  def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("divisions.id")
   end
 
   def rebellious_divisions
@@ -204,44 +194,7 @@ class Member < ApplicationRecord
   end
 
   def self.search_with_sql_fallback(query_string)
-    if Settings.elasticsearch
-      search(query_string, boost_where: { left_reason: "still_in_office" })
-    else
-      # FIXME: This convoluted SQL crap was ported directly from the PHP app. Make it nice
-      sql_query = "SELECT person_id, first_name, last_name, title, constituency, members.party AS party, members.house as house,
-                          entered_house, left_house,
-                          entered_reason, left_reason,
-                          members.id AS mpid,
-                          rebellions, votes_attended, votes_possible
-                   FROM members
-                   LEFT JOIN member_infos ON member_infos.member_id = members.id
-                   WHERE 1=1"
-
-      score_clause = "("
-      score_clause += "(lower(concat(first_name, ' ', last_name)) = :query_string) * 10"
-      placeholders = { query_string: query_string }
-      bitcount = 0
-      query_string.split.each do |querybit|
-        querybit = querybit.strip
-        placeholders["querybit_#{bitcount}".to_sym] = querybit
-        placeholders["querybit_wild_#{bitcount}".to_sym] = "%#{querybit}%"
-
-        if querybit.present?
-          score_clause += "+ (lower(constituency) =:querybit_#{bitcount}) * 10 + (soundex(concat(first_name, ' ', last_name)) = soundex(:querybit_#{bitcount})) * 8 + (soundex(constituency) = soundex(:querybit_#{bitcount})) * 8 + (soundex(last_name) = soundex(:querybit_#{bitcount})) * 6 + (lower(constituency) like :querybit_wild_#{bitcount}) * 4 +"
-          score_clause += "(lower(last_name) like :querybit_wild_#{bitcount}) * 4 + (soundex(first_name) = soundex(:querybit_#{bitcount})) * 2 + (lower(first_name) like :querybit_wild_#{bitcount}) +"
-          score_clause += "(soundex(constituency) like concat('%',soundex(:querybit_#{bitcount}),'%'))"
-        end
-        bitcount += 1
-      end
-
-      score_clause += ")"
-
-      sql_query += " AND (#{score_clause} > 0)
-                     GROUP BY concat(first_name, ' ', last_name)
-                     ORDER BY #{score_clause} DESC, last_name"
-
-      Member.find_by_sql([sql_query, placeholders]).map { |m| m.person.latest_member }
-    end
+    search(query_string, boost_where: { left_reason: "still_in_office" })
   end
 
   # Members who were in parliament (in the same house) at the same time

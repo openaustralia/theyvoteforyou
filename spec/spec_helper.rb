@@ -49,6 +49,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Delayed::Worker.delay_jobs = false
+    Searchkick.disable_callbacks
 
     # See https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#linting-factories
     ActiveRecord::Base.transaction do
