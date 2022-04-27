@@ -11,7 +11,8 @@ class WikiMotion < ApplicationRecord
   before_save :set_text_body, unless: :text_body
   after_create do
     alert_policy_watches
-    division.reindex
+    # Don't reindex in tests when searchkick callbacks are disabled
+    division.reindex if Searchkick.callbacks?
   end
 
   def previous_edit
