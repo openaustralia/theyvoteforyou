@@ -11,7 +11,7 @@ class WikiMotion < ApplicationRecord
   before_save :set_text_body, unless: :text_body
   after_create do
     alert_policy_watches
-    division.reindex if Settings.elasticsearch
+    division.reindex
   end
 
   def previous_edit

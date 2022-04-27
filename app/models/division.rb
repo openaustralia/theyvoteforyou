@@ -6,7 +6,7 @@ class Division < ApplicationRecord
   # below.
   # TODO: Do a data migration so that the debate_url field is the openaustralia.org.au url and debate_gid can be removed
 
-  searchkick index_name: "tvfy_divisions_#{Settings.stage}" if Settings.elasticsearch
+  searchkick index_name: "tvfy_divisions_#{Settings.stage}"
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy
   has_many :votes, dependent: :destroy
@@ -216,15 +216,7 @@ class Division < ApplicationRecord
   end
 
   def self.search_with_sql_fallback(query)
-    if Settings.elasticsearch
-      search(query)
-    else
-      # FIXME: Remove nasty SQL below that was ported from PHP direct
-      joins("LEFT JOIN wiki_motions ON wiki_motions.id = (SELECT IFNULL(MAX(wiki_motions.id), -1) FROM wiki_motions  WHERE wiki_motions.division_id = divisions.id)")
-        .where("LOWER(convert(name using utf8)) LIKE :query " \
-               "OR LOWER(convert(motion using utf8)) LIKE :query " \
-               "OR LOWER(convert(text_body using utf8)) LIKE :query", query: "%#{query}%")
-    end
+    search(query)
   end
 
   # rubocop:disable Rails/OutputSafety

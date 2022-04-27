@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Policy < ApplicationRecord
-  searchkick index_name: "tvfy_policies_#{Settings.stage}" if Settings.elasticsearch
+  searchkick index_name: "tvfy_policies_#{Settings.stage}"
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: proc { |policy| policy.id } }
@@ -46,12 +46,7 @@ class Policy < ApplicationRecord
   end
 
   def self.search_with_sql_fallback(query)
-    if Settings.elasticsearch
-      search(query)
-    else
-      where("LOWER(convert(name using utf8)) LIKE :query " \
-            "OR LOWER(convert(description using utf8)) LIKE :query", query: "%#{query}%")
-    end
+    search(query)
   end
 
   def members_who_could_have_voted_on_this_policy
