@@ -193,10 +193,6 @@ class Member < ApplicationRecord
     constituency
   end
 
-  def self.search_with_sql_fallback(query_string)
-    search(query_string, boost_where: { left_reason: "still_in_office" })
-  end
-
   # Members who were in parliament (in the same house) at the same time
   # Note that this also includes themselves
   def overlapping_members

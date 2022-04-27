@@ -215,10 +215,6 @@ class Division < ApplicationRecord
                      user: user)
   end
 
-  def self.search_with_sql_fallback(query)
-    search(query)
-  end
-
   # rubocop:disable Rails/OutputSafety
   def formatted_motion_text
     text = Division.render_markdown(motion)

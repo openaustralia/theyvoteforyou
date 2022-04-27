@@ -39,9 +39,9 @@ class HomeController < ApplicationController
     elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
-      @mps = Member.search_with_sql_fallback params[:query]
-      @divisions = Division.search_with_sql_fallback params[:query]
-      @policies = Policy.search_with_sql_fallback params[:query]
+      @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }
+      @divisions = Division.search params[:query]
+      @policies = Policy.search params[:query]
     end
   end
 

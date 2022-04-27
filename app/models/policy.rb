@@ -45,10 +45,6 @@ class Policy < ApplicationRecord
     User.find(most_recent_version.whodunnit)
   end
 
-  def self.search_with_sql_fallback(query)
-    search(query)
-  end
-
   def members_who_could_have_voted_on_this_policy
     member_ids = []
     divisions.each do |division|
