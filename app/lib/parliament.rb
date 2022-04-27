@@ -16,10 +16,5 @@ class Parliament
     def latest
       all.max { |p, q| p[1][:to] <=> q[1][:to] }.first
     end
-
-    def at_date(date)
-      # TODO: This range calculation isn't quite right. Fix it
-      all.select { |_k, v| date >= v[:from] && date <= v[:to] }.shift
-    end
   end
 end
