@@ -1,23 +1,6 @@
 # frozen_string_literal: true
 
 module MembersHelper
-  # Also say "whilst Independent" if they used to be in a different party
-  def party_long2(member)
-    if member.entered_reason == "changed_party" || member.left_reason == "changed_party"
-      "whilst #{member.party_name}"
-    else
-      member.party_name
-    end
-  end
-
-  def vote_class(vote)
-    if vote&.rebellion?
-      "rebel"
-    else
-      ""
-    end
-  end
-
   def member_party_type_place_name(member)
     result = "#{member.party_name} #{member.role} #{member.name}"
 

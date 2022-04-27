@@ -92,22 +92,12 @@ class Member < ApplicationRecord
     }
   end
 
-  def changed_party?
-    entered_reason == "changed_party" || left_reason == "changed_party"
-  end
-
   def divisions_they_could_have_attended
     Division.possible_for_member(self).order(date: :desc, clock_time: :desc, name: :asc)
   end
 
   def divisions_they_could_have_attended_between(date_start, date_end)
     divisions_they_could_have_attended.in_date_range(date_start, date_end)
-  end
-
-  # Divisions that this member has voted on where either they were a rebel or voting
-  # on a free vote
-  def interesting_divisions
-    divisions.joins(:whips).where(free_vote.or(rebellious_vote)).group("divisions.id")
   end
 
   def rebellious_divisions

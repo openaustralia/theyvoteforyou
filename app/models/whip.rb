@@ -142,54 +142,13 @@ class Whip < ApplicationRecord
     whip_guess == "none"
   end
 
-  def no_loyal
-    if whip_guess == "no"
-      no_votes_including_tells
-    elsif whip_guess == "aye"
-      aye_votes_including_tells
-    else
-      # TODO: Is that the right thing to do?
-      division.aye_majority.negative? ? no_votes_including_tells : aye_votes_including_tells
-    end
-  end
-
-  def no_rebels
-    if whip_guess == "no"
-      aye_votes_including_tells
-    elsif whip_guess == "aye"
-      no_votes_including_tells
-    else
-      # TODO: Is that the right thing to do?
-      division.aye_majority.negative? ? aye_votes_including_tells : no_votes_including_tells
-    end
-  end
-
   def attendance_fraction
     total_votes.to_f / possible_votes unless possible_votes.zero?
-  end
-
-  # a tie is 0.0. a unanimous vote is 1.0
-  def majority_fraction
-    case calc_whip_guess
-    when "aye"
-      aye_votes_including_tells.to_f / total_votes
-    when "no"
-      no_votes_including_tells.to_f / total_votes
-    else
-      0.0
-    end
   end
 
   def unanimous?
     aye_votes_including_tells == total_votes ||
       no_votes_including_tells == total_votes
-  end
-
-  # Just following this logic through in refactoring. It doesn't
-  # line up with an intuitive sense of what this function should do
-  # TODO: Fix this
-  def tied?
-    calc_whip_guess != "aye" && calc_whip_guess != "no"
   end
 
   def total_votes

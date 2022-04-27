@@ -92,20 +92,6 @@ module DivisionsHelper
     safe_join(out)
   end
 
-  def whip_guess_with_strength_in_words(whip)
-    if whip.unanimous?
-      "unanimously voted #{whip.whip_guess}"
-    elsif whip.tied?
-      "split"
-    elsif whip.majority_fraction > 2.to_f / 3
-      "large majority voted #{whip.whip_guess}"
-    elsif whip.majority_fraction > 1.to_f / 3
-      "modest majority voted #{whip.whip_guess}"
-    elsif whip.majority_fraction.positive?
-      "small majority voted #{whip.whip_guess}"
-    end
-  end
-
   # TODO: We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
     division.passed? ? "Passed" : "Not passed"
@@ -121,30 +107,6 @@ module DivisionsHelper
     else
       "#{division.no_votes_including_tells} #{vote_display 'no'} – #{division.aye_votes_including_tells} #{vote_display 'aye'}"
     end
-  end
-
-  def member_voted_with(member, division)
-    sentence = link_to member.name, member
-    sentence += " "
-    sentence += "did not vote" if member.vote_on_division_without_tell(division) == "absent"
-
-    if !division.action_text.empty? && division.action_text[member.vote_on_division_without_tell(division)]
-      sentence += "voted ".html_safe + content_tag(:em, division.action_text[member.vote_on_division_without_tell(division)])
-    else
-      # TODO: Should be using whip for this calculation. Only doing it this way to match php
-      # calculation
-      ayenodiff = (division.votes.group(:vote).count["aye"] || 0) - (division.votes.group(:vote).count["no"] || 0)
-      if ayenodiff.zero?
-        sentence += "voted #{vote_display member.vote_on_division_without_tell(division)}" if member.vote_on_division_without_tell(division) != "absent"
-      elsif (member.vote_on_division_without_tell(division) == "aye" && ayenodiff >= 0) || (member.vote_on_division_without_tell(division) == "no" && ayenodiff.negative?)
-        sentence += "voted ".html_safe + content_tag(:em, "with the majority")
-      elsif member.vote_on_division_without_tell(division) != "absent"
-        sentence += "voted ".html_safe + content_tag(:em, "in the minority")
-      end
-
-      sentence += " (#{vote_display member.vote_on_division_without_tell(division)})" if member.vote_on_division_without_tell(division) != "absent" && ayenodiff != 0
-    end
-    sentence
   end
 
   def member_vote(member, division)
@@ -165,27 +127,6 @@ module DivisionsHelper
       sentence += " was absent"
     end
     sentence
-  end
-
-  def member_vote_with_party(member, division)
-    sentence = member.name
-    if member.attended_division?(division)
-      sentence += " voted #{vote_display(division.vote_for(member))}"
-      if member.subject_to_whip? && !division.whip_for_party(member.party).free_vote?
-        sentence += member.division_vote(division).rebellion? ? " against" : " with"
-        sentence += " the #{member.party_name}"
-      elsif division.whip_for_party(member.party).free_vote?
-        sentence += " in a free vote"
-      end
-    else
-      sentence += " was absent"
-    end
-
-    sentence
-  end
-
-  def member_vote_class(member, division)
-    "member-voted-#{vote_display(division.vote_for(member))}"
   end
 
   def relative_time(time)
