@@ -21,7 +21,7 @@
   - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
     = "#{formatted_date_range(Division.date_earliest_division...@person_distance.overlap_dates.last.end, format: :words)}."
     Our voting record only starts in #{formatted_month(Division.date_earliest_division)}.
-    So we can only consider votes from then. 
+    So we can only consider votes from then.
   - else
     = "#{formatted_date_range(@person_distance.overlap_dates.first.begin...@person_distance.overlap_dates.last.end, format: :words)}."
 
