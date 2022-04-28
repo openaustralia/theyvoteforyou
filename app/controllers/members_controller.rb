@@ -111,6 +111,15 @@ class MembersController < ApplicationController
       }
     end
     @policies = @policies.sort_by { |p| p[:difference] }.reverse
+
+    policy_ids_at_least_once_differently = PolicyDivision.where(division: @person_distance.divisions_different).published.group(:policy_id).pluck(:policy_id).to_set
+    policy_ids_at_least_once_same = PolicyDivision.where(division: @person_distance.divisions_same).published.group(:policy_id).pluck(:policy_id).to_set
+    policy_ids_different_and_same = policy_ids_at_least_once_differently & policy_ids_at_least_once_same
+    policy_ids_all_different = policy_ids_at_least_once_differently - policy_ids_different_and_same
+    policy_ids_all_same = policy_ids_at_least_once_same - policy_ids_different_and_same
+    @policies_all_same = Policy.find(policy_ids_all_same.to_a)
+    @policies_all_different = Policy.find(policy_ids_all_different.to_a)
+    @policies_different_and_same = Policy.find(policy_ids_different_and_same.to_a)
   end
 
   private

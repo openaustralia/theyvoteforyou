@@ -13,6 +13,8 @@ class PolicyDivision < ApplicationRecord
 
   delegate :name, :house, :house_name, :date, :number, to: :division
 
+  scope :published, -> { joins(:policy).merge(Policy.published) }
+
   def self.vote_without_strong(vote)
     case vote
     when "aye3"
