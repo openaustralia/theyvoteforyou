@@ -8,8 +8,11 @@
 
 %h1.long-title= yield :title
 
-= render "members/member_page_header", member: @person_distance.person1.latest_member
-= render "members/member_page_header", member: @person_distance.person2.latest_member
+= render "member", member: @person_distance.person1.latest_member
+= render "member", member: @person_distance.person2.latest_member
+
+-# TODO: This is only roughly placed for the time being
+= render "social_share"
 
 %p
   During their time in Parliament
