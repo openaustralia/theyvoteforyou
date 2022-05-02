@@ -33,26 +33,28 @@
     So we can only consider votes from then.
 
 %p
-  - if @person_distance.nvotesdiffer.zero?
-    They have
-    %strong
-      never
-    voted differently
-  - elsif @person_distance.nvotessame.zero?
-    They have
-    %strong
-      never
-    voted the same
-  - elsif @person_distance.nvotesdiffer > @person_distance.nvotessame
-    They have only voted
-    %strong
-      the same
-      = pluralize(@person_distance.nvotessame, "time")
-  - else
-    They have only voted
-    %strong
-      differently
+  - if @person_distance.nvotesdiffer > @person_distance.nvotessame
+    = succeed "." do
+      They have voted differently
       = pluralize(@person_distance.nvotesdiffer, "time")
+    = succeed "." do
+      - if @person_distance.nvotessame.zero?
+        They have
+        %strong never voted the same
+      - else
+        They have only voted
+        %strong= "the same #{pluralize(@person_distance.nvotessame, "time")}"
+  - else
+    = succeed "." do
+      They have voted the same
+      = pluralize(@person_distance.nvotessame, "time")
+    = succeed "." do
+      - if @person_distance.nvotesdiffer.zero?
+        They have
+        %strong never voted differently
+      - else
+        They have only voted
+        %strong= "differently #{pluralize(@person_distance.nvotesdiffer, "time")}"
 
 - if @person_distance.nvotesdiffer < @person_distance.nvotessame
   - if @person_distance.nvotesdiffer.positive?
