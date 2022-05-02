@@ -95,23 +95,6 @@ class MembersController < ApplicationController
 
     @person_distance = PeopleDistance.find_by(person1: @member1.person, person2: @member2.person)
 
-    @policies = []
-    @member1.person.policy_person_distances.published.each do |ppd1|
-      # TODO: This is very inefficient. Doing many database lookups
-      ppd2 = ppd1.policy.policy_person_distances.find_by(person_id: @member2.person.id)
-
-      # Don't consider policies for which either member didn't vote
-      next if ppd2.nil? || !ppd1.voted? || !ppd2.voted?
-
-      @policies << {
-        policy: ppd1.policy,
-        ppd1: ppd1,
-        ppd2: ppd2,
-        difference: (ppd1.agreement_fraction - ppd2.agreement_fraction).abs
-      }
-    end
-    @policies = @policies.sort_by { |p| p[:difference] }.reverse
-
     policy_ids_at_least_once_differently = PolicyDivision.where(division: @person_distance.divisions_different).published.group(:policy_id).pluck(:policy_id).to_set
     policy_ids_at_least_once_same = PolicyDivision.where(division: @person_distance.divisions_same).published.group(:policy_id).pluck(:policy_id).to_set
     policy_ids_different_and_same = policy_ids_at_least_once_differently & policy_ids_at_least_once_same
