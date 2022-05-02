@@ -1,15 +1,15 @@
 - content_for :title do
-  Compare
   = @person_distance.person1.full_name
-  with
+  and
   = @person_distance.person2.full_name
+  have voted the same way
+  = fraction_to_percentage_display(@person_distance.agreement_fraction_without_absences)
+  of the time
+
+%h1.long-title= yield :title
 
 = render "members/member_page_header", member: @person_distance.person1.latest_member
 = render "members/member_page_header", member: @person_distance.person2.latest_member
-
-%p
-  Agreement
-  = fraction_to_percentage_display(@person_distance.agreement_fraction_without_absences)
 
 %p
   During their time in Parliament
