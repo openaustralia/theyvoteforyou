@@ -1,11 +1,1 @@
-- if divisions.to_a.empty?
-  - if member
-    %p
-      No votes listed as
-      = member_type_party_place_sentence(member)
-  - else
-    %p No votes listed
-
-- else
-  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(house)}
-    = render partial: 'divisions/division', locals: {member: member, house: house}, collection: divisions
+= render 'divisions/divisions2', members: (member ? [member] : []), house: house, divisions: divisions

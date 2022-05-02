@@ -1,0 +1,12 @@
+- if divisions.to_a.empty?
+  - if members.count == 1
+    %p
+      No votes listed as
+      = member_type_party_place_sentence(members.first)
+  - else
+    %p No votes listed
+
+- else
+  %ol.divisions-list.list-unstyled{class: active_house_for_list_class(house)}
+    - divisions.each do |division|
+      = render partial: 'divisions/division2', locals: {members: members, house: house, division: division}
