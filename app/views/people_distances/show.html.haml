@@ -1,11 +1,11 @@
 - content_for :title do
   Compare
-  = @member1.full_name
+  = @person_distance.person1.full_name
   with
-  = @member2.full_name
+  = @person_distance.person2.full_name
 
-= render "members/member_page_header", member: @member1
-= render "members/member_page_header", member: @member2
+= render "members/member_page_header", member: @person_distance.person1.latest_member
+= render "members/member_page_header", member: @person_distance.person2.latest_member
 
 %p
   Agreement
@@ -13,9 +13,9 @@
 
 %p
   During their time in Parliament
-  = @member1.name
+  = @person_distance.person1.name
   and
-  = @member2.name
+  = @person_distance.person2.name
   have voted in the same division
   = pluralize(@person_distance.total_votes, "time")
   - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
@@ -52,15 +52,15 @@
     %h2 Divisions in which they voted differently
     = render "divisions/divisions", member: nil, divisions: @person_distance.divisions_different, house: nil
 
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
 
 - else
   - if @person_distance.nvotesdiffer.positive?
     %h2 Divisions in which they voted the same
     = render "divisions/divisions", member: nil, divisions: @person_distance.divisions_same, house: nil
 
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
