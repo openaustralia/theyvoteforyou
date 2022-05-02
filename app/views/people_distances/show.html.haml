@@ -4,8 +4,8 @@
   with
   = @member2.full_name
 
-= render "member_page_header", member: @member1
-= render "member_page_header", member: @member2
+= render "members/member_page_header", member: @member1
+= render "members/member_page_header", member: @member2
 
 %p
   Agreement
@@ -52,15 +52,15 @@
     %h2 Divisions in which they voted differently
     = render "divisions/divisions", member: nil, divisions: @person_distance.divisions_different, house: nil
 
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
 
 - else
   - if @person_distance.nvotesdiffer.positive?
     %h2 Divisions in which they voted the same
     = render "divisions/divisions", member: nil, divisions: @person_distance.divisions_same, house: nil
 
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "policy_comparisons_block3", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_same, title: "Always voted the same way on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+  = render "comparison_block", member1: @member1, member2: @member2, policies: @policies_all_different, title: "Always voted differently on"
