@@ -24,8 +24,21 @@ class PeopleDistancesController < ApplicationController
     policy_ids_all_different = policy_ids_at_least_once_differently - policy_ids_different_and_same
     policy_ids_all_same = policy_ids_at_least_once_same - policy_ids_different_and_same
 
-    @policies_all_same = Policy.find(policy_ids_all_same.to_a)
-    @policies_all_different = Policy.find(policy_ids_all_different.to_a)
-    @policies_different_and_same = Policy.find(policy_ids_different_and_same.to_a)
+    # We're also filtering out any policies for which one of the two people has a "not enough information" category
+    @policies_all_same = Policy.find(policy_ids_all_same.to_a).select do |policy|
+      ppd1 = PolicyPersonDistance.find_by(policy: policy, person: member1.person)
+      ppd2 = PolicyPersonDistance.find_by(policy: policy, person: member2.person)
+      ppd1.category != :not_enough && ppd2.category != :not_enough
+    end
+    @policies_all_different = Policy.find(policy_ids_all_different.to_a).select do |policy|
+      ppd1 = PolicyPersonDistance.find_by(policy: policy, person: member1.person)
+      ppd2 = PolicyPersonDistance.find_by(policy: policy, person: member2.person)
+      ppd1.category != :not_enough && ppd2.category != :not_enough
+    end
+    @policies_different_and_same = Policy.find(policy_ids_different_and_same.to_a).select do |policy|
+      ppd1 = PolicyPersonDistance.find_by(policy: policy, person: member1.person)
+      ppd2 = PolicyPersonDistance.find_by(policy: policy, person: member2.person)
+      ppd1.category != :not_enough && ppd2.category != :not_enough
+    end
   end
 end

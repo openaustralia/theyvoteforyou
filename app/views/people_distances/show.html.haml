@@ -68,7 +68,9 @@
   %section.page-section
     %h2 How do their votes on policies compare?
     %p
-      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both people voted.
+      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both
+      people voted and neither are characterised as
+      = quote(category_words_sentence(:not_enough))
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
     = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
@@ -85,7 +87,9 @@
   %section.page-section
     %h2 How do their votes on policies compare?
     %p
-      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both people voted.
+      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both
+      people voted and neither are characterised as
+      = quote(category_words_sentence(:not_enough))
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
     = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
