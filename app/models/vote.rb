@@ -35,15 +35,4 @@ class Vote < ApplicationRecord
   def rebellion?
     !free? && vote != whip_guess
   end
-
-  # TODO: What if the vote is tied?
-  def role
-    if free?
-      "free"
-    elsif rebellion?
-      "rebel"
-    else
-      "loyal"
-    end
-  end
 end
