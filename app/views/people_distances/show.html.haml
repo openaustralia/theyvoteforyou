@@ -65,9 +65,13 @@
         - member2 = @person_distance.person2.member_in_division(division)
         = render 'divisions/division', members: [member1, member2], house: nil, division: division
 
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
+  %section.page-section
+    %h2 How do their votes on policies compare?
+    %p
+      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both people voted.
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
 
 - else
   - if @person_distance.nvotesdiffer.positive?
@@ -78,6 +82,10 @@
         - member2 = @person_distance.person2.member_in_division(division)
         = render 'divisions/division', members: [member1, member2], house: nil, division: division
 
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
-  = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
+  %section.page-section
+    %h2 How do their votes on policies compare?
+    %p
+      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both people voted.
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
+    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
