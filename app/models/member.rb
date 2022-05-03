@@ -116,10 +116,6 @@ class Member < ApplicationRecord
     division_vote(division) ? division_vote(division).vote : "absent"
   end
 
-  def attended_division?(division)
-    vote_on_division_without_tell(division) != "absent"
-  end
-
   def name
     "#{first_name} #{last_name}".strip
   end

@@ -115,7 +115,8 @@ module DivisionsHelper
 
   def member_vote_with_type(member, division)
     sentence = member.name
-    if member.attended_division?(division)
+    vote = member.division_vote(division)
+    if vote
       sentence += " voted #{vote_display(division.vote_for(member))}"
       if member.division_vote(division).rebellion?
         sentence += ", rebelling against"
