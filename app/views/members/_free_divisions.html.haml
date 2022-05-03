@@ -21,4 +21,4 @@
     - member.person.members.order(entered_house: :desc).each do |member|
       - if member.subject_to_whip?
         - member.free_divisions.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
-          = render 'divisions/division2', members: [member], house: nil, division: division
+          = render 'divisions/division', members: [member], house: nil, division: division

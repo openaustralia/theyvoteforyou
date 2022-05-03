@@ -59,7 +59,7 @@
 - if @person_distance.nvotesdiffer < @person_distance.nvotessame
   - if @person_distance.nvotesdiffer.positive?
     %h2 Divisions in which they voted differently
-    = render "divisions/divisions2", members: [@person_distance.person1.latest_member, @person_distance.person2.latest_member], divisions: @person_distance.divisions_different, house: nil
+    = render "divisions/divisions", members: [@person_distance.person1.latest_member, @person_distance.person2.latest_member], divisions: @person_distance.divisions_different, house: nil
 
   = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on"
   = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"
@@ -68,7 +68,7 @@
 - else
   - if @person_distance.nvotesdiffer.positive?
     %h2 Divisions in which they voted the same
-    = render "divisions/divisions2", members: [@person_distance.person1.latest_member, @person_distance.person2.latest_member], divisions: @person_distance.divisions_same, house: nil
+    = render "divisions/divisions", members: [@person_distance.person1.latest_member, @person_distance.person2.latest_member], divisions: @person_distance.divisions_same, house: nil
 
   = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on"
   = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on"

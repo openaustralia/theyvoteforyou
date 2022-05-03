@@ -43,7 +43,7 @@
   - if !@divisions.empty?
     %section.page-section#divisions
       %h2= pluralize(@divisions.count, "division")
-      = render "divisions/divisions2", members: [], divisions: @divisions, house: nil, party: nil, policy: nil
+      = render "divisions/divisions", members: [], divisions: @divisions, house: nil, party: nil, policy: nil
 
   %p
     You could also try browsing the list of #{link_to "People", members_path},
