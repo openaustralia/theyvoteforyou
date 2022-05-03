@@ -109,10 +109,6 @@ module DivisionsHelper
     end
   end
 
-  def member_vote(member, division)
-    member.name + " voted #{vote_display(division.vote_for(member))}"
-  end
-
   def member_vote_with_type(member, division)
     sentence = member.name
     vote = member.division_vote(division)
