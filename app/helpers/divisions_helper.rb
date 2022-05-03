@@ -111,17 +111,8 @@ module DivisionsHelper
 
   def member_vote_with_type(member, division)
     sentence = member.name
-    vote = member.division_vote(division)
-    if vote
-      sentence += " voted #{vote_display(vote.vote)}"
-      if vote.rebellion?
-        sentence += ", rebelling against the #{member.party_name}"
-      elsif vote.free_vote?
-        sentence += " in this free vote"
-      end
-    else
-      sentence += " was absent"
-    end
+    sentence += " "
+    sentence += vote_words(member.division_vote(division))
     sentence
   end
 
