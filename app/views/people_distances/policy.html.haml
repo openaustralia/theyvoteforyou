@@ -17,3 +17,10 @@
 
   -# TODO: This is only roughly placed for the time being
   = render "social_share"
+
+%p
+  - ppd1 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person1)
+  - ppd2 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person2)
+  %ul
+    %li= link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
+    %li= link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)

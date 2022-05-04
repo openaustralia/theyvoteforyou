@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   get "/people/:house/:mpc/:mpn/policies/:id" => "members#policy", as: :member_policy
   get "/people/:house/:mpc/:mpn/friends" => "members#friends", as: :friends_member
   get "/people/:house/:mpc/:mpn/compare/:house2/:mpc2/:mpn2" => "people_distances#show", as: :compare_member
-  get "/people/:house/:mpc/:mpn/compare/:house2/:mpc2/:mpn2/policies/:id" => "people_distances#policy"
+  get "/people/:house/:mpc/:mpn/compare/:house2/:mpc2/:mpn2/policies/:id" => "people_distances#policy", as: :compare_member_policy
   get "/people/:house/:mpc/:mpn/divisions/(:date)" => "divisions#index_with_member", as: :member_divisions
 
   get "/divisions/(:house)" => "divisions#index"

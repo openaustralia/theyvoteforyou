@@ -6,11 +6,7 @@
       %ul.policy-comparision-list.object-list-compact.list-unstyled.col-xs-12
         - policies.each do |policy|
           %li.policy-comparision-policy.object-item
-            .policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{policy.id}"}}
-              = capitalise_initial_character(policy.name)
-            %div{class: "policy-detail-#{policy.id} collapse"}
-              - ppd1 = PolicyPersonDistance.find_by(policy: policy, person: person_distance.person1)
-              - ppd2 = PolicyPersonDistance.find_by(policy: policy, person: person_distance.person2)
-              %ul
-                %li= link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
-                %li= link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)
+            - if Flipper.enabled?(:link_to_people_compare_policy, current_user)
+              = link_to capitalise_initial_character(policy.name), compare_member_policy_path_simple(person_distance, policy), class: "policy-title"
+            - else
+              .policy-title= capitalise_initial_character(policy.name)

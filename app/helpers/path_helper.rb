@@ -76,4 +76,10 @@ module PathHelper
     p2 = member2.url_params
     compare_member_path(p1.merge(house2: p2[:house], mpc2: p2[:mpc], mpn2: p2[:mpn]))
   end
+
+  def compare_member_policy_path_simple(people_distance, policy)
+    p1 = people_distance.person1.latest_member.url_params
+    p2 = people_distance.person2.latest_member.url_params
+    compare_member_policy_path(p1.merge(house2: p2[:house], mpc2: p2[:mpc], mpn2: p2[:mpn], id: policy.id))
+  end
 end
