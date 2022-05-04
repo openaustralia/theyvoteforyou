@@ -1,5 +1,9 @@
 %h2 How do their votes on policies compare?
 %p
-  Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both
-  people voted and neither are characterised as
-  = quote(category_words_sentence(:not_enough))
+  Policies are groups of votes related to an issue.
+  = succeed "." do
+    Here we only show policies related to divisions in which both people voted and neither are characterised as
+    = quote(category_words_sentence(:not_enough))
+  Note that even if two people have always voted the same it's possible for their individual voting summary on that policy to be quite different.
+  This is because here we only consider votes that they both attended while in their personal voting records all their
+  votes are included even those the other person didn't or couldn't have attended.
