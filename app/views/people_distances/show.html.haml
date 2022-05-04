@@ -35,17 +35,18 @@
 
   = render "summary_vote_numbers", person_distance: @person_distance
 
-- if @person_distance.nvotesdiffer < @person_distance.nvotessame
-  %section.page-section
-    = render "policies_intro"
+%section.page-section
+  = render "policies_intro"
+  - if @person_distance.nvotesdiffer < @person_distance.nvotessame
     = render "comparison_all_different", person_distance: @person_distance, policies: @policies_all_different
     = render "comparison_different_and_same", person_distance: @person_distance, policies: @policies_different_and_same
     = render "comparison_all_same", person_distance: @person_distance, policies: @policies_all_same
+  - else
+    = render "comparison_all_same", person_distance: @person_distance, policies: @policies_all_same
+    = render "comparison_different_and_same", person_distance: @person_distance, policies: @policies_different_and_same
+    = render "comparison_all_different", person_distance: @person_distance, policies: @policies_all_different
+
+- if @person_distance.nvotesdiffer < @person_distance.nvotessame
   = render "divisions_different", person_distance: @person_distance
 - else
-  %section.page-section
-    = render "policies_intro"
-    = render "comparison_all_same", person_distance: @person_distance, policies: @policies_all_same
-    = render "comparison_different_and_same", person_distance: @person_distance, policies: @policies_different_and_same
-    = render "comparison_all_different", person_distance: @person_distance, policies: @policies_all_different
   = render "divisions_same", person_distance: @person_distance
