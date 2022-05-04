@@ -58,26 +58,15 @@
 
 - if @person_distance.nvotesdiffer < @person_distance.nvotessame
   %section.page-section
-    %h2 How do their votes on policies compare?
-    %p
-      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both
-      people voted and neither are characterised as
-      = quote(category_words_sentence(:not_enough))
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on", label: :"always-different"
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on", label: :mixture
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on", label: :"always-same"
-
+    = render "policies_intro"
+    = render "comparison_all_different", person_distance: @person_distance, policies: @policies_all_different
+    = render "comparison_different_and_same", person_distance: @person_distance, policies: @policies_different_and_same
+    = render "comparison_all_same", person_distance: @person_distance, policies: @policies_all_same
   = render "divisions_different", person_distance: @person_distance
-
 - else
   %section.page-section
-    %h2 How do their votes on policies compare?
-    %p
-      Policies are groups of votes related to an issue. Here we only show policies related to divisions in which both
-      people voted and neither are characterised as
-      = quote(category_words_sentence(:not_enough))
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on", label: :"always-same"
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on", label: :mixture
-    = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on", label: :"always-different"
-
+    = render "policies_intro"
+    = render "comparison_all_same", person_distance: @person_distance, policies: @policies_all_same
+    = render "comparison_different_and_same", person_distance: @person_distance, policies: @policies_different_and_same
+    = render "comparison_all_different", person_distance: @person_distance, policies: @policies_all_different
   = render "divisions_same", person_distance: @person_distance
