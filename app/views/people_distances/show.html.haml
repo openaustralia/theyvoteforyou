@@ -33,29 +33,7 @@
       Our voting record only starts in #{formatted_month(Division.date_earliest_division)}.
       So we can only consider votes from then.
 
-  %p
-    - if @person_distance.nvotesdiffer > @person_distance.nvotessame
-      = succeed "." do
-        In divisions they have voted differently
-        = pluralize(@person_distance.nvotesdiffer, "time")
-      = succeed "." do
-        - if @person_distance.nvotessame.zero?
-          They have
-          %strong never voted the same
-        - else
-          They have only voted
-          %strong= "the same #{pluralize(@person_distance.nvotessame, "time")}"
-    - else
-      = succeed "." do
-        In divisions they have voted the same
-        = pluralize(@person_distance.nvotessame, "time")
-      = succeed "." do
-        - if @person_distance.nvotesdiffer.zero?
-          They have
-          %strong never voted differently
-        - else
-          They have only voted
-          %strong= "differently #{pluralize(@person_distance.nvotesdiffer, "time")}"
+  = render "summary_vote_numbers", person_distance: @person_distance
 
 - if @person_distance.nvotesdiffer < @person_distance.nvotessame
   %section.page-section
