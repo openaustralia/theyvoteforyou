@@ -6,7 +6,7 @@
       %ul.policy-comparision-list.object-list-compact.list-unstyled.col-xs-12
         - policies.each do |policy|
           %li.policy-comparision-policy.object-item
-            %p.policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{policy.id}"}}
+            .policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{policy.id}"}}
               = capitalise_initial_character(policy.name)
             %div{class: "policy-detail-#{policy.id} collapse"}
               - ppd1 = PolicyPersonDistance.find_by(policy: policy, person: person_distance.person1)
