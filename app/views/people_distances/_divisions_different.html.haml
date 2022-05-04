@@ -1,6 +1,7 @@
 - if person_distance.nvotesdiffer.positive?
   %section.page-section
     %h2 Divisions in which they voted differently
+    = render "summary_vote_numbers", person_distance: @person_distance
     %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
       - person_distance.divisions_different.each do |division|
         - member1 = person_distance.person1.member_in_division(division)
