@@ -1,0 +1,16 @@
+.policy-comparision-block {
+  &.compare-always-same {
+    border-top-color: $color-for3;
+    color: $color-for3;
+  }
+
+  &.compare-mixture {
+    border-top-color: $color-mixed-position;
+    color: $color-mixed-position;
+  }
+
+  &.compare-always-different {
+    border-top-color: $color-against3;
+    color: $color-against3;
+  }
+}
