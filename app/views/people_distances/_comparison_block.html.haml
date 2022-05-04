@@ -8,10 +8,9 @@
           %li.policy-comparision-policy.object-item
             %p.policy-title{data: {toggle: 'collapse', target: ".policy-detail-#{policy.id}"}}
               = capitalise_initial_character(policy.name)
-            %p{class: "policy-detail-#{policy.id} collapse"}
+            %div{class: "policy-detail-#{policy.id} collapse"}
               - ppd1 = PolicyPersonDistance.find_by(policy: policy, person: person_distance.person1)
               - ppd2 = PolicyPersonDistance.find_by(policy: policy, person: person_distance.person2)
-              = link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
-              while
-              %br
-              = link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)
+              %ul
+                %li= link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
+                %li= link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)
