@@ -18,43 +18,44 @@
   -# TODO: This is only roughly placed for the time being
   = render "social_share"
 
-%p
-  - start_date = [@person_distance.overlap_dates.first.begin, Division.date_earliest_division].max
-  = capitalise_initial_character(formatted_date_range(start_date...@person_distance.overlap_dates.last.end, format: :words))
+%section.page-section
+  %p
+    - start_date = [@person_distance.overlap_dates.first.begin, Division.date_earliest_division].max
+    = capitalise_initial_character(formatted_date_range(start_date...@person_distance.overlap_dates.last.end, format: :words))
 
-  = @person_distance.person1.name
-  and
-  = @person_distance.person2.name
-  have voted in the same division
-  = "#{pluralize(@person_distance.total_votes, "time")}."
+    = @person_distance.person1.name
+    and
+    = @person_distance.person2.name
+    have voted in the same division
+    = "#{pluralize(@person_distance.total_votes, "time")}."
 
-  - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
-    Our voting record only starts in #{formatted_month(Division.date_earliest_division)}.
-    So we can only consider votes from then.
+    - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
+      Our voting record only starts in #{formatted_month(Division.date_earliest_division)}.
+      So we can only consider votes from then.
 
-%p
-  - if @person_distance.nvotesdiffer > @person_distance.nvotessame
-    = succeed "." do
-      They have voted differently
-      = pluralize(@person_distance.nvotesdiffer, "time")
-    = succeed "." do
-      - if @person_distance.nvotessame.zero?
-        They have
-        %strong never voted the same
-      - else
-        They have only voted
-        %strong= "the same #{pluralize(@person_distance.nvotessame, "time")}"
-  - else
-    = succeed "." do
-      They have voted the same
-      = pluralize(@person_distance.nvotessame, "time")
-    = succeed "." do
-      - if @person_distance.nvotesdiffer.zero?
-        They have
-        %strong never voted differently
-      - else
-        They have only voted
-        %strong= "differently #{pluralize(@person_distance.nvotesdiffer, "time")}"
+  %p
+    - if @person_distance.nvotesdiffer > @person_distance.nvotessame
+      = succeed "." do
+        They have voted differently
+        = pluralize(@person_distance.nvotesdiffer, "time")
+      = succeed "." do
+        - if @person_distance.nvotessame.zero?
+          They have
+          %strong never voted the same
+        - else
+          They have only voted
+          %strong= "the same #{pluralize(@person_distance.nvotessame, "time")}"
+    - else
+      = succeed "." do
+        They have voted the same
+        = pluralize(@person_distance.nvotessame, "time")
+      = succeed "." do
+        - if @person_distance.nvotesdiffer.zero?
+          They have
+          %strong never voted differently
+        - else
+          They have only voted
+          %strong= "differently #{pluralize(@person_distance.nvotesdiffer, "time")}"
 
 - if @person_distance.nvotesdiffer < @person_distance.nvotessame
   %section.page-section
