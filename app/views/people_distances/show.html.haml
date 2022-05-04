@@ -36,7 +36,7 @@
   %p
     - if @person_distance.nvotesdiffer > @person_distance.nvotessame
       = succeed "." do
-        They have voted differently
+        In divisions they have voted differently
         = pluralize(@person_distance.nvotesdiffer, "time")
       = succeed "." do
         - if @person_distance.nvotessame.zero?
@@ -47,7 +47,7 @@
           %strong= "the same #{pluralize(@person_distance.nvotessame, "time")}"
     - else
       = succeed "." do
-        They have voted the same
+        In divisions they have voted the same
         = pluralize(@person_distance.nvotessame, "time")
       = succeed "." do
         - if @person_distance.nvotesdiffer.zero?
