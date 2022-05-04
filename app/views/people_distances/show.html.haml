@@ -67,14 +67,7 @@
     = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on", label: :mixture
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_same, title: "Always voted the same way on", label: :"always-same"
 
-  - if @person_distance.nvotesdiffer.positive?
-    %section.page-section
-      %h2 Divisions in which they voted differently
-      %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
-        - @person_distance.divisions_different.each do |division|
-          - member1 = @person_distance.person1.member_in_division(division)
-          - member2 = @person_distance.person2.member_in_division(division)
-          = render 'divisions/division', members: [member1, member2], house: nil, division: division
+  = render "divisions_different", person_distance: @person_distance
 
 - else
   %section.page-section
@@ -87,11 +80,4 @@
     = render "comparison_block", person_distance: @person_distance, policies: @policies_different_and_same, title: "Voted a mixture of the same and differently on", label: :mixture
     = render "comparison_block", person_distance: @person_distance, policies: @policies_all_different, title: "Always voted differently on", label: :"always-different"
 
-  - if @person_distance.nvotesdiffer.positive?
-    %section.page-section
-      %h2 Divisions in which they voted the same
-      %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
-        - @person_distance.divisions_same.each do |division|
-          - member1 = @person_distance.person1.member_in_division(division)
-          - member2 = @person_distance.person2.member_in_division(division)
-          = render 'divisions/division', members: [member1, member2], house: nil, division: division
+  = render "divisions_same", person_distance: @person_distance
