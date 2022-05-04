@@ -1,7 +1,7 @@
 - content_for :title do
-  = @person_distance.person1.full_name
+  = @person_distance.person1.name
   and
-  = @person_distance.person2.full_name
+  = @person_distance.person2.name
   have voted the same way
   = fraction_to_percentage_display(@person_distance.agreement_fraction_without_absences)
   of the time
