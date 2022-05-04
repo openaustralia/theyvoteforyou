@@ -41,4 +41,24 @@ class PeopleDistancesController < ApplicationController
       ppd1.category != :not_enough && ppd2.category != :not_enough
     end
   end
+
+  def policy
+    member1 = Member.find_with_url_params(house: params[:house], mpc: params[:mpc], mpn: params[:mpn])
+    member2 = Member.find_with_url_params(house: params[:house2], mpc: params[:mpc2], mpn: params[:mpn2])
+    return render "members/member_not_found", status: :not_found if member1.nil? || member2.nil?
+
+    @policy = Policy.find(params[:id])
+
+    canonical_member1 = member1.person.latest_member
+    canonical_member2 = member2.person.latest_member
+    if canonical_member1 != member1 || canonical_member2 != member2
+      # TODO: Redirect to correct page
+      redirect_to canonical_member1.url_params.merge(
+        mpc2: canonical_member2.url_electorate.downcase,
+        mpn2: canonical_member2.url_name.downcase
+      )
+      return
+    end
+    @person_distance = PeopleDistance.find_by(person1: member1.person, person2: member2.person)
+  end
 end
