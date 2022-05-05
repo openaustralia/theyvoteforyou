@@ -1,18 +1,34 @@
 %section.page-section#friends
   %h2
-    - if all_friends
-      All
-    Possible Friends
+    - if Flipper.enabled?(:link_to_people_compare, current_user)
+      Compare
+      = @member.name
+      to someone else
+    - else
+      - if all_friends
+        All
+      Possible Friends
 
-  %p
-    Shows which people voted most similarly to
-    = person.name
-    in Parliament.
+  - if Flipper.enabled?(:link_to_people_compare, current_user)
+    %p
+      Shows which people voted most similarly to and differently to
+      = person.name
+      in Parliament.
 
-    This is measured from 0% agreement (never voted the
-    same) to 100% (always voted the same). Only votes that both
-    attended are counted. This may reveal relationships between
-    people that were previously unsuspected. Or it may be nonsense.
+      This is measured from 0% agreement (never voted the
+      same) to 100% (always voted the same). Only votes that both
+      attended are counted. This may reveal relationships between
+      people that were previously unsuspected. Or it may be nonsense.
+  - else
+    %p
+      Shows which people voted most similarly to
+      = person.name
+      in Parliament.
+
+      This is measured from 0% agreement (never voted the
+      same) to 100% (always voted the same). Only votes that both
+      attended are counted. This may reveal relationships between
+      people that were previously unsuspected. Or it may be nonsense.
 
   %table.table
     %thead
@@ -35,6 +51,9 @@
               %td= link_to person_distance.person2.name, member_path_simple(person_distance.person2.latest_member)
             %td= member_type_party_place_sentence(person_distance.person2.latest_member)
   - unless all_friends
-    = link_to "More possible friends", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
+    - if Flipper.enabled?(:link_to_people_compare, current_user)
+      = link_to "More people to compare to #{person.name}", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
+    - else
+      = link_to "More possible friends", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
   - if person.best_friends.count >= 5 && !all_friends
     (#{pluralize(person.best_friends.count, "other person")} voted exactly the same as this one)
