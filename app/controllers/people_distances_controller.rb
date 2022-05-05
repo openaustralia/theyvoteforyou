@@ -40,6 +40,11 @@ class PeopleDistancesController < ApplicationController
       ppd2 = PolicyPersonDistance.find_by(policy: policy, person: member2.person)
       ppd1.category != :not_enough && ppd2.category != :not_enough
     end
+
+    # Sort by name
+    @policies_all_same.sort_by! { |p| p.name.downcase }
+    @policies_all_different.sort_by! { |p| p.name.downcase }
+    @policies_different_and_same.sort_by! { |p| p.name.downcase }
   end
 
   def policy
