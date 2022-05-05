@@ -1,9 +1,12 @@
 %h2 How do their votes on policies compare?
-%p.compare-policies-intro
+%p
   Policies are groups of votes related to an issue.
   = succeed "." do
     Here we only show policies related to divisions in which both people voted and neither are characterised as
     = quote(category_words_sentence(:not_enough))
-  Note that even if two people have always voted the same it's possible for their individual voting summary on that policy to be quite different.
-  This is because here we only consider votes that they both attended while in their personal voting records all their
-  votes are included even those the other person didn't or couldn't have attended.
+%p.compare-policies-intro
+  Now this is where it gets a bit tricky&hellip;
+  Two people might vote the same way on votes they both attended, so their votes are 100% in agreement.
+  They might also have voted in a way we’d describe differently when looking at all of one person's votes.
+  If the other person didn’t or couldn’t have attended those votes we leave those out of the comparison.
+  Because that just wouldn’t be fair now, would it?
