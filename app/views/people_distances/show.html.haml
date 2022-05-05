@@ -22,18 +22,28 @@
 
 %section.page-section
   %p
-    - start_date = [@person_distance.overlap_dates.first.begin, Division.date_earliest_division].max
-    = capitalise_initial_character(formatted_date_range(start_date...@person_distance.overlap_dates.last.end, format: :words))
+    - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
+      - start_date = Division.date_earliest_division
+      - end_date = @person_distance.overlap_dates.last.end
+      - if (start_date...end_date).include?(Time.zone.today)
+        Since
+        = formatted_month(start_date)
+        (when our voting records begin)
+      - else
+        Between
+        = formatted_month(start_date)
+        (when our voting records begin)
+        and
+        = formatted_month(end_date)
+    - else
+      - start_date = [@person_distance.overlap_dates.first.begin, Division.date_earliest_division].max
+      = capitalise_initial_character(formatted_date_range(start_date...@person_distance.overlap_dates.last.end, format: :words))
 
     = @person_distance.person1.name
     and
     = @person_distance.person2.name
     have voted in the same division
     = "#{pluralize(@person_distance.total_votes, "time")}."
-
-    - if @person_distance.overlap_dates.first.begin < Division.date_earliest_division
-      Our voting record only starts in #{formatted_month(Division.date_earliest_division)}.
-      So we can only consider votes from then.
 
   = render "summary_vote_numbers", person_distance: @person_distance
 
