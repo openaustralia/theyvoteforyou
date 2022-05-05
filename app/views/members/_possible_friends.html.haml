@@ -3,7 +3,7 @@
     - if Flipper.enabled?(:link_to_people_compare, current_user)
       Compare
       = @member.name
-      to someone else
+      with someone else
     - else
       - if all_friends
         All
@@ -52,7 +52,7 @@
             %td= member_type_party_place_sentence(person_distance.person2.latest_member)
   - unless all_friends
     - if Flipper.enabled?(:link_to_people_compare, current_user)
-      = link_to "More people to compare to #{person.name}", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
+      = link_to "More people to compare with #{person.name}", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
     - else
       = link_to "More possible friends", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
   - if person.best_friends.count >= 5 && !all_friends
