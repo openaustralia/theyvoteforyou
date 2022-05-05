@@ -61,24 +61,24 @@
 .socialmedia-card-policy-image-list {
   padding: 0 !important;
 }
-  
+
 .socialmedia-card-policy-image-list-inline {
   display: inline-block;
   margin-right: 10px;
   margin-top: 13px;
 }
-  
+
 .socialmedia-card-policy-element {
   margin: auto;
   width: 90%;
   padding-top: 1em;
   padding-bottom: 1em;
 }
-  
+
 .socialmedia-card-policy-body-text {
   font-weight: 300;
-} 
-  
+}
+
 .fitin2 {
   overflow: hidden;
   max-height: 165px;
@@ -92,7 +92,7 @@
   display: grid;
   grid-template-columns: 10% 1fr;
   grid-column-gap: 60px;
-  grid-template-areas: 
+  grid-template-areas:
     'a b';
 
   .socialmedia-card-member-image2 {
