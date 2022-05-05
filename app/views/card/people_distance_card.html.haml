@@ -1,0 +1,35 @@
+.socialmedia-card-container
+  %p.socialmedia-card-logo
+    %span.subtext They Vote For You
+  .row
+    .col-sm-12
+      .socialmedia-card-two-image-card
+        .socialmedia-card-member-image
+          = member_image(@person_distance.person1.latest_member, :extra_large)
+        .socialmedia-card-member2-image
+          = member_image(@person_distance.person2.latest_member, :extra_large)
+        %div.fitin
+          .socialmedia-card-heading-text
+            %strong= @person_distance.person1.name
+            and
+            %strong= @person_distance.person2.name
+            have voted the same way
+            %strong= fraction_to_percentage_display(@person_distance.agreement_fraction_without_absences)
+            of the time
+  %p.socialmedia-card-disclaimer
+    Find out more
+    = remove_slash(get_hostname(root_url) + compare_member_path_simple(@person_distance.person1.latest_member, @person_distance.person2.latest_member))
+
+:javascript
+  window.addEventListener('load', (event) => {
+    fitin = document.querySelector('.fitin');
+    fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
+
+    while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+      fontStyling = window
+        .getComputedStyle(fitin_inner, null)
+        .getPropertyValue('font-size');
+      fontSize = parseFloat(fontStyling);
+      fitin_inner.style.fontSize = fontSize - 1 + 'px';
+    }
+  });

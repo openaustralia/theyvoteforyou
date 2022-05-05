@@ -22,8 +22,27 @@
   padding-bottom: 2.6em;
 }
 
+.socialmedia-card-two-image-card {
+  display: grid;
+  grid-template-columns: 30% 30% 1fr;
+  grid-column-gap: 35px;
+  grid-template-areas: 'a c b';
+  margin: auto;
+  width: 90%;
+  padding-top: 2.6em;
+  padding-bottom: 2.6em;
+}
+
 .socialmedia-card-member-image {
   grid-area: a;
+  img {
+    width: 280px;
+    height: 370px;
+  }
+}
+
+.socialmedia-card-member2-image {
+  grid-area: c;
   img {
     width: 280px;
     height: 370px;

@@ -45,6 +45,10 @@ class PeopleDistancesController < ApplicationController
     @policies_all_same.sort_by! { |p| p.name.downcase }
     @policies_all_different.sort_by! { |p| p.name.downcase }
     @policies_different_and_same.sort_by! { |p| p.name.downcase }
+
+    return if params[:card].nil?
+
+    render "card/people_distance_card", layout: "card_layout"
   end
 
   def policy
