@@ -151,4 +151,13 @@ module ApplicationHelper
     content = capture(&block)
     strong ? content_tag(:strong, content) : content
   end
+
+  # Given an array ["foo", "bar", "twist"] returns the list in word format - "foo, bar and twist".
+  def list_in_words(list)
+    if list.count > 2
+      safe_join([safe_join(list[0..-2], ", "), " and ", list[-1]])
+    else
+      safe_join(list, " and ")
+    end
+  end
 end

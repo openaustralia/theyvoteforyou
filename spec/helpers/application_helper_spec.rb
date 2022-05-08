@@ -40,4 +40,20 @@ describe ApplicationHelper, type: :helper do
       expect(helper.fraction_to_percentage_display(0.9946)).to eq "99%"
     end
   end
+
+  describe "#list_in_words" do
+    it { expect(helper.list_in_words(%w[])).to eq "" }
+    it { expect(helper.list_in_words(%w[foo])).to eq "foo" }
+    it { expect(helper.list_in_words(%w[foo bar])).to eq "foo and bar" }
+    it { expect(helper.list_in_words(%w[foo bar twist])).to eq "foo, bar and twist" }
+    it { expect(helper.list_in_words(%w[foo bar twist wibble])).to eq "foo, bar, twist and wibble" }
+
+    it "escapes html with one word" do
+      expect(helper.list_in_words(%w[<foo>])).to eq "&lt;foo&gt;"
+    end
+
+    it "escapes html with several words" do
+      expect(helper.list_in_words(%w[<foo> <bar> <twist>])).to eq "&lt;foo&gt;, &lt;bar&gt; and &lt;twist&gt;"
+    end
+  end
 end
