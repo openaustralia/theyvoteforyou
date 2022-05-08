@@ -6,7 +6,4 @@
       %ul.policy-comparision-list.object-list-compact.list-unstyled.col-xs-12
         - policies.each do |policy|
           %li.policy-comparision-policy.object-item
-            - if Flipper.enabled?(:link_to_people_compare_policy, current_user)
-              = link_to capitalise_initial_character(policy.name), compare_member_policy_path_simple(person_distance, policy), class: "policy-title"
-            - else
-              .policy-title= capitalise_initial_character(policy.name)
+            = link_to capitalise_initial_character(policy.name), compare_member_policy_path_simple(person_distance, policy), class: "policy-title"

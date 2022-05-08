@@ -4,8 +4,7 @@ Flipper::UI.configure do |config|
   config.descriptions_source = lambda do |_keys|
     # This should be a complete list of all features being currently used in the codebase
     {
-      "link_to_people_compare" => "Link friends to people comparison pages",
-      "link_to_people_compare_policy" => "Link to detailed page on comparing two people on a particular policy"
+      "link_to_people_compare" => "Link friends to people comparison pages"
     }
   end
 
