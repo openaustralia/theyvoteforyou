@@ -18,6 +18,15 @@
   -# TODO: This is only roughly placed for the time being
   = render "social_share"
 
+.row
+  %p.col-sm-7
+    How
+    = @person_distance.person1.name
+    and
+    = @person_distance.person2.name
+    voted compared with each other and someone who believes that
+    = link_to @policy.description, @policy
+
 %p
   - ppd1 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person1)
   - ppd2 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person2)
