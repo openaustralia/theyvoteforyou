@@ -7,9 +7,9 @@
   more strongly than other divisions when calculating the position of
   = person&.name || "a person"
   on this policy.
-= render "policies/vote_summary_table", person: person, policy: policy, divisions: divisions.select{ |d| d.policy_vote_strong?(policy) }
+= render "policies/vote_summary_table", people: person ? [person] : [], policy: policy, divisions: divisions.select{ |d| d.policy_vote_strong?(policy) }
 
 %h3 Other divisions relevant to this policy
 %p
   These are less important divisions which are related to the policy “#{policy.name_with_for}”.
-= render "policies/vote_summary_table", person: person, policy: policy, divisions: divisions.select{ |d| !d.policy_vote_strong?(policy) }
+= render "policies/vote_summary_table", people: person ? [person] : [], policy: policy, divisions: divisions.select{ |d| !d.policy_vote_strong?(policy) }
