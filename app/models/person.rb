@@ -147,7 +147,13 @@ class Person < ApplicationRecord
   end
 
   def vote_on_division_without_tell(division)
-    member_in_division(division).vote_on_division_without_tell(division)
+    member = member_in_division(division)
+    if member
+      member.vote_on_division_without_tell(division)
+    else
+      # If person could not have attended the division
+      "-"
+    end
   end
 
   # People who were in parliament (in the same house) at the same time

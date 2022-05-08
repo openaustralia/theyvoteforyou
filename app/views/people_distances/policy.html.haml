@@ -24,3 +24,5 @@
   %ul
     %li= link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
     %li= link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)
+
+= render 'policies/vote_summary', people: [@person_distance.person1, @person_distance.person2], policy: @policy
