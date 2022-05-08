@@ -55,5 +55,9 @@ describe ApplicationHelper, type: :helper do
     it "escapes html with several words" do
       expect(helper.list_in_words(%w[<foo> <bar> <twist>])).to eq "&lt;foo&gt;, &lt;bar&gt; and &lt;twist&gt;"
     end
+
+    it "can use a different word to join the list" do
+      expect(helper.list_in_words(%w[foo bar twist], "or")).to eq "foo, bar or twist"
+    end
   end
 end

@@ -153,11 +153,11 @@ module ApplicationHelper
   end
 
   # Given an array ["foo", "bar", "twist"] returns the list in word format - "foo, bar and twist".
-  def list_in_words(list)
+  def list_in_words(list, join_word = "and")
     if list.count > 2
-      safe_join([safe_join(list[0..-2], ", "), " and ", list[-1]])
+      safe_join([safe_join(list[0..-2], ", "), " #{join_word} ", list[-1]])
     else
-      safe_join(list, " and ")
+      safe_join(list, " #{join_word} ")
     end
   end
 end
