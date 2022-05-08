@@ -4,7 +4,17 @@
 
 %h3 Most important divisions relevant to this policy
 %p
-  These are the most important divisions related to the policy “#{policy.name_with_for}”. They are weighted much
+  = succeed "." do
+    These are the most important divisions related to the policy “#{policy.name_with_for}”
+    - if people.count > 0
+      which
+      - if people.count == 1
+        = people.first.name
+      - else
+        either
+        = list_in_words(people.map(&:name), "or")
+      could have attended
+  They are weighted much
   more strongly than other divisions when calculating the position of
   = people.empty? ? "a person" : list_in_words(people.map(&:name))
   on this policy.
@@ -15,7 +25,16 @@
 
 %h3 Other divisions relevant to this policy
 %p
-  These are less important divisions which are related to the policy “#{policy.name_with_for}”.
+  = succeed "." do
+    These are less important divisions which are related to the policy “#{policy.name_with_for}”
+    - if people.count > 0
+      which
+      - if people.count == 1
+        = people.first.name
+      - else
+        either
+        = list_in_words(people.map(&:name), "or")
+      could have attended    
   - if people.count > 1
     Where a person could not have attended a division because they were not a member of parliament at the time (or in the wrong house)
     it is marked as "-".
