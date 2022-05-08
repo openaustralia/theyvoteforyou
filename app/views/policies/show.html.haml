@@ -36,7 +36,7 @@
 
   %section.page-section#divisions
     %h2 Relevant divisions
-    = render 'vote_summary', person: nil, policy: @policy
+    = render 'vote_summary', people: [], policy: @policy
     %p.alert.alert-postnote.small
       If you know of other
       = link_to 'divisions', divisions_path

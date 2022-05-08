@@ -39,5 +39,5 @@
     voted compared to someone who believes that
     = link_to @policy.description, @policy
 
-= render 'policies/vote_summary', person: @member.person, policy: @policy
+= render 'policies/vote_summary', people: [@member.person], policy: @policy
 = render "policies/how_the_number_is_calculated", policy_person_distance: @policy_person_distance
