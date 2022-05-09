@@ -10,10 +10,16 @@
 
 .page-header
   .row
+    - ppd1 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person1)
+    - ppd2 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person2)
     .col-sm-6
       .media= render "member", member: @person_distance.person1.latest_member
+      = link_to member_policy_path_simple(ppd1.person.latest_member, ppd1.policy) do
+        = capitalise_initial_character(policy_agreement_summary(ppd1, with_person: false, with_policy: true))
     .col-sm-6
       .media= render "member", member: @person_distance.person2.latest_member
+      = link_to member_policy_path_simple(ppd2.person.latest_member, ppd2.policy) do
+        = capitalise_initial_character(policy_agreement_summary(ppd2, with_person: false, with_policy: true))
 
   -# TODO: This is only roughly placed for the time being
   = render "social_share"
@@ -26,12 +32,5 @@
     = @person_distance.person2.name
     voted compared with each other and someone who agrees that
     = link_to @policy.description, @policy
-
-%p
-  - ppd1 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person1)
-  - ppd2 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person2)
-  %ul
-    %li= link_to policy_agreement_summary(ppd1, with_person: true), member_policy_path_simple(ppd1.person.latest_member, ppd1.policy)
-    %li= link_to policy_agreement_summary(ppd2, with_person: true), member_policy_path_simple(ppd2.person.latest_member, ppd2.policy)
 
 = render 'policies/vote_summary', people: [@person_distance.person1, @person_distance.person2], policy: @policy
