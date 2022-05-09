@@ -36,7 +36,7 @@
   %p.col-sm-7
     How
     = link_to @member.name, member_path_simple(@member)
-    voted compared to someone who believes that
+    voted compared to someone who agrees that
     = link_to @policy.description, @policy
 
 = render 'policies/vote_summary', people: [@member.person], policy: @policy
