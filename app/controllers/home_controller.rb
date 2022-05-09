@@ -36,7 +36,7 @@ class HomeController < ApplicationController
           @mps << member unless member.nil?
         end
       end
-    elsif params[:button] == "hero_search" && @current_members.include?(params[:query].downcase)
+    elsif params[:button] == "hero_search" && params[:query].present? && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
       @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }
