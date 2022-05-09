@@ -31,5 +31,11 @@
   -# TODO: This is only roughly placed for the time being
   = render "social_share"
 
+%p
+  Now this is where it gets a bit tricky&hellip;
+  Two people might vote the same way on votes they both attended, so their votes are 100% in agreement.
+  They might also have voted in a way we’d describe differently when looking at all of one person's votes.
+  If the other person didn’t or couldn’t have attended those votes we leave those out of the comparison.
+  Because that just wouldn’t be fair now, would it?
 
 = render 'policies/vote_summary', people: [@person_distance.person1, @person_distance.person2], policy: @policy
