@@ -4,6 +4,7 @@
     = render "summary_vote_numbers", person_distance: @person_distance
     %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
       - person_distance.divisions_same.each do |division|
-        - member1 = person_distance.person1.member_in_division(division)
-        - member2 = person_distance.person2.member_in_division(division)
+        -# Doing this terrible hack because some divisions (e.g. representatives/2018-12-04/1) have votes for Julia Bank attached to the wrong member. The votes are attached to the member before she changed party and became independent.
+        - member1 = person_distance.person1.members.find {|m| !m.division_vote(division).nil? }
+        - member2 = person_distance.person2.members.find {|m| !m.division_vote(division).nil? }
         = render 'divisions/division', members: [member1, member2], house: nil, division: division
