@@ -1,33 +1,17 @@
 %section.page-section#friends
   %h2
-    - if Flipper.enabled?(:link_to_people_compare, current_user)
-      Compare
-      = @member.name
-      with someone else
-    - else
-      - if all_friends
-        All
-      Possible Friends
+    Compare
+    = @member.name
+    with someone else
 
-  - if Flipper.enabled?(:link_to_people_compare, current_user)
-    %p
-      Shows people in order of those who voted always the same as
-      = person.name
-      (100% agreement) to those who never voted the same (0% agreement).
-    %p
-      We only compare those votes where both people attended.
+  %p
+    Shows people in order of those who voted always the same as
+    = person.name
+    (100% agreement) to those who never voted the same (0% agreement).
+  %p
+    We only compare those votes where both people attended.
 
-      This may reveal relationships between people that were previously unsuspected. Or it may be nonsense.
-  - else
-    %p
-      Shows which people voted most similarly to
-      = person.name
-      in Parliament.
-
-      This is measured from 0% agreement (never voted the
-      same) to 100% (always voted the same). Only votes that both
-      attended are counted. This may reveal relationships between
-      people that were previously unsuspected. Or it may be nonsense.
+    This may reveal relationships between people that were previously unsuspected. Or it may be nonsense.
 
   %table.table
     %thead
@@ -44,15 +28,9 @@
         - possible_friends.each do |person_distance|
           %tr
             %td= fraction_to_percentage_display(person_distance.agreement_fraction_without_absences)
-            - if Flipper.enabled?(:link_to_people_compare, current_user)
-              %td= link_to person_distance.person2.name, compare_member_path_simple(person.latest_member, person_distance.person2.latest_member)
-            - else
-              %td= link_to person_distance.person2.name, member_path_simple(person_distance.person2.latest_member)
+            %td= link_to person_distance.person2.name, compare_member_path_simple(person.latest_member, person_distance.person2.latest_member)
             %td= member_type_party_place_sentence(person_distance.person2.latest_member)
   - unless all_friends
-    - if Flipper.enabled?(:link_to_people_compare, current_user)
-      = link_to "More people to compare with #{person.name}", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
-    - else
-      = link_to "More possible friends", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
+    = link_to "More people to compare with #{person.name}", friends_member_path_simple(person.latest_member), class: 'btn btn-default btn-sm'
   - if person.best_friends.count >= 5 && !all_friends
     (#{pluralize(person.best_friends.count, "other person")} voted exactly the same as this one)

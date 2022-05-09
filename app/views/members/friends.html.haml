@@ -1,14 +1,8 @@
-- if Flipper.enabled?(:link_to_people_compare, current_user)
-  - content_for :title do
-    Compare
-    = @member.name
-    with someone else
-  - set_meta_tags description: "See how #{@member.name} voted compared with other people"
-- else
-  - content_for :title do
-    Friends of
-    = @member.full_name
-  - set_meta_tags description: "#{members_type(@member.house)} that voted similarly to #{@member.name}."
+- content_for :title do
+  Compare
+  = @member.name
+  with someone else
+- set_meta_tags description: "See how #{@member.name} voted compared with other people"
 
 = render "member_page_header", member: @member
 = render "possible_friends", person: @member.person, all_friends: true
