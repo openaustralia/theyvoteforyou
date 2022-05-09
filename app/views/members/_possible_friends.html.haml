@@ -27,7 +27,7 @@
         - possible_friends = possible_friends[0..4] if !all_friends
         - possible_friends.each do |person_distance|
           %tr
-            %td= fraction_to_percentage_display(person_distance.agreement_fraction_without_absences)
+            %td= link_to fraction_to_percentage_display(person_distance.agreement_fraction_without_absences), compare_member_path_simple(person.latest_member, person_distance.person2.latest_member)
             %td= link_to person_distance.person2.name, compare_member_path_simple(person.latest_member, person_distance.person2.latest_member)
             %td= member_type_party_place_sentence(person_distance.person2.latest_member)
   - unless all_friends
