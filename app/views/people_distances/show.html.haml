@@ -9,11 +9,11 @@
 %h1.long-title= yield :title
 
 .page-header
-  .row
-    .col-sm-6
+  .row.equal
+    .col-sm-6.equal-col
       .media= render "member", member: @person_distance.person1.latest_member
       = link_to "Compare #{@person_distance.person1.name} with someone else", friends_member_path_simple(@person_distance.person1.latest_member), class: "btn btn-default btn-sm compare-others"
-    .col-sm-6
+    .col-sm-6.equal-col
       .media= render "member", member: @person_distance.person2.latest_member
       = link_to "Compare #{@person_distance.person2.name} with someone else", friends_member_path_simple(@person_distance.person2.latest_member), class: "btn btn-default btn-sm compare-others"
 
