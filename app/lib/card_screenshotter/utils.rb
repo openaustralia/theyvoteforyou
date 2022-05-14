@@ -61,5 +61,27 @@ module CardScreenshotter
         f.write image
       end
     end
+
+    def self.external_screenshot_url(url)
+      urlbox(
+        url: url,
+        # We're caching things for 1 day
+        ttl: 1.day,
+        width: CARD_WIDTH,
+        height: CARD_HEIGHT
+      )
+    end
+
+    # Given a url to screenshot (passed in options) this returns a URL that will be PNG image of that url using
+    # the urlbox external service
+    def self.urlbox(options = {}, format = "png")
+      query_string = options.to_query
+      # This HMAC essentially signs the query_string making it safe to share
+      # this URL in public. An attacker can only request the same URL.
+      # They can't create a screenshot of something else
+      token = OpenSSL::HMAC.hexdigest("sha1", Rails.application.secrets.urlbox_secret, query_string)
+
+      "https://api.urlbox.io/v1/#{Rails.application.secrets.urlbox_apikey}/#{token}/#{format}?#{query_string}"
+    end
   end
 end

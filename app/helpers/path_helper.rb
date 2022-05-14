@@ -47,6 +47,11 @@ module PathHelper
     end
   end
 
+  def card_compare_member_url(member1, member2)
+    # Here we return a URL from an external service that dynamically creates a screenshot of one of our URLs
+    CardScreenshotter::Utils.external_screenshot_url(compare_member_url_simple(member1, member2, card: true))
+  end
+
   def person_policy_url_simple(person, policy, options = {})
     member_policy_url_simple(person.latest_member, policy, options)
   end
@@ -75,6 +80,12 @@ module PathHelper
     p1 = member1.url_params
     p2 = member2.url_params
     compare_member_path(p1.merge(house2: p2[:house], mpc2: p2[:mpc], mpn2: p2[:mpn]))
+  end
+
+  def compare_member_url_simple(member1, member2, options = {})
+    p1 = member1.url_params
+    p2 = member2.url_params
+    compare_member_url(options.merge(p1.merge(house2: p2[:house], mpc2: p2[:mpc], mpn2: p2[:mpn])))
   end
 
   def compare_member_policy_path_simple(people_distance, policy)
