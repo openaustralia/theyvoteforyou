@@ -3,7 +3,7 @@ check everything you see by comparing it to the [official parliamentary website]
 you to do so! We are a small team and greatly appreciate any help we receive to make sure that They
 Vote For You is as accurate and reliable as possible.
 
-*How accurate are our policies?*
+### How accurate are our policies?
 
 Every policy provides a short description of what the policy represents as well as a list of every
 attached division. These divisions all have a plain English explanation of what was voted on, as well
@@ -19,7 +19,7 @@ If you do find any errors like this, please let us know so we can correct the re
 Every policy is a work in progress. As new divisions come in, policy descriptions may change. We always
 welcome feedback on our policies and advice on how they may be improved.
 
-*How accurate are our divisions?*
+### How accurate are our divisions?
 
 Each division page includes a plain English explanation of what was voted on, as well as links to a copy
 of the Hansard and, if it is a division on a bill, a link to the bill homepage. They also include the date
