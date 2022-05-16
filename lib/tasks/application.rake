@@ -232,6 +232,21 @@ namespace :application do
         f.write(%w[id name party].to_csv)
         info.each { |l| f.write(l.to_csv) }
       end
+
+      # Export senate_distances.csv
+      p = Member.current.where(house: "senate").pluck(:person_id)
+      d = PeopleDistance.where(person1: p, person2: p).pluck(:person1_id, :person2_id, :distance_b)
+      File.open("senate_distances.csv", "w") do |f|
+        f.write(%w[person1_id person2_id distance_b].to_csv)
+        d.each { |l| f.write(l.to_csv) }
+      end
+
+      # Export senate_people.csv
+      info = Member.current.where(house: "senate").map { |m| [m.person.id, m.person.name, m.person.latest_member.party] }
+      File.open("senate_people.csv", "w") do |f|
+        f.write(%w[id name party].to_csv)
+        info.each { |l| f.write(l.to_csv) }
+      end
     end
   end
 end

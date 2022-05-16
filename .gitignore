@@ -33,3 +33,5 @@ public/cards
 # Ignore output of "export" rake tasks
 representatives_distances.csv
 representatives_people.csv
+senate_distances.csv
+senate_people.csv
