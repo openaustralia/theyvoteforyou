@@ -218,17 +218,17 @@ namespace :application do
     # Data required for visualisation at https://github.com/openaustralia/visualise-votes-mds/blob/main/notebook.ipynb
     desc "Export csv files required for voting visualisation"
     task voting_visualisation: :environment do
-      # Export distances.csv
+      # Export representatives_distances.csv
       p = Member.current.where(house: "representatives").pluck(:person_id)
       d = PeopleDistance.where(person1: p, person2: p).pluck(:person1_id, :person2_id, :distance_b)
-      File.open("distances.csv", "w") do |f|
+      File.open("representatives_distances.csv", "w") do |f|
         f.write(%w[person1_id person2_id distance_b].to_csv)
         d.each { |l| f.write(l.to_csv) }
       end
 
-      # Export people.csv
+      # Export representatives_people.csv
       info = Member.current.where(house: "representatives").map { |m| [m.person.id, m.person.name, m.person.latest_member.party] }
-      File.open("people.csv", "w") do |f|
+      File.open("representatives_people.csv", "w") do |f|
         f.write(%w[id name party].to_csv)
         info.each { |l| f.write(l.to_csv) }
       end

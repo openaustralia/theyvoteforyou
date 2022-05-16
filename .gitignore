@@ -31,5 +31,5 @@ coverage
 public/cards
 
 # Ignore output of "export" rake tasks
-distances.csv
-people.csv
+representatives_distances.csv
+representatives_people.csv
