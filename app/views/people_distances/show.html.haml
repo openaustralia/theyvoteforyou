@@ -58,7 +58,7 @@
     and
     = @person_distance.person2.name
     have voted in the same division
-    = "#{pluralize(@person_distance.total_votes, "time")}."
+    = "#{number_of_times(@person_distance.total_votes)}."
 
   = render "summary_vote_numbers", person_distance: @person_distance
 

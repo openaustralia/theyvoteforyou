@@ -60,4 +60,12 @@ describe ApplicationHelper, type: :helper do
       expect(helper.list_in_words(%w[foo bar twist], "or")).to eq "foo, bar or twist"
     end
   end
+
+  describe "number_of_times" do
+    it { expect(helper.number_of_times(0)).to eq "never" }
+    it { expect(helper.number_of_times(1)).to eq "once" }
+    it { expect(helper.number_of_times(2)).to eq "twice" }
+    it { expect(helper.number_of_times(3)).to eq "3 times" }
+    it { expect(helper.number_of_times(4)).to eq "4 times" }
+  end
 end

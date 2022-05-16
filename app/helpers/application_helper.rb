@@ -160,4 +160,17 @@ module ApplicationHelper
       safe_join(list, " #{join_word} ")
     end
   end
+
+  def number_of_times(number)
+    case number
+    when 0
+      "never"
+    when 1
+      "once"
+    when 2
+      "twice"
+    else
+      pluralize(number, "time")
+    end
+  end
 end

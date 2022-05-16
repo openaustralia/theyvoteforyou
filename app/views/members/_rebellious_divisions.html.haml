@@ -6,7 +6,7 @@
     has
     - if member.person.rebellions > 0
       voted against the majority of their party
-      = pluralize(member.person.rebellions, "time")
+      = number_of_times(member.person.rebellions)
     - else
       never voted against the majority of their party
     since

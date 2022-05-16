@@ -2,22 +2,22 @@
   - if person_distance.nvotesdiffer > person_distance.nvotessame
     = succeed "." do
       In divisions they have voted differently
-      = pluralize(person_distance.nvotesdiffer, "time")
+      = number_of_times(person_distance.nvotesdiffer)
     = succeed "." do
       - if person_distance.nvotessame.zero?
         They have
         %strong never voted the same
       - else
         They have only voted
-        %strong= "the same #{pluralize(person_distance.nvotessame, "time")}"
+        %strong= "the same #{number_of_times(person_distance.nvotessame)}"
   - else
     = succeed "." do
       In divisions they have voted the same
-      = pluralize(person_distance.nvotessame, "time")
+      = number_of_times(person_distance.nvotessame)
     = succeed "." do
       - if person_distance.nvotesdiffer.zero?
         They have
         %strong never voted differently
       - else
         They have only voted
-        %strong= "differently #{pluralize(person_distance.nvotesdiffer, "time")}"
+        %strong= "differently #{number_of_times(person_distance.nvotesdiffer)}"
