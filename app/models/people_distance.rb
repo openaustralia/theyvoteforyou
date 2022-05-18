@@ -50,7 +50,9 @@ class PeopleDistance < ApplicationRecord
     end
   end
 
-  def self.calculate_distances(person1, person2)
+  # By setting "date" we can also restrict the calculation to just a particular date or
+  # a range of dates
+  def self.calculate_distances(person1, person2, date = nil)
     r = Division
         .joins("INNER JOIN votes AS votes1 on votes1.division_id = divisions.id")
         .joins("INNER JOIN votes AS votes2 on votes2.division_id = divisions.id")
@@ -58,8 +60,8 @@ class PeopleDistance < ApplicationRecord
         .joins("INNER JOIN members AS members2 on members2.id = votes2.member_id")
         .where(members1: { person_id: person1.id })
         .where(members2: { person_id: person2.id })
-        .group("votes1.vote = votes2.vote")
-        .count
+    r = r.where(divisions: { date: date }) if date
+    r = r.group("votes1.vote = votes2.vote").count
     same = r[1] || 0
     differ = r[0] || 0
     {

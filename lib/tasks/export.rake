@@ -30,5 +30,27 @@ namespace :application do
       File.open("senate_distances.csv", "w") { |f| write_distances(f, members) }
       File.open("senate_people.csv", "w") { |f| write_people(f, members) }
     end
+
+    # We also want to export a different version of the distances file which
+    # limits results to the term of the last parliament and includes the absolute number of
+    # votes that were different and the same
+    desc "Export csv files for voting visualisation for recent parliamentary term"
+    task voting_vis_46th_parliament: :environment do
+      people = Member.current.where(house: "representatives").map(&:person)
+      File.open("distances_46th_parliament.csv", "w") do |file|
+        progress = ProgressBar.create(total: people.count, format: "%t: |%B| %E %a")
+        file << %w[person1_id person2_id same differ].to_csv
+        people.each do |person1|
+          people.select { |p| p.id >= person1.id }.each do |person2|
+            # https://en.wikipedia.org/wiki/46th_Parliament_of_Australia
+            date = Date.new(2019, 7, 2)..Date.new(2022, 4, 11)
+            r = PeopleDistance.calculate_distances(person1, person2, date)
+            file << [person1.id, person2.id, r[:nvotessame], r[:nvotesdiffer]].to_csv
+            file << [person2.id, person1.id, r[:nvotessame], r[:nvotesdiffer]].to_csv
+          end
+          progress.increment
+        end
+      end
+    end
   end
 end
