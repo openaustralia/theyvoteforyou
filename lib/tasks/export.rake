@@ -46,7 +46,8 @@ namespace :application do
             date = Date.new(2019, 7, 2)..Date.new(2022, 4, 11)
             r = PeopleDistance.calculate_distances(person1, person2, date)
             file << [person1.id, person2.id, r[:nvotessame], r[:nvotesdiffer]].to_csv
-            file << [person2.id, person1.id, r[:nvotessame], r[:nvotesdiffer]].to_csv
+            # Only output two lines if we're not on the diagonal of the matrix
+            file << [person2.id, person1.id, r[:nvotessame], r[:nvotesdiffer]].to_csv if person1.id != person2.id
           end
           progress.increment
         end
