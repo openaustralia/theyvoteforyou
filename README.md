@@ -72,6 +72,9 @@ Steps required to configure, install and start the Rails application:
 # Install bundle
 bundle install
 
+# Install mailcatcher
+gem install mailcatcher
+
 # Copy the default config files over.
 cp config/database.yml.example config/database.yml
 
