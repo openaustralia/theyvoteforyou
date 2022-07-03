@@ -5,21 +5,22 @@
   have voted the same way
   = fraction_to_percentage_display(@person_distance.agreement_fraction_without_absences)
   of the time
-:ruby
-  set_meta_tags og: {
-    title: (yield :title),
-    description: "Compare how #{@person_distance.person1.name} and #{@person_distance.person2.name} have voted in the Australian Parliament",
-    type: "website",
-    url: request.original_url,
-    image: {
-      _: card_compare_member_url(@person_distance.person1.latest_member, @person_distance.person2.latest_member),
-      alt: (yield :title),
-      width: CardScreenshotter::Utils::CARD_WIDTH,
-      height: CardScreenshotter::Utils::CARD_HEIGHT
-    },
-    site_name: Settings.project_name
-  }
-  set_meta_tags twitter: { card: "summary_large_image" }
+-#
+  :ruby
+    set_meta_tags og: {
+      title: (yield :title),
+      description: "Compare how #{@person_distance.person1.name} and #{@person_distance.person2.name} have voted in the Australian Parliament",
+      type: "website",
+      url: request.original_url,
+      image: {
+        _: card_compare_member_url(@person_distance.person1.latest_member, @person_distance.person2.latest_member),
+        alt: (yield :title),
+        width: CardScreenshotter::Utils::CARD_WIDTH,
+        height: CardScreenshotter::Utils::CARD_HEIGHT
+      },
+      site_name: Settings.project_name
+    }
+    set_meta_tags twitter: { card: "summary_large_image" }
 
 %h1.long-title= yield :title
 
