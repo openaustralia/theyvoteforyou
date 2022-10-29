@@ -177,12 +177,12 @@ GEM
       dry-core (~> 0.5, >= 0.5)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.8, >= 1.8.0)
-    elasticsearch (7.13.3)
-      elasticsearch-api (= 7.13.3)
-      elasticsearch-transport (= 7.13.3)
-    elasticsearch-api (7.13.3)
+    elasticsearch (7.17.7)
+      elasticsearch-api (= 7.17.7)
+      elasticsearch-transport (= 7.17.7)
+    elasticsearch-api (7.17.7)
       multi_json
-    elasticsearch-transport (7.13.3)
+    elasticsearch-transport (7.17.7)
       faraday (~> 1)
       multi_json
     em-websocket (0.5.3)
@@ -202,7 +202,7 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
-    faraday (1.9.3)
+    faraday (1.10.2)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -218,8 +218,8 @@ GEM
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
     faraday-httpclient (1.0.1)
-    faraday-multipart (1.0.3)
-      multipart-post (>= 1.2, < 3)
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
     faraday-net_http (1.0.1)
     faraday-net_http_persistent (1.2.0)
     faraday-patron (1.0.0)
@@ -281,7 +281,7 @@ GEM
     httparty (0.20.0)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
-    i18n (1.10.0)
+    i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     invisible_captcha (2.0.0)
       rails (>= 5.0)
@@ -345,13 +345,13 @@ GEM
     mini_mime (1.1.2)
     mini_racer (0.6.2)
       libv8-node (~> 16.10.0.0)
-    minitest (5.15.0)
+    minitest (5.16.3)
     momentjs-rails (2.29.1.1)
       railties (>= 3.1)
     msgpack (1.4.4)
     multi_json (1.15.0)
     multi_xml (0.6.0)
-    multipart-post (2.1.1)
+    multipart-post (2.2.3)
     mysql2 (0.5.3)
     nenv (0.3.0)
     net-http-digest_auth (1.4.1)
@@ -508,9 +508,8 @@ GEM
       tilt
     sdoc (2.3.1)
       rdoc (>= 5.0, < 6.4.0)
-    searchkick (4.6.3)
-      activemodel (>= 5)
-      elasticsearch (>= 6, < 7.14)
+    searchkick (5.1.0)
+      activemodel (>= 5.2)
       hashie
     seed_dump (3.3.1)
       activerecord (>= 4)
@@ -549,7 +548,7 @@ GEM
     timecop (0.9.4)
     typhoeus (1.4.0)
       ethon (>= 0.9.0)
-    tzinfo (1.2.9)
+    tzinfo (1.2.10)
       thread_safe (~> 0.1)
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
@@ -571,7 +570,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.5.4)
+    zeitwerk (2.6.1)
 
 PLATFORMS
   x86_64-darwin-20
@@ -597,6 +596,7 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   diffy
+  elasticsearch (~> 7)
   email_spec
   factory_bot_rails
   flipper

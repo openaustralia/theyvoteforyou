@@ -49,6 +49,9 @@ gem "meta-tags"
 gem "numbers_and_words"
 
 gem "searchkick"
+# We're using elasticsearch 7.1 on the server. So, matching major version number for the gem
+# TODO: Upgrade this when we upgrade the server
+gem "elasticsearch", "~> 7"
 
 # oj and typhoeus used for better performance with searchkick
 # see https://github.com/ankane/searchkick#performance
