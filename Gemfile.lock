@@ -124,7 +124,7 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    dalli (2.7.11)
+    dalli (3.2.3)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     debug_inspector (1.1.0)
@@ -592,7 +592,7 @@ DEPENDENCIES
   capistrano-rvm
   capybara
   config
-  dalli (~> 2)
+  dalli (~> 3)
   delayed_job_active_record
   devise
   diffy

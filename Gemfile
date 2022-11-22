@@ -139,7 +139,7 @@ end
 group :production do
   # TODO: To upgrade to dalli 3 we need to make changes to the configuration
   # See https://github.com/petergoldstein/dalli/blob/main/3.0-Upgrade.md
-  gem "dalli", "~>2"
+  gem "dalli", "~>3"
 end
 
 group :doc do
