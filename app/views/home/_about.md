@@ -17,7 +17,7 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation in 2013 made the initial development of this project possible.
 
-<%= inline_project_name %> was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies before launch was done by the magnificent Micaela Ash and Natasha Burrows.
+<%= inline_project_name %> was created by Henare Degan, Matthew Landauer, Luke Bacon and Katherine Szuminska. Political research for the research and writing of policies before launch was done by the magnificent Mackay Ash and Natasha Burrows.
 
 ### <a name='contribute'></a>You can help
 
