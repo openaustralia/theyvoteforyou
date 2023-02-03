@@ -232,3 +232,5 @@ http://thenounproject.com/term/check/45904/
 http://thenounproject.com/term/delete/45301/
 * Speech Icon by Lissette Arias from the Noun Project
 http://thenounproject.com/term/lecturer/8076/
+* User Icon by Universal Icons from the Noun Project
+https://thenounproject.com/icon/user-3692903/
