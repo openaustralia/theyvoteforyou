@@ -133,7 +133,9 @@ class Whip < ApplicationRecord
         party == "Liberal Party" # Probably other parties too, but the Libs were the only party with 'rebellions'
       # Mitochondrial Donation Law Reform (Maeve's Law) Bill 2021
       # See https://www.theguardian.com/australia-news/2021/dec/01/controversial-mitochondrial-donation-legalised-after-conscience-vote
-      elsif (division.date == Date.new(2022, 2, 9) && division.number >= 5) || (division.date == Date.new(2022, 2, 10) && [6, 8, 9, 10].include?(division.number))
+      elsif division.date == Date.new(2022, 2, 9) && division.number >= 5
+        ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
+      elsif division.date == Date.new(2022, 2, 10) && [6, 8, 9, 10].include?(division.number)
         ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
       # Restoring Territory Rights Bill 2022
       elsif division.date == Date.new(2022, 11, 24) && division.number == 1
