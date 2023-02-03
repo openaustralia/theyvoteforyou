@@ -99,6 +99,9 @@ class Whip < ApplicationRecord
       # See https://www.theguardian.com/australia-news/2021/dec/01/controversial-mitochondrial-donation-legalised-after-conscience-vote
       elsif division.date == Date.new(2021, 12, 1) && division.number == 3
         ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
+      # Restoring Territory Rights Bill 2022
+      elsif division.date == Date.new(2022, 8, 3) && division.number == 3
+        ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
       end
     when "senate"
       # Therapeutic Goods Amendment (Repeal of Ministerial Responsibility for Approval of  RU486) Bill 2005
@@ -132,6 +135,11 @@ class Whip < ApplicationRecord
       # See https://www.theguardian.com/australia-news/2021/dec/01/controversial-mitochondrial-donation-legalised-after-conscience-vote
       elsif (division.date == Date.new(2022, 2, 9) && division.number >= 5) || (division.date == Date.new(2022, 2, 10) && [6, 8, 9, 10].include?(division.number))
         ["Liberal Party", "National Party", "Liberal National Party", "Australian Labor Party"].include?(party)
+      # Restoring Territory Rights Bill 2022
+      elsif division.date == Date.new(2022, 11, 24) && division.number == 1
+        ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party"].include?(party)
+      elsif division.date == Date.new(2022, 12, 1) && [11, 12].include?(division.number)
+        ["Liberal Party", "National Party", "Australian Labor Party", "Pauline Hanson's One Nation Party"].include?(party)
       end
     end
     # rubocop:enable Lint/DuplicateBranch
