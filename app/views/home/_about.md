@@ -21,7 +21,7 @@ A huge thank you to [Google Australia](http://www.google.com.au) whose donation 
 
 ### <a name='contribute'></a>You can help
 
-Make this project better for everyone by [summarising divisions](/help/research) and [maintaining and discussing policies](/policies). You can also [make a tax deductible donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
+Make this project better for everyone by [summarising divisions](/help/research) and [maintaining and discussing policies](/policies). You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
 
 <%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/theyvoteforyou), where you can find out how to contribute yourself.
 
