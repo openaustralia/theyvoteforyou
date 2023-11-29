@@ -2,6 +2,6 @@
   %h2.h5 External links
   %ul.list-unstyled.object-list-compact
     %li.object-item= link_to "Debate in Parliament", division.debate_url, title: "Links to debate shown at www.openaustralia.org"
-    %li.object-item= link_to "Source", division.source_url, title: "The original record of vote as reported by Hansard"
+    %li.object-item= link_to "Hansard source", division.source_url, title: "The original record of vote as reported by Hansard"
     - division.bills.each do |bill|
       %li.object-item= link_to bill.title, bill.url
