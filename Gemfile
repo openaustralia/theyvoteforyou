@@ -24,7 +24,11 @@ gem "htmlentities"
 # Necessary because we have a column called "valid" in the pw_divisions table.
 # TODO Change the name of the column with a migration and remove this gem
 gem "safe_attributes"
+
+# TODO: Remove newrelic once we're happy that skylight is meeting our needs
 gem "newrelic_rpm"
+gem "skylight"
+
 gem "devise"
 gem "attribute-defaults"
 gem "diffy"
