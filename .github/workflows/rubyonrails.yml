@@ -29,7 +29,7 @@ jobs:
           --health-retries 3
     env:
       RAILS_ENV: test
-      DATABASE_URL: "mysql2://rails:password@localhost:3306/rails_test"
+      DATABASE_URL: "mysql2://rails:password@127.0.0.1:3306/rails_test"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
