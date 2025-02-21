@@ -38,6 +38,7 @@ module HTMLCompareHelper
 
     # Write it out to a file
     File.write("spec/fixtures/static_pages#{path.gsub '?', '__'}.#{format}", new_text)
+    puts new_text
     raise "Don't match. Writing over file in spec/fixtures/static_pages. Do a git diff."
   end
 
