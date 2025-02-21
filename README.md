@@ -1,5 +1,5 @@
 # They Vote For You
-![Build Status](https://github.com/openaustralia/theyvoteforyou/actions/workflows/rubyonrails.yml/badge.svg) [![Code Climate](https://codeclimate.com/github/openaustralia/publicwhip.png)](https://codeclimate.com/github/openaustralia/publicwhip) [![Test Coverage](https://codeclimate.com/github/openaustralia/publicwhip/badges/coverage.svg)](https://codeclimate.com/github/openaustralia/publicwhip/coverage) [![View performance data on Skylight](https://badges.skylight.io/status/WaEcq22vbGmE.svg?token=vUJxZEeaJsAHAZwuG7jUg1kAynbWf1OKnhhXosl9ibc)](https://www.skylight.io/app/applications/WaEcq22vbGmE)
+![Build Status](https://github.com/openaustralia/theyvoteforyou/actions/workflows/rubyonrails.yml/badge.svg)(https://github.com/openaustralia/theyvoteforyou/actions/workflows/rubyonrails.yml) [![Code Climate](https://codeclimate.com/github/openaustralia/publicwhip.png)](https://codeclimate.com/github/openaustralia/publicwhip) [![Test Coverage](https://codeclimate.com/github/openaustralia/publicwhip/badges/coverage.svg)](https://codeclimate.com/github/openaustralia/publicwhip/coverage) [![View performance data on Skylight](https://badges.skylight.io/status/WaEcq22vbGmE.svg?token=vUJxZEeaJsAHAZwuG7jUg1kAynbWf1OKnhhXosl9ibc)](https://www.skylight.io/app/applications/WaEcq22vbGmE)
 
 ## Introduction
 
