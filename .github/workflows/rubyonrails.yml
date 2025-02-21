@@ -47,6 +47,7 @@ jobs:
       - name: Run tests
         run: bin/rake
 
+  # TODO: Add codeclimate here. We used to run it on travis ci
   lint:
     runs-on: ubuntu-latest
     steps:
