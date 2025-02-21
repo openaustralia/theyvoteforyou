@@ -31,6 +31,8 @@ jobs:
       RAILS_ENV: test
       DATABASE_URL: "mysql2://rails:password@127.0.0.1:3306/rails_test"
     steps:
+      - name: Install tidy
+        run: sudo apt install -y tidy
       - name: Checkout code
         uses: actions/checkout@v4
       # Add or replace dependency steps here
