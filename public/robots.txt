@@ -3,3 +3,11 @@
 # To ban all spiders from the entire site uncomment the next two lines:
 # User-agent: *
 # Disallow: /
+
+# Temporarily ban all robots from scraping people comparison pages
+# These are running very slow right now and robots scraping these pages (of which there are many)
+# slows the whole site down to a crawl
+# TODO: Fix the underlying performance problems and potentially remove this restriction
+
+User-agent: *
+Disallow: /people/*/*/*/compare/
