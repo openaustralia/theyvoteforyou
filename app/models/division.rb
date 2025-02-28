@@ -217,10 +217,6 @@ class Division < ApplicationRecord
     policy_divisions.find_by!(policy_id: policy.id)
   end
 
-  def policy_vote(policy)
-    policy_division(policy).vote
-  end
-
   def build_wiki_motion(title, description, user)
     wiki_motions.new(title: title,
                      description: description,

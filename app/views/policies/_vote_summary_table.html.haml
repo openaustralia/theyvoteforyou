@@ -6,18 +6,18 @@
         %th= person.name
       %th.policyvotehead Supporters vote
   %tbody
-    - if divisions.empty?
+    - if policy_divisions.empty?
       %tr
         %td{colspan: 7} no votes listed
     - else
-      - divisions.each do |division|
+      - policy_divisions.each do |pd|
         %tr
           %td
             %h3.division-title.h4
-              %small.pre-title= division_date_and_time(division) + " – " + division.house_name
-              = link_to(division.name, division_path_simple(division))
+              %small.pre-title= division_date_and_time(pd.division) + " – " + pd.division.house_name
+              = link_to(pd.division.name, division_path_simple(pd.division))
           - people.each do |person|
             %td.division-member-vote{data: {member: "#{person.name}"}}
-              = vote_display(division.vote_for_person(person))
+              = vote_display(pd.division.vote_for_person(person))
           %td.division-policy-vote
-            = vote_display(PolicyDivision.vote_without_strong(division.policy_vote(policy)))
+            = vote_display(PolicyDivision.vote_without_strong(pd.vote))
