@@ -1,4 +1,4 @@
-- divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc).includes(:votes)
+- divisions = policy.divisions.order(date: :desc, clock_time: :desc, name: :asc, number: :desc).includes(:votes, :wiki_motions)
 -# We're only including divisions where one or more of the people could have attended
 - divisions = divisions.select{ |d| people.any? { |p| p.could_have_voted_in_division?(d) } } unless people.empty?
 
