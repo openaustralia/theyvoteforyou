@@ -161,6 +161,10 @@ class Member < ApplicationRecord
     in_parliament_on_date(Time.zone.today)
   end
 
+  def could_have_voted_in_division?(division)
+    in_parliament_on_date(division.date) && house == division.house
+  end
+
   # Long version of party name
   def party_name
     party_object.long_name

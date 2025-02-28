@@ -61,6 +61,16 @@ class Division < ApplicationRecord
     member.vote_on_division_without_tell(self)
   end
 
+  def vote_for_person(person)
+    member = person.member_in_division(self)
+    if member
+      vote_for(member)
+    else
+      # If person could not have attended the division
+      "-"
+    end
+  end
+
   def passed?
     tied? ? false : aye_majority >= 1
   end

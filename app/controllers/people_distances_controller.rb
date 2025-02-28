@@ -68,6 +68,9 @@ class PeopleDistancesController < ApplicationController
       )
       return
     end
+    # TODO: Preload some associations to speed up queries
     @person_distance = PeopleDistance.find_by(person1: member1.person, person2: member2.person)
+    # TODO: Probably don't need both @person_distance and people. Refactor to get rid of one
+    @people = [member1.person, member2.person]
   end
 end

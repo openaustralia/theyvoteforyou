@@ -18,6 +18,6 @@
               = link_to(division.name, division_path_simple(division))
           - people.each do |person|
             %td.division-member-vote{data: {member: "#{person.name}"}}
-              = vote_display(person.vote_on_division_without_tell(division))
+              = vote_display(division.vote_for_person(person))
           %td.division-policy-vote
             = vote_display(PolicyDivision.vote_without_strong(division.policy_vote(policy)))

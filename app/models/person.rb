@@ -142,18 +142,10 @@ class Person < ApplicationRecord
     !member_in_division(division).nil?
   end
 
+  # Not using the database for this because we can assume there are small number of
+  # members for this person and they should be preloaded
   def member_in_division(division)
-    members.current_on(division.date).find_by(house: division.house)
-  end
-
-  def vote_on_division_without_tell(division)
-    member = member_in_division(division)
-    if member
-      member.vote_on_division_without_tell(division)
-    else
-      # If person could not have attended the division
-      "-"
-    end
+    members.find { |member| member.could_have_voted_in_division?(division) }
   end
 
   # People who were in parliament (in the same house) at the same time
