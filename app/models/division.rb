@@ -58,7 +58,13 @@ class Division < ApplicationRecord
   end
 
   def vote_for(member)
-    member.vote_on_division_without_tell(self)
+    vote_object_for(member) ? vote_object_for(member).vote : "absent"
+  end
+
+  # Not doing this via the database because we're assuming that all the votes have been
+  # preloaded from the database using "includes"
+  def vote_object_for(member)
+    votes.find { |vote| vote.member_id == member.id }
   end
 
   def vote_for_person(person)
