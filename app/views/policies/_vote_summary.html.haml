@@ -21,7 +21,7 @@
   - if people.count > 1
     Where a person could not have attended a division because they were not a member of parliament at the time (or in the wrong house)
     it is marked as "-".
-= render "policies/vote_summary_table", people: people, policy: policy, divisions: divisions.select{ |d| d.policy_vote_strong?(policy) }
+= render "policies/vote_summary_table", people: people, policy: policy, divisions: divisions.select{ |d| d.policy_division(policy).strong_vote? }
 
 %h3 Other divisions relevant to this policy
 %p
@@ -38,4 +38,4 @@
   - if people.count > 1
     Where a person could not have attended a division because they were not a member of parliament at the time (or in the wrong house)
     it is marked as "-".
-= render "policies/vote_summary_table", people: people, policy: policy, divisions: divisions.select{ |d| !d.policy_vote_strong?(policy) }
+= render "policies/vote_summary_table", people: people, policy: policy, divisions: divisions.select{ |d| !d.policy_division(policy).strong_vote? }

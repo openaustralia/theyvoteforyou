@@ -217,10 +217,6 @@ class Division < ApplicationRecord
     policy_divisions.find_by!(policy_id: policy.id)
   end
 
-  def policy_vote_strong?(policy)
-    policy_division(policy).strong_vote?
-  end
-
   def policy_vote(policy)
     policy_division(policy).vote
   end
