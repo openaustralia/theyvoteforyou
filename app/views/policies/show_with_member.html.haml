@@ -39,5 +39,8 @@
     voted compared to someone who agrees that
     = link_to @policy.description, @policy
 
+- if @policy.published?
+  = render "policies/not_a_crystal_ball_warning"
+
 = render 'policies/vote_summary', people: [@member.person], policy: @policy
 = render "policies/how_the_number_is_calculated", policy_person_distance: @policy_person_distance
