@@ -20,6 +20,7 @@
   = render "member_page_header", member: @member
   = render "summary", member: @member
 = link_to "Compare their voting record with someone else's", friends_member_path_simple(@member), class: "btn btn-default btn-sm compare-others"
+= render "policies/not_a_crystal_ball_warning"
 = render "policy_comparisons", member: @member
 - if @member.person.subject_to_whip?
   = render "interesting_votes", member: @member

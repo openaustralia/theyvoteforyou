@@ -37,4 +37,8 @@
     - if policy.published?
       = render "social_share"
 
+-# TODO: Move conditional in partial up to this level to make intent clearer
 = render "draft_warning", policy: policy
+
+- if policy.published?
+  = render "not_a_crystal_ball_warning"
