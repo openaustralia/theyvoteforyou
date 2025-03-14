@@ -199,18 +199,39 @@ class Member < ApplicationRecord
     Member.where(house: house).where("left_house >= ?", entered_house).where("entered_house <= ?", left_house)
   end
 
-  private
+  # Returns a value between 0 and 1 for how much they've voted along the same lines as a given party
+  # Only considers divisions that the member could have attended and wasn't a "free" vote for the given party
+  def similarity_to_party(party)
+    disagree = divisions.joins(:whips).where(vote_disagree_with_party(party)).count
+    agree = divisions.joins(:whips).where(vote_agree_with_party(party)).count
+    agree.to_f / (agree + disagree)
+  end
+
+  def rebellious_vote
+    vote_disagree_with_party(party)
+  end
 
   def free_vote
     whip = Whip.arel_table
     whip[:party].eq(party).and(whip[:whip_guess].eq("none"))
   end
 
-  def rebellious_vote
+  # TODO: Fix parameter shadowing of method
+  def vote_disagree_with_party(party)
     whip = Whip.arel_table
     vote = Vote.arel_table
     rebel_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("no"))
     rebel_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("aye"))
     whip[:party].eq(party).and(rebel_aye.or(rebel_no))
+  end
+
+  # TODO: Fix parameter shadowing of method
+  def vote_agree_with_party(party)
+    whip = Whip.arel_table
+    vote = Vote.arel_table
+    # TODO: We can simplify this expression because whip_guess is the only than can be either aye, no or none
+    agree_aye = vote[:vote].eq("aye").and(whip[:whip_guess].eq("aye"))
+    agree_no = vote[:vote].eq("no").and(whip[:whip_guess].eq("no"))
+    whip[:party].eq(party).and(agree_aye.or(agree_no))
   end
 end

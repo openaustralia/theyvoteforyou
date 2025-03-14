@@ -21,6 +21,16 @@
   = render "summary", member: @member
 = link_to "Compare their voting record with someone else's", friends_member_path_simple(@member), class: "btn btn-default btn-sm compare-others"
 = render "policies/not_a_crystal_ball_warning"
+
+-# TODO: Make this only visible to certain people for testing
+%h2 Comparison to parties
+- ["Australian Labor Party", "Liberal Party", "Australian Greens"].each do |party|
+  %p
+    voted the same way
+    = fraction_to_percentage_display(@member.similarity_to_party(party))
+    of the time as the
+    = party
+
 = render "policy_comparisons", member: @member
 - if @member.person.subject_to_whip?
   = render "interesting_votes", member: @member
