@@ -1,20 +1,2 @@
 %ul.policies-list.list-unstyled
-  - policies.each do |policy|
-    %li
-      = link_to policy, class: 'object-item panel-link row' do
-        %article
-          %h2.policy-title.object-heading.panel-link-title.col-md-7
-            = capitalise_initial_character(policy.name)
-
-          %p.policy-data.object-secondary
-            %span
-              = pluralize(policy.divisions.count, "division")
-              - if policy.unedited_motions_count != 0
-                %em= "(#{policy.unedited_motions_count} unedited)"
-            %small.policy-edit-notice.text-muted
-              edited #{time_ago_in_words(policy.last_edited_at)} ago
-            %small.policy-subscriber-count.text-muted.hidden-md.hidden-lg
-              = pluralize(policy.watches.count, "subscriber")
-
-          %p.policy-subscriber-count.visible-md.visible-lg.col-md-7.text-muted.small
-            = pluralize(policy.watches.count, "subscriber")
+  = render policies
