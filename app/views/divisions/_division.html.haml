@@ -12,7 +12,10 @@
         = truncate(division.name, length: 180)
 
       - members.each do |member|
-        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(member)).downcase}"}= member_vote_with_type(member, division)
+        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(member)).downcase}"}
+          = member.name
+          = vote_words(member.division_vote(division))
+
       %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
 
       %p.division-data.object-data.object-secondary
