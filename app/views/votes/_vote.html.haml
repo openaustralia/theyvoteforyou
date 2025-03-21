@@ -11,7 +11,7 @@
       %h2.division-title.panel-link-title
         = truncate(vote.division.name, length: 180)
 
-      %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(vote.division.vote_for(vote.member)).downcase}"}= member_vote_with_type(vote.member, vote.division)
+      %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(vote.vote).downcase}"}= vote_with_type(vote)
       %p.division-outcome.object-primary= division_outcome_with_majority_strength(vote.division)
 
       %p.division-data.object-data.object-secondary

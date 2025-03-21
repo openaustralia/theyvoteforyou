@@ -9,8 +9,11 @@ class Vote < ApplicationRecord
   delegate :whip_guess, :free?, :free_vote?, to: :whip
   delegate :date, to: :division
 
+  # TODO: Check that this isn't being used somewhere unexpected
   def whip
-    division.whips.find_by(party: party)
+    # Assuming that the whips are preloaded for the division so it's more sensible to find the correct
+    # whip record by searching in memory rather than creating another request to the database
+    division.whips.find { |w| w.party == party }
   end
 
   # All rebellious votes

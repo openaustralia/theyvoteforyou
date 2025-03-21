@@ -20,4 +20,4 @@
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
     - member.person.members.order(entered_house: :desc).each do |member|
       - if member.subject_to_whip?
-        = render member.free_votes.order(date: :desc, clock_time: :desc, name: :asc)
+        = render member.free_votes.order(date: :desc, clock_time: :desc, name: :asc).includes(division: [:division_info, :wiki_motions, :whips])

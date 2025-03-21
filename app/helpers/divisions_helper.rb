@@ -109,10 +109,18 @@ module DivisionsHelper
     end
   end
 
+  # TODO: Using this helper has a bad smell
   def member_vote_with_type(member, division)
     sentence = member.name
     sentence += " "
     sentence += vote_words(member.division_vote(division))
+    sentence
+  end
+
+  def vote_with_type(vote)
+    sentence = vote.member.name
+    sentence += " "
+    sentence += vote_words(vote)
     sentence
   end
 
