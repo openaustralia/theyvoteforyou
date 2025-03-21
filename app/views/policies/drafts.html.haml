@@ -14,7 +14,9 @@
 %p= link_to "← Published policies", policies_path
 
 - if @policies
-  = render "policies_list", policies: @policies
+  %ul.policies-list.list-unstyled
+    = render @policies
+
 - else
   %p
     There are no draft policies yet. Go ahead and #{link_to "make the first one", new_policy_path}.
