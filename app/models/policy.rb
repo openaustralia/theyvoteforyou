@@ -37,6 +37,7 @@ class Policy < ApplicationRecord
     PaperTrail::Version.order(created_at: :desc).find_by(policy_id: id)
   end
 
+  # TODO: It would be great if we could just use updated_at instead but this would require some additions of "touch"
   def last_edited_at
     most_recent_version ? most_recent_version.created_at : updated_at
   end
