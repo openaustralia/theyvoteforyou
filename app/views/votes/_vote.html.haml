@@ -1,0 +1,22 @@
+%li
+  = link_to division_path_simple(vote.division), class: 'object-item panel-link', title: "See full division page for #{truncate(vote.division.name, length: 180)}." do
+    %article.division-item{class: division_edit_status_class(vote.division) + " " + division_outcome_class(vote.division)}
+      .division-edit-notice.pull-right.text-muted
+        - if vote.division.edited?
+          edited
+          = relative_time vote.division.wiki_motion.created_at
+      .division-meta
+        %time.division-datetime{datetime: vote.division.date}= division_date_and_time(vote.division)
+        %span.division-house.pre= vote.division.house_name
+      %h2.division-title.panel-link-title
+        = truncate(vote.division.name, length: 180)
+
+      %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(vote.division.vote_for(vote.member)).downcase}"}= member_vote_with_type(vote.member, vote.division)
+      %p.division-outcome.object-primary= division_outcome_with_majority_strength(vote.division)
+
+      %p.division-data.object-data.object-secondary
+        %span.division-rebellions.object-data-rebellion
+          = vote.division.rebellions > 0 ? pluralize(vote.division.rebellions, 'rebellion') : "No rebellions"
+        %span.division-attendance.object-data-attendance
+          = fraction_to_percentage_display(vote.division.attendance_fraction)
+          attendance

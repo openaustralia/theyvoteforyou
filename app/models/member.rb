@@ -108,6 +108,10 @@ class Member < ApplicationRecord
     divisions.joins(:whips).where(free_vote)
   end
 
+  def free_votes
+    votes.joins(division: :whips).where(free_vote)
+  end
+
   def division_vote(division)
     votes.find_by(division: division)
   end
