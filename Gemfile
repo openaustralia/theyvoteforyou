@@ -49,6 +49,8 @@ gem "marked-rails"
 gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
+# Only using font awesome for the bluesky logo. Definitely not ideal
+gem "font-awesome-sass"
 gem "meta-tags"
 gem "numbers_and_words"
 

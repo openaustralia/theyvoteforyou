@@ -236,6 +236,8 @@ GEM
       rack (>= 1.4, < 3)
       rack-protection (>= 1.5.3, < 2.2.0)
       sanitize (< 7)
+    font-awesome-sass (6.7.2)
+      sassc (~> 2.0)
     foreman (0.87.2)
     formatador (1.1.0)
     foundation-icons-sass-rails (3.0.0)
@@ -604,6 +606,7 @@ DEPENDENCIES
   flipper
   flipper-active_record
   flipper-ui
+  font-awesome-sass
   foreman
   foundation-icons-sass-rails
   fuubar

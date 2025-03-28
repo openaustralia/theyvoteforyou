@@ -51,11 +51,18 @@
             We pay our respects to their elders past, present and emerging.
 
         .col-sm-3
+          -# Using fontawesome rather than foundation icons only here. Hmm...
           %ul.author-media.list-inline.small
             %li.email
               = mail_to Settings.contact_email do
-                %i.fi-mail
+                %i.fa-solid.fa-envelope
                 -# Contact
             %li.twitter
               = link_to "https://twitter.com/#{Settings.project_twitter}" do
                 %i.fi-social-twitter
+            %li.bluesky
+              = link_to "https://bsky.app/profile/oaf.org.au" do
+                %i.fa-brands.fa-bluesky
+            %li.mastodon
+              = link_to "https://social.oaf.org.au/@oaf" do
+                %i.fa-brands.fa-mastodon
