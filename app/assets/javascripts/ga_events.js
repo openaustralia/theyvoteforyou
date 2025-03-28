@@ -39,9 +39,9 @@ $(function() {
     $('.submit-signup').on('click', function(e) {
       return ga('send', 'event', 'user', 'click submit registration');
     });
-    // share on twitter
-    $('.share-link-twitter').on('click', function(e) {
-      return ga('send', 'event', 'social', 'click share', 'twitter share');
+    // share on bluesky
+    $('.share-link-bluesky').on('click', function(e) {
+      return ga('send', 'event', 'social', 'click share', 'bluesky share');
     });
     // share on facebook
     return $('.share-link-facebook').on('click', function(e) {
