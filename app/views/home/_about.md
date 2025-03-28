@@ -33,4 +33,4 @@ Make this project better for everyone by [summarising divisions](/help/research)
 
 Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
 
-You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Twitter](http://twitter.com/openaustralia) and [contribute to our work on Github](https://github.com/openaustralia).
+You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Bluesky](https://bsky.app/profile/oaf.org.au) or [Mastodon](https://social.oaf.org.au/@oaf) and [contribute to our work on Github](https://github.com/openaustralia).
