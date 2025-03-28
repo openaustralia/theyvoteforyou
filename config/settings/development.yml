@@ -6,7 +6,6 @@ xml_data_base_url: http://data.openaustralia.org/
 
 # Name of project to display thoughout the application
 project_name: They Vote For You
-project_twitter: TheyVote4You
 contact_email: contact@theyvoteforyou.org.au
 time_zone: Sydney
 
