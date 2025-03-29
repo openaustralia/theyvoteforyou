@@ -40,7 +40,8 @@ class HomeController < ApplicationController
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
       @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }
-      @divisions = Division.search params[:query]
+      # HACK: Temporarily remove divisions results to see if that's the source of some of the problems
+      # @divisions = Division.search params[:query]
       @policies = Policy.search params[:query]
     end
   end
