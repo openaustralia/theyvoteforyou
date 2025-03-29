@@ -11,3 +11,29 @@
 
 User-agent: *
 Disallow: /people/*/*/*/compare/
+
+# PetalBot is being overly aggressive so just banning it for the time being
+User-agent: PetalBot
+Disallow: / 
+
+# AI related bots that need to go away
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: CCbot
+Disallow: /
+
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: PiplBot
+Disallow: /
