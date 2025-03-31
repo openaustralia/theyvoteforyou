@@ -39,9 +39,12 @@ class HomeController < ApplicationController
     elsif params[:button] == "hero_search" && params[:query].present? && @current_members.include?(params[:query].downcase)
       redirect_to view_context.member_path_simple(Member.with_name(params[:query]).first)
     elsif params[:query].present?
-      @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }
-      @divisions = Division.search params[:query]
-      @policies = Policy.search params[:query]
+      # TODO: For the time being just limit search results to 10 at most for each of mps, divisions and policies.
+      # Ideally in future for each section if there's more results we would have a "more" link which would
+      # link to a paginated results for everything in that section
+      @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }, limit: 10
+      @divisions = Division.search params[:query], limit: 10
+      @policies = Policy.search params[:query], limit: 10
     end
   end
 
