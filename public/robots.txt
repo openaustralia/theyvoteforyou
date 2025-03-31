@@ -11,6 +11,7 @@
 
 User-agent: *
 Disallow: /people/*/*/*/compare/
+Disallow: /search
 
 # PetalBot is being overly aggressive so just banning it for the time being
 User-agent: PetalBot
