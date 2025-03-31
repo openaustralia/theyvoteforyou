@@ -43,7 +43,7 @@ class HomeController < ApplicationController
       # Ideally in future for each section if there's more results we would have a "more" link which would
       # link to a paginated results for everything in that section
       @mps = Member.search params[:query], boost_where: { left_reason: "still_in_office" }, limit: 10
-      @divisions = Division.search params[:query], limit: 10
+      @divisions = Division.search params[:query], limit: 10, includes: %i[wiki_motions whips division_info]
       @policies = Policy.search params[:query], limit: 10
     end
   end
