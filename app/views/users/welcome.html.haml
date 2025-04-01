@@ -8,22 +8,17 @@
     %p Thanks for creating an account.
 
   %section.page-section
-    - if @policies.empty?
-      %p
-        %strong
-          Why don't you start by #{link_to "creating a policy", new_policy_path}?
-    - else
-      %p.subscriptions-list-intro
-        %strong
-          Get started by subscribing to keep track of changes to the policies that interest you:
+    %p.subscriptions-list-intro
+      %strong
+        Get started by subscribing to keep track of changes to the policies that interest you:
 
-      %ul.subscriptions-list.object-list-compact.list-unstyled
-        - @policies.each do |policy|
-          %li.object-item{id: "policy" + policy.id.to_s}
-            = link_to capitalise_initial_character(policy.name_with_for), policy
-            = button_to watch_policy_path(policy), class: "btn btn-primary btn-sm btn-subscribe", form_class: "object-secondary-inline-sm subscribe-button-form-subscribe" do
-              Subscribe
+    %ul.subscriptions-list.object-list-compact.list-unstyled
+      - @policies.each do |policy|
+        %li.object-item{id: "policy" + policy.id.to_s}
+          = link_to capitalise_initial_character(policy.name_with_for), policy
+          = button_to watch_policy_path(policy), class: "btn btn-primary btn-sm btn-subscribe", form_class: "object-secondary-inline-sm subscribe-button-form-subscribe" do
+            Subscribe
 
-      =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
+    =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
 
-  %p #{link_to "See recent contributions", history_path}, #{link_to "create a new policy", policies_path} or #{link_to "browse divisions", divisions_path}.
+  %p #{link_to "See recent contributions", history_path} or #{link_to "browse divisions", divisions_path}.

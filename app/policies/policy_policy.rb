@@ -1,6 +1,6 @@
 class PolicyPolicy < ApplicationPolicy
   def create?
-    user.staff?
+    user&.staff?
   end
 
   def update?
