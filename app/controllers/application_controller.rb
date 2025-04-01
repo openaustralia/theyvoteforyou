@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
   after_action :store_location
   before_action :set_paper_trail_whodunnit
 
+  include Pundit::Authorization
+
   protected
 
   def configure_permitted_parameters

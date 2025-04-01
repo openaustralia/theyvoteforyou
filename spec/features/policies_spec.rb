@@ -11,6 +11,8 @@ describe "Policies", type: :feature do
       fill_in "Email", with: user.email
       fill_in "Password", with: user.password
     end
+    # TODO: Probably better to do this with factory
+    User.first.update!(staff: true)
     click_button "Log in"
     create(:division)
   end
