@@ -542,7 +542,8 @@ RSpec.shared_context "with fixtures" do
       :confirmed_user,
       id: 1,
       name: "Henare Degan",
-      email: "henare@oaf.org.au"
+      email: "henare@oaf.org.au",
+      staff: true
     )
   end
 

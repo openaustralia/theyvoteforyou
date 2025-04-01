@@ -94,6 +94,7 @@ class DivisionsController < ApplicationController
 
   def edit
     @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
+    authorize @division
   end
 
   def history
@@ -102,6 +103,7 @@ class DivisionsController < ApplicationController
 
   def update
     @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
+    authorize @division
 
     wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
 
