@@ -6,7 +6,7 @@ class PolicyPolicy < ApplicationPolicy
   end
 
   def update?
-    create?
+    user&.staff?
   end
 
   # NOTE: Up to Pundit v2.3.1, the inheritance was declared as
