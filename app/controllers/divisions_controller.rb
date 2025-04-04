@@ -118,6 +118,7 @@ class DivisionsController < ApplicationController
   def create_policy_division
     @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new(policy_division_params)
+    authorize @policy_division, :create?
 
     if @policy_division.save
       # TODO: Just point to the object when the path helper has been refactored

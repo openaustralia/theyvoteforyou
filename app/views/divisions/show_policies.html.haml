@@ -17,22 +17,23 @@
           = f.submit 'Update', class: 'btn btn-primary btn-xs'
         = button_to 'remove', destroy_policy_division_path(@division.url_params.merge(policy_id: policy)), method: :delete, class: 'btn btn-sm btn-link'
 
-%h3 Make a new connection
+- if policy(@policy_division).create?
+  %h3 Make a new connection
 
-= simple_form_for @policy_division, url: create_policy_division_path(@division.url_params), html: {class: 'form-inline policyvote'} do |f|
-  %legend.small
-    %p Connect this division with relevant policies.
-    %p Please read policy definitions and the division’s description before altering list.
-  - if @policy_division.errors.any?
-    .alert.alert-danger= @policy_division.errors.full_messages.to_sentence
-  %fieldset
-    %label People who are for
-    = f.select :policy_id, nil, {prompt: "Select related policy"}, size: 1, class: "selectpicker", data: {width: "auto", "live-search" => true} do
-      %optgroup(label="Draft policies")
-        = options_from_collection_for_select(Policy.provisional.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
-      %optgroup(label="Published policies")
-        = options_from_collection_for_select(Policy.published.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
-    would have
-    %label voted
-    = vote_select(f, nil, prompt: "Select vote")
-  = f.submit 'Connect policy', class: 'btn btn-primary'
+  = simple_form_for @policy_division, url: create_policy_division_path(@division.url_params), html: {class: 'form-inline policyvote'} do |f|
+    %legend.small
+      %p Connect this division with relevant policies.
+      %p Please read policy definitions and the division’s description before altering list.
+    - if @policy_division.errors.any?
+      .alert.alert-danger= @policy_division.errors.full_messages.to_sentence
+    %fieldset
+      %label People who are for
+      = f.select :policy_id, nil, {prompt: "Select related policy"}, size: 1, class: "selectpicker", data: {width: "auto", "live-search" => true} do
+        %optgroup(label="Draft policies")
+          = options_from_collection_for_select(Policy.provisional.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
+        %optgroup(label="Published policies")
+          = options_from_collection_for_select(Policy.published.order(:name), "id", "name", disabled: @division.policies.map{|p| p.id})
+      would have
+      %label voted
+      = vote_select(f, nil, prompt: "Select vote")
+    = f.submit 'Connect policy', class: 'btn btn-primary'
