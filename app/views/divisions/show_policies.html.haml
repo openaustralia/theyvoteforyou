@@ -15,7 +15,8 @@
             would have voted
           = vote_select(f, policy_division.policy.vote_for_division(@division))
           = f.submit 'Update', class: 'btn btn-primary btn-xs'
-        = button_to 'remove', destroy_policy_division_path(@division.url_params.merge(policy_id: policy_division.policy_id)), method: :delete, class: 'btn btn-sm btn-link'
+        - if policy(policy_division).destroy?
+          = button_to 'remove', destroy_policy_division_path(@division.url_params.merge(policy_id: policy_division.policy_id)), method: :delete, class: 'btn btn-sm btn-link'
 
 - if policy(@policy_division).create?
   %h3 Make a new connection

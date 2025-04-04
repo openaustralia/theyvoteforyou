@@ -149,6 +149,7 @@ class DivisionsController < ApplicationController
   def destroy_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize policy_division, :destroy?
 
     if policy_division.destroy
       flash[:notice] = "Removed policy connection"
