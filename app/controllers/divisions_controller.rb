@@ -114,6 +114,7 @@ class DivisionsController < ApplicationController
     end
   end
 
+  # TODO: Move this to a policy_division controller
   def create_policy_division
     @division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     @policy_division = @division.policy_divisions.new(policy_division_params)
@@ -128,6 +129,7 @@ class DivisionsController < ApplicationController
     end
   end
 
+  # TODO: Move this to a policy_division controller
   def update_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
@@ -142,6 +144,7 @@ class DivisionsController < ApplicationController
     redirect_to division_policies_path(house: division.house, date: division.date, number: division.number)
   end
 
+  # TODO: Move this to a policy_division controller
   def destroy_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
