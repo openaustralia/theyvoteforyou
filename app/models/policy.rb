@@ -33,6 +33,7 @@ class Policy < ApplicationRecord
     divisions.unedited.count
   end
 
+  # Note that this includes changes to policy record and policy_division records
   def most_recent_version
     PaperTrail::Version.order(created_at: :desc).find_by(policy_id: id)
   end
