@@ -13,8 +13,11 @@
             - if policy_division.policy.provisional?
               %em (draft)
             would have voted
-          = vote_select(f, policy_division.policy.vote_for_division(@division))
-          = f.submit 'Update', class: 'btn btn-primary btn-xs'
+          - if policy(policy_division).update?
+            = vote_select(f, policy_division.policy.vote_for_division(@division))
+            = f.submit 'Update', class: 'btn btn-primary btn-xs'
+          - else
+            = policy_division.policy.vote_for_division(@division)
         - if policy(policy_division).destroy?
           = button_to 'remove', destroy_policy_division_path(@division.url_params.merge(policy_id: policy_division.policy_id)), method: :delete, class: 'btn btn-sm btn-link'
 

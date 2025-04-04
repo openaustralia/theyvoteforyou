@@ -134,6 +134,7 @@ class DivisionsController < ApplicationController
   def update_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
     policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize policy_division, :update?
 
     if policy_division.update(policy_division_params)
       flash[:notice] = "Updated policy connection"
