@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PolicyDivisionPolicy < ApplicationPolicy
   def create?
     user&.staff?

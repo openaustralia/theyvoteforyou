@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DivisionPolicy < ApplicationPolicy
   def update?
     user&.staff?
