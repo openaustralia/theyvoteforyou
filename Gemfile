@@ -92,6 +92,9 @@ gem "bootsnap"
 # To show progress during some long running rake tasks
 gem "ruby-progressbar"
 
+# Authorization
+gem "pundit"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"

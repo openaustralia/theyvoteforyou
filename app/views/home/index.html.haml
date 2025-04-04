@@ -45,12 +45,18 @@
 
 .front-panels-block.banner-section
   .container
-    .front-panel.col-md-4
-      = render "panel1"
-    .front-panel.col-md-4
-      = render "panel2"
-    .front-panel.col-md-4
-      = render "panel3"
+    - if policy(PolicyDivision).new?
+      .front-panel.col-md-4
+        = render "panel1"
+      .front-panel.col-md-4
+        = render "panel2"
+      .front-panel.col-md-4
+        = render "panel3"
+    - else
+      .front-panel.col-md-6
+        = render "panel1"
+      .front-panel.col-md-6
+        = render "panel3"
 
 .supporting-orgs-block.banner-section.wide-section
   = render "supporting_orgs"

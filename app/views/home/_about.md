@@ -5,7 +5,10 @@ In Australia, every 3 years or so, we all head to polling places across the coun
 Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
 
 ### How your MP votes on issues you care about
-We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies). If you see one missing, you can [add your own](<%= new_policy_path() %>).
+We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies).
+<% if policy(PolicyDivision).new? %>
+  If you see one missing, you can [add your own](<%= new_policy_path() %>).
+<% end %>
 
 ### Find your MP
 It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
@@ -21,7 +24,13 @@ A huge thank you to [Google Australia](http://www.google.com.au) whose donation 
 
 ### <a name='contribute'></a>You can help
 
-Make this project better for everyone by [summarising divisions](/help/research) and [maintaining and discussing policies](/policies). You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
+Make this project better for everyone by
+<% if policy(PolicyDivision).new? %>
+  [summarising divisions](/help/research) and [maintaining and discussing policies](/policies).
+<% else %>
+  letting us know about anything that's missing or you think is incorrect.
+<% end %>
+You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
 
 <%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/theyvoteforyou), where you can find out how to contribute yourself.
 

@@ -41,16 +41,19 @@ class PoliciesController < ApplicationController
 
   def edit
     @policy = Policy.find(params[:id])
+    authorize @policy
   end
 
   def new
     @policy = Policy.new
+    authorize @policy
   end
 
   def create
     @policy = Policy.new policy_params
     @policy.user = current_user
     @policy.private = 2
+    authorize @policy
     if @policy.save
       redirect_to @policy, notice: "Successfully made new policy"
     else
@@ -60,6 +63,7 @@ class PoliciesController < ApplicationController
 
   def update
     @policy = Policy.find(params[:id])
+    authorize @policy
 
     if @policy.update policy_params
       @policy.alert_watches(@policy.versions.last)
