@@ -83,6 +83,8 @@ namespace :application do
     task members: %i[environment set_logger_to_stdout] do
       DataLoader::Electorates.load!
       DataLoader::Members.load!
+      # This fixes up members attached to votes
+      task("application:cache:member_vote_fix").invoke
       # Offices need to be loaded after new people/members
       DataLoader::Offices.load!
       DataLoader::People.load_missing_images!
