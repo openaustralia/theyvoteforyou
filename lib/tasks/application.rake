@@ -47,6 +47,28 @@ namespace :application do
         progressbar.increment
       end
     end
+
+    # See https://github.com/openaustralia/theyvoteforyou/issues/1478 for an explanation of how
+    # an incorrect member can be attached to a vote, the effect it has and how this fixes it.
+    desc "Fix member attached to votes"
+    task member_vote_fix: :environment do
+      Vote.includes(:division, :member).find_each do |vote|
+        if vote.division.nil?
+          puts "WARNING: Vote #{vote.id} points to non-existent division"
+          next
+        end
+        unless vote.member.could_have_voted_in_division?(vote.division)
+          puts "Vote #{vote.id} has an incorrect member. Fixing"
+          # Find the member who could have voted on this division
+          vote.member = vote.member.person.member_in_division(vote.division)
+          if vote.member.nil?
+            puts "WARNING: Couldn't find a member to fix vote #{vote.id}"
+            next
+          end
+          vote.save!
+        end
+      end
+    end
   end
 
   namespace :cron do
