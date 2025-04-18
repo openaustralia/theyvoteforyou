@@ -2,10 +2,10 @@
 - unless cookies[:tvfy_swag] == "false"
   = link_to "https://swag.theyvoteforyou.org.au/products/short-sleeve-t-shirt" do
     .swag.alert.fade.in
+      %button.close{"aria-label": "Close", "data-dismiss": "alert", type: "button"}
+        %span{"aria-hidden": "true"} ×
       = image_tag "tshirt"
       .swag-text
         Wear the exclusive shirt. Tell people about this site.
         %strong Get it now!
-      %button.close{"aria-label": "Close", "data-dismiss": "alert", type: "button"}
-        %span{"aria-hidden": "true"} ×
 
