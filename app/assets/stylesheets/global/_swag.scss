@@ -1,0 +1,29 @@
+.swag {
+  background-color: #101c37;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 0;
+  border: 0;
+  border-radius: 0;
+  :hover {
+    text-decoration: underline;
+  }
+
+  .swag-text {
+    text-align: left;
+    display: inline-block;
+    max-width: 250px;
+    vertical-align: middle;
+  }
+
+  button.close {
+    color: white;
+    opacity: 0.8;
+    :hover, :focus {
+      // TODO: Do something designed rather than fairly arbitrary
+      opacity: 0.6;
+    }
+  };
+}
