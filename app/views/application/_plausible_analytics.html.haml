@@ -1,0 +1,6 @@
+- if Rails.env.production?
+  -# plausible.io analytics
+  = javascript_include_tag "/js/script.manual.outbound-links.pageview-props.js", defer: true, data: {domain: "theyvoteforyou.org.au"}
+  :javascript
+    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
+    plausible('pageview', { u: "https://theyvoteforyou.org.au<%= request.route_uri_pattern.gsub("(.:format)", "") %>" + window.location.search });
