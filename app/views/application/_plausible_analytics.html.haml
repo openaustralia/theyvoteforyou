@@ -1,6 +1,6 @@
-- if Rails.env.production?
-  -# plausible.io analytics
-  = javascript_include_tag "/js/script.manual.outbound-links.pageview-props.js", defer: true, data: {domain: "theyvoteforyou.org.au"}
-  :javascript
-    window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }
-    plausible('pageview', { u: "https://theyvoteforyou.org.au<%= request.route_uri_pattern.gsub("(.:format)", "") %>" + window.location.search });
+-# plausible.io analytics
+-# In planningalerts.org.au we implemented a thing where the pageview path was given as a rails route path effectively bundling all
+-# similar pages together. We can't do that here yet because the implementation in planningalerts requires request.route_uri_pattern
+-# which is only available from rails 7.1. So, for the time being just do the simple thing
+-# TODO: Upgrade to rails 7.1 or above
+= javascript_include_tag "/js/script.outbound-links.js", defer: true, data: {domain: "theyvoteforyou.org.au"}
