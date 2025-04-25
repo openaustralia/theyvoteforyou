@@ -398,6 +398,8 @@ GEM
       rack (>= 1.2.0)
     rack-protection (2.1.0)
       rack
+    rack-proxy (0.7.7)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.0.5)
@@ -639,6 +641,7 @@ DEPENDENCIES
   rack-cors
   rack-livereload
   rack-mini-profiler
+  rack-proxy
   rails (= 6.0.5)
   rails-controller-testing
   ranker

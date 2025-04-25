@@ -95,6 +95,9 @@ gem "ruby-progressbar"
 # Authorization
 gem "pundit"
 
+# For proxying requests to plausible.io analytics
+gem "rack-proxy"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
