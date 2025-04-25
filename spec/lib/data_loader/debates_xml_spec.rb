@@ -3,7 +3,7 @@
 require "spec_helper"
 require "nokogiri"
 
-describe DataLoader::DebatesXML do
+describe DataLoader::DebatesXml do
   context "with actual division 1 from representatives on 2009-11-25" do
     subject(:division) do
       xml_document = Nokogiri.parse(File.read(File.expand_path("../../fixtures/2009-11-25.xml", __dir__)))
@@ -45,17 +45,17 @@ describe DataLoader::DebatesXML do
   describe "#bills" do
     it do
       division_xml = Nokogiri::XML("<division></division>")
-      expect(DataLoader::DivisionXML.new(division_xml, "representatives").bills).to be_empty
+      expect(DataLoader::DivisionXml.new(division_xml, "representatives").bills).to be_empty
     end
 
     it do
       division_xml = Nokogiri::XML("<division><bills><bill id='r5327' url='http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327'>Some text</bill></bills></division>")
-      expect(DataLoader::DivisionXML.new(division_xml, "representatives").bills).to eq [{ id: "r5327", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327", title: "Some text" }]
+      expect(DataLoader::DivisionXml.new(division_xml, "representatives").bills).to eq [{ id: "r5327", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5327", title: "Some text" }]
     end
 
     it do
       division_xml = Nokogiri::XML("<division><bills><bill id='r5254' url='http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5254'>Foo</bill><bill id='r5305' url='http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5305'>Bar</bill><bill id='r5303' url='http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5303'>Twist</bill></bills></division>")
-      expect(DataLoader::DivisionXML.new(division_xml, "representatives").bills).to eq([
+      expect(DataLoader::DivisionXml.new(division_xml, "representatives").bills).to eq([
                                                                                          { id: "r5254", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5254", title: "Foo" },
                                                                                          { id: "r5305", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5305", title: "Bar" },
                                                                                          { id: "r5303", url: "http://parlinfo.aph.gov.au/parlInfo/search/display/display.w3p;query=Id:legislation/billhome/r5303", title: "Twist" }
@@ -66,17 +66,17 @@ describe DataLoader::DebatesXML do
   describe "#clock_time" do
     it "adds preceeding zero and trailing seconds" do
       division_xml = instance_double("Division XML", attr: "12:34")
-      expect(DataLoader::DivisionXML.new(division_xml, "representatives").clock_time).to eq("012:34:00")
+      expect(DataLoader::DivisionXml.new(division_xml, "representatives").clock_time).to eq("012:34:00")
     end
 
     it "is blank when time is malformed" do
       division_xml = instance_double("Division XML", attr: "foobar")
-      expect(DataLoader::DivisionXML.new(division_xml, "representatives").clock_time).to eq("")
+      expect(DataLoader::DivisionXml.new(division_xml, "representatives").clock_time).to eq("")
     end
   end
 
   describe "#name" do
-    subject(:division) { DataLoader::DivisionXML.new(double, "senate") }
+    subject(:division) { DataLoader::DivisionXml.new(double, "senate") }
 
     it "joins major and minor headings" do
       allow(division).to receive(:major_heading).and_return("FOO")

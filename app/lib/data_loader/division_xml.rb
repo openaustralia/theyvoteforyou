@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module DataLoader
-  class DivisionXML
+  class DivisionXml
     MAXIMUM_MOTION_TEXT_SIZE = 15000
 
     attr_accessor :division_xml, :house
