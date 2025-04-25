@@ -8,6 +8,7 @@ AllCops:
     - bin/*
     - vendor/**/*
     - db/migrate/*.rb
+    - config.ru
     - config/spring.rb
     - config/puma.rb
     - config/routes.rb
