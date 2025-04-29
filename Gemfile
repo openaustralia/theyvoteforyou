@@ -95,6 +95,13 @@ gem "pundit"
 # For proxying requests to plausible.io analytics
 gem "rack-proxy"
 
+# Locking base64 to workaround issue with deploying rails 6.1 to production:
+# "You have already activated base64 0.1.0, but your Gemfile requires base64 0.2.0.
+# Since base64 is a default gem, you can either remove your dependency on it or try
+# updating to a newer version of bundler that supports base64 as a default gem. (Gem::LoadError)"
+# See https://www.reddit.com/r/rails/comments/18105z2/ruby_on_rails_phusion_passenger_error/?rdt=51564
+gem "base64", "0.1.0"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
