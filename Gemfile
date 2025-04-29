@@ -102,6 +102,8 @@ gem "rack-proxy"
 # See https://www.reddit.com/r/rails/comments/18105z2/ruby_on_rails_phusion_passenger_error/?rdt=51564
 gem "base64", "0.1.0"
 
+gem "mail", "2.7.1"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
