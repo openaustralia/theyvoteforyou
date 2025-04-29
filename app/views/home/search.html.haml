@@ -25,10 +25,10 @@
 - if @postcode && !@postcode_error
   = render "members/people", people: @mps.map(&:person), house: nil
 - elsif @postcode_error
-  = render "home/no_search_results.html.haml", postcode: @postcode
+  = render "home/no_search_results", postcode: @postcode
 - elsif !params[:query].blank?
   - if @mps.empty? && @divisions.empty? && @policies.empty?
-    = render "home/no_search_results.html.haml", postcode: nil
+    = render "home/no_search_results", postcode: nil
 
   - if !@mps.empty?
     %section.page-section#people
