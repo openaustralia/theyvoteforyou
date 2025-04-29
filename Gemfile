@@ -100,8 +100,12 @@ gem "rack-proxy"
 # Since base64 is a default gem, you can either remove your dependency on it or try
 # updating to a newer version of bundler that supports base64 as a default gem. (Gem::LoadError)"
 # See https://www.reddit.com/r/rails/comments/18105z2/ruby_on_rails_phusion_passenger_error/?rdt=51564
+# TODO: Remove this workaround as soon as we can
 gem "base64", "0.1.0"
 
+# For some reason a dependency of mail 2.8.1 (net-imap) was causing the app not to start
+# in production. So, locking to 2.7.1 to get things working again.
+# TODO: Remove this workaround as soon as we can
 gem "mail", "2.7.1"
 
 group :test do
