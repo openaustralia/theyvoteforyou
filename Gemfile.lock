@@ -93,6 +93,9 @@ GEM
     bootstrap-select-rails (1.13.8)
     brakeman (5.2.1)
     builder (3.3.0)
+    bummr (1.1.0)
+      rainbow
+      thor
     capistrano (3.16.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -560,6 +563,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3)
   bootstrap-select-rails
   brakeman
+  bummr
   capistrano
   capistrano-maintenance
   capistrano-rails
