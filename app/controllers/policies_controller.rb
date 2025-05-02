@@ -39,13 +39,13 @@ class PoliciesController < ApplicationController
     end
   end
 
-  def edit
-    @policy = Policy.find(params[:id])
+  def new
+    @policy = Policy.new
     authorize @policy
   end
 
-  def new
-    @policy = Policy.new
+  def edit
+    @policy = Policy.find(params[:id])
     authorize @policy
   end
 
