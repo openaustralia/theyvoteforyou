@@ -595,7 +595,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   mail (= 2.7.1)
-  marked-rails
+  marked-rails (= 0.3.2.0)
   mechanize
   meta-tags
   mina

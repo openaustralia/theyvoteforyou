@@ -43,7 +43,9 @@ gem "reverse_markdown"
 # TODO: Upgrade paper_trail
 gem "paper_trail", "12.2.0"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
-gem "marked-rails"
+# Locked version of marked-rails temporarily to stop deployment from failing
+# TODO: Upgrade marked-rails
+gem "marked-rails", "0.3.2.0"
 gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
