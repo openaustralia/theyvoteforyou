@@ -39,7 +39,9 @@ gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when te
 gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
-gem "paper_trail"
+# Lock paper_trail version temporarily
+# TODO: Upgrade paper_trail
+gem "paper_trail", "12.2.0"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
 gem "simple_form"
@@ -64,7 +66,9 @@ gem "foreman"
 
 gem "rack-cors"
 
-gem "mini_racer"
+# Lock mini_racer version temporarily
+# TODO: Upgrade mini_racer
+gem "mini_racer", "0.6.2"
 
 gem "invisible_captcha"
 
