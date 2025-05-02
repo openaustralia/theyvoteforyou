@@ -37,7 +37,7 @@ class MembersController < ApplicationController
                begin
                  Member.find_by!(gid: params[:id])
                rescue ActiveRecord::RecordNotFound
-                 Member.find_by!(gid: params[:id].gsub(/member/, "lord"))
+                 Member.find_by!(gid: params[:id].gsub("member", "lord"))
                end
              else
                raise ActiveRecord::RecordNotFound
