@@ -11,8 +11,7 @@ gem "sprockets"
 gem "sass-rails"
 
 # Use Uglifier as compressor for JavaScript assets
-# TODO: Upgrade uglifier
-gem "uglifier", "4.2.0"
+gem "uglifier", ">= 2.7.2"
 
 # Use jquery as the JavaScript library
 gem "jquery-rails"
@@ -40,9 +39,7 @@ gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when te
 gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
-# Lock paper_trail version temporarily
-# TODO: Upgrade paper_trail
-gem "paper_trail", "12.2.0"
+gem "paper_trail"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 gem "marked-rails"
 gem "simple_form"
@@ -67,9 +64,7 @@ gem "foreman"
 
 gem "rack-cors"
 
-# Lock mini_racer version temporarily
-# TODO: Upgrade mini_racer
-gem "mini_racer", "0.6.2"
+gem "mini_racer"
 
 gem "invisible_captcha"
 
