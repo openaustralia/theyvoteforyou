@@ -555,7 +555,7 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    uglifier (4.2.1)
+    uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
@@ -667,7 +667,7 @@ DEPENDENCIES
   stackprof
   timecop
   typhoeus
-  uglifier (>= 2.7.2)
+  uglifier (= 4.2.0)
   vcr
   webmock
 
