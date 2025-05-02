@@ -24,15 +24,8 @@ class Party
 
   # Does this party not have a whip?
   def whipless?
-    name == "XB" ||
-      name == "Other" ||
-      name[0..2] == "Ind" ||
-      name == "None" ||
-      name == "SPK" ||
-      name == "CWM" ||
-      name == "DCWM" ||
-      name == "PRES" ||
-      name == "DPRES"
+    %w[XB Other None SPK CWM DCWM PRES DPRES].include?(name) ||
+      name[0..2] == "Ind"
   end
 
   def subject_to_whip?
