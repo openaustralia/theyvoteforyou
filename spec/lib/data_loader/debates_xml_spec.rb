@@ -65,12 +65,12 @@ describe DataLoader::DebatesXml do
 
   describe "#clock_time" do
     it "adds preceeding zero and trailing seconds" do
-      division_xml = instance_double("Division XML", attr: "12:34")
+      division_xml = double("Division XML", attr: "12:34")
       expect(DataLoader::DivisionXml.new(division_xml, "representatives").clock_time).to eq("012:34:00")
     end
 
     it "is blank when time is malformed" do
-      division_xml = instance_double("Division XML", attr: "foobar")
+      division_xml = double("Division XML", attr: "foobar")
       expect(DataLoader::DivisionXml.new(division_xml, "representatives").clock_time).to eq("")
     end
   end
@@ -79,38 +79,32 @@ describe DataLoader::DebatesXml do
     subject(:division) { DataLoader::DivisionXml.new(double, "senate") }
 
     it "joins major and minor headings" do
-      allow(division).to receive(:major_heading).and_return("FOO")
-      allow(division).to receive(:minor_heading).and_return("BAR")
+      allow(division).to receive_messages(major_heading: "FOO", minor_heading: "BAR")
       expect(division.name).to eq("Foo &#8212; Bar")
     end
 
     it "shows major heading only" do
-      allow(division).to receive(:major_heading).and_return("FOO")
-      allow(division).to receive(:minor_heading).and_return("")
+      allow(division).to receive_messages(major_heading: "FOO", minor_heading: "")
       expect(division.name).to eq("Foo")
     end
 
     it "shows minor heading only" do
-      allow(division).to receive(:major_heading).and_return("")
-      allow(division).to receive(:minor_heading).and_return("BAR")
+      allow(division).to receive_messages(major_heading: "", minor_heading: "BAR")
       expect(division.name).to eq("Bar")
     end
 
     it "correctly capitalises hyphenated titles" do
-      allow(division).to receive(:major_heading).and_return("ASIA-PACIFIC ECONOMIC COOPERATION")
-      allow(division).to receive(:minor_heading).and_return("")
+      allow(division).to receive_messages(major_heading: "ASIA-PACIFIC ECONOMIC COOPERATION", minor_heading: "")
       expect(division.name).to eq("Asia-Pacific Economic Cooperation")
     end
 
     it "html encodes and pads em dashes" do
-      allow(division).to receive(:major_heading).and_return("CARBON POLLUTION REDUCTION SCHEME (CHARGES—GENERAL) BILL 2009 [NO. 2]")
-      allow(division).to receive(:minor_heading).and_return("")
+      allow(division).to receive_messages(major_heading: "CARBON POLLUTION REDUCTION SCHEME (CHARGES—GENERAL) BILL 2009 [NO. 2]", minor_heading: "")
       expect(division.name).to eq("Carbon Pollution Reduction Scheme (Charges &#8212; General) Bill 2009 [No. 2]")
     end
 
     it "does not lower case first words of minor headings" do
-      allow(division).to receive(:major_heading).and_return("FUTURE FUND BILL 2005 ")
-      allow(division).to receive(:minor_heading).and_return("In Committee ")
+      allow(division).to receive_messages(major_heading: "FUTURE FUND BILL 2005 ", minor_heading: "In Committee ")
       expect(division.name).to eq("Future Fund Bill 2005 &#8212; In Committee")
     end
   end
