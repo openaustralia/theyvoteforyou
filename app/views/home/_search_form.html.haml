@@ -1,6 +1,6 @@
 %form.form-inline.search{action: search_path, name: "pw"}
   .input-group.col-sm-12.col-md-8.col-lg-7
     %label.sr-only{for: "query"} Search
-    %input.form-control#query{type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
+    %input.form-control#query{type: "search", autosave: "#{Rails.configuration.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
     .input-group-btn
       %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/

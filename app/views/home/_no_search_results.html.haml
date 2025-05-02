@@ -7,7 +7,7 @@
   %p Sorry, we couldn't find that postcode.
   %p
     If you’re sure this postcode exists please
-    = mail_to Settings.contact_email, "contact us"
+    = mail_to Rails.configuration.contact_email, "contact us"
     to let us know.
 - else
   %h2 No results found

@@ -8,9 +8,9 @@
     %title
       - if content_for? :title
         = yield :title
-        = "— #{Settings.project_name}"
+        = "— #{Rails.configuration.project_name}"
       - else
-        #{Settings.project_name} — How does your MP vote?
+        #{Rails.configuration.project_name} — How does your MP vote?
 
     = stylesheet_link_tag "//code.cdn.mozilla.net/fonts/fira.css"
     = stylesheet_link_tag "application"

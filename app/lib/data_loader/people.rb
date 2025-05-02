@@ -30,7 +30,7 @@ module DataLoader
     # people.xml
     def self.load_people
       agent = Mechanize.new
-      people_xml = agent.get "#{Settings.xml_data_base_url}members/people.xml"
+      people_xml = agent.get "#{Rails.configuration.xml_data_base_url}members/people.xml"
       member_to_person = {}
       people_xml.search(:person).each do |person|
         person.search(:office).each do |office|

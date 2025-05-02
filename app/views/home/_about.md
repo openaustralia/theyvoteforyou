@@ -40,6 +40,6 @@ You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustra
 
 ### <a name='contact'></a>Contact
 
-Email us at [<%= Settings.contact_email %>](mailto:<%= Settings.contact_email %>).
+Email us at [<%= Rails.configuration.contact_email %>](mailto:<%= Rails.configuration.contact_email %>).
 
 You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Bluesky](https://bsky.app/profile/oaf.org.au) or [Mastodon](https://social.oaf.org.au/@oaf) and [contribute to our work on Github](https://github.com/openaustralia).

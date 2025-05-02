@@ -10,4 +10,4 @@
       %li= link_to "Admin panel", admin_root_path
       %li= link_to "Admin for feature flags", admin_flipper_path
     %li.divider
-    %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Settings.project_name} as #{current_user.name}", method: :delete
+    %li= link_to "Logout", destroy_user_session_path, title: "Make your browser forget that you are logged into #{Rails.configuration.project_name} as #{current_user.name}", method: :delete

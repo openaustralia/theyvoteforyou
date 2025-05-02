@@ -8,7 +8,7 @@ module DataLoader
     def self.load!
       Rails.logger.info "Reloading offices..."
       agent = Mechanize.new
-      ministers_xml = agent.get "#{Settings.xml_data_base_url}members/ministers.xml"
+      ministers_xml = agent.get "#{Rails.configuration.xml_data_base_url}members/ministers.xml"
       Rails.logger.info "Deleted #{Office.delete_all} offices"
       ministers_xml.search(:moffice).each do |moffice|
         person_id_long = People.member_to_person[moffice[:matchid]]

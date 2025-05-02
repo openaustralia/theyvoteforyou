@@ -54,7 +54,7 @@
           -# Using fontawesome rather than foundation icons only here. Hmm...
           %ul.author-media.list-inline.small
             %li.email
-              = mail_to Settings.contact_email do
+              = mail_to Rails.configuration.contact_email do
                 %i.fa-solid.fa-envelope
                 -# Contact
             %li.instagram

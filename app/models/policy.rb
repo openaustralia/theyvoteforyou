@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Policy < ApplicationRecord
-  searchkick index_name: "tvfy_policies_#{Settings.stage}"
+  searchkick index_name: "tvfy_policies_#{Rails.configuration.stage}"
   # Using proc form of meta so that policy_id is set on create as well
   # See https://github.com/airblade/paper_trail/issues/185#issuecomment-11781496 for more details
   has_paper_trail meta: { policy_id: proc { |policy| policy.id } }

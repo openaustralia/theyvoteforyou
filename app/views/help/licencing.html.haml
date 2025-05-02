@@ -1,5 +1,5 @@
 - content_for :title, "Licencing"
-- set_meta_tags description: "The licences that make #{Settings.project_name}'s data and software free and open source."
+- set_meta_tags description: "The licences that make #{Rails.configuration.project_name}'s data and software free and open source."
 
 - content_for :header do
   .section-header.clearfix
@@ -8,7 +8,7 @@
       %p.lead
         You are free to reuse/republish the parliamentary data in
         %em
-          = Settings.project_name
+          = Rails.configuration.project_name
         with a reference and link to this website.
 
 .row

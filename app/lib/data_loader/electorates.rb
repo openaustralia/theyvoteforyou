@@ -8,7 +8,7 @@ module DataLoader
     def self.load!
       Rails.logger.info "Reloading electorates..."
       agent = Mechanize.new
-      electorates_xml = agent.get "#{Settings.xml_data_base_url}members/divisions.xml"
+      electorates_xml = agent.get "#{Rails.configuration.xml_data_base_url}members/divisions.xml"
       electorates_xml.search(:division).each do |division|
         e = Electorate.find_or_initialize_by(id: division[:id][%r{uk.org.publicwhip/cons/(\d*)}, 1])
         # TODO: Support multiple electorate names

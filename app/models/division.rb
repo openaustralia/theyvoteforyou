@@ -6,7 +6,7 @@ class Division < ApplicationRecord
   # below.
   # TODO: Do a data migration so that the debate_url field is the openaustralia.org.au url and debate_gid can be removed
 
-  searchkick index_name: "tvfy_divisions_#{Settings.stage}"
+  searchkick index_name: "tvfy_divisions_#{Rails.configuration.stage}"
   has_one :division_info, dependent: :destroy
   has_many :whips, dependent: :destroy
   has_many :votes, dependent: :destroy

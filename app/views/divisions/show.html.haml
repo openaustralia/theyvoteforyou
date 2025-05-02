@@ -5,7 +5,7 @@
     description: "Division: " + truncate(@division.name, length: 189),
     type: "website",
     url: request.original_url,
-    site_name: Settings.project_name
+    site_name: Rails.configuration.project_name
   }
 
 - if @division.edited?

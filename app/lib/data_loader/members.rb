@@ -12,7 +12,7 @@ module DataLoader
         agent = Mechanize.new
         %w[representatives senators].each do |file|
           Rails.logger.info "Loading #{file}..."
-          xml = agent.get "#{Settings.xml_data_base_url}members/#{file}.xml"
+          xml = agent.get "#{Rails.configuration.xml_data_base_url}members/#{file}.xml"
           xml.search(:member).each do |member|
             gid = member[:id]
             if gid.include?("uk.org.publicwhip/member/")

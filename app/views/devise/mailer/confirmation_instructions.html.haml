@@ -3,7 +3,7 @@
 %tr
   %td.content-block
     #{@resource.name}, you are one step away from creating your account on
-    %em= Settings.project_name
+    %em= Rails.configuration.project_name
 %tr
   %td.content-block
     Please confirm your email address by clicking the link below
@@ -13,5 +13,5 @@
 %tr
   %td.content-block
     &mdash; The
-    %em= Settings.project_name
+    %em= Rails.configuration.project_name
     team

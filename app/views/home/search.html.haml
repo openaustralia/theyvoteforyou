@@ -1,4 +1,4 @@
-- set_meta_tags description: "Search for people, policies, and divisions on #{Settings.project_name}."
+- set_meta_tags description: "Search for people, policies, and divisions on #{Rails.configuration.project_name}."
 
 - if @postcode && !@postcode_error
   - content_for :title, "Representatives for postcode #{@postcode}"
@@ -18,7 +18,7 @@
           %h1.label-heading
             %label{for: "query"} Search people, policies and divisions:
           .input-group.col-sm-12.col-md-8.col-lg-7
-            %input.form-control#query{required: "required", type: "search", autosave: "#{Settings.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
+            %input.form-control#query{required: "required", type: "search", autosave: "#{Rails.configuration.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
             .input-group-btn
               %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 

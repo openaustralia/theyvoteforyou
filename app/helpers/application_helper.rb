@@ -143,7 +143,7 @@ module ApplicationHelper
   end
 
   def inline_project_name
-    content_tag(:em, Settings.project_name, class: "project-name")
+    content_tag(:em, Rails.configuration.project_name, class: "project-name")
   end
 
   # Put the rest of the content in a block

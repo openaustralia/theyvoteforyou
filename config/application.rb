@@ -59,5 +59,12 @@ module Publicwhip
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
+
+    # Application configuration below here
+    config.project_name = Settings.project_name
+    config.xml_data_base_url = Settings.xml_data_base_url
+    config.contact_email = Settings.contact_email
+    config.stage = Settings.stage
+    config.facebook_admins = Settings.facebook_admins
   end
 end

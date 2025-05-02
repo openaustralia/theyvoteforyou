@@ -11,7 +11,7 @@ module DataLoader
 
       (from_date..(to_date || from_date)).each do |date|
         House.australian.each do |house|
-          url = "#{Settings.xml_data_base_url}scrapedxml/#{house}_debates/#{date}.xml"
+          url = "#{Rails.configuration.xml_data_base_url}scrapedxml/#{house}_debates/#{date}.xml"
           begin
             xml_document = Nokogiri::XML(agent.get(url).body)
           rescue Mechanize::ResponseCodeError => e

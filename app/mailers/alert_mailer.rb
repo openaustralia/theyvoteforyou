@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class AlertMailer < ApplicationMailer
-  default from: "#{Settings.project_name} <#{Settings.contact_email}>"
+  default from: "#{Rails.configuration.project_name} <#{Rails.configuration.contact_email}>"
   layout "email"
   helper PoliciesHelper, DivisionsHelper, PathHelper
 
