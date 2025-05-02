@@ -34,7 +34,6 @@ gem "honeybadger"
 gem "delayed_job_active_record"
 gem "bootstrap-sass", "~> 3.3"
 gem "autoprefixer-rails"
-gem "config"
 gem "mechanize" # Used to download debates
 gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when testing division loader
 gem "seed_dump"
