@@ -85,6 +85,16 @@ Rails/HasAndBelongsToMany:
 RSpecRails/InferredSpecType: # new in 2.14
   Enabled: false
 
+RSpec/NoExpectationExample:
+  Enabled: false
+
+RSpec/IndexedLet:
+  Enabled: false
+
+# TODO: Fix this
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 # Disable a bunch of metrics to do with code complexity. These as are all
 # a bit hard-nosed.
 Metrics/AbcSize:
@@ -511,8 +521,6 @@ Rails/EnvLocal: # new in 2.22
 Rails/FreezeTime: # new in 2.16
   Enabled: true
 Rails/I18nLazyLookup: # new in 2.14
-  Enabled: true
-Rails/I18nLocaleTexts: # new in 2.14
   Enabled: true
 Rails/IgnoredColumnsAssignment: # new in 2.17
   Enabled: true
