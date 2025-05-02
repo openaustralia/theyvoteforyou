@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe DivisionInfo, type: :model do
+describe DivisionInfo do
   describe "counts" do
     let(:persona) { create(:person) }
     let(:personb) { create(:person) }

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe Whip, type: :model do
+describe Whip do
   describe "#free_vote?" do
     it do
       division = Division.new(house: "senate", date: "2006-02-09", number: 3)

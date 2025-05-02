@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe PolicyPersonDistance, type: :model do
+describe PolicyPersonDistance do
   describe ".category" do
     it "no votes" do
       ppd = described_class.new

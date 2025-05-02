@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe Division, type: :model do
+describe Division do
   describe "#formatted_motion_text" do
     it do
       division = described_class.new(motion: "A bill [No. 2] and votes")

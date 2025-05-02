@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe PeopleDistance, type: :model do
+RSpec.describe PeopleDistance do
   context "with two people who voted in some of the same divisions" do
     let(:person1) { create(:person) }
     let(:person2) { create(:person) }

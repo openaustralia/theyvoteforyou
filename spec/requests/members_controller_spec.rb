@@ -134,7 +134,7 @@ describe MembersController, type: :request do
 
     it "404s when the wrong name is given for a correct electorate" do
       get "/people/representatives/warringah/foo_bar"
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
   end
 end

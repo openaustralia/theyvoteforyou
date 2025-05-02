@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-rspec_rails
   - rubocop-capybara
   - rubocop-factory_bot
 
@@ -78,6 +79,10 @@ RSpec/SubjectStub:
 
 # TODO: Fix this
 Rails/HasAndBelongsToMany:
+  Enabled: false
+
+# TODO: Fix this
+RSpecRails/InferredSpecType: # new in 2.14
   Enabled: false
 
 # Disable a bunch of metrics to do with code complexity. These as are all
@@ -470,4 +475,13 @@ FactoryBot/FactoryNameStyle: # new in 2.16
 FactoryBot/IdSequence: # new in 2.24
   Enabled: true
 FactoryBot/RedundantFactoryOption: # new in 2.23
+  Enabled: true
+
+RSpecRails/HaveHttpStatus: # new in 2.12
+  Enabled: true
+RSpecRails/MinitestAssertions: # new in 2.17
+  Enabled: true
+RSpecRails/NegationBeValid: # new in 2.23
+  Enabled: true
+RSpecRails/TravelAround: # new in 2.19
   Enabled: true

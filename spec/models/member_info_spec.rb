@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe MemberInfo, type: :model do
+describe MemberInfo do
   describe "counts" do
     let(:persona) { create(:person) }
     let(:personb) { create(:person) }

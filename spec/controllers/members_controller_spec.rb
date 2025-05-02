@@ -23,7 +23,7 @@ describe MembersController, type: :controller do
       it "does not redirect the canonical member" do
         get :show, params: { house: "representatives", mpc: "clark", mpn: "andrew_wilkie" }
 
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
       end
     end
 
@@ -37,7 +37,7 @@ describe MembersController, type: :controller do
       it "does not redirect the canonical member" do
         get :friends, params: { house: "representatives", mpc: "clark", mpn: "andrew_wilkie" }
 
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
       end
     end
 
@@ -51,7 +51,7 @@ describe MembersController, type: :controller do
       it "does not redirect the canonical member" do
         get :policy, params: { house: "representatives", mpc: "clark", mpn: "andrew_wilkie", id: policy.id }
 
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
       end
     end
   end

@@ -12,7 +12,7 @@ describe DivisionsController, type: :controller do
         get :index
 
         expect(response).to render_template "divisions/index"
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
         expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
       end
     end
@@ -22,7 +22,7 @@ describe DivisionsController, type: :controller do
         get :index, params: { date: "2017-13-22", house: "representatives" }
 
         expect(response).to render_template "home/error404"
-        expect(response.status).to be 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -31,7 +31,7 @@ describe DivisionsController, type: :controller do
         get :index, params: { date: "2017-12-222", house: "representatives" }
 
         expect(response).to render_template "home/error404"
-        expect(response.status).to be 404
+        expect(response).to have_http_status :not_found
       end
     end
 
@@ -41,7 +41,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2016-06-01", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to eq([june_2016_division])
         end
       end
@@ -51,7 +51,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2017-02-02", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to be_empty
         end
       end
@@ -63,7 +63,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2016", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to eq([december_2016_division, june_2016_division])
         end
       end
@@ -73,7 +73,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2017", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to be_empty
         end
       end
@@ -85,7 +85,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2016-12", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to eq([december_2016_division])
         end
       end
@@ -95,7 +95,7 @@ describe DivisionsController, type: :controller do
           get :index, params: { date: "2016-05", house: "representatives" }
 
           expect(response).to render_template "divisions/index"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:divisions)).to be_empty
         end
       end
@@ -119,7 +119,7 @@ describe DivisionsController, type: :controller do
         get :index_with_member, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives" }
 
         expect(response).to render_template "divisions/index_with_member"
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
         expect(assigns(:member)).to eq(representative)
         expect(assigns(:date_start)).to eq(Date.new(2016, 0o1, 0o1))
         expect(assigns(:date_end)).to eq(Date.new(2017, 0o1, 0o1))
@@ -140,7 +140,7 @@ describe DivisionsController, type: :controller do
           get :index_with_member, params: { mpc: "newtown", mpn: "jane_lo", house: "representatives", date: "2013" }
 
           expect(response).to render_template "divisions/index_with_member"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:member)).to eq(representative)
           expect(assigns(:date_start)).to eq(Date.new(2013, 0o1, 0o1))
           expect(assigns(:date_end)).to eq(Date.new(2014, 0o1, 0o1))
@@ -160,7 +160,7 @@ describe DivisionsController, type: :controller do
           get :index_with_member, params: { mpc: "newtown", mpn: "christine_milne", house: "representatives", date: "2013-15-15" }
 
           expect(response).to render_template "home/error404"
-          expect(response.status).to be 404
+          expect(response).to have_http_status :not_found
         end
       end
     end
@@ -183,7 +183,7 @@ describe DivisionsController, type: :controller do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 100 }
 
           expect(response).to render_template "divisions/show"
-          expect(response.status).to be 200
+          expect(response).to have_http_status :ok
           expect(assigns(:division)).to eq(one_division)
           expect(assigns(:whips)).to eq(one_division.whips)
           expect(assigns(:votes)).to eq(one_division.votes)
@@ -198,7 +198,7 @@ describe DivisionsController, type: :controller do
           get :show, params: { house: "representatives", date: "2017-04-06", number: 101 }
 
           expect(response).to render_template "home/error404"
-          expect(response.status).to be 404
+          expect(response).to have_http_status :not_found
         end
       end
     end

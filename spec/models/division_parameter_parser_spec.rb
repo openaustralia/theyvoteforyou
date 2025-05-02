@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe DivisionParameterParser, type: :model do
+describe DivisionParameterParser do
   describe ".date_range" do
     it "gets range for complete date's format" do
       date_start, date_end, date_range = described_class.date_range("2017-12-20")

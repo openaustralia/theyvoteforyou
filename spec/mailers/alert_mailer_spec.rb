@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe AlertMailer, type: :mailer do
+RSpec.describe AlertMailer do
   describe "policy_updated" do
     # User 1 is the one creating the policy
     let(:user1) { create(:user, name: "Wibble", id: 200) }

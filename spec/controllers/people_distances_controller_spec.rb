@@ -36,7 +36,7 @@ describe PeopleDistancesController, type: :controller do
       it "does not redirect the canonical member" do
         get :show, params: { house: "representatives", mpc: "clark", mpn: "andrew_wilkie", house2: "representatives", mpc2: "foo", mpn2: "jane_smith" }
 
-        expect(response.status).to be 200
+        expect(response).to have_http_status :ok
       end
     end
   end
