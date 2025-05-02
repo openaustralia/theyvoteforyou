@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "Signing up", type: :feature do
   before do
-    create :member
+    create(:member)
   end
 
   it "with valid details" do

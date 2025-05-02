@@ -4,7 +4,7 @@ require "spec_helper"
 
 describe "User profile", type: :feature do
   before do
-    create :member
+    create(:member)
   end
 
   let(:user) { create(:user, confirmed_at: Time.zone.now) }

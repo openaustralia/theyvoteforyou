@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :people_distance do
-    association :person1, factory: :person
-    association :person2, factory: :person
+    person1 factory: %i[person]
+    person2 factory: %i[person]
     nvotessame { 0 }
     nvotesdiffer { 0 }
     distance_b { 0 }

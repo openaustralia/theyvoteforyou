@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :member_info do
-    association :member
+    member
     rebellions { 0 }
     tells { 0 }
     votes_attended { 0 }

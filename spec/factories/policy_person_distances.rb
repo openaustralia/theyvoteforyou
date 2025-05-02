@@ -2,8 +2,8 @@
 
 FactoryBot.define do
   factory :policy_person_distance do
-    association :policy
-    association :person
+    policy
+    person
     nvotessame { 0 }
     nvotessamestrong { 0 }
     nvotesdiffer { 0 }

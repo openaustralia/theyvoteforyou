@@ -8,6 +8,6 @@ FactoryBot.define do
     position { "Minister for ponies" }
     # TODO: Make person_id null: false in the schema
     # We are pretending this has already been done here
-    association :person
+    person
   end
 end

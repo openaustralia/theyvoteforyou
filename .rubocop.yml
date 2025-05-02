@@ -2,6 +2,7 @@ require:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   Exclude:
@@ -454,4 +455,19 @@ Capybara/SpecificFinders: # new in 2.13
 Capybara/SpecificMatcher: # new in 2.12
   Enabled: true
 Capybara/RSpec/HaveSelector: # new in 2.19
+  Enabled: true
+
+FactoryBot/AssociationStyle: # new in 2.23
+  Enabled: true
+FactoryBot/ConsistentParenthesesStyle: # new in 2.14
+  Enabled: true
+FactoryBot/ExcessiveCreateList: # new in 2.25
+  Enabled: true
+FactoryBot/FactoryAssociationWithStrategy: # new in 2.23
+  Enabled: true
+FactoryBot/FactoryNameStyle: # new in 2.16
+  Enabled: true
+FactoryBot/IdSequence: # new in 2.24
+  Enabled: true
+FactoryBot/RedundantFactoryOption: # new in 2.23
   Enabled: true

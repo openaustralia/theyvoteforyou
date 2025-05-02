@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :division_info do
-    association :division
+    division
     rebellions { 0 }
     tells { 0 }
     turnout { 0 }

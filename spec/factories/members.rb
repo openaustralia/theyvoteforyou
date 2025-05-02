@@ -14,6 +14,6 @@ FactoryBot.define do
     left_house { "9999-12-31" }
     entered_reason { "general_election" }
     left_reason { "still_in_office" }
-    association :person
+    person
   end
 end

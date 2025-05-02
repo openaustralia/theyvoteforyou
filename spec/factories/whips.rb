@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :whip do
-    association :division
+    division
     sequence(:party) { |n| "Party #{n}" }
     aye_votes { 0 }
     aye_tells { 0 }

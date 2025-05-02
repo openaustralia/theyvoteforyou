@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :vote do
-    association :member
-    association :division
+    member
+    division
   end
 end

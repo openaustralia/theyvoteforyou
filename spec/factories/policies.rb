@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:name) { |n| "the existence of test policies #{n}" }
     description { "there should be fabulous test policies" }
     private { 0 }
-    association :user
+    user
 
     factory :provisional_policy do
       private { 2 }

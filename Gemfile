@@ -157,6 +157,7 @@ group :development do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "rubocop-capybara", require: false
+  gem "rubocop-factory_bot", require: false
 
   # Helps upgrade a whole bunch of gems at once
   gem "bummr"
