@@ -147,7 +147,7 @@ namespace :application do
         config/secrets.yml
       ].each do |target|
         source = "#{target}.example"
-        if File.exist?(Rails.root.join(target))
+        if Rails.root.join(target).exist?
           puts "#{target} already exists."
         else
           FileUtils.cp(

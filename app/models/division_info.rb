@@ -21,7 +21,7 @@ class DivisionInfo < ApplicationRecord
     possible_turnout = all_possible_turnout_counts
     aye_majority = all_aye_majority_counts
 
-    Division.all.ids.each do |id|
+    Division.ids.each do |id|
       info = DivisionInfo.find_or_initialize_by(division_id: id)
       info.update(rebellions: rebellions[id] || 0, tells: tells[id] || 0,
                   turnout: turnout[id] || 0, possible_turnout: possible_turnout[id] || 0,
@@ -38,7 +38,7 @@ class DivisionInfo < ApplicationRecord
   end
 
   def self.all_turnout_counts
-    Vote.all.group("votes.division_id").count
+    Vote.group("votes.division_id").count
   end
 
   def self.all_ayes_counts

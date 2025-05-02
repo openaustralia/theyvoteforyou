@@ -94,7 +94,7 @@ describe Whip do
 
       it do
         described_class.update_all!
-        expect(described_class.all.count).to eq 2
+        expect(described_class.count).to eq 2
         w = described_class.find_by(division: division, party: "A")
         expect(w.aye_votes).to eq 1
         expect(w.aye_tells).to eq 0
@@ -150,7 +150,7 @@ describe Whip do
 
         it do
           described_class.update_all!
-          expect(described_class.all.count).to eq 2
+          expect(described_class.count).to eq 2
           w = described_class.find_by(division: division, party: "A")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0
@@ -183,7 +183,7 @@ describe Whip do
 
         it do
           described_class.update_all!
-          expect(described_class.all.count).to eq 2
+          expect(described_class.count).to eq 2
           w = described_class.find_by(division: division, party: "A")
           expect(w.aye_votes).to eq 1
           expect(w.aye_tells).to eq 0

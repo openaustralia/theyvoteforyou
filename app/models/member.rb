@@ -200,7 +200,7 @@ class Member < ApplicationRecord
   # Members who were in parliament (in the same house) at the same time
   # Note that this also includes themselves
   def overlapping_members
-    Member.where(house: house).where("left_house >= ?", entered_house).where("entered_house <= ?", left_house)
+    Member.where(house: house).where(left_house: entered_house..).where(entered_house: ..left_house)
   end
 
   # Returns a value between 0 and 1 for how much they've voted along the same lines as a given party

@@ -10,7 +10,7 @@ class MemberInfo < ApplicationRecord
     votes_possible = all_votes_possible_counts
     aye_majority = all_aye_majority_counts
 
-    Member.all.ids.each do |id|
+    Member.ids.each do |id|
       info = MemberInfo.find_or_initialize_by(member_id: id)
       info.update(
         rebellions: rebellions[id] || 0,
@@ -31,7 +31,7 @@ class MemberInfo < ApplicationRecord
   end
 
   def self.all_votes_attended_counts
-    Vote.all.group("votes.member_id").count
+    Vote.group("votes.member_id").count
   end
 
   def self.all_ayes_counts
