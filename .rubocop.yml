@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - rubocop-capybara
 
 AllCops:
   Exclude:
@@ -436,4 +437,21 @@ Style/SuperArguments: # new in 1.64
 Style/SuperWithArgsParentheses: # new in 1.58
   Enabled: true
 Style/YAMLFileRead: # new in 1.53
+  Enabled: true
+
+Capybara/ClickLinkOrButtonStyle: # new in 2.19
+  Enabled: true
+Capybara/MatchStyle: # new in 2.17
+  Enabled: true
+Capybara/NegationMatcher: # new in 2.14
+  Enabled: true
+Capybara/RedundantWithinFind: # new in 2.20
+  Enabled: true
+Capybara/SpecificActions: # new in 2.14
+  Enabled: true
+Capybara/SpecificFinders: # new in 2.13
+  Enabled: true
+Capybara/SpecificMatcher: # new in 2.12
+  Enabled: true
+Capybara/RSpec/HaveSelector: # new in 2.19
   Enabled: true

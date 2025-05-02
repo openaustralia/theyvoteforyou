@@ -462,6 +462,8 @@ GEM
     rubocop-ast (1.44.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
+    rubocop-capybara (2.21.0)
+      rubocop (~> 1.41)
     rubocop-rails (2.13.2)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
@@ -630,6 +632,7 @@ DEPENDENCIES
   rspec-activemodel-mocks
   rspec-rails
   rubocop
+  rubocop-capybara
   rubocop-rails
   rubocop-rspec
   ruby-progressbar
