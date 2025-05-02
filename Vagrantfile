@@ -121,9 +121,6 @@ Vagrant.configure("2") do |config|
       port_http_mail: port_http_mail,
       port_http_reload: port_http_reload,
 
-      # set the time zone
-      time_zone: "Australia/Sydney",
-
       # hard-coded passwords / secrets
       # WARING: These passwords and secrets are hard-coded because this should be fine in a development environment.
       # Change these before running `vagrant up` if you want to use your own local, secure, settings.

@@ -46,7 +46,7 @@ module Publicwhip
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = Settings.time_zone
+    config.time_zone = "Sydney"
 
     config.middleware.use PlausibleProxy
 
@@ -60,11 +60,20 @@ module Publicwhip
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
 
+    #
     # Application configuration below here
-    config.project_name = Settings.project_name
-    config.xml_data_base_url = Settings.xml_data_base_url
-    config.contact_email = Settings.contact_email
-    config.stage = Settings.stage
-    config.facebook_admins = Settings.facebook_admins
+    #
+
+    # URL where Public Whip XML data files can be found
+    config.xml_data_base_url = "http://data.openaustralia.org.au/"
+    # Or if you want to load from your local filesystem instead then you might do something like
+    #config.xml_data_base_url = "file:///Users/matthew/git/openaustralia/openaustralia-parser/pwdata/"
+
+    # Name of project to display thoughout the application
+    config.project_name = "They Vote For You"
+
+    config.contact_email = "contact@theyvoteforyou.org.au"
+
+    config.facebook_admins = nil
   end
 end

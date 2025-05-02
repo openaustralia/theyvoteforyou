@@ -1,14 +1,2 @@
-# URL where Public Whip XML data files can be found
-xml_data_base_url: http://data.openaustralia.org.au/
-
-# Or if you want to load from your local filesystem instead then you might do something like
-#xml_data_base_url: file:///Users/matthew/git/openaustralia/openaustralia-parser/pwdata/
-
 # Optionally change the address of the elasticsearch service
 elasticsearch_url: http://localhost:9200
-
-# Name of project to display thoughout the application
-project_name: They Vote For You
-contact_email: contact@theyvoteforyou.org.au
-time_zone: {{ time_zone }}
-facebook_admins: []
