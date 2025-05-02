@@ -596,13 +596,13 @@ DEPENDENCIES
   meta-tags
   mina
   mina-multistage
-  mini_racer
+  mini_racer (= 0.6.2)
   mysql2
   newrelic_rpm
   nokogiri (>= 1.6.7.2)
   numbers_and_words
   oj
-  paper_trail
+  paper_trail (= 12.2.0)
   pundit
   rack-cors
   rack-livereload
