@@ -169,11 +169,7 @@ class DivisionsController < ApplicationController
   end
 
   def date_range(date)
-    if date
-      DivisionParameterParser.date_range(date)
-    else
-      DivisionParameterParser.date_range(@years.last.to_s)
-    end
+    DivisionParameterParser.date_range(date || @years.last.to_s)
   end
 
   def division(house, date, number)

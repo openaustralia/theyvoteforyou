@@ -27,7 +27,7 @@ class PolicyDivision < ApplicationRecord
   end
 
   def strong_vote?
-    vote == "aye3" || vote == "no3"
+    %w[aye3 no3].include?(vote)
   end
 
   private

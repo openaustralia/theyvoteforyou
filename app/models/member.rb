@@ -71,7 +71,7 @@ class Member < ApplicationRecord
   def self.parse_first_last_name(name)
     name = name.split
     # Strip titles like "Ms"
-    name.slice!(0) if name[0] == "Ms" || name[0] == "Mrs" || name[0] == "Mr"
+    name.slice!(0) if %w[Ms Mrs Mr].include?(name[0])
     first_name = name[0]
     last_name = name[1..].join(" ")
     [first_name, last_name]
