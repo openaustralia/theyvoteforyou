@@ -62,7 +62,8 @@ gem "elasticsearch", "~> 7"
 # oj and typhoeus used for better performance with searchkick
 # see https://github.com/ankane/searchkick#performance
 gem "oj"
-gem "typhoeus"
+# I think we need farady-typhoeus rather than typhoeus when using faraday 2
+gem "faraday-typhoeus"
 
 gem "foreman"
 
