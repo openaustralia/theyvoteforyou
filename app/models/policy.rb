@@ -15,7 +15,7 @@ class Policy < ApplicationRecord
   validates :name, uniqueness: { case_sensitive: false }, length: { maximum: 100 }
 
   # TODO: Remove "legacy Dream MP"
-  enum private: { :published => 0, "legacy Dream MP" => 1, :provisional => 2 }
+  enum :private, { published: 0, "legacy Dream MP": 1, provisional: 2 }
   # TODO: Rename field in schema
   alias_attribute :status, :private
 
