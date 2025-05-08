@@ -112,11 +112,6 @@ gem "base64", "0.1.0"
 # TODO: Remove this workaround
 gem "stringio", "3.0.0"
 
-# For some reason a dependency of mail 2.8.1 (net-imap) was causing the app not to start
-# in production. So, locking to 2.7.1 to get things working again.
-# TODO: Remove this workaround as soon as we can
-gem "mail", "2.7.1"
-
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
