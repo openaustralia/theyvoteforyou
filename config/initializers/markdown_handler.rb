@@ -15,7 +15,7 @@ module MarkdownHandler
 
   def self.call(template, source)
     compiled_source = erb.call(template, source)
-    "Redcarpet::Markdown.new(BootstrapTableRenderer, tables: true).render(begin;#{compiled_source};end).html_safe"
+    "Redcarpet::Markdown.new(BootstrapTableRenderer, tables: true).render(begin;#{compiled_source};end.to_s).html_safe"
   end
 end
 
