@@ -1,38 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <publicwhip>
-
-<memberinfo id="uk.org.publicwhip/member/222222" 
- public_whip_data_date="complete"
- public_whip_division_attendance="33.33%"
- public_whip_rebellions="n/a"
-/>
-
-<memberinfo id="uk.org.publicwhip/member/333333" 
- public_whip_data_date="complete"
- public_whip_division_attendance="33.33%"
- public_whip_rebellions="n/a"
-/>
-
-<memberinfo id="uk.org.publicwhip/member/100002" 
- public_whip_data_date="complete"
- public_whip_division_attendance="33.33%"
- public_whip_rebellions="0.00%"
-/>
-
-<memberinfo id="uk.org.publicwhip/member/100156" 
- public_whip_data_date="2013-03-14"
- public_whip_division_attendance="100.00%"
- public_whip_rebellions="0.00%"
- public_whip_attendrank="1" public_whip_attendrank_outof="2"
- public_whip_rebelrank="1" public_whip_rebelrank_outof="2"
-/>
-
-<memberinfo id="uk.org.publicwhip/member/100279" 
- public_whip_data_date="2013-03-14"
- public_whip_division_attendance="75.00%"
- public_whip_rebellions="0.00%"
- public_whip_attendrank="2" public_whip_attendrank_outof="2"
- public_whip_rebelrank="1" public_whip_rebelrank_outof="2"
-/>
-
+  <memberinfo id="uk.org.publicwhip/member/222222" public_whip_data_date="complete" public_whip_division_attendance="33.33%" public_whip_rebellions="n/a"/>
+  <memberinfo id="uk.org.publicwhip/member/333333" public_whip_data_date="complete" public_whip_division_attendance="33.33%" public_whip_rebellions="n/a"/>
+  <memberinfo id="uk.org.publicwhip/member/100002" public_whip_data_date="complete" public_whip_division_attendance="33.33%" public_whip_rebellions="0.00%"/>
+  <memberinfo id="uk.org.publicwhip/member/100156" public_whip_data_date="2013-03-14" public_whip_division_attendance="100.00%" public_whip_rebellions="0.00%" public_whip_attendrank="1" public_whip_attendrank_outof="2" public_whip_rebelrank="1" public_whip_rebelrank_outof="2"/>
+  <memberinfo id="uk.org.publicwhip/member/100279" public_whip_data_date="2013-03-14" public_whip_division_attendance="75.00%" public_whip_rebellions="0.00%" public_whip_attendrank="2" public_whip_attendrank_outof="2" public_whip_rebelrank="1" public_whip_rebelrank_outof="2"/>
 </publicwhip>
