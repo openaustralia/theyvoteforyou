@@ -39,9 +39,7 @@ gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when te
 gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
-# Lock paper_trail gem temporarily
-# TODO: Upgrade paper_trail
-gem "paper_trail", "12.2.0"
+gem "paper_trail"
 # TODO: This is using a fairly old version of the marked js lib. Update this gem
 # Locked version of marked-rails temporarily to stop deployment from failing
 # TODO: Upgrade marked-rails

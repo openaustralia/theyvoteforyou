@@ -68,6 +68,20 @@ module Publicwhip
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
 
+    # Because we're using the yaml serialising for paper trail (the old but not now recommended way) with rails 7.1
+    # we need to tell rails what classes we can "safely" serialise.
+    # See https://github.com/paper-trail-gem/paper_trail/blob/master/doc/pt_13_yaml_safe_load.md#to-continue-using-the-yaml-serializer
+    # TODO: Switch over to json serialisation for paper trail to avoid this whole issue
+    config.active_record.yaml_column_permitted_classes = [
+      ::ActiveRecord::Type::Time::Value,
+      ::ActiveSupport::TimeWithZone,
+      ::ActiveSupport::TimeZone,
+      ::BigDecimal,
+      ::Date,
+      ::Symbol,
+      ::Time
+    ]
+
     #
     # Application configuration below here
     #
