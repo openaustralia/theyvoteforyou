@@ -108,9 +108,6 @@ gem "rack-proxy"
 # See https://www.reddit.com/r/rails/comments/18105z2/ruby_on_rails_phusion_passenger_error/?rdt=51564
 # TODO: Remove this workaround as soon as we can
 gem "base64", "0.1.0"
-# This is similar to the base64 problem
-# TODO: Remove this workaround
-gem "stringio", "3.0.0"
 
 group :test do
   gem "rspec-activemodel-mocks"
