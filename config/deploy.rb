@@ -5,7 +5,7 @@ set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
 set :rails_env, "production"
 
-set :rvm_ruby_version, "3.3.8"
+set :rvm_ruby_version, "3.4.4"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
