@@ -10,9 +10,6 @@ gem "sprockets"
 # Use SCSS for stylesheets
 gem "sass-rails"
 
-# Use Uglifier as compressor for JavaScript assets
-gem "uglifier", ">= 2.7.2"
-
 # Use jquery as the JavaScript library
 gem "jquery-rails"
 
@@ -111,6 +108,9 @@ gem "base64", "0.1.0"
 # TODO: But will it be necessary once rails is upgraded?
 gem "mutex_m"
 gem "drb"
+
+# For compressing javascript
+gem "terser"
 
 group :test do
   gem "rspec-activemodel-mocks"
