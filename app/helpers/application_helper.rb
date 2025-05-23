@@ -147,8 +147,8 @@ module ApplicationHelper
   end
 
   # Put the rest of the content in a block
-  def optional_strong(strong, &block)
-    content = capture(&block)
+  def optional_strong(strong, &)
+    content = capture(&)
     strong ? content_tag(:strong, content) : content
   end
 
