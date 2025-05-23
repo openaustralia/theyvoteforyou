@@ -144,7 +144,6 @@ namespace :application do
     task dev: :environment do
       %w[
         config/database.yml
-        config/secrets.yml
       ].each do |target|
         source = "#{target}.example"
         if Rails.root.join(target).exist?

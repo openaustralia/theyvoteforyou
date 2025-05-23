@@ -92,10 +92,10 @@ Rails.application.configure do
     host: "theyvoteforyou.org.au"
   }
   config.action_mailer.smtp_settings = {
-    address: Rails.application.secrets.cuttlefish_server,
+    address: Rails.application.credentials.cuttlefish.server!,
     port: 2525,
-    user_name: Rails.application.secrets.cuttlefish_user_name,
-    password: Rails.application.secrets.cuttlefish_password,
+    user_name: Rails.application.credentials.cuttlefish.user_name!,
+    password: Rails.application.credentials.cuttlefish.password!,
     authentication: :plain
   }
 

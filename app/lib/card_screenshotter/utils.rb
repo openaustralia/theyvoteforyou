@@ -79,9 +79,9 @@ module CardScreenshotter
       # This HMAC essentially signs the query_string making it safe to share
       # this URL in public. An attacker can only request the same URL.
       # They can't create a screenshot of something else
-      token = OpenSSL::HMAC.hexdigest("sha1", Rails.application.secrets.urlbox_secret, query_string)
+      token = OpenSSL::HMAC.hexdigest("sha1", Rails.application.credentials.urlbox.secret!, query_string)
 
-      "https://api.urlbox.io/v1/#{Rails.application.secrets.urlbox_apikey}/#{token}/#{format}?#{query_string}"
+      "https://api.urlbox.io/v1/#{Rails.application.credentials.urlbox.apikey!}/#{token}/#{format}?#{query_string}"
     end
   end
 end

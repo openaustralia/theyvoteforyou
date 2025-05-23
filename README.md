@@ -82,9 +82,6 @@ cp config/database.yml.example config/database.yml
 # (Edit config/database.yml and fill in your username, password and database settings.)
 bundle exec rake application:config:dev
 
-# Copy secrets config
-cp config/secrets.yml.example config/secrets.yml
-
 # Set up your database (including seed data)
 bundle exec rake db:setup
 
