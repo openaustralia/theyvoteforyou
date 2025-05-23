@@ -109,6 +109,11 @@ gem "rack-proxy"
 # TODO: Remove this workaround as soon as we can
 gem "base64", "0.1.0"
 
+# Needed for ruby 3.4.
+# TODO: But will it be necessary once rails is upgraded?
+gem "mutex_m"
+gem "drb"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
