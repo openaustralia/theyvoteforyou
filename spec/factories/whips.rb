@@ -11,6 +11,6 @@ FactoryBot.define do
     both_votes { 0 }
     abstention_votes { 0 }
     possible_votes { 0 }
-    whip_guess { "guess" }
+    whip_guess { "unknown" }
   end
 end
