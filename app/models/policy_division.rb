@@ -32,6 +32,11 @@ class PolicyDivision < ApplicationRecord
 
   private
 
+  # Callbacks can make testing models and reasoning about models confusing IMHO
+  # So, better I think to move to controller where the relevant action takes place
+  # or if that action is used in several places and/or is complicated move it to a
+  # service class.
+  # TODO: Move callback out of model
   def calculate_policy_person_distances
     CalculatePolicyPersonDistancesJob.perform_later(policy)
   end
