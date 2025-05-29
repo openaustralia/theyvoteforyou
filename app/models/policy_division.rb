@@ -8,8 +8,8 @@ class PolicyDivision < ApplicationRecord
   belongs_to :policy
   belongs_to :division
   validates :vote, inclusion: { in: %w[aye3 aye no no3] }
-  after_destroy :calculate_policy_person_distances, :alert_policy_watches
-  after_save    :calculate_policy_person_distances, :alert_policy_watches
+  after_destroy :alert_policy_watches
+  after_save    :alert_policy_watches
 
   delegate :name, :house, :house_name, :date, :number, to: :division
 
@@ -31,15 +31,6 @@ class PolicyDivision < ApplicationRecord
   end
 
   private
-
-  # Callbacks can make testing models and reasoning about models confusing IMHO
-  # So, better I think to move to controller where the relevant action takes place
-  # or if that action is used in several places and/or is complicated move it to a
-  # service class.
-  # TODO: Move callback out of model
-  def calculate_policy_person_distances
-    CalculatePolicyPersonDistancesJob.perform_later(policy)
-  end
 
   def alert_policy_watches
     policy.alert_watches(versions.last)

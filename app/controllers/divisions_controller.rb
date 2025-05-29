@@ -2,6 +2,7 @@
 
 class DivisionsController < ApplicationController
   before_action :authenticate_user!, only: %i[edit update show_policies create_policy_division update_policy_division destroy_policy_division]
+  after_action :calculate_policy_person_distances, only: %i[create_policy_division update_policy_division destroy_policy_division]
 
   def index
     @years = (Division.order(:date).first.date.year..Division.order(:date).last.date.year).to_a
@@ -177,5 +178,9 @@ class DivisionsController < ApplicationController
             .joins(:division_info, :whips)
             .includes(:division_info, :whips)
             .find_by(date: date, number: number)
+  end
+
+  def calculate_policy_person_distances
+    CalculatePolicyPersonDistancesJob.perform_later(policy)
   end
 end
