@@ -318,7 +318,7 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
-    marked-rails (0.3.2.0)
+    marked-rails (9.1.2.0)
     matrix (0.4.2)
     mechanize (2.14.0)
       addressable (~> 2.8)
@@ -694,7 +694,7 @@ DEPENDENCIES
   invisible_captcha
   jbuilder
   jquery-rails
-  marked-rails (= 0.3.2.0)
+  marked-rails
   mechanize
   meta-tags
   mina

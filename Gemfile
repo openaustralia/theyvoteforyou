@@ -37,10 +37,7 @@ gem "seed_dump"
 gem "redcarpet"
 gem "reverse_markdown"
 gem "paper_trail"
-# TODO: This is using a fairly old version of the marked js lib. Update this gem
-# Locked version of marked-rails temporarily to stop deployment from failing
-# TODO: Upgrade marked-rails
-gem "marked-rails", "0.3.2.0"
+gem "marked-rails"
 gem "simple_form"
 gem "bootstrap-select-rails"
 gem "foundation-icons-sass-rails"
