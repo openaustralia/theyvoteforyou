@@ -61,6 +61,7 @@ gem "foreman"
 
 gem "rack-cors"
 
+# TODO: Upgrade this when we can. I think we need to upgrade the ubuntu version on the server first.
 gem "mini_racer", "~> 0.16.0"
 
 gem "invisible_captcha"
