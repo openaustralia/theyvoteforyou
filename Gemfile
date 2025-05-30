@@ -19,8 +19,6 @@ gem "jbuilder"
 gem "haml"
 gem "htmlentities"
 
-# TODO: Remove newrelic once we're happy that skylight is meeting our needs
-gem "newrelic_rpm"
 gem "skylight"
 
 gem "devise"

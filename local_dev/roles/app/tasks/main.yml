@@ -37,8 +37,6 @@
       dest: '{{ work_source_dir }}/config/database.yml'
     - src: 'docker-compose.yml'
       dest: '{{ docker_compose_path }}'
-    - src: 'newrelic.yml'
-      dest: '{{ work_source_dir }}/config/newrelic.yml'
     - src: 'secrets.yml'
       dest: '{{ work_source_dir }}/config/secrets.yml'
     - src: 'settings.yml'

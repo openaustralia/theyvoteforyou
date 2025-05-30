@@ -17,7 +17,6 @@
 /tmp
 
 config/database.yml
-config/newrelic.yml
 config/settings.yml
 config/settings.local.yml
 config/settings/*.local.yml

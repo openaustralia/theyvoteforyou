@@ -126,8 +126,6 @@ class Division < ApplicationRecord
     division_info.possible_turnout
   end
 
-  add_method_tracer :possible_votes, "Custom/Division/possible_votes"
-
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
     total_votes.to_f / possible_votes if possible_votes.positive?
@@ -141,15 +139,11 @@ class Division < ApplicationRecord
     wiki_motion ? wiki_motion.title.strip : original_name
   end
 
-  add_method_tracer :name, "Custom/Division/name"
-
   def original_name
     # For some reason some characters are stored in the database using html entities
     # rather than using unicode.
     HTMLEntities.new.decode(self[:name])
   end
-
-  add_method_tracer :original_name, "Custom/Division/original_name"
 
   def motion
     text = if edited?
