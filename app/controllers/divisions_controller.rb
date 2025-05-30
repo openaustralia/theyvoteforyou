@@ -166,7 +166,7 @@ class DivisionsController < ApplicationController
   private
 
   def policy_division_params
-    params.require(:policy_division).permit(:policy_id, :vote)
+    params.expect(policy_division: %i[policy_id vote])
   end
 
   def date_range(date)

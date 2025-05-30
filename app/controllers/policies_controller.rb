@@ -88,6 +88,6 @@ class PoliciesController < ApplicationController
   private
 
   def policy_params
-    params.require(:policy).permit(:name, :description).merge(private: (params[:provisional] ? 2 : 0))
+    params.expect(policy: %i[name description]).merge(private: (params[:provisional] ? 2 : 0))
   end
 end
