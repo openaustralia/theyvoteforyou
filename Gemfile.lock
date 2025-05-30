@@ -352,7 +352,6 @@ GEM
     multi_json (1.15.0)
     multi_xml (0.7.2)
       bigdecimal (~> 3.1)
-    mutex_m (0.3.0)
     mysql2 (0.5.6)
     nenv (0.3.0)
     net-http (0.6.0)
@@ -670,7 +669,6 @@ DEPENDENCIES
   delayed_job_active_record
   devise
   diffy
-  drb
   elasticsearch (~> 7)
   email_spec
   factory_bot_rails
@@ -699,7 +697,6 @@ DEPENDENCIES
   mina
   mina-multistage
   mini_racer (~> 0.16.0)
-  mutex_m
   mysql2
   nokogiri (>= 1.6.7.2)
   numbers_and_words

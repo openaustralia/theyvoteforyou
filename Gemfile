@@ -90,11 +90,6 @@ gem "pundit"
 # For proxying requests to plausible.io analytics
 gem "rack-proxy"
 
-# Needed for ruby 3.4.
-# TODO: But will it be necessary once rails is upgraded?
-gem "mutex_m"
-gem "drb"
-
 # For compressing javascript
 gem "terser"
 
