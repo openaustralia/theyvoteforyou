@@ -386,7 +386,7 @@ GEM
       shellany (~> 0.0)
     numbers_and_words (1.0.1)
       i18n (<= 2)
-    oj (3.16.10)
+    oj (3.16.11)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     orm_adapter (0.5.0)
