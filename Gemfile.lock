@@ -89,7 +89,7 @@ GEM
       activerecord (>= 3.0.0)
     autoprefixer-rails (10.4.21.0)
       execjs (~> 2)
-    base64 (0.1.0)
+    base64 (0.2.0)
     bcrypt (3.1.20)
     benchmark (0.4.0)
     better_errors (2.10.1)
@@ -576,7 +576,9 @@ GEM
       activerecord (>= 4)
       activesupport (>= 4)
     selectize-rails (0.12.6)
-    selenium-webdriver (4.16.0)
+    selenium-webdriver (4.33.0)
+      base64 (~> 0.2)
+      logger (~> 1.4)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -653,7 +655,6 @@ DEPENDENCIES
   administrate
   attribute-defaults
   autoprefixer-rails
-  base64 (= 0.1.0)
   better_errors
   binding_of_caller
   bootsnap
