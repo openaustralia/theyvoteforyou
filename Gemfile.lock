@@ -301,8 +301,8 @@ GEM
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
-    libv8-node (23.6.1.0-x86_64-darwin)
-    libv8-node (23.6.1.0-x86_64-linux)
+    libv8-node (18.19.0.0-x86_64-darwin)
+    libv8-node (18.19.0.0-x86_64-linux)
     lint_roller (1.1.0)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -345,8 +345,8 @@ GEM
     mina-multistage (1.0.4)
       mina (~> 1.0)
     mini_mime (1.1.5)
-    mini_racer (0.18.1)
-      libv8-node (~> 23.6.1.0)
+    mini_racer (0.16.0)
+      libv8-node (~> 18.19.0.0)
     minitest (5.25.5)
     msgpack (1.8.0)
     multi_json (1.15.0)
@@ -699,7 +699,7 @@ DEPENDENCIES
   meta-tags
   mina
   mina-multistage
-  mini_racer
+  mini_racer (~> 0.16.0)
   mutex_m
   mysql2
   newrelic_rpm

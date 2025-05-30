@@ -61,7 +61,7 @@ gem "foreman"
 
 gem "rack-cors"
 
-gem "mini_racer"
+gem "mini_racer", "~> 0.16.0"
 
 gem "invisible_captcha"
 
