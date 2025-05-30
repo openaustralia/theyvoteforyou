@@ -61,9 +61,7 @@ gem "foreman"
 
 gem "rack-cors"
 
-# Lock mini_racer version temporarily
-# TODO: Upgrade mini_racer
-gem "mini_racer", "0.6.2"
+gem "mini_racer"
 
 gem "invisible_captcha"
 
