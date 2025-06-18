@@ -206,7 +206,11 @@ To deploy to the **production** server, replace `ukraine_dev` with `ukraine_prod
 
 The administration panel, which currently doesn't do a whole lot, can be accessed in development at http://localhost:3000/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be able to access that page. Any user that is an admin can make another user and admin too using the admin panel. The first admin user must be created via the rails console:
 ```
-$ bundle exec rails c
+deploy@hostname:/srv/www/production/current$ RAILS_ENV=production bundle exec rails c
+Loading production environment (Rails 8.0.2)
+3.4.4 :001 >  User.find_by(email: "matthew@oaf.org.au")
+ => #<User id: 13792, created_at: "2021-05-03 10:26:02.000000000 +1000", updated_at: "2025-05-09 10:21:17.000000000 +1000", api_key: "NNabCaw2gQ/Wla4mVeR8", admin: true, staff: true, name: "matthew", email: "matthew@oaf.org.au">
+3.4.4 :002 >$ bundle exec rails c
 irb> User.find_by(email: "matthew@oaf.org.au").update(admin: true)
 ```
 
