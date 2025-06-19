@@ -90,6 +90,10 @@ gem "pundit"
 # For proxying requests to plausible.io analytics
 gem "rack-proxy"
 
+# Apparently passenger does not support Rack 3.
+# See https://github.com/rails/rails/issues/49422#issuecomment-1744415544
+gem "rack", "~> 2"
+
 # For compressing javascript
 gem "terser"
 
