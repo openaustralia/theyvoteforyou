@@ -26,7 +26,10 @@
     = render "honeybadger_javascript"
     = render "plausible_analytics"
   %body{class: "#{body_class}"}
-    = render "swag"
+    -# This adds a dismissable banner across the top of the page advertising a TVFY t shirt
+    -# We sold this around the time of the 2025 federal elections. Just commenting it out rather
+    -# than removing it in case it's useful again during another election.
+    -# = render "swag"
     %nav.site-header.navbar(role="navigation")
       - # Brand and toggle get grouped for better mobile display
       .navbar-header
