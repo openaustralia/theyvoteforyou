@@ -1,0 +1,58 @@
+---
+version: "3.9"
+
+services:
+  mysql:
+    image: "mysql:latest"
+    ports:
+      - 3306:3306
+    restart: "always"
+    logging:
+      driver: "journald"
+    # volumes:
+    #   - "/opt/data/mysql:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: "theyvoteforyou_development"
+      MYSQL_USER: "theyvoteforyou"
+      MYSQL_PASSWORD: "theyvoteforyou"
+
+  # adminer:
+  #   image: "adminer:latest"
+  #   ports:
+  #     - "8888:8080"
+  #   restart: "always"
+  #   logging:
+  #     driver: "journald"
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: "mysql"
+  #   depends_on:
+  #     - mysql
+
+  elasticsearch:
+    image: "elasticsearch:6.8.23"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    restart: "always"
+    logging:
+      driver: "journald"
+    environment:
+      "discovery.type": "single-node"
+      "http.port": "9200"
+      "http.cors.enabled": "true"
+      "http.cors.allow-origin": "http://localhost:1358,http://127.0.0.1:1358"
+      "http.cors.allow-headers": "X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      "http.cors.allow-credentials": "true"
+      "bootstrap.memory_lock": "true"
+      "ES_JAVA_OPTS": "-Xms512m -Xmx512m"
+
+  dejavu:
+    image: "appbaseio/dejavu:latest"
+    ports:
+      - "1358:1358"
+    restart: "always"
+    logging:
+      driver: "journald"
+    depends_on:
+      - elasticsearch
