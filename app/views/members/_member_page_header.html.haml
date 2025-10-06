@@ -11,22 +11,21 @@
         %span.member-period
           = formatted_date_range(member.date_range, format: :short)
 
-      - if member.person.votes_attended > 0
-        - if member.person.subject_to_whip?
-          %p.member-data.object-data
-            - if member.person.rebellions_fraction
-              %span.member-rebellions.object-data-rebellion
-                = member_rebellion_record_sentence(member)
-                -# TODO: add helper tooltip for rebellions
-                -# link_to "explain...", help_faq_path(anchor: "clarify")
-                %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
-            - if member.person.attendance_fraction
-              %span.member-attendance.object-data-attendance
-                = fraction_to_percentage_display(member.person.attendance_fraction)
-                attendance
-                -# TODO: add helper tooltip for attendance
-                -# link_to "explain...", help_faq_path(anchor: "clarify")
-                %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
+      - if (member.person.votes_attended > 0) && member.person.subject_to_whip?
+        %p.member-data.object-data
+          - if member.person.rebellions_fraction
+            %span.member-rebellions.object-data-rebellion
+              = member_rebellion_record_sentence(member)
+              -# TODO: add helper tooltip for rebellions
+              -# link_to "explain...", help_faq_path(anchor: "clarify")
+              %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
+          - if member.person.attendance_fraction
+            %span.member-attendance.object-data-attendance
+              = fraction_to_percentage_display(member.person.attendance_fraction)
+              attendance
+              -# TODO: add helper tooltip for attendance
+              -# link_to "explain...", help_faq_path(anchor: "clarify")
+              %small= link_to "explain attendance", help_faq_path(anchor: "attendance")
 
   .header-secondary.col-sm-12
     .header-secondary-primary-block

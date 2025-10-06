@@ -254,6 +254,14 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
+    haml-lint (0.999.999)
+      haml_lint
+    haml_lint (0.66.0)
+      haml (>= 5.0)
+      parallel (~> 1.10)
+      rainbow
+      rubocop (>= 1.0)
+      sysexits (~> 1.1)
     hashdiff (1.2.0)
     hashie (5.0.0)
     honeybadger (5.28.0)
@@ -608,6 +616,7 @@ GEM
       ostruct
     stackprof (0.2.27)
     stringio (3.1.7)
+    sysexits (1.2.0)
     temple (0.10.3)
     terser (1.2.5)
       execjs (>= 0.3.0, < 3)
@@ -683,6 +692,7 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   haml
+  haml-lint
   honeybadger
   htmlentities
   httparty

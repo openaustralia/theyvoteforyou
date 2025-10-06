@@ -1,19 +1,19 @@
 - unless distances.empty?
   .policy-comparision-block.row{class: "position-#{label}"}
-    %h3.policy-comparision-position.col-xs-12{:id => label}
-      %a.anchor{:href => "##{label}"}
+    %h3.policy-comparision-position.col-xs-12{id: label}
+      %a.anchor{href: "##{label}"}
         %span.fi-link
       = title
       = policy.name
     %ul.policy-comparision-list.list-unstyled.col-xs-12
       - distances.sort_by { |distance| [distance.person.latest_member.last_name, distance.person.latest_member.first_name] }.each do |distance|
         %li.policy-comparision-member.member-item
-          = link_to member_policy_path_simple(distance.person.latest_member, policy), class: 'policy-comparision-member member-link has-tooltip', title: distance.person.latest_member.name do
+          = link_to member_policy_path_simple(distance.person.latest_member, policy), class: "policy-comparision-member member-link has-tooltip", title: distance.person.latest_member.name do
             - if distance.person.latest_member.show_large_image?
-              = image_tag("", :data => {original: "#{distance.person.latest_member.large_image_url}"}, alt: "Photo of #{distance.person.latest_member.name}", class: 'lazy member-photo', width: 85, height: 114)
+              = image_tag("", data: { original: "#{distance.person.latest_member.large_image_url}" }, alt: "Photo of #{distance.person.latest_member.name}", class: "lazy member-photo", width: 85, height: 114)
               %noscript
-                = image_tag(distance.person.latest_member.large_image_url, alt: "Photo of #{distance.person.latest_member.name}", class: 'member-photo', width: 85, height: 114)
+                = image_tag(distance.person.latest_member.large_image_url, alt: "Photo of #{distance.person.latest_member.name}", class: "member-photo", width: 85, height: 114)
             - else
-              = image_tag("generic-person.svg", alt: "Generic person illustration", class: 'member-photo', width: 85, height: 114)
+              = image_tag("generic-person.svg", alt: "Generic person illustration", class: "member-photo", width: 85, height: 114)
             %span.member-name.sr-only= distance.person.latest_member.name
-    =link_to "Something not right?", help_faq_path(anchor: 'stance'), title: "Is this information inaccurate? Find out how to improve it.", class: 'policy-correction-notice small'
+    = link_to "Something not right?", help_faq_path(anchor: "stance"), title: "Is this information inaccurate? Find out how to improve it.", class: "policy-correction-notice small"

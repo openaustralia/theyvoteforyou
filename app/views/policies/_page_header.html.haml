@@ -33,7 +33,7 @@
         = (current_user && current_user.watching?(policy) ? "Unsubscribe" : "Subscribe")
       - if policy.watches.count > 0
         %span.subscriber-count.small
-          = pluralize policy.watches.count, 'subscriber'
+          = pluralize policy.watches.count, "subscriber"
     -# We don't want people sharing incomplete policies
     - if policy.published?
       = render "social_share"

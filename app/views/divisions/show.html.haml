@@ -10,7 +10,7 @@
 
 - if @division.edited?
   - content_for :history_notice do
-    =render "layouts/history_notice", policy: nil, division: @division
+    = render "layouts/history_notice", policy: nil, division: @division
 
 = render "header", division: @division
 = render "social_share"
@@ -30,4 +30,4 @@
       to the same
       = @division.bills.count == 1 ? "bill" : "bills"
       as this one:
-    = render partial: "divisions", locals: {members: [], house: nil, divisions: @division.related_divisions}
+    = render partial: "divisions", locals: { members: [], house: nil, divisions: @division.related_divisions }

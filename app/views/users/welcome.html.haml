@@ -1,4 +1,4 @@
-- content_for :title, 'Welcome'
+- content_for :title, "Welcome"
 
 .welcome.row.col-md-8.col-md-offset-2
   .welcome-intro
@@ -19,6 +19,6 @@
           = button_to watch_policy_path(policy), class: "btn btn-primary btn-sm btn-subscribe", form_class: "object-secondary-inline-sm subscribe-button-form-subscribe" do
             Subscribe
 
-    =link_to "View all policies", policies_path, class: 'btn btn-default btn-sm'
+    = link_to "View all policies", policies_path, class: "btn btn-default btn-sm"
 
   %p #{link_to "See recent contributions", history_path} or #{link_to "browse divisions", divisions_path}.

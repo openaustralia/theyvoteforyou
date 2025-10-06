@@ -12,7 +12,7 @@
       - if division.rebellions > 0
         There
         = division.rebellions == 1 ? "was" : "were"
-        %span.rebel= pluralize(division.rebellions, 'rebellion')
+        %span.rebel= pluralize(division.rebellions, "rebellion")
         in this division.
       - else
         Nobody rebelled against their party.
@@ -26,7 +26,7 @@
             = vote_display vote.vote
             against the majority of the #{vote.member.party}.
 
-    = render 'summary_table', division: division, whips: whips, votes: votes, members_vote_null: members_vote_null
+    = render "summary_table", division: division, whips: whips, votes: votes, members_vote_null: members_vote_null
 
     %figcaption.panel-footer.small
       - if division.rebellions > 0

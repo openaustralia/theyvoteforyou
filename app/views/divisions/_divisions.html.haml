@@ -9,4 +9,4 @@
 - else
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(house)}
     - divisions.each do |division|
-      = render partial: 'divisions/division', locals: {members: members, house: house, division: division}
+      = render partial: "divisions/division", locals: { members: members, house: house, division: division }

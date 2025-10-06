@@ -1,4 +1,4 @@
-- content_for :title, 'Resend email confirmation'
+- content_for :title, "Resend email confirmation"
 
 .thin-page
   %h1.long-title= yield :title
@@ -11,9 +11,9 @@
     - else
       = f.error_notification
 
-    .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
+    .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: { class: "small hint-block-intime" }
 
     = f.button :submit, "Resend confirmation", class: "btn btn-primary btn-wide"
 
   %ul.form-secondary.nav.nav-pills
-    %li= link_to 'Back to Log in', new_user_session_path, class: "btn-xs"
+    %li= link_to "Back to Log in", new_user_session_path, class: "btn-xs"

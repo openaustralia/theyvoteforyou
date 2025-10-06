@@ -1,8 +1,8 @@
 - if !whip.whipless? && whip.possible_votes != 1
-  %tr.party-row{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
+  %tr.party-row{data: { toggle: "collapse", target: ".member-row-" + whip.party.parameterize }}
     %th.cell-name
       %span.party-name= whip.party_name
-      %small.post-title.text-muted= '(' + fraction_to_percentage_display(whip.attendance_fraction) + ' turnout)'
+      %small.post-title.text-muted= "(" + fraction_to_percentage_display(whip.attendance_fraction) + " turnout)"
     %td.cell-vote{class: ("party-absent" if whip.aye_votes_including_tells + whip.no_votes_including_tells == 0)}
       - if whip.aye_votes_including_tells + whip.no_votes_including_tells > 0
         %span{class: [aye_vote_class(whip), ("zero-votes" if whip.aye_votes_including_tells == 0)]}
@@ -15,5 +15,5 @@
       - else
         Absent
     %td.cell-toggler
-      %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: {toggle: 'collapse', target: '.member-row-' + whip.party.parameterize}}
+      %button.voter-table-toggle-members.btn.glyphicon.glyphicon-chevron-down{data: { toggle: "collapse", target: ".member-row-" + whip.party.parameterize }}
         %span.sr-only show members

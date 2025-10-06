@@ -5,12 +5,12 @@
   -# TODO: The visual layout of this is pretty awfull right now. The icons and the text are not vertically center aligned as they should be
   %ul.list-inline.small
     %li
-      = link_to "https://www.facebook.com/sharer/sharer.php?u=#{request.original_url}&t=", title: "Share on Facebook", class: 'share-link share-link-facebook' do
+      = link_to "https://www.facebook.com/sharer/sharer.php?u=#{request.original_url}&t=", title: "Share on Facebook", class: "share-link share-link-facebook" do
         %i.fa-brands.fa-facebook
         Facebook
 
     %li
-      = link_to "https://bsky.app/intent/compose?text=#{request.original_url}", title: "Share on Bluesky", class: 'share-link share-link-bluesky' do
+      = link_to "https://bsky.app/intent/compose?text=#{request.original_url}", title: "Share on Bluesky", class: "share-link share-link-bluesky" do
         %i.fa-brands.fa-bluesky
         Bluesky
 

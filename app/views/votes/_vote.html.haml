@@ -1,5 +1,5 @@
 %li
-  = link_to division_path_simple(vote.division), class: 'object-item panel-link', title: "See full division page for #{truncate(vote.division.name, length: 180)}." do
+  = link_to division_path_simple(vote.division), class: "object-item panel-link", title: "See full division page for #{truncate(vote.division.name, length: 180)}." do
     %article.division-item{class: division_edit_status_class(vote.division) + " " + division_outcome_class(vote.division)}
       .division-edit-notice.pull-right.text-muted
         - if vote.division.edited?
@@ -19,7 +19,7 @@
 
       %p.division-data.object-data.object-secondary
         %span.division-rebellions.object-data-rebellion
-          = vote.division.rebellions > 0 ? pluralize(vote.division.rebellions, 'rebellion') : "No rebellions"
+          = vote.division.rebellions > 0 ? pluralize(vote.division.rebellions, "rebellion") : "No rebellions"
         %span.division-attendance.object-data-attendance
           = fraction_to_percentage_display(vote.division.attendance_fraction)
           attendance

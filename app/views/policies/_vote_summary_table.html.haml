@@ -17,7 +17,7 @@
               %small.pre-title= division_date_and_time(pd.division) + " – " + pd.division.house_name
               = link_to(pd.division.name, division_path_simple(pd.division))
           - people.each do |person|
-            %td.division-member-vote{data: {member: "#{person.name}"}}
+            %td.division-member-vote{data: { member: "#{person.name}" }}
               = vote_display(pd.division.vote_for_person(person))
           %td.division-policy-vote
             = vote_display(PolicyDivision.vote_without_strong(pd.vote))

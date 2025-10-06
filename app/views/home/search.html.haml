@@ -18,7 +18,7 @@
           %h1.label-heading
             %label{for: "query"} Search people, policies and divisions:
           .input-group.col-sm-12.col-md-8.col-lg-7
-            %input.form-control#query{required: "required", type: "search", autosave: "#{Rails.configuration.project_name}", autofocus: (params[:query].blank? ? true : false), maxlength: "256", name: "query", value: "#{params[:query] if !params[:query].blank?}"}/
+            %input.form-control#query{required: "required", type: "search", autosave: "#{Rails.configuration.project_name}", autofocus: params[:query].blank? || false, maxlength: "256", name: "query", value: "#{params[:query].presence}"}/
             .input-group-btn
               %input.btn.btn-primary{name: "button", type: "submit", value: "Search"}/
 
@@ -26,21 +26,21 @@
   = render "members/people", people: @mps.map(&:person), house: nil
 - elsif @postcode_error
   = render "home/no_search_results", postcode: @postcode
-- elsif !params[:query].blank?
+- elsif params[:query].present?
   - if @mps.empty? && @divisions.empty? && @policies.empty?
     = render "home/no_search_results", postcode: nil
 
-  - if !@mps.empty?
+  - unless @mps.empty?
     %section.page-section#people
       %h2= pluralize(@mps.count, "person")
       = render "members/people", people: @mps.map(&:person), house: nil
 
-  - if !@policies.empty?
+  - unless @policies.empty?
     %section.page-section#policies
       %h2= pluralize(@policies.count, "policy")
       = render "policies", policies: @policies
 
-  - if !@divisions.empty?
+  - unless @divisions.empty?
     %section.page-section#divisions
       %h2= pluralize(@divisions.count, "division")
       = render "divisions/divisions", members: [], divisions: @divisions, house: nil, party: nil, policy: nil

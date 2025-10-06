@@ -1,4 +1,4 @@
-- content_for :title, 'Sign up'
+- content_for :title, "Sign up"
 
 .thin-page.signup-page
   .signup-intro
@@ -9,21 +9,21 @@
       %span.hidden-xs
         Add new policies, edit and improve division summaries, and subscribe to updates about the policies that matter&nbsp;to&nbsp;you.
 
-  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {class: "signup-form"}) do |f|
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "signup-form" }) do |f|
     - if f.error(:email) =~ /already been taken/
       .alert.alert-danger
         %em= resource.email
         has already been registered.
-        Would you like to #{link_to "sign in", new_user_session_path(:'user[email]' => resource.email)}?
+        Would you like to #{link_to "sign in", new_user_session_path("user[email]": resource.email)}?
     - else
       = f.error_notification
 
-    .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
-    .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
+    .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: { class: "small hint-block-intime" }
+    .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: { class: "small hint-block-intime" }
     = f.invisible_captcha :title
-    .form-group= f.input :password, hint: "Minimum 8 characters long", hint_html: {class: 'small hint-block-intime'}
+    .form-group= f.input :password, hint: "Minimum 8 characters long", hint_html: { class: "small hint-block-intime" }
 
-    = f.button :submit, "Sign up", class: 'btn-primary btn-wide submit-signup'
+    = f.button :submit, "Sign up", class: "btn-primary btn-wide submit-signup"
 
     %p.form-secondary.small.help-block
       %strong Privacy policy:

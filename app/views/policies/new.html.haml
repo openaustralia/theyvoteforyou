@@ -1,4 +1,4 @@
-- content_for :title, 'Make a new policy'
+- content_for :title, "Make a new policy"
 
 .page-header
   %h1= yield :title
@@ -10,18 +10,17 @@
 .row
   .col-md-8
     - unless @policy.errors.any?
-      %button{id: 'tips-toggler', type: 'button', class: 'btn btn-link btn-sm btn-lone-link', data: {toggle: 'collapse', target: '#tips'}}
+      %button{id: "tips-toggler", type: "button", class: "btn btn-link btn-sm btn-lone-link", data: { toggle: "collapse", target: "#tips" }}
         Tips for useful policies
       #tips.collapse.alert.alert-info
         = render "policy_authoring_tips"
 
-
     = simple_form_for @policy do |f|
       = f.error_notification
-      = f.input :name, label: 'If you are for', placeholder: 'equal treatment of same-sex couples',label_html: { class: 'h4' }
+      = f.input :name, label: "If you are for", placeholder: "equal treatment of same-sex couples", label_html: { class: "h4" }
       %p.small.help-block Complete the statement to provide a short, specific policy summary.
 
-      = f.input :description, label: 'you believe that', placeholder: 'the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples', input_html: {rows: 6},label_html: { class: 'h4' }
+      = f.input :description, label: "you believe that", placeholder: "the federal government should amend commonwealth laws so that homosexual couples are treated equally to heterosexual couples", input_html: { rows: 6 }, label_html: { class: "h4" }
       %p.small.help-block Describe of the belief that makes someone a supporter of the policy.
 
       = render "new_policy_outro"
@@ -35,8 +34,8 @@
         %li
           Licensing &mdash;
           You agree to license what you add here under the Creative Commons Attribution License.
-          = link_to "Why?", "#policies_license", data: {toggle: "collapse"}
+          = link_to "Why?", "#policies_license", data: { toggle: "collapse" }
       .alert.alert-info#policies_license.collapse
         = render "help/faq/policies_license"
-      = f.button :submit, class: 'btn-primary submit-policy', value: 'Make Policy'
+      = f.button :submit, class: "btn-primary submit-policy", value: "Make Policy"
       = link_to "Cancel", :back, class: "btn btn-default"

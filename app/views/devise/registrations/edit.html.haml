@@ -1,22 +1,22 @@
-- content_for :title, 'Edit your account'
+- content_for :title, "Edit your account"
 
 %h2= yield :title
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = f.error_notification
 
-  .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter new email address if you'd like to change it", hint_html: {class: 'small hint-block-intime'}
+  .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter new email address if you'd like to change it", hint_html: { class: "small hint-block-intime" }
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     .alert.alert-danger
       Currently waiting confirmation for:
       %em= resource.unconfirmed_email
 
-  .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: {class: 'small hint-block-intime'}
-  .form-group= f.input :password, hint: "Leave blank if you don't want to change it", hint_html: {class: 'small hint-block-intime'}
-  .form-group= f.input :current_password, hint: "We need your current password to confirm your changes", hint_html: {class: 'small'}
+  .form-group= f.input :name, as: :string, label: "Username", hint: "Your username is publicly displayed with your policy and division edits", hint_html: { class: "small hint-block-intime" }
+  .form-group= f.input :password, hint: "Leave blank if you don't want to change it", hint_html: { class: "small hint-block-intime" }
+  .form-group= f.input :current_password, hint: "We need your current password to confirm your changes", hint_html: { class: "small" }
 
-  = f.button :submit, "Update", class: 'btn-primary'
+  = f.button :submit, "Update", class: "btn-primary"
 
 %h3 Cancel my account
 

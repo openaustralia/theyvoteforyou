@@ -1,10 +1,10 @@
-= render 'summary_whip_header', whip: whip
+= render "summary_whip_header", whip: whip
 
 -# Show members in this party that are present in this division
-- votes.select {|vote| vote.member.party == whip.party}.each do |vote|
-  = render 'summary_whip_vote', vote: vote, whip: whip
+- votes.select { |vote| vote.member.party == whip.party }.each do |vote|
+  = render "summary_whip_vote", vote: vote, whip: whip
 
 - # TODO: Order by minority within party (e.g. rebels first) then majority, then absent
 -# Show members in this party that are absent in this division
-- members_vote_null.select {|member| member.party == whip.party}.each do |member|
-  = render 'summary_whip_absent', member: member, whip: whip
+- members_vote_null.select { |member| member.party == whip.party }.each do |member|
+  = render "summary_whip_absent", member: member, whip: whip

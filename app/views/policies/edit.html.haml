@@ -10,8 +10,8 @@
 
 = simple_form_for @policy do |f|
   = f.error_notification
-  .form-group= f.input :name, label: 'If you are for'
-  .form-group= f.input :description, label: 'you believe that', hint: 'From the text, everyone should be able to agree which way the policy votes in each division'
+  .form-group= f.input :name, label: "If you are for"
+  .form-group= f.input :description, label: "you believe that", hint: "From the text, everyone should be able to agree which way the policy votes in each division"
   .checkbox
     %label
       %input#provisional{name: "provisional", type: "checkbox", value: "provisional", checked: @policy.provisional?}
@@ -22,4 +22,4 @@
   = link_to "Cancel", :back, class: "btn btn-default"
 
 %h2 Votes related to this policy
-= render 'division_edit_instructions'
+= render "division_edit_instructions"

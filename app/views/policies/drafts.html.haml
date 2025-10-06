@@ -1,4 +1,4 @@
-- content_for :title, 'Draft Policies'
+- content_for :title, "Draft Policies"
 - set_meta_tags description: "A list of draft policies on #{Rails.configuration.project_name}. Draft policies are those that are not yet complete or consistent enough to display publicly."
 
 - content_for :header do
@@ -6,7 +6,7 @@
     .page-header.container
       %nav.header-actions.col-md-3
         - if policy(Policy).new?
-          =link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
+          = link_to "New policy", new_policy_path, class: "link-policy-new btn btn-primary btn-xs"
       %h1= yield :title
       %p.lead
         Draft policies are those that are not yet complete or consistent enough to display publicly.

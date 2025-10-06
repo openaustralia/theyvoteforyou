@@ -1,4 +1,4 @@
-- content_for :title, 'Password reset'
+- content_for :title, "Password reset"
 
 .thin-page
   %h1.long-title= yield :title
@@ -14,4 +14,4 @@
     = f.submit "Reset password", class: "btn btn-primary btn-wide"
 
   %ul.form-secondary.nav.nav-pills
-    %li= link_to 'Back to log in', new_user_session_path, class: "btn-xs"
+    %li= link_to "Back to log in", new_user_session_path, class: "btn-xs"

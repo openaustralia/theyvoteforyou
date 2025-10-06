@@ -1,6 +1,7 @@
 - flash.each do |name, msg|
-  - if msg.is_a?(String)
-    %div{class: "alert-container alert-" + (name.to_s == "notice" ? "success" : "danger")}
-      %div{class: "container alert alert-" + (name.to_s == "notice" ? "success" : "danger")}
-        %button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
-        %div{id: "flash_#{name}"}= msg
+  - next unless msg.is_a?(String)
+
+  %div{class: "alert-container alert-" + (name.to_s == "notice" ? "success" : "danger")}
+    %div{class: "container alert alert-" + (name.to_s == "notice" ? "success" : "danger")}
+      %button.close(type="button" data-dismiss="alert" aria-hidden="true") &times;
+      %div{id: "flash_#{name}"}= msg

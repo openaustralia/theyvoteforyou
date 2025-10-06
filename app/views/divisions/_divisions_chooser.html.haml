@@ -1,11 +1,11 @@
 .list-filters.clearfix
   %nav.list-house-switcher.btn-group
-    = nav_button_link("All", {house: "all", sort: sort}, "All divisions", house.nil?)
-    = nav_button_link("Representatives", {house: "representatives", sort: sort}, "Divisions for the House of Representatives", house == "representatives")
-    = nav_button_link("Senate", {house: "senate", sort: sort}, "Divisions from the Senate", house == 'senate')
+    = nav_button_link("All", { house: "all", sort: sort }, "All divisions", house.nil?)
+    = nav_button_link("Representatives", { house: "representatives", sort: sort }, "Divisions for the House of Representatives", house == "representatives")
+    = nav_button_link("Senate", { house: "senate", sort: sort }, "Divisions from the Senate", house == "senate")
 
   .list-sorter.dropdown
-    %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: {toggle: "dropdown"}}
+    %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", id: "dropdownMenu1", data: { toggle: "dropdown" }}
       - if sort == "turnout"
         Sorted by Attendance
       - elsif sort == "rebellions"
@@ -18,10 +18,10 @@
 
     %ul.dropdown-menu{role: "menu", "aria-labelledby" => "dropdownMenu1"}
       %li{role: "presentation", class: "#{'disabled' if sort == 'turnout'}"}
-        = link_to "Attendance", {sort: "turnout", house: (house || "all")}, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
+        = link_to "Attendance", { sort: "turnout", house: house || "all" }, title: "Sort by attendance", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort == 'rebellions'}"}
-        = link_to "Rebellions", {sort: "rebellions", house: (house || "all")}, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
+        = link_to "Rebellions", { sort: "rebellions", house: house || "all" }, title: "Sort by rebellions", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort == 'subject'}"}
-        = link_to "Alphabetically", {sort: "subject", house: (house || "all")}, title: "Sort by subject", role: "menuitem", tabindex: "-1"
+        = link_to "Alphabetically", { sort: "subject", house: house || "all" }, title: "Sort by subject", role: "menuitem", tabindex: "-1"
       %li{role: "presentation", class: "#{'disabled' if sort.nil?}"}
-        = link_to "Date", {sort: nil, house: (house || "all")}, title: "Sort by date", role: "menuitem", tabindex: "-1"
+        = link_to "Date", { sort: nil, house: house || "all" }, title: "Sort by date", role: "menuitem", tabindex: "-1"

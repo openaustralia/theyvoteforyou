@@ -9,12 +9,12 @@
       %th.cell-toggler
   %tbody
     - whips.each do |whip|
-      = render 'summary_whip', whip: whip, votes: votes, members_vote_null: members_vote_null
+      = render "summary_whip", whip: whip, votes: votes, members_vote_null: members_vote_null
 
     %tr
       %th.whip
         Totals
-        %small.post-title.text-muted= '(' + fraction_to_percentage_display(division.attendance_fraction) + ' turnout)'
+        %small.post-title.text-muted= "(" + fraction_to_percentage_display(division.attendance_fraction) + " turnout)"
       %td.cell-vote
         %span{class: aye_vote_total_class(division)}
           = division.aye_votes_including_tells

@@ -47,8 +47,7 @@ jobs:
       - name: Run tests
         run: bin/rake
 
-  # TODO: Add codeclimate here. We used to run it on travis ci
-  lint:
+  lint-ruby:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -62,3 +61,15 @@ jobs:
       #   run: bin/brakeman -q -w2
       - name: Lint Ruby files
         run: bin/rubocop --parallel
+
+  lint-haml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Lint HAML files
+        run: haml-lint

@@ -4,7 +4,7 @@
   %head
     %meta(charset="utf-8")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
-    %meta{:name => "robots", :content => "noindex"} 
+    %meta{name: "robots", content: "noindex"} 
     %title
       - if content_for? :title
         = yield :title
@@ -18,4 +18,4 @@
     = csrf_meta_tag
     = display_meta_tags
   %body{class: "social_media_cards"}
-    = yield 
+    = yield

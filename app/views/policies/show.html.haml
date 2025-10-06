@@ -1,18 +1,18 @@
 -# Only show this stuff if we actually have an edit history
 - if @policy.most_recent_version
   - content_for :history_notice do
-    = render 'layouts/history_notice', policy: @policy, division: @division
+    = render "layouts/history_notice", policy: @policy, division: @division
 
-= render 'page_header', policy: @policy
+= render "page_header", policy: @policy
 
 - if @policy.divisions.count > 0
   .list-filters.clearfix
     %p.lead
-      = link_to pluralize(@policy.divisions.count, "relevant division"), {anchor: 'divisions'}, title: 'Skip to Relevant Divisions for this policy.'
+      = link_to pluralize(@policy.divisions.count, "relevant division"), { anchor: "divisions" }, title: "Skip to Relevant Divisions for this policy."
 
     .list-sorter.dropdown
       .btn-group
-        %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", data: {toggle: "dropdown"}}
+        %button.btn.btn-sm.btn-default.dropdown-toggle{type: "button", data: { toggle: "dropdown" }}
           Show
           %em
             = @sort.nil? ? "for" : "against"
@@ -20,11 +20,11 @@
           %span.caret
         %ul.dropdown-menu
           %li{class: ("disabled" if @sort.nil?)}
-            = link_to({sort: nil}, title: "Show people voting for the policy first and those against it last") do
+            = link_to({ sort: nil }, title: "Show people voting for the policy first and those against it last") do
               %em for
               first
           %li{class: ("disabled" if @sort == "against")}
-            = link_to({sort: "against"}, title: "Show people voting against the policy first and those for it last") do
+            = link_to({ sort: "against" }, title: "Show people voting against the policy first and those for it last") do
               %em against
               first
 
@@ -32,17 +32,17 @@
     .policy-comparisions
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
       - @categories.each do |c|
-        = render 'policy_comparisons_block', policy: @policy, title: category_words_sentence(c).capitalize, label: c.to_s, distances: distances.select{ |d| d.category == c }
+        = render "policy_comparisons_block", policy: @policy, title: category_words_sentence(c).capitalize, label: c.to_s, distances: distances.select { |d| d.category == c }
 
   %section.page-section#divisions
     %h2 Relevant divisions
-    = render 'vote_summary', people: [], policy: @policy
+    = render "vote_summary", people: [], policy: @policy
     %p.alert.alert-postnote.small
       If you know of other
-      = link_to 'divisions', divisions_path
+      = link_to "divisions", divisions_path
       that relate to this policy, you can add them in the
       %strong Votes
       section of that division‘s page.
 - else
   %p This policy isn't connected with any divisions just yet.
-  = render 'division_edit_instructions'
+  = render "division_edit_instructions"

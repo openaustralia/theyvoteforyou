@@ -3,7 +3,7 @@
   voting data extends back to
   #{formatted_month(Division.date_earliest_division)}. New divisions are added as soon as possible after becoming
   available. We give no warranty for the data so
-  = link_to 'let us know', about_path(anchor: 'contact')
+  = link_to "let us know", about_path(anchor: "contact")
   if you find any factual
   inaccuracies.
 %p
@@ -18,7 +18,7 @@
   votes were cast,
   %strong= number_with_delimiter(Member.joins(:member_info).sum(:rebellions).to_i)
   were against the majority vote for their party giving an average rebellion rate of
-  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision((Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100), precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
+  <strong>#{Member.joins(:member_info).sum(:rebellions) == 0 ? "0%" : "#{number_with_precision(Member.joins(:member_info).sum(:rebellions).to_f / Vote.count.to_f * 100, precision: 2, strip_insignificant_zeros: true)}%"}</strong>.
 %p
   There are
   %strong= Policy.count

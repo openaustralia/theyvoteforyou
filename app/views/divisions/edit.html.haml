@@ -13,20 +13,20 @@
       Improve the
     - else
       Write a
-    summary of what was voted on in #{link_to 'this division', division_path_simple(@division), title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ", " + @division.house_name}", target: "_blank"}.
+    summary of what was voted on in #{link_to "this division", division_path_simple(@division), title: "Back to division: #{@division.name} — #{division_date_and_time(@division) + ', ' + @division.house_name}", target: "_blank", rel: "noopener"}.
   %p
     Accurate, informed summaries draw on the
-    = link_to "debate leading up to the division", @division.debate_url, target: '_blank', title: 'Read the speeches given in Parliament before they voted.'
-    and our #{link_to 'research guide', help_research_path, target: "_blank"}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
+    = link_to "debate leading up to the division", @division.debate_url, target: "_blank", title: "Read the speeches given in Parliament before they voted.", rel: "noopener"
+    and our #{link_to "research guide", help_research_path, target: "_blank", rel: "noopener"}. It’s also helpful to include links to the legislation, reports and other resources you find so that readers can dive in further if they wish.
 
   %p
     Clear and succinct summaries are best.
-    = link_to 'Use our style guide', help_style_guide_path, target: "_blank"
+    = link_to "Use our style guide", help_style_guide_path, target: "_blank", rel: "noopener"
     to write something that everyone can understand.
 
 .row
   .col-md-8
-    = form_for @division, url: division_path_simple(@division), method: :post do |f|
+    = form_for @division, url: division_path_simple(@division), method: :post do |_f|
       .form-group
         -# TODO Add for to labels
         %label Division title:
@@ -34,8 +34,8 @@
       .form-group
         %label Division summary:
         %ul.nav.nav-tabs(role="tablist")
-          %li.active= link_to "Edit", "#edit", role: "tab", data: {toggle: "tab"}
-          %li= link_to "Preview", "#preview", role: "tab", data: {toggle: "tab"}, id: "preview_link"
+          %li.active= link_to "Edit", "#edit", role: "tab", data: { toggle: "tab" }
+          %li= link_to "Preview", "#preview", role: "tab", data: { toggle: "tab" }, id: "preview_link"
         .tab-content
           .tab-pane.active#edit
             %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}

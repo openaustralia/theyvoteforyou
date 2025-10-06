@@ -13,4 +13,4 @@
             = vote_display PolicyDivision.vote_without_strong(division.policy_division(policy).vote)
 
 - if policy(PolicyDivision).new?
-  = link_to("#{division.policies.empty? ? "Does this division relate to a policy?" : "Add or update related policies"}", division_policies_path(division.url_params), class: 'small division-related-policies-edit-link' , title: "Show or change the polices which vote on this division")
+  = link_to("#{division.policies.empty? ? 'Does this division relate to a policy?' : 'Add or update related policies'}", division_policies_path(division.url_params), class: "small division-related-policies-edit-link", title: "Show or change the polices which vote on this division")

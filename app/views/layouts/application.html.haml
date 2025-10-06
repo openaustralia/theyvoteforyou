@@ -5,7 +5,7 @@
     %meta(http-equiv="X-UA-Compatible" content="IE=edge")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
     - if Rails.configuration.facebook_admins
-      - Rails.configuration.facebook_admins.each do |admin_id|
+      - Rails.configuration.facebook_admins.each do |_admin_id|
         %meta(property="fb:admins" content="#{admin_id}")
     %title
       - if content_for? :title
@@ -43,17 +43,17 @@
       - # Collect the nav links, forms, and other content for toggling
       .collapse.navbar-collapse#bs-example-navbar-collapse-1
         %ul.nav.navbar-nav
-          %li= link_to "People", members_path, class: 'navlink-members', title: "All people currently in Federal Parliament"
-          %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyse MP's votes"
-          %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
-          %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
+          %li= link_to "People", members_path, class: "navlink-members", title: "All people currently in Federal Parliament"
+          %li= link_to "Policies", policies_path, class: "navlink-policies", title: "Help to analyse MP's votes"
+          %li= link_to "Divisions", divisions_path, class: "navlink-divisions", title: "List of all votes in Parliament"
+          %li= link_to "About", about_path, class: "navlink-about", title: "Information about this website"
 
         = form_tag search_path, method: "get", name: "pw", role: "search", class: "site-header-search navbar-form navbar-right" do
           .input-group
-            = label_tag :query, "Search #{Rails.configuration.project_name}", class: 'sr-only'
+            = label_tag :query, "Search #{Rails.configuration.project_name}", class: "sr-only"
             = search_field_tag :query, nil, maxlength: "256", name: "query", type: "search", placeholder: "Search", class: "form-control input-sm"
             .input-group-btn
-              = button_tag value: 'Submit', class: 'btn btn-default input-sm' do
+              = button_tag value: "Submit", class: "btn btn-default input-sm" do
                 %span.sr-only
                   Submit
                 %span.glyphicon.glyphicon-search
@@ -63,14 +63,14 @@
             = render "logged_in_user_menu"
           - else
             %li= link_to "Log in", new_user_session_path, title: "Log in to your account"
-            -if !current_page?(new_user_registration_path)
+            - unless current_page?(new_user_registration_path)
               %li= link_to "Sign up", new_user_registration_path, title: "Create an account to help improve this resource", class: "link-signup"
 
     = render "layouts/bootstrap_flash"
     = yield :history_notice
     = yield :header
 
-    - if current_page?({controller: '/home', action: 'index'})
+    - if current_page?({ controller: "/home", action: "index" })
       = yield
     - else
       .container.main-content= yield

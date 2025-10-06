@@ -12,7 +12,7 @@
     since
     - if member.person.earliest_member.entered_house < Division.date_earliest_division
       #{formatted_month(Division.date_earliest_division)}.
-    -else
+    - else
       entering Parliament in #{formatted_month(member.person.earliest_member.entered_house)}.
 
     %small= link_to "explain rebellions", help_faq_path(anchor: "rebellion")
@@ -20,4 +20,4 @@
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
     - member.person.members.order(entered_house: :desc).each do |member|
       - member.rebellious_divisions.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
-        = render 'divisions/division', members: [member], house: nil, division: division
+        = render "divisions/division", members: [member], house: nil, division: division
