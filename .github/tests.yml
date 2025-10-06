@@ -1,0 +1,96 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Scan for security vulnerabilities
+        run: bin/brakeman
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Lint code for consistent style
+        run: bin/rubocop
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:latest
+        ports:
+          - 3307:3306
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: "theyvoteforyou_test"
+          MYSQL_USER: "theyvoteforyou"
+          MYSQL_PASSWORD: "theyvoteforyou"
+      elasticsearch:
+        image: "elasticsearch:6.8.23"
+        ports:
+          - "9201:9200"
+          - "9301:9300"
+        restart: "always"
+        logging:
+          driver: "journald"
+        environment:
+          "discovery.type": "single-node"
+          "http.port": "9200"
+          "http.cors.enabled": "true"
+          "http.cors.allow-origin": "http://localhost:1358,http://127.0.0.1:1358"
+          "http.cors.allow-headers": "X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+          "http.cors.allow-credentials": "true"
+          "bootstrap.memory_lock": "true"
+          "ES_JAVA_OPTS": "-Xms512m -Xmx512m"
+      dejavu:
+        image: "appbaseio/dejavu:latest"
+        ports:
+          - "1359:1358"
+        restart: "always"
+        logging:
+          driver: "journald"
+        depends_on:
+          - elasticsearch
+
+    env:
+      DATABASE_URL: redis://theyvoteforyou:theyvoteforyou@localhost:3306/theyvoteforyou_test
+    steps:
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libsqlite3-0 libvips curl ffmpeg
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Run Tests
+        run: bundle exec rspec
