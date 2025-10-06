@@ -1,52 +1,26 @@
+- contributors = [
+  { username: "Anishka0107",      name: "Anishka Gupta" },
+  { username: "br3nda",           name: "Brenda Wallace" },
+  { username: "brfairless",       name: "Ben Fairless" },
+  { username: "damncabbage",      name: "Rob Howard" },
+  { username: "DanielKinsman",    name: "Daniel Kinsman" },
+  { username: "equivalentideas",  name: "Luke Bacon" },
+  { username: "essymo",           name: "Esther Monchari" },
+  { username: "henare",           name: "Henare Degan" },
+  { username: "kat",              name: "Katherine Szuminska" },
+  { username: "lukesampson",      name: "Luke Sampson" },
+  { username: "mackaymackay",     name: "Mackay" },
+  { username: "mario-areias",     name: "Mário Areias" },
+  { username: "maxious",          name: "Alexander Sadleir" },
+  { username: "mlandauer",        name: "Matthew Landauer" },
+  { username: "novemberkilo",     name: "Navin" },
+  { username: "Taz17",            name: "Mutaz Al-ashhab" },
+  { username: "tracymu",          name: "Tracy Mu" },
+  { username: "tseyiokorodudu",   name: "Tseyi Okorodudu" }
+]
+
 .row
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/mlandauer", class: "thumbnail has-tooltip", title: "Matthew Landauer" do
-      = image_tag("https://avatars0.githubusercontent.com/u/2221?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/henare", class: "thumbnail has-tooltip", title: "Henare Degan" do
-      = image_tag("https://avatars3.githubusercontent.com/u/48945?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/equivalentideas", class: "thumbnail has-tooltip", title: "Luke Bacon" do
-      = image_tag("https://avatars3.githubusercontent.com/u/1239550?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/DanielKinsman", class: "thumbnail has-tooltip", title: "Daniel Kinsman" do
-      = image_tag("https://avatars2.githubusercontent.com/u/15639?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/kat", class: "thumbnail has-tooltip", title: "Katherine Szuminska" do
-      = image_tag("https://avatars3.githubusercontent.com/u/95376?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/brfairless", class: "thumbnail has-tooltip", title: "Ben Fairless" do
-      = image_tag("https://avatars3.githubusercontent.com/u/6841582?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/tracymu", class: "thumbnail has-tooltip", title: "Tracy Mu" do
-      = image_tag("https://avatars0.githubusercontent.com/u/3888414?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/damncabbage", class: "thumbnail has-tooltip", title: "Rob Howard" do
-      = image_tag("https://avatars1.githubusercontent.com/u/133028?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/mackaymackay", class: "thumbnail has-tooltip", title: "Mackay" do
-      = image_tag("https://avatars.githubusercontent.com/u/6345406?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/novemberkilo", class: "thumbnail has-tooltip", title: "Navin" do
-      = image_tag("https://avatars1.githubusercontent.com/u/181086?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/maxious", class: "thumbnail has-tooltip", title: "Alexander Sadleir" do
-      = image_tag("https://avatars1.githubusercontent.com/u/81432?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/lukesampson", class: "thumbnail has-tooltip", title: "Luke Sampson" do
-      = image_tag("https://avatars1.githubusercontent.com/u/103446?v=2&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/mario-areias", class: "thumbnail has-tooltip", title: "Mário Areias" do
-      = image_tag("https://avatars2.githubusercontent.com/u/1810284?v=3&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/essymo", class: "thumbnail has-tooltip", title: "Esther Monchari" do
-      = image_tag("https://avatars3.githubusercontent.com/u/6637089?v=3&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/Anishka0107", class: "thumbnail has-tooltip", title: "Anishka Gupta" do
-      = image_tag("https://avatars2.githubusercontent.com/u/16884926?v=3&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/tseyiokorodudu", class: "thumbnail has-tooltip", title: "Tseyi Okorodudu" do
-      = image_tag("https://avatars.githubusercontent.com/u/31440427?v=4&s=150")
-  .col-xs-3.col-md-2
-    = link_to "https://github.com/Taz17", class: "thumbnail has-tooltip", title: "Mutaz Al-ashhab" do
-      = image_tag("https://avatars.githubusercontent.com/u/86769131?v=4&s=150")
+  - contributors.each do |c|
+    .col-xs-3.col-md-2
+      = link_to "https://github.com/#{c[:username]}", class: "thumbnail has-tooltip", name: c[:name] do
+        = image_tag("#{c[:username]}")
