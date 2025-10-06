@@ -1,26 +1,39 @@
-- contributors = [
-  { username: "Anishka0107",      name: "Anishka Gupta" },
-  { username: "br3nda",           name: "Brenda Wallace" },
-  { username: "brfairless",       name: "Ben Fairless" },
-  { username: "damncabbage",      name: "Rob Howard" },
-  { username: "DanielKinsman",    name: "Daniel Kinsman" },
-  { username: "equivalentideas",  name: "Luke Bacon" },
-  { username: "essymo",           name: "Esther Monchari" },
-  { username: "henare",           name: "Henare Degan" },
-  { username: "kat",              name: "Katherine Szuminska" },
-  { username: "lukesampson",      name: "Luke Sampson" },
-  { username: "mackaymackay",     name: "Mackay" },
-  { username: "mario-areias",     name: "Mário Areias" },
-  { username: "maxious",          name: "Alexander Sadleir" },
-  { username: "mlandauer",        name: "Matthew Landauer" },
-  { username: "novemberkilo",     name: "Navin" },
-  { username: "Taz17",            name: "Mutaz Al-ashhab" },
-  { username: "tracymu",          name: "Tracy Mu" },
-  { username: "tseyiokorodudu",   name: "Tseyi Okorodudu" }
-]
+- contributors = {
+  "Anishka0107"      => "Anishka Gupta",
+  "bobsbarrels" => "Robert J.I. Smith",
+  "br3nda"           => "Brenda Wallace",
+  "brfairless"       => "Ben Fairless",
+  "CloCkWeRX" => "Daniel O'Connor",
+  "damncabbage"      => "Robin Howard",
+  "DanielKinsman"    => "Daniel Kinsman",
+  "djm4"            => "David Matthewman",
+  "equivalentideas"  => "Luke Bacon",
+  "essymo"           => "Esther Monchari",
+  "henare"           => "Henare Degan",
+  "jamezpolley"     => "James Polley",
+  "kat"              => "Katherine Szuminska",
+  "kattekrab" =>  "Donna Benjamin",
+  "katybairstow" =>"katybairstow",
+  "keithpitty" => "Keith Pitty",
+  "kevinjcliao" => "Kevin Liao",
+  "lukesampson"      => "Luke Sampson",
+  "mackaymackay"     => "Mackay",
+  "mario-areias"     => "Mário Areias",
+  "maxious"          => "Alexander Sadleir",
+  "mlandauer"        => "Matthew Landauer",
+  "MutazAshhab"      => "Mutaz Ashhab",
+  "novemberkilo"     => "Navin",
+  "novemberkilo"   => " Navin Keswani",
+  "pwaring" => "Paul Waring",
+  "rbairwell" => "Richard Bairwell",
+  "srushe"=> "Stephen Rushe",
+  "tmtmtmtm" =>  "Tony Bowden",
+  "tracymu"          => "Tracy Mu",
+  "tseyiokorodudu"   => "Tseyi Okorodudu",
+} 
 
 .row
-  - contributors.each do |c|
+  - contributors.each do |username, name|
     .col-xs-3.col-md-2
-      = link_to "https://github.com/#{c[:username]}", class: "thumbnail has-tooltip", name: c[:name] do
-        = image_tag("#{c[:username]}")
+      = link_to "https://github.com/#{username}", class: "thumbnail has-tooltip", name: name do
+        = image_tag("#{username}")
