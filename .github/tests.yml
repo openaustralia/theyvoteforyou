@@ -53,8 +53,8 @@ jobs:
       elasticsearch:
         image: "elasticsearch:6.8.23"
         ports:
-          - "9201:9200"
-          - "9301:9300"
+          - "9200:9200"
+          - "9300:9300"
         restart: "always"
         logging:
           driver: "journald"
@@ -78,7 +78,7 @@ jobs:
           - elasticsearch
 
     env:
-      DATABASE_URL: redis://theyvoteforyou:theyvoteforyou@localhost:3306/theyvoteforyou_test
+      DATABASE_URL: mysql2://theyvoteforyou:theyvoteforyou@localhost:3306/theyvoteforyou_test-wrong
     steps:
       - name: Install packages
         run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libsqlite3-0 libvips curl ffmpeg
@@ -87,7 +87,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure database
-        run: cp config/database.ci.yml config/database.yml
+        run: |
+          cp config/database.ci.yml config/database.yml
+          ls -l config/
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -97,3 +99,12 @@ jobs:
 
       - name: Run Tests
         run: bundle exec rspec
+
+bundle-scan:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Run Bundle Audit
+      run: |
+        gem install bundler-audit
+        bundle-audit check --update
