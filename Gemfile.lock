@@ -482,7 +482,7 @@ GEM
       railties (>= 5.2)
     reverse_markdown (3.0.0)
       nokogiri
-    rexml (3.4.1)
+    rexml (3.4.2)
     rouge (4.5.2)
     rspec (3.13.1)
       rspec-core (~> 3.13.0)
