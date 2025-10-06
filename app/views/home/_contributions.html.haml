@@ -34,4 +34,4 @@
   - contributors.each do |username, name|
     .col-xs-3.col-md-2
       = link_to "https://github.com/#{username}", class: "thumbnail has-tooltip", name: name do
-        = image_tag("#{username}")
+        = image_tag("https://github.com/#{username}.png?size=100", alt: name, title: name)
