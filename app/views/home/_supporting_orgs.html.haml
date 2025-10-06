@@ -5,66 +5,99 @@
 
 %p.small.text-muted
   These organisations share the objectives of #{inline_project_name}.
-  No money changes hands.
+   hands.
 
-%ul.grid-list
-  %li.grid-list-module
-    = link_to "http://www.openforum.com.au/", class: "supporting-org org-open-forum" do
-      = image_tag("", data: {original: image_path("open-forum-logo.png")}, class: "lazy" , alt: "Open Forum", width: "200", height: "110", title: "Open Forum")
-      %noscript
-        = image_tag(image_path("open-forum-logo.png"), alt: "Open Forum", width: "200", height: "110", title: "Open Forum")
-  %li.grid-list-module
-    = link_to "https://www.efa.org.au/", class: "supporting-org org-op" do
-      = image_tag("", data: {original: image_path("efa-logo.png")}, class: "lazy" , alt: "Electronic Frontiers Australia", width: "200", height: "110", title: "Electronic Frontiers Australia")
-      %noscript
-        = image_tag(image_path("efa-logo.png"), alt: "Electronic Frontiers Australia", width: "200", height: "110", title: "Electronic Frontiers Australia")
-  %li.grid-list-module
-    = link_to "https://mysociety.org", class: "supporting-org org-mysociety" do
-      = image_tag("", data: {original: image_path("mysociety-logo.png")}, class: "lazy" , alt: "mySociety", width: "200", height: "110", title: "mySociety")
-      %noscript
-        = image_tag(image_path("mysociety-logo.png"), alt: "mySociety", width: "200", height: "110", title: "mySociety")
-  %li.grid-list-module
-    = link_to "http://opennorth.ca", class: "supporting-org org-open-north" do
-      = image_tag("", data: {original: image_path("open-north-logo.png")}, class: "lazy" , alt: "OpenNorth", width: "200", height: "110", title: "OpenNorth")
-      %noscript
-        = image_tag(image_path("open-north-logo.png"), alt: "Open North", width: "200", height: "110", title: "OpenNorth")
-  %li.grid-list-module
-    = link_to "http://datauy.org/", class: "supporting-org org-data-uruguay" do
-      = image_tag("", data: {original: image_path("data-logo.png")}, class: "lazy" , alt: "D.A.T.A.", width: "200", height: "110", title: "D.A.T.A.")
-      %noscript
-        = image_tag(image_path("data-logo.png"), alt: "D.A.T.A.", width: "200", height: "110", title: "D.A.T.A.")
-  %li.grid-list-module
-    = link_to "http://www.civio.es/en/", class: "supporting-org org-civio" do
-      = image_tag("", data: {original: image_path("civio-logo.png")}, class: "lazy" , alt: "Civio", width: "200", height: "110", title: "Civio")
-      %noscript
-        = image_tag(image_path("civio-logo.png"), alt: "Civio", width: "200", height: "110", title: "Civio")
-  %li.grid-list-module
-    = link_to "http://www.openpolis.it/", class: "supporting-org org-openpolis" do
-      = image_tag("", data: {original: image_path("openpolis-logo.png")}, class: "lazy" , alt: "Openpolis", width: "200", height: "110", title: "Openpolis")
-      %noscript
-        = image_tag(image_path("openpolis-logo.png"), alt: "Openpolis", width: "200", height: "110", title: "Openpolis")
-  %li.grid-list-module
-    = link_to "http://www.regardscitoyens.org/", class: "supporting-org org-regards-citoyens" do
-      = image_tag("", data: {original: image_path("regards-citoyens-logo.png")}, class: "lazy" , alt: "Regards Citonyens", width: "200", height: "110", title: "Regards Citonyens")
-      %noscript
-        = image_tag(image_path("regards-citoyens-logo.png"), alt: "Regards Citonyens", width: "200", height: "110", title: "Regards Citonyens")
-  %li.grid-list-module
-    = link_to "http://www.pmg.org.za/", class: "supporting-org org-pmg" do
-      = image_tag("", data: {original: image_path("pmg-logo.png")}, class: "lazy" , alt: "Parliamentary Monitoring Group, South Africa", width: "200", height: "110", title: "Parliamentary Monitoring Group, South Africa")
-      %noscript
-        = image_tag(image_path("pmg-logo.png"), alt: "Parliamentary Monitoring Group, South Africa", width: "200", height: "110", title: "Parliamentary Monitoring Group, South Africa")
-  %li.grid-list-module
-    = link_to "http://universoagora.org/", class: "supporting-org org-universo-agora" do
-      = image_tag("", data: {original: image_path("ua-logo.png")}, class: "lazy" , alt: "Universo Ágora", width: "200", height: "110", title: "Universo Ágora")
-      %noscript
-        = image_tag(image_path("ua-logo.png"), alt: "Universo Ágora", width: "200", height: "110", title: "Universo Ágora")
-  %li.grid-list-module
-    = link_to "http://www.crta.rs/", class: "supporting-org org-crta" do
-      = image_tag("", data: {original: image_path("crta-logo.png")}, class: "lazy" , alt: "Center for Research, Transparency and Accountability", width: "200", height: "110", title: "Center for Research, Transparency and Accountability")
-      %noscript
-        = image_tag(image_path("crta-logo.png"), alt: "Center for Research, Transparency and Accountability", width: "200", height: "110", title: "Center for Research, Transparency and Accountability")
-  %li.grid-list-module
-    = link_to "http://www.otvoreniparlament.rs/", class: "supporting-org org-op" do
-      = image_tag("", data: {original: image_path("op-logo.png")}, class: "lazy" , alt: "Otvoreni Parlament (Open Parliament, Serbia)", width: "200", height: "110", title: "Otvoreni Parlament (Open Parliament, Serbia)")
-      %noscript
-        = image_tag(image_path("op-logo.png"), alt: "Otvoreni Parlament (Open Parliament, Serbia)", width: "200", height: "110", title: "Otvoreni Parlament (Open Parliament, Serbia)")
+  - supporting_orgs = [
+    {
+      url: "http://www.openforum.com.au/",
+      class: "supporting-org org-open-forum",
+      logo: "open-forum-logo.png",
+      alt: "Open Forum",
+      title: "Open Forum"
+    },
+    {
+      url: "https://www.efa.org.au/",
+      class: "supporting-org org-op",
+      logo: "efa-logo.png",
+      alt: "Electronic Frontiers Australia",
+      title: "Electronic Frontiers Australia"
+    },
+    {
+      url: "https://mysociety.org",
+      class: "supporting-org org-mysociety",
+      logo: "mysociety-logo.png",
+      alt: "mySociety",
+      title: "mySociety"
+    },
+    {
+      url: "http://opennorth.ca",
+      class: "supporting-org org-open-north",
+      logo: "open-north-logo.png",
+      alt: "OpenNorth",
+      title: "OpenNorth"
+    },
+    {
+      url: "http://datauy.org/",
+      class: "supporting-org org-data-uruguay",
+      logo: "data-logo.png",
+      alt: "D.A.T.A.",
+      title: "D.A.T.A."
+    },
+    {
+      url: "http://www.civio.es/en/",
+      class: "supporting-org org-civio",
+      logo: "civio-logo.png",
+      alt: "Civio",
+      title: "Civio"
+    },
+    {
+      url: "http://www.openpolis.it/",
+      class: "supporting-org org-openpolis",
+      logo: "openpolis-logo.png",
+      alt: "Openpolis",
+      title: "Openpolis"
+    },
+    {
+      url: "http://www.regardscitoyens.org/",
+      class: "supporting-org org-regards-citoyens",
+      logo: "regards-citoyens-logo.png",
+      alt: "Regards Citonyens",
+      title: "Regards Citonyens"
+    },
+    {
+      url: "http://www.pmg.org.za/",
+      class: "supporting-org org-pmg",
+      logo: "pmg-logo.png",
+      alt: "Parliamentary Monitoring Group, South Africa",
+      title: "Parliamentary Monitoring Group, South Africa"
+    },
+    {
+      url: "http://universoagora.org/",
+      class: "supporting-org org-universo-agora",
+      logo: "ua-logo.png",
+      alt: "Universo Ágora",
+      title: "Universo Ágora"
+    },
+    {
+      url: "http://www.crta.rs/",
+      class: "supporting-org org-crta",
+      logo: "crta-logo.png",
+      alt: "Center for Research, Transparency and Accountability",
+      title: "Center for Research, Transparency and Accountability"
+    },
+    {
+      url: "http://www.otvoreniparlament.rs/",
+      class: "supporting-org org-op",
+      logo: "op-logo.png",
+      alt: "Otvoreni Parlament (Open Parliament, Serbia)",
+      title: "Otvoreni Parlament (Open Parliament, Serbia)"
+    }
+  ]
+
+  %ul.grid-list
+    - supporting_orgs.each do |org|
+      %li.grid-list-module
+        = link_to org[:url], class: org[:class] do
+          = image_tag("", data: {original: image_path(org[:logo])}, class: "lazy", alt: org[:alt], width: "200", height: "110", title: org[:title])
+          %noscript
+            = image_tag(image_path(org[:logo]), alt: org[:alt], width: "200", height: "110", title: org[:title])
