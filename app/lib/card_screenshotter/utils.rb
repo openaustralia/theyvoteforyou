@@ -20,9 +20,8 @@ module CardScreenshotter
     end
 
     def open_headless_driver!
-      options = Selenium::WebDriver::Chrome::Options.new
-      options.add_argument("--headless")
-      @driver = Selenium::WebDriver.for :chrome, capabilities: [options]
+      options = Selenium::WebDriver::Options.chrome(args: ["--headless=new"])
+      @driver = Selenium::WebDriver.for :chrome, options: options
       driver.manage.window.resize_to(CARD_WIDTH, CARD_HEIGHT)
     end
 
