@@ -75,4 +75,4 @@ jobs:
         with:
           target: staging
           deploy_key: ${{ secrets.DEPLOY_KEY }} # Name of the variable configured in Settings/Secrets of your github project
-          enc_rsa_key_pth: config/deploy_id_ed25519_enc
+          # enc_rsa_key_pth: config/deploy_id_ed25519_enc # use default path config/deploy_id_rsa_enc
