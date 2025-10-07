@@ -62,3 +62,17 @@ jobs:
       #   run: bin/brakeman -q -w2
       - name: Lint Ruby files
         run: bin/rubocop --parallel
+
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - uses: miloserdow/capistrano-deploy@v3
+        with:
+          target: staging
+          deploy_key: ${{ secrets.DEPLOY_KEY }} # Name of the variable configured in Settings/Secrets of your github project
+          enc_rsa_key_pth: config/deploy_id_ed25519_enc
