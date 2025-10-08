@@ -1,0 +1,36 @@
+on:
+    push:
+        branches:
+            - main
+            - feature/cd
+env:
+    DEPLOY_USER: ${{ vars.DEPLOY_USER }}
+    DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+    DEPLOY_KEY: ${{ secrets.SSH_KEY }}
+jobs:
+    deploy:
+        name: Staging Deploy
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Install Ruby and gems
+              uses: ruby/setup-ruby@v1
+              with:
+                  bundler-cache: true
+            - name: Set up ssh
+              run: |
+                  mkdir -p ~/.ssh
+                  echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+                  chmod 600 ~/.ssh/id_rsa
+
+            - name: "Import host key"
+              env:
+                  DEPLOY_HOST: ${{ env.DEPLOY_HOST }}
+              run: |
+                  echo ${DEPLOY_HOST}
+                  ls -l ~/.ssh/
+                  ssh-keyscan $DEPLOY_HOST >> ~/.ssh/known_hosts
+
+            - name: Capistrano Deploy
+              run: bundle exec cap staging deploy
