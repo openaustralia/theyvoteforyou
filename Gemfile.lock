@@ -411,7 +411,7 @@ GEM
     pundit (2.5.0)
       activesupport (>= 3.0.0)
     racc (1.8.1)
-    rack (2.2.19)
+    rack (2.2.20)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-livereload (0.5.2)
