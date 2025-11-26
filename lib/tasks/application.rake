@@ -62,7 +62,7 @@ namespace :application do
           # Find the member who could have voted on this division
           vote.member = vote.member.person.member_in_division(vote.division)
           if vote.member.nil?
-            puts "WARNING: Couldn't find a member to fix vote #{vote.id}"
+            puts "WARNING: Couldn't find a member to fix vote #{vote.id} with division #{vote.division_id}. vote = #{vote.inspect}"
             next
           end
           vote.save!
