@@ -20,9 +20,14 @@ module CardScreenshotter
     end
 
     def open_headless_driver!
-      options = Selenium::WebDriver::Options.chrome(args: ["--headless=new"])
+      options = Selenium::WebDriver::Options.chrome(
+        args: [
+          "--headless=new",
+          "--window-size=#{CARD_WIDTH},#{CARD_HEIGHT}"
+        ]
+      )
       @driver = Selenium::WebDriver.for :chrome, options: options
-      driver.manage.window.resize_to(CARD_WIDTH, CARD_HEIGHT)
+      adjust_window_for_viewport!
     end
 
     def close_driver!
@@ -59,6 +64,19 @@ module CardScreenshotter
       File.open(path, "wb+") do |f|
         f.write image
       end
+    end
+
+    # Selenium's resize_to adjusts the outer window, while screenshots use the viewport.
+    # Align the viewport to the card size by compensating for browser chrome/frame size.
+    def adjust_window_for_viewport!
+      inner_width, inner_height, outer_width, outer_height = driver.execute_script(
+        "return [window.innerWidth, window.innerHeight, window.outerWidth, window.outerHeight]"
+      )
+      return if inner_width == CARD_WIDTH && inner_height == CARD_HEIGHT
+
+      width_delta = outer_width - inner_width
+      height_delta = outer_height - inner_height
+      driver.manage.window.resize_to(CARD_WIDTH + width_delta, CARD_HEIGHT + height_delta)
     end
 
     def self.external_screenshot_url(url)
