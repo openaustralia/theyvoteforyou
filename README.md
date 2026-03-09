@@ -115,7 +115,7 @@ automatically go to a dummy smtp server called [mailcatcher][3]. To check the
 emails, browse to http://localhost:1080
 
 If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
-it's becuase the VM has had it's kernel updated. Run
+it's because the VM has had its kernel updated. Run
 `vagrant provision && vagrant reload` and you should be back in business.
 
 The original PHP app is also available at http://localhost:8080 but only if
@@ -226,7 +226,7 @@ To enable a feature for a particular user: Go to the feature on the flipper admi
 
 ## Other Credits
 
-This project uses some icons from the noun project under under creative commons licenses:
+This project uses some icons from the noun project under creative commons licenses:
 
 * Check icon by useiconic.com from The Noun Project
 http://thenounproject.com/term/check/45904/
