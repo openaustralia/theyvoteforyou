@@ -91,7 +91,7 @@ module Publicwhip
     # Or if you want to load from your local filesystem instead then you might do something like
     #config.xml_data_base_url = "file:///Users/matthew/git/openaustralia/openaustralia-parser/pwdata/"
 
-    # Name of project to display thoughout the application
+    # Name of project to display throughout the application
     config.project_name = "They Vote For You"
 
     config.contact_email = "contact@theyvoteforyou.org.au"

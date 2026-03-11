@@ -25,7 +25,7 @@ What are the initial questions that come to mind when first presented with a "vi
         * What kind of a place is that?
     * What party are they from?
 * What is interesting about this member?
-    - is their attendence unusual?
+    - is their attendance unusual?
     - do they ever rebel?
 * What is their position on the issues I care about?
 * Which other members are they similar to?
