@@ -45,7 +45,7 @@ module Admin
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
 
-    # We're makeing policies view only. We only want to edit it with the main app
+    # We're making policies view only. We only want to edit it with the main app
     def valid_action?(name, resource = resource_class)
       %w[new edit destroy].exclude?(name.to_s) && super
     end
