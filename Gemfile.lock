@@ -256,7 +256,7 @@ GEM
       tilt
     hashdiff (1.2.0)
     hashie (5.0.0)
-    honeybadger (5.28.0)
+    honeybadger (6.2.0)
       logger
       ostruct
     htmlentities (4.3.4)
@@ -389,7 +389,7 @@ GEM
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     orm_adapter (0.5.0)
-    ostruct (0.6.1)
+    ostruct (0.6.3)
     paper_trail (16.0.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)
