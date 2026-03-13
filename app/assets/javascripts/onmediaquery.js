@@ -160,10 +160,10 @@
       return this.new_context;
     };
     /**
-    * Internal helper function that checks wether "needle" occurs in "haystack"
+    * Internal helper function that checks whether "needle" occurs in "haystack"
     * @param needle Mixed Value to look for in haystack array
     * @param haystack Array Haystack array to search in
-    * @returns Boolan True if the needle occurs, false otherwise
+    * @returns Boolean True if the needle occurs, false otherwise
     */
     mq._inArray = function(needle, haystack)
     {

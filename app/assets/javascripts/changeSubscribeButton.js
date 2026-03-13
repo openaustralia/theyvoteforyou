@@ -15,7 +15,7 @@ function changeSubscribeButtons(new_text, new_class_name) {
     if (button.lastChild.nodeType !== 3) return false;
     var copy = button.lastChild;
 
-    // capture the orginal text
+    // capture the original text
     var original_text = copy.nodeValue;
 
     // change the button text
