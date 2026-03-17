@@ -64,7 +64,7 @@ describe DataLoader::DebatesXml do
   end
 
   describe "#clock_time" do
-    it "adds preceeding zero and trailing seconds" do
+    it "adds preceding zero and trailing seconds" do
       division_xml = instance_double(Nokogiri::XML::Document, attr: "12:34")
       expect(DataLoader::DivisionXml.new(division_xml, "representatives").clock_time).to eq("012:34:00")
     end
