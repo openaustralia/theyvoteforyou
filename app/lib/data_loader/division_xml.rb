@@ -37,12 +37,12 @@ module DataLoader
 
     def debate_url
       # TODO: PHP always gets the previous heading, major or minor. Is this to support missing headings?
-      preceeding_minor_heading_element.attr(:url)
+      preceding_minor_heading_element.attr(:url)
     end
 
     def debate_gid
       # TODO: PHP always gets the previous heading, major or minor. Is this to support missing headings?
-      preceeding_minor_heading_element.attr(:id)
+      preceding_minor_heading_element.attr(:id)
     end
 
     def motion
@@ -85,20 +85,20 @@ module DataLoader
 
     private
 
-    def preceeding_major_heading_element
+    def preceding_major_heading_element
       find_previous("major-heading")
     end
 
     def major_heading
-      preceeding_major_heading_element.inner_text.strip
+      preceding_major_heading_element.inner_text.strip
     end
 
-    def preceeding_minor_heading_element
+    def preceding_minor_heading_element
       find_previous("minor-heading")
     end
 
     def minor_heading
-      preceeding_minor_heading_element.inner_text.strip
+      preceding_minor_heading_element.inner_text.strip
     end
 
     def find_previous(name)
