@@ -34,10 +34,10 @@ jobs:
       - name: Install tidy
         run: sudo apt install -y tidy
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       # Add or replace dependency steps here
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.302.0
         with:
           bundler-cache: true
       # Add or replace database setup steps here
@@ -52,9 +52,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.302.0
         with:
           bundler-cache: true
       # TODO: Reinstate brakeman as soon as we have upgraded rails
