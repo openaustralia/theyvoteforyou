@@ -128,10 +128,12 @@ group :development do
   # Add ?pp=flamegraph to the end of the url in development
   gem "stackprof"
 
+  gem "bcrypt_pbkdf", "~> 1.1"
   gem "capistrano", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-rvm"
   gem "capistrano-maintenance", require: false
+  gem "ed25519", "~> 1.3"
 
   gem "mina"
   gem "mina-multistage", require: false
