@@ -37,6 +37,9 @@ senate_people.csv
 distances_46th_parliament.csv
 /config/credentials/production.key
 /config/credentials/staging.key
+
+# Ignore default dev credentials - production and staging should be seperate 
+/config/credentials.yml.enc
 /config/master.key
 
 vendor
