@@ -97,6 +97,9 @@ gem "rack", "~> 3"
 # For compressing javascript
 gem "terser"
 
+# Mamcache client
+gem "dalli", "~>3"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
@@ -155,9 +158,6 @@ group :test, :development do
   gem "fuubar"
 end
 
-group :production do
-  gem "dalli", "~>3"
-end
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
