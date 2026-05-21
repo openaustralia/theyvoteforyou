@@ -36,4 +36,8 @@ senate_distances.csv
 senate_people.csv
 distances_46th_parliament.csv
 /config/credentials/production.key
+/config/credentials/staging.key
+/config/master.key
+
 vendor
+
