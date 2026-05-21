@@ -24,6 +24,7 @@ require "capistrano/rvm"
 require "capistrano/honeybadger"
 require "capistrano/maintenance"
 require "capistrano/scm/git"
+require "capistrano/tagging3"
 install_plugin Capistrano::SCM::Git
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
