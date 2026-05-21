@@ -165,8 +165,12 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem "sdoc", require: false
 end
+
 # Fix Unresolved or ambiguous specs
 gem "psych", "~> 5.2.6"
+
+# Fix older passenger package loading wrong base64 then stringio ...
+gem "passenger"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
