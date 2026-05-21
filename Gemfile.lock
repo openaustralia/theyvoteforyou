@@ -72,8 +72,8 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0, >= 2.0.5)
       uri (>= 0.13.1)
-    addressable (2.8.7)
-      public_suffix (>= 2.0.2, < 7.0)
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
     administrate (0.19.0)
       actionpack (>= 5.0)
       actionview (>= 5.0)
@@ -407,7 +407,7 @@ GEM
     psych (5.2.6)
       date
       stringio
-    public_suffix (6.0.2)
+    public_suffix (7.0.5)
     pundit (2.5.0)
       activesupport (>= 3.0.0)
     racc (1.8.1)
