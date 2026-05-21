@@ -127,6 +127,8 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
+    capistrano-tagging3 (2.0.0)
+      capistrano (~> 3.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -673,6 +675,7 @@ DEPENDENCIES
   capistrano-maintenance
   capistrano-rails
   capistrano-rvm
+  capistrano-tagging3 (~> 2.0)
   capybara
   dalli (~> 3)
   delayed_job_active_record
