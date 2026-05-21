@@ -569,7 +569,7 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    sdoc (2.6.1)
+    sdoc (2.6.5)
       rdoc (>= 5.0)
     searchkick (5.5.2)
       activemodel (>= 7.1)
