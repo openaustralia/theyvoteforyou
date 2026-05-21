@@ -137,6 +137,7 @@ group :development do
   gem "capistrano", require: false
   gem "capistrano-rails", require: false
   gem "capistrano-rvm"
+  gem "capistrano-tagging3", "~> 2.0"
   gem "capistrano-maintenance", require: false
   gem "ed25519", "~> 1.3"
 
@@ -163,9 +164,9 @@ end
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem "sdoc", require: false
-  # Fix Unresolved or ambiguous specs
-  gem "psych", "~> 5.2.6"
 end
+# Fix Unresolved or ambiguous specs
+gem "psych", "~> 5.2.6"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
