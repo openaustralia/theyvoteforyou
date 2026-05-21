@@ -409,7 +409,7 @@ GEM
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.3.1)
+    psych (5.2.6)
       date
       stringio
     public_suffix (7.0.5)
@@ -712,6 +712,7 @@ DEPENDENCIES
   numbers_and_words
   oj
   paper_trail
+  psych (~> 5.2.6)
   pundit
   rack (~> 3)
   rack-cors
@@ -752,4 +753,4 @@ RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.11
+   2.6.7
