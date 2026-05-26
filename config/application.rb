@@ -3,7 +3,7 @@ require_relative "boot"
 require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
+# you've limited to :test, :development, :staging or :production.
 Bundler.require(*Rails.groups)
 
 # This is for proxying requests to this server to plausible.io for analytics.

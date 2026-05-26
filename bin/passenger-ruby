@@ -1,0 +1,4 @@
+#!/bin/bash
+source /usr/local/rvm/scripts/rvm
+rvm use $(cat "$(dirname "$0")/../.ruby-version")
+exec bundle exec ruby "$@"

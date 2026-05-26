@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 set :branch, :main
-set :deploy_to, "/srv/www/production"
+set :deploy_to, "/srv/www/staging"
 
-role :app, %w[deploy@theyvoteforyou.org.au.test]
-role :web, %w[deploy@theyvoteforyou.org.au.test]
-role :db,  %w[deploy@theyvoteforyou.org.au.test]
+set :rails_env, "staging"
+
+role :app, %w[deploy@theyvoteforyou.test]
+role :web, %w[deploy@theyvoteforyou.test]
+role :db,  %w[deploy@theyvoteforyou.test]
