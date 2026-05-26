@@ -35,6 +35,9 @@ set :linked_dirs, fetch(:linked_dirs, []) + %w[log tmp/pids tmp/cache tmp/socket
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# Tagging options
+set :tagging3_format, ":stage_:release"
+
 namespace :foreman do
   desc "Export the Procfile to Ubuntu's upstart scripts"
   task :export do
