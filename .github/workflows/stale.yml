@@ -1,0 +1,27 @@
+name: "Close stale issues"
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark and close stale issues
+        uses: actions/stale@v10
+        with:
+          days-before-issue-stale: 180
+          days-before-issue-close: 7
+          days-before-pr-stale: -1
+          exempt-issue-labels: "pinned,security"
+          stale-issue-label: "wontfix"
+          stale-issue-message: >
+            This issue has been automatically marked as stale because there has been no activity on it for about six months. If you want to keep it open please make a comment and explain why this issue is still relevant. Otherwise it will be automatically closed in a week. Thank you!
+          close-issue-message: ""
+          operations-per-run: 1
