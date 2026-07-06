@@ -145,12 +145,14 @@ group :development do
   gem "mina-multistage", require: false
   gem "brakeman", require: false
 
+  gem "bundle-audit", require: false
   gem "rubocop", require: false
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
   gem "rubocop-capybara", require: false
   gem "rubocop-factory_bot", require: false
+  gem "ruby_audit", require: false
 
   # Helps upgrade a whole bunch of gems at once
   gem "bummr"
