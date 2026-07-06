@@ -3,7 +3,7 @@
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
-set :rvm_ruby_version, "3.4.10"
+set :rvm_ruby_version, "3.4.9"
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
