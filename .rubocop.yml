@@ -457,9 +457,9 @@ Style/YAMLFileRead: # new in 1.53
 
 Capybara/ClickLinkOrButtonStyle: # new in 2.19
   Enabled: true
-Capybara/MatchStyle: # new in 2.17
+Capybara/Rspec/MatchStyle: # new in 2.17
   Enabled: true
-Capybara/NegationMatcher: # new in 2.14
+Capybara/Rspec/NegationMatcher: # new in 2.14
   Enabled: true
 Capybara/RedundantWithinFind: # new in 2.20
   Enabled: true
@@ -467,7 +467,7 @@ Capybara/SpecificActions: # new in 2.14
   Enabled: true
 Capybara/SpecificFinders: # new in 2.13
   Enabled: true
-Capybara/SpecificMatcher: # new in 2.12
+Capybara/Rspec/SpecificMatcher: # new in 2.12
   Enabled: true
 Capybara/RSpec/HaveSelector: # new in 2.19
   Enabled: true
@@ -564,5 +564,5 @@ RSpec/IncludeExamples: # new in 3.6
   Enabled: true
 Capybara/FindAllFirst: # new in 2.22
   Enabled: true
-Capybara/NegationMatcherAfterVisit: # new in 2.22
+Capybara/Rspec/NegationMatcherAfterVisit: # new in 2.22
   Enabled: true
