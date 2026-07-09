@@ -224,6 +224,18 @@ The names of the features added in the admin panel need to match those in the co
 
 To enable a feature for a particular user: Go to the feature on the flipper admin panel. Then click the button "Add an actor". Then add the `flipper_id` which for a user will be of the form `User;<user id>`. So for example it could be `User;3`.
 
+## To run style and coding checks
+
+    bundle exec rubocop
+
+## To check for security updates
+
+Either check [Dependabot alerts](https://github.com/openaustralia/theyvoteforyou/security/dependabot) 
+for the main branch, taking note of when the last check was run, **or** run manually on current branch:
+
+    bundle exec ruby-audit
+    bundle exec bundle-audit
+
 ## Other Credits
 
 This project uses some icons from the noun project under creative commons licenses:

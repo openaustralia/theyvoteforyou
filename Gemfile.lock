@@ -109,6 +109,11 @@ GEM
     bummr (1.1.0)
       rainbow
       thor
+    bundle-audit (0.2.0)
+      bundler-audit
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     capistrano (3.19.2)
       airbrussh (>= 1.0.0)
       i18n
@@ -555,6 +560,8 @@ GEM
       rubocop (~> 1.72, >= 1.72.1)
       rubocop-rspec (~> 3.5)
     ruby-progressbar (1.13.0)
+    ruby_audit (3.1.0)
+      bundler-audit (~> 0.9.0)
     ruby_parser (3.21.1)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
@@ -672,6 +679,7 @@ DEPENDENCIES
   bootstrap-select-rails
   brakeman
   bummr
+  bundle-audit
   capistrano
   capistrano-maintenance
   capistrano-rails
@@ -737,6 +745,7 @@ DEPENDENCIES
   rubocop-rspec
   rubocop-rspec_rails
   ruby-progressbar
+  ruby_audit
   ruby_parser
   sass-rails
   sdoc
