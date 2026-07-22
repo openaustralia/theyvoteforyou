@@ -28,7 +28,8 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
-
+      mailpit:
+        condition: service_healthy
   mysql:
     image: mysql:8.0
     restart: unless-stopped
@@ -68,7 +69,27 @@ services:
     networks:
     - default
 
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
+    restart: unless-stopped
+    volumes:
+      - mailpit-data:/data
+    ports:
+      - "127.0.0.1:8088:8025"
+    healthcheck:
+      test: [ "CMD", "/mailpit", "readyz" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
 volumes:
   mysql-data:
   elasticsearch-data:
+  mailpit-data:
 
