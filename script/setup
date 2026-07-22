@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+# Installs Docker Engine + Compose plugin on this host, if not already present.
+# Supports Ubuntu/Debian (apt) and macOS (Homebrew, Docker Desktop).
+#
+# Only handles Docker - deploy-production/deploy-staging assume `bundle`
+# and Capistrano are already available on this host.
+set -euo pipefail
+
+docker_ready() {
+  command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
+}
+
+install_linux() {
+  if [ ! -r /etc/os-release ]; then
+    echo "ERROR: /etc/os-release not found - unsupported Linux distribution" >&2
+    exit 1
+  fi
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  case "${ID:-}:${ID_LIKE:-}" in
+    ubuntu*|debian*|*ubuntu*|*debian*) ;;
+    *)
+      echo "ERROR: this script only supports Ubuntu/Debian on Linux (found: ${ID:-unknown})" >&2
+      exit 1
+      ;;
+  esac
+
+  echo "Installing Docker Engine + Compose plugin (Ubuntu/Debian)..."
+  sudo apt-get update -qq
+  sudo apt-get install -y ca-certificates curl
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" \
+    | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  sudo systemctl enable --now docker
+
+  if groups "$USER" | grep -qw docker; then
+    echo "OK: $USER already in the docker group"
+  else
+    sudo usermod -aG docker "$USER"
+    echo "Added $USER to the docker group - log out/in (or run 'newgrp docker') for this to take effect"
+  fi
+}
+
+install_macos() {
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
+    exit 1
+  fi
+
+  echo "Installing Docker Desktop via Homebrew..."
+  brew install --cask docker
+
+  echo "Starting Docker Desktop..."
+  open -a Docker
+
+  echo "Waiting for the Docker daemon to come up (this can take a minute the first time)..."
+  for _ in $(seq 1 60); do
+    if docker system info >/dev/null 2>&1; then
+      break
+    fi
+    sleep 2
+  done
+
+  if ! docker system info >/dev/null 2>&1; then
+    echo "ERROR: Docker Desktop didn't come up in time - open it manually from Applications and re-run this script" >&2
+    exit 1
+  fi
+}
+
+main() {
+  if docker_ready; then
+    echo "OK: Docker + Compose plugin already installed"
+  else
+    case "$(uname -s)" in
+      Linux) install_linux ;;
+      Darwin) install_macos ;;
+      *)
+        echo "ERROR: unsupported OS ($(uname -s)) - this script supports Ubuntu/Debian and macOS only" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  docker --version
+  docker compose version
+}
+
+main "$@"
