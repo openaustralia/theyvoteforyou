@@ -6,30 +6,69 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
 
+    environment:
+      CHROME_NO_SANDBOX: "1"
+    ports:
+      - "127.0.0.1:3088:3000" # Maps host port 3088 (30TV on phone) to container port 3000
     volumes:
     - ../..:/workspaces:cached
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
 
-    # Uncomment the next line to use a non-root user for all processes.
+    # Use the non-root user set up in the devcontainer rails image (id 1000) so files are not owned by root
     user: vscode
 
-    # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
-    # (Adding the "ports" property to this file will not forward from a Codespace.)
+    # The standard advice is
+    # > Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # > (Adding the "ports" property to this file will not forward from a Codespace)
+    # But adding ports here is needed for CLI
     depends_on:
-    - mysql
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
   mysql:
-    image: mysql/mysql-server:8.0
+    image: mysql:8.0
     restart: unless-stopped
     environment:
-        MYSQL_ALLOW_EMPTY_PASSWORD: 'true'
+        MYSQL_ROOT_PASSWORD: 'password'
         MYSQL_ROOT_HOST: "%"
+    ports:
+      - "127.0.0.1:3388:3306" # Maps host port 3388 (33TV on phone) to container port 3306
     volumes:
     - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -ppassword || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+    - default
+
+  elasticsearch:
+    # Matches production (Elastic Cloud, confirmed via
+    # Searchkick.client.info.dig("version", "number")).
+    image: "elasticsearch:7.17.7"
+    restart: unless-stopped
+    environment:
+    - "discovery.type=single-node"
+    ports:
+      - "127.0.0.1:9288:9200" # Maps host port 9288 (92TV on phone) to container port 9200
+    volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
     networks:
     - default
 
 volumes:
   mysql-data:
+  elasticsearch-data:
+
