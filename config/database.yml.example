@@ -28,7 +28,9 @@ default: &default
   socket: /var/run/mysqld/mysqld.sock
 <% end %>
   username: <%= ENV.fetch("MYSQL_USER") { "root" } %>
-  password: <%= ENV.fetch("MYSQL_PASSWORD") { ENV.fetch("MYSQL_ROOT_PASSWORD") { "" } } %>
+  password: <%= ENV.fetch("MYSQL_PASSWORD") { ENV.fetch("MYSQL_ROOT_PASSWORD") { "password" } } %>
+  # Ignore TLS/SSL error: self-signed certificate in certificate chain
+  ssl_mode: DISABLED
 
 development:
   <<: *default
