@@ -8,7 +8,7 @@ help:
 	@echo "  deploy-production    Deploy to production via Capistrano"
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
 	@echo "  setup                Install devcontainer and docker on this host (Ubuntu or macOS) via script/setup-host"
-	@echo "  dev-up               Start the dev container (devcontainer CLI, no editor required). Interupt with Control-C to stop"
+	@echo "  dev-up               Start the dev container (devcontainer CLI, no editor required). Interrupt with Control-C to stop"
 	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
 	@echo "  dev-console          Open bin/rails console inside the running dev container"
 	@echo "  dev-dbconsole        Open bin/rails dbconsole inside the running dev container"
@@ -20,9 +20,9 @@ help:
 	@echo "  ARGS               Args for dev-rake, e.g. ARGS=\"db:test:prepare\""
 
 
-# Installs Docker 8and devcontainer (Ubuntu or macOS) - see that file for details.
+# Installs Docker and devcontainer (Ubuntu or macOS) - see that file for details.
 setup:
-	./script/setup-host
+	bin/setup-host
 
 deploy-production:
 	bundle exec cap production deploy
