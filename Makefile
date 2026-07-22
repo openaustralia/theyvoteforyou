@@ -5,16 +5,20 @@ SHELL := /bin/bash
 help:
 	@echo "Available targets"
 	@echo "  help                 Output this help text (default target)"
+	@echo ""
 	@echo "  deploy-production    Deploy to production via Capistrano"
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
-	@echo "  setup                Install devcontainer and docker on this host (Ubuntu or macOS) via script/setup-host"
-	@echo "  dev-up               Start the dev container and associated services"
-	@echo "  dev-down             Stop the dev container"
+	@echo ""
+	@echo "  dev-up               Start the dev container and associated services (required for the following targets)"
+	@echo "  dev-console          Run bin/rails console inside the running dev container"
+	@echo "  dev-dbconsole        Run bin/rails dbconsole -p inside the running dev container"
 	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
-	@echo "  dev-console          Open bin/rails console inside the running dev container"
-	@echo "  dev-dbconsole        Open bin/rails dbconsole inside the running dev container"
-	@echo "  dev-rake             Run bin/rake ARGS inside the running dev container"
+	@echo "  dev-rake             Run bin/rake ARGS inside the running dev container (default: spec)"
+	@echo "  dev-server           Run rails web server inside the running dev container"
+	@echo "  dev-down             Stop the dev container"
+	@echo ""
 	@echo "  dev-clobber          Remove dev container images, volumes and orphans - full reset"
+	@echo "  setup                Install devcontainer and docker on this host (Ubuntu or macOS)"
 	@echo ""
 	@echo "Extra vars:"
 	@echo "  COMMAND            Command for dev-exec to run, e.g. COMMAND=\"bin/rails routes\" (default: bash)"
@@ -49,8 +53,11 @@ dev-console:
 dev-dbconsole:
 	devcontainer exec --workspace-folder . bin/rails dbconsole -p
 
+dev-server:
+	devcontainer exec --workspace-folder . bin/rails server -b 0.0.0.0
+
 # e.g. make dev-rake ARGS="db:test:prepare"
-ARGS ?=
+ARGS ?= spec
 
 dev-rake:
 	devcontainer exec --workspace-folder . bin/rake $(ARGS)
