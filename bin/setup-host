@@ -52,6 +52,23 @@ install_docker_linux() {
     sudo usermod -aG docker "$USER"
     echo "Added $USER to the docker group - log out/in (or run 'newgrp docker') for this to take effect"
   fi
+
+  # Elasticsearch's single-node container refuses to start at all if this
+  # is too low - a common cause of "connection refused"-style errors from
+  # anything that talks to ES (e.g. Searchkick during db:seed). Docker
+  # Desktop's VM usually has this set already; a native Linux host often
+  # doesn't.
+  current_max_map_count="$(sysctl -n vm.max_map_count)"
+  if [ "$current_max_map_count" -lt 262144 ]; then
+    echo "Raising vm.max_map_count (was $current_max_map_count) for Elasticsearch..."
+    sudo sysctl -w vm.max_map_count=262144
+    if ! grep -q '^vm.max_map_count' /etc/sysctl.conf 2>/dev/null; then
+      echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf > /dev/null
+      echo "Persisted vm.max_map_count=262144 in /etc/sysctl.conf so it survives a reboot."
+    fi
+  else
+    echo "OK: vm.max_map_count is $current_max_map_count (Elasticsearch needs >= 262144)"
+  fi
 }
 
 install_docker_macos() {
