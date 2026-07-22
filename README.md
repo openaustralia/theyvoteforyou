@@ -58,82 +58,85 @@ Rake task, e.g.:
 
 ## Development
 
-If your machine is already set up to develop Rails applications with MySQL just carry out the following steps and you
-should be good to go.
+Development uses a [dev container](https://containers.dev/) - a Docker-based environment with Ruby, MySQL, Elasticsearch
+and Mailpit already wired together with the rails-app container, so there's nothing to install locally beyond Docker and
+your favourite IDE. Open the project in VS Code or RubyMine and either will offer to reopen it in the container
+automatically. If you prefer vi or other text editor then install make, and use `make setup` to install the devcontainer
+CLI directly. See below for various make targets to assist in development.
 
-Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was mainly useful with the
-retired PHP application. A new Vagrant setup can be found in the
-[OpenAustralia/Infrastructure](https://github.com/openaustralia/infrastructure#provisioning-local-development-servers-using-vagrant)
-repository, however this is primarily intended as a "production-like" test environment rather than providing a
-development environment.
+Everything here is also available via `make [help]`, which prints a one-line description of each target - the fastest
+way to check what's available without re-reading this section.
 
-Before beginning, install MySQL, HTMLTidy and Ruby:
-
-```
-# OS X ...
-brew install tidy-html5 mysql rbenv ruby-build
-rbenv install $(cat .ruby-version)
-
-# ... or Linux (Debian)
-sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
-# then follow: https://github.com/sstephenson/rbenv#basic-github-checkout to get rbenv and ruby-build
-```
-
-Steps required to configure, install and start the Rails application:
+### Getting started
 
 ```
-# Install bundle
-bundle install
-
-# Install mailcatcher
-gem install mailcatcher
-
-# Copy the default config files over.
-cp config/database.yml.example config/database.yml
-
-# (Edit config/database.yml and fill in your username, password and database settings.)
-bundle exec rake application:config:dev
-
-# Set up your database (including seed data)
-bundle exec rake db:setup
-
-# Run tests
-bundle exec rake
-
-# Start the server
-bundle exec rails server
+make setup     # Install Docker, Compose, and the devcontainer CLI (Ubuntu or macOS)
+make dev-up    # Build and start the dev container - leave this running
 ```
 
-### With Vagrant
+In another terminal:
 
-Once you have [vagrant][1] and [virtualbox][2] installed and have cloned this repository run `vagrant up`. This will
-download the base virtualbox image and set up the development environment, be prepared for a bit of a wait.
+```
+make dev-exec # bash shell running in the rails-app container
+make dev-exec COMMAND="bin/setup --skip-server" # bundle install, prepare the DB, etc.
+make dev-server # runs the rails web server (bound to address 0.0.0.0 as needed for port forwarding)
+```
 
-Run the tests from inside the VM like this:
+### Everyday commands
 
-* `vagrant ssh`
-* `cd /vagrant`
-* `bundle exec rake`
+* `make dev-console` - `bin/rails console` inside the container
+* `make dev-dbconsole` - `bin/rails dbconsole` inside the container
+* `make dev-rake ARGS="db:test:prepare"` - run a rake task inside the container
+* `make dev-exec COMMAND="..."` - run any other command inside the container (default: `bash`)
 
-Assuming they pass, you can start the rails server:
+When you are finished, run:
+* `make dev-down` - stops containers, but retains data, or
+* `make dev-clobber` - full reset: removes containers, images and volumes
 
-* `bundle exec rails server`
 
-Once it is up you can browse to http://localhost:3000
+### Setting up development data
 
-When manually testing the site, the "sign up" confirmation emails will automatically go to a dummy smtp server
-called [mailcatcher][3]. To check the emails, browse to http://localhost:1080
+First run only - loads MPs, divisions, and builds the search index:
 
-If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder, it's because the VM has had its kernel
-updated. Run
-`vagrant provision && vagrant reload` and you should be back in business.
+```
+make dev-exec COMMAND="bin/rake application:load:members"
+make dev-exec COMMAND="bin/rake application:load:divisions[2021-07-01,2021-10-31]"
+make dev-exec COMMAND="bin/rake application:cache:all"
+make dev-exec COMMAND="bin/rake searchkick:reindex:all"
+```
 
-The original PHP app is also available at http://localhost:8080 but only if you're running an older branch (out of scope
-for this guide).
+### Once it's running
 
-[1]: http://www.vagrantup.com/
-[2]: https://www.virtualbox.org/
-[3]: http://mailcatcher.me/
+* The app itself: http://localhost:3088 - needs the Rails server actually running and bound to `0.0.0.0` (see
+  "Getting started" above)
+* Elasticsearch: http://localhost:9288/ gives basic version/cluster info as a quick "is it alive" check. Two other
+  useful ones: http://localhost:9288/_cluster/health (cluster status - look for `"status":"green"`) and
+  http://localhost:9288/_cat/indices?v (lists indices with document counts - useful for confirming a reindex worked)
+* Mailpit: http://localhost:8088/ - any email the app sends in development lands here instead of a real inbox
+* MySQL: connect a client (e.g. MySQL Workbench) to `localhost:3388`, user `root`, password `password`
+
+## Using just the other services 
+
+If you want to run rails locally, but use the mysql, elasticsearch and mailpit services, then run:
+
+```bash
+make dev-up
+```
+
+Then add these to you `.envrc` file (used by `direnv` to set environment):
+
+```
+export MAILPIT_HOST=127.0.0.1
+export MAILPIT_PORT=1088
+export DB_HOST=127.0.0.1
+export DB_PORT=3388
+export MYSQL_USER=root
+export MYSQL_PASSWORD=password
+export ELASTICSEARCH_URL=http://localhost:9288
+```
+
+I am using this with RubyMine whilst I work out why mise on the ruby-app container works with devcontainer CLI but not
+in rubymine itself!
 
 ## Loading data
 
@@ -162,7 +165,7 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 
 ## Search
 
-Search requires [elasticsearch](https://www.elasticsearch.org/). You will need
+Search requires [elasticsearch](https://www.elasticsearch.org/). If you are installing it on your host, you will need
 to [download](http://www.elasticsearch.org/download)
 the `.deb` for Linux or on Mac run `brew install elasticsearch`.
 
