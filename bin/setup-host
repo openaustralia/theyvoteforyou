@@ -1,16 +1,24 @@
 #!/usr/bin/env bash
-# Installs Docker Engine + Compose plugin on this host, if not already present.
-# Supports Ubuntu/Debian (apt) and macOS (Homebrew, Docker Desktop).
+# Installs Docker, Compose, and the devcontainer CLI on this host (Ubuntu/
+# Debian or macOS), so `make dev-up` / `make dev-exec` / etc. work.
 #
-# Only handles Docker - deploy-production/deploy-staging assume `bundle`
-# and Capistrano are already available on this host.
+# This is separate from bin/setup, which does app-level setup (bundle
+# install, db:prepare) and only makes sense run *inside* the dev container -
+# devcontainer.json already calls it via postCreateCommand.
+#
+# Only handles host tooling - deploy-production/deploy-staging still
+# assume `bundle` and Capistrano are available on this host directly.
 set -euo pipefail
 
 docker_ready() {
   command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
 }
 
-install_linux() {
+devcontainer_ready() {
+  command -v devcontainer >/dev/null 2>&1
+}
+
+install_docker_linux() {
   if [ ! -r /etc/os-release ]; then
     echo "ERROR: /etc/os-release not found - unsupported Linux distribution" >&2
     exit 1
@@ -46,7 +54,7 @@ install_linux() {
   fi
 }
 
-install_macos() {
+install_docker_macos() {
   if ! command -v brew >/dev/null 2>&1; then
     echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
     exit 1
@@ -72,13 +80,43 @@ install_macos() {
   fi
 }
 
+install_node_linux() {
+  echo "Installing Node.js (needed for the devcontainer CLI)..."
+  # Ubuntu/Debian's own repos can lag behind what @devcontainers/cli needs,
+  # so use NodeSource's setup script to get a current LTS regardless of
+  # which release this is.
+  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+}
+
+install_node_macos() {
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
+    exit 1
+  fi
+  echo "Installing Node.js (needed for the devcontainer CLI)..."
+  brew install node
+}
+
+install_devcontainer_cli() {
+  if ! command -v npm >/dev/null 2>&1; then
+    case "$(uname -s)" in
+      Linux)  install_node_linux ;;
+      Darwin) install_node_macos ;;
+    esac
+  fi
+
+  echo "Installing @devcontainers/cli..."
+  npm install -g @devcontainers/cli
+}
+
 main() {
   if docker_ready; then
     echo "OK: Docker + Compose plugin already installed"
   else
     case "$(uname -s)" in
-      Linux) install_linux ;;
-      Darwin) install_macos ;;
+      Linux) install_docker_linux ;;
+      Darwin) install_docker_macos ;;
       *)
         echo "ERROR: unsupported OS ($(uname -s)) - this script supports Ubuntu/Debian and macOS only" >&2
         exit 1
@@ -86,8 +124,20 @@ main() {
     esac
   fi
 
+  if devcontainer_ready; then
+    echo "OK: devcontainer CLI already installed"
+  else
+    install_devcontainer_cli
+  fi
+
+  echo ""
+  echo "== Versions =="
   docker --version
   docker compose version
+  devcontainer --version
+
+  echo ""
+  echo "Done. Run 'make dev-up' to start the dev container."
 }
 
 main "$@"
