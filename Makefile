@@ -8,7 +8,8 @@ help:
 	@echo "  deploy-production    Deploy to production via Capistrano"
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
 	@echo "  setup                Install devcontainer and docker on this host (Ubuntu or macOS) via script/setup-host"
-	@echo "  dev-up               Start the dev container (devcontainer CLI, no editor required). Interrupt with Control-C to stop"
+	@echo "  dev-up               Start the dev container and associated services"
+	@echo "  dev-down             Stop the dev container"
 	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
 	@echo "  dev-console          Open bin/rails console inside the running dev container"
 	@echo "  dev-dbconsole        Open bin/rails dbconsole inside the running dev container"
@@ -32,6 +33,9 @@ deploy-staging:
 
 dev-up:
 	devcontainer up --workspace-folder .
+
+dev-down:
+	docker compose -f .devcontainer/compose.yaml down
 
 # Defaults to bash - e.g. make dev-exec COMMAND="bin/rails routes"
 COMMAND ?= bash
