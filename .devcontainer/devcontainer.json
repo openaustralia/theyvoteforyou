@@ -9,15 +9,19 @@
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/rails/devcontainer/features/mysql-client": {}
+    "ghcr.io/rails/devcontainer/features/mysql-client": {},
+    "ghcr.io/rails/devcontainer/features/bundler-cache:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {}
   },
 
   "containerEnv": {
-    "DB_HOST": "mysql"
+    "DB_HOST": "mysql",
+    "ELASTICSEARCH_URL": "http://elasticsearch:9200"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000, 3306],
+  // Only works for vscode - using compose instead
+  //"forwardPorts": [3000, 3306],
 
   // Configure tool-specific properties.
   // "customizations": {},
