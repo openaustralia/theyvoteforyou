@@ -151,6 +151,7 @@ main() {
   echo "== Versions =="
   docker --version
   docker compose version
+  echo -n "Devcontainer: "
   devcontainer --version
 
   echo ""
