@@ -8,6 +8,8 @@ services:
 
     environment:
       CHROME_NO_SANDBOX: "1"
+      MALLOC_ARENA_MAX: "2"
+    mem_limit: 1g
     ports:
       - "127.0.0.1:3088:3000" # Maps host port 3088 (30TV on phone) to container port 3000
     volumes:
@@ -33,9 +35,15 @@ services:
   mysql:
     image: mysql:8.0
     restart: unless-stopped
+    mem_limit: 1500m
     environment:
         MYSQL_ROOT_PASSWORD: 'password'
         MYSQL_ROOT_HOST: "%"
+    command: >
+      --innodb-buffer-pool-size=256M
+      --innodb-buffer-pool-instances=1
+      --max-connections=50
+      --performance-schema=OFF
     ports:
       - "127.0.0.1:3388:3306" # Maps host port 3388 (33TV on phone) to container port 3306
     volumes:
@@ -54,8 +62,10 @@ services:
     # Searchkick.client.info.dig("version", "number")).
     image: "elasticsearch:7.17.7"
     restart: unless-stopped
+    mem_limit: 3g
     environment:
     - "discovery.type=single-node"
+    - "ES_JAVA_OPTS=-Xms1g -Xmx2g"
     ports:
       - "127.0.0.1:9288:9200" # Maps host port 9288 (92TV on phone) to container port 9200
     volumes:
@@ -73,6 +83,7 @@ services:
     image: axllent/mailpit
     container_name: mailpit
     restart: unless-stopped
+    mem_limit: 128m
     volumes:
       - mailpit-data:/data
     ports:
