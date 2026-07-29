@@ -25,7 +25,7 @@ To keep content understandable, concise and relevant, it should be:
 * human – not a faceless machine
 * serious but not pompous
 * emotionless – adjectives can be subjective and make the text sound more emotive and like spin
-* non-partisan – only use words which is used by one
+* non-partisan – don’t use words used by only one side of politics
 
 ## You should:
 
@@ -49,12 +49,12 @@ By keeping to the style guide, we:
 ## Write for the web
 We take into account how people read on the web when we write for <%= inline_project_name %>. We structure what we write so it can easily be read on-screen and accessed by all, regardless of age and background.
 
-Anyone can put information online, but writing well for the web is very different. Look at popular information sites like the [The Guardian](http://www.theguardian.com/au), [Oxfam](https://www.oxfam.org.au/), [Lonely Planet](http://www.lonelyplanet.com/), or the [BBC](http://www.bbc.co.uk/). You'll see their content is easy to read and understand.
+Anyone can put information online, but writing well for the web is very different. Look at popular information sites like [The Guardian](http://www.theguardian.com/au), [Oxfam](https://www.oxfam.org.au/), [Lonely Planet](http://www.lonelyplanet.com/), or the [BBC](http://www.bbc.co.uk/). You'll see their content is easy to read and understand.
 They use:
 
 * short sentences
 * subheaded sections
-* plain english – this helps people find what they need quickly and absorb it effortlessly
+* plain English – this helps people find what they need quickly and absorb it effortlessly
 
 ## Know how people read
 Knowing how people read means you'll write in a way they can understand easily and quickly.
@@ -63,7 +63,7 @@ Also, online, people don't read in the traditional way. They don't necessarily r
 
 ## Use front-loading
 Web-user eye-tracking studies show that people tend to ‘read’ a webpage in an ‘F’ shape pattern. They look across the top, then down the side, reading further across when they find what they need.
-So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the the most important information first.
+So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
 Make sure your bullet points are all in the same tense and verb form, with any common information in the preceding sentence.
 
@@ -95,4 +95,4 @@ Focus on the child’s common word set of up to 5,000 words. This makes it easie
 Explain any unusual terms and keep a friendly, informative tone. It’s not a magazine and we won’t be using slang etc. but keep the language easy to understand.
 Remember that puns or wordplay can make the content difficult to find.
 
-Mostly adapted from [Writing for the web](https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licenced under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/).
+Mostly adapted from [Writing for the web](https://www.gov.uk/design-principles/style-guide/writing-for-the-web) and [Writing for GovUK](https://www.gov.uk/design-principles/style-guide/writing-for-govuk) licensed under the [Open Government 2.0 Licence](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/).

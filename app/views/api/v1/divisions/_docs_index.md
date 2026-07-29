@@ -29,5 +29,5 @@ To get more results or divisions within a particular date range you can do
 <% end %>
 
 Again this will return **at most 100** results. It is your responsibility to ensure that you are
-getting all the data you expect. In practise if you receive 100 results narrow the date range or just look
+getting all the data you expect. In practice if you receive 100 results narrow the date range or just look
 at the specific house you are interested in.
