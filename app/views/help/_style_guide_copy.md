@@ -63,7 +63,7 @@ Also, online, people don't read in the traditional way. They don't necessarily r
 
 ## Use front-loading
 Web-user eye-tracking studies show that people tend to ‘read’ a webpage in an ‘F’ shape pattern. They look across the top, then down the side, reading further across when they find what they need.
-So ‘front-load’ sub-headings, titles and bullet points. What this means is: put the most important information first.
+‘Front-load’ sub-headings, titles and bullet points. What this means is: put the most important information first.
 For example, say ‘Canteen menu’, not ‘What’s on the menu at the canteen today?’
 Make sure your bullet points are all in the same tense and verb form, with any common information in the preceding sentence.
 
