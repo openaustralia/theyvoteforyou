@@ -6,7 +6,7 @@
 # If you're running Rails on the host and only using docker-compose for the
 # database, override these in .envrc (for direnv) or manually, e.g.:
 #   export DB_HOST=localhost
-#   export DB_PORT=13306
+#   export DB_PORT=3388
 #
 # Database/username follow the same convention as production
 # (tvfy-production / tvfy-production) - see mysql-init/ for where these
