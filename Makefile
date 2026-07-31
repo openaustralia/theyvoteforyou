@@ -18,14 +18,14 @@ help:
 	@echo "  dev-down             Stop the dev container"
 	@echo ""
 	@echo "  dev-clobber          Remove dev container images, volumes and orphans - full reset"
-	@echo "  setup                Install devcontainer and docker on this host (Ubuntu or macOS)"
+	@echo "  setup                Install devcontainer and docker on this host"
 	@echo ""
 	@echo "Extra vars:"
 	@echo "  COMMAND            Command for dev-exec to run, e.g. COMMAND=\"bin/rails routes\" (default: bash)"
 	@echo "  ARGS               Args for dev-rake, e.g. ARGS=\"db:test:prepare\""
 
 
-# Installs Docker and devcontainer (Ubuntu or macOS) - see that file for details.
+# Installs Docker and devcontainer - see that file for details.
 setup:
 	bin/setup-host
 

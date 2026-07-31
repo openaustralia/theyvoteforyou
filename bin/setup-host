@@ -18,6 +18,10 @@ devcontainer_ready() {
   command -v devcontainer >/dev/null 2>&1
 }
 
+is_wsl() {
+  grep -qi microsoft /proc/version >/dev/null 2>&1
+}
+
 install_docker_linux() {
   if [ ! -r /etc/os-release ]; then
     echo "ERROR: /etc/os-release not found - unsupported Linux distribution" >&2
@@ -25,21 +29,59 @@ install_docker_linux() {
   fi
   # shellcheck disable=SC1091
   . /etc/os-release
-  case "${ID:-}:${ID_LIKE:-}" in
-    ubuntu*|debian*|*ubuntu*|*debian*) ;;
+  # Docker publishes separate apt repos per distro family - using the wrong
+  # one here (e.g. Ubuntu's repo on a Debian host) gives a codename that
+  # doesn't exist on that repo, so apt-get update fails outright.
+  local docker_distro docker_codename derivative=false
+  case "${ID:-}" in
+    ubuntu) docker_distro=ubuntu ;;
+    debian) docker_distro=debian ;;
     *)
-      echo "ERROR: this script only supports Ubuntu/Debian on Linux (found: ${ID:-unknown})" >&2
-      exit 1
+      case "${ID_LIKE:-}" in
+        *ubuntu*) docker_distro=ubuntu; derivative=true ;;
+        *debian*) docker_distro=debian; derivative=true ;;
+        *)
+          echo "ERROR: this script only supports Ubuntu/Debian on Linux (found: ${ID:-unknown})" >&2
+          exit 1
+          ;;
+      esac
       ;;
   esac
 
-  echo "Installing Docker Engine + Compose plugin (Ubuntu/Debian)..."
+  # Derivatives (Mint, Pop!_OS, Zorin, elementary, etc.) report their own
+  # VERSION_CODENAME (e.g. Mint's "vanessa"), which Docker's repo doesn't
+  # publish for. UBUNTU_CODENAME, when present, points at the underlying
+  # Ubuntu release Docker actually has packages for.
+  docker_codename="${UBUNTU_CODENAME:-$VERSION_CODENAME}"
+
+  if [ "$derivative" = true ]; then
+    echo "-----------------------------------------------------------------"
+    echo "NOTE: ${PRETTY_NAME:-this distro} isn't officially supported by"
+    echo "      this script - we only test Ubuntu, Debian, and macOS."
+    echo "      Attempting a best-effort install via the $docker_distro repo"
+    echo "      (codename: $docker_codename). If this breaks, please open an"
+    echo "      issue and let us know what happened."
+    echo "-----------------------------------------------------------------"
+  fi
+
+  if is_wsl; then
+    echo "NOTE: this looks like WSL2. Docker Engine will be installed directly in this"
+    echo "      WSL distro. If you'd rather use Docker Desktop's WSL2 integration"
+    echo "      instead, install Docker Desktop on Windows, enable integration for"
+    echo "      this distro, then re-run this script - docker_ready will already pass."
+  fi
+
+  echo "Installing Docker Engine + Compose plugin ($docker_distro)..."
   sudo apt-get update -qq
-  sudo apt-get install -y ca-certificates curl
+  # procps provides sysctl, used below for the vm.max_map_count check - not
+  # guaranteed present on a minimal install. make is needed for the
+  # Makefile-driven dev workflow (make dev-up etc.) and isn't a given on a
+  # freshly installed host either.
+  sudo apt-get install -y ca-certificates curl procps make
   sudo install -m 0755 -d /etc/apt/keyrings
-  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+  sudo curl -fsSL "https://download.docker.com/linux/$docker_distro/gpg" -o /etc/apt/keyrings/docker.asc
   sudo chmod a+r /etc/apt/keyrings/docker.asc
-  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $VERSION_CODENAME stable" \
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$docker_distro $docker_codename stable" \
     | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
   sudo apt-get update -qq
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -58,7 +100,10 @@ install_docker_linux() {
   # anything that talks to ES (e.g. Searchkick during db:seed). Docker
   # Desktop's VM usually has this set already; a native Linux host often
   # doesn't.
-  current_max_map_count="$(sysctl -n vm.max_map_count)"
+  # sudo (not a plain PATH lookup) because sysctl lives in /usr/sbin, which
+  # isn't guaranteed to be on a non-root user's PATH - sudo's secure_path
+  # includes it regardless, and we already need sudo for the -w call below.
+  current_max_map_count="$(sudo sysctl -n vm.max_map_count)"
   if [ "$current_max_map_count" -lt 262144 ]; then
     echo "Raising vm.max_map_count (was $current_max_map_count) for Elasticsearch..."
     sudo sysctl -w vm.max_map_count=262144
@@ -124,7 +169,7 @@ install_devcontainer_cli() {
   fi
 
   echo "Installing @devcontainers/cli..."
-  npm install -g @devcontainers/cli
+  sudo npm install -g @devcontainers/cli
 }
 
 main() {
