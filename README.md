@@ -67,10 +67,28 @@ CLI directly. See below for various make targets to assist in development.
 Everything here is also available via `make [help]`, which prints a one-line description of each target - the fastest
 way to check what's available without re-reading this section.
 
+### Host platforms
+
+Your development system needs to be able to run docker compose and devcontainers. We provide `make setup` as a
+convenience to set up the following systems we personally use or can test using a manual GitHub action:
+
+* Ubuntu 24.04 LTS (Noble) and 26.04 LTS (Resolute)
+* Debian 12 (bookworm) and 13 (trixie)
+* recent macOS
+
+We have made a best-effort to support the following less used distros, and welcome feedback (issues and especially PRs
+as we don't have the systems to test them with):
+
+* WSL2 (Windows Subsystem for Linux) running Ubuntu or Debian - using standard Linux not windows packages
+* Other Ubuntu/Debian-derived distros (Mint, Pop!_OS, Zorin, elementary, etc.) may work. They get a clear warning
+
+We are not attempting to support native Microsoft Windows outside WSL2. Cloud based development platforms are outside
+the scope of this document, but we aim to facilitate their use by standardising on the use of devcontainers.
+
 ### Getting started
 
 ```
-make setup     # Install Docker, Compose, and the devcontainer CLI (Ubuntu or macOS)
+make setup     # Install Docker, Compose, and the devcontainer CLI
 make dev-up    # Build and start the dev container - leave this running
 ```
 
