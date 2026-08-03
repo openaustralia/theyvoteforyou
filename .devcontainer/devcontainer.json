@@ -16,7 +16,8 @@
 
   "containerEnv": {
     "DB_HOST": "mysql",
-    "ELASTICSEARCH_URL": "http://elasticsearch:9200"
+    "ELASTICSEARCH_URL": "http://elasticsearch:9200",
+    "PORT": "3088",
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
