@@ -12,15 +12,7 @@
 # check the "best-effort" platforms (Debian and friends) we don't personally
 # run day to day. macOS and native Ubuntu are the platforms we actually test
 # and support - see the Host platforms section of the README.
-#
-# Confirmed working locally (2026-07-31) on all four images below, after
-# fixing three real bugs bin/setup-host had:
-#   - Debian was pointed at Docker's Ubuntu apt repo (wrong codename/URL)
-#   - the initial sysctl read wasn't going through sudo, so it depended on
-#     /usr/sbin being on a plain user's PATH (present on Ubuntu, not
-#     guaranteed on Debian)
-#   - `npm install -g @devcontainers/cli` was missing sudo, so it failed
-#     with EACCES on every distro tested, not just Debian
+
 name: "bin/setup-host - optional multi-distro test"
 
 on:
@@ -33,20 +25,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Earliest actively supported
           - name: "Ubuntu 22.04 LTS"
             image: "geerlingguy/docker-ubuntu2204-ansible"
-          # What we actually run day to day - the "tested" tier per the
-          # README.
           - name: "Ubuntu 24.04 LTS"
             image: "geerlingguy/docker-ubuntu2404-ansible"
-          # Current Ubuntu LTS - not what we're on yet, but worth knowing
-          # about ahead of time.
           - name: "Ubuntu 26.04 LTS"
             image: "geerlingguy/docker-ubuntu2604-ansible"
-          # Added off the back of a Sentry suggestion, not something we run
-          # ourselves - this is the main thing this workflow exists to
-          # catch regressions in.
           - name: "Debian 12 (bookworm)"
             image: "geerlingguy/docker-debian12-ansible"
           - name: "Debian 13 (trixie)"
