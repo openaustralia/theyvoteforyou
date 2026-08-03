@@ -76,4 +76,5 @@ dev-rake:
 
 dev-clobber:
 	docker compose -f .devcontainer/compose.yaml down --rmi all --volumes --remove-orphans
+	rm -rf .make
 
