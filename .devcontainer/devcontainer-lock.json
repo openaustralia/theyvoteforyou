@@ -1,0 +1,24 @@
+{
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "version": "2.5.9",
+      "resolved": "ghcr.io/devcontainers/features/common-utils@sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a",
+      "integrity": "sha256:cb0c4d3c276f157eed17935747e364178d75fee17f55c4e129966f64633deb3a"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "version": "1.1.0",
+      "resolved": "ghcr.io/devcontainers/features/github-cli@sha256:d22f50b70ed75339b4eed1ba9ecde3a1791f90e88d37936517e3bace0bbad671",
+      "integrity": "sha256:d22f50b70ed75339b4eed1ba9ecde3a1791f90e88d37936517e3bace0bbad671"
+    },
+    "ghcr.io/rails/devcontainer/features/bundler-cache:1": {
+      "version": "1.0.1",
+      "resolved": "ghcr.io/rails/devcontainer/features/bundler-cache@sha256:a86f0bcae6473bdc4df43bf68fc57c2ce42e88790d32fed2e1c10aee1d11581b",
+      "integrity": "sha256:a86f0bcae6473bdc4df43bf68fc57c2ce42e88790d32fed2e1c10aee1d11581b"
+    },
+    "ghcr.io/rails/devcontainer/features/mysql-client": {
+      "version": "1.1.1",
+      "resolved": "ghcr.io/rails/devcontainer/features/mysql-client@sha256:fde8e2f5593edb74bba47ade1c7939748be7348c7cd08f91f42d97167fbdc3a9",
+      "integrity": "sha256:fde8e2f5593edb74bba47ade1c7939748be7348c7cd08f91f42d97167fbdc3a9"
+    }
+  }
+}
