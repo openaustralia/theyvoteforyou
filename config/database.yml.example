@@ -1,16 +1,16 @@
 # Copy this to database.yml
 #
-# host/port default to the "mysql" service name/port from docker-compose.yml,
-# which is correct when Rails runs inside the "web" container.
+# host/port default to the "mysql" service name/port from `.devcontainer/compose.yml`
+# for Rails running inside the "web" container.
 #
 # If you're running Rails on the host and only using docker-compose for the
 # database, override these in .envrc (for direnv) or manually, e.g.:
 #   export DB_HOST=localhost
 #   export DB_PORT=3388
 #
-# Database/username follow the same convention as production
-# (tvfy-production / tvfy-production) - see mysql-init/ for where these
-# dev/test users and databases get created.
+# Database follow the same convention as production (tvfy-production / tvfy-production)
+# but the devcontainer authenticates with root user and $MYSQL_ROOT_PASSWORD
+# rather than the production/staging convention
 
 # Be sure to use new-style password hashing:
 #   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
