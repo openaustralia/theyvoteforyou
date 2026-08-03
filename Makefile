@@ -37,11 +37,22 @@ deploy-staging:
 
 DEVCONTAINER_STAMP := .make/dev-down.stamp
 DEVCONTAINER_SOURCES := .devcontainer/compose.yaml .devcontainer/devcontainer.json .devcontainer/Dockerfile
+SETUP_STAMP := .make/setup.stamp
 
 .make:
 	mkdir -p .make
 
-dev-up: $(DEVCONTAINER_STAMP)
+LOCKFILE := .devcontainer/devcontainer-lock.json
+
+# Keeps the committed lockfile in sync with devcontainer.json (see finding 11
+# on #1656). `devcontainer upgrade` is a dedicated subcommand present in every
+# CLI version checked so far (identical output confirmed on both 0.72.0 and
+# 0.83.3), so this works regardless of whether a given install auto-generates
+# a lockfile from `up`/`build` by default.
+$(LOCKFILE): .devcontainer/devcontainer.json
+	devcontainer upgrade --workspace-folder .
+
+dev-up: $(DEVCONTAINER_STAMP) $(LOCKFILE)
 	devcontainer up --workspace-folder .
 
 # Trigger a dev-down if the container is stale so the next dev-up will rebuild
@@ -59,19 +70,34 @@ COMMAND ?= bash
 dev-exec:
 	devcontainer exec --workspace-folder . $(COMMAND)
 
-dev-console:
+# Gems (and the rest of bin/setup) live inside the container, not in
+# anything DEVCONTAINER_STAMP can see, so this is tracked separately.
+# Depends on Gemfile/Gemfile.lock/bin/setup/config/database.yml.example -
+# editing any of them forces a recheck - and is cleared by dev-clobber's
+# `rm -rf .make` (a fresh bundler-cache volume wipes gems without touching
+# any of those files). If bin/setup fails - e.g. a freshly (re)created
+# volume defaults /bundle to root ownership - fix that and retry once
+# before giving up.
+$(SETUP_STAMP): Gemfile Gemfile.lock bin/setup config/database.yml.example | .make
+	if ! devcontainer exec --workspace-folder . bin/setup --skip-server; then \
+      devcontainer exec --workspace-folder . sudo chown -R vscode:vscode /bundle ; \
+      devcontainer exec --workspace-folder . bin/setup --skip-server; \
+    fi
+	touch $(SETUP_STAMP)
+
+dev-console: $(SETUP_STAMP)
 	devcontainer exec --workspace-folder . bin/rails console
 
-dev-dbconsole:
+dev-dbconsole: $(SETUP_STAMP)
 	devcontainer exec --workspace-folder . bin/rails dbconsole -p
 
-dev-server:
-	devcontainer exec --workspace-folder . bin/rails server -b 0.0.0.0
+dev-server: $(SETUP_STAMP)
+	devcontainer exec --workspace-folder . bin/dev -b 0.0.0.0
 
 # e.g. make dev-rake ARGS="db:test:prepare"
 ARGS ?= spec
 
-dev-rake:
+dev-rake: $(SETUP_STAMP)
 	devcontainer exec --workspace-folder . bin/rake $(ARGS)
 
 dev-clobber:
