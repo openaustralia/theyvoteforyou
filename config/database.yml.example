@@ -20,12 +20,13 @@ default: &default
   # FIXME: Update production databases to this encoding
   # encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-<% if ENV["DB_HOST"] || !File.socket?("/var/run/mysqld/mysqld.sock") %>
+<% socket_path = File.socket?("/var/run/mysqld/mysqld.sock") ? "/var/run/mysqld/mysqld.sock" : (File.socket?("/tmp/mysql.sock") && "/tmp/mysql.sock") %>
+<% if ENV["DB_HOST"] || ENV["DB_PORT"] || !socket_path %>
   host: <%= ENV.fetch("DB_HOST") { "mysql" } %>
   port: <%= ENV.fetch("DB_PORT") { "3306" } %>
 <% else %>
   # Most secure on localhost
-  socket: /var/run/mysqld/mysqld.sock
+  socket: <%= socket_path %>
 <% end %>
   username: <%= ENV.fetch("MYSQL_USER") { "root" } %>
   password: <%= ENV.fetch("MYSQL_PASSWORD") { ENV.fetch("MYSQL_ROOT_PASSWORD") { "password" } } %>
