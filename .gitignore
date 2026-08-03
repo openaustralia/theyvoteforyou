@@ -10,6 +10,9 @@
 # Ignore bundler config.
 /.bundle
 
+# Ignore Make sentinel files
+/.make/
+
 # IDEs and vim
 /.vscode*
 /.aider*
