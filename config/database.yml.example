@@ -12,8 +12,8 @@
 # but the devcontainer authenticates with root user and $MYSQL_ROOT_PASSWORD
 # rather than the production/staging convention
 
-# Be sure to use new-style password hashing:
-#   https://dev.mysql.com/doc/refman/5.7/en/password-hashing.html
+# Be sure to use the caching_sha2_password plugin, the default for mysql 8.4:
+#   https://aws.amazon.com/blogs/database/amazon-rds-for-mysql-lts-version-8-4-is-now-generally-available/
 
 default: &default
   adapter: mysql2
