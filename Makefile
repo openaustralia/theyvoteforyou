@@ -1,4 +1,4 @@
-.PHONY: help setup deploy-production deploy-staging dev-up dev-exec dev-console dev-dbconsole dev-rake dev-clobber
+.PHONY: help setup deploy-production deploy-staging dev-up dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber
 
 SHELL := /bin/bash
 
@@ -9,7 +9,7 @@ help:
 	@echo "  deploy-production    Deploy to production via Capistrano"
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
 	@echo ""
-	@echo "  dev-up               Start the dev container and associated services (required for the following targets)"
+	@echo "  dev-up               Start the dev container and associated services, refreshing build if needed (required for the following targets)"
 	@echo "  dev-console          Run bin/rails console inside the running dev container"
 	@echo "  dev-dbconsole        Run bin/rails dbconsole -p inside the running dev container"
 	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
@@ -35,11 +35,23 @@ deploy-production:
 deploy-staging:
 	bundle exec cap staging deploy
 
-dev-up:
+DEVCONTAINER_STAMP := .make/dev-down.stamp
+DEVCONTAINER_SOURCES := .devcontainer/compose.yaml .devcontainer/devcontainer.json .devcontainer/Dockerfile
+
+.make:
+	mkdir -p .make
+
+dev-up: $(DEVCONTAINER_STAMP)
 	devcontainer up --workspace-folder .
 
-dev-down:
+# Trigger a dev-down if the container is stale so the next dev-up will rebuild
+$(DEVCONTAINER_STAMP): $(DEVCONTAINER_SOURCES) | .make
+	echo Stop the devcontainer so it will be rebuilt with changed sources ...
+	$(MAKE) dev-down
+
+dev-down: | .make
 	docker compose -f .devcontainer/compose.yaml down
+	touch $(DEVCONTAINER_STAMP)
 
 # Defaults to bash - e.g. make dev-exec COMMAND="bin/rails routes"
 COMMAND ?= bash
