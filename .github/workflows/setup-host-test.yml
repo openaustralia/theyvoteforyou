@@ -33,6 +33,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Earliest actively supported
+          - name: "Ubuntu 22.04 LTS"
+            image: "geerlingguy/docker-ubuntu2204-ansible"
           # What we actually run day to day - the "tested" tier per the
           # README.
           - name: "Ubuntu 24.04 LTS"
