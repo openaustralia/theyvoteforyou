@@ -81,7 +81,6 @@ services:
 
   mailpit:
     image: axllent/mailpit
-    container_name: mailpit
     restart: unless-stopped
     mem_limit: 128m
     volumes:
