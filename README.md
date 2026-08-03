@@ -70,20 +70,41 @@ way to check what's available without re-reading this section.
 ### Host platforms
 
 Your development system needs to be able to run docker compose and devcontainers. We provide `make setup` as a
-convenience to set up the following systems we personally use or can test using a manual GitHub action:
+convenience to set up the following systems we personally use or can test using the `setup-host-test` manual GitHub action:
 
-* Ubuntu 24.04 LTS (Noble) and 26.04 LTS (Resolute)
+* Ubuntu 22.04 LTS (Jammy Jellyfish), 24.04 LTS (Noble Numbat) and 26.04 LTS (Resolute Raccoon)
 * Debian 12 (bookworm) and 13 (trixie)
-* recent macOS
+* macOS recent enough to run Docker Desktop (usually the current macOS major release plus the two previous releases)
 
-We have made a best-effort to support the following less used distros, and welcome feedback (issues and especially PRs
-as we don't have the systems to test them with):
+We have made a best-effort to support the following less used distros, and welcome PRs that will add
+support for what you personally use and can test for us:
 
 * WSL2 (Windows Subsystem for Linux) running Ubuntu or Debian - using standard Linux not windows packages
 * Other Ubuntu/Debian-derived distros (Mint, Pop!_OS, Zorin, elementary, etc.) may work. They get a clear warning
 
-We are not attempting to support native Microsoft Windows outside WSL2. Cloud based development platforms are outside
-the scope of this document, but we aim to facilitate their use by standardising on the use of devcontainers.
+We are not attempting to support native Microsoft Windows outside WSL2, nor releases that are EOL.
+Cloud based development platforms are outside the scope of this document,
+but we aim to facilitate their use by standardising on the use of devcontainers.
+
+#### Supported Bundler platforms
+
+The following platforms are specified in Gemfile.lock so the lock file shouldn't change when you do a `bundle install`
+on a supported platform. To re-establish run the following command. We have removed specific version numbers so updating
+your Operating System release shouldn't cause issues.
+
+```bash
+bundle lock --add-platform aarch64-linux arm64-darwin x86_64-darwin x86_64-linux
+```
+Note: We don't add the generic ruby platform: several native extension gems here (eg ffi, nokogiri, libv8-node) only
+ship precompiled binaries for the platforms above, and ruby makes Bundler try to compile them from source instead.
+
+| Platform | Covers |
+|---|---|
+| `aarch64-linux` | Devcontainer/Docker on an Apple Silicon Mac (the container runs `linux/arm64` regardless of host OS), plus native ARM Linux (Ubuntu/Debian on ARM) and WSL2 on Windows-on-ARM |
+| `x86_64-linux` | Devcontainer/Docker on an Intel Mac or x86_64 host, native x86_64 Ubuntu/Debian, and standard WSL2 |
+| `arm64-darwin` | Non-container fallback, running `bundle install` directly on an Apple Silicon Mac |
+| `x86_64-darwin` | Non-container fallback, running `bundle install` directly on an Intel Mac |
+
 
 ### Getting started
 
