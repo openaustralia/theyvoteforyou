@@ -4,9 +4,6 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Ignore docker compose overrides
-/docker-compose.override.yml
-
 # Ignore bundler config.
 /.bundle
 
