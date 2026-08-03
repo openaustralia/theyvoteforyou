@@ -13,4 +13,3 @@ RUN sudo apt-get update -qq \
        chromium \
        chromium-driver \
   && sudo rm -rf /var/lib/apt/lists/*
-
