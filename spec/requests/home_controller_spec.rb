@@ -5,6 +5,7 @@ require "spec_helper"
 
 describe HomeController, type: :request do
   include HTMLCompareHelper
+
   include_context "with fixtures"
 
   it "#index" do

@@ -5,6 +5,7 @@ require "spec_helper"
 
 describe HelpController, type: :request do
   include HTMLCompareHelper
+
   include_context "with fixtures"
 
   it "#research" do

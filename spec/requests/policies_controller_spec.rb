@@ -5,6 +5,7 @@ require "spec_helper"
 
 describe PoliciesController, type: :request do
   include HTMLCompareHelper
+
   include_context "with fixtures"
 
   before do

@@ -24,9 +24,9 @@ describe "Policies", type: :feature do
       fill_in "you believe that", with: "quality contributions are the bedrock of community projects"
     end
     click_on "Make Policy"
-    expect(page).to have_content "Successfully made new policy"
-    expect(page).to have_content "The creation of quality policies on this site"
-    expect(page).to have_content "Those for this policy agree that quality contributions are the bedrock of community projects"
+    expect(page).to have_text "Successfully made new policy"
+    expect(page).to have_text "The creation of quality policies on this site"
+    expect(page).to have_text "Those for this policy agree that quality contributions are the bedrock of community projects"
   end
 
   it "editing existing" do
