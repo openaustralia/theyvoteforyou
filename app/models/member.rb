@@ -157,16 +157,16 @@ class Member < ApplicationRecord
     end
   end
 
-  def in_parliament_on_date(date)
+  def in_parliament_on_date?(date)
     date >= entered_house && date < left_house
   end
 
   def currently_in_parliament?
-    in_parliament_on_date(Time.zone.today)
+    in_parliament_on_date?(Time.zone.today)
   end
 
   def could_have_voted_in_division?(division)
-    in_parliament_on_date(division.date) && house == division.house
+    in_parliament_on_date?(division.date) && house == division.house
   end
 
   # Long version of party name
