@@ -14,7 +14,7 @@
         You have subscribed to receive emails whenever the following
         = pluralize(@user.watched_policies.size, "policy")
         or
-        = @user.watched_policies.size == 1 ? "its" : "their"
+        = @user.watched_policies.one? ? "its" : "their"
         related divisions are updated:
       %ul.subscriptions-list.subscriptions-list-removals.object-list-compact.list-unstyled
         - @user.watched_policies.each do |policy|

@@ -28,10 +28,10 @@ class HomeController < ApplicationController
         return
       end
 
-      if electorates.size == 1
+      if electorates.one?
         member = Member.current.find_by!(constituency: electorates.first["name"])
         redirect_to view_context.member_path_simple(member)
-      elsif electorates.size > 1
+      elsif electorates.many?
         electorates.each do |e|
           member = Member.current_on(Time.zone.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?
