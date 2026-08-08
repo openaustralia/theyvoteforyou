@@ -30,7 +30,7 @@ AllCops:
 Layout/LineLength:
   Enabled: false
 
-# We prefer double quotes here and we're making liberal use of multi-line
+# We prefer double quotes here, and we're making liberal use of multi-line
 # strings so it makes sense to enforce those to be consistent too
 Style/StringLiterals:
   EnforcedStyle: double_quotes
@@ -41,7 +41,7 @@ Style/StringLiterals:
 Style/NumericLiterals:
   Enabled: false
 
-# For Rails it feels a little overkill to require a description for
+# For Rails, it feels a little overkill to require a description for
 # each class, since so much is naming conventions.
 Style/Documentation:
   Enabled: false
