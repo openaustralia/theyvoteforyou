@@ -24,7 +24,7 @@ module CardScreenshotter
         args: [
           "--headless=new",
           "--window-size=#{CARD_WIDTH},#{CARD_HEIGHT}",
-          *("--no-sandbox" if ENV["CHROME_NO_SANDBOX"])
+          *("--no-sandbox" if ENV.true?("CHROME_NO_SANDBOX"))
         ]
       )
       @driver = Selenium::WebDriver.for :chrome, options: options
