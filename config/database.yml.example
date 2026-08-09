@@ -1,7 +1,7 @@
 # Copy this to database.yml
 #
 # host/port default to the "mysql" service name/port from `.devcontainer/compose.yml`
-# for Rails running inside the "web" container.
+# for Rails running inside the "rails-app" container.
 #
 # If you're running Rails on the host and only using docker-compose for the
 # database, override these in .envrc (for direnv) or manually, e.g.:
