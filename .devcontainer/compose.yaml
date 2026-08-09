@@ -9,7 +9,8 @@ services:
     environment:
       CHROME_NO_SANDBOX: "1"
       MALLOC_ARENA_MAX: "2"
-    mem_limit: 1g
+    # RubyMine says it needs 3GB for IDE and 8GB total - https://www.jetbrains.com/help/ruby/installation-guide.html#requirements
+    mem_limit: 8g
     ports:
       - "127.0.0.1:3088:3088" # Maps host port 3088 (30TV on phone) to container port 3088
     volumes:

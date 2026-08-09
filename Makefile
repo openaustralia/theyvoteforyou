@@ -1,4 +1,4 @@
-.PHONY: help setup deploy-production deploy-staging dev-up dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber dev-status
+.PHONY: help setup deploy-production deploy-staging dev-up dev-hybrid dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber dev-status
 
 SHELL := /bin/bash
 
@@ -10,6 +10,7 @@ help:
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
 	@echo ""
 	@echo "  dev-up               Start the dev container and associated services, refreshing build if needed (required for the following targets)"
+	@echo "  dev-hybrid           Start mysql/elasticsearch/mailpit only, no rails-app, for running Ruby on the host"
 	@echo "  dev-status           Show container status, resource usage, and clickable service URLs"
 	@echo "  dev-console          Run bin/rails console inside the running dev container"
 	@echo "  dev-dbconsole        Run bin/rails dbconsole -p inside the running dev container"
@@ -64,6 +65,12 @@ $(DEVCONTAINER_STAMP): $(DEVCONTAINER_SOURCES) | .make
 dev-down: | .make
 	docker compose -f .devcontainer/compose.yaml down
 	touch $(DEVCONTAINER_STAMP)
+
+# Just the supporting services, no rails-app, for the hybrid workflow (Ruby on the host, see
+# README's "Using just the other services") and for measuring an IDE's own memory use without
+# a devcontainer backend process competing for the same container's mem_limit.
+dev-hybrid:
+	docker compose -f .devcontainer/compose.yaml up -d mysql elasticsearch mailpit
 
 dev-status:
 	@docker compose -f .devcontainer/compose.yaml ps

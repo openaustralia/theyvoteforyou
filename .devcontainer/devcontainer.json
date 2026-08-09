@@ -17,6 +17,15 @@
     "DB_HOST": "mysql",
     "ELASTICSEARCH_URL": "http://elasticsearch:9200",
     "PORT": "3088",
+    // RubyMine sets XDG_DATA_HOME/XDG_CONFIG_HOME/XDG_CACHE_HOME to its own sandboxed
+    // /.jbdevcontainer/... paths, which mise follows (per the XDG Base Directory spec) instead of
+    // where the ruby feature actually installed things, so mise sees no tools/config at all there.
+    // These mise-specific vars take precedence over the generic XDG_* ones and point it back at
+    // the real, populated locations (see #1667).
+    "MISE_DATA_DIR": "/home/vscode/.local/share/mise",
+    "MISE_CONFIG_DIR": "/home/vscode/.config/mise",
+    "MISE_CACHE_DIR": "/home/vscode/.cache/mise",
+    "MISE_STATE_DIR": "/home/vscode/.local/state/mise"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.

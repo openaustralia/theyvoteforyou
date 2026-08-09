@@ -70,21 +70,45 @@ way to check what's available without re-reading this section.
 ### Host platforms
 
 Your development system needs to be able to run docker compose and devcontainers. We provide `make setup` as a
-convenience to set up the following systems we personally use or can test using the `setup-host-test` manual GitHub action:
+convenience to set up the following systems we personally use or can test using the `setup-host-test` manual GitHub
+action:
 
 * Ubuntu 22.04 LTS (Jammy Jellyfish), 24.04 LTS (Noble Numbat) and 26.04 LTS (Resolute Raccoon)
 * Debian 12 (bookworm) and 13 (trixie)
 * macOS recent enough to run Docker Desktop (usually the current macOS major release plus the two previous releases)
 
-We have made a best-effort to support the following less used distros, and welcome PRs that will add
-support for what you personally use and can test for us:
+We have made a best-effort to support the following less used distros, and welcome PRs that will add support for what
+you personally use and can test for us:
 
 * WSL2 (Windows Subsystem for Linux) running Ubuntu or Debian - using standard Linux not windows packages
 * Other Ubuntu/Debian-derived distros (Mint, Pop!_OS, Zorin, elementary, etc.) may work. They get a clear warning
 
-We are not attempting to support native Microsoft Windows outside WSL2, nor releases that are EOL.
-Cloud based development platforms are outside the scope of this document,
-but we aim to facilitate their use by standardising on the use of devcontainers.
+We are not attempting to support native Microsoft Windows outside WSL2, nor releases that are EOL. Cloud based
+development platforms are outside the scope of this document, but we aim to facilitate their use by standardising on the
+use of devcontainers.
+
+#### Memory requirements
+
+**We suggest** you add enough swap that the system noticeably slows down before the OOM killer starts killing processes,
+giving you a chance to close things yourself: half your RAM size on a hard disk, a full RAM size on an SSD (SSDs need
+more swap usage before it's noticeable). If you want to hibernate, swap needs to be at least equal to RAM.
+
+What to expect, by system RAM (see [#1649](https://github.com/openaustralia/theyvoteforyou/issues/1649) for the full
+design rationale):
+
+| System RAM | Expected experience                                                                                                                        |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| 8 GB       | Fine for a lightweight editor (e.g. vim), not a full IDE[^ide] like VS code and RubyMine                                                   |
+| 16 GB      | Comfortable for one project at a time alongside a full IDE[^ide], including via the full devcontainer. This is the baseline we design for. |
+| 32 GB      | Comfortable multitasking between two projects, or running the container stack alongside heavier tooling without adjustment.                |
+
+[^ide] full IDE: tested with VS code and RubyMine - which run a client in the devcontainer as well as on the host. The
+`ruby-app` container has a 8GB memory limit at RubyMine's recommendation. VS code needs less. IDEs use less memory in
+hybrid mode, but you need to set up ruby on your host (eg using mise). Unfortunately even in hybrid mode VS code isn't
+viable on an 8GB host.
+
+Plain `devcontainer` CLI usage with no IDE attached uses far less memory, so none of this headroom costs anything for
+non-IDE users, `mem_limit` is a ceiling, not a reservation.
 
 #### Supported Bundler platforms
 
@@ -95,16 +119,16 @@ your Operating System release shouldn't cause issues.
 ```bash
 bundle lock --add-platform aarch64-linux arm64-darwin x86_64-darwin x86_64-linux
 ```
+
 Note: We don't add the generic ruby platform: several native extension gems here (eg ffi, nokogiri, libv8-node) only
 ship precompiled binaries for the platforms above, and ruby makes Bundler try to compile them from source instead.
 
-| Platform | Covers |
-|---|---|
+| Platform        | Covers                                                                                                                                                                        |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `aarch64-linux` | Devcontainer/Docker on an Apple Silicon Mac (the container runs `linux/arm64` regardless of host OS), plus native ARM Linux (Ubuntu/Debian on ARM) and WSL2 on Windows-on-ARM |
-| `x86_64-linux` | Devcontainer/Docker on an Intel Mac or x86_64 host, native x86_64 Ubuntu/Debian, and standard WSL2 |
-| `arm64-darwin` | Non-container fallback, running `bundle install` directly on an Apple Silicon Mac |
-| `x86_64-darwin` | Non-container fallback, running `bundle install` directly on an Intel Mac |
-
+| `x86_64-linux`  | Devcontainer/Docker on an Intel Mac or x86_64 host, native x86_64 Ubuntu/Debian, and standard WSL2                                                                            |
+| `arm64-darwin`  | Non-container fallback, running `bundle install` directly on an Apple Silicon Mac                                                                                             |
+| `x86_64-darwin` | Non-container fallback, running `bundle install` directly on an Intel Mac                                                                                                     |
 
 ### Getting started
 
@@ -130,9 +154,9 @@ make dev-server # runs the rails web server (bound to address 0.0.0.0 as needed 
 * `make dev-exec COMMAND="..."` - run any other command inside the container (default: `bash`)
 
 When you are finished, run:
+
 * `make dev-down` - stops containers, but retains data, or
 * `make dev-clobber` - full reset: removes containers, images and volumes
-
 
 ### Setting up development data
 
@@ -151,10 +175,10 @@ make dev-exec COMMAND="bin/rake searchkick:reindex:all"
   "Getting started" above)
 * Elasticsearch: http://localhost:9288/ gives basic version/cluster info as a quick "is it alive" check. Two other
   useful ones:
-  * http://localhost:9288/_cluster/health gives cluster status - should be `"status":"green"` (indices are configured
-    with no replicas in development/test, so a single dev/test node has nothing left unassigned)
-  * http://localhost:9288/_cat/indices?v lists indices with document counts - useful for confirming a reindex worked
-  * See `Rails.application.credentials.elasticsearch.url` on production for its base url
+    * http://localhost:9288/_cluster/health gives cluster status - should be `"status":"green"` (indices are configured
+      with no replicas in development/test, so a single dev/test node has nothing left unassigned)
+    * http://localhost:9288/_cat/indices?v lists indices with document counts - useful for confirming a reindex worked
+    * See `Rails.application.credentials.elasticsearch.url` on production for its base url
 * Mailpit: http://localhost:8088/ - any email the app sends in development lands here instead of a real inbox
 * MySQL: connect a client (e.g. MySQL Workbench) to `localhost:3388`, user `root`, password `password`
 
@@ -209,8 +233,8 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 ## Search
 
 Search requires [elasticsearch](https://www.elasticsearch.org/); the devcontainer (or the hybrid setup above) already
-provides it, so you only need to install it separately if you're running fully on the host without either. Homebrew
-no longer carries elasticsearch (removed after Elastic's licence change); see the
+provides it, so you only need to install it separately if you're running fully on the host without either. Homebrew no
+longer carries elasticsearch (removed after Elastic's licence change); see the
 [download page](http://www.elasticsearch.org/download) for the Linux `.deb` and other options instead.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
