@@ -79,10 +79,7 @@ dev-exec:
 # volume defaults /bundle to root ownership - fix that and retry once
 # before giving up.
 $(SETUP_STAMP): Gemfile Gemfile.lock bin/setup config/database.yml.example | .make
-	if ! devcontainer exec --workspace-folder . bin/setup --skip-server; then \
-      devcontainer exec --workspace-folder . sudo chown -R vscode:vscode /bundle ; \
-      devcontainer exec --workspace-folder . bin/setup --skip-server; \
-    fi
+	devcontainer exec --workspace-folder . bin/setup --skip-server
 	touch $(SETUP_STAMP)
 
 dev-console: $(SETUP_STAMP)
