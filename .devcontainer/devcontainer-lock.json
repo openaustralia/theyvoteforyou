@@ -15,7 +15,7 @@
       "resolved": "ghcr.io/rails/devcontainer/features/bundler-cache@sha256:a86f0bcae6473bdc4df43bf68fc57c2ce42e88790d32fed2e1c10aee1d11581b",
       "integrity": "sha256:a86f0bcae6473bdc4df43bf68fc57c2ce42e88790d32fed2e1c10aee1d11581b"
     },
-    "ghcr.io/rails/devcontainer/features/mysql-client": {
+    "ghcr.io/rails/devcontainer/features/mysql-client:1": {
       "version": "1.1.1",
       "resolved": "ghcr.io/rails/devcontainer/features/mysql-client@sha256:fde8e2f5593edb74bba47ade1c7939748be7348c7cd08f91f42d97167fbdc3a9",
       "integrity": "sha256:fde8e2f5593edb74bba47ade1c7939748be7348c7cd08f91f42d97167fbdc3a9"
