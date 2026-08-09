@@ -30,9 +30,6 @@ default: &default
 <% end %>
   username: <%= ENV.fetch("MYSQL_USER") { "root" } %>
   password: <%= ENV.fetch("MYSQL_PASSWORD") { ENV.fetch("MYSQL_ROOT_PASSWORD") { "password" } } %>
-  # Ignore TLS/SSL error: self-signed certificate in certificate chain
-  ssl_mode: preferred
-  sslverify: false
 
 development:
   <<: *default
