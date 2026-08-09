@@ -1,4 +1,4 @@
-.PHONY: help setup deploy-production deploy-staging dev-up dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber
+.PHONY: help setup deploy-production deploy-staging dev-up dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber dev-status
 
 SHELL := /bin/bash
 
@@ -10,6 +10,7 @@ help:
 	@echo "  deploy-staging       Deploy to staging via Capistrano"
 	@echo ""
 	@echo "  dev-up               Start the dev container and associated services, refreshing build if needed (required for the following targets)"
+	@echo "  dev-status           Show container status, resource usage, and clickable service URLs"
 	@echo "  dev-console          Run bin/rails console inside the running dev container"
 	@echo "  dev-dbconsole        Run bin/rails dbconsole -p inside the running dev container"
 	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
@@ -63,6 +64,22 @@ $(DEVCONTAINER_STAMP): $(DEVCONTAINER_SOURCES) | .make
 dev-down: | .make
 	docker compose -f .devcontainer/compose.yaml down
 	touch $(DEVCONTAINER_STAMP)
+
+dev-status:
+	@docker compose -f .devcontainer/compose.yaml ps
+	@echo ""
+	@ids=$$(docker compose -f .devcontainer/compose.yaml ps -q); \
+	if [ -n "$$ids" ]; then \
+		docker stats --no-stream $$ids; \
+		echo ""; \
+		echo "  App:           http://localhost:3088  http://localhost:3088/rails/info/properties  http://localhost:3088/rails/info/routes"; \
+		echo "                                        http://localhost:3088/rails/mailers  http://localhost:3088/rails/health"; \
+		echo "  Elasticsearch: http://localhost:9288  http://localhost:9288/_cluster/health  http://localhost:9288/_cat/indices?v"; \
+		echo "  Mailpit:       http://localhost:8088"; \
+		echo "  MySQL:         mysql --host=127.0.0.1 --port=3388 --user=root --password=password"; \
+	else \
+		echo "(no containers running)"; \
+	fi
 
 # Defaults to bash - e.g. make dev-exec COMMAND="bin/rails routes"
 COMMAND ?= bash

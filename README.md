@@ -123,6 +123,7 @@ make dev-server # runs the rails web server (bound to address 0.0.0.0 as needed 
 
 ### Everyday commands
 
+* `make dev-status` - container status, resource usage, and clickable service URLs
 * `make dev-console` - `bin/rails console` inside the container
 * `make dev-dbconsole` - `bin/rails dbconsole` inside the container
 * `make dev-rake ARGS="db:test:prepare"` - run a rake task inside the container
