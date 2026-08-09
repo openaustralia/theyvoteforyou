@@ -117,7 +117,7 @@ In another terminal:
 
 ```
 make dev-exec # bash shell running in the rails-app container
-make dev-exec COMMAND="bin/setup --skip-server" # bundle install, prepare the DB, etc.
+make dev-exec COMMAND="bin/setup --skip-server" # already run via postCreateCommand; safe to rerun any time
 make dev-server # runs the rails web server (bound to address 0.0.0.0 as needed for port forwarding)
 ```
 
@@ -157,7 +157,7 @@ make dev-exec COMMAND="bin/rake searchkick:reindex:all"
 * Mailpit: http://localhost:8088/ - any email the app sends in development lands here instead of a real inbox
 * MySQL: connect a client (e.g. MySQL Workbench) to `localhost:3388`, user `root`, password `password`
 
-## Using just the other services 
+## Using just the other services
 
 If you want to run rails locally, but use the mysql, elasticsearch and mailpit services, then run:
 
@@ -165,7 +165,7 @@ If you want to run rails locally, but use the mysql, elasticsearch and mailpit s
 make dev-up
 ```
 
-Then add these to you `.envrc` file (used by `direnv` to set environment):
+Then add these to your `.envrc` file (used by `direnv` to set environment):
 
 ```
 export MAILPIT_HOST=127.0.0.1
@@ -177,8 +177,8 @@ export MYSQL_PASSWORD=password
 export ELASTICSEARCH_URL=http://localhost:9288
 ```
 
-I am using this with RubyMine whilst I work out why mise on the ruby-app container works with devcontainer CLI but not
-in rubymine itself!
+Known issue with RubyMine: mise works via the devcontainer CLI but not when RubyMine connects to the `rails-app`
+container directly, see #1667.
 
 ## Loading data
 
@@ -207,9 +207,10 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 
 ## Search
 
-Search requires [elasticsearch](https://www.elasticsearch.org/). If you are installing it on your host, you will need
-to [download](http://www.elasticsearch.org/download)
-the `.deb` for Linux or on Mac run `brew install elasticsearch`.
+Search requires [elasticsearch](https://www.elasticsearch.org/); the devcontainer (or the hybrid setup above) already
+provides it, so you only need to install it separately if you're running fully on the host without either. Homebrew
+no longer carries elasticsearch (removed after Elastic's licence change); see the
+[download page](http://www.elasticsearch.org/download) for the Linux `.deb` and other options instead.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.
@@ -261,7 +262,7 @@ To deploy to the **production** server, replace `ukraine_dev` with `ukraine_prod
 ## Accessing the admin panel
 
 The administration panel, which currently doesn't do a whole lot, can be accessed in development
-at http://localhost:3000/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be
+at http://localhost:3088/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be
 able to access that page. Any user that is an admin can make another user and admin too using the admin panel. The first
 admin user must be created via the rails console:
 
@@ -280,7 +281,7 @@ Obviously substitute the email address in the command above.
 
 Some features that are still in development are enabled via "feature flags". The features can optionally switched on for
 certain users, block of users or everyone. These flags are administered
-at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3000/admin/flipper/features
+at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3088/admin/flipper/features
 when in development.
 
 The names of the features added in the admin panel need to match those in the code at `config/initializers/flipper.rb`.

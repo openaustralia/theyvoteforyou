@@ -9,7 +9,7 @@
   // Features to add to the dev container. More info: https://containers.dev/features.
   "features": {
     "ghcr.io/devcontainers/features/github-cli:1": {},
-    "ghcr.io/rails/devcontainer/features/mysql-client": {},
+    "ghcr.io/rails/devcontainer/features/mysql-client:1": {},
     "ghcr.io/rails/devcontainer/features/bundler-cache:1": {},
     "ghcr.io/devcontainers/features/common-utils:2": {}
   },

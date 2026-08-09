@@ -32,6 +32,8 @@ services:
         condition: service_healthy
       mailpit:
         condition: service_healthy
+    networks:
+    - default
   mysql:
     image: mysql:8.4
     restart: unless-stopped
@@ -98,6 +100,8 @@ services:
       MP_DATABASE: /data/mailpit.db
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+    - default
 
 volumes:
   mysql-data:
