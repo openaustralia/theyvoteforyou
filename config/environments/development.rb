@@ -41,6 +41,9 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: "localhost", port: ENV.fetch("PORT", 3000).to_i }
   config.action_mailer.smtp_settings = { address: ENV.fetch("MAILPIT_HOST") { "mailpit" }, port: (ENV.fetch("MAILPIT_PORT") { 1025 }).to_i }
 
+  # Configure so http://localhost:3088/rails/mailers shows previews
+  config.action_mailer.preview_paths << Rails.root.join("spec/mailers/previews").to_s
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
