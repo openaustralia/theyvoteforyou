@@ -149,8 +149,11 @@ make dev-exec COMMAND="bin/rake searchkick:reindex:all"
 * The app itself: http://localhost:3088 - needs the Rails server actually running and bound to `0.0.0.0` (see
   "Getting started" above)
 * Elasticsearch: http://localhost:9288/ gives basic version/cluster info as a quick "is it alive" check. Two other
-  useful ones: http://localhost:9288/_cluster/health (cluster status - look for `"status":"green"`) and
-  http://localhost:9288/_cat/indices?v (lists indices with document counts - useful for confirming a reindex worked)
+  useful ones:
+  * http://localhost:9288/_cluster/health gives cluster status - should be `"status":"green"` (indices are configured
+    with no replicas in development/test, so a single dev/test node has nothing left unassigned)
+  * http://localhost:9288/_cat/indices?v lists indices with document counts - useful for confirming a reindex worked
+  * See `Rails.application.credentials.elasticsearch.url` on production for its base url
 * Mailpit: http://localhost:8088/ - any email the app sends in development lands here instead of a real inbox
 * MySQL: connect a client (e.g. MySQL Workbench) to `localhost:3388`, user `root`, password `password`
 
