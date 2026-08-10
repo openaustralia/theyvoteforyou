@@ -3,7 +3,7 @@
 
 $(function() {
   $("form.edit_division a#preview_link").on("shown.bs.tab", function(e) {
-    return $("#preview").html(marked($("#edit textarea").val()));
+    return $("#preview").html(marked.parse($("#edit textarea").val()));
   });
   $(".division-title").widowFix({
     letterLimit: 10,
