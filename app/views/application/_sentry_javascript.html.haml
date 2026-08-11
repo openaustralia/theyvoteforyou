@@ -1,0 +1,12 @@
+- if (dsn = Rails.application.credentials.dig(:sentry, :dsn))
+  -# The Loader Script key is the public key from the DSN
+  - public_key = URI.parse(dsn).user
+  = javascript_include_tag "https://js.sentry-cdn.com/#{public_key}.min.js", crossorigin: "anonymous"
+  -# Pick up the release detected by the backend Sentry SDK so frontend and backend events match
+  - release = defined?(Sentry) && Sentry.respond_to?(:configuration) && Sentry.configuration&.release
+  :javascript
+    Sentry.onLoad(function() {
+      Sentry.init({
+        environment: '#{j Rails.env}'#{", release: '#{j release}'" if release}
+      });
+    });

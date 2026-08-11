@@ -173,6 +173,32 @@ The code is deployed using Capistrano. To deploy to production run:
 
     bundle exec cap production deploy
 
+##### Sentry release tracking
+
+Each deploy notifies [Sentry](https://oaf-org-au.sentry.io/) of the new
+release so that errors can be linked back to the commits that introduced them.
+This runs on your machine as part of the deploy and needs a one-off setup:
+
+1. Install [sentry-cli](https://docs.sentry.io/product/cli/):
+   `brew install getsentry/tools/sentry-cli` on a Mac, or on Linux
+   `curl -sL https://sentry.io/get-cli/ | sh`.
+2. Create a personal auth token at https://oaf-org-au.sentry.io under
+   Settings → Auth Tokens → Create New Token, with only the
+   `project:releases` scope.
+3. Put the token in `~/.sentryclirc`:
+
+   ```
+   [auth]
+   token=your-token-here
+   ```
+
+   or set the `SENTRY_AUTH_TOKEN` environment variable. The org, project and
+   URL are picked up automatically from this repository's `.sentryclirc`.
+4. Check it works with `sentry-cli info`.
+
+If you haven't done this setup, deploys still work as normal; the release
+tracking step is skipped with a warning.
+
 ### Ukraine
 
 #### Server provisioning
