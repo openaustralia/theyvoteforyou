@@ -91,7 +91,7 @@ class PolicyPersonDistance < ApplicationRecord
       member_votes = member.votes.where(division: policy.divisions).to_a
       # Step through all the divisions related to this policy
       policy.policy_divisions.each do |policy_division|
-        next unless member.in_parliament_on_date(policy_division.date) && member.house == policy_division.house
+        next unless member.in_parliament_on_date?(policy_division.date) && member.house == policy_division.house
 
         member_vote = member_votes.find { |v| v.division_id == policy_division.division_id }
 

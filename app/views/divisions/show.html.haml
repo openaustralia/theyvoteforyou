@@ -22,7 +22,7 @@
   %section.page-section#related-divisions
     %h2 Related divisions
     %p
-      - if @division.related_divisions.size == 1
+      - if @division.related_divisions.one?
         Another division relating
       - else
         = @division.related_divisions.size.to_words.capitalize

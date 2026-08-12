@@ -6,5 +6,5 @@
     %span.role= member.person.current_offices.map{|o| content_tag(:em, o.position) }.to_sentence(two_words_connector: ", and ").html_safe + "."
 
   - # TODO: add back in the rebellion and attendance rate for previous membership.
-  - if member.person.members.size > 1
+  - if member.person.members.many?
     = member_history_sentence(member)

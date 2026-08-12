@@ -5,6 +5,7 @@ require "spec_helper"
 
 describe MembersController, type: :request do
   include HTMLCompareHelper
+
   include_context "with fixtures"
 
   describe "#index" do

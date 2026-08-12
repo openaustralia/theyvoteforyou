@@ -17,6 +17,7 @@ class HomeController < ApplicationController
     if params[:query] =~ /^\d{4}$/
       @postcode = params[:query]
 
+      # FIXME: api key is exposed here and in spec vcr cassette
       json_response = URI.open("https://www.openaustralia.org.au/api/getDivisions?output=js&key=CcV3KBBX2Em7GQeV3RA8qzgS&postcode=#{@postcode}").read
       # Temporary work around for https://github.com/openaustralia/openaustralia/issues/502
       json_response = "{\"error\":\"Unknown postcode\"}" if json_response == "{\"error\":\"Unknown postcode\"}{}"
@@ -27,10 +28,10 @@ class HomeController < ApplicationController
         return
       end
 
-      if electorates.count == 1
+      if electorates.one?
         member = Member.current.find_by!(constituency: electorates.first["name"])
         redirect_to view_context.member_path_simple(member)
-      elsif electorates.count > 1
+      elsif electorates.many?
         electorates.each do |e|
           member = Member.current_on(Time.zone.today).find_by(constituency: e["name"])
           @mps << member unless member.nil?

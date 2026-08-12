@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def nav_button_link(name, path, title, current)
-    link_to name, path, title: title, class: "btn btn-sm btn-default#{current ? ' active' : ''}"
+    link_to name, path, title: title, class: "btn btn-sm btn-default#{' active' if current}"
   end
 
   def body_class

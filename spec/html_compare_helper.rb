@@ -8,6 +8,7 @@ require "uri"
 
 module HTMLCompareHelper
   include Warden::Test::Helpers
+
   Warden.test_mode!
 
   def compare_static(path, form_params: false, format: "html")

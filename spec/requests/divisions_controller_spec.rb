@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe DivisionsController, type: :request do
   include HTMLCompareHelper
+
   include_context "with fixtures"
 
   describe "#show" do

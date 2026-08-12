@@ -17,14 +17,14 @@ describe "User profile", type: :feature do
       fill_in "Password", with: user.password
       click_on "Log in"
     end
-    expect(page).to have_content "Welcome!"
+    expect(page).to have_text "Welcome!"
     click_on "Edit profile"
     within "#edit_user" do
       fill_in "Username", with: "Henare Degan, Esquire"
       fill_in "Current password", with: user.password
     end
     click_on "Update"
-    expect(page).to have_content "You updated your account successfully."
+    expect(page).to have_text "You updated your account successfully."
     expect(user.reload.name).to eql "Henare Degan, Esquire"
   end
 end
