@@ -2,6 +2,30 @@
 
 require Rails.root.join("app/helpers/path_helper")
 
+# Cron schedules are defined in the OAF infrastructure repo (ansible role
+# roles/internal/theyvoteforyou) - that's the source of truth for the crontabs below.
+def with_sentry_cron_monitoring(slug, crontab, &block)
+  return block.call unless defined?(Sentry) && Sentry.initialized?
+
+  monitor_config = Sentry::Cron::MonitorConfig.from_crontab(
+    crontab,
+    checkin_margin: 60,
+    max_runtime: 360,
+    timezone: "Australia/Sydney"
+  )
+  check_in_id = Sentry.capture_check_in(slug, :in_progress, monitor_config: monitor_config)
+  start = Sentry.utc_now
+  begin
+    block.call
+    Sentry.capture_check_in(slug, :ok, check_in_id: check_in_id, duration: Sentry.utc_now - start,
+                                       monitor_config: monitor_config)
+  rescue StandardError
+    Sentry.capture_check_in(slug, :error, check_in_id: check_in_id, duration: Sentry.utc_now - start,
+                                          monitor_config: monitor_config)
+    raise
+  end
+end
+
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
@@ -74,7 +98,9 @@ namespace :application do
   namespace :cron do
     desc "Run this every night. Generates screenshots"
     task nightly: :environment do
-      task("application:cards:all").invoke
+      with_sentry_cron_monitoring("application-cron-nightly", "5 2 * * *") do
+        task("application:cards:all").invoke
+      end
     end
   end
 
@@ -101,12 +127,14 @@ namespace :application do
 
     desc "Reload members, offices and electorates - load yesterday's divisions - update caches"
     task daily: :environment do
-      # Get yesterday's system date to avoid Rails UTC timezone
-      yesterday = Time.zone.now.yesterday.to_date.to_s
+      with_sentry_cron_monitoring("application-load-daily", "15 9 * * 1-5") do
+        # Get yesterday's system date to avoid Rails UTC timezone
+        yesterday = Time.zone.now.yesterday.to_date.to_s
 
-      task("application:load:members").invoke
-      task("application:load:divisions").invoke(yesterday)
-      task("application:cache:all").invoke
+        task("application:load:members").invoke
+        task("application:load:divisions").invoke(yesterday)
+        task("application:cache:all").invoke
+      end
     end
 
     desc "Load Popolo data from a URL"
