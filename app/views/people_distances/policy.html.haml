@@ -10,16 +10,14 @@
 
 .page-header
   .row
-    - ppd1 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person1)
-    - ppd2 = PolicyPersonDistance.find_by(policy: @policy, person: @person_distance.person2)
     .col-sm-6.member-block
       .media= render "member", member: @person_distance.person1.latest_member
-      = link_to member_policy_path_simple(ppd1.person.latest_member, ppd1.policy) do
-        = capitalise_initial_character(policy_agreement_summary(ppd1, with_person: false, with_policy: true))
+      = link_to member_policy_path_simple(@policy_person_distance1.person.latest_member, @policy_person_distance1.policy) do
+        = capitalise_initial_character(policy_agreement_summary(@policy_person_distance1, with_person: false, with_policy: true))
     .col-sm-6.member-block
       .media= render "member", member: @person_distance.person2.latest_member
-      = link_to member_policy_path_simple(ppd2.person.latest_member, ppd2.policy) do
-        = capitalise_initial_character(policy_agreement_summary(ppd2, with_person: false, with_policy: true))
+      = link_to member_policy_path_simple(@policy_person_distance2.person.latest_member, @policy_person_distance2.policy) do
+        = capitalise_initial_character(policy_agreement_summary(@policy_person_distance2, with_person: false, with_policy: true))
 
   .row
     .col-sm-12

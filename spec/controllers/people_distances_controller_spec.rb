@@ -40,4 +40,52 @@ describe PeopleDistancesController, type: :controller do
       end
     end
   end
+
+  describe "#policy" do
+    let(:policy) { create(:policy) }
+    let(:person1) { create(:person) }
+    let(:person2) { create(:person) }
+    let(:request_params) do
+      { house: "representatives", mpc: "clark", mpn: "andrew_wilkie", house2: "representatives", mpc2: "foo", mpn2: "jane_smith", id: policy.id }
+    end
+
+    before do
+      create(:member, person_id: person1.id, first_name: "Andrew", last_name: "Wilkie", house: "representatives", constituency: "Clark")
+      create(:member, person_id: person2.id, first_name: "Jane", last_name: "Smith", house: "representatives", constituency: "Foo")
+    end
+
+    context "when the two people have been compared with each other" do
+      before do
+        create(:people_distance, person1: person1, person2: person2)
+      end
+
+      it "shows the comparison when both people have a distance for the policy" do
+        create(:policy_person_distance, person: person1, policy: policy)
+        create(:policy_person_distance, person: person2, policy: policy)
+
+        get :policy, params: request_params
+
+        expect(response).to have_http_status :ok
+      end
+
+      it "returns a 404 when the first person has no distance for the policy" do
+        create(:policy_person_distance, person: person2, policy: policy)
+
+        expect { get :policy, params: request_params }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it "returns a 404 when the second person has no distance for the policy" do
+        create(:policy_person_distance, person: person1, policy: policy)
+
+        expect { get :policy, params: request_params }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    it "returns a 404 when the two people haven't been compared with each other" do
+      create(:policy_person_distance, person: person1, policy: policy)
+      create(:policy_person_distance, person: person2, policy: policy)
+
+      expect { get :policy, params: request_params }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
