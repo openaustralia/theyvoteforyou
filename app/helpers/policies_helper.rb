@@ -125,6 +125,8 @@ module PoliciesHelper
     end
   end
 
+  # Returns nil when the division can't be determined - very old versions may
+  # have neither a changeset nor division_id metadata recorded
   def policy_division_version_division(version)
     id = if version.event == "create"
            # Old versions may not have a changeset recorded so fall back to the
@@ -133,7 +135,7 @@ module PoliciesHelper
          else
            version.reify.division_id
          end
-    Division.find(id)
+    Division.find(id) if id
   end
 
   # This helper is both used in the main application as well as the mailer. Therefore the links
@@ -141,7 +143,11 @@ module PoliciesHelper
   def policy_division_version_sentence(version)
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    division_link = content_tag(:em, link_to(division.name, division_url_simple(division)))
+    division_link = if division
+                      content_tag(:em, link_to(division.name, division_url_simple(division)))
+                    else
+                      content_tag(:em, "unknown")
+                    end
     out = []
 
     case version.event
@@ -180,13 +186,15 @@ module PoliciesHelper
     actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
+    division_name = division ? division.name : "unknown"
+    division_line = division ? "\n#{division_url_simple(division)}" : ""
 
     case version.event
     when "update"
       if vote
-        "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_url_simple(division)}"
+        "#{actions[version.event]} vote from #{vote} on division #{division_name}.#{division_line}"
       else
-        "#{actions[version.event]} division #{division.name}.\n#{division_url_simple(division)}"
+        "#{actions[version.event]} division #{division_name}.#{division_line}"
       end
     when "create", "destroy"
       tense = if version.event == "create"
@@ -194,9 +202,9 @@ module PoliciesHelper
               else
                 "was "
               end
-      sentence = "#{actions[version.event]} division #{division.name}."
+      sentence = "#{actions[version.event]} division #{division_name}."
       sentence += " Policy vote #{tense}#{vote}." if vote
-      "#{sentence}\n#{division_url_simple(division)}"
+      "#{sentence}#{division_line}"
     else
       raise
     end

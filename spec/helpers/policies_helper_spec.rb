@@ -101,6 +101,14 @@ describe PoliciesHelper, type: :helper do
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
 
+      context "with create vote on policy where neither the changeset nor the division id were recorded" do
+        let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {}, division_id: nil, policy_id: 3) }
+
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Added division <em>unknown</em>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Added division unknown." }
+        it { expect(helper.version_sentence(version)).to be_html_safe }
+      end
+
       context "with change vote on policy" do
         let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: { "vote" => %w[no aye] }, reify: instance_double(PolicyDivision, division_id: 5), policy_id: 3) }
 
