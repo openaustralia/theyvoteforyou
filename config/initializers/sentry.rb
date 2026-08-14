@@ -11,7 +11,7 @@ Sentry.init do |config|
   config.send_default_pii = false
   # Send Rails logs to Sentry as structured logs
   config.enable_logs = true
-  config.enabled_patches += [:logger]
+  config.enabled_patches << :logger
   # Profile the same fraction of transactions that we trace, using vernier
   config.profiles_sample_rate = 0.1
   config.profiler_class = Sentry::Vernier::Profiler
