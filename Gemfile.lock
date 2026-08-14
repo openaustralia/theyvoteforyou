@@ -597,6 +597,9 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    sentry-delayed_job (6.7.0)
+      delayed_job (>= 4.0)
+      sentry-ruby (~> 6.7.0)
     sentry-rails (6.7.0)
       railties (>= 5.2.0)
       sentry-ruby (~> 6.7.0)
@@ -653,6 +656,7 @@ GEM
     useragent (0.16.11)
     vcr (6.3.1)
       base64
+    vernier (1.10.1)
     warden (1.2.9)
       rack (>= 2.0.9)
     webmock (3.25.1)
@@ -760,6 +764,7 @@ DEPENDENCIES
   searchkick
   seed_dump
   selenium-webdriver
+  sentry-delayed_job
   sentry-rails
   sentry-ruby
   simple_form
@@ -770,6 +775,7 @@ DEPENDENCIES
   terser
   timecop
   vcr
+  vernier
   webmock
 
 RUBY VERSION
