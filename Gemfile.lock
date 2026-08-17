@@ -263,9 +263,6 @@ GEM
       tilt
     hashdiff (1.2.0)
     hashie (5.0.0)
-    honeybadger (6.5.5)
-      logger
-      ostruct
     htmlentities (4.3.4)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
@@ -719,7 +716,6 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   haml
-  honeybadger
   htmlentities
   httparty
   invisible_captcha

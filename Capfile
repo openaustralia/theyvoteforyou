@@ -21,7 +21,6 @@ require "capistrano/deploy"
 # require 'capistrano/chruby'
 require "capistrano/rails"
 require "capistrano/rvm"
-require "capistrano/honeybadger"
 require "capistrano/maintenance"
 require "capistrano/scm/git"
 require "capistrano/tagging3"
