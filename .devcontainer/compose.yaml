@@ -1,0 +1,111 @@
+name: "theyvoteforyou"
+
+services:
+  rails-app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+
+    environment:
+      CHROME_NO_SANDBOX: "1"
+      MALLOC_ARENA_MAX: "2"
+    # RubyMine says it needs 3GB for IDE and 8GB total - https://www.jetbrains.com/help/ruby/installation-guide.html#requirements
+    mem_limit: 8g
+    ports:
+      - "127.0.0.1:3088:3088" # Maps host port 3088 (30TV on phone) to container port 3088
+    volumes:
+    - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    # Use the non-root user set up in the devcontainer rails image (id 1000) so files are not owned by root
+    user: vscode
+
+    # The standard advice is
+    # > Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
+    # > (Adding the "ports" property to this file will not forward from a Codespace)
+    # But adding ports here is needed for CLI
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+    networks:
+    - default
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    mem_limit: 1500m
+    environment:
+        MYSQL_ROOT_PASSWORD: 'password'
+        MYSQL_ROOT_HOST: "%"
+    command: >
+      --innodb-buffer-pool-size=256M
+      --innodb-buffer-pool-instances=1
+      --max-connections=50
+      --performance-schema=OFF
+    ports:
+      - "127.0.0.1:3388:3306" # Maps host port 3388 (33TV on phone) to container port 3306
+    volumes:
+    - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -ppassword || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+    - default
+
+  elasticsearch:
+    # Matches production (Elastic Cloud, confirmed via
+    # Searchkick.client.info.dig("version", "number")).
+    image: "elasticsearch:7.17.7"
+    restart: unless-stopped
+    mem_limit: 3g
+    environment:
+    - "discovery.type=single-node"
+    - "ES_JAVA_OPTS=-Xms1g -Xmx2g"
+    ports:
+      - "127.0.0.1:9288:9200" # Maps host port 9288 (92TV on phone) to container port 9200
+    volumes:
+    - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+    - default
+
+  mailpit:
+    image: axllent/mailpit
+    restart: unless-stopped
+    mem_limit: 128m
+    volumes:
+      - mailpit-data:/data
+    ports:
+      - "127.0.0.1:8088:8025"
+      - "127.0.0.1:1088:1025"
+    healthcheck:
+      test: [ "CMD", "/mailpit", "readyz" ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    networks:
+    - default
+
+volumes:
+  mysql-data:
+  elasticsearch-data:
+  mailpit-data:
+

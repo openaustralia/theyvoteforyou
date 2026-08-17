@@ -1,0 +1,81 @@
+# This workflow uses actions that are not certified by GitHub. They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# Exercises bin/setup-host end-to-end against several Linux distros, inside
+# disposable systemd-enabled containers (Docker-in-Docker), then checks
+# `docker --version && docker compose version` and the devcontainer CLI
+# both work afterwards - the same things make dev-up relies on.
+#
+# Manually triggered only (workflow_dispatch) - no schedule, no push/PR
+# trigger. It's slow, spins up nested Docker daemons, and mainly exists to
+# check the "best-effort" platforms (Debian and friends) we don't personally
+# run day to day. macOS and native Ubuntu are the platforms we actually test
+# and support - see the Host platforms section of the README.
+
+name: "bin/setup-host - optional multi-distro test"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-host:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: "Ubuntu 22.04 LTS"
+            image: "geerlingguy/docker-ubuntu2204-ansible"
+          - name: "Ubuntu 24.04 LTS"
+            image: "geerlingguy/docker-ubuntu2404-ansible"
+          - name: "Ubuntu 26.04 LTS"
+            image: "geerlingguy/docker-ubuntu2604-ansible"
+          - name: "Debian 12 (bookworm)"
+            image: "geerlingguy/docker-debian12-ansible"
+          - name: "Debian 13 (trixie)"
+            image: "geerlingguy/docker-debian13-ansible"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Start ${{ matrix.name }} container
+        run: |
+          docker run -d --name setup-host-test --privileged --cgroupns=host \
+            -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
+            -v "${{ github.workspace }}":/workspace:ro \
+            "${{ matrix.image }}"
+
+          # Give systemd a moment to finish booting as PID 1 before we start
+          # execing commands into the container.
+          sleep 5
+
+      - name: Confirm docker isn't already present in the image
+        run: |
+          if docker exec setup-host-test bash -c 'command -v docker' >/dev/null 2>&1; then
+            echo "::error::docker already present in ${{ matrix.image }} before setup-host ran - this test would prove nothing"
+            exit 1
+          fi
+
+      - name: Run bin/setup-host inside ${{ matrix.name }}
+        run: |
+          docker exec setup-host-test bash -c '
+            set -euo pipefail
+            apt-get update -qq
+            apt-get install -y sudo
+            useradd -m -s /bin/bash tester
+            echo "tester ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/tester
+            chmod 0440 /etc/sudoers.d/tester
+            cp /workspace/bin/setup-host /home/tester/setup-host
+            chmod +x /home/tester/setup-host
+            su - tester -c "/home/tester/setup-host"
+          '
+
+      - name: Verify docker_ready() equivalent
+        run: |
+          docker exec setup-host-test su - tester -c \
+            "docker --version && docker compose version"
+
+      - name: Clean up container
+        if: always()
+        run: docker rm -f setup-host-test >/dev/null 2>&1 || true

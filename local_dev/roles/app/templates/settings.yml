@@ -1,2 +1,0 @@
-# Optionally change the address of the elasticsearch service
-elasticsearch_url: http://localhost:9200

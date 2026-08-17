@@ -1,0 +1,206 @@
+#!/usr/bin/env bash
+# Installs Docker, Compose, and the devcontainer CLI on this host (Ubuntu/
+# Debian or macOS), so `make dev-up` / `make dev-exec` / etc. work.
+#
+# This is separate from bin/setup, which does app-level setup (bundle
+# install, db:prepare) and only makes sense run *inside* the dev container -
+# devcontainer.json already calls it via postCreateCommand.
+#
+# Only handles host tooling - deploy-production/deploy-staging still
+# assume `bundle` and Capistrano are available on this host directly.
+set -euo pipefail
+
+docker_ready() {
+  command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
+}
+
+devcontainer_ready() {
+  command -v devcontainer >/dev/null 2>&1
+}
+
+is_wsl() {
+  grep -qi microsoft /proc/version >/dev/null 2>&1
+}
+
+install_docker_linux() {
+  if [ ! -r /etc/os-release ]; then
+    echo "ERROR: /etc/os-release not found - unsupported Linux distribution" >&2
+    exit 1
+  fi
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  # Docker publishes separate apt repos per distro family - using the wrong
+  # one here (e.g. Ubuntu's repo on a Debian host) gives a codename that
+  # doesn't exist on that repo, so apt-get update fails outright.
+  local docker_distro docker_codename derivative=false
+  case "${ID:-}" in
+    ubuntu) docker_distro=ubuntu ;;
+    debian) docker_distro=debian ;;
+    *)
+      case "${ID_LIKE:-}" in
+        *ubuntu*) docker_distro=ubuntu; derivative=true ;;
+        *debian*) docker_distro=debian; derivative=true ;;
+        *)
+          echo "ERROR: this script only supports Ubuntu/Debian on Linux (found: ${ID:-unknown})" >&2
+          exit 1
+          ;;
+      esac
+      ;;
+  esac
+
+  # Derivatives (Mint, Pop!_OS, Zorin, elementary, etc.) report their own
+  # VERSION_CODENAME (e.g. Mint's "vanessa"), which Docker's repo doesn't
+  # publish for. UBUNTU_CODENAME, when present, points at the underlying
+  # Ubuntu release Docker actually has packages for.
+  docker_codename="${UBUNTU_CODENAME:-$VERSION_CODENAME}"
+
+  if [ "$derivative" = true ]; then
+    echo "-----------------------------------------------------------------"
+    echo "NOTE: ${PRETTY_NAME:-this distro} isn't officially supported by"
+    echo "      this script - we only test Ubuntu, Debian, and macOS."
+    echo "      Attempting a best-effort install via the $docker_distro repo"
+    echo "      (codename: $docker_codename). If this breaks, please open an"
+    echo "      issue and let us know what happened."
+    echo "-----------------------------------------------------------------"
+  fi
+
+  if is_wsl; then
+    echo "NOTE: this looks like WSL2. Docker Engine will be installed directly in this"
+    echo "      WSL distro. If you'd rather use Docker Desktop's WSL2 integration"
+    echo "      instead, install Docker Desktop on Windows, enable integration for"
+    echo "      this distro, then re-run this script - docker_ready will already pass."
+  fi
+
+  echo "Installing Docker Engine + Compose plugin ($docker_distro)..."
+  sudo apt-get update -qq
+  # procps provides sysctl, used below for the vm.max_map_count check - not
+  # guaranteed present on a minimal install. make is needed for the
+  # Makefile-driven dev workflow (make dev-up etc.) and isn't a given on a
+  # freshly installed host either.
+  sudo apt-get install -y ca-certificates curl procps make
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL "https://download.docker.com/linux/$docker_distro/gpg" -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$docker_distro $docker_codename stable" \
+    | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  sudo systemctl enable --now docker
+
+  if groups "$USER" | grep -qw docker; then
+    echo "OK: $USER already in the docker group"
+  else
+    sudo usermod -aG docker "$USER"
+    echo "Added $USER to the docker group - log out/in (or run 'newgrp docker') for this to take effect"
+  fi
+
+  # Elasticsearch's single-node container refuses to start at all if this
+  # is too low - a common cause of "connection refused"-style errors from
+  # anything that talks to ES (e.g. Searchkick during db:seed). Docker
+  # Desktop's VM usually has this set already; a native Linux host often
+  # doesn't.
+  # sudo (not a plain PATH lookup) because sysctl lives in /usr/sbin, which
+  # isn't guaranteed to be on a non-root user's PATH - sudo's secure_path
+  # includes it regardless, and we already need sudo for the -w call below.
+  current_max_map_count="$(sudo sysctl -n vm.max_map_count)"
+  if [ "$current_max_map_count" -lt 262144 ]; then
+    echo "Raising vm.max_map_count (was $current_max_map_count) for Elasticsearch..."
+    sudo sysctl -w vm.max_map_count=262144
+    if ! grep -q '^vm.max_map_count' /etc/sysctl.conf 2>/dev/null; then
+      echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf > /dev/null
+      echo "Persisted vm.max_map_count=262144 in /etc/sysctl.conf so it survives a reboot."
+    fi
+  else
+    echo "OK: vm.max_map_count is $current_max_map_count (Elasticsearch needs >= 262144)"
+  fi
+}
+
+install_docker_macos() {
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
+    exit 1
+  fi
+
+  echo "Installing Docker Desktop via Homebrew..."
+  brew install --cask docker
+
+  echo "Starting Docker Desktop..."
+  open -a Docker
+
+  echo "Waiting for the Docker daemon to come up (this can take a minute the first time)..."
+  for _ in $(seq 1 60); do
+    if docker system info >/dev/null 2>&1; then
+      break
+    fi
+    sleep 2
+  done
+
+  if ! docker system info >/dev/null 2>&1; then
+    echo "ERROR: Docker Desktop didn't come up in time - open it manually from Applications and re-run this script" >&2
+    exit 1
+  fi
+}
+
+install_node_linux() {
+  echo "Installing Node.js (needed for the devcontainer CLI)..."
+  # Ubuntu/Debian's own repos can lag behind what @devcontainers/cli needs,
+  # so use NodeSource's setup script to get a current LTS regardless of
+  # which release this is.
+  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+}
+
+install_node_macos() {
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
+    exit 1
+  fi
+  echo "Installing Node.js (needed for the devcontainer CLI)..."
+  brew install node
+}
+
+install_devcontainer_cli() {
+  if ! command -v npm >/dev/null 2>&1; then
+    case "$(uname -s)" in
+      Linux)  install_node_linux ;;
+      Darwin) install_node_macos ;;
+    esac
+  fi
+
+  echo "Installing @devcontainers/cli..."
+  sudo npm install -g @devcontainers/cli
+}
+
+main() {
+  if docker_ready; then
+    echo "OK: Docker + Compose plugin already installed"
+  else
+    case "$(uname -s)" in
+      Linux) install_docker_linux ;;
+      Darwin) install_docker_macos ;;
+      *)
+        echo "ERROR: unsupported OS ($(uname -s)) - this script supports Ubuntu/Debian and macOS only" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  if devcontainer_ready; then
+    echo "OK: devcontainer CLI already installed"
+  else
+    install_devcontainer_cli
+  fi
+
+  echo ""
+  echo "== Versions =="
+  docker --version
+  docker compose version
+  echo -n "Devcontainer: "
+  devcontainer --version
+
+  echo ""
+  echo "Done. Run 'make dev-up' to start the dev container."
+}
+
+main "$@"

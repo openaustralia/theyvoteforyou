@@ -31,15 +31,18 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Send mail via Mailcatcher and raise an error if there is a problem
+  # Send mail via Mailpit and raise an error if there is a problem
   config.action_mailer.raise_delivery_errors = true
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-  config.action_mailer.smtp_settings = { address: "localhost", port: 1025 }
+  config.action_mailer.default_url_options = { host: "localhost", port: ENV.fetch("PORT", 3000).to_i }
+  config.action_mailer.smtp_settings = { address: ENV.fetch("MAILPIT_HOST") { "mailpit" }, port: (ENV.fetch("MAILPIT_PORT") { 1025 }).to_i }
+
+  # Configure so http://localhost:3088/rails/mailers shows previews
+  config.action_mailer.preview_paths << Rails.root.join("spec/mailers/previews").to_s
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
