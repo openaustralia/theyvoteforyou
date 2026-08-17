@@ -1,7 +1,8 @@
 # AGENTS.md
 
 This file provides guidance to AI coding agents (Claude Code, GitHub Copilot, Codex, and others) when working with code
-in this repository. `CLAUDE.md` points here, so there is one file to keep current rather than several that drift apart.
+in this repository. `CLAUDE.md` and `.github/copilot-instructions.md` point here, so there is one file to keep current
+rather than several that drift apart.
 
 ## What this is
 
@@ -13,8 +14,8 @@ the Australian Hansard XML pipeline.
 Small team, low-capacity charity (OpenAustralia Foundation). Favour simple, low-maintenance solutions over ones that
 need ongoing attention.
 
-This repo is worked on via terminal Claude Code, VS Code, RubyMine, and cloud IDEs alike. Keep guidance and commands in
-this file working across all of them, not just one, both when following it and when adding to it.
+This repo is worked on via terminal Claude Code, GitHub Copilot, VS Code, RubyMine, and cloud IDEs alike. Keep guidance
+and commands in this file working across all of them, not just one, both when following it and when adding to it.
 
 `design_docs/principles.md`, `design_docs/design_persona.md` and `design_docs/user-questions.md` describe who the site
 is for and how it should behave. Read them before changing anything user-facing.
@@ -26,6 +27,7 @@ is for and how it should behave. Read them before changing anything user-facing.
 repository that doesn't provide its own copy. Fetch and follow them rather than guessing:
 
 - `.github/CONTRIBUTING.md` - GitHub Flow, Conventional Branch naming, DCO sign-off, AI disclosure
+- `AGENTS.md` (in that repo's root) - org-wide conventions for working as an agent in any OAF repo
 - `.github/PULL_REQUEST_TEMPLATE.md` - the PR description structure to fill in
 - `.github/ISSUE_TEMPLATE/bug_report.yml` and `feature_request.yml`
 
@@ -258,22 +260,17 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
 - Check `docs/DECISIONS.md` for past cross-cutting decisions before assuming in an unfamiliar area of the codebase, and
   add a new entry there (rather than repeating the same comment in several files) when a decision spans multiple files.
 - Stage commits, don't make them. `git add` the files, then write the proposed message (including the `Assisted-by:`
-  trailer) to `.git/GITGUI_MSG` (used by `git gui`) and display it for copy and paste into an IDE.
+  trailer) wherever your IDE picks up a prepared message, defaulting to `.git/GITGUI_MSG` (used by `git gui`), and
+  display it for copy and paste.
     - Check that file first. If it already has content, ask before overwriting rather than clobbering an existing draft.
     - This keeps review and sign-off a deliberate human act, not a rubber stamp. Only a person can make the DCO
       `Signed-off-by` commitment, and org `CONTRIBUTING.md` says so explicitly.
 - When a commit message body covers more than one distinct point, use a markdown bullet list rather than one flowing
   paragraph; it's easier to scan and review.
-- Never add `Signed-off-by` or `Co-authored-by` trailers for yourself. `Assisted-by:` is the AI trailer.
-- Open any PR you create as a draft (`gh pr create --draft --assignee <human>`), never ready-for-review directly, and
-  fill in the org PR template. Taking a PR out of draft is the human's call. Assign it to the human driving the change,
-  per org `CONTRIBUTING.md`, not to yourself. Draft is the right first step regardless of author: the checks in
-  `.github/workflows` must be green before leaving draft, and staying in draft is itself the flag that a human still
-  needs to review it.
-- Disclose material AI involvement in the PR description as well as in the commit trailer, per the "AI-assisted
-  contributions" section of the org `CONTRIBUTING.md`.
-- GitHub issues have no draft state (unlike PRs). Don't create one directly; draft the title and body for the human to
-  file themselves, unless they've explicitly asked you to create it this time.
+- The rest of the org-wide agent conventions (draft PRs assigned to the human, AI disclosure in both places, no
+  `Signed-off-by` or `Co-authored-by` on an agent's behalf, issue drafting rather than creation, standing-approval
+  scoping) live in `openaustralia/.github`'s `AGENTS.md`. Fetch it per the Contributing section above rather than
+  relying on a copy here that would drift.
 - Never commit real personal details, credentials, or secrets. Use fictional placeholders in specs, factories, and test
   data. The Australian Privacy Principles apply to anyone's data, not just OAF's own, and this database holds records
   about real people.
