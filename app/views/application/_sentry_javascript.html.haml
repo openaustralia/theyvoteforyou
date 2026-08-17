@@ -9,6 +9,10 @@
     window.sentryOnLoad = function () {
       Sentry.init({
         environment: '#{j Rails.env}'#{", release: '#{j release}'" if release},
+        // Drop errors injected into the page by in-app browsers (e.g. the
+        // Facebook/Instagram iOS autofill bridge) - they aren't our code.
+        // See https://github.com/openaustralia/theyvoteforyou/issues/1690
+        ignoreErrors: ['_AutofillCallbackHandler'],
         // Sample 10% of pageloads/navigations for browser tracing
         tracesSampleRate: 0.1,
         // Only record session replays when an error occurs, with default
