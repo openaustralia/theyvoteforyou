@@ -49,6 +49,11 @@ Once the people data has been loaded you can start loading votes. These are scra
 If your machine is already set up to develop Rails applications with MySQL just
 carry out the following steps and you should be good to go.
 
+[AGENTS.md](AGENTS.md) carries the working knowledge of the codebase for AI coding
+agents (and is a useful orientation for humans too). Cross-cutting engineering
+decisions are logged in [docs/DECISIONS.md](docs/DECISIONS.md); append to it when
+you make one.
+
 Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
 mainly useful with the retired PHP application. A new Vagrant setup can be found in the
 [OpenAustralia/Infrastructure](https://github.com/openaustralia/infrastructure#provisioning-local-development-servers-using-vagrant)
