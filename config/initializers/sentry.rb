@@ -8,7 +8,10 @@ Sentry.init do |config|
   config.traces_sample_rate = 0.1
   # If the infrastructure repo's otel-sidecar collector lands, traces can route through it
   # via sentry-opentelemetry + config.otlp.* instead of traces_sample_rate
-  config.send_default_pii = false
+  # Include user IPs and request data (cookies, headers, query strings) with
+  # events. Secrets that travel in query strings (API keys, Devise tokens) are
+  # scrubbed via Rails' filter_parameters - see filter_parameter_logging.rb
+  config.send_default_pii = true
   # Send Rails logs to Sentry as structured logs
   config.enable_logs = true
   config.enabled_patches << :logger
