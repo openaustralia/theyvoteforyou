@@ -43,6 +43,7 @@ module CardScreenshotter
       end
       screenshot_and_save_without_restart(url, path)
       @count += 1
+      Sentry::Metrics.count("cards.screenshots.generated")
     end
 
     def screenshot_and_save_without_restart(url, path)
