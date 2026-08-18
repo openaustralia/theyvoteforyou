@@ -17,4 +17,7 @@
         replaysOnErrorSampleRate: 1.0
       });
     };
-  = javascript_include_tag "https://js.sentry-cdn.com/#{public_key}.min.js", crossorigin: "anonymous"
+  -# The Loader Script host is region-specific and our org is in Sentry's EU region.
+  -# The US host (js.sentry-cdn.com) answers 200 with a no-op stub, which would
+  -# leave every frontend signal silently inert. See #1699.
+  = javascript_include_tag "https://js-de.sentry-cdn.com/#{public_key}.min.js", crossorigin: "anonymous"
