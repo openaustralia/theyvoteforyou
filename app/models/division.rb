@@ -15,7 +15,7 @@ class Division < ApplicationRecord
   has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
-  delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
+  delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info, allow_nil: true
 
   scope :in_date_range, ->(date_start, date_end) { where(date: date_start...date_end) }
   scope :in_house, ->(house) { where(house: house) }
@@ -77,19 +77,33 @@ class Division < ApplicationRecord
     end
   end
 
+  # These three fall back to false when the division_info cache hasn't been built
+  # yet, so a missing cache degrades instead of raising. False therefore means
+  # "no, or we don't know yet" - check outcome_known? before displaying it.
   def passed?
+    return false if aye_majority.nil?
+
     tied? ? false : aye_majority >= 1
   end
 
   # Equal number of votes for the ayes and noes
   def tied?
+    return false if aye_majority.nil?
+
     aye_majority.zero?
   end
 
   # Did everyone vote the same way?
   # TODO: Move this to division_info and delegate
   def unanimous?
+    return false if turnout.nil?
+
     turnout.positive? && majority == turnout
+  end
+
+  # Has the division_info cache been built for this division yet?
+  def outcome_known?
+    !division_info.nil?
   end
 
   # Using whips cache to calculate this. Is this the best way?
@@ -111,7 +125,7 @@ class Division < ApplicationRecord
   end
 
   def total_votes
-    division_info.turnout
+    division_info&.turnout
   end
 
   def aye_votes_including_tells
@@ -123,12 +137,12 @@ class Division < ApplicationRecord
   end
 
   def possible_votes
-    division_info.possible_turnout
+    division_info&.possible_turnout
   end
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    total_votes.to_f / possible_votes if possible_votes.positive?
+    total_votes.to_f / possible_votes if possible_votes.to_i.positive?
   end
 
   def edited?

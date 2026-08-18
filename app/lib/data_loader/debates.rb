@@ -53,6 +53,12 @@ module DataLoader
 
                 Vote.create!(division: division, member: member, vote: vote[0], teller: vote[1])
               end
+
+              # Build the caches the division pages read from before we commit, so
+              # the division is never visible without them. Whips first - the
+              # rebellion counts in DivisionInfo are derived from them.
+              Whip.update_divisions!(division.id)
+              DivisionInfo.update_divisions!(division.id)
             end
           end
         end
