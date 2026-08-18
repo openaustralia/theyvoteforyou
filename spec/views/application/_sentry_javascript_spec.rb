@@ -8,6 +8,7 @@ describe "application/_sentry_javascript", type: :view do
       allow(Rails.application.credentials).to receive(:dig)
         .with(:sentry, :dsn)
         .and_return("https://examplepublickey@o0.ingest.sentry.io/0")
+      allow(view).to receive(:user_signed_in?).and_return(false)
       render
     end
 
