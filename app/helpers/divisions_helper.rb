@@ -64,6 +64,8 @@ module DivisionsHelper
   end
 
   def majority_strength_in_words(division)
+    return "" unless division.outcome_known?
+
     if division.unanimous?
       "unanimously"
     elsif division.tied?
@@ -94,10 +96,14 @@ module DivisionsHelper
 
   # TODO: We should be taking into account the strange rules about tied votes in the Senate
   def division_outcome(division)
+    return "Unknown" unless division.outcome_known?
+
     division.passed? ? "Passed" : "Not passed"
   end
 
   def division_outcome_class(division)
+    return "division-outcome-unknown" unless division.outcome_known?
+
     division.passed? ? "division-outcome-passed" : "division-outcome-not-passed"
   end
 

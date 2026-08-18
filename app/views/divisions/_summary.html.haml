@@ -9,7 +9,7 @@
       = render "current_policies_list", division: division
 
     %p.division-rebellions-sentence
-      - if division.rebellions > 0
+      - if division.rebellions.to_i > 0
         There
         = division.rebellions == 1 ? "was" : "were"
         %span.rebel= pluralize(division.rebellions, 'rebellion')
@@ -29,6 +29,6 @@
     = render 'summary_table', division: division, whips: whips, votes: votes, members_vote_null: members_vote_null
 
     %figcaption.panel-footer.small
-      - if division.rebellions > 0
+      - if division.rebellions.to_i > 0
         %p <span class="rebel">Red entries</span> are rebel votes against the majority of a party.
       %p Turnout is the percentage of members eligible to vote that did vote.
