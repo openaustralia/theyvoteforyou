@@ -20,7 +20,7 @@
 
       %p.division-data.object-data.object-secondary
         %span.division-rebellions.object-data-rebellion
-          = division.rebellions > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
+          = division.rebellions.to_i > 0 ? pluralize(division.rebellions, 'rebellion') : "No rebellions"
         %span.division-attendance.object-data-attendance
           = fraction_to_percentage_display(division.attendance_fraction)
           attendance

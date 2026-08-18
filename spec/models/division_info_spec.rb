@@ -69,6 +69,64 @@ describe DivisionInfo do
     end
   end
 
+  # The loader builds the cache one division at a time inside its transaction, so
+  # these have to be scopable to a single division.
+  # See https://github.com/openaustralia/theyvoteforyou/issues/1641
+  describe ".update_divisions!" do
+    let(:person) { create(:person) }
+    let(:member) do
+      Member.create!(first_name: "Member", last_name: "A", gid: "", source_gid: "",
+                     title: "", constituency: "", party: "A", house: "commons",
+                     entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1),
+                     person: person)
+    end
+    let(:division1) do
+      Division.create!(name: "1", date: Date.new(2000, 1, 1), number: 1, house: "commons",
+                       source_url: "", debate_url: "", motion: "", debate_gid: "")
+    end
+    let(:division2) do
+      Division.create!(name: "2", date: Date.new(2000, 1, 1), number: 2, house: "commons",
+                       source_url: "", debate_url: "", motion: "", debate_gid: "")
+    end
+
+    before do
+      Vote.create!(division: division1, member: member, vote: "aye")
+      Vote.create!(division: division2, member: member, vote: "no")
+    end
+
+    it "builds the cache row for the division it's given" do
+      described_class.update_divisions!(division1.id)
+      expect(division1.reload.division_info).to have_attributes(turnout: 1, aye_majority: 1)
+    end
+
+    it "leaves other divisions alone" do
+      described_class.update_divisions!(division1.id)
+      expect(division2.reload.division_info).to be_nil
+    end
+
+    it "accepts an array of ids" do
+      described_class.update_divisions!([division1.id, division2.id])
+      expect([division1.reload.division_info, division2.reload.division_info]).to all(be_present)
+    end
+
+    it "does nothing when given no divisions" do
+      expect { described_class.update_divisions!([]) }.not_to change(described_class, :count)
+    end
+
+    it "updates an existing cache row rather than duplicating it" do
+      described_class.update_divisions!(division1.id)
+      expect { described_class.update_divisions!(division1.id) }.not_to change(described_class, :count)
+    end
+
+    it "produces the same result as a full rebuild" do
+      described_class.update_divisions!([division1.id, division2.id])
+      scoped = described_class.order(:division_id).pluck(:division_id, :turnout, :aye_majority, :possible_turnout)
+      described_class.delete_all
+      described_class.update_all!
+      expect(described_class.order(:division_id).pluck(:division_id, :turnout, :aye_majority, :possible_turnout)).to eq(scoped)
+    end
+  end
+
   describe "#majority_fraction" do
     it "is 0 for a tied vote" do
       division = described_class.new(turnout: 100, aye_majority: 0)

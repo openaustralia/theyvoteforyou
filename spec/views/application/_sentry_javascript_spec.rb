@@ -12,7 +12,7 @@ describe "application/_sentry_javascript", type: :view do
     end
 
     it "defines the configuration before the loader script so a blocked loader can't raise ReferenceError" do
-      expect(rendered.index("window.sentryOnLoad")).to be < rendered.index("js.sentry-cdn.com")
+      expect(rendered.index("window.sentryOnLoad")).to be < rendered.index("js-de.sentry-cdn.com")
     end
 
     it "ignores errors injected by in-app browsers" do
