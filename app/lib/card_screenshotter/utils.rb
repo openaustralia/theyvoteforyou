@@ -5,6 +5,9 @@ module CardScreenshotter
     CARD_WIDTH = 1200
     CARD_HEIGHT = 628
     RESTART_BROWSER_AFTER_NUMBER_OF_REQUESTS = 50
+    # Transient errors (e.g. Net::ReadTimeout) get this many attempts, with a
+    # browser restart in between, before the url is reported and skipped
+    MAX_SCREENSHOT_ATTEMPTS = 3
 
     attr_reader :driver
 
@@ -41,7 +44,20 @@ module CardScreenshotter
         restart_browser!
         @count = 0
       end
-      screenshot_and_save_without_restart(url, path)
+      attempts = 0
+      begin
+        attempts += 1
+        screenshot_and_save_without_restart(url, path)
+      rescue ScreenshotError => e
+        if attempts < MAX_SCREENSHOT_ATTEMPTS
+          # A timeout can leave the browser session wedged, so start fresh
+          restart_browser!
+          retry
+        end
+        # Report and move on so one bad url doesn't abort the whole run
+        Rails.logger.warn(e.message)
+        Sentry.capture_exception(e) if defined?(Sentry) && Sentry.initialized?
+      end
       @count += 1
       Sentry::Metrics.count("cards.screenshots.generated")
     end
@@ -55,8 +71,9 @@ module CardScreenshotter
       driver.get(url)
       driver.screenshot_as(:png)
     rescue StandardError => e
-      # Make the error a little more useful by including the failing url
-      raise "Error #{e} while screenshotting url: #{url}"
+      # Include the failing url in the message. The original error is
+      # preserved as the cause of the new exception
+      raise ScreenshotError, "Error #{e} while screenshotting url: #{url}"
     end
 
     def save_image(image, path)
