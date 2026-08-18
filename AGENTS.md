@@ -296,5 +296,5 @@ The five canonical triage roles use their default label strings: `needs-triage`,
 
 ### Domain docs
 
-Single-context: one `CONTEXT.md` and one `docs/adr/` at the repo root, alongside the existing `design_docs/`. See
-`docs/agents/domain.md`.
+Single-context. `design_docs/` is the domain documentation today; `CONTEXT.md` and `docs/adr/` get created lazily by
+`/domain-modeling` if and when they're needed. See `docs/agents/domain.md`.

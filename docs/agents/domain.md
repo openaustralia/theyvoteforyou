@@ -2,12 +2,13 @@
 
 How the engineering skills should consume this repo's domain documentation when exploring the codebase.
 
-This is a **single-context** repo: one `CONTEXT.md` at the root, one `docs/adr/` directory.
+This is a **single-context** repo: when domain docs exist, they are one `CONTEXT.md` and one `docs/adr/` at the root.
+Neither exists yet - `design_docs/` is the only domain documentation here today.
 
 ## Before exploring, read these
 
-- **`CONTEXT.md`** at the repo root - the glossary of domain terms.
-- **`docs/adr/`** - read ADRs that touch the area you're about to work in.
+- **`CONTEXT.md`** at the repo root, if it exists - the glossary of domain terms.
+- **`docs/adr/`**, if it exists - read ADRs that touch the area you're about to work in.
 - **`design_docs/principles.md`**, **`design_docs/design_persona.md`** and **`design_docs/user-questions.md`** - who
   the site is for and how it should behave. Read them before changing anything user-facing.
 
@@ -17,17 +18,23 @@ lazily when terms or decisions actually get resolved.
 
 ## File structure
 
+What exists today:
+
 ```
 /
-├── CONTEXT.md
 ├── design_docs/
 │   ├── principles.md
 │   ├── design_persona.md
 │   └── user-questions.md
-├── docs/adr/
-│   ├── 0001-....md
-│   └── 0002-....md
 └── app/
+```
+
+What `/domain-modeling` adds, lazily, as terms and decisions get resolved:
+
+```
+/
+├── CONTEXT.md          ← glossary
+└── docs/adr/           ← one file per decision
 ```
 
 If this repo ever grows into separate bounded contexts, the multi-context layout is a root `CONTEXT-MAP.md` pointing at
@@ -45,4 +52,4 @@ doesn't use (reconsider) or there's a real gap (note it for `/domain-modeling`).
 
 If your output contradicts an existing ADR, surface it explicitly rather than silently overriding:
 
-> _Contradicts ADR-0007 (event-sourced orders) - but worth reopening because…_
+> _Contradicts ADR-0007 (cached whip tallies over counting `Vote` rows) - but worth reopening because…_

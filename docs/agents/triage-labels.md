@@ -20,7 +20,7 @@ Edit the right-hand column to match whatever vocabulary you actually use.
 
 - `wontfix` predates this file and already carried the canonical name.
 - `needs-triage` was previously called `needs-categorization`. Renaming preserved the label on the issues that already
-  carried it, so historical issues show the new name.
+  carried it (#1490 and #1553), so those issues now show the new name.
 - `needs-info`, `ready-for-agent` and `ready-for-human` were created for this vocabulary and had no prior equivalent.
 
 `openaustralia/.github` defines no org-wide triage vocabulary, so these labels are repo-local.
