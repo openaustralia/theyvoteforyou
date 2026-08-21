@@ -257,8 +257,9 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
 - If a request doesn't narrow the implementation down to one reasonable choice, ask which behaviour is wanted before
   writing code. Don't guess, and don't build for every interpretation. Give a terse list of your top suggestions with
   pros and cons to assist the decision.
-- Check `docs/DECISIONS.md` for past cross-cutting decisions before assuming in an unfamiliar area of the codebase, and
-  add a new entry there (rather than repeating the same comment in several files) when a decision spans multiple files.
+- Check `docs/adr/` for past cross-cutting decisions, and `CONTEXT.md` for canonical vocabulary, before assuming in an
+  unfamiliar area of the codebase. When a decision spans multiple files, record it as a new ADR (numbered sequentially,
+  one short file per decision) rather than repeating the same comment in several files.
 - Stage commits, don't make them. `git add` the files, then write the proposed message (including the `Assisted-by:`
   trailer) wherever your IDE picks up a prepared message, defaulting to `.git/GITGUI_MSG` (used by `git gui`), and
   display it for copy and paste.
