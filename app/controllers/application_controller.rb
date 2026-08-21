@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
   before_action :set_paper_trail_whodunnit
+  before_action :set_sentry_user
 
   include Pundit::Authorization
 
@@ -21,6 +22,13 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Attach the signed-in user to Sentry events so errors show who was affected.
+  # Sentry's Rack middleware resets the scope every request, so this can't leak
+  # between requests.
+  def set_sentry_user
+    Sentry.set_user(id: current_user.id, email: current_user.email, username: current_user.name) if user_signed_in?
+  end
 
   def store_location
     # store last url as long as it isn't a /users path

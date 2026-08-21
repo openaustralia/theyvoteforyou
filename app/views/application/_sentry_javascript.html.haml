@@ -1,0 +1,37 @@
+- if (dsn = Rails.application.credentials.dig(:sentry, :dsn))
+  -# The Loader Script key is the public key from the DSN
+  - public_key = URI.parse(dsn).user
+  -# Pick up the release detected by the backend Sentry SDK so frontend and backend events match
+  - release = defined?(Sentry) && Sentry.respond_to?(:configuration) && Sentry.configuration&.release
+  -# Meta tags the browser SDK reads on pageload to continue the backend trace,
+  -# stitching the browser transaction to the Rails transaction that rendered it
+  - if defined?(Sentry) && Sentry.initialized?
+    = Sentry.get_trace_propagation_meta.html_safe
+  -# Tie frontend events to the same user as backend ones (self-contained on the
+  -# user's own page; j escapes quotes and </ so the value can't break out)
+  - sentry_user_js = user_signed_in? ? "Sentry.setUser({ id: '#{j current_user.id.to_s}', email: '#{j current_user.email}' });" : ""
+  -# window.sentryOnLoad must be defined before the Loader Script tag so the
+  -# lazy-loaded SDK picks up our configuration when it initialises
+  :javascript
+    window.sentryOnLoad = function () {
+      Sentry.init({
+        environment: '#{j Rails.env}'#{", release: '#{j release}'" if release},
+        // Drop errors injected into the page by in-app browsers (e.g. the
+        // Facebook/Instagram iOS autofill bridge) - they aren't our code.
+        // See https://github.com/openaustralia/theyvoteforyou/issues/1690
+        ignoreErrors: ['_AutofillCallbackHandler'],
+        // Send user IP with events, matching the backend's send_default_pii
+        sendDefaultPii: true,
+        // Sample 10% of pageloads/navigations for browser tracing
+        tracesSampleRate: 0.1,
+        // Only record session replays when an error occurs, with default
+        // privacy masking (maskAllText/blockAllMedia) left enabled
+        replaysSessionSampleRate: 0,
+        replaysOnErrorSampleRate: 1.0
+      });
+      #{sentry_user_js}
+    };
+  -# The Loader Script host is region-specific and our org is in Sentry's EU region.
+  -# The US host (js.sentry-cdn.com) answers 200 with a no-op stub, which would
+  -# leave every frontend signal silently inert. See #1699.
+  = javascript_include_tag "https://js-de.sentry-cdn.com/#{public_key}.min.js", crossorigin: "anonymous"

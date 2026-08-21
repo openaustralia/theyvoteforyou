@@ -10,11 +10,12 @@ module PoliciesHelper
 
     case version.event
     when "create"
-      name = version.changeset["name"].second
-      description = version.changeset["description"].second
       result = "Created"
-      result += version.changeset["private"].second == 2 ? " draft " : " "
-      result += "policy #{quote(name)} with description #{quote(description)}."
+      result += version.changeset["private"]&.second == 2 ? " draft " : " "
+      result += "policy"
+      result += " #{quote(version.changeset['name'].second)}" if version.changeset.key?("name")
+      result += " with description #{quote(version.changeset['description'].second)}" if version.changeset.key?("description")
+      result += "."
       changes << result
     when "update"
       if version.changeset.key?("name")
@@ -49,11 +50,11 @@ module PoliciesHelper
   def policy_version_sentence_text(version)
     case version.event
     when "create"
-      name = version.changeset["name"].second
-      description = version.changeset["description"].second
       result = "Created"
-      result += version.changeset["private"].second == 2 ? " draft " : " "
-      result += "policy #{quote(name)} with description #{quote(description)}"
+      result += version.changeset["private"]&.second == 2 ? " draft " : " "
+      result += "policy"
+      result += " #{quote(version.changeset['name'].second)}" if version.changeset.key?("name")
+      result += " with description #{quote(version.changeset['description'].second)}" if version.changeset.key?("description")
       result += "."
     when "update"
       changes = []
@@ -90,34 +91,51 @@ module PoliciesHelper
     result
   end
 
+  # Returns nil when the version's changeset doesn't record the vote (e.g. old
+  # versions with no object_changes, or updates that changed something else)
   def policy_division_version_vote(version)
     case version.event
     when "create"
-      policy_vote_display_with_class(version.changeset["vote"].second)
+      vote = version.changeset["vote"]&.second
+      policy_vote_display_with_class(vote) if vote
     when "destroy"
       policy_vote_display_with_class(version.reify.vote)
     when "update"
-      text = policy_vote_display_with_class(version.changeset["vote"].first)
+      votes = version.changeset["vote"]
+      return if votes.nil?
+
+      text = policy_vote_display_with_class(votes.first)
       text += " to ".html_safe
-      text += policy_vote_display_with_class(version.changeset["vote"].second)
+      text += policy_vote_display_with_class(votes.second)
       text
     end
   end
 
+  # Returns nil when the version's changeset doesn't record the vote (see above)
   def policy_division_version_vote_text(version)
     case version.event
     when "create"
-      vote_display(version.changeset["vote"].second)
+      vote = version.changeset["vote"]&.second
+      vote_display(vote) if vote
     when "destroy"
       vote_display(version.reify.vote)
     when "update"
-      "#{vote_display(version.changeset['vote'].first)} to #{vote_display(version.changeset['vote'].second)}"
+      votes = version.changeset["vote"]
+      "#{vote_display(votes.first)} to #{vote_display(votes.second)}" if votes
     end
   end
 
+  # Returns nil when the division can't be determined - very old versions may
+  # have neither a changeset nor division_id metadata recorded
   def policy_division_version_division(version)
-    id = version.event == "create" ? version.changeset["division_id"].second : version.reify.division_id
-    Division.find(id)
+    id = if version.event == "create"
+           # Old versions may not have a changeset recorded so fall back to the
+           # division_id metadata stored on the version itself
+           version.changeset["division_id"]&.second || version.division_id
+         else
+           version.reify.division_id
+         end
+    Division.find(id) if id
   end
 
   # This helper is both used in the main application as well as the mailer. Therefore the links
@@ -125,21 +143,31 @@ module PoliciesHelper
   def policy_division_version_sentence(version)
     vote = policy_division_version_vote(version)
     division = policy_division_version_division(version)
-    division_link = content_tag(:em, link_to(division.name, division_url_simple(division)))
+    division_link = if division
+                      content_tag(:em, link_to(division.name, division_url_simple(division)))
+                    else
+                      content_tag(:em, "unknown")
+                    end
     out = []
 
     case version.event
     when "update"
-      out << "Changed vote from "
-      out << vote
-      out << " on division "
+      if vote
+        out << "Changed vote from "
+        out << vote
+        out << " on division "
+      else
+        out << "Changed division "
+      end
       out << division_link
     when "create"
       out = []
       out << "Added division "
       out << division_link
-      out << ". Policy vote set to "
-      out << vote
+      if vote
+        out << ". Policy vote set to "
+        out << vote
+      end
     when "destroy"
       out = []
       out << "Removed division "
@@ -158,17 +186,25 @@ module PoliciesHelper
     actions = { "create" => "Added", "destroy" => "Removed", "update" => "Changed" }
     vote = policy_division_version_vote_text(version)
     division = policy_division_version_division(version)
+    division_name = division ? division.name : "unknown"
+    division_line = division ? "\n#{division_url_simple(division)}" : ""
 
     case version.event
     when "update"
-      "#{actions[version.event]} vote from #{vote} on division #{division.name}.\n#{division_url_simple(division)}"
+      if vote
+        "#{actions[version.event]} vote from #{vote} on division #{division_name}.#{division_line}"
+      else
+        "#{actions[version.event]} division #{division_name}.#{division_line}"
+      end
     when "create", "destroy"
       tense = if version.event == "create"
                 "set to "
               else
                 "was "
               end
-      "#{actions[version.event]} division #{division.name}. Policy vote #{tense}#{vote}.\n#{division_url_simple(division)}"
+      sentence = "#{actions[version.event]} division #{division_name}."
+      sentence += " Policy vote #{tense}#{vote}." if vote
+      "#{sentence}#{division_line}"
     else
       raise
     end

@@ -263,9 +263,6 @@ GEM
       tilt
     hashdiff (1.2.0)
     hashie (5.0.0)
-    honeybadger (6.5.5)
-      logger
-      ostruct
     htmlentities (4.3.4)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
@@ -597,6 +594,16 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    sentry-delayed_job (6.7.0)
+      delayed_job (>= 4.0)
+      sentry-ruby (~> 6.7.0)
+    sentry-rails (6.7.0)
+      railties (>= 5.2.0)
+      sentry-ruby (~> 6.7.0)
+    sentry-ruby (6.7.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      logger
     sexp_processor (4.17.3)
     shellany (0.0.1)
     simple_form (5.3.1)
@@ -632,7 +639,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     thor (1.5.0)
     tilt (2.7.0)
-    timecop (0.9.10)
+    timecop (0.9.11)
     timeout (0.6.1)
     tsort (0.2.0)
     typhoeus (1.4.1)
@@ -646,6 +653,7 @@ GEM
     useragent (0.16.11)
     vcr (6.3.1)
       base64
+    vernier (1.10.1)
     warden (1.2.9)
       rack (>= 2.0.9)
     webmock (3.25.1)
@@ -708,7 +716,6 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   haml
-  honeybadger
   htmlentities
   httparty
   invisible_captcha
@@ -753,6 +760,9 @@ DEPENDENCIES
   searchkick
   seed_dump
   selenium-webdriver
+  sentry-delayed_job
+  sentry-rails
+  sentry-ruby
   simple_form
   simplecov
   skylight
@@ -761,6 +771,7 @@ DEPENDENCIES
   terser
   timecop
   vcr
+  vernier
   webmock
 
 RUBY VERSION

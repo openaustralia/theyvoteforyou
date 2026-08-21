@@ -76,7 +76,7 @@ class DivisionsController < ApplicationController
     if @division.nil?
       render "home/error404", status: :not_found
     else
-      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.positive?
+      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.to_i.positive?
       @whips = @division.whips.order(:party)
       @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 
