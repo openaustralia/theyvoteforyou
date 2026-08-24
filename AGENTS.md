@@ -278,3 +278,23 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
   party, candidate, vote, or position. Report what the data says and let it speak.
 - Don't fabricate citations, figures, or URLs in comments or docs. Say when something is unverified or weakly supported
   rather than guessing. This applies to AI tools at least as much as to human contributors.
+
+## Agent skills
+
+Per-repo configuration for the engineering skills lives in `docs/agents/`. Each file below is the source of truth for
+one thing the skills need to know; edit them directly rather than re-running the setup.
+
+### Issue tracker
+
+Issues live as GitHub issues in `openaustralia/theyvoteforyou`, driven through the `gh` CLI. See
+`docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage roles use their default label strings: `needs-triage`, `needs-info`, `ready-for-agent`,
+`ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context. `design_docs/` is the domain documentation today; `CONTEXT.md` and `docs/adr/` get created lazily by
+`/domain-modeling` if and when they're needed. See `docs/agents/domain.md`.
