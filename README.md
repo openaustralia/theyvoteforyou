@@ -51,8 +51,9 @@ carry out the following steps and you should be good to go.
 
 [AGENTS.md](AGENTS.md) carries the working knowledge of the codebase for AI coding
 agents (and is a useful orientation for humans too). Cross-cutting engineering
-decisions are logged in [docs/DECISIONS.md](docs/DECISIONS.md); append to it when
-you make one.
+decisions are recorded as Architecture Decision Records in [docs/adr/](docs/adr);
+add a new numbered file when you make one. [CONTEXT.md](CONTEXT.md) holds the
+canonical vocabulary for concepts with more than one plausible name.
 
 Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
 mainly useful with the retired PHP application. A new Vagrant setup can be found in the
