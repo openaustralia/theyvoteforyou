@@ -86,6 +86,21 @@ GEM
       activerecord (>= 3.0.0)
     autoprefixer-rails (10.4.21.0)
       execjs (~> 2)
+    aws-eventstream (1.4.0)
+    aws-partitions (1.1282.0)
+    aws-sdk-core (3.254.1)
+      aws-eventstream (~> 1, >= 1.3.0)
+      aws-partitions (~> 1, >= 1.992.0)
+      aws-sigv4 (~> 1.9)
+      base64
+      bigdecimal
+      jmespath (~> 1, >= 1.6.1)
+      logger
+    aws-sdk-ec2 (1.639.0)
+      aws-sdk-core (~> 3, >= 3.254.0)
+      aws-sigv4 (~> 1.5)
+    aws-sigv4 (1.12.1)
+      aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
@@ -119,6 +134,11 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (>= 1.9.0)
+    capistrano-aws (1.4.0)
+      aws-sdk-ec2 (~> 1)
+      capistrano (~> 3.1)
+      rainbow (~> 3)
+      terminal-table (>= 1.7, < 4.0)
     capistrano-bundler (2.1.1)
       capistrano (~> 3.1)
     capistrano-maintenance (1.2.1)
@@ -284,6 +304,7 @@ GEM
     jbuilder (2.15.0)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
+    jmespath (1.6.2)
     jquery-rails (4.6.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -635,6 +656,8 @@ GEM
     stackprof (0.2.27)
     stringio (3.2.0)
     temple (0.10.3)
+    terminal-table (3.0.2)
+      unicode-display_width (>= 1.1.1, < 3)
     terser (1.2.5)
       execjs (>= 0.3.0, < 3)
     thor (1.5.0)
@@ -646,9 +669,7 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (3.2.0)
-      unicode-emoji (~> 4.1)
-    unicode-emoji (4.2.0)
+    unicode-display_width (2.6.0)
     uri (1.1.1)
     useragent (0.16.11)
     vcr (6.3.1)
@@ -690,6 +711,7 @@ DEPENDENCIES
   bummr
   bundle-audit
   capistrano
+  capistrano-aws
   capistrano-maintenance
   capistrano-rails
   capistrano-rvm
