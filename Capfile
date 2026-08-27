@@ -24,6 +24,8 @@ require "capistrano/rvm"
 require "capistrano/maintenance"
 require "capistrano/scm/git"
 require "capistrano/tagging3"
+require "capistrano/aws"
+require "net/ssh/proxy/command"
 install_plugin Capistrano::SCM::Git
 
 # Loads custom tasks from `lib/capistrano/tasks' if you have any defined.

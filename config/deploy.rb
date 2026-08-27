@@ -5,6 +5,30 @@ set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
 set :rvm_ruby_version, "3.4.4"
 
+# The deploy target is found dynamically by its EC2 tags (Application and Roles, set by
+# Terraform in the openaustralia/infrastructure repo) and reached via AWS SSM Session
+# Manager rather than public SSH. See https://github.com/fernandocarletti/capistrano-aws
+set :aws_ec2_regions, ["ap-southeast-2"]
+
+# Use the instance ID as the contact point - that's what SSM needs as a target
+set :aws_ec2_contact_point, :id
+
+# One instance serves both production and staging, so it has no Stage tag - override the
+# gem's default filters, which would otherwise also match on Stage
+set :aws_ec2_default_filters, proc {
+  [
+    { name: "tag:#{fetch(:aws_ec2_application_tag)}", values: [fetch(:aws_ec2_application)] },
+    { name: "instance-state-name", values: ["running"] }
+  ]
+}
+
+set :ssh_options, {
+  proxy: Net::SSH::Proxy::Command.new(
+    "aws ssm start-session --profile oaf --target %h " \
+    "--document-name AWS-StartSSHSession --parameters portNumber=%p"
+  )
+}
+
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
