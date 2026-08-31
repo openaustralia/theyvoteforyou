@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class ConfirmationsController < Devise::ConfirmationsController
+  include AltchaProtected
+
+  before_action :check_altcha, only: :create
+
   # Override Devise to automatically sign in the user
   # GET /resource/confirmation?confirmation_token=abcdef
   def show

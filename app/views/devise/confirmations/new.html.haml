@@ -13,6 +13,8 @@
 
     .form-group= f.input :email, as: :email, autofocus: true, hint: "Enter your email address", hint_html: {class: 'small hint-block-intime'}
 
+    = render "application/altcha"
+
     = f.button :submit, "Resend confirmation", class: "btn btn-primary btn-wide"
 
   %ul.form-secondary.nav.nav-pills

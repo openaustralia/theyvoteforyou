@@ -81,6 +81,8 @@ GEM
       kaminari (~> 1.2.2)
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
+    altcha (2.0.1)
+      base64
     ast (2.4.3)
     attribute-defaults (0.6.0)
       activerecord (>= 3.0.0)
@@ -699,6 +701,7 @@ PLATFORMS
 
 DEPENDENCIES
   administrate
+  altcha (~> 2.0)
   attribute-defaults
   autoprefixer-rails
   bcrypt_pbkdf (~> 1.1)

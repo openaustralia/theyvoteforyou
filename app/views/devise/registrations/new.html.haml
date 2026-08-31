@@ -23,6 +23,8 @@
     = f.invisible_captcha :title
     .form-group= f.input :password, hint: "Minimum 8 characters long", hint_html: {class: 'small hint-block-intime'}
 
+    = render "application/altcha"
+
     = f.button :submit, "Sign up", class: 'btn-primary btn-wide submit-signup'
 
     %p.form-secondary.small.help-block

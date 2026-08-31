@@ -12,7 +12,14 @@ Rails.application.routes.draw do
     root to: "users#index"
   end
 
-  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
+  # All four anonymous forms are subclassed so the ALTCHA proof-of-work check can hang off their
+  # create actions. See app/controllers/concerns/altcha_protected.rb.
+  devise_for :users, controllers: {
+    registrations: "registrations",
+    confirmations: "confirmations",
+    sessions: "sessions",
+    passwords: "passwords"
+  }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
   get "mp.php" => "members#show_redirect"

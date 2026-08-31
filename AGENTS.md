@@ -188,7 +188,13 @@ Rake tasks live in `lib/tasks/application.rake`, grouped into `application:load:
 - `flipper` feature flags gate in-progress features. Flag names created in the admin UI
   (`/admin/flipper/features`) must match the symbols used in code, and the description list in
   `config/initializers/flipper.rb` should be kept in step. Nothing checks this for you.
-- Devise handles authentication, with `invisible_captcha` on public sign-up forms.
+  `:altcha` and `:altcha_enforce` are the worked example of the pattern, in
+  `app/controllers/concerns/altcha_protected.rb`.
+- Devise handles authentication. The four anonymous forms (sign up, log in, password reset request,
+  resend confirmation) are each subclassed so `AltchaProtected` can hang an ALTCHA proof-of-work
+  check off their `create` actions, and sign up also keeps its `invisible_captcha` honeypot. Both
+  ALTCHA flags default off, which is why the existing non-JavaScript feature specs still pass. See
+  `docs/adr/0004-altcha-proof-of-work-on-anonymous-forms.md` before changing any of it.
 
 ### Search
 
