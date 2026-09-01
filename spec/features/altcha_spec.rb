@@ -48,7 +48,7 @@ describe "The ALTCHA spam check on the sign up form", type: :feature do
     it "solves the challenge and lets the person sign up" do
       fill_in_the_form
       # Wait on the hidden field rather than on any widget text, which changes between versions.
-      expect(page).to have_selector("input[name='altcha'][value]", visible: :hidden, wait: 30)
+      expect(page).to have_css("input[name='altcha'][value]", visible: :hidden, wait: 30)
       click_on "Sign up"
       expect(page).to have_text "now check your inbox"
       expect(page).to have_no_text "needs JavaScript turned on"
