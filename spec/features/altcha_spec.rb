@@ -49,7 +49,13 @@ describe "The ALTCHA spam check on the sign up form", type: :feature do
       fill_in_the_form
       # Wait on the hidden field rather than on any widget text, which changes between versions.
       expect(page).to have_css("input[name='altcha'][value]", visible: :hidden, wait: 30)
-      click_on "Sign up"
+      # Submit with the keyboard rather than by clicking the button. The form's hints are
+      # display:none until their field is focused (.hint-block-intime in global/_forms.scss), so
+      # the moment focus leaves the password field the form shrinks and the button slides up. A
+      # driven click races that reflow: the button moves between mousedown and mouseup, the click
+      # retargets to the form, and nothing submits. That race is a pre-existing quirk of this
+      # form and has nothing to do with ALTCHA, so this spec sidesteps it instead of fighting it.
+      find_by_id("user_password").send_keys(:enter)
       expect(page).to have_text "now check your inbox"
       expect(page).to have_no_text "needs JavaScript turned on"
     end
