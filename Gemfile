@@ -70,6 +70,10 @@ gem "mini_racer", "~> 0.16.0"
 
 gem "invisible_captcha"
 
+# Proof-of-work anti-spam challenges on the anonymous forms. Self-hosted, so the widget and the
+# challenges are served by us and nothing is sent to a third party. See docs/adr/0004.
+gem "altcha", "~> 2.0"
+
 # For admin panel usable by admins
 gem "administrate"
 

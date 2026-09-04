@@ -111,3 +111,12 @@ RSpecRails/InferredSpecType:
 # TODO: Fix this
 Rails/I18nLocaleTexts:
   Enabled: false
+
+# The Devise controllers we subclass inherit their create action rather than defining it, so the
+# cop cannot see the action a before_action names. Nothing is silently scoped to a missing method.
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - 'app/controllers/confirmations_controller.rb'
+    - 'app/controllers/passwords_controller.rb'
+    - 'app/controllers/registrations_controller.rb'
+    - 'app/controllers/sessions_controller.rb'
