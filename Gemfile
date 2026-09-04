@@ -111,6 +111,9 @@ gem "terser"
 # Mamcache client
 gem "dalli", "~>3"
 
+# For calling Bedrock models to classify Divisions against Policies (openaustralia/theyvoteforyou#1716)
+gem "aws-sdk-bedrockruntime"
+
 group :test do
   gem "rspec-activemodel-mocks"
   gem "webmock"
