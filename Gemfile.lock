@@ -782,9 +782,9 @@ DEPENDENCIES
   searchkick
   seed_dump
   selenium-webdriver
-  sentry-delayed_job
-  sentry-rails
-  sentry-ruby
+  sentry-delayed_job (~> 6.7)
+  sentry-rails (~> 6.7)
+  sentry-ruby (~> 6.7)
   simple_form
   simplecov
   skylight

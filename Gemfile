@@ -27,9 +27,14 @@ gem "devise"
 gem "attribute-defaults"
 gem "diffy"
 gem "ranker"
-gem "sentry-ruby"
-gem "sentry-rails"
-gem "sentry-delayed_job"
+# Pinned to the 6.x line: 7.0.0 removed `enable_logs`, which
+# config/initializers/sentry.rb sets, changed the PII and metrics defaults,
+# and flipped the config.otlp.* exporter defaults to false. Deploys install
+# from Gemfile.lock in deployment mode so they can't drift, but without a
+# constraint the next `bundle update` takes the new major.
+gem "sentry-ruby", "~> 6.7"
+gem "sentry-rails", "~> 6.7"
+gem "sentry-delayed_job", "~> 6.7"
 # Sampling profiler used by Sentry profiling
 gem "vernier"
 gem "delayed_job_active_record"
