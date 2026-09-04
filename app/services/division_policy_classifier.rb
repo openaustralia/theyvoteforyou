@@ -7,15 +7,13 @@ require "aws-sdk-bedrockruntime"
 # writes to the database, every result is a draft for a human to look at.
 class DivisionPolicyClassifier
   # OAF prefers Australian-hosted infrastructure, so all three run from ap-southeast-2 rather than
-  # the US regions Bedrock more commonly documents:
-  # - Kimi K2.5 and DeepSeek were added to Sydney's open-weight lineup in AWS's Feb 2026 rollout,
-  #   available on-demand like any other foundation model.
-  # - Claude Haiku 4.5 isn't hosted in Sydney directly - it runs via an Australia-pinned
-  #   cross-region inference profile (the "au." prefix) instead of a plain model id. UNVERIFIED:
-  #   confirm this exact profile id against the Bedrock console once signed back into AWS - it's
-  #   inferred from the "us."/"au." inference-profile naming convention, not confirmed directly.
-  # - DeepSeek's model id may need to be deepseek.v3.2 rather than v3.1 for the Sydney rollout -
-  #   also worth confirming against the console.
+  # the US regions Bedrock more commonly documents. Confirmed against `aws bedrock
+  # list-foundation-models`/`list-inference-profiles` for ap-southeast-2:
+  # - Kimi K2.5 and DeepSeek V3.2 are ON_DEMAND foundation models there (added in AWS's Feb 2026
+  #   Sydney open-weight rollout).
+  # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in this region - it isn't hosted in Sydney
+  #   directly, it runs via the Australia-pinned cross-region inference profile
+  #   au.anthropic.claude-haiku-4-5-20251001-v1:0 instead of a plain model id.
   MODELS = {
     "kimi-k2.5" => "moonshotai.kimi-k2.5",
     "deepseek-v3.2" => "deepseek.v3.2",
