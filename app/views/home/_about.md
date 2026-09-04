@@ -44,6 +44,8 @@ Email us at [<%= Rails.configuration.contact_email %>](mailto:<%= Rails.configur
 
 You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Bluesky](https://bsky.app/profile/oaf.org.au) or [Mastodon](https://social.oaf.org.au/@oaf) and [contribute to our work on Github](https://github.com/openaustralia).
 
+<%# The blank line below is load-bearing: Redcarpet needs it to start a new
+    paragraph. Without it the sentence joins the one above. %>
 <% if (version = AppVersion.short_sha) %>
 
 You are using version [<%= version %>](https://github.com/openaustralia/theyvoteforyou/commit/<%= version %>) of <%= inline_project_name %>.
