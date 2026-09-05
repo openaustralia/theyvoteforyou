@@ -85,6 +85,8 @@ describe DivisionsController, type: :request do
       get "/divisions/representatives/2006-12-06/3"
 
       expect(response.body).to include(%(href="#{policy_path(policy1)}"))
+      expect(response.body).to include("This vote is")
+      expect(response.body).to include("voted-aye")
     end
 
     it "shows a suggestion as already linked when the division's already connected to that policy" do
@@ -105,7 +107,7 @@ describe DivisionsController, type: :request do
       policy1.destroy!
       get "/divisions/representatives/2006-12-06/3"
 
-      expect(response.body).to include("For a policy that has since been deleted")
+      expect(response.body).to include("a policy that has since been deleted")
       expect(response.body).not_to include(%(href="#{policy_path(policy1)}"))
     end
 
