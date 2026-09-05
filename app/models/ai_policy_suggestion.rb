@@ -34,7 +34,7 @@ class AiPolicySuggestion < ApplicationRecord
   end
 
   def summary
-    return "Error: #{error}" if error
+    return "Error: #{error}" if error.present?
     return "Error: model response was missing match/direction" if match.nil? || direction.nil?
 
     subject = match == "existing" ? existing_policy_subject : "new policy I propose"
