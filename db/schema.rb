@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
-  create_table "ai_policy_suggestions", force: :cascade do |t|
+  create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
     t.string "model", null: false
@@ -24,12 +24,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["division_id", "model"], name: "index_ai_policy_suggestions_on_division_id_and_model"
+    t.index ["division_id", "model"], name: "index_ai_policy_suggestions_on_division_id_and_model", unique: true
     t.index ["division_id"], name: "index_ai_policy_suggestions_on_division_id"
     t.index ["policy_id"], name: "index_ai_policy_suggestions_on_policy_id"
   end
 
-  create_table "api_statistics", force: :cascade do |t|
+  create_table "api_statistics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "ip_address"
     t.text "query"
     t.text "user_agent"
@@ -38,7 +38,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.datetime "updated_at"
   end
 
-  create_table "bills", force: :cascade do |t|
+  create_table "bills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "official_id"
     t.text "url"
     t.datetime "created_at"
@@ -46,12 +46,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.text "title"
   end
 
-  create_table "bills_divisions", id: false, force: :cascade do |t|
+  create_table "bills_divisions", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "bill_id", null: false
   end
 
-  create_table "delayed_jobs", force: :cascade do |t|
+  create_table "delayed_jobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
@@ -66,7 +66,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "division_infos", force: :cascade do |t|
+  create_table "division_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "rebellions", null: false
     t.integer "tells", null: false
@@ -78,7 +78,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["division_id"], name: "division_id"
   end
 
-  create_table "divisions", force: :cascade do |t|
+  create_table "divisions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date", null: false
     t.integer "number", null: false
     t.string "house", null: false
@@ -97,7 +97,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["number"], name: "division_number"
   end
 
-  create_table "electorates", force: :cascade do |t|
+  create_table "electorates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.boolean "main_name", null: false
     t.date "from_date", default: "1000-01-01", null: false
@@ -111,14 +111,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["to_date"], name: "to_date"
   end
 
-  create_table "flipper_features", force: :cascade do |t|
+  create_table "flipper_features", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "key", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["key"], name: "index_flipper_features_on_key", unique: true
   end
 
-  create_table "flipper_gates", force: :cascade do |t|
+  create_table "flipper_gates", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.string "feature_key", null: false
     t.string "key", null: false
     t.string "value"
@@ -127,7 +127,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
-  create_table "member_infos", force: :cascade do |t|
+  create_table "member_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "member_id", null: false
     t.integer "rebellions", null: false
     t.integer "tells", null: false
@@ -139,7 +139,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["member_id"], name: "mp_id"
   end
 
-  create_table "members", force: :cascade do |t|
+  create_table "members", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "gid", limit: 100, null: false
     t.text "source_gid", null: false
     t.string "first_name", limit: 100, null: false
@@ -164,7 +164,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["title", "first_name", "last_name", "constituency", "entered_house", "left_house", "house"], name: "title", unique: true
   end
 
-  create_table "offices", force: :cascade do |t|
+  create_table "offices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "dept", null: false
     t.string "position", null: false
     t.string "responsibility", null: false
@@ -176,7 +176,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["person_id"], name: "person"
   end
 
-  create_table "people", force: :cascade do |t|
+  create_table "people", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text "small_image_url"
@@ -184,7 +184,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.text "extra_large_image_url"
   end
 
-  create_table "people_distances", force: :cascade do |t|
+  create_table "people_distances", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|
     t.integer "person1_id", null: false
     t.integer "person2_id", null: false
     t.integer "nvotessame", null: false
@@ -197,7 +197,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["person2_id"], name: "index_people_distances_on_person2_id"
   end
 
-  create_table "policies", force: :cascade do |t|
+  create_table "policies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", limit: 100, null: false
     t.integer "user_id", null: false
     t.text "description", null: false
@@ -209,7 +209,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["user_id"], name: "user_id"
   end
 
-  create_table "policy_divisions", force: :cascade do |t|
+  create_table "policy_divisions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "policy_id", null: false
     t.string "vote", limit: 10, null: false
     t.integer "division_id"
@@ -220,7 +220,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["policy_id"], name: "dream_id"
   end
 
-  create_table "policy_person_distances", force: :cascade do |t|
+  create_table "policy_person_distances", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "policy_id", null: false
     t.integer "person_id", null: false
     t.integer "nvotessame"
@@ -238,7 +238,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["policy_id"], name: "dream_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name", null: false
     t.string "email"
     t.string "encrypted_password", default: "", null: false
@@ -264,7 +264,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", force: :cascade do |t|
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", null: false
     t.integer "item_id", null: false
     t.string "event", null: false
@@ -279,7 +279,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["policy_id"], name: "index_versions_on_policy_id"
   end
 
-  create_table "votes", force: :cascade do |t|
+  create_table "votes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "member_id", null: false
     t.string "vote", limit: 10
@@ -293,13 +293,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["vote"], name: "index_votes_on_vote"
   end
 
-  create_table "watches", force: :cascade do |t|
+  create_table "watches", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "watchable_id"
     t.string "watchable_type"
     t.integer "user_id"
   end
 
-  create_table "whips", force: :cascade do |t|
+  create_table "whips", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.string "party", limit: 200, null: false
     t.integer "aye_votes", null: false
@@ -315,7 +315,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["division_id", "party"], name: "division_id", unique: true
   end
 
-  create_table "wiki_motions", force: :cascade do |t|
+  create_table "wiki_motions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.text "text_body", null: false
     t.integer "user_id", null: false
     t.integer "division_id"
