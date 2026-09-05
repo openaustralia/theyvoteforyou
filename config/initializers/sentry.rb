@@ -46,8 +46,9 @@ Sentry.init do |config|
   config.send_default_pii = true
   config.before_send = scrub_breadcrumbs
   config.before_send_transaction = scrub_breadcrumbs
-  # Send Rails logs to Sentry as structured logs
-  config.enable_logs = true
+  # Rails logs arrive via sentry-rails' structured logging, on by default
+  # since 7.0; the logger patch additionally forwards non-Rails stdlib
+  # logging (e.g. the delayed_job worker's)
   config.enabled_patches << :logger
   # Profile the same fraction of transactions that we trace, using vernier
   config.profiles_sample_rate = 0.1
