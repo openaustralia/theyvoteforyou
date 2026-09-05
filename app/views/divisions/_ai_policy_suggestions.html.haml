@@ -18,9 +18,9 @@
       %p.text-muted
         Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
       - DivisionPolicyClassifier::MODEL_LABELS.each do |model_id, label|
-        .ai-policy-suggestion
+        - suggestion = suggestions[model_id]
+        .ai-policy-suggestion{class: "ai-policy-suggestion-#{suggestion ? suggestion.outcome : 'unclassified'}"}
           %h3.h3= label
-          - suggestion = suggestions[model_id]
           - if suggestion.nil?
             %p.text-muted Not yet classified.
           - elsif suggestion.error?

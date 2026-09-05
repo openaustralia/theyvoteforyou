@@ -3,8 +3,12 @@
 }
 
 #ai-policy-suggestions {
+  // Each model's block is bordered by what it came back with, so matches against an existing
+  // policy and proposals for a new one are tellable apart without reading each one.
   .ai-policy-suggestion {
     margin-bottom: 1.5em;
+    padding: 0.5em 0.75em;
+    border-left: 4px solid $color-mixed-position;
 
     h3 {
       margin-bottom: 0.25em;
@@ -13,6 +17,20 @@
     p {
       margin-bottom: 0.25em;
     }
+  }
+
+  .ai-policy-suggestion-existing {
+    border-left-color: $color-blue;
+    background-color: mix($color-blue, #fff, 5%);
+  }
+
+  .ai-policy-suggestion-new {
+    border-left-color: $color-orange;
+    background-color: mix($color-orange, #fff, 12%);
+  }
+
+  .ai-policy-suggestion-error {
+    border-left-color: $color-vote-against;
   }
 
   .ai-policy-suggestion-reasoning {
