@@ -122,6 +122,18 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("the government should ban things")
     end
 
+    it "ignores a stored suggestion from a model the panel no longer knows about" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: "retired.model-v1", direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("2 models agree")
+      expect(response.body).not_to include("Link this division to")
+    end
+
     it "doesn't count suggestions as agreeing once the policy they named has been deleted" do
       login_as(user)
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
