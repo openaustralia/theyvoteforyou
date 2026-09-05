@@ -50,4 +50,36 @@ namespace :ai do
       puts
     end
   end
+
+  desc "Ask several Bedrock models to write a plain-language title and description for a " \
+       "Division, saving each as an AiDivisionSummary - skips any model already saved for this " \
+       "Division (spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+  task summarize_division: :environment do
+    division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:summarize_division DIVISION_ID=123" }
+    division = Division.find(division_id)
+    summarizer = DivisionSummarizer.new(division)
+
+    puts "Division ##{division.id}: #{division.name}"
+    puts division.motion.to_s.truncate(200)
+    puts
+
+    DivisionSummarizer::MODELS.each do |label, model_id|
+      summary = AiDivisionSummary.find_by(division: division, model: model_id)
+      if summary
+        puts "== #{label} (already summarised, skipping) =="
+      else
+        result = summarizer.summarize_with(model_id)
+        summary = AiDivisionSummary.create_from_result!(division, result)
+        puts "== #{label} =="
+      end
+
+      if summary.error
+        puts "Error: #{summary.error}"
+      else
+        puts "Title: #{summary.title}"
+        puts "Description: #{summary.description}"
+      end
+      puts
+    end
+  end
 end
