@@ -48,6 +48,25 @@ describe Policy do
     end
   end
 
+  describe "#last_edited_by" do
+    it "returns the user who made the most recent edit" do
+      editor = create(:confirmed_user)
+      PaperTrail.request.whodunnit = editor.id
+      policy.update!(description: "an updated description")
+
+      expect(policy.last_edited_by).to eq(editor)
+    end
+
+    it "returns nil when that user has since been deleted, rather than raising" do
+      editor = create(:confirmed_user)
+      PaperTrail.request.whodunnit = editor.id
+      policy.update!(description: "an updated description")
+      editor.destroy!
+
+      expect(policy.last_edited_by).to be_nil
+    end
+  end
+
   describe "#calculate_person_distances!" do
     # Look at a single member and see how their votes match against the policy
     let(:division1) { create(:division, house: "representatives", date: Date.new(2014, 1, 1)) }
