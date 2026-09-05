@@ -56,13 +56,19 @@ describe AiPolicySuggestion do
       expect(suggestion.summary).to eq "For policy 42 (marriage equality)"
     end
 
-    it "says so when the matched policy has since been deleted" do
+    it "says the policy can't be found when the matched policy has since been deleted" do
       policy = create(:policy)
       suggestion = create(:ai_policy_suggestion, match: "existing", direction: "against", policy: policy)
 
       policy.destroy!
 
-      expect(suggestion.reload.summary).to eq "Against a policy that has since been deleted"
+      expect(suggestion.reload.summary).to eq "Against a policy that can no longer be found"
+    end
+
+    it "says the policy can't be found when the model named one that never resolved" do
+      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", policy: nil)
+
+      expect(suggestion.summary).to eq "For a policy that can no longer be found"
     end
 
     it "says a new policy was proposed" do
