@@ -20,6 +20,14 @@ class DivisionPolicyClassifier
     "claude-haiku-4.5" => "au.anthropic.claude-haiku-4-5-20251001-v1:0"
   }.freeze
 
+  # Human-readable names for display, keyed by model id (what AiPolicySuggestion#model stores)
+  # rather than by the MODELS slug.
+  MODEL_LABELS = {
+    "moonshotai.kimi-k2.5" => "Kimi K2.5",
+    "deepseek.v3.2" => "DeepSeek V3.2",
+    "au.anthropic.claude-haiku-4-5-20251001-v1:0" => "Claude Haiku 4.5"
+  }.freeze
+
   REGION = "ap-southeast-2"
 
   EXAMPLES_PER_POLICY = 2
