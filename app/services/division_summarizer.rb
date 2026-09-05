@@ -92,9 +92,8 @@ class DivisionSummarizer
 
   def parse(model_id, text)
     json = JSON.parse(text[/\{.*\}/m] || text)
-    unless json.is_a?(Hash) && json["title"].present? && json["description"].present?
-      return Result.new(model: model_id, error: "Model response was missing title/description", raw: text)
-    end
+    usable = json.is_a?(Hash) && json["title"].present? && json["description"].present?
+    return Result.new(model: model_id, error: "Model response was missing title/description", raw: text) unless usable
 
     Result.new(model: model_id, title: json["title"], description: json["description"], raw: text)
   rescue JSON::ParserError => e
