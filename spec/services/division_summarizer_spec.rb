@@ -53,6 +53,15 @@ describe DivisionSummarizer do
       expect(result.error).to eq "Model response was missing title/description"
     end
 
+    it "records an error when the response is valid JSON but not an object" do
+      stub_converse_text(%(["not", "an", "object"]))
+
+      result = summarizer.summarize_with("test.model-v1:0")
+
+      expect(result.title).to be_nil
+      expect(result.error).to eq "Model response was missing title/description"
+    end
+
     it "records an error when the response isn't valid JSON" do
       stub_converse_text("sorry, I can't help with that")
 
