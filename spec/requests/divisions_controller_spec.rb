@@ -133,5 +133,43 @@ describe DivisionsController, type: :request do
         compare_static "/divisions/senate/2009-11-25/8", form_params: { submit: "Save", newtitle: "A lovely new title", newdescription: "And a great new description" }
       end
     end
+
+    describe "#create_policy_division, #update_policy_division, #destroy_policy_division" do
+      # Regression coverage for a bug where the after_action recalculating PolicyPersonDistance
+      # records called Pundit's own policy(record) helper with no arguments (a bare `policy`, meant
+      # to be the connection's actual Policy) - raising ArgumentError and crashing every one of
+      # these three actions, despite the underlying save/update/destroy having already succeeded.
+      it "connects a division to a policy without erroring" do
+        division = division_representatives_2006_12_06_3
+        policy1
+
+        post "/divisions/representatives/2006-12-06/3/policies/create", params: { policy_division: { policy_id: policy1.id, vote: "aye" } }
+
+        expect(response).to redirect_to("/divisions/representatives/2006-12-06/3/policies")
+        expect(division.policy_divisions.find_by(policy: policy1)&.vote).to eq "aye"
+      end
+
+      it "updates an existing connection without erroring" do
+        division = division_representatives_2006_12_06_3
+        policy1
+        create(:policy_division, division: division, policy: policy1, vote: "aye")
+
+        patch "/divisions/representatives/2006-12-06/3/policies/#{policy1.id}", params: { policy_division: { vote: "no" } }
+
+        expect(response).to redirect_to("/divisions/representatives/2006-12-06/3/policies")
+        expect(division.policy_divisions.find_by(policy: policy1).vote).to eq "no"
+      end
+
+      it "removes an existing connection without erroring" do
+        division = division_representatives_2006_12_06_3
+        policy1
+        create(:policy_division, division: division, policy: policy1, vote: "aye")
+
+        delete "/divisions/representatives/2006-12-06/3/policies/#{policy1.id}/delete"
+
+        expect(response).to redirect_to("/divisions/representatives/2006-12-06/3/policies")
+        expect(division.policy_divisions.find_by(policy: policy1)).to be_nil
+      end
+    end
   end
 end

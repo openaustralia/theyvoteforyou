@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "~> 8.0.0"
+gem "rails", "~> 8.1.0"
 gem "mysql2"
 
 gem "sprockets"
@@ -110,6 +110,9 @@ gem "terser"
 
 # Mamcache client
 gem "dalli", "~>3"
+
+# For calling Bedrock models to classify Divisions against Policies (openaustralia/theyvoteforyou#1716)
+gem "aws-sdk-bedrockruntime"
 
 group :test do
   gem "rspec-activemodel-mocks"
