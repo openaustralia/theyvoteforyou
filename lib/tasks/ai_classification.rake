@@ -34,6 +34,7 @@ namespace :ai do
     DivisionPolicyClassifier.new(division).classify_with_all_models.each do |label, result|
       puts "== #{label} =="
       puts result.summary
+      puts "  Policy: #{result.policy.name} - #{result.policy.description}" if result.match == "existing" && result.policy
       puts "  Proposed: #{result.new_policy_name} - #{result.new_policy_description}" if result.match == "new"
       puts "  Reasoning: #{result.reasoning}" if result.reasoning
       puts
