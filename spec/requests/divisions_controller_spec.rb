@@ -106,7 +106,18 @@ describe DivisionsController, type: :request do
       get "/divisions/representatives/2006-12-06/3"
 
       expect(response.body).to include("For a policy that has since been deleted")
-      expect(response.body).not_to include("new policy:")
+      expect(response.body).not_to include(%(href="#{policy_path(policy1)}"))
+    end
+
+    it "shows the name and description of a proposed new policy" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division, policy: nil, model: kimi, match: "new", direction: "for",
+                                    proposed_policy_name: "banning things", proposed_policy_description: "the government should ban things")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("banning things")
+      expect(response.body).to include("the government should ban things")
     end
 
     it "doesn't count suggestions as agreeing once the policy they named has been deleted" do
@@ -121,7 +132,7 @@ describe DivisionsController, type: :request do
       expect(response.body).not_to include("models agree")
     end
 
-    it "styles a suggestion with no match/direction as an error, rather than a misleading new-policy line" do
+    it "styles a suggestion with no match/direction as an error, rather than an ordinary classification" do
       login_as(user)
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi,
                                     match: nil, direction: nil, error: nil)
@@ -129,7 +140,7 @@ describe DivisionsController, type: :request do
       get "/divisions/representatives/2006-12-06/3"
 
       expect(response.body).to include("<p class='text-danger'>Error: model response was missing match/direction</p>")
-      expect(response.body).not_to include("new policy:")
+      expect(response.body).not_to include(%(href="#{policy_path(policy1)}"))
     end
 
     it "offers staff a quick link to the policy when all three models agree" do

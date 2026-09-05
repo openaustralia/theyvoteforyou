@@ -3,6 +3,22 @@
 }
 
 #ai-policy-suggestions {
+  .ai-policy-suggestion {
+    margin-bottom: 1.5em;
+
+    h3 {
+      margin-bottom: 0.25em;
+    }
+
+    p {
+      margin-bottom: 0.25em;
+    }
+  }
+
+  .ai-policy-suggestion-reasoning {
+    font-style: italic;
+  }
+
   a[data-toggle="collapse"] {
     .when-expanded {
       display: none;
