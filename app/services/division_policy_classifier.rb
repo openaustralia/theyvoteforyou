@@ -2,17 +2,17 @@
 
 require "aws-sdk-bedrockruntime"
 
-# Asks several Bedrock models to classify a Division against our existing Policies, or propose a
-# new Policy if none fit (spike for openaustralia/theyvoteforyou#1716). Read-only - nothing here
-# writes to the database, every result is a draft for a human to look at.
+# DivisionPolicyClassifier asks several Bedrock models to classify a Division against our existing
+# Policies, or propose a new Policy if none fit (spike for openaustralia/theyvoteforyou#1716). It's
+# read-only: nothing here writes to the database, and every result is a draft for a human to look at.
 class DivisionPolicyClassifier
-  # OAF prefers Australian-hosted infrastructure, so all three run from ap-southeast-2 rather than
-  # the US regions Bedrock more commonly documents. Confirmed against `aws bedrock
-  # list-foundation-models`/`list-inference-profiles` for ap-southeast-2:
-  # - Kimi K2.5 and DeepSeek V3.2 are ON_DEMAND foundation models there (added in AWS's Feb 2026
-  #   Sydney open-weight rollout).
-  # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in this region - it isn't hosted in Sydney
-  #   directly, it runs via the Australia-pinned cross-region inference profile
+  # OAF prefers Australian-hosted infrastructure, so all three models run from ap-southeast-2
+  # instead of the US regions Bedrock more commonly documents. A direct check against `aws bedrock
+  # list-foundation-models`/`list-inference-profiles` for ap-southeast-2 confirmed:
+  # - Kimi K2.5 and DeepSeek V3.2 are ON_DEMAND foundation models there (AWS added them in its
+  #   Feb 2026 Sydney open-weight rollout).
+  # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in this region: Sydney doesn't host it directly,
+  #   so it runs via the Australia-pinned cross-region inference profile
   #   au.anthropic.claude-haiku-4-5-20251001-v1:0 instead of a plain model id.
   MODELS = {
     "kimi-k2.5" => "moonshotai.kimi-k2.5",
@@ -123,7 +123,9 @@ class DivisionPolicyClassifier
   end
 
   def parse(model_id, text)
-    json = JSON.parse(text.sub(/\A```(?:json)?\n?/, "").sub(/```\s*\z/, "").strip)
+    # Models don't reliably follow the "JSON only" instruction - some wrap it in a code fence,
+    # inconsistently, so pull out the object itself rather than trying to strip specific wrappers.
+    json = JSON.parse(text[/\{.*\}/m] || text)
     policy = Policy.find_by(id: json["policy_id"]) if json["match"] == "existing"
     Result.new(
       model: model_id,
