@@ -35,11 +35,11 @@ namespace :ai do
 
     DivisionPolicyClassifier::MODELS.each do |label, model_id|
       suggestion = AiPolicySuggestion.find_by(division: division, model: model_id)
-      if suggestion
+      if suggestion && suggestion.error.blank?
         puts "== #{label} (already classified, skipping) =="
       else
         result = classifier.classify_with(model_id)
-        suggestion = AiPolicySuggestion.create_from_result!(division, result)
+        suggestion = AiPolicySuggestion.save_from_result!(division, result)
         puts "== #{label} =="
       end
 

@@ -11,11 +11,13 @@ class AiPolicySuggestion < ApplicationRecord
   validates :match, inclusion: { in: %w[existing new] }, allow_nil: true
   validates :direction, inclusion: { in: %w[for against] }, allow_nil: true
 
-  def self.create_from_result!(division, result)
-    create!(
-      division: division,
+  # Overwrites any row already held for this division and model. There's a unique index on the
+  # pair, so a plain create raises once a failed attempt has left an errored row behind, which is
+  # exactly when a retry needs to write.
+  def self.save_from_result!(division, result)
+    suggestion = find_or_initialize_by(division: division, model: result.model)
+    suggestion.update!(
       policy: result.policy,
-      model: result.model,
       match: result.match,
       direction: result.direction,
       proposed_policy_name: result.new_policy_name,
@@ -24,6 +26,7 @@ class AiPolicySuggestion < ApplicationRecord
       raw_response: result.raw,
       error: result.error
     )
+    suggestion
   end
 
   def summary
