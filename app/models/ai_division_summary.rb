@@ -8,14 +8,17 @@ class AiDivisionSummary < ApplicationRecord
 
   validates :model, presence: true
 
-  def self.create_from_result!(division, result)
-    create!(
-      division: division,
-      model: result.model,
+  # Overwrites any row already held for this division and model. There's a unique index on the
+  # pair, so a plain create raises once a failed attempt has left an errored row behind, which is
+  # exactly when a retry needs to write.
+  def self.save_from_result!(division, result)
+    summary = find_or_initialize_by(division: division, model: result.model)
+    summary.update!(
       title: result.title,
       description: result.description,
       raw_response: result.raw,
       error: result.error
     )
+    summary
   end
 end

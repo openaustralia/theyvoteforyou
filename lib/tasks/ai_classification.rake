@@ -64,12 +64,12 @@ namespace :ai do
     puts
 
     DivisionSummarizer::MODELS.each do |label, model_id|
-      summary = AiDivisionSummary.find_by(division: division, model: model_id, error: nil)
-      if summary
+      summary = AiDivisionSummary.find_by(division: division, model: model_id)
+      if summary && summary.error.blank?
         puts "== #{label} (already summarised, skipping) =="
       else
         result = summarizer.summarize_with(model_id)
-        summary = AiDivisionSummary.create_from_result!(division, result)
+        summary = AiDivisionSummary.save_from_result!(division, result)
         puts "== #{label} =="
       end
 

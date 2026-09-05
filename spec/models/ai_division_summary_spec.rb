@@ -10,7 +10,7 @@ describe AiDivisionSummary do
     end
   end
 
-  describe ".create_from_result!" do
+  describe ".save_from_result!" do
     it "maps every field from the summarizer's result" do
       division = create(:division)
       result = DivisionSummarizer::Result.new(
@@ -20,7 +20,7 @@ describe AiDivisionSummary do
         raw: '{"title": "Motions — Coal Seam Gas"}'
       )
 
-      summary = described_class.create_from_result!(division, result)
+      summary = described_class.save_from_result!(division, result)
 
       expect(summary.division).to eq division
       expect(summary.model).to eq "test.model-v1:0"
@@ -34,10 +34,22 @@ describe AiDivisionSummary do
       division = create(:division)
       result = DivisionSummarizer::Result.new(model: "test.model-v1:0", error: "boom")
 
-      summary = described_class.create_from_result!(division, result)
+      summary = described_class.save_from_result!(division, result)
 
       expect(summary.error).to eq "boom"
       expect(summary.title).to be_nil
+    end
+
+    it "overwrites a failed attempt rather than raising on the unique index" do
+      division = create(:division)
+      described_class.create!(division: division, model: "test.model-v1:0", error: "ServiceUnavailable")
+      result = DivisionSummarizer::Result.new(model: "test.model-v1:0", title: "A title", description: "A description.")
+
+      summary = described_class.save_from_result!(division, result)
+
+      expect(summary.error).to be_nil
+      expect(summary.title).to eq "A title"
+      expect(described_class.where(division: division, model: "test.model-v1:0").count).to eq 1
     end
   end
 end
