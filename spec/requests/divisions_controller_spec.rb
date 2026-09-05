@@ -99,6 +99,17 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("Already linked")
     end
 
+    it "flags a suggestion that contradicts the direction the division is already linked with" do
+      login_as(user)
+      create(:policy_division, division: division, policy: policy1, vote: "no3")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("Linked the other way")
+      expect(response.body).not_to include("Already linked")
+    end
+
     it "doesn't call an existing match a new policy when the matched policy has been deleted" do
       login_as(user)
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi,
