@@ -2,8 +2,9 @@
 - if policy(division).edit? && suggestions.any?
   - agreement = suggestions.values.select { |s| s.match == "existing" && s.direction }.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
   - linked_policy_ids = division.policy_divisions.pluck(:policy_id)
-  - unanimous_policy_id, unanimous_direction = agreement.find { |_, count| count == DivisionPolicyClassifier::MODEL_LABELS.size }&.first
-  - unanimous_policy = Policy.find_by(id: unanimous_policy_id) if unanimous_policy_id
+  - model_count = DivisionPolicyClassifier::MODEL_LABELS.size
+  - unanimous_policy_id, unanimous_direction = agreement.key(model_count)
+  - unanimous_policy = suggestions.values.find { |s| s.policy_id == unanimous_policy_id }&.policy if unanimous_policy_id
   %section.page-section#ai-policy-suggestions
     %h2.h5
       We have AI suggestions (staff only) -
@@ -44,10 +45,11 @@
       - if unanimous_policy && policy(PolicyDivision).new? && !linked_policy_ids.include?(unanimous_policy.id)
         .ai-policy-suggestions-unanimous.alert.alert-info
           %p
-            All three models agree this division is
+            All #{model_count.to_words} models agree this division is
             = unanimous_direction
             = link_to unanimous_policy.name, unanimous_policy
-          = simple_form_for :policy_division, url: create_policy_division_path(division.url_params), html: {class: "form-inline"} do |f|
+          - create_url = create_policy_division_path(division.url_params)
+          = simple_form_for :policy_division, url: create_url, html: {class: "form-inline"} do |f|
             = f.hidden_field :policy_id, value: unanimous_policy.id
             = f.hidden_field :vote, value: (unanimous_direction == "for" ? "aye" : "no")
             = f.submit "Link this division to #{unanimous_policy.name}", class: "btn btn-primary btn-sm"

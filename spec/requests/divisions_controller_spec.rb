@@ -35,9 +35,10 @@ describe DivisionsController, type: :request do
     let(:kimi) { "moonshotai.kimi-k2.5" }
     let(:deepseek) { "deepseek.v3.2" }
     let(:claude) { "au.anthropic.claude-haiku-4-5-20251001-v1:0" }
+    let(:division) { division_representatives_2006_12_06_3 }
 
     before do
-      division_representatives_2006_12_06_3
+      division
       policy1
     end
 
@@ -48,16 +49,16 @@ describe DivisionsController, type: :request do
     end
 
     it "is hidden from non-staff even when suggestions exist" do
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi)
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi)
       get "/divisions/representatives/2006-12-06/3"
       expect(response.body).not_to include("ai-policy-suggestions")
     end
 
     it "shows each model's proposal to staff, flagging agreement between models" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "against")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "against")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -69,7 +70,7 @@ describe DivisionsController, type: :request do
 
     it "labels the section so staff know to click it to review the suggestions" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi)
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi)
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -79,7 +80,7 @@ describe DivisionsController, type: :request do
 
     it "links a suggestion's summary to the policy it matched" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -88,8 +89,8 @@ describe DivisionsController, type: :request do
 
     it "shows a suggestion as already linked when the division's already connected to that policy" do
       login_as(user)
-      create(:policy_division, division: division_representatives_2006_12_06_3, policy: policy1, vote: "aye")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:policy_division, division: division, policy: policy1, vote: "aye")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -98,8 +99,8 @@ describe DivisionsController, type: :request do
 
     it "doesn't call an existing match a new policy when the matched policy has been deleted" do
       login_as(user)
-      division = division_representatives_2006_12_06_3
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, match: "existing", direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi,
+                                    match: "existing", direction: "for")
 
       policy1.destroy!
       get "/divisions/representatives/2006-12-06/3"
@@ -110,8 +111,8 @@ describe DivisionsController, type: :request do
 
     it "styles a suggestion with no match/direction as an error, rather than a misleading new-policy line" do
       login_as(user)
-      division = division_representatives_2006_12_06_3
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, match: nil, direction: nil, error: nil)
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi,
+                                    match: nil, direction: nil, error: nil)
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -121,9 +122,9 @@ describe DivisionsController, type: :request do
 
     it "offers staff a quick link to the policy when all three models agree" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -132,9 +133,9 @@ describe DivisionsController, type: :request do
 
     it "doesn't offer a quick link when only two of the three models agree" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "against")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "against")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -143,10 +144,10 @@ describe DivisionsController, type: :request do
 
     it "doesn't offer a quick link when the division's already linked to that policy" do
       login_as(user)
-      create(:policy_division, division: division_representatives_2006_12_06_3, policy: policy1, vote: "aye")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "for")
+      create(:policy_division, division: division, policy: policy1, vote: "aye")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
 
       get "/divisions/representatives/2006-12-06/3"
 
@@ -155,12 +156,12 @@ describe DivisionsController, type: :request do
 
     it "actually links the division to the policy when the quick link button is submitted" do
       login_as(user)
-      division = division_representatives_2006_12_06_3
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
       create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
       create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
 
-      post "/divisions/representatives/2006-12-06/3/policies/create", params: { policy_division: { policy_id: policy1.id, vote: "aye" } }
+      params = { policy_division: { policy_id: policy1.id, vote: "aye" } }
+      post "/divisions/representatives/2006-12-06/3/policies/create", params: params
 
       expect(division.policy_divisions.find_by(policy: policy1)&.vote).to eq "aye"
     end
