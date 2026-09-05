@@ -19,7 +19,7 @@
         Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
       - DivisionPolicyClassifier::MODEL_LABELS.each do |model_id, label|
         .ai-policy-suggestion
-          %h3= label
+          %h3.h3= label
           - suggestion = suggestions[model_id]
           - if suggestion.nil?
             %p.text-muted Not yet classified.
@@ -28,7 +28,6 @@
           - else
             %p
               - if suggestion.match == "new"
-                new policy:
                 = suggestion.summary
               - elsif suggestion.policy
                 = link_to suggestion.summary, suggestion.policy
@@ -40,11 +39,13 @@
               - if suggestion.match == "existing" && linked_policy_ids.include?(suggestion.policy_id)
                 %span.label.label-success Already linked
             - if suggestion.match == "new"
-              %p
+              %p.ai-policy-suggestion-proposal
                 %strong= suggestion.proposed_policy_name
-                = suggestion.proposed_policy_description
+                - if suggestion.proposed_policy_description.present?
+                  %br
+                  = suggestion.proposed_policy_description
             - if suggestion.reasoning.present?
-              %p.text-muted= suggestion.reasoning
+              %p.ai-policy-suggestion-reasoning.text-muted.small= suggestion.reasoning
       - if unanimous_policy && policy(PolicyDivision).new? && !linked_policy_ids.include?(unanimous_policy.id)
         .ai-policy-suggestions-unanimous.alert.alert-info
           %p
