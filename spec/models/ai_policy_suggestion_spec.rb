@@ -71,9 +71,13 @@ describe AiPolicySuggestion do
       expect(suggestion.summary).to eq "For policy 42 (marriage equality)"
     end
 
-    it "falls back to just the id if the matched policy has since been deleted" do
-      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "against", policy: nil, policy_id: 42)
-      expect(suggestion.summary).to eq "Against policy 42"
+    it "says so when the matched policy has since been deleted" do
+      policy = create(:policy)
+      suggestion = create(:ai_policy_suggestion, match: "existing", direction: "against", policy: policy)
+
+      policy.destroy!
+
+      expect(suggestion.reload.summary).to eq "Against a policy that has since been deleted"
     end
 
     it "says a new policy was proposed" do
