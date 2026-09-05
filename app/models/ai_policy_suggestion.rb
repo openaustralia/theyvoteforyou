@@ -36,6 +36,12 @@ class AiPolicySuggestion < ApplicationRecord
     error.present? || match.nil? || direction.nil?
   end
 
+  # How this suggestion turned out: an error, a match against an existing Policy, or a proposal
+  # for a new one. Never nil - a missing match is itself an error (see #error?).
+  def outcome
+    error? ? "error" : match
+  end
+
   def summary
     return "Error: #{error}" if error.present?
     return "Error: model response was missing match/direction" if match.nil? || direction.nil?
