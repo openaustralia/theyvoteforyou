@@ -1,6 +1,9 @@
 - suggestions = division.ai_policy_suggestions.includes(:policy).index_by(&:model)
 - if policy(division).edit? && suggestions.any?
-  - agreement = suggestions.values.select { |s| s.match == "existing" && s.direction }.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
+  -# policy_id is nil both for new-policy proposals and for matches whose policy was later deleted, so
+  -# it can't stand in for "these two agree" - only suggestions naming a real policy are counted.
+  - matched = suggestions.values.select { |s| s.match == "existing" && s.policy_id && s.direction }
+  - agreement = matched.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
   - linked_policy_ids = division.policy_divisions.pluck(:policy_id)
   - model_count = DivisionPolicyClassifier::MODEL_LABELS.size
   - unanimous_policy_id, unanimous_direction = agreement.key(model_count)

@@ -109,6 +109,18 @@ describe DivisionsController, type: :request do
       expect(response.body).not_to include("new policy:")
     end
 
+    it "doesn't count suggestions as agreeing once the policy they named has been deleted" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
+
+      policy1.destroy!
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).not_to include("models agree")
+    end
+
     it "styles a suggestion with no match/direction as an error, rather than a misleading new-policy line" do
       login_as(user)
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi,
