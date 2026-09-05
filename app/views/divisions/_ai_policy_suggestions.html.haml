@@ -1,20 +1,8 @@
 -# Gated on the policy governing the connections this panel offers to make, not on editing the
 -# division, so widening who may edit a division can't publish unreviewed AI drafts.
 - if policy(PolicyDivision).new?
-  -# Only models the panel can label: a suggestion left over from a model id since retired from
-  -# MODEL_LABELS shouldn't count towards agreement nobody can see it taking part in.
-  - known_models = DivisionPolicyClassifier::MODEL_LABELS
-  - suggestions = division.ai_policy_suggestions.includes(:policy).index_by(&:model).slice(*known_models.keys)
-  - if suggestions.any?
-    -# policy_id is nil both for new-policy proposals and for matches whose policy was later
-    -# deleted, so it can't stand in for "these two agree" - only real classifications count.
-    - matched = suggestions.values.reject(&:error?).select { |s| s.match == "existing" && s.policy_id }
-    - agreement = matched.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
-    - linked_votes = division.policy_divisions.pluck(:policy_id, :vote).to_h
-    - model_count = known_models.size
-    - unanimous_policy_id, unanimous_direction = agreement.key(model_count)
-    - unanimous_suggestion = suggestions.values.find { |s| s.policy_id == unanimous_policy_id } if unanimous_policy_id
-    - unanimous_policy = unanimous_suggestion&.policy
+  - ai = DivisionAiSuggestions.new(division)
+  - if ai.any?
     %section.page-section#ai-policy-suggestions
       %h2.h5
         We have AI suggestions (staff only) -
@@ -24,49 +12,45 @@
       #ai-policy-suggestions-body.collapse
         %p.text-muted
           Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
-        - known_models.each do |model_id, label|
-          - suggestion = suggestions[model_id]
-          .ai-policy-suggestion{class: "ai-policy-suggestion-#{suggestion ? suggestion.outcome : 'unclassified'}"}
-            %h3.h3= label
-            - if suggestion.nil?
+        - ai.each do |row|
+          .ai-policy-suggestion{class: row.css_class}
+            %h3.h3= row.label
+            - if row.unclassified?
               %p.text-muted Not yet classified.
-            - elsif suggestion.error?
-              %p.text-danger= suggestion.summary
+            - elsif row.error?
+              %p.text-danger= row.summary
             - else
-              - vote_class = suggestion.direction == "for" ? "voted-aye" : "voted-no"
-              - suggested_vote = suggestion.direction == "for" ? "aye" : "no"
-              - linked_vote = linked_votes[suggestion.policy_id]
-              - agree_count = agreement[[suggestion.policy_id, suggestion.direction]].to_i
               %p
                 This vote is
-                %span.division-policy-statement-vote{class: vote_class}= suggestion.direction
-                - if suggestion.match == "new"
+                %span.division-policy-statement-vote{class: row.vote_class}= row.direction
+                - if row.new_policy?
                   a new policy:
-                  %strong= suggestion.proposed_policy_name
-                - elsif suggestion.policy
+                  %strong= row.proposed_policy_name
+                - elsif row.policy
                   an existing policy:
-                  = link_to suggestion.policy.name, suggestion.policy
+                  = link_to row.policy.name, row.policy
                 - else
                   = AiPolicySuggestion::POLICY_NOT_FOUND
 
-                - if agree_count > 1
-                  %span.label.label-info= "#{agree_count} models agree"
-                - if linked_vote && PolicyDivision.vote_without_strong(linked_vote) == suggested_vote
+                - if row.agreement?
+                  %span.label.label-info= "#{row.agree_count} models agree"
+                - if row.linked_same_way?
                   %span.label.label-success Already linked
-                - elsif linked_vote
+                - elsif row.linked_other_way?
                   %span.label.label-warning Linked the other way
-              - if suggestion.match == "new" && suggestion.proposed_policy_description.present?
-                %p= suggestion.proposed_policy_description
-              - if suggestion.reasoning.present?
-                %p.ai-policy-suggestion-reasoning.text-muted.small= suggestion.reasoning
-        - if unanimous_policy && !linked_votes.key?(unanimous_policy.id)
+              - if row.new_policy? && row.proposed_policy_description.present?
+                %p= row.proposed_policy_description
+              - if row.reasoning.present?
+                %p.ai-policy-suggestion-reasoning.text-muted.small= row.reasoning
+        - unanimous = ai.unanimous
+        - if unanimous
           .ai-policy-suggestions-unanimous.alert.alert-info
             %p
-              All #{model_count.to_words} models agree this division is
-              = unanimous_direction
-              = link_to unanimous_policy.name, unanimous_policy
+              All #{ai.model_count.to_words} models agree this division is
+              = unanimous.direction
+              = link_to unanimous.policy.name, unanimous.policy
             - create_url = create_policy_division_path(division.url_params)
             = simple_form_for :policy_division, url: create_url, html: {class: "form-inline"} do |f|
-              = f.hidden_field :policy_id, value: unanimous_policy.id
-              = f.hidden_field :vote, value: (unanimous_direction == "for" ? "aye" : "no")
-              = f.submit "Link this division to #{unanimous_policy.name}", class: "btn btn-primary btn-sm"
+              = f.hidden_field :policy_id, value: unanimous.policy.id
+              = f.hidden_field :vote, value: unanimous.vote
+              = f.submit "Link this division to #{unanimous.policy.name}", class: "btn btn-primary btn-sm"
