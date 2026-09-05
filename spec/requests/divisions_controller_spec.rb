@@ -66,6 +66,16 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("Claude Haiku 4.5")
       expect(response.body.scan("models agree").size).to eq(2)
     end
+
+    it "labels the section so staff know to click it to review the suggestions" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi)
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("We have AI suggestions")
+      expect(response.body).to include("review")
+    end
   end
 
   describe "#index" do
