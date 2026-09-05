@@ -25,7 +25,7 @@ describe AiPolicySuggestion do
     end
   end
 
-  describe ".create_from_result!" do
+  describe ".save_from_result!" do
     it "maps every field from the classifier's result" do
       division = create(:division)
       policy = create(:policy)
@@ -38,7 +38,7 @@ describe AiPolicySuggestion do
         raw: '{"match": "existing"}'
       )
 
-      suggestion = described_class.create_from_result!(division, result)
+      suggestion = described_class.save_from_result!(division, result)
 
       expect(suggestion.division).to eq division
       expect(suggestion.policy).to eq policy
@@ -47,6 +47,21 @@ describe AiPolicySuggestion do
       expect(suggestion.direction).to eq "for"
       expect(suggestion.reasoning).to eq "because"
       expect(suggestion.raw_response).to eq '{"match": "existing"}'
+    end
+
+    it "overwrites a failed attempt rather than raising on the unique index" do
+      division = create(:division)
+      policy = create(:policy)
+      described_class.create!(division: division, model: "test.model-v1:0", error: "ServiceUnavailable")
+      result = DivisionPolicyClassifier::Result.new(
+        model: "test.model-v1:0", match: "existing", policy: policy, direction: "for"
+      )
+
+      suggestion = described_class.save_from_result!(division, result)
+
+      expect(suggestion.error).to be_nil
+      expect(suggestion.policy).to eq policy
+      expect(described_class.where(division: division, model: "test.model-v1:0").count).to eq 1
     end
   end
 
