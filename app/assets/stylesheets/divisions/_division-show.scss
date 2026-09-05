@@ -2,6 +2,24 @@
   padding: 0;
 }
 
+#ai-policy-suggestions {
+  a[data-toggle="collapse"] {
+    .when-expanded {
+      display: none;
+    }
+
+    &[aria-expanded="true"] {
+      .when-collapsed {
+        display: none;
+      }
+
+      .when-expanded {
+        display: inline;
+      }
+    }
+  }
+}
+
 .division-external-links {
   width: 100%;
   clear: left;

@@ -2,9 +2,11 @@
 - if policy(division).edit? && suggestions.any?
   - agreement = suggestions.values.select { |s| s.match == "existing" && s.direction }.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
   %section.page-section#ai-policy-suggestions
-    %h2
+    %h4
+      We have AI suggestions (staff only) -
       %a.collapsed{href: "#ai-policy-suggestions-body", role: "button", data: {toggle: "collapse"}, "aria-expanded" => "false", "aria-controls" => "ai-policy-suggestions-body"}
-        AI policy classification proposals (staff only)
+        %span.when-collapsed ▼ review
+        %span.when-expanded ▲ hide
     #ai-policy-suggestions-body.collapse
       %p.text-muted
         Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
