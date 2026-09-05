@@ -29,6 +29,13 @@ class AiPolicySuggestion < ApplicationRecord
     suggestion
   end
 
+  # True whenever #summary describes an error rather than an actual classification, whether or
+  # not the error column itself is set (a nil match/direction is a malformed response, not
+  # something DivisionPolicyClassifier flagged as an error at the time).
+  def error?
+    error.present? || match.nil? || direction.nil?
+  end
+
   def summary
     return "Error: #{error}" if error
     return "Error: model response was missing match/direction" if match.nil? || direction.nil?

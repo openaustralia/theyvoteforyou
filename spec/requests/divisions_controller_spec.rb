@@ -95,6 +95,16 @@ describe DivisionsController, type: :request do
 
       expect(response.body).to include("Already linked")
     end
+
+    it "styles a suggestion with no match/direction as an error, rather than a misleading new-policy line" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, match: nil, direction: nil, error: nil)
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("<p class='text-danger'>Error: model response was missing match/direction</p>")
+      expect(response.body).not_to include("new policy:")
+    end
   end
 
   describe "#index" do
