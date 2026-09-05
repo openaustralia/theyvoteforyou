@@ -28,6 +28,7 @@ class AiPolicySuggestion < ApplicationRecord
 
   def summary
     return "Error: #{error}" if error
+    return "Error: model response was missing match/direction" if match.nil? || direction.nil?
 
     subject = match == "existing" ? "policy #{policy_id}" : "new policy I propose"
     "#{direction == 'for' ? 'For' : 'Against'} #{subject}"

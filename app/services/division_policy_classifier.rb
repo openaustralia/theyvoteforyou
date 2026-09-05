@@ -29,15 +29,18 @@ class DivisionPolicyClassifier
                       :reasoning, :raw, :error, keyword_init: true) do
     def summary
       return "Error: #{error}" if error
+      return "Error: model response was missing match/direction" if match.nil? || direction.nil?
 
       subject = match == "existing" ? "policy #{policy&.id}" : "new policy I propose"
       "#{direction == 'for' ? 'For' : 'Against'} #{subject}"
     end
   end
 
-  def initialize(division, models: MODELS)
+  # client: only for tests, to inject a stubbed Aws::BedrockRuntime::Client
+  def initialize(division, models: MODELS, client: nil)
     @division = division
     @models = models
+    @client = client
   end
 
   def classify_with_all_models
