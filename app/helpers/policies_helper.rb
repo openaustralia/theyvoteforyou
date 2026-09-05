@@ -235,17 +235,22 @@ module PoliciesHelper
     end
   end
 
+  # Returns nil if the user who made this edit has since been deleted (see Policy#last_edited_by
+  # for why that can happen even though a policy's own owner can't be deleted).
   def version_author(version)
     if version.is_a?(WikiMotion)
       version.user
     else
-      User.find(version.whodunnit)
+      User.find_by(id: version.whodunnit)
     end
   end
 
   def version_attribution_text(version)
     user = version_author(version)
-    "By #{user.name} at #{version.created_at.strftime('%I:%M%p - %d %b %Y')}\n#{user_url(user, only_path: false)}"
+    timestamp = version.created_at.strftime("%I:%M%p - %d %b %Y")
+    return "By an unknown user at #{timestamp}" unless user
+
+    "By #{user.name} at #{timestamp}\n#{user_url(user, only_path: false)}"
   end
 
   def capitalise_initial_character(text)
