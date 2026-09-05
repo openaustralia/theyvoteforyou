@@ -10,13 +10,17 @@ namespace :ai do
     policies = JSON.parse(File.read(file))
     created = 0
     updated = 0
-    policies.each do |attrs|
-      policy = Policy.find_or_initialize_by(name: attrs["name"])
-      policy.user ||= owner
-      policy.description = attrs["description"]
-      policy.status = attrs["provisional"] ? :provisional : :published
-      policy.new_record? ? created += 1 : updated += 1
-      policy.save!
+    # This is a plain data import for the classifier to read - it has nothing to do with search,
+    # so it shouldn't depend on Elasticsearch being reachable (openaustralia/theyvoteforyou#1728).
+    Searchkick.callbacks(false) do
+      policies.each do |attrs|
+        policy = Policy.find_or_initialize_by(name: attrs["name"])
+        policy.user ||= owner
+        policy.description = attrs["description"]
+        policy.status = attrs["provisional"] ? :provisional : :published
+        policy.new_record? ? created += 1 : updated += 1
+        policy.save!
+      end
     end
     puts "Imported #{policies.size} policies (#{created} created, #{updated} updated)"
   end
