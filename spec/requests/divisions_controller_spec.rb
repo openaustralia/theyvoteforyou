@@ -105,6 +105,52 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("<p class='text-danger'>Error: model response was missing match/direction</p>")
       expect(response.body).not_to include("new policy:")
     end
+
+    it "offers staff a quick link to the policy when all three models agree" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("Link this division to marriage equality")
+    end
+
+    it "doesn't offer a quick link when only two of the three models agree" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "against")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).not_to include("Link this division to")
+    end
+
+    it "doesn't offer a quick link when the division's already linked to that policy" do
+      login_as(user)
+      create(:policy_division, division: division_representatives_2006_12_06_3, policy: policy1, vote: "aye")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).not_to include("Link this division to")
+    end
+
+    it "actually links the division to the policy when the quick link button is submitted" do
+      login_as(user)
+      division = division_representatives_2006_12_06_3
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
+
+      post "/divisions/representatives/2006-12-06/3/policies/create", params: { policy_division: { policy_id: policy1.id, vote: "aye" } }
+
+      expect(division.policy_divisions.find_by(policy: policy1)&.vote).to eq "aye"
+    end
   end
 
   describe "#index" do
