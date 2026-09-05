@@ -44,6 +44,15 @@ describe DivisionSummarizer do
       expect(result.description).to eq "Wrapped in a fence."
     end
 
+    it "records an error, rather than a blank summary, when the response is missing title/description" do
+      stub_converse_text(%({"answer": "the model didn't return what we asked for"}))
+
+      result = summarizer.summarize_with("test.model-v1:0")
+
+      expect(result.title).to be_nil
+      expect(result.error).to eq "Model response was missing title/description"
+    end
+
     it "records an error when the response isn't valid JSON" do
       stub_converse_text("sorry, I can't help with that")
 

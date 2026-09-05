@@ -8,7 +8,10 @@ require "aws-sdk-bedrockruntime"
 # result is a draft for a human to review via the existing WikiMotion edit form, same as if a
 # person had written it.
 class DivisionSummarizer
-  MODELS = DivisionPolicyClassifier::MODELS
+  # Deliberately its own copy rather than DivisionPolicyClassifier::MODELS - tuning one service's
+  # model lineup (e.g. dropping a model that classifies poorly) shouldn't silently change the
+  # other's, even though they happen to use the same three models today.
+  MODELS = DivisionPolicyClassifier::MODELS.dup.freeze
   REGION = DivisionPolicyClassifier::REGION
 
   Result = Struct.new(:model, :title, :description, :raw, :error, keyword_init: true)
@@ -89,6 +92,8 @@ class DivisionSummarizer
 
   def parse(model_id, text)
     json = JSON.parse(text[/\{.*\}/m] || text)
+    return Result.new(model: model_id, error: "Model response was missing title/description", raw: text) if json["title"].blank? || json["description"].blank?
+
     Result.new(model: model_id, title: json["title"], description: json["description"], raw: text)
   rescue JSON::ParserError => e
     Result.new(model: model_id, error: "Could not parse response: #{e.message}", raw: text)

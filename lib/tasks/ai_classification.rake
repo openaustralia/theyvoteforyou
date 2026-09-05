@@ -34,7 +34,7 @@ namespace :ai do
     puts
 
     DivisionPolicyClassifier::MODELS.each do |label, model_id|
-      suggestion = AiPolicySuggestion.find_by(division: division, model: model_id)
+      suggestion = AiPolicySuggestion.find_by(division: division, model: model_id, error: nil)
       if suggestion
         puts "== #{label} (already classified, skipping) =="
       else
@@ -64,7 +64,7 @@ namespace :ai do
     puts
 
     DivisionSummarizer::MODELS.each do |label, model_id|
-      summary = AiDivisionSummary.find_by(division: division, model: model_id)
+      summary = AiDivisionSummary.find_by(division: division, model: model_id, error: nil)
       if summary
         puts "== #{label} (already summarised, skipping) =="
       else
