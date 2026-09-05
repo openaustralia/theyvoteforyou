@@ -5,7 +5,7 @@
   - unanimous_policy_id, unanimous_direction = agreement.find { |_, count| count == DivisionPolicyClassifier::MODEL_LABELS.size }&.first
   - unanimous_policy = Policy.find_by(id: unanimous_policy_id) if unanimous_policy_id
   %section.page-section#ai-policy-suggestions
-    %h4
+    %h2.h5
       We have AI suggestions (staff only) -
       %a.collapsed{href: "#ai-policy-suggestions-body", role: "button", data: {toggle: "collapse"}, "aria-expanded" => "false", "aria-controls" => "ai-policy-suggestions-body"}
         %span.when-collapsed ▼ review
