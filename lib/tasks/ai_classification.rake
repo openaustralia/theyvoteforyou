@@ -21,8 +21,8 @@ namespace :ai do
     puts "Imported #{policies.size} policies (#{created} created, #{updated} updated)"
   end
 
-  desc "Ask several Bedrock models to classify a Division against existing Policies " \
-       "(spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+  desc "Ask several Bedrock models to classify a Division against existing Policies, saving each " \
+       "as an AiPolicySuggestion (spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
   task classify_division: :environment do
     division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:classify_division DIVISION_ID=123" }
     division = Division.find(division_id)
@@ -32,6 +32,8 @@ namespace :ai do
     puts
 
     DivisionPolicyClassifier.new(division).classify_with_all_models.each do |label, result|
+      AiPolicySuggestion.create_from_result!(division, result)
+
       puts "== #{label} =="
       puts result.summary
       puts "  Policy: #{result.policy.name} - #{result.policy.description}" if result.match == "existing" && result.policy

@@ -7,6 +7,7 @@ class Policy < ApplicationRecord
   has_paper_trail meta: { policy_id: proc(&:id) }
   has_many :policy_divisions, dependent: :destroy
   has_many :divisions, through: :policy_divisions
+  has_many :ai_policy_suggestions, dependent: :nullify
   has_many :policy_person_distances, dependent: :destroy
   has_many :watches, as: :watchable, dependent: :destroy, inverse_of: :watchable
   belongs_to :user
