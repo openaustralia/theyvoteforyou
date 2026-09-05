@@ -3,9 +3,12 @@
 require "spec_helper"
 
 describe DivisionSummarizer do
+  subject(:result) { summarizer.summarize_with(model_id) }
+
+  let(:model_id) { "test.model-v1:0" }
+  let(:models) { { "test-model" => model_id } }
   let(:division) { create(:division, motion: "That this House bans the thing") }
   let(:stubbed_client) { Aws::BedrockRuntime::Client.new(stub_responses: true) }
-  let(:models) { { "test-model" => "test.model-v1:0" } }
   let(:summarizer) { described_class.new(division, models: models, client: stubbed_client) }
 
   # The stub validator requires the full response shape even though our code only reads
@@ -21,74 +24,101 @@ describe DivisionSummarizer do
   end
 
   describe "#summarize_with" do
-    it "writes a title and description" do
-      stub_converse_text(%({"title": "Motions — Coal Seam Gas", "description": "The Senate voted on a motion about coal seam gas."}))
+    context "when the model answers as asked" do
+      before do
+        stub_converse_text(
+          %({"title": "Motions — Coal Seam Gas", "description": "The Senate voted on a motion about coal seam gas."})
+        )
+      end
 
-      result = summarizer.summarize_with("test.model-v1:0")
+      it "reads the title" do
+        expect(result.title).to eq "Motions — Coal Seam Gas"
+      end
 
-      expect(result.title).to eq "Motions — Coal Seam Gas"
-      expect(result.description).to eq "The Senate voted on a motion about coal seam gas."
-      expect(result.error).to be_nil
+      it "reads the description" do
+        expect(result.description).to eq "The Senate voted on a motion about coal seam gas."
+      end
+
+      it "records no error" do
+        expect(result.error).to be_nil
+      end
     end
 
-    it "extracts the JSON even when a model wraps it in a code fence" do
-      stub_converse_text(<<~TEXT)
-        ```json
-        {"title": "Motions — Coal Seam Gas", "description": "Wrapped in a fence."}
-        ```
-      TEXT
+    context "when the model wraps the JSON in a code fence" do
+      before do
+        stub_converse_text(<<~TEXT)
+          ```json
+          {"title": "Motions — Coal Seam Gas", "description": "Wrapped in a fence."}
+          ```
+        TEXT
+      end
 
-      result = summarizer.summarize_with("test.model-v1:0")
+      it "reads the title" do
+        expect(result.title).to eq "Motions — Coal Seam Gas"
+      end
 
-      expect(result.title).to eq "Motions — Coal Seam Gas"
-      expect(result.description).to eq "Wrapped in a fence."
+      it "reads the description" do
+        expect(result.description).to eq "Wrapped in a fence."
+      end
     end
 
-    it "records an error, rather than a blank summary, when the response is missing title/description" do
-      stub_converse_text(%({"answer": "the model didn't return what we asked for"}))
+    context "when the response has no title or description" do
+      before { stub_converse_text(%({"answer": "the model didn't return what we asked for"})) }
 
-      result = summarizer.summarize_with("test.model-v1:0")
+      it "records an error" do
+        expect(result.error).to eq "Model response was missing title/description"
+      end
 
-      expect(result.title).to be_nil
-      expect(result.error).to eq "Model response was missing title/description"
+      it "leaves the title blank" do
+        expect(result.title).to be_nil
+      end
     end
 
-    it "records an error when the response is valid JSON but not an object" do
-      stub_converse_text(%(["not", "an", "object"]))
+    context "when the response is JSON but not an object" do
+      before { stub_converse_text(%(["not", "an", "object"])) }
 
-      result = summarizer.summarize_with("test.model-v1:0")
+      it "records an error" do
+        expect(result.error).to eq "Model response was missing title/description"
+      end
 
-      expect(result.title).to be_nil
-      expect(result.error).to eq "Model response was missing title/description"
+      it "leaves the title blank" do
+        expect(result.title).to be_nil
+      end
     end
 
-    it "records an error when the response isn't valid JSON" do
-      stub_converse_text("sorry, I can't help with that")
+    context "when the response isn't JSON at all" do
+      before { stub_converse_text("sorry, I can't help with that") }
 
-      result = summarizer.summarize_with("test.model-v1:0")
-
-      expect(result.error).to include("Could not parse response")
+      it "records a parse error" do
+        expect(result.error).to include("Could not parse response")
+      end
     end
 
-    it "records an error when Bedrock itself fails, rather than raising" do
-      stubbed_client.stub_responses(:converse, "ServiceUnavailableException")
+    context "when Bedrock itself fails" do
+      before { stubbed_client.stub_responses(:converse, "ServiceUnavailableException") }
 
-      result = summarizer.summarize_with("test.model-v1:0")
+      it "records the error rather than raising" do
+        expect(result.error).to be_present
+      end
 
-      expect(result.model).to eq "test.model-v1:0"
-      expect(result.error).to be_present
+      it "still names the model" do
+        expect(result.model).to eq model_id
+      end
     end
   end
 
   describe "#summarize_with_all_models" do
-    it "asks every configured model and keys the results by label" do
-      models = { "model-a" => "a.model-v1:0", "model-b" => "b.model-v1:0" }
-      summarizer = described_class.new(division, models: models, client: stubbed_client)
-      stub_converse_text(%({"title": "A title", "description": "A description."}))
+    subject(:results) { summarizer.summarize_with_all_models }
 
-      results = summarizer.summarize_with_all_models
+    let(:models) { { "model-a" => "a.model-v1:0", "model-b" => "b.model-v1:0" } }
 
+    before { stub_converse_text(%({"title": "A title", "description": "A description."})) }
+
+    it "asks every configured model" do
       expect(results.keys).to contain_exactly("model-a", "model-b")
+    end
+
+    it "returns each model's summary" do
       expect(results.values).to all(have_attributes(title: "A title"))
     end
   end
