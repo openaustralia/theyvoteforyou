@@ -111,5 +111,12 @@ describe AiPolicySuggestion do
       suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", error: nil)
       expect(suggestion.error?).to be false
     end
+
+    it "agrees with #summary on a blank error, treating it as no error at all" do
+      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", error: "")
+
+      expect(suggestion.error?).to be false
+      expect(suggestion.summary).not_to start_with "Error:"
+    end
   end
 end
