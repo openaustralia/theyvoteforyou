@@ -31,6 +31,43 @@ describe DivisionsController, type: :request do
     end
   end
 
+  describe "#show, AI policy suggestions" do
+    let(:kimi) { "moonshotai.kimi-k2.5" }
+    let(:deepseek) { "deepseek.v3.2" }
+    let(:claude) { "au.anthropic.claude-haiku-4-5-20251001-v1:0" }
+
+    before do
+      division_representatives_2006_12_06_3
+      policy1
+    end
+
+    it "is hidden when no model has classified the division yet, even for staff" do
+      login_as(user)
+      get "/divisions/representatives/2006-12-06/3"
+      expect(response.body).not_to include("ai-policy-suggestions")
+    end
+
+    it "is hidden from non-staff even when suggestions exist" do
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi)
+      get "/divisions/representatives/2006-12-06/3"
+      expect(response.body).not_to include("ai-policy-suggestions")
+    end
+
+    it "shows each model's proposal to staff, flagging agreement between models" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: deepseek, direction: "for")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: claude, direction: "against")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("Kimi K2.5")
+      expect(response.body).to include("DeepSeek V3.2")
+      expect(response.body).to include("Claude Haiku 4.5")
+      expect(response.body.scan("models agree").size).to eq(2)
+    end
+  end
+
   describe "#index" do
     before do
       division_representatives_2006_12_06_3

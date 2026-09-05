@@ -1,0 +1,29 @@
+- suggestions = division.ai_policy_suggestions.includes(:policy).index_by(&:model)
+- if policy(division).edit? && suggestions.any?
+  - agreement = suggestions.values.select { |s| s.match == "existing" && s.direction }.group_by { |s| [s.policy_id, s.direction] }.transform_values(&:size)
+  %section.page-section#ai-policy-suggestions
+    %h2
+      %a.collapsed{href: "#ai-policy-suggestions-body", role: "button", data: {toggle: "collapse"}, "aria-expanded" => "false", "aria-controls" => "ai-policy-suggestions-body"}
+        AI policy classification proposals (staff only)
+    #ai-policy-suggestions-body.collapse
+      %p.text-muted
+        Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
+      - DivisionPolicyClassifier::MODEL_LABELS.each do |model_id, label|
+        .ai-policy-suggestion
+          %h3= label
+          - suggestion = suggestions[model_id]
+          - if suggestion.nil?
+            %p.text-muted Not yet classified.
+          - elsif suggestion.error
+            %p.text-danger= "Error: #{suggestion.error}"
+          - else
+            %p
+              = suggestion.summary
+              - if suggestion.match == "existing" && agreement[[suggestion.policy_id, suggestion.direction]].to_i > 1
+                %span.label.label-info= "#{agreement[[suggestion.policy_id, suggestion.direction]]} models agree"
+            - if suggestion.match == "new"
+              %p
+                %strong= suggestion.proposed_policy_name
+                = suggestion.proposed_policy_description
+            - if suggestion.reasoning.present?
+              %p.text-muted= suggestion.reasoning
