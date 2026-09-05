@@ -17,7 +17,7 @@ class CreateAiPolicySuggestions < ActiveRecord::Migration[8.0]
 
       t.index :division_id
       t.index :policy_id
-      t.index %i[division_id model]
+      t.index %i[division_id model], unique: true
     end
   end
 end
