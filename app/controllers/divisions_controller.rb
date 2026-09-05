@@ -134,10 +134,10 @@ class DivisionsController < ApplicationController
   # TODO: Move this to a policy_division controller
   def update_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
-    authorize policy_division, :update?
+    @policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize @policy_division, :update?
 
-    if policy_division.update(policy_division_params)
+    if @policy_division.update(policy_division_params)
       flash[:notice] = "Updated policy connection"
     else
       flash[:error] = "Could not update policy connection"
@@ -150,10 +150,10 @@ class DivisionsController < ApplicationController
   # TODO: Move this to a policy_division controller
   def destroy_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
-    authorize policy_division, :destroy?
+    @policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize @policy_division, :destroy?
 
-    if policy_division.destroy
+    if @policy_division.destroy
       flash[:notice] = "Removed policy connection"
     else
       flash[:error] = "Could not remove policy connection"
@@ -180,7 +180,9 @@ class DivisionsController < ApplicationController
             .find_by(date: date, number: number)
   end
 
+  # `policy` here isn't a local variable, it's Pundit's own policy(record) helper - calling it with
+  # no arguments raised ArgumentError, crashing every create/update/destroy of a policy connection.
   def calculate_policy_person_distances
-    CalculatePolicyPersonDistancesJob.perform_later(policy)
+    CalculatePolicyPersonDistancesJob.perform_later(@policy_division.policy) if @policy_division&.policy
   end
 end
