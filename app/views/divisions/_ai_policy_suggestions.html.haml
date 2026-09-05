@@ -26,24 +26,25 @@
           - elsif suggestion.error?
             %p.text-danger= suggestion.summary
           - else
+            - vote_class = suggestion.direction == "for" ? "voted-aye" : "voted-no"
             %p
+              This vote is
+              %span.division-policy-statement-vote{class: vote_class}= suggestion.direction
               - if suggestion.match == "new"
-                = suggestion.summary
+                a new policy:
+                %strong= suggestion.proposed_policy_name
               - elsif suggestion.policy
-                = link_to suggestion.summary, suggestion.policy
+                an existing policy:
+                = link_to suggestion.policy.name, suggestion.policy
               - else
-                = suggestion.summary
+                a policy that has since been deleted
 
               - if suggestion.match == "existing" && agreement[[suggestion.policy_id, suggestion.direction]].to_i > 1
                 %span.label.label-info= "#{agreement[[suggestion.policy_id, suggestion.direction]]} models agree"
               - if suggestion.match == "existing" && linked_policy_ids.include?(suggestion.policy_id)
                 %span.label.label-success Already linked
-            - if suggestion.match == "new"
-              %p.ai-policy-suggestion-proposal
-                %strong= suggestion.proposed_policy_name
-                - if suggestion.proposed_policy_description.present?
-                  %br
-                  = suggestion.proposed_policy_description
+            - if suggestion.match == "new" && suggestion.proposed_policy_description.present?
+              %p.ai-policy-suggestion-proposal= suggestion.proposed_policy_description
             - if suggestion.reasoning.present?
               %p.ai-policy-suggestion-reasoning.text-muted.small= suggestion.reasoning
       - if unanimous_policy && policy(PolicyDivision).new? && !linked_policy_ids.include?(unanimous_policy.id)
