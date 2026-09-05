@@ -67,8 +67,13 @@ describe AiPolicySuggestion do
 
   describe "#summary" do
     it "names the matched policy and direction" do
-      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", policy: build(:policy, id: 42))
-      expect(suggestion.summary).to eq "For policy 42"
+      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", policy: build(:policy, id: 42, name: "marriage equality"))
+      expect(suggestion.summary).to eq "For policy 42 (marriage equality)"
+    end
+
+    it "falls back to just the id if the matched policy has since been deleted" do
+      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "against", policy: nil, policy_id: 42)
+      expect(suggestion.summary).to eq "Against policy 42"
     end
 
     it "says a new policy was proposed" do

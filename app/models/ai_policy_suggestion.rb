@@ -33,7 +33,14 @@ class AiPolicySuggestion < ApplicationRecord
     return "Error: #{error}" if error
     return "Error: model response was missing match/direction" if match.nil? || direction.nil?
 
-    subject = match == "existing" ? "policy #{policy_id}" : "new policy I propose"
+    subject = match == "existing" ? existing_policy_subject : "new policy I propose"
     "#{direction == 'for' ? 'For' : 'Against'} #{subject}"
+  end
+
+  private
+
+  # policy can be nil if the matched Policy has since been deleted
+  def existing_policy_subject
+    policy ? "policy #{policy_id} (#{policy.name})" : "policy #{policy_id}"
   end
 end
