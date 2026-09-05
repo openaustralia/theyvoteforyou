@@ -33,6 +33,11 @@
     border-left-color: $color-vote-against;
   }
 
+  // Dashed rather than solid: this model hasn't run, as opposed to having run and landed somewhere.
+  .ai-policy-suggestion-unclassified {
+    border-left-style: dashed;
+  }
+
   .ai-policy-suggestion-reasoning {
     font-style: italic;
   }

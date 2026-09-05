@@ -54,6 +54,15 @@ describe DivisionsController, type: :request do
       expect(response.body).not_to include("ai-policy-suggestions")
     end
 
+    it "is hidden from a signed-in user who isn't staff" do
+      login_as(create(:confirmed_user, staff: false))
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi)
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).not_to include("ai-policy-suggestions")
+    end
+
     it "shows each model's proposal to staff, flagging agreement between models" do
       login_as(user)
       create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
