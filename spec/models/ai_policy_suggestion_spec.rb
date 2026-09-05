@@ -76,4 +76,21 @@ describe AiPolicySuggestion do
       expect(suggestion.summary).to eq "Error: model response was missing match/direction"
     end
   end
+
+  describe "#error?" do
+    it "is true when the error column is set" do
+      suggestion = build(:ai_policy_suggestion, error: "boom")
+      expect(suggestion.error?).to be true
+    end
+
+    it "is true when match/direction are missing, even without an error column" do
+      suggestion = build(:ai_policy_suggestion, match: nil, direction: nil, error: nil)
+      expect(suggestion.error?).to be true
+    end
+
+    it "is false for a normal classification" do
+      suggestion = build(:ai_policy_suggestion, match: "existing", direction: "for", error: nil)
+      expect(suggestion.error?).to be false
+    end
+  end
 end

@@ -17,8 +17,8 @@
           - suggestion = suggestions[model_id]
           - if suggestion.nil?
             %p.text-muted Not yet classified.
-          - elsif suggestion.error
-            %p.text-danger= "Error: #{suggestion.error}"
+          - elsif suggestion.error?
+            %p.text-danger= suggestion.summary
           - else
             %p
               - if suggestion.match == "existing" && suggestion.policy
