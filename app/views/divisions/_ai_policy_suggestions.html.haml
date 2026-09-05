@@ -23,10 +23,12 @@
             %p.text-danger= suggestion.summary
           - else
             %p
-              - if suggestion.match == "existing" && suggestion.policy
+              - if suggestion.match == "new"
+                new policy:
+                = suggestion.summary
+              - elsif suggestion.policy
                 = link_to suggestion.summary, suggestion.policy
               - else
-                new policy:
                 = suggestion.summary
 
               - if suggestion.match == "existing" && agreement[[suggestion.policy_id, suggestion.direction]].to_i > 1

@@ -43,8 +43,11 @@ class AiPolicySuggestion < ApplicationRecord
 
   private
 
-  # policy can be nil if the matched Policy has since been deleted
+  # Deleting a Policy nullifies policy_id on its suggestions (Policy has_many :ai_policy_suggestions,
+  # dependent: :nullify), so once it's gone there's no id left to name either.
   def existing_policy_subject
-    policy ? "policy #{policy_id} (#{policy.name})" : "policy #{policy_id}"
+    return "a policy that has since been deleted" unless policy
+
+    "policy #{policy_id} (#{policy.name})"
   end
 end

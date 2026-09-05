@@ -96,9 +96,22 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("Already linked")
     end
 
+    it "doesn't call an existing match a new policy when the matched policy has been deleted" do
+      login_as(user)
+      division = division_representatives_2006_12_06_3
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, match: "existing", direction: "for")
+
+      policy1.destroy!
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("For a policy that has since been deleted")
+      expect(response.body).not_to include("new policy:")
+    end
+
     it "styles a suggestion with no match/direction as an error, rather than a misleading new-policy line" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, match: nil, direction: nil, error: nil)
+      division = division_representatives_2006_12_06_3
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, match: nil, direction: nil, error: nil)
 
       get "/divisions/representatives/2006-12-06/3"
 
