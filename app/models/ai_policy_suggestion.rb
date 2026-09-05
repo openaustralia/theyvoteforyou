@@ -25,4 +25,11 @@ class AiPolicySuggestion < ApplicationRecord
       error: result.error
     )
   end
+
+  def summary
+    return "Error: #{error}" if error
+
+    subject = match == "existing" ? "policy #{policy_id}" : "new policy I propose"
+    "#{direction == 'for' ? 'For' : 'Against'} #{subject}"
+  end
 end

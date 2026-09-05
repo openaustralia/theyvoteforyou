@@ -22,23 +22,31 @@ namespace :ai do
   end
 
   desc "Ask several Bedrock models to classify a Division against existing Policies, saving each " \
-       "as an AiPolicySuggestion (spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+       "as an AiPolicySuggestion - skips any model already saved for this Division " \
+       "(spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
   task classify_division: :environment do
     division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:classify_division DIVISION_ID=123" }
     division = Division.find(division_id)
+    classifier = DivisionPolicyClassifier.new(division)
 
     puts "Division ##{division.id}: #{division.name}"
     puts division.motion.to_s.truncate(200)
     puts
 
-    DivisionPolicyClassifier.new(division).classify_with_all_models.each do |label, result|
-      AiPolicySuggestion.create_from_result!(division, result)
+    DivisionPolicyClassifier::MODELS.each do |label, model_id|
+      suggestion = AiPolicySuggestion.find_by(division: division, model: model_id)
+      if suggestion
+        puts "== #{label} (already classified, skipping) =="
+      else
+        result = classifier.classify_with(model_id)
+        suggestion = AiPolicySuggestion.create_from_result!(division, result)
+        puts "== #{label} =="
+      end
 
-      puts "== #{label} =="
-      puts result.summary
-      puts "  Policy: #{result.policy.name} - #{result.policy.description}" if result.match == "existing" && result.policy
-      puts "  Proposed: #{result.new_policy_name} - #{result.new_policy_description}" if result.match == "new"
-      puts "  Reasoning: #{result.reasoning}" if result.reasoning
+      puts suggestion.summary
+      puts "  Policy: #{suggestion.policy.name} - #{suggestion.policy.description}" if suggestion.match == "existing" && suggestion.policy
+      puts "  Proposed: #{suggestion.proposed_policy_name} - #{suggestion.proposed_policy_description}" if suggestion.match == "new"
+      puts "  Reasoning: #{suggestion.reasoning}" if suggestion.reasoning
       puts
     end
   end
