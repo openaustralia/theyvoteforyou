@@ -42,15 +42,4 @@
                 %p= row.proposed_policy_description
               - if row.reasoning.present?
                 %p.ai-policy-suggestion-reasoning.text-muted.small= row.reasoning
-        - unanimous = ai.unanimous
-        - if unanimous
-          .ai-policy-suggestions-unanimous.alert.alert-info
-            %p
-              All #{ai.model_count.to_words} models agree this division is
-              = unanimous.direction
-              = link_to unanimous.policy.name, unanimous.policy
-            - create_url = create_policy_division_path(division.url_params)
-            = simple_form_for :policy_division, url: create_url, html: {class: "form-inline"} do |f|
-              = f.hidden_field :policy_id, value: unanimous.policy.id
-              = f.hidden_field :vote, value: unanimous.vote
-              = f.submit "Link this division to #{unanimous.policy.name}", class: "btn btn-primary btn-sm"
+        = render "ai_unanimous_suggestion", division: division, ai: ai if ai.unanimous
