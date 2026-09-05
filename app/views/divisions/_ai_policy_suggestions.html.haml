@@ -47,7 +47,7 @@
                   an existing policy:
                   = link_to suggestion.policy.name, suggestion.policy
                 - else
-                  a policy that has since been deleted
+                  = AiPolicySuggestion::POLICY_NOT_FOUND
 
                 - if agree_count > 1
                   %span.label.label-info= "#{agree_count} models agree"
