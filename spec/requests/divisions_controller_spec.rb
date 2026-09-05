@@ -76,6 +76,25 @@ describe DivisionsController, type: :request do
       expect(response.body).to include("We have AI suggestions")
       expect(response.body).to include("review")
     end
+
+    it "links a suggestion's summary to the policy it matched" do
+      login_as(user)
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include(%(href="#{policy_path(policy1)}"))
+    end
+
+    it "shows a suggestion as already linked when the division's already connected to that policy" do
+      login_as(user)
+      create(:policy_division, division: division_representatives_2006_12_06_3, policy: policy1, vote: "aye")
+      create(:ai_policy_suggestion, division: division_representatives_2006_12_06_3, policy: policy1, model: kimi, direction: "for")
+
+      get "/divisions/representatives/2006-12-06/3"
+
+      expect(response.body).to include("Already linked")
+    end
   end
 
   describe "#index" do
