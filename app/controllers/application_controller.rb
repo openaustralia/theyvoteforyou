@@ -25,9 +25,12 @@ class ApplicationController < ActionController::Base
 
   # Attach the signed-in user to Sentry events so errors show who was affected.
   # Sentry's Rack middleware resets the scope every request, so this can't leak
-  # between requests.
+  # between requests. The id only, never email or name - look the id up in the
+  # admin backend if you need to contact someone about an error (Australian
+  # Privacy Principles, and the canonical configuration in the infrastructure
+  # repo's docs/monitoring.md).
   def set_sentry_user
-    Sentry.set_user(id: current_user.id, email: current_user.email, username: current_user.name) if user_signed_in?
+    Sentry.set_user(id: current_user.id) if user_signed_in?
   end
 
   def store_location
