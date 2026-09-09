@@ -1,0 +1,563 @@
+/*! OAF Standard Footer v2.0.1
+ *  https://github.com/openaustralia/oaf-standard-footer
+ *
+ *  The canonical OpenAustralia Foundation footer, for use across the sites we
+ *  operate. Ported from the approved footer in the OAF Design System.
+ *
+ *  Plain CSS on purpose: this file is also valid SCSS, so Sass pipelines can
+ *  rename it to _oaf-footer.scss and @use it. Do not add Sass syntax, a build
+ *  step, or JavaScript - that breaks at least two adopting sites.
+ *
+ *  Theming is done with the custom properties below. Either apply a surface
+ *  preset class (.oaf-footer--planning-alerts and friends), or set the
+ *  properties yourself from your own design tokens.
+ */
+
+/* ==========================================================================
+   Custom property API
+   ========================================================================== */
+
+.oaf-footer {
+  /* Surface */
+  --oaf-footer-bg: #f4f1eb;
+  --oaf-footer-text: #333333;
+  --oaf-footer-muted: #6c6c6c;
+  --oaf-footer-rule: #e6e1d7;
+
+  /* Links */
+  --oaf-footer-link: #3a4e72;
+  --oaf-footer-link-hover: var(--oaf-footer-text);
+  --oaf-footer-focus-ring: currentColor;
+  /* Links in running text. This is the base value on `.oaf-footer a`, so every
+     prose region gets it without being named, and it is not a style preference.
+     A link in a sentence with no underline leaves colour as the only thing
+     marking it, which needs 3:1 against the surrounding text (WCAG technique
+     G183). No surface here manages that, and on most of them no link colour
+     can: on Right to Know the body text has to stay light enough to clear
+     4.5:1 on #333333, which puts it within 2.75:1 of white, and there is
+     nothing lighter than white to reach for. Only They Vote for You has any
+     room at all. Setting this to `none` drops the footer below AA - if you
+     need to, move the surface's body text colour first and re-run check.py. */
+  --oaf-footer-inline-link-decoration: underline;
+
+  /* The standalone rows - nav, collections, socials - opt out of the above,
+     because where they sit identifies them. Right to Know's deployed footer
+     sets `text-decoration: none` and this follows it. Planning Alerts sets this
+     back to `underline` in its preset, since its link colour is the same white
+     as its body text.
+
+     Note which way round these two are. The prose value is the base and the
+     standalone rows are the exception, so a text region added later inherits
+     the underline. The other arrangement, listing prose regions explicitly,
+     silently dropped the underline from .oaf-footer__acknowledgement and the
+     donate copy, and nothing caught it: check.py compares the governed wording
+     with tags stripped, so a link added inside the Acknowledgement passes every
+     check. */
+  --oaf-footer-link-decoration: none;
+
+  /* Brand marks. The inline wordmark is drawn with fill="currentColor", so
+     this one property replaces the three wordmark colour variants. */
+  --oaf-footer-wordmark: #800000;
+
+  /* Optional donate region */
+  --oaf-footer-donate-bg: rgba(0, 0, 0, 0.04);
+  --oaf-footer-donate-text: var(--oaf-footer-text);
+  --oaf-footer-donate-button-bg: #800000;
+  --oaf-footer-donate-button-text: #ffffff;
+
+  /* Layout. 59em is 944px at the default scale, which is the content measure
+     oaf.org.au uses. Wider than this and the Acknowledgement runs past 80
+     characters a line. */
+  --oaf-footer-max-width: 59em;
+  --oaf-footer-padding-block: 2.5em;
+  /* Grows with the viewport rather than pinning the content to the window
+     edge: 24px on a phone, 48px once there is room, matching oaf.org.au. */
+  --oaf-footer-padding-inline: clamp(1.5em, 4vw, 3em);
+
+  /* Type-size multiplier. Raise it where surrounding type runs large, so the
+     footer does not read as fine print. Parity with the design component's
+     `scale` prop. */
+  --oaf-footer-scale: 1;
+
+  /* Vertical rhythm.
+     These resolve against the footer's own base size, never against each
+     element's own font-size. A gap written as a plain `em` on, say, the
+     0.875em acknowledgement compounds to 0.875 of its value, so gaps meant to
+     match visually come out different - which is how this file drifted to
+     9.75px / 15.75px / 20px for three gaps that were all meant to read the
+     same. Every step below is the same number of pixels wherever it is used,
+     and all of them still follow --oaf-footer-scale. */
+  --oaf-footer-base: calc(16px * var(--oaf-footer-scale));
+  --oaf-footer-space-xs: calc(0.75 * var(--oaf-footer-base)); /* 12px */
+  --oaf-footer-space-sm: calc(0.875 * var(--oaf-footer-base)); /* 14px */
+  --oaf-footer-space-md: calc(1 * var(--oaf-footer-base)); /* 16px */
+  --oaf-footer-space-lg: calc(1.125 * var(--oaf-footer-base)); /* 18px */
+  --oaf-footer-space-xl: calc(2.25 * var(--oaf-footer-base)); /* 36px */
+
+  /* Inherit the host page's typeface by default. */
+  --oaf-footer-font: inherit;
+
+  /* NOTE: the responsive breakpoint is a fixed 48em. Custom properties cannot
+     be used in media query conditions, so it is not themeable. */
+}
+
+/* ==========================================================================
+   Block
+   ========================================================================== */
+
+.oaf-footer {
+  background: var(--oaf-footer-bg);
+  color: var(--oaf-footer-text);
+  font-family: var(--oaf-footer-font);
+  font-size: var(--oaf-footer-base);
+  line-height: 1.6;
+  padding: var(--oaf-footer-padding-block) var(--oaf-footer-padding-inline);
+}
+
+/* Scoped resets. The footer lands inside Bootstrap 3, Tailwind preflight and
+   two hand-rolled stylesheets, so it cannot assume anything about inherited
+   box sizing or default margins. */
+.oaf-footer *,
+.oaf-footer *::before,
+.oaf-footer *::after {
+  box-sizing: border-box;
+}
+
+/* Wrapped in :where() so these contribute no specificity beyond .oaf-footer
+   itself. Written as bare `.oaf-footer p` they are one type selector more
+   specific than the single-class component rules below, which silently zeroed
+   the margins on __site-name, __legal and __acknowledgement - the whole
+   attribution block rendered with no gaps at all. Keep the :where(). */
+.oaf-footer :where(p, ul, h2) {
+  margin: 0;
+}
+
+.oaf-footer :where(ul) {
+  list-style: none;
+  padding: 0;
+}
+
+/* text-decoration is declared, not left to the browser default, in both
+   directions. Bootstrap 3 sets `a { text-decoration: none }` and Tailwind
+   preflight sets `text-decoration: inherit`, either of which would strip an
+   underline the surface asked for; leaving it unset would equally let a host
+   stylesheet add one back where the surface wants none. */
+.oaf-footer a {
+  color: var(--oaf-footer-link);
+  /* The inline value is the base, so a link in any prose region is underlined
+     without having to be listed here. The three standalone rows opt out below.
+     Deliberately this way round: getting it wrong on a region added later shows
+     up as an unwanted underline, not as a silent accessibility failure. */
+  text-decoration: var(--oaf-footer-inline-link-decoration);
+  text-underline-offset: 2px;
+}
+
+/* Hover and focus underline whatever the resting state is. Colour alone does
+   not carry it: --oaf-footer-link-hover is the same white as the body text on
+   two of the five surfaces, so without this there is no hover feedback there
+   at all. */
+.oaf-footer a:hover,
+.oaf-footer a:focus {
+  color: var(--oaf-footer-link-hover);
+  text-decoration: underline;
+}
+
+.oaf-footer a:focus-visible {
+  outline: 2px solid var(--oaf-footer-focus-ring);
+  outline-offset: 2px;
+}
+
+/* The two image links wrap a mark, not text, so no underline. Qualified with
+   `a` to outrank `.oaf-footer a`: a lone class is one type selector short and
+   loses, which is the trap that zeroed the margins in this file. */
+.oaf-footer a.oaf-footer__wordmark-link,
+.oaf-footer a.oaf-footer__acnc {
+  text-decoration: none;
+}
+
+.oaf-footer__inner {
+  max-width: var(--oaf-footer-max-width);
+  margin: 0 auto;
+}
+
+/* ==========================================================================
+   Optional regions - site name, links, donate
+   Everything in this section may be omitted.
+   ========================================================================== */
+
+.oaf-footer__top {
+  display: grid;
+  gap: 2em;
+  margin-bottom: 2em;
+}
+
+@media (min-width: 48em) {
+  .oaf-footer__top {
+    grid-template-columns: 5fr 4fr 3fr;
+    gap: 2.5em;
+  }
+}
+
+.oaf-footer__site-name {
+  font-size: 1.5em;
+  line-height: 1.2;
+  margin-bottom: var(--oaf-footer-space-xs);
+}
+
+.oaf-footer__site-description {
+  color: var(--oaf-footer-muted);
+}
+
+.oaf-footer__links {
+  display: grid;
+  gap: 0.75em 2em;
+}
+
+/* Standalone: position identifies these, so no underline. */
+.oaf-footer__links a {
+  text-decoration: var(--oaf-footer-link-decoration);
+}
+
+@media (min-width: 30em) {
+  .oaf-footer__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.oaf-footer__links li + li {
+  margin-top: 0.5em;
+}
+
+.oaf-footer__donate {
+  background: var(--oaf-footer-donate-bg);
+  color: var(--oaf-footer-donate-text);
+  padding: 1.25em;
+  border-radius: 4px;
+}
+
+/* Qualified with `a` so it beats the generic `.oaf-footer a` colour rule,
+   which is one type selector more specific than a lone class. */
+.oaf-footer a.oaf-footer__donate-button {
+  display: inline-block;
+  margin-top: 0.75em;
+  padding: 0.6em 1.2em;
+  background: var(--oaf-footer-donate-button-bg);
+  color: var(--oaf-footer-donate-button-text);
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.oaf-footer a.oaf-footer__donate-button:hover,
+.oaf-footer a.oaf-footer__donate-button:focus {
+  color: var(--oaf-footer-donate-button-text);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Divider
+   ========================================================================== */
+
+.oaf-footer__divider {
+  border: 0;
+  border-top: 1px solid var(--oaf-footer-rule);
+  margin: 0 0 1.75em;
+}
+
+/* Parity with the design component's `tickGap` prop. */
+.oaf-footer--no-divider .oaf-footer__divider {
+  display: none;
+}
+
+/* ==========================================================================
+   Attribution - REQUIRED. Do not omit, and do not reword its contents.
+   ========================================================================== */
+
+.oaf-footer__attribution {
+  display: grid;
+  gap: 1.5em;
+  align-items: start;
+}
+
+@media (min-width: 48em) {
+  .oaf-footer__attribution {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--oaf-footer-space-xl);
+  }
+}
+
+.oaf-footer__built {
+  display: block;
+  font-size: 0.8125em;
+  color: var(--oaf-footer-muted);
+  margin-bottom: var(--oaf-footer-space-xs);
+}
+
+.oaf-footer__wordmark-link {
+  display: inline-block;
+  /* The link is the only thing on its line, so by default it sits on the text
+     baseline and the line box's descender adds roughly 7px of dead space under
+     it - the gap below the wordmark rendered 25.6px against the 18px asked for
+     here, and the overshoot moved with the host page's typeface. Aligning to
+     the bottom of the line box drops it. Inline-block, not block, so the
+     clickable area stays the width of the wordmark. */
+  vertical-align: bottom;
+}
+
+.oaf-footer__wordmark {
+  display: block;
+  height: 1.625em;
+  width: auto;
+  max-width: 100%;
+  color: var(--oaf-footer-wordmark);
+}
+
+.oaf-footer__legal {
+  font-size: 0.875em;
+  margin-top: var(--oaf-footer-space-lg);
+}
+
+.oaf-footer__acknowledgement {
+  font-size: 0.875em;
+  color: var(--oaf-footer-muted);
+  margin-top: var(--oaf-footer-space-lg);
+  padding-top: var(--oaf-footer-space-sm);
+  border-top: 1px solid var(--oaf-footer-rule);
+}
+
+/* ACNC Registered Charity Tick.
+   Licence constraints, not style preferences:
+   - minimum width 15mm (about 57px), hence the min-width floor
+   - 5mm clear space on every side, and that space stays the footer background
+     colour - the white disc inside the mark is the only white permitted
+   - never inside a white box, card or panel on a dark surface
+   - must link to OAF's entry on the Charity Register
+   See https://www.acnc.gov.au/charity/registered-charity-tick/terms-and-conditions */
+.oaf-footer__acnc {
+  display: block;
+  /* Only the space below the mark needs declaring. The layout already clears
+     more than 5mm on the other three sides: 36px of column gap to its left on
+     desktop (24px of row gap above it once the grid stacks), and at minimum
+     the footer's own 40px of block padding above. Below is the one edge that
+     can close up - when the mark is the tallest thing in the row, the next
+     rule sits at the row's 18px top margin, which is under 5mm. Anything that
+     moves those numbers has to keep this side at 5mm too.
+
+     Declaring it as margin on all four sides, which is what this rule used to
+     do, also pushed the mark 5mm in from the content's right edge and 5mm
+     below the top of the block, so it lined up with nothing. */
+  margin-block: 0 5mm;
+}
+
+.oaf-footer__acnc-mark {
+  display: block;
+  width: 150px;
+  max-width: 100%;
+  min-width: 57px;
+  height: auto;
+}
+
+/* ==========================================================================
+   Collections and social rows
+   ========================================================================== */
+
+.oaf-footer__collections,
+.oaf-footer__social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75em 1.5em;
+  justify-content: space-between;
+  margin-top: var(--oaf-footer-space-lg);
+  padding-top: var(--oaf-footer-space-md);
+  border-top: 1px solid var(--oaf-footer-rule);
+}
+
+.oaf-footer__collections {
+  align-items: baseline;
+}
+
+.oaf-footer__social {
+  align-items: center;
+}
+
+.oaf-footer__eyebrow {
+  font-size: 0.6875em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--oaf-footer-muted);
+}
+
+.oaf-footer__collection-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5em 1.375em;
+}
+
+.oaf-footer__collection-list a {
+  color: var(--oaf-footer-text);
+  text-decoration: var(--oaf-footer-link-decoration);
+  font-size: 0.875em;
+}
+
+.oaf-footer__collection-list a:hover,
+.oaf-footer__collection-list a:focus {
+  text-decoration: underline;
+}
+
+.oaf-footer__social-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em 1.25em;
+}
+
+.oaf-footer__social-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  color: var(--oaf-footer-text);
+  text-decoration: var(--oaf-footer-link-decoration);
+  padding: 4px 2px;
+  font-size: 0.8125em;
+  font-weight: 500;
+}
+
+.oaf-footer__social-list a:hover,
+.oaf-footer__social-list a:focus {
+  text-decoration: underline;
+}
+
+.oaf-footer__social-icon {
+  display: block;
+  width: 1.375em;
+  height: 1.375em;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Surface presets
+   Values taken from each collection's live repo, not from the Design System's
+   footer presets - the Design System README makes the repo source of truth
+   where the two disagree, and for three of these they do.
+   ========================================================================== */
+
+/* Planning Alerts
+   app/views/application/_footer.html.erb, config/tailwind.config.js */
+.oaf-footer--planning-alerts {
+  --oaf-footer-bg: #03827a;
+  --oaf-footer-text: #ffffff;
+  /* White is only 4.69:1 on this green, so there is no room for a dimmed
+     muted tone that still passes AA. Muted matches text here, and hierarchy
+     comes from size, weight and letter-spacing instead of colour. */
+  --oaf-footer-muted: #ffffff;
+  --oaf-footer-rule: #479590;
+  --oaf-footer-link: #ffffff;
+  --oaf-footer-link-hover: #ffffff;
+  /* Link and body text are the same white, so nothing but the underline marks
+     a link here. Verified against the live site, which underlines throughout. */
+  --oaf-footer-link-decoration: underline;
+  --oaf-footer-focus-ring: #ffdc3e;
+  --oaf-footer-wordmark: #ffffff;
+  --oaf-footer-donate-bg: #054e4a;
+  --oaf-footer-donate-text: #ffffff;
+  --oaf-footer-donate-button-bg: #ca3f94;
+  --oaf-footer-donate-button-text: #ffffff;
+}
+
+/* Right to Know
+   app/assets/stylesheets/responsive/rtk/_footer.scss, responsive/_settings.scss */
+.oaf-footer--right-to-know {
+  --oaf-footer-bg: #333333;
+  --oaf-footer-text: #e0ded7;
+  --oaf-footer-muted: #b3afa4;
+  --oaf-footer-rule: #4c4c4c;
+  /* From the deployed stylesheet, which already carries this footer:
+     `.oaf-footer a { color: #ffffff; text-decoration: none }` with a #00adbd
+     hover. The body text and muted tones below stay lighter than the
+     deployed #9f9c92, which clears AA on #333333 by only 0.1. */
+  --oaf-footer-link: #ffffff;
+  --oaf-footer-link-hover: #00adbd;
+  --oaf-footer-focus-ring: #00dcf0;
+  --oaf-footer-wordmark: #ffffff;
+  --oaf-footer-donate-bg: #434343;
+  --oaf-footer-donate-text: #e0ded7;
+  --oaf-footer-donate-button-bg: #00dcf0;
+  --oaf-footer-donate-button-text: #003540;
+}
+
+/* They Vote for You
+   app/assets/stylesheets/global/_variables.scss, global/_author-projects.scss */
+.oaf-footer--they-vote-for-you {
+  /* darken($color-blue-dark, 20%) - the attribution band colour */
+  --oaf-footer-bg: #101c37;
+  --oaf-footer-text: #ffffff;
+  --oaf-footer-muted: #b7c4dc;
+  --oaf-footer-rule: rgba(255, 255, 255, 0.18);
+  --oaf-footer-link: #9cc4ec;
+  --oaf-footer-link-hover: #c7dcf3;
+  --oaf-footer-focus-ring: #ffea8a;
+  --oaf-footer-wordmark: #ffffff;
+  --oaf-footer-donate-bg: #274486;
+  --oaf-footer-donate-text: #ffffff;
+  /* The brand blue #428bca is only 3.63:1 behind white text, so the button
+     uses a darkened step of it. The 16px top rule keeps the brand blue,
+     where contrast does not apply. */
+  --oaf-footer-donate-button-bg: #356fa3;
+  --oaf-footer-donate-button-text: #ffffff;
+  border-top: 16px solid #428bca;
+}
+
+/* OpenAustralia.org.au
+   No attribution surface exists in openaustralia/twfy to preserve, so this
+   follows the Design System's OpenAustralia preset. */
+.oaf-footer--openaustralia {
+  --oaf-footer-bg: #ffffff;
+  --oaf-footer-text: #333333;
+  --oaf-footer-muted: #6c6c6c;
+  --oaf-footer-rule: #dddddd;
+  --oaf-footer-link: #3a4e72;
+  --oaf-footer-link-hover: #1f2b40;
+  --oaf-footer-focus-ring: #3a4e72;
+  --oaf-footer-wordmark: #000000;
+  --oaf-footer-donate-bg: #f4f1eb;
+  --oaf-footer-donate-button-bg: #3a4e72;
+  --oaf-footer-donate-button-text: #ffffff;
+}
+
+/* oaf.org.au
+   oaf-wp-blocktheme theme.json + style.css */
+.oaf-footer--oaf {
+  --oaf-footer-bg: #f4f1eb;
+  --oaf-footer-text: #333333;
+  --oaf-footer-muted: #6c6c6c;
+  --oaf-footer-rule: #e6e1d7;
+  --oaf-footer-link: #3a4e72;
+  --oaf-footer-link-hover: #ba3458;
+  --oaf-footer-focus-ring: #800000;
+  --oaf-footer-wordmark: #800000;
+  --oaf-footer-donate-bg: #ffffff;
+  --oaf-footer-donate-button-bg: #800000;
+  --oaf-footer-donate-button-text: #ffffff;
+  border-top: 3px solid #800000;
+}
+
+/* ==========================================================================
+   Print
+   ========================================================================== */
+
+@media print {
+  .oaf-footer {
+    --oaf-footer-bg: #ffffff;
+    --oaf-footer-text: #000000;
+    --oaf-footer-muted: #444444;
+    --oaf-footer-rule: #cccccc;
+    --oaf-footer-link: #000000;
+    --oaf-footer-wordmark: #000000;
+  }
+
+  .oaf-footer__donate {
+    display: none;
+  }
+}

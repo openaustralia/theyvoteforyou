@@ -1,2 +1,8 @@
-@import "footer-main";
-@import "author-projects";
+// Site-local layout for the OAF standard footer (vendor/assets/stylesheets/_oaf-footer.scss).
+// The standard footer carries no top margin of its own; this preserves the gap
+// the previous footer had between the page content and the footer. The front
+// page zeroes it where the footer sits flush against the banner section - see
+// home/_front-page.scss.
+.oaf-footer {
+  margin-top: 48px;
+}
