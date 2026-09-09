@@ -36,7 +36,7 @@ The final step is to customise the site language and interface. The best way to 
 
 #### Ukraine
 
-People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
+People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](https://everypolitician.org/territories/ua/national/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
 
     bundle exec rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
 
