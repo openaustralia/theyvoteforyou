@@ -68,8 +68,10 @@ bundle exec rails server                             # http://localhost:3000
 `bin/setup` does a shorter version of the same thing (`bundle check || bundle install`, `bin/rails db:prepare`, clear
 logs and tmp) and then execs `bin/dev`, which is just `bin/rails server`. Pass `--skip-server` to stop before that.
 
-`foreman start` uses the `Procfile` to run the server alongside `mailcatcher` (web UI at http://localhost:1080), which
-catches confirmation emails in development. Install it separately: `gem install mailcatcher`.
+The app can also run entirely in Docker instead of on the host: `make dev-up` (see Makefile targets below).
+
+Confirmation emails in development are caught by mailpit (web UI at <http://localhost:1088>), which runs as one of
+the `docker-stack/dev` services (see below), not a separately installed gem.
 
 ### Makefile targets
 
@@ -78,18 +80,18 @@ catches confirmation emails in development. Install it separately: `gem install 
 ```
 make init-submodules     # git submodule update --init --recursive
 make install-ruby        # rbenv install < .ruby-version
-make dev-services-up     # MySQL, Elasticsearch and dejavu via docker-stack/dev
+make dev-services-up     # MySQL, Elasticsearch, dejavu and mailpit via docker-stack/dev
+make dev-up              # the same services, plus the app itself, all in Docker
 make test-services-up    # the same services for the test environment
 make deploy-production   # bundle exec cap production deploy
 make deploy-staging      # bundle exec cap staging deploy
 ```
 
-`make dev-services-up` starts services only, not the app. Ruby and the Rails server still run on the host. The compose
-file exposes MySQL on 3306, Elasticsearch on 9200/9300 and the dejavu Elasticsearch browser on
-http://localhost:1358.
-
-There is no devcontainer and no `make dev-exec`-style wrapper on this branch. If you find yourself reaching for one,
-check whether you're on a branch that adds it before assuming it exists.
+`make dev-services-up` starts services only, not the app; Ruby and the Rails server run on the host in that case.
+`make dev-up` starts everything, including the app, in Docker (see `docker-stack/dev/docker-compose.yml`'s `app`
+service) - an alternative to `bundle exec rails s`, not a replacement for it. The compose file exposes MySQL on 3306,
+Elasticsearch on 9200/9300, the dejavu Elasticsearch browser on <http://localhost:1358>, and mailpit on 1025 (SMTP)
+and <http://localhost:1088> (web UI).
 
 ### First-time data load
 

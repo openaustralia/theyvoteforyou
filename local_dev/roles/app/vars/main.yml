@@ -1,3 +1,0 @@
----
-docker_compose_dir: '{{ work_base_dir }}/docker-compose'
-docker_compose_path: '{{ docker_compose_dir }}/docker-compose.yml'
