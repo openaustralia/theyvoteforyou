@@ -56,3 +56,38 @@ services:
       driver: "journald"
     depends_on:
       - elasticsearch
+
+  mailpit:
+    image: "axllent/mailpit:latest"
+    ports:
+      - "1025:1025" # SMTP
+      - "1088:8025" # web UI
+    restart: "always"
+    logging:
+      driver: "journald"
+
+  # Runs the app itself in Docker, as an alternative to `bundle exec rails s` on
+  # the host. Not used for production - see docs/adr/0003-rbenv-replaces-rvm.md.
+  app:
+    build:
+      context: ../..
+      args:
+        RUBY_VERSION: ${RUBY_VERSION:-3.4.10}
+    command: bash -c "bundle check || bundle install && bin/rails server -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../..:/app
+      - bundle_cache:/usr/local/bundle
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+      MAILPIT_HOST: mailpit
+      RAILS_ENV: development
+    depends_on:
+      - mysql
+      - elasticsearch
+      - mailpit
+
+volumes:
+  bundle_cache:
