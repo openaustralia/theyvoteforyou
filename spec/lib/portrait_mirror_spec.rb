@@ -12,13 +12,28 @@ describe PortraitMirror do
   describe "#mirror" do
     subject(:mirror) { described_class.new(source, path).mirror }
 
-    context "when the source returns a 200" do
-      before { stub_request(:get, source).to_return(status: 200, body: "jpeg bytes") }
+    context "when the source returns an image" do
+      before do
+        stub_request(:get, source).to_return(status: 200, body: "jpeg bytes", headers: { "Content-Type" => "image/jpeg" })
+      end
 
       it "writes the portrait" do
         mirror
         expect(File.binread(path)).to eq "jpeg bytes"
       end
+    end
+
+    it "gives up on a host that does not answer rather than waiting on Net::HTTP defaults" do
+      stub_request(:get, source).to_return(status: 200, body: "png", headers: { "Content-Type" => "image/png" })
+      allow(Net::HTTP).to receive(:start).and_call_original
+
+      mirror
+
+      expect(Net::HTTP).to have_received(:start).with(
+        anything, anything, hash_including(open_timeout: described_class::OPEN_TIMEOUT,
+                                           read_timeout: described_class::READ_TIMEOUT)
+      )
+      expect(File.binread(path)).to eq "png"
     end
 
     context "when a portrait has already been mirrored" do
@@ -51,6 +66,13 @@ describe PortraitMirror do
         expect { mirror }.not_to raise_error
         expect(File.binread(path)).to eq "old jpeg"
       end
+
+      it "keeps the existing file when a 200 carries something other than an image" do
+        stub_request(:get, source).to_return(status: 200, body: "<html>Just a moment...</html>",
+                                             headers: { "Content-Type" => "text/html; charset=UTF-8" })
+        mirror
+        expect(File.binread(path)).to eq "old jpeg"
+      end
     end
 
     context "when the source fails and nothing has been mirrored yet" do
@@ -71,8 +93,8 @@ describe PortraitMirror do
 
     before do
       stub_const("PortraitMirror::ROOT", root)
-      stub_request(:get, "https://example.com/small.jpg").to_return(status: 200, body: "small")
-      stub_request(:get, "https://example.com/xl.jpg").to_return(status: 200, body: "xl")
+      stub_request(:get, "https://example.com/small.jpg").to_return(status: 200, body: "small", headers: { "Content-Type" => "image/jpeg" })
+      stub_request(:get, "https://example.com/xl.jpg").to_return(status: 200, body: "xl", headers: { "Content-Type" => "image/jpeg" })
     end
 
     it "mirrors each size the person has a source for" do
@@ -90,7 +112,7 @@ describe PortraitMirror do
       failing = create(:person, small_image_url: "https://example.com/fails.jpg")
       working = create(:person, small_image_url: "https://example.com/works.jpg")
       stub_request(:get, "https://example.com/fails.jpg").to_return(status: 500)
-      stub_request(:get, "https://example.com/works.jpg").to_return(status: 200, body: "works")
+      stub_request(:get, "https://example.com/works.jpg").to_return(status: 200, body: "works", headers: { "Content-Type" => "image/jpeg" })
 
       described_class.run
 
