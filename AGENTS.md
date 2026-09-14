@@ -47,7 +47,7 @@ there is no CLA file in `openaustralia/.github` to cite.
 
 ## Development environment
 
-Ruby version is pinned in `.ruby-version` (3.4.4). MySQL and HTMLTidy are the system dependencies.
+Ruby version is pinned in `.ruby-version`. MySQL and HTMLTidy are the system dependencies.
 
 ```
 brew install tidy-html5 mysql rbenv ruby-build   # macOS
