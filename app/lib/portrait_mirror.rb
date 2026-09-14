@@ -12,6 +12,10 @@ require "net/http"
 class PortraitMirror
   SIZES = %i[small large extra_large].freeze
   ROOT = Rails.public_path.join("system/portraits")
+  # Thousands of portraits are fetched in series, so one stalled host must not
+  # hold the nightly run for Net::HTTP's default 60 seconds each
+  OPEN_TIMEOUT = 10
+  READ_TIMEOUT = 30
 
   def self.run
     Person.find_each { |person| mirror(person) }
@@ -37,7 +41,12 @@ class PortraitMirror
     response = fetch
     case response
     when Net::HTTPSuccess
-      write(response.body)
+      # A challenge or error page served with a 200 must not replace a real portrait
+      if response.content_type.to_s.start_with?("image/")
+        write(response.body)
+      else
+        record_failure("unexpected content type #{response.content_type.inspect}")
+      end
     when Net::HTTPNotModified
       nil
     else
@@ -55,7 +64,10 @@ class PortraitMirror
     uri = URI(source)
     request = Net::HTTP::Get.new(uri)
     request["If-Modified-Since"] = File.mtime(path).httpdate if File.exist?(path)
-    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") { |http| http.request(request) }
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https",
+                                        open_timeout: OPEN_TIMEOUT, read_timeout: READ_TIMEOUT) do |http|
+      http.request(request)
+    end
   end
 
   # Write to a temp file in the same directory then rename, so a reader never

@@ -11,7 +11,7 @@ describe DataLoader::People do
       stub_const("PortraitMirror::ROOT", root)
       stub_request(:get, "https://www.openaustralia.org.au/images/mps/#{person.id}.jpg").to_return(status: 404)
       stub_request(:get, "https://www.openaustralia.org.au/images/mpsL/#{person.id}.jpg")
-        .to_return(status: 200, body: "large jpeg")
+        .to_return(status: 200, body: "large jpeg", headers: { "Content-Type" => "image/jpeg" })
       stub_request(:get, "https://www.openaustralia.org.au/images/mpsXL/#{person.id}.jpg").to_return(status: 404)
     end
 
