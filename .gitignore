@@ -67,7 +67,9 @@ distances_46th_parliament.csv
 /config/credentials.yml.enc
 /config/master.key
 
-vendor
+# Bundler's install path. Note this is deliberately not a bare "vendor": vendor/assets holds
+# tracked third-party JavaScript and CSS.
+/vendor/bundle
 
 # Mac Finder
 .DS_Store

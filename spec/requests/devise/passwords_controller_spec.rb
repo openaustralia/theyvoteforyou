@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe Devise::PasswordsController, type: :request do
+describe PasswordsController, type: :request do
   describe "GET /users/password/new" do
     it "renders the forgotten password form" do
       get "/users/password/new"

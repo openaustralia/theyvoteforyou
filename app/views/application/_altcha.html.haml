@@ -1,0 +1,15 @@
+-# Proof-of-work spam check on the anonymous forms, rendered only when the :altcha flag is on,
+-# which is also the only time the 114KB widget is loaded. The challenge is embedded rather than
+-# fetched, so there is no extra round trip and no separate endpoint to rate limit.
+-# See docs/adr/0004-altcha-proof-of-work-on-anonymous-forms.md
+- if altcha_widget?
+  .form-group.altcha-check
+    %p.small.help-block
+      Before this form is sent, your browser does a quick sum that keeps automated spam out.
+      It usually takes a second, and nothing about you is sent anywhere.
+    %altcha-widget{challenge: altcha_challenge_json,
+                   name: "altcha",
+                   auto: "onload",
+                   display: "standard",
+                   configuration: {humanInteractionSignature: false}.to_json}
+    = javascript_include_tag "altcha", defer: true

@@ -11,6 +11,8 @@
       = f.label :email
       = f.email_field :email, autofocus: true, class: "form-control", required: "required"
 
+    = render "application/altcha"
+
     = f.submit "Reset password", class: "btn btn-primary btn-wide"
 
   %ul.form-secondary.nav.nav-pills
