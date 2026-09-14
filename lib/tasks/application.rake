@@ -3,47 +3,9 @@
 require Rails.root.join("app/helpers/path_helper")
 
 # Cron schedules are defined in the OAF infrastructure repo (ansible role
-# roles/internal/theyvoteforyou) - that's the source of truth for the crontabs below.
-def with_sentry_cron_monitoring(slug, crontab, &block)
-  return block.call unless defined?(Sentry) && Sentry.initialized?
-
-  monitor_config = Sentry::Cron::MonitorConfig.from_crontab(
-    crontab,
-    checkin_margin: 60,
-    max_runtime: 360,
-    timezone: "Australia/Sydney"
-  )
-  check_in_id = Sentry.capture_check_in(slug, :in_progress, monitor_config: monitor_config)
-  # Rake tasks run outside any automatic Sentry transaction, so start one here
-  # to make the sentry_stage spans visible in a trace. sampled: true because
-  # these run once a day - the web traces_sample_rate would drop most runs.
-  transaction = Sentry.start_transaction(name: slug, op: "cron", sampled: true)
-  Sentry.get_current_scope.set_span(transaction) if transaction
-  start = Sentry.utc_now
-  begin
-    block.call
-    transaction&.set_status("ok")
-    Sentry.capture_check_in(slug, :ok, check_in_id: check_in_id, duration: Sentry.utc_now - start,
-                                       monitor_config: monitor_config)
-  rescue StandardError
-    transaction&.set_status("internal_error")
-    Sentry.capture_check_in(slug, :error, check_in_id: check_in_id, duration: Sentry.utc_now - start,
-                                          monitor_config: monitor_config)
-    raise
-  ensure
-    transaction&.finish
-  end
-end
-
-# Wrap a stage of a cron run in a child span so the trace shows where the time
-# goes. Safely a no-op when there's no active transaction (e.g. running a task
-# by hand) or Sentry isn't initialized.
-def sentry_stage(name, &block)
-  return block.call unless defined?(Sentry)
-
-  Sentry.with_child_span(op: "task", description: name) { |_span| block.call }
-end
-
+# roles/internal/theyvoteforyou) - that's the source of truth. The same
+# Ansible role wraps the cron entries in `sentry monitor run`, which reports
+# the check-ins to Sentry's cron monitors, so nothing in here needs to.
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
@@ -54,49 +16,39 @@ namespace :application do
 
     desc "Rebuilds the whole cache of agreement between people"
     task people_distances: :environment do
-      sentry_stage("application:cache:people_distances") do
-        people = Person.all
-        progressbar = ProgressBar.create(title: "Updating people distance cache", total: people.count, format: "%t: |%B| %E %a")
-        people.find_each do |person|
-          PeopleDistance.update_person(person)
-          progressbar.increment
-        end
+      people = Person.all
+      progressbar = ProgressBar.create(title: "Updating people distance cache", total: people.count, format: "%t: |%B| %E %a")
+      people.find_each do |person|
+        PeopleDistance.update_person(person)
+        progressbar.increment
       end
     end
 
     desc "Update cache of guessed whips"
     task whip: :environment do
-      sentry_stage("application:cache:whip") do
-        puts "Updating cache of guessed whips..."
-        Whip.update_all!
-      end
+      puts "Updating cache of guessed whips..."
+      Whip.update_all!
     end
 
     desc "Update cache of member attendance, rebellions, etc"
     task member: :whip do
-      sentry_stage("application:cache:member") do
-        puts "Updating member cache..."
-        MemberInfo.update_all!
-      end
+      puts "Updating member cache..."
+      MemberInfo.update_all!
     end
 
     desc "Update cache of division attendance, rebellions, etc"
     task division: :whip do
-      sentry_stage("application:cache:division") do
-        puts "Updating division cache..."
-        DivisionInfo.update_all!
-      end
+      puts "Updating division cache..."
+      DivisionInfo.update_all!
     end
 
     desc "Update cache of policy distances"
     task policy_distances: :environment do
-      sentry_stage("application:cache:policy_distances") do
-        policies = Policy.all
-        progressbar = ProgressBar.create(title: "Updating policy distance cache", total: policies.count, format: "%t: |%B| %E %a")
-        policies.find_each do |policy|
-          policy.calculate_person_distances!
-          progressbar.increment
-        end
+      policies = Policy.all
+      progressbar = ProgressBar.create(title: "Updating policy distance cache", total: policies.count, format: "%t: |%B| %E %a")
+      policies.find_each do |policy|
+        policy.calculate_person_distances!
+        progressbar.increment
       end
     end
 
@@ -104,22 +56,20 @@ namespace :application do
     # an incorrect member can be attached to a vote, the effect it has and how this fixes it.
     desc "Fix member attached to votes"
     task member_vote_fix: :environment do
-      sentry_stage("application:cache:member_vote_fix") do
-        Vote.includes(:division, :member).find_each do |vote|
-          if vote.division.nil?
-            puts "WARNING: Vote #{vote.id} points to non-existent division"
+      Vote.includes(:division, :member).find_each do |vote|
+        if vote.division.nil?
+          puts "WARNING: Vote #{vote.id} points to non-existent division"
+          next
+        end
+        unless vote.member.could_have_voted_in_division?(vote.division)
+          puts "Vote #{vote.id} has an incorrect member. Fixing"
+          # Find the member who could have voted on this division
+          vote.member = vote.member.person.member_in_division(vote.division)
+          if vote.member.nil?
+            puts "WARNING: Couldn't find a member to fix vote #{vote.id} with division #{vote.division_id}. vote = #{vote.inspect}"
             next
           end
-          unless vote.member.could_have_voted_in_division?(vote.division)
-            puts "Vote #{vote.id} has an incorrect member. Fixing"
-            # Find the member who could have voted on this division
-            vote.member = vote.member.person.member_in_division(vote.division)
-            if vote.member.nil?
-              puts "WARNING: Couldn't find a member to fix vote #{vote.id} with division #{vote.division_id}. vote = #{vote.inspect}"
-              next
-            end
-            vote.save!
-          end
+          vote.save!
         end
       end
     end
@@ -128,45 +78,39 @@ namespace :application do
   namespace :cron do
     desc "Run this every night. Generates screenshots"
     task nightly: :environment do
-      with_sentry_cron_monitoring("application-cron-nightly", "5 2 * * *") do
-        task("application:cards:all").invoke
-      end
+      task("application:cards:all").invoke
     end
   end
 
   namespace :load do
     desc "Reloads members, offices and electorates from XML files and updates people images"
     task members: %i[environment set_logger_to_stdout] do
-      sentry_stage("DataLoader::Electorates.load!") { DataLoader::Electorates.load! }
-      sentry_stage("DataLoader::Members.load!") { DataLoader::Members.load! }
+      DataLoader::Electorates.load!
+      DataLoader::Members.load!
       # This fixes up members attached to votes
       task("application:cache:member_vote_fix").invoke
       # Offices need to be loaded after new people/members
-      sentry_stage("DataLoader::Offices.load!") { DataLoader::Offices.load! }
-      sentry_stage("DataLoader::People.load_missing_images!") { DataLoader::People.load_missing_images! }
+      DataLoader::Offices.load!
+      DataLoader::People.load_missing_images!
     end
 
     desc "Load divisions from XML for a specified date"
     task :divisions, %i[from_date to_date] => %i[environment set_logger_to_stdout] do |_t, args|
-      sentry_stage("application:load:divisions") do
-        if args[:to_date]
-          DataLoader::Debates.load!(Date.parse(args[:from_date]), Date.parse(args[:to_date]))
-        else
-          DataLoader::Debates.load!(Date.parse(args[:from_date]))
-        end
+      if args[:to_date]
+        DataLoader::Debates.load!(Date.parse(args[:from_date]), Date.parse(args[:to_date]))
+      else
+        DataLoader::Debates.load!(Date.parse(args[:from_date]))
       end
     end
 
     desc "Reload members, offices and electorates - load yesterday's divisions - update caches"
     task daily: :environment do
-      with_sentry_cron_monitoring("application-load-daily", "15 9 * * 1-5") do
-        # Get yesterday's system date to avoid Rails UTC timezone
-        yesterday = Time.zone.now.yesterday.to_date.to_s
+      # Get yesterday's system date to avoid Rails UTC timezone
+      yesterday = Time.zone.now.yesterday.to_date.to_s
 
-        task("application:load:members").invoke
-        task("application:load:divisions").invoke(yesterday)
-        task("application:cache:all").invoke
-      end
+      task("application:load:members").invoke
+      task("application:load:divisions").invoke(yesterday)
+      task("application:cache:all").invoke
     end
 
     desc "Load Popolo data from a URL"
@@ -273,27 +217,27 @@ namespace :application do
 
     desc "Generate social media cards for how people vote on particular policies"
     task person_policies: :environment do
-      sentry_stage("application:cards:person_policies") { CardScreenshotter::PersonPolicies.run }
+      CardScreenshotter::PersonPolicies.run
     end
 
     desc "Generate social media cards for people"
     task people: :environment do
-      sentry_stage("application:cards:people") { CardScreenshotter::Members.run }
+      CardScreenshotter::Members.run
     end
 
     desc "Generate social media cards for each category a member votes"
     task person_policies_category: :environment do
-      sentry_stage("application:cards:person_policies_category") { CardScreenshotter::MemberPolicyCategory.run }
+      CardScreenshotter::MemberPolicyCategory.run
     end
 
     desc "Generate social media cards for policies"
     task policies: :environment do
-      sentry_stage("application:cards:policies") { CardScreenshotter::Policies.run }
+      CardScreenshotter::Policies.run
     end
 
     desc "Generate social media cards for each category on a policy"
     task policies_category: :environment do
-      sentry_stage("application:cards:policies_category") { CardScreenshotter::PoliciesCategory.run }
+      CardScreenshotter::PoliciesCategory.run
     end
   end
 end

@@ -37,5 +37,17 @@ describe PoliciesController, type: :request do
   describe "#show" do
     it { compare_static("/policies/1") }
     it { compare_static("/policies/2") }
+
+    it "shows the edit is by an unknown user instead of erroring, when that user's since been deleted" do
+      editor = create(:confirmed_user)
+      PaperTrail.request.whodunnit = editor.id
+      Policy.find(1).update!(description: "a further edit, by someone who won't stick around")
+      editor.destroy!
+
+      get "/policies/1"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("Unknown user")
+    end
   end
 end

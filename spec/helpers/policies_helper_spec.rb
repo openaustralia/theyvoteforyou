@@ -126,4 +126,40 @@ describe PoliciesHelper, type: :helper do
       end
     end
   end
+
+  describe "#version_author" do
+    it "returns the user who made the edit" do
+      user = create(:confirmed_user)
+      version = instance_double(PaperTrail::Version, whodunnit: user.id.to_s)
+
+      expect(helper.version_author(version)).to eq user
+    end
+
+    it "returns the WikiMotion's own user without touching whodunnit" do
+      wiki_motion = build(:wiki_motion, user: build(:confirmed_user))
+
+      expect(helper.version_author(wiki_motion)).to eq wiki_motion.user
+    end
+
+    it "returns nil when that user has since been deleted, rather than raising" do
+      version = instance_double(PaperTrail::Version, whodunnit: "0")
+
+      expect(helper.version_author(version)).to be_nil
+    end
+  end
+
+  describe "#version_attribution_text" do
+    it "names the user and when they made the edit" do
+      user = create(:confirmed_user, name: "Henare Degan")
+      version = instance_double(PaperTrail::Version, whodunnit: user.id.to_s, created_at: Time.zone.local(2026, 1, 2, 3, 4))
+
+      expect(helper.version_attribution_text(version)).to eq "By Henare Degan at 03:04AM - 02 Jan 2026\nhttp://test.host/users/#{user.id}"
+    end
+
+    it "says the user is unknown when they've since been deleted, rather than raising" do
+      version = instance_double(PaperTrail::Version, whodunnit: "0", created_at: Time.zone.local(2026, 1, 2, 3, 4))
+
+      expect(helper.version_attribution_text(version)).to eq "By an unknown user at 03:04AM - 02 Jan 2026"
+    end
+  end
 end

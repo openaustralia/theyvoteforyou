@@ -35,6 +35,19 @@ RSpec.describe AlertMailer do
       end
     end
 
+    context "when the user who made the edit has since been deleted" do
+      let(:mail) do
+        policy
+        user1.destroy!
+        described_class.policy_updated(policy, policy.versions.last, user2)
+      end
+
+      it "shows the edit is by an unknown user instead of erroring" do
+        expect(mail.html_part.body.to_s).to include("Unknown user")
+        expect(mail.text_part.body.to_s).to include("By an unknown user")
+      end
+    end
+
     context "with associated division text changed" do
       let(:division) { create(:division, number: 1) }
       let(:wiki_motion) { create(:wiki_motion, user: user1, division: division) }

@@ -12,6 +12,7 @@ class Division < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
+  has_many :ai_policy_suggestions, dependent: :destroy
   has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
