@@ -76,9 +76,17 @@ namespace :application do
   end
 
   namespace :cron do
-    desc "Run this every night. Generates screenshots"
+    desc "Run this every night. Mirrors portraits and generates screenshots"
     task nightly: :environment do
+      task("application:portraits:mirror").invoke
       task("application:cards:all").invoke
+    end
+  end
+
+  namespace :portraits do
+    desc "Download each person's portrait so it is served from this site rather than hot-linked"
+    task mirror: :environment do
+      PortraitMirror.run
     end
   end
 
