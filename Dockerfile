@@ -9,6 +9,7 @@ RUN apt-get update -qq && apt-get install -y --no-install-recommends \
       build-essential \
       default-libmysqlclient-dev \
       git \
+      libyaml-dev \
       pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
