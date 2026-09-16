@@ -82,9 +82,13 @@ need updating but can be run as often as you like as it only updates data.
 optional and if omitted, allows you to load a single date.
 * `application:cache` this namespace contains cache updating tasks that are
 necessary for the site to run. They should be self-explanatory.
+* `application:portraits:mirror` downloads MP portraits into `public/system/portraits/`
+so the site serves them itself. Run it once after first setting up, then the nightly
+cron keeps it current.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
-which is run daily at 09:15 by cron.
+which is run daily at 09:15 by cron. Portraits and social media cards are refreshed
+by `application:cron:nightly`, run at 02:05.
 
 ### Popolo
 
