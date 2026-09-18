@@ -1,0 +1,8 @@
+.git
+log/*
+tmp/*
+coverage/
+node_modules/
+vendor/bundle
+public/system
+public/cards
