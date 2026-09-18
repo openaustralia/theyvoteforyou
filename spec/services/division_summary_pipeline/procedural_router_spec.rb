@@ -59,6 +59,15 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.rule_name).to eq("CENSURE_MOTION")
       end
 
+      it "traps a want of confidence motion as a censure motion (Template 10)" do
+        decision = described_class.route(
+          speaker_question: "The question is that the House expresses its want of confidence in the Minister for Veterans' Affairs."
+        )
+        expect(decision.is_deterministic).to be(true)
+        expect(decision.template_id).to eq(10)
+        expect(decision.rule_name).to eq("CENSURE_MOTION")
+      end
+
       it "fences Member No Longer Heard (Template 23) when the chamber is the Senate, where the motion does not exist" do
         decision = described_class.route(
           speaker_question: "The question is that the honourable member for Fairview be no longer heard.",
@@ -118,6 +127,24 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.is_deterministic).to be(false)
         expect(decision.candidate_templates).to contain_exactly(2, 6)
         expect(decision.rule_name).to eq("SECOND_READING_NUANCE")
+      end
+
+      it "routes postponing the second reading to Rearrangement of Business (Template 19), not the second reading rules" do
+        decision = described_class.route(
+          speaker_question: "The question is the second reading be made an order of the day for the next sitting."
+        )
+        expect(decision.is_deterministic).to be(true)
+        expect(decision.template_id).to eq(19)
+        expect(decision.rule_name).to eq("REARRANGEMENT_OF_BUSINESS")
+      end
+
+      it "routes an adjournment of debate motion to Rearrangement of Business (Template 19)" do
+        decision = described_class.route(
+          speaker_question: "The question is that the debate be adjourned till the next sitting."
+        )
+        expect(decision.is_deterministic).to be(true)
+        expect(decision.template_id).to eq(19)
+        expect(decision.rule_name).to eq("REARRANGEMENT_OF_BUSINESS")
       end
 
       it "locks Template 18 out of an ambiguous second reading under a Limitation of Debate heading" do

@@ -20,6 +20,8 @@ module DivisionSummaryPipeline
   class ExtractionPayload
     attr_accessor :template_id, :topic, :motion_text, :mover_claims,
                   :declines_second_reading, :sufficient_context, :missing_context_clue,
+                  :target_name, :target_electorate, :committee_name, :regulation_name,
+                  :business_name, :rearrangement_description,
                   :legacy_title, :legacy_description
 
     def initialize(
@@ -30,6 +32,12 @@ module DivisionSummaryPipeline
       declines_second_reading: nil,
       sufficient_context: true,
       missing_context_clue: nil,
+      target_name: nil,
+      target_electorate: nil,
+      committee_name: nil,
+      regulation_name: nil,
+      business_name: nil,
+      rearrangement_description: nil,
       legacy_title: nil,
       legacy_description: nil
     )
@@ -40,6 +48,12 @@ module DivisionSummaryPipeline
       @declines_second_reading = declines_second_reading.nil? ? nil : !!declines_second_reading
       @sufficient_context = sufficient_context.nil? ? true : !!sufficient_context
       @missing_context_clue = missing_context_clue
+      @target_name = self.class.optional_text(target_name)
+      @target_electorate = self.class.optional_text(target_electorate)
+      @committee_name = self.class.optional_text(committee_name)
+      @regulation_name = self.class.optional_text(regulation_name)
+      @business_name = self.class.optional_text(business_name)
+      @rearrangement_description = self.class.optional_text(rearrangement_description)
       @legacy_title = legacy_title
       @legacy_description = legacy_description
     end
@@ -62,7 +76,13 @@ module DivisionSummaryPipeline
           mover_claims: mover_claims.map(&:to_h),
           declines_second_reading: declines_second_reading,
           sufficient_context: sufficient_context,
-          missing_context_clue: missing_context_clue
+          missing_context_clue: missing_context_clue,
+          target_name: target_name,
+          target_electorate: target_electorate,
+          committee_name: committee_name,
+          regulation_name: regulation_name,
+          business_name: business_name,
+          rearrangement_description: rearrangement_description
         }
       end
     end
@@ -126,7 +146,13 @@ module DivisionSummaryPipeline
         mover_claims: claims,
         declines_second_reading: declines,
         sufficient_context: sufficient,
-        missing_context_clue: norm_data["missing_context_clue"]
+        missing_context_clue: norm_data["missing_context_clue"],
+        target_name: norm_data["target_name"],
+        target_electorate: norm_data["target_electorate"],
+        committee_name: norm_data["committee_name"],
+        regulation_name: norm_data["regulation_name"],
+        business_name: norm_data["business_name"],
+        rearrangement_description: norm_data["rearrangement_description"]
       )
     end
 
@@ -153,6 +179,12 @@ module DivisionSummaryPipeline
         end
       end
       claims
+    end
+
+    # Template-specific facts are published verbatim in the compiled summary, so blank
+    # values collapse to nil and surrounding whitespace is stripped rather than published.
+    def self.optional_text(value)
+      value.to_s.strip.presence
     end
 
     # Returns the JSON Schema definition for the expected LLM output.
@@ -202,6 +234,30 @@ module DivisionSummaryPipeline
           motion_text: {
             type: "string",
             description: "The exact wording of the motion or amendment as put to the chamber."
+          },
+          target_name: {
+            type: ["string", "null"],
+            description: "Name of the member or minister the motion targets (templates 10 and 23), verbatim from the Hansard text; null if not stated."
+          },
+          target_electorate: {
+            type: ["string", "null"],
+            description: "Electorate of the member the motion targets (template 23, e.g. 'Dickson' from 'the honourable member for Dickson'), verbatim; null if not stated."
+          },
+          committee_name: {
+            type: ["string", "null"],
+            description: "Name of the committee the motion concerns (template 13), verbatim from the Hansard text; null if not stated."
+          },
+          regulation_name: {
+            type: ["string", "null"],
+            description: "Name of the legislative instrument the motion would disallow (template 9), verbatim from the Hansard text; null if not stated."
+          },
+          business_name: {
+            type: ["string", "null"],
+            description: "Name of the business withdrawn from the Notice Paper (template 20), verbatim from the Hansard text; null if not stated."
+          },
+          rearrangement_description: {
+            type: ["string", "null"],
+            description: "What the rearrangement of business does, in the motion's operative words (template 19); null if not stated."
           },
           sufficient_context: {
             type: "boolean",

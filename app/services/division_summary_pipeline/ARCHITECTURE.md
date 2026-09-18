@@ -1,17 +1,15 @@
 # Division Summary Pipeline
 
 This directory contains the 5-stage modular AI division summary pipeline for They Vote For You.
-`ARCHITECTURE.md` (this file) is its single explanation document: what it is, how each stage works,
-how it reuses the rest of the app rather than duplicating it, the template catalogue, and the
-history of the port and review passes that produced it.
+`ARCHITECTURE.md` (this file) is its single explanation document: what it is, how it works end to
+end, how each stage works in detail, how it reuses the rest of the app rather than duplicating it,
+the template catalogue, and the constraints and open work that govern future changes.
 
-**Status: first port complete; integration review complete; second review pass complete; harness
-hardening and template-consistency pass complete (section 13, third review pass).** The second
-review pass ran the pipeline for real against the evaluation fixtures and fixed what that surfaced
-(see "Review findings and fixes" below). The remaining unchecked items in the work checklist need a
-machine with the full development environment; section 16 explains what can be verified without
-one, and section 17 is the checklist for wiring the pipeline to the live systems (Bedrock
-credentials, database, Hansard XML source, and the still-empty integration points).
+**Status: built and reviewed offline; not yet wired to live systems.** The pipeline runs when
+someone invokes `rake ai:summarize_division`; it publishes nothing by itself and contacts no live
+system at boot or under test. Section 14 explains how to verify it, and section 15 is the wiring
+checklist for connecting it to the live systems (Bedrock credentials, database, Hansard XML source,
+and the still-empty integration points).
 
 ## 1. Problem statement and motivation
 
@@ -37,7 +35,94 @@ The pipeline treats the system as a **symbolic program around a probabilistic se
   into strict JSON with verbatim evidence quotes.
 - **The LLM never writes the published summary prose.**
 
-## 3. The five stages
+## 3. How it works: one division through the pipeline
+
+The five stages form an assembly line, each one handing the next a smaller and cleaner problem.
+This section walks a single division through the whole line in plain language; section 4 is the
+technical reference for the same stages.
+
+Suppose the pipeline is asked to summarise a Senate division at 12:30 pm on a sitting day, during
+a bill's second reading debate.
+
+### Step 1: Gather the facts and the debate (ContextBuilder)
+
+Describing one vote does not require the whole day's Hansard, and sending all of it to the AI model
+would be slow, expensive and noisy. So Stage 1 assembles a small, targeted packet instead:
+
+- The authoritative database facts: the division's date, chamber, clock time, aye and no counts,
+  turnout and rebellions.
+- The Speaker's exact question: the wording actually being decided ("The question is that the
+  amendment be agreed to").
+- The debate speeches leading up to the vote, starting with those closest to it. By default this
+  is the whole subdebate; if that proves not to be enough, the packet is widened to the entire
+  sitting day (Step 3).
+
+The packet is built by reusing the app's existing Hansard loader rather than parsing anything a
+second time (section 5).
+
+### Step 2: Route the vote (ProceduralRouter)
+
+Before the AI is involved at all, ordinary code looks only at the Speaker's question and applies
+fixed parliamentary rules:
+
+- The obvious cases need no AI. "That the question be now put" is a closure of debate: Template 22
+  is chosen outright.
+- The heading traps are defeated in code. A "Limitation of Debate" heading makes every later vote
+  that day look like a guillotine, but when the question itself is about a bill amendment, it is an
+  amendment vote, not a guillotine, and Template 18 is locked out.
+- The nuanced cases are fenced, not set free. "That the bill be read a second time" might be the
+  bill passing, or a vote on a second reading amendment. The router passes the packet on to the AI,
+  but the AI is only allowed to choose between Template 6 and Template 2.
+
+Divisions with an obvious procedural question are fully classified here, without any AI
+involvement.
+
+### Step 3: Extract the meaning (SemanticExtractor)
+
+Now, and only now, the AI is called. It receives the debate packet and the router's instructions,
+but it is not asked to write the summary. Its instructions are, in effect: you are an extraction
+engine, fill in this form. It reads the debate and returns structured JSON:
+
+- the template that fits, chosen only from the router's allowed candidates;
+- a topic in a few words;
+- the exact motion being decided;
+- the mover's claims, each paired with a verbatim quote from the transcript as evidence;
+- for a second reading amendment, whether it declines the bill a second reading.
+
+If the model finds the packet does not actually contain what it needs (for example, the mover
+explained the bill in an earlier debate and today's speeches only refer back to it), it sets
+`sufficient_context` to false and names what is missing. The orchestrator then rebuilds the packet
+from the whole sitting day's debate and asks again.
+
+### Step 4: Verify every quote (ProvenanceValidator)
+
+The filled-in form is handed back to ordinary code, which does not trust the model. For every
+evidence quote, the validator mechanically searches the Hansard transcript for those exact words:
+
+- If the quote is there, the claim stands.
+- If the model paraphrased, embellished or invented it, the claim is rejected and the whole summary
+  is flagged for human review instead of being published.
+
+No claim reaches a compiled summary without passing this mechanical check.
+
+### Step 5: Compile the summary (TemplateCompiler)
+
+The AI's work is done. The compiler takes a pre-written, human-approved Markdown template (the 23
+in section 8), fills its placeholders with the database facts (12:30 pm, the vote counts, the
+rebellions) and the verified extractions (the motion text, the mover's claims), and applies
+deterministic tidying: article grammar ("a" becomes "an" where the next word starts with a vowel),
+duplicated definite articles collapse, and a Bills Digest section is inserted when a digest is
+supplied. (Today nothing supplies one, so the template's fallback line appears; section 15 has the
+contract for wiring it up.)
+
+The result is publication-ready Markdown that is fully traceable: every number came from the
+database, every quote came from Hansard, and the structure and wording were written and approved
+by humans.
+
+Nothing publishes itself. The compiled summary is saved as a draft (an `AiDivisionSummary` row)
+for human review (section 11).
+
+## 4. The five stages
 
 ```text
                        EXISTING TVFY / OAF DATA
@@ -111,6 +196,25 @@ The pipeline treats the system as a **symbolic program around a probabilistic se
 - Defeats the Guillotine Trap by locking out Template 18 when an amendment or substantive bill vote
   occurs under a "Limitation of Debate" heading.
 - Narrows the candidate templates for ambiguous stages.
+- Matches the catch-all procedural traps before any subject-matter rule, deliberately: a suspension
+  question that mentions a censure ("...as would prevent me from moving a censure motion") is a
+  vote about suspending the standing orders; the censure division, if it happens, is a separate
+  division. This implements `TEMPLATES.md` template 10's own instruction.
+- Treats "Member be no longer heard" as a House of Representatives procedure: a Senate match is
+  fenced as ambiguous (`MEMBER_NO_LONGER_HEARD_CHAMBER_CONFLICT`, candidate 23) rather than
+  asserting a House-only template from possibly-wrong chamber metadata.
+- Tolerates the Senate's "papers laid on/upon the table" wording in production-of-documents
+  questions. These votes are about access to documents, never their subject matter, so a missed
+  match misroutes worse than most.
+- Routes questions that adjourn or postpone debate ("that the debate be adjourned", "the second
+  reading be made an order of the day for the next sitting") to Template 19 ahead of the second
+  reading and amendment rules, which would otherwise fence them between Templates 2 and 6: these
+  votes decide when business is discussed, not the fate of the bill. The end-of-day "that the
+  House do now adjourn" is deliberately left unmatched.
+- Treats motions of no confidence in a minister or member (worded "no confidence" or the
+  traditional "want of confidence") as censure motions (Template 10) when put directly. A
+  no-confidence motion moved under a suspension of standing orders is caught first by the
+  suspension rule, because the suspension is the division being taken at that point.
 
 ### Stage 3: Semantic Extractor (`DivisionSummaryPipeline::SemanticExtractor`)
 
@@ -118,8 +222,13 @@ The pipeline treats the system as a **symbolic program around a probabilistic se
   JSON matching `ExtractionPayload.json_schema`; the orchestrator keeps the raw response so it can
   be stored on the `AiDivisionSummary` record.
 - The system prompt (`SemanticExtractor#system_prompt`) carries the full 23-template catalogue, the
-  non-partisan neutrality rule, the Australian English constraint and the prototype's "moved
-  formally" claims fallback, ported from `LLM_Divisions/tvfy/llm/prompt.md`.
+  non-partisan neutrality rule, the Australian English constraint and the "moved formally" claims
+  fallback. It also scopes claims to what each vote decides (a production-of-documents claim is
+  about access to the documents, never the documents' subject matter; a closure claim is not about
+  the underlying question), anchors extraction on the Speaker's question so a "Limitation of
+  Debate" heading is never mistaken for a guillotine vote, and covers resumed debates: extract
+  only what the excerpt supports and set `sufficient_context: false` with a `missing_context_clue`
+  rather than reconstructing a missing speech.
 - Extracts:
   - `template_id` (1 to 23, conforming to router candidates)
   - `topic` (concise 2-5 words)
@@ -140,9 +249,11 @@ The pipeline treats the system as a **symbolic program around a probabilistic se
 
 - Injects authoritative TVFY database facts (official vote tallies, rebellions, member links,
   dates, times) and validated extractions into one of 23 human-curated Markdown templates.
-- Substitutes variables deterministically without AI involvement.
+- Substitutes variables deterministically without AI involvement, including small grammar fixes
+  (indefinite articles, duplicated definite articles) and the database-resolved member facts
+  described in sections 6 and 7.
 
-## 4. Relationship to the existing Hansard loader
+## 5. Relationship to the existing Hansard loader
 
 **This is the single most important architectural constraint on this feature, so it gets its own
 section rather than being buried in Stage 1's bullet points.**
@@ -197,17 +308,24 @@ real, database-resident, partial signal, but not a substitute for the day's XML:
 15,000 characters, doesn't distinguish context tiers, and never includes headings the way the built
 context does.
 
-## 5. Data classification
+## 6. Data classification
 
 - **Type 1: Authoritative Structured Facts** (vote counts, member details, rebellions, date,
   time): sourced exclusively from the TVFY database. Zero AI involvement.
 - **Type 2: Deterministic Text** (exact motion text, Speaker's Question, bill names): sourced from
   official Hansard / ParlParse XML.
 - **Type 3: Semantic Nuance** (procedural stage selection, mover's arguments, whether an amendment
-  declines a second reading): extracted by the LLM as structured JSON with mandatory verbatim
-  quotes.
+  declines a second reading, plus each template's specific fact: the committee, regulation or
+  business name, what a rearrangement of business does, and the targeted member's name or
+  electorate exactly as the Hansard text states them): extracted by the LLM as structured JSON
+  with mandatory verbatim quotes.
 
-## 6. Provenance enforcement
+The split matters most for the people a motion targets. The extraction may report only what the
+Hansard text states (a name or an electorate); the target's party, electorate and profile link are
+Type 1 facts that `MemberResolver` looks up in the TVFY database when compiling. The model never
+supplies a URL, a party or an electorate it wasn't given.
+
+## 7. Provenance enforcement
 
 Every claim made by the mover must have an `evidence` field containing an exact quote from the
 Hansard context. The `ProvenanceValidator` mechanically asserts that the evidence appears in the
@@ -217,12 +335,18 @@ quotes longer than 80 characters it tolerates minor mid-quote formatting breaks 
 first and last 8 words instead of the whole quote. Any claim that fails this mechanical
 verification is rejected and flagged for human review rather than published.
 
-## 7. The 23 template catalogue
+The template-specific facts (`target_name`, `target_electorate`, `committee_name`,
+`regulation_name`, `business_name`, `rearrangement_description`) are verified the same mechanical
+way, since they are published verbatim in the summary sentence. A template whose required fact is
+missing altogether (say Template 13 with no committee name) is likewise an error routing the draft
+to human review: a blank is never published silently where a name should be.
+
+## 8. The 23 template catalogue
 
 The templates reside in `app/services/division_summary_pipeline/templates/`. The file name carries
-the catalogue number and name; the text of each file is only publishable content (the `### N. Title`
-headings the prototype carried over from `TEMPLATES.md` were removed in the second review pass so
-they can never leak into compiled output - this table is where the number-to-name mapping lives):
+the catalogue number and name; the text of each file is only publishable content. Catalogue
+headings are deliberately absent from the files so they can never leak into compiled output; this
+table is where the number-to-name mapping lives:
 
 1. `1_first_reading.md` - First Reading
 2. `2_second_reading_amendment.md` - Second Reading Amendment
@@ -246,9 +370,12 @@ they can never leak into compiled output - this table is where the number-to-nam
 20. `20_withdrawal_of_business.md` - Withdrawal of Business
 21. `21_parliamentary_zone_works.md` - Parliamentary Zone Capital Works
 22. `22_closure_of_debate.md` - Closure of Debate ("Question be now put")
-23. `23_member_no_longer_heard.md` - Member Be No Longer Heard (House of Representatives)
+23. `23_member_no_longer_heard.md` - Member Be No Longer Heard (House of Representatives). Its
+    intro sentence carries a single `{{target_clause}}` placeholder that the compiler fills from
+    database-resolved member facts, degrading to plain text when the target cannot be resolved.
+    Its motion-text blockquote quotes the extracted `{{motion_text}}`, like the other 22 templates.
 
-## 8. Where everything lives
+## 9. Where everything lives
 
 ```text
 app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md explains it)
@@ -257,28 +384,28 @@ app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md
   semantic_extractor.rb       Stage 3: LLM prompt + Bedrock call, structured JSON only
   extraction_schema.rb        ExtractionPayload / ClaimEvidence value objects + JSON schema
   provenance_validator.rb     Stage 4: mechanical evidence-in-source assertions
+  member_resolver.rb          resolves an extracted name or electorate to TVFY member facts
   template_compiler.rb        Stage 5: injects validated data into the Markdown templates
   text_normaliser.rb          shared text cleaning and quote-matching normalisation
   templates/                  the 23 Markdown templates ({{placeholder}} syntax)
   ARCHITECTURE.md             this document
-app/services/division_summarizer.rb         orchestrator (existing service, extended)
-app/models/ai_division_summary.rb           existing output model (unchanged)
+app/services/division_summarizer.rb         orchestrator that runs the five stages
+app/models/ai_division_summary.rb           output model: one saved draft per division and model
 app/lib/data_loader/debates.rb              existing loader + fetch_xml_document/xml_url helpers
 app/lib/data_loader/division_xml.rb         existing parser + operative_question/context_speeches
 lib/tasks/ai_classification.rake            rake ai:summarize_division runs the whole pipeline
 spec/services/division_summary_pipeline/    software specs + evaluation corpus
 spec/fixtures/division_summaries/           evaluation fixtures (test_1, test_2)
-LLM_Divisions/                              the archived Python prototype (reference only)
 ```
 
-## 9. Testing and evaluation
+## 10. Testing and evaluation
 
 The feature is covered by two distinct test suites:
 
 1. **Software Tests (`spec/services/division_summary_pipeline/`)**: Unit tests for
    `TextNormaliser`, `ExtractionPayload`, `ProceduralRouter`, `ContextBuilder`,
-   `ProvenanceValidator`, `TemplateCompiler`, `SemanticExtractor` and the `DivisionSummarizer`
-   orchestrator.
+   `ProvenanceValidator`, `TemplateCompiler`, `MemberResolver`, `SemanticExtractor` and the
+   `DivisionSummarizer` orchestrator.
 2. **Parliamentary Evaluation Corpus (`spec/services/division_summary_pipeline/evaluation_spec.rb`)**:
    Regression test cases (`spec/fixtures/division_summaries/test_1` and `test_2`) covering a
    second-reading-amendment division and a closure-of-debate division, verifying 100% provenance
@@ -289,24 +416,21 @@ The feature is covered by two distinct test suites:
 
 Both fixtures' `hansard_excerpt.xml` are hand-built ParlParse `<debates>` documents in the same
 shape `DebatesXml` and `DataLoader::Debates`'s own specs (`spec/lib/data_loader/`) use, since that
-is what `ContextBuilder` actually parses in production - not the `<hansard><chamber.xscript>...`
-APH document shape an earlier draft of this fixture set used, which no other part of the app reads.
+is what `ContextBuilder` actually parses in production.
 
 ### A note on the fictional data in these fixtures
 
 The mover names, electorates, party links and bill titles in `test_1`/`test_2` are invented, not
 drawn from a real division or a real MP's real words, in line with this repo's convention of using
-fictional placeholders in specs and test data (`AGENTS.md`, "Working with AI tools") - even though
-the production `Division`/`Vote`/`Member` tables this feature reads from are necessarily about real
-people, since that's the whole point of They Vote For You. An earlier draft of these fixtures used
-the names of real, currently sitting MPs with invented quotes attributed to them; that was
-corrected during integration review rather than carried forward, since attributing invented Hansard
-wording to a real named person - even in a test fixture, even for a plausible-sounding recent bill -
-is exactly the kind of unverified claim `AGENTS.md`'s "Accuracy" guidance warns against.
+fictional placeholders in specs and test data (`AGENTS.md`, "Working with AI tools"). The
+production `Division`/`Vote`/`Member` tables this feature reads from are necessarily about real
+people, since that is the whole point of They Vote For You. But attributing invented Hansard
+wording to a real named person, even in a test fixture, is exactly the kind of unverified claim
+`AGENTS.md`'s "Accuracy" guidance warns against, so the fixtures never do it.
 
-## 10. Running it locally
+## 11. Running it locally
 
-The entry point is the existing rake task (`lib/tasks/ai_classification.rake`):
+The entry point is the rake task (`lib/tasks/ai_classification.rake`):
 
 ```bash
 rake ai:summarize_division DIVISION_ID=123
@@ -322,49 +446,10 @@ from openaustralia/theyvoteforyou#1716.
 For a no-LLM dry run of stages 1, 2, 4 and 5 against a fixture, see the parliamentary evaluation
 corpus in `spec/services/division_summary_pipeline/evaluation_spec.rb`.
 
-## 11. Port history: terminology and Python-to-Ruby correspondence
-
-The standalone Python prototype in `LLM_Divisions/` is the historical record of how the design was
-worked out; it keeps its original working titles on purpose and `LLM_Divisions/ARCHIVED.md`
-explains the mapping. Nothing in it is loaded, required, or executed by the Rails app.
-
-Terminology renames applied in the port:
-
-| Prototype working title | Shipped name |
-|---|---|
-| "Regex 2.0" | Semantic Extractor (`DivisionSummaryPipeline::SemanticExtractor`) |
-| "The 100 IF statements" / "Procedural State Machine" | Procedural Router (`DivisionSummaryPipeline::ProceduralRouter`) |
-| `HansardTextCleaner` / `clean_hansard.py` | `DivisionSummaryPipeline::TextNormaliser` |
-| `DivisionValidator` | `DivisionSummaryPipeline::ProvenanceValidator` |
-| `DivisionCompiler` | `DivisionSummaryPipeline::TemplateCompiler` |
-| `DivisionPacketBuilder` / `DivisionPacket` | `DivisionSummaryPipeline::ContextBuilder` / `ContextPacket` |
-| `ExtractionSchema` | `ExtractionPayload` (with `ClaimEvidence`) |
-| `DivisionMatcher` (weighted fuzzy matcher) | deliberately not ported - see section 12 |
-
-Python-to-Ruby correspondence, including what was not ported:
-
-| Python (LLM_Divisions/tvfy) | Ruby (shipped) | Notes |
-|---|---|---|
-| `sources/hansard.py` (HansardParser) | not ported | replaced by the existing DataLoader parser (constraint 1) |
-| `sources/tvfy_api.py` (REST client) | not ported | the pipeline runs inside the app; `Division` records are already here |
-| `sources/bills_digest.py` | not ported | `TemplateCompiler` accepts a pre-formatted digest section; live digest sourcing is open follow-up |
-| `processing/matcher.py` (DivisionMatcher) | not ported | replaced by `divnumber` identity (constraint 1) |
-| `processing/clean_hansard.py` | `text_normaliser.rb` | |
-| `processing/prepare_division.py` | `context_builder.rb` | |
-| `processing/router.py` | `procedural_router.rb` | same rules, rule names and ordering |
-| `llm/schema.py` | `extraction_schema.rb` | plus a legacy title/description payload path for compatibility with the PR #1732 prompt |
-| `llm/extractor.py` | `semantic_extractor.rb` | Bedrock `converse` instead of a Python callable; an `llm_caller` lambda is still accepted for tests |
-| `llm/prompt.md` | `semantic_extractor.rb#system_prompt` | |
-| `validation/validate.py` | `provenance_validator.rb` | |
-| `compiler/compile.py` | `template_compiler.rb` | template variables changed from `[SQUARE_BRACKETS]` to `{{mustache}}` |
-| `templates/*.md` | `app/services/division_summary_pipeline/templates/*.md` | same wording, placeholder syntax converted |
-| `cli.py` (index/match/route/clean/run/eval) | not ported | rake `ai:summarize_division` plus the RSpec evaluation corpus cover the operational needs |
-| `tests/fixtures/test_1`, `test_2` | `spec/fixtures/division_summaries/` | rebuilt in the real ParlParse XML shape with fictional people |
-
 ## 12. Architectural constraints for future work
 
-These constraints came out of reviewing the original porting plan against how TVFY actually gets
-its data. They are the rules any future work on this feature must keep following.
+These are the rules any future work on this feature must keep following. They exist because of how
+TVFY actually gets its data, not because they sounded good in a design document.
 
 1. **No second Hansard pipeline.** Australian Hansard reaches TVFY as:
    `Hansard -> openaustralia-parser -> ParlParse debates XML -> DataLoader -> Division`.
@@ -393,194 +478,9 @@ its data. They are the rules any future work on this feature must keep following
    evaluation corpus (`spec/fixtures/division_summaries/`) proves real-shaped Hansard flows end to
    end with 100% provenance and exact expected output. The corpus currently covers Templates 2 and
    22 with fictional people and bills (per repo policy on test data); growing it with real
-   historical divisions is open follow-up work (section 15).
+   historical divisions is open follow-up work (section 13).
 
-## 13. Review findings and fixes
-
-### First review pass (integration review)
-
-What was verified against the previous implementer's port:
-
-- [x] Every new and modified Ruby file passes `ruby -c` syntax checks.
-- [x] All files carry `frozen_string_literal: true`; no trailing whitespace; double-quoted strings;
-      `Layout/LineLength` is disabled repo-wide so long lines are acceptable.
-- [x] The orchestrator's five stages match the required execution flow and finish by saving to
-      `AiDivisionSummary` via `save_from_result!` (rake `ai:summarize_division`).
-- [x] Schema supports the feature (`ai_division_summaries` columns; `bills.url` used by the
-      compiler); `Division` methods used by the compiler (`passed?`, `division_info`,
-      `clock_time`, `aye_votes_including_tells`, `rebellions`, `bills`) all exist.
-- [x] Evaluation fixtures traced by hand through the router, validator and compiler for test_1
-      (Template 2, declines second reading) and test_2 (Template 22 closure): the compiled output
-      matches the expected output files, and provenance holds against the fixture XML.
-- [x] Template wording preserved from the prototype, with placeholder syntax converted.
-- [x] No prototype-only terminology ("Regex 2.0", "100 IF statements") leaks into app/, spec/ or
-      docs/.
-
-Issues found and fixed during that pass:
-
-1. `DivisionSummarizer#summarize_with` had a dead `if/elsif/else` (both branches identical) and
-   duplicated the Bedrock call that already belongs to `SemanticExtractor`. The orchestrator now
-   only orchestrates; the extractor owns the model call (`extract_raw`), and the Stage 2 router
-   fallback is a simple `||=`.
-2. The extractor's system prompt was a lossy condensation of the prototype's `tvfy/llm/prompt.md`:
-   the 23-template catalogue, the "moved formally" claims fallback, the non-partisan neutrality
-   rule and the Australian English constraint were missing. All ported in.
-3. `TextNormaliser` used `CGI.unescapeHTML`, which decodes only the basic five entities, unlike the
-   prototype's `html.unescape` (full HTML entity table). Swapped to the `htmlentities` gem the app
-   already depends on, and the spec now asserts named-entity decoding.
-4. `ProvenanceValidator` thresholds had drifted from the prototype: the long-quote window check
-   used a 16-word cutoff instead of the prototype's 80-character one, and the motion first-line
-   check used 25 characters instead of 20. Aligned.
-5. `TemplateCompiler` treated `result: "for"` as unsuccessful even though it maps `passed` to `for`
-   itself. Result handling consolidated into one list (`passed`, `agreed to`, `for`, `yes`,
-   `successful`, `carried` -> "for"/successful, anything else -> "against"/unsuccessful).
-6. `SemanticExtractor` had no spec at all. Added one covering the injected `llm_caller` path,
-   prompt construction and the system prompt contents.
-7. The rake task description still described the naive motion-only summariser; updated.
-8. The documentation gained a "Running it locally" section and a pointer to the system prompt
-   contents.
-
-### Second review pass (running the pipeline for real)
-
-The first pass could only check syntax and trace fixtures by hand: this machine has no bundle,
-MySQL or AWS credentials, so nothing had ever been executed. A standalone offline harness (no
-Rails, MySQL or AWS needed: the fixture XML feeds `ContextBuilder` and the fixture extraction JSON
-stands in for the Stage 3 LLM response) then ran the real pipeline end to end against the
-evaluation fixtures, which surfaced:
-
-9. **`TextNormaliser` froze the shared `HTMLEntities` decoder** (`HTMLEntities.new.freeze`), but the
-   gem lazily memoises its decoder instance on the first `#decode` call (`@decoder ||= ...`), so
-   every entity decode raised `FrozenError` at runtime. This would have failed the whole
-   evaluation suite at Stage 1; static checks could not catch it. Fixed by not freezing the
-   constant, with a comment explaining why.
-10. **The prototype's `### N. Title` catalogue headings leaked into compiled output.** Every
-    template file began with its catalogue heading (e.g. `### 10. Censure Motion`), which flowed
-    straight through `TemplateCompiler` into the published markdown. Removed from all 23 templates
-    and from the two `expected_output.md` fixtures; the compiler spec and summarizer spec
-    assertions were updated to assert output starts with the first content line instead. The
-    number-to-name mapping now lives in the file names and the catalogue table (section 7).
-11. **The orchestrator rebuilt the Hansard context packet once per model** - with the default three
-    Bedrock models that meant fetching and parsing the same day's Hansard XML three times per
-    division. `DivisionSummarizer` now builds the packet once per instance and shares it across
-    `summarize_with_all_models`; a context expansion to the sitting day is kept for the remaining
-    models.
-
-The offline run itself also re-verified the evaluation fixtures against the real code: both
-compile to an exact match with their expected output and pass provenance validation.
-
-### Third review pass (handover-guide hardening and template consistency)
-
-This pass worked from the site editor's handover documentation (Mackay's notes and the "Getting
-Started" guide) and cross-checked every template file against `TEMPLATES.md`, the original
-template document at the repository root. The handover material was used for the harness's logic,
-routing and reasoning only - the templates are governed by `TEMPLATES.md`, not by the guide.
-
-Routing (ProceduralRouter):
-
-12. **"Member be no longer heard" was asserted regardless of chamber.** That motion is a House of
-    Representatives procedure; the Senate doesn't have it. A match inside the Senate now fences
-    the decision (`MEMBER_NO_LONGER_HEARD_CHAMBER_CONFLICT`, non-deterministic, candidate 23) with
-    the conflict spelled out in the reason, instead of asserting a House-only template from
-    possibly-wrong chamber metadata.
-13. **The guillotine lockout only covered amendment questions.** Under a "Limitation of Debate"
-    heading every later division - substantive bill votes included - shares the heading, so the
-    lockout on Template 18 now also applies to the ambiguous second reading decision and to the
-    general motion fallback, and the reason strings say the heading triggered it. The question
-    itself still routes to Template 18 deterministically when it is about limiting debate.
-14. **Production of documents wording.** Senate orders for the production of documents are often
-    phrased around "papers" being "laid on/upon the table"; the router now tolerates those
-    variants. These votes are about access to documents, never about their subject matter, so a
-    missed match misroutes worse than most.
-15. **Ordering rationale documented.** The catch-all procedural traps are matched before any
-    subject-matter rule, deliberately: a suspension question that mentions a censure ("...as would
-    prevent me from moving a censure motion") is a vote about suspending the standing orders - the
-    censure division, if it happens, is a separate division. This is `TEMPLATES.md` template 10's
-    own instruction ("if the division was actually on suspending standing orders ... use template
-    17 instead") implemented in code.
-
-Reasoning (SemanticExtractor system prompt):
-
-16. **Resumed debates.** Debate is frequently adjourned and resumed, so an excerpt can start
-    mid-conversation with the mover's opening speech elsewhere in the sitting day or on a previous
-    day. Rule 8 now explains this, tells the model to extract only what the excerpt supports and
-    to set `sufficient_context: false` with a `missing_context_clue` naming what to look for,
-    rather than reconstructing a missing speech.
-17. **Per-template claim scoping.** Rule 5 now scopes claims to what each vote decides: Template 8
-    claims are about access to documents, never their subject matter; Template 17 claims are about
-    why the rules are set aside; Template 18 claims are about the time limit; Template 9 claims
-    describe what the regulation does and why it should lose legal force; Templates 22 and 23 make
-    no claims about the underlying question. This matches the handover guide's central
-    substantive-versus-procedural distinction at the extraction layer, so the compiler's
-    deterministic template wording carries the framing instead of the model improvising it.
-18. **Headings are not votes.** New rule 9 anchors extraction on the speaker's question and
-    reinforces that a "Limitation of Debate" heading doesn't make every division under it a
-    guillotine motion - the trap the router already defends against, now also defended in the
-    prompt.
-
-Rendering and templates (TemplateCompiler plus two template files, against `TEMPLATES.md` as the
-source of truth):
-
-19. **`digest_section` wording fixed to the original.** When a Bills Digest is found the section
-    now compiles to start with exactly `According to the [Bill Digest](LINK):` (singular "Bill
-    Digest", as `TEMPLATES.md` has it); the compiler had been emitting `[Bills Digest]`. The
-    no-digest fallback remains the blockquote `> No Bill Digest found.` - that text comes from
-    `TEMPLATES.md`'s own instruction ("If no Bill Digest is found, write here: No Bill Digest
-    found."), and the header is omitted there because there is no digest left to link to.
-20. **Template 8's explainer line restored to the exact `TEMPLATES.md` wording** ("This is a vote
-    about access to the documents. It is not a vote about the subject the documents deal with, and
-    the summary should not suggest otherwise."), and **Template 5's extra closing sentence**
-    ("This formally accepts the progress made on the bill in the parallel debating chamber."),
-    which `TEMPLATES.md` does not have, was removed.
-21. **Template 22's follow-up link** ("the [Chamber] then voted on the question itself, which you
-    can read about here (LINK to the following division)") is now rendered when a `followup_link`
-    attribute is supplied on the division data; output is byte-identical to before when it isn't.
-    Resolving the follow-up division is open work (section 15).
-22. **Duplicated definite articles are collapsed** ("to the the Selection of Bills Committee"),
-    alongside the existing indefinite-article fix; the double "the" was observed in real compiled
-    output when a committee name arrived already carrying its article.
-23. **Editor-guidance lines in `TEMPLATES.md` stay out of published templates, deliberately and
-    consistently**: template 7's "The correct terms are Consideration of Senate Amendments..."
-    note, the catch-all policy notes in templates 17, 22 and 23 ("There is an existing catch-all
-    policy ... Find it and reuse it"), and template 10's "use template 17 instead" instruction are
-    directions to the human editor or the pipeline, not publishable copy. The pipeline implements
-    the template 10 instruction in the router (rule above); attaching catch-all policies is the
-    existing human workflow, not part of this pipeline. `{{digest_section}}` is different: it is a
-    placeholder for published content, not a removed instruction, and its wording contract is
-    spelled out in section 17.
-
-## 14. Work checklist
-
-- [x] Read all `LLM_Divisions` documentation and source; understand the objective.
-- [x] Review the existing TVFY AI implementation (`DivisionSummarizer`, `AiDivisionSummary`).
-- [x] Review the previous implementer's port (code, specs, fixtures, docs, loader changes).
-- [x] Verify the architecture constraints in section 12 are honoured.
-- [x] Write the plan document (now merged into this file).
-- [x] Fix orchestrator dead code; move the LLM call into `SemanticExtractor#extract_raw`.
-- [x] Enrich the extractor system prompt (template catalogue, neutrality, Australian English,
-      moved-formally fallback).
-- [x] Swap `CGI.unescapeHTML` for `HTMLEntities`; strengthen the normaliser spec.
-- [x] Align provenance thresholds with the prototype.
-- [x] Consolidate result phrasing in `TemplateCompiler`.
-- [x] Add `semantic_extractor_spec.rb`.
-- [x] Update rake task description and documentation.
-- [x] Re-run static checks (syntax, terminology grep, fixture trace).
-- [x] Second review pass: fix the frozen `HTMLEntities` decoder; remove the `### N. Title`
-      catalogue headings from templates, fixtures and specs; build the Hansard context packet once
-      per `DivisionSummarizer` instead of once per model; run the real pipeline offline against the
-      evaluation fixtures (stages 1, 2, 4 and 5) and confirm exact-match output and provenance.
-- [x] Third review pass: harden routing and extraction reasoning from the editor's handover
-      documentation (Senate/House chamber conflict on "no longer heard", guillotine heading lockout
-      beyond amendments, production-of-papers wording, resumed-debate and per-template claim
-      scoping, headings-are-not-votes rule); cross-check all 23 templates against `TEMPLATES.md`
-      (digest section wording, template 5 and 8 wording, template 22 follow-up link, duplicated
-      definite articles) and extend the router, compiler and extractor specs to match; re-run the
-      offline evaluation fixtures (exact match, full provenance).
-- [ ] Run the full test suite on a machine set up for it (see section 16); the machine used for
-      this port has no bundle/MySQL, so `rspec` could not be executed here.
-- [ ] One real Bedrock call against one known historical division, inspecting every stage's output
-      (section 16, step 4).
-
-## 15. Open follow-up work
+## 13. Open follow-up work
 
 Not blocking, but worth tracking as separate issues rather than silently forgetting:
 
@@ -599,31 +499,35 @@ Not blocking, but worth tracking as separate issues rather than silently forgett
 - **Bills Digest / Explanatory Memorandum integration.** `TemplateCompiler` accepts an
   already-formatted `digest_section` string, but nothing populates it yet - out of scope unless
   asked for. The wiring contract (what a future integration must supply and the exact compiled
-  wording it produces) is written up in section 17.
+  wording it produces) is written up in section 15.
 - **Template 22's follow-up division link.** The compiler renders
   "which you can read about here" with a link when a `followup_link` attribute is supplied on the
   division data, but nothing resolves "the division that put the underlying question" yet.
   Finding it is a deterministic lookup over same-debate divisions - a candidate for a future
   ContextBuilder extension rather than new data plumbing.
-- **Template 9's regulation summary.** The template renders `{{regulation_summary}}`, which is
-  currently left empty. `TEMPLATES.md` sources it from the regulation's Explanatory Statement on
-  legislation.gov.au, attributed rather than neutral because the government writes it - same shape
-  as the Bills Digest integration, same section 17 contract.
+- **The mover's facts are not wired for live divisions.** `TemplateCompiler` reads
+  `mover_name`/`mover_title`/`mover_party`/`mover_link` from the division data and the evaluation
+  fixtures supply them, but nothing populates them from a real `Division`: `extract_attributes`
+  provides none, so the mover name falls back to the division's own name and the link and party
+  stay empty. The loader knows the mover (the Hansard XML carries speaker IDs that
+  `DataLoader::DivisionXml` already resolves to `Member` records via `Member.find_by(gid:)`), so a
+  deterministic mover resolution through `MemberResolver` is the same pattern as the existing
+  target resolution.
 - **Surfacing `AiDivisionSummary` drafts in the admin panel** for the review workflow.
 - **Decide whether `LLM_Divisions/` is committed to this repo as archived reference** (the
   `ARCHIVED.md` in it supports that) or kept untracked; the conversation transcripts in it are
   large and are the only reason to hesitate.
-- **Reusing one fetched XML document across a batch of divisions** (observed in the second review
-  pass): the orchestrator now builds the packet once per division, but a bulk run over a sitting
-  day still fetches and parses the same day's XML once per division. Fine for the current rake
-  task; worth revisiting if this ever runs nightly over every division of a day.
-- **The extracted `speaker` field is not checked against the speakers in the Hansard context**
-  (observed in the second review pass). Evidence quotes are the load-bearing provenance check and
-  are verified; the speaker name is optional metadata, currently trusted from the model.
+- **Reusing one fetched XML document across a batch of divisions**: the orchestrator builds the
+  packet once per division, but a bulk run over a sitting day still fetches and parses the same
+  day's XML once per division. Fine for the current rake task; worth revisiting if this ever runs
+  nightly over every division of a day.
+- **The extracted `speaker` field is not checked against the speakers in the Hansard context.**
+  Evidence quotes are the load-bearing provenance check and are verified; the speaker name is
+  optional metadata, currently trusted from the model.
 
-## 16. Verifying on a fully set-up machine
+## 14. Verifying the pipeline
 
-This machine cannot run the suite (no bundle, MySQL or AWS credentials). Run, in stages:
+Everything except the final live call runs offline. Run, in stages:
 
 ```bash
 git status && git diff --stat          # confirm the change set is what this document describes
@@ -648,13 +552,12 @@ and inspect every stage for that division: the fetched context packet, the routi
 raw model JSON, the provenance result, the compiled Markdown, and the saved `AiDivisionSummary`
 row. Do not judge the feature on the final Markdown alone.
 
-## 17. Hooking it up to live systems
+## 15. Hooking it up to live systems
 
-The pipeline was built and reviewed on a machine with no bundle, MySQL or AWS credentials, so every
-external dependency sits behind an injectable seam and nothing contacts a live system at boot or
-under test. This section is the wiring checklist for whoever has the keys. Everything in it
-already exists in the codebase - it is collected here because it spans the #1716 spike commits
-(`DivisionPolicyClassifier`, `AiPolicySuggestion`, `AiDivisionSummary`) and this port.
+Every external dependency sits behind an injectable seam, so nothing contacts a live system at
+boot or under test. This section is the wiring checklist for whoever has the keys. Everything in
+it already exists in the codebase - it is collected here because it spans the #1716 spike commits
+(`DivisionPolicyClassifier`, `AiPolicySuggestion`, `AiDivisionSummary`) and this pipeline.
 
 ### What is already wired
 
@@ -686,7 +589,7 @@ already exists in the codebase - it is collected here because it spans the #1716
    above, then `application:load:members` and `application:load:divisions` per the README's
    first-time data load.
 4. **Somewhere to review drafts.** `AiDivisionSummary` rows are drafts; nothing publishes them and
-   no admin surface exists yet (section 15's open item). Until one does, review in the console
+   no admin surface exists yet (section 13's open item). Until one does, review in the console
    (`AiDivisionSummary.where(division: division)`) and move an approved summary onto the Division
    through the existing WikiMotion edit form - the same human-in-the-loop the classifier spike
    uses.
@@ -711,9 +614,8 @@ pipeline, and the offline suites all run with them empty.
    - With neither, the section renders as the blockquote `> No Bill Digest found.` - the fallback
      `TEMPLATES.md` prescribes. It deliberately has no "According to the..." header, because with
      no digest there is nothing to link to.
-   A future integration (the prototype had `sources/bills_digest.py`; it was not ported) only has
-   to fill those inputs - the seam is the Stage 5 call in `DivisionSummarizer#summarize_with`,
-   which is marked PLACEHOLDER in a comment.
+   A future integration only has to fill those inputs - the seam is the Stage 5 call in
+   `DivisionSummarizer#summarize_with`, which is marked PLACEHOLDER in a comment.
 2. **Template 9's regulation summary (`regulation_summary`).** Same shape: `TEMPLATES.md` sources
    this section from the regulation's Explanatory Statement on legislation.gov.au, attributed
    rather than neutral because the government writes it. Currently left empty; pass it through the
@@ -721,15 +623,15 @@ pipeline, and the offline suites all run with them empty.
 3. **Template 22's follow-up division link (`followup_link`).** `TEMPLATES.md`'s closure template
    links to the division that put the underlying question. The compiler renders
    "The [Chamber] then voted on the question itself, which you can read about [here](...)" when a
-   `followup_link` attribute is supplied, and stays byte-identical to the previous output when it
-   is not. Resolving the follow-up division is a deterministic lookup over divisions of the same
-   debate that nothing does yet.
+   `followup_link` attribute is supplied, and omits the sentence when it is not. Resolving the
+   follow-up division is a deterministic lookup over divisions of the same debate that nothing does
+   yet.
 
 ### Deployment notes
 
 - Nothing runs automatically. There is no cron entry and no flipper flag for this feature: it runs
   when someone invokes `rake ai:summarize_division`. If a batch mode ever lands, revisit section
-  15's note about reusing one fetched XML document across a day's divisions first.
+  13's note about reusing one fetched XML document across a day's divisions first.
 - CI (`.github/workflows/rubyonrails.yml`) runs the pipeline's software specs and the offline
   evaluation corpus as part of `bin/rake`; neither needs AWS, network or MySQL beyond what the
   suite already provisions.
@@ -738,4 +640,3 @@ pipeline, and the offline suites all run with them empty.
   the classifier spike's Bedrock calls ran with - the two features share one credential set, one
   region and one model list, so there is nothing new to configure beyond what already works for
   `DivisionPolicyClassifier`.
-

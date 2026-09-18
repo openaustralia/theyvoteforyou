@@ -160,6 +160,24 @@ module DivisionSummaryPipeline
            terminology. Do not use em dashes in your own prose; quoted Hansard text is reproduced exactly as
            it appears, including any em dashes.
 
+        11. TEMPLATE-SPECIFIC FACTS:
+           Some templates render one specific fact in the summary sentence. Extract it only when the
+           <hansard_context> states it; otherwise set it to null. Copy names, electorates and titles
+           verbatim. NEVER produce a URL, a link, a party affiliation, or an electorate or title the text
+           does not state - the pipeline looks those up in its own database from what you extract.
+           - Template 9 (Disallowance): 'regulation_name' is the legislative instrument the motion
+             would disallow.
+           - Template 10 (Censure): 'target_name' is the member or minister the motion censures or
+             expresses want of confidence in.
+           - Template 13 (Committee Referral): 'committee_name' is the committee the matter is referred to.
+           - Template 19 (Rearrangement of Business): 'rearrangement_description' is what happens to the
+             business, in the motion's operative words.
+           - Template 20 (Withdrawal of Business): 'business_name' is the item withdrawn from the
+             Notice Paper.
+           - Template 23 (Member Be No Longer Heard): give 'target_electorate' when the motion names
+             the electorate ("the honourable member for Dickson" yields target_electorate "Dickson")
+             and 'target_name' when the Hansard text states the member's name.
+
         Respond ONLY with a valid JSON object matching this schema. Do not enclose in markdown fences or include commentary:
         {
           "template_id": 1 to 23,
@@ -172,6 +190,12 @@ module DivisionSummaryPipeline
               "speaker": "Name of speaker"
             }
           ],
+          "target_name": "member or minister the motion targets, verbatim, or null",
+          "target_electorate": "electorate of the targeted member, verbatim, or null",
+          "committee_name": "committee the motion concerns, verbatim, or null",
+          "regulation_name": "legislative instrument the motion disallows, verbatim, or null",
+          "business_name": "business withdrawn from the Notice Paper, verbatim, or null",
+          "rearrangement_description": "what happens to the business, verbatim, or null",
           "declines_second_reading": true, false, or null,
           "sufficient_context": true or false,
           "missing_context_clue": null or "description of missing context"

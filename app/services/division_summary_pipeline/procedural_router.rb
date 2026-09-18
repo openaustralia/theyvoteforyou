@@ -168,15 +168,19 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 10: Censure motion
-      if q_clean.include?("censure") || q_clean.include?("reprimand")
+      # Template 10: Censure motion. Motions of no confidence in a minister or member
+      # (often worded "want of confidence") are the same class of vote: a formal expression
+      # of disapproval. When one is moved under a suspension of standing orders, the
+      # suspension rule above still catches the suspension division first, by design.
+      if q_clean.include?("censure") || q_clean.include?("reprimand") ||
+         q_clean.include?("no confidence") || q_clean.include?("want of confidence")
         return ProceduralDecision.new(
           is_deterministic: true,
           template_id: 10,
           candidate_templates: [10],
           locked_out_templates: [],
           rule_name: "CENSURE_MOTION",
-          reason: "Question expresses censure or reprimand of a Minister or Member."
+          reason: "Question expresses censure or reprimand of a Minister or Member, or want of confidence in them."
         )
       end
 
@@ -229,10 +233,20 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 19: Rearrangement of business
+      # Template 19: Rearrangement of business. This also covers adjourning or postponing
+      # debate on a bill or motion ("that the debate be adjourned", "the second reading be
+      # made an order of the day for the next sitting"). Those questions often name a bill
+      # stage, so they must be caught here, before the second reading and amendment rules
+      # below fence them between Templates 2 and 6 as though the bill itself were being
+      # decided. The end-of-day "that the House do now adjourn" is deliberately not matched:
+      # it closes the sitting rather than rescheduling business.
       if q_clean.include?("rearrangement of business") ||
          q_clean.include?("postpone") ||
          q_clean.include?("order of the day be postponed") ||
+         q_clean.include?("order of the day for the next") ||
+         q_clean.include?("debate be adjourned") ||
+         q_clean.include?("debate be now adjourned") ||
+         q_clean.include?("adjourn the debate") ||
          q_clean.include?("business of the senate be rearranged")
         return ProceduralDecision.new(
           is_deterministic: true,
