@@ -123,7 +123,7 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     bootstrap-select-rails (1.13.8)
-    brakeman (7.0.2)
+    brakeman (8.0.6)
       racc
     builder (3.3.0)
     bummr (1.1.0)
