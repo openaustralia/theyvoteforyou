@@ -7,23 +7,10 @@ module DataLoader
     # from_date - Date to parse from (just specify this date if you only want one )
     # to_date - A single date
     def self.load!(from_date, to_date = nil)
-      agent = Mechanize.new
-
       (from_date..(to_date || from_date)).each do |date|
         House.australian.each do |house|
-          url = "#{Rails.configuration.xml_data_base_url}scrapedxml/#{house}_debates/#{date}.xml"
-          begin
-            xml_document = Sentry.with_child_span(op: "http.client", description: "Fetch #{house} debates XML for #{date}") do |span|
-              span&.set_data("http.url", url)
-              Nokogiri::XML(agent.get(url).body)
-            end
-          rescue Mechanize::ResponseCodeError => e
-            raise e if e.response_code != "404"
-
-            Sentry::Metrics.count("data_load.divisions.xml_missing", attributes: { house: house })
-            Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
-            next
-          end
+          xml_document = fetch_xml_document(house, date)
+          next unless xml_document
 
           existing_divisions = Division.where(date: date, house: house)
 
@@ -74,6 +61,34 @@ module DataLoader
           end
         end
       end
+    end
+
+    # The ParlParse-format XML URL for one house's debates on one sitting day.
+    def self.xml_url(house, date)
+      "#{Rails.configuration.xml_data_base_url}scrapedxml/#{house}_debates/#{date}.xml"
+    end
+
+    # Fetches and parses one house's Hansard XML for one sitting day. Returns nil (after
+    # logging) when the source has no XML for that day, which is the normal outcome for
+    # weekends and other non-sitting days, not a failure.
+    #
+    # Also used by DivisionSummaryPipeline::ContextBuilder (app/services/division_summary_
+    # pipeline/context_builder.rb) to fetch wider debate context for the AI division summary
+    # feature, so this stays the one place that knows the source URL and fetch mechanics -
+    # see app/services/division_summary_pipeline/ARCHITECTURE.md for why that matters.
+    def self.fetch_xml_document(house, date)
+      agent = Mechanize.new
+      url = xml_url(house, date)
+      Sentry.with_child_span(op: "http.client", description: "Fetch #{house} debates XML for #{date}") do |span|
+        span&.set_data("http.url", url)
+        Nokogiri::XML(agent.get(url).body)
+      end
+    rescue Mechanize::ResponseCodeError => e
+      raise e if e.response_code != "404"
+
+      Sentry::Metrics.count("data_load.divisions.xml_missing", attributes: { house: house })
+      Rails.logger.info "No XML file found for #{house} on #{date} at #{url}"
+      nil
     end
   end
 end

@@ -1,0 +1,25 @@
+{
+  "template_id": 2,
+  "declines_second_reading": true,
+  "mover_claims": [
+    {
+      "claim": "Noting that many small retailers do not yet have the systems needed to comply with the bill's proposed timeframe",
+      "evidence": "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
+      "speaker": "Priya Nakamura"
+    },
+    {
+      "claim": "Arguing consumers should be given more time before new data-sharing obligations begin",
+      "evidence": "consumers should be given a longer transition period before new data-sharing obligations take effect",
+      "speaker": "Priya Nakamura"
+    },
+    {
+      "claim": "Warning the bill would add compliance costs for regional businesses without any support package",
+      "evidence": "the bill, in its current form, would place additional compliance costs on regional businesses without a corresponding support package",
+      "speaker": "Priya Nakamura"
+    }
+  ],
+  "motion_text": "That all words after \"whilst\" be omitted with a view to substituting the following words:\n\n\"declining to give the bill a second reading, the House also notes that:\n\n(1) many small retailers still lack the technical systems needed to comply with the proposed timeframe;\n\n(2) consumers should be given a longer transition period before new data-sharing obligations take effect; and\n\n(3) the bill, in its current form, would place additional compliance costs on regional businesses without a corresponding support package\".",
+  "topic": "Consumer Data Right Amendment (Portability) Bill 2026",
+  "sufficient_context": true,
+  "missing_context_clue": null
+}

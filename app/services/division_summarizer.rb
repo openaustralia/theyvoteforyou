@@ -2,25 +2,31 @@
 
 require "aws-sdk-bedrockruntime"
 
-# DivisionSummarizer asks several Bedrock models to write a plain-language title and description
-# for a Division, matching the style used for existing edited divisions (spike for
-# openaustralia/theyvoteforyou#1716). It's read-only: nothing here writes to the database - every
-# result is a draft for a human to review via the existing WikiMotion edit form, same as if a
-# person had written it.
+# DivisionSummarizer acts as an orchestrator executing the 5-stage AI division summary
+# pipeline:
+# 1. Fetch wider Hansard context (ContextBuilder)
+# 2. Run the Procedural State Machine (ProceduralRouter)
+# 3. Run Semantic Extraction for structured JSON (SemanticExtractor)
+# 4. Assert mechanical zero-hallucination provenance (ProvenanceValidator)
+# 5. Compile verified data into publication-ready Markdown (TemplateCompiler)
+#
+# It is read-only: nothing here writes to the database. Every result is a draft for human
+# review via the existing WikiMotion edit form or saved to AiDivisionSummary.
 class DivisionSummarizer
-  # Deliberately its own copy rather than DivisionPolicyClassifier::MODELS - tuning one service's
-  # model lineup (e.g. dropping a model that classifies poorly) shouldn't silently change the
-  # other's, even though they happen to use the same three models today.
   MODELS = DivisionPolicyClassifier::MODELS.dup.freeze
   REGION = DivisionPolicyClassifier::REGION
 
   Result = Struct.new(:model, :title, :description, :raw, :error, keyword_init: true)
 
   # client: only for tests, to inject a stubbed Aws::BedrockRuntime::Client
-  def initialize(division, models: MODELS, client: nil)
+  # xml_content: optional raw or debates XML string for offline tests/fixtures
+  # extractor: optional custom/mock extractor instance
+  def initialize(division, models: MODELS, client: nil, xml_content: nil, extractor: nil)
     @division = division
     @models = models
     @client = client
+    @xml_content = xml_content
+    @extractor = extractor
   end
 
   def summarize_with_all_models
@@ -28,15 +34,99 @@ class DivisionSummarizer
   end
 
   def summarize_with(model_id)
-    response = client.converse(
-      model_id: model_id,
-      system: [{ text: system_prompt }],
-      messages: [{ role: "user", content: [{ text: division_prompt }] }],
-      inference_config: { temperature: 0 }
+    # Stage 1: Fetch wider Hansard debate context. Built once per DivisionSummarizer and
+    # shared by every model call: the packet depends only on the division (plus any context
+    # expansion below), not on the model, so building it per model would re-fetch and
+    # re-parse the same day's Hansard XML for every model in #summarize_with_all_models.
+    packet = hansard_packet
+
+    # Stage 2: Procedural Router. ContextBuilder already runs the router and attaches its
+    # decision to the packet; route defensively only if a packet ever arrives without one.
+    packet.procedural_decision ||= DivisionSummaryPipeline::ProceduralRouter.route(
+      speaker_question: packet.speaker_question,
+      chamber: packet.house,
+      debate_heading: packet.debate_heading,
+      hansard_snippet: packet.hansard_context.to_s[0..1000]
     )
-    parse(model_id, response.output.message.content.first.text)
+
+    # Stage 3: Semantic Extractor (prompting the LLM strictly for structured JSON)
+    extractor = @extractor || DivisionSummaryPipeline::SemanticExtractor.new(model_id, client: client)
+    raw_response = extractor.extract_raw(packet)
+
+    extraction = DivisionSummaryPipeline::ExtractionPayload.from_json(raw_response)
+    unless extraction
+      return Result.new(
+        model: model_id,
+        error: "Could not parse response: model returned invalid JSON or empty response",
+        raw: raw_response
+      )
+    end
+
+    # Handle legacy title/description payload from older prompts
+    if extraction.legacy?
+      return Result.new(
+        model: model_id,
+        title: extraction.legacy_title,
+        description: extraction.legacy_description,
+        raw: raw_response
+      )
+    end
+
+    # Progressive context expansion fallback if context was reported insufficient
+    if !extraction.sufficient_context && packet.context_level != :sitting_day
+      expanded_packet = DivisionSummaryPipeline::ContextBuilder.build(
+        division,
+        xml_content: @xml_content,
+        context_level: :sitting_day,
+        extra_context: extraction.missing_context_clue
+      )
+      expanded_response = extractor.extract_raw(expanded_packet)
+      expanded_extraction = DivisionSummaryPipeline::ExtractionPayload.from_json(expanded_response)
+      if expanded_extraction
+        extraction = expanded_extraction
+        packet = expanded_packet
+        raw_response = expanded_response
+        # Keep the widest context for the remaining models: if one model needed the sitting
+        # day's debate to extract with evidence, the others do too.
+        @hansard_packet = packet
+      end
+    end
+
+    # Stage 4: Provenance Validator (mechanically asserting evidence quotes in source)
+    validation = DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, packet)
+    unless validation.is_valid
+      error_msg = "Validation failed: #{validation.errors.join('; ')}"
+      return Result.new(
+        model: model_id,
+        title: extraction.topic.presence || division_default_title,
+        description: nil,
+        raw: raw_response,
+        error: error_msg
+      )
+    end
+
+    # Stage 5: Template Compiler (injecting validated facts into Markdown templates)
+    #
+    # PLACEHOLDER, not dead code: digest_section is deliberately nil until a Bills Digest lookup
+    # exists, so every compiled summary currently gets the "No Bill Digest found." fallback defined
+    # in TEMPLATES.md. See "Hooking it up to live systems" in
+    # division_summary_pipeline/ARCHITECTURE.md for the exact contract a future digest integration
+    # must meet (digest_link + digest_key_points, or a pre-formatted section starting "According to
+    # the [Bill Digest](LINK):").
+    compiled_markdown = DivisionSummaryPipeline::TemplateCompiler.compile(division, extraction, digest_section: nil)
+    title = extraction.topic.presence || division_default_title
+
+    Result.new(
+      model: model_id,
+      title: title,
+      description: compiled_markdown,
+      raw: raw_response,
+      error: nil
+    )
   rescue Aws::Errors::ServiceError => e
     Result.new(model: model_id, error: e.message)
+  rescue StandardError => e
+    Result.new(model: model_id, error: "Pipeline error: #{e.message}")
   end
 
   private
@@ -47,56 +137,17 @@ class DivisionSummarizer
     @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
   end
 
-  def system_prompt
-    <<~PROMPT
-      You are writing plain-language summaries of Australian parliamentary divisions (votes) for
-      the TheyVoteForYou website, replacing the formal Hansard record with something a member of
-      the public can actually understand.
-
-      Follow this style guide:
-      - Plain English: avoid jargon, buzzwords, and long or formal words - use "help" not
-        "assist", "about" not "approximately".
-      - Active voice, not passive - "they voted for the bill", not "the bill was voted for".
-      - Be specific, informative, clear, and concise. Serious but not pompous.
-      - Emotionless: no subjective adjectives, and strictly non-partisan - never use language that
-        favours one side of politics, and never imply the vote's outcome was good, bad, or
-        surprising.
-      - Use contractions (can't, don't, they'll).
-      - No sentence over 25 words.
-      - Gender-neutral language (they/them/their).
-      - Front-load the most important information first.
-
-      Produce two things:
-      - A "title" following the same structure as existing titles on the site - "<Category> —
-        <Subject>" or "<Category> — <Subject>; <Stage>", for example "Bills — Higher Education
-        Support Amendment Bill 2026; Second Reading" or "Motions — Cost of Living". Editors tidy
-        the wording but keep this same shape - don't invent a different structure.
-      - A "description": one or two short paragraphs in plain English explaining what this
-        division actually decided, for someone with no background in parliamentary procedure.
-
-      Respond with JSON only, no other text, matching this shape exactly:
-      {"title": "<string>", "description": "<string>"}
-    PROMPT
+  # The Hansard context packet for this division, built once and reused across model calls
+  # (see #summarize_with).
+  def hansard_packet
+    @hansard_packet ||= DivisionSummaryPipeline::ContextBuilder.build(
+      division,
+      xml_content: @xml_content,
+      context_level: :subdebate
+    )
   end
 
-  def division_prompt
-    <<~PROMPT
-      Division: #{division.name}
-      House: #{division.full_house_name}
-      Date: #{division.date}
-
-      Motion:
-      #{division.motion}
-    PROMPT
-  end
-
-  def parse(model_id, text)
-    json = JSON.parse(text[/\{.*\}/m] || text)
-    usable = json.is_a?(Hash) && json["title"].present? && json["description"].present?
-    return Result.new(model: model_id, error: "Model response was missing title/description", raw: text) unless usable
-
-    Result.new(model: model_id, title: json["title"], description: json["description"], raw: text)
-  rescue JSON::ParserError => e
-    Result.new(model: model_id, error: "Could not parse response: #{e.message}", raw: text)
+  def division_default_title
+    division.respond_to?(:name) ? division.name : "Division #{division.respond_to?(:number) ? division.number : ''}"
   end
 end
