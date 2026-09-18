@@ -367,7 +367,7 @@ GEM
       rubyntlm (~> 0.6, >= 0.6.3)
       webrick (~> 1.7)
       webrobots (~> 0.1.2)
-    meta-tags (2.23.0)
+    meta-tags (2.24.0)
       actionpack (>= 6.0.0)
     method_source (1.1.0)
     mime-types (3.7.0)
