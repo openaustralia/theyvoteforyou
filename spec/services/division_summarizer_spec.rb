@@ -24,15 +24,36 @@ describe DivisionSummarizer do
   end
 
   describe "#summarize_with" do
-    context "when the model answers as asked" do
+    context "when the model answers with structured extraction JSON" do
       before do
         stub_converse_text(
-          %({"title": "Motions — Coal Seam Gas", "description": "The Senate voted on a motion about coal seam gas."})
+          <<~JSON
+            {
+              "template_id": 22,
+              "topic": "Closure of Debate",
+              "motion_text": "That the question be now put."
+            }
+          JSON
+        )
+      end
+
+      it "compiles through the template compiler into markdown" do
+        expect(result.title).to eq("Closure of Debate")
+        expect(result.description).to start_with("**Jargon Explainer:**")
+        expect(result.description).to include("> That the question be now put.")
+        expect(result.error).to be_nil
+      end
+    end
+
+    context "when the model answers with legacy title and description" do
+      before do
+        stub_converse_text(
+          %({"title": "Motions - Coal Seam Gas", "description": "The Senate voted on a motion about coal seam gas."})
         )
       end
 
       it "reads the title" do
-        expect(result.title).to eq "Motions — Coal Seam Gas"
+        expect(result.title).to eq "Motions - Coal Seam Gas"
       end
 
       it "reads the description" do
@@ -48,13 +69,13 @@ describe DivisionSummarizer do
       before do
         stub_converse_text(<<~TEXT)
           ```json
-          {"title": "Motions — Coal Seam Gas", "description": "Wrapped in a fence."}
+          {"title": "Motions - Coal Seam Gas", "description": "Wrapped in a fence."}
           ```
         TEXT
       end
 
       it "reads the title" do
-        expect(result.title).to eq "Motions — Coal Seam Gas"
+        expect(result.title).to eq "Motions - Coal Seam Gas"
       end
 
       it "reads the description" do
@@ -62,27 +83,30 @@ describe DivisionSummarizer do
       end
     end
 
-    context "when the response has no title or description" do
-      before { stub_converse_text(%({"answer": "the model didn't return what we asked for"})) }
-
-      it "records an error" do
-        expect(result.error).to eq "Model response was missing title/description"
+    context "when provenance validation fails on unsupported claims" do
+      before do
+        stub_converse_text(
+          <<~JSON
+            {
+              "template_id": 2,
+              "topic": "Mining Reform",
+              "motion_text": "That this House bans the thing",
+              "declines_second_reading": false,
+              "mover_claims": [
+                {
+                  "claim": "A completely fabricated claim",
+                  "evidence": "a non-existent quote that is not in the motion text",
+                  "speaker": "John Doe"
+                }
+              ]
+            }
+          JSON
+        )
       end
 
-      it "leaves the title blank" do
-        expect(result.title).to be_nil
-      end
-    end
-
-    context "when the response is JSON but not an object" do
-      before { stub_converse_text(%(["not", "an", "object"])) }
-
-      it "records an error" do
-        expect(result.error).to eq "Model response was missing title/description"
-      end
-
-      it "leaves the title blank" do
-        expect(result.title).to be_nil
+      it "records a validation error and leaves description nil" do
+        expect(result.error).to include("Validation failed")
+        expect(result.description).to be_nil
       end
     end
 

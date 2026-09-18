@@ -51,9 +51,10 @@ namespace :ai do
     end
   end
 
-  desc "Ask several Bedrock models to write a plain-language title and description for a " \
-       "Division, saving each as an AiDivisionSummary - skips any model already saved for this " \
-       "Division (spike, openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+  desc "Run the 5-stage AI division summary pipeline (Hansard context, procedural routing, " \
+       "semantic extraction, provenance validation, template compilation) for a Division with " \
+       "several Bedrock models, saving each as an AiDivisionSummary - skips any model already " \
+       "saved for this Division (openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
   task summarize_division: :environment do
     division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:summarize_division DIVISION_ID=123" }
     division = Division.find(division_id)

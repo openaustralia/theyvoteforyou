@@ -1,0 +1,21 @@
+{
+  "id": 1052,
+  "house": "representatives",
+  "name": "Closure of Debate - Border Processing Amendment Bill 2026",
+  "date": "2026-08-19",
+  "number": 1,
+  "clock_time": "10:15 AM",
+  "aye_votes": 82,
+  "no_votes": 54,
+  "possible_turnout": 151,
+  "rebellions": 0,
+  "edited": false,
+  "mover_name": "Jordan McAllister",
+  "mover_title": "Representative",
+  "mover_party": "Labor",
+  "mover_link": "https://theyvoteforyou.org.au/people/representatives/brightwater/jordan_mcallister",
+  "bill_name": "Border Processing Amendment Bill 2026",
+  "bill_link": "https://theyvoteforyou.org.au/bills/border-processing-amendment-bill-2026",
+  "result": "passed",
+  "amount": "majority"
+}
