@@ -55,6 +55,23 @@ describe DivisionSummaryPipeline::ExtractionPayload do
       expect(payload.legacy_description).to eq("Debate on cost of living.")
     end
 
+    it "parses template-specific fields, stripping surrounding whitespace" do
+      json = <<~JSON
+        {
+          "template_id": 23,
+          "topic": "Closure",
+          "motion_text": "That the honourable member for Brightwater be no longer heard.",
+          "target_name": " Alex Downey ",
+          "target_electorate": "Brightwater"
+        }
+      JSON
+
+      payload = described_class.from_json(json)
+      expect(payload.target_name).to eq("Alex Downey")
+      expect(payload.target_electorate).to eq("Brightwater")
+      expect(payload.committee_name).to be_nil
+    end
+
     it "returns nil for invalid JSON" do
       expect(described_class.from_json("invalid json")).to be_nil
     end
@@ -65,6 +82,10 @@ describe DivisionSummaryPipeline::ExtractionPayload do
       schema = described_class.json_schema
       expect(schema[:type]).to eq("object")
       expect(schema[:required]).to include("template_id", "topic", "motion_text", "mover_claims")
+      expect(schema[:properties].keys).to include(
+        :target_name, :target_electorate, :committee_name,
+        :regulation_name, :business_name, :rearrangement_description
+      )
     end
   end
 end

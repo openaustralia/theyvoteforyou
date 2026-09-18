@@ -128,6 +128,14 @@ module DivisionSummaryPipeline
                        "This means the bill has now passed the #{chamber} and will go to the #{other_chamber}."
                      end
 
+      # 9. Target resolution for the templates that name a second person (10, 23). The
+      # extraction only supplies what the Hansard text states (a name and/or an
+      # electorate); the database supplies the party, electorate and profile link,
+      # keeping member details Type 1 authoritative facts with zero AI involvement
+      # (ARCHITECTURE.md, Data classification section). Without this, an unresolved
+      # target renders as broken markdown like "[Peter Dutton]() ()".
+      target = resolve_target(raw, extraction)
+
       {
         "time" => time,
         "amount" => clean_amount,
@@ -152,15 +160,13 @@ module DivisionSummaryPipeline
         "suspension_effect_clause" => is_successful ? "The usual rules were set aside so the matter could be dealt with immediately." : "",
         "stage" => stage_val,
         "stage_clause" => stage_clause,
-        "target_name" => raw[:target_name] || "the member",
-        "target_link" => raw[:target_link] || "",
-        "target_party" => raw[:target_party] || "",
-        "target_electorate" => raw[:target_electorate] || "",
-        "committee_name" => raw[:committee_name] || "",
-        "business_name" => raw[:business_name] || "",
+        "target_name" => target_name_value(target, extraction, raw),
+        "target_clause" => target_clause(target, extraction),
+        "committee_name" => extraction.committee_name.presence || raw[:committee_name] || "",
+        "business_name" => extraction.business_name.presence || raw[:business_name] || "",
         "motion_link" => raw[:motion_link] || "",
-        "rearrangement_description" => raw[:rearrangement_description] || "",
-        "regulation_name" => raw[:regulation_name] || "",
+        "rearrangement_description" => extraction.rearrangement_description.presence || raw[:rearrangement_description] || "",
+        "regulation_name" => extraction.regulation_name.presence || raw[:regulation_name] || "",
         "regulation_link" => raw[:regulation_link] || "",
         "regulation_summary" => raw[:regulation_summary] || "",
         "regulation_status_clause" => is_successful ? "The regulation no longer has legal force." : "The regulation remains in force.",
@@ -180,6 +186,58 @@ module DivisionSummaryPipeline
       else
         "The #{chamber} then voted on the question itself."
       end
+    end
+
+    # Asks the database for the member the motion targets, so party, electorate and the
+    # profile link come from TVFY records rather than from anything the model could
+    # invent. Names or electorates the Hansard text never states resolve to a blank
+    # ResolvedMember, which the target_* builders degrade to plain text.
+    def resolve_target(raw, extraction)
+      return unless [10, 23].include?(extraction.template_id)
+
+      MemberResolver.resolve(
+        name: extraction.target_name.presence || raw[:target_name].presence,
+        electorate: extraction.target_electorate.presence,
+        house: raw[:house].presence,
+        date: raw[:date].presence
+      )
+    end
+
+    # Canonical name for template 10: the database spelling when matched, otherwise
+    # whatever the Hansard text stated, otherwise the neutral fallback.
+    def target_name_value(target, extraction, raw)
+      return target.name if target&.name.present?
+
+      extraction.target_name.presence || raw[:target_name].presence || "the member"
+    end
+
+    # Builds the template 23 target phrase so it can never render broken markdown: a
+    # database match yields the full "Dickson MP [Name](link) (Party)" form, and every
+    # fallback degrades to plain text naming the person the way Hansard stated it.
+    def target_clause(target, extraction)
+      unless target&.member || extraction.target_name.present? || extraction.target_electorate.present?
+        return "the member"
+      end
+
+      return linkified_target(target) if target&.member
+
+      if extraction.target_electorate.present?
+        "the honourable member for #{extraction.target_electorate}"
+      else
+        extraction.target_name.to_s
+      end
+    end
+
+    def linkified_target(target)
+      descriptor = if target.member.senator?
+                     "Senator"
+                   elsif target.electorate.present?
+                     "#{target.electorate} MP"
+                   else
+                     "MP"
+                   end
+      party_part = target.party.present? ? " (#{target.party})" : ""
+      "#{descriptor} [#{target.name}](#{target.link})#{party_part}"
     end
 
     def format_blockquote(text)

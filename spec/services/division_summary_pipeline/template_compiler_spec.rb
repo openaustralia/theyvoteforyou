@@ -169,6 +169,138 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       expect(rendered).to include("to the Selection of Bills Committee for inquiry and report")
       expect(rendered).not_to include("the the")
     end
+
+    it "compiles Template 13 with the committee name the extraction supplies" do
+      division_data = {
+        time: "10:15 AM",
+        amount: "majority",
+        result: "for",
+        mover_title: "Representative",
+        mover_name: "Jordan McAllister",
+        mover_link: "https://example.com/jordan_mcallister",
+        mover_party: "Labor",
+        house: "representatives",
+        date: "2026-08-19"
+      }
+
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 13,
+        topic: "budget estimates",
+        motion_text: "That the matter be referred to the Selection of Bills Committee for inquiry and report.",
+        committee_name: "Selection of Bills Committee"
+      )
+
+      rendered = described_class.compile(division_data, extraction)
+      expect(rendered).to include("to the Selection of Bills Committee for inquiry and report")
+      expect(rendered).not_to include("to the  for inquiry")
+    end
+
+    def create_downey_member(overrides = {})
+      FactoryBot.create(:member, {
+        person: FactoryBot.create(:person),
+        first_name: "Alex",
+        last_name: "Downey",
+        constituency: "Brightwater",
+        party: "Liberal",
+        house: "representatives",
+        entered_house: "2004-10-01",
+        left_house: "9999-12-31"
+      }.merge(overrides))
+    end
+
+    it "uses the database spelling of the censure target in Template 10" do
+      create_downey_member
+      division_data = {
+        time: "10:15 AM",
+        amount: "majority",
+        result: "against",
+        mover_title: "Representative",
+        mover_name: "Jordan McAllister",
+        mover_link: "https://example.com/jordan_mcallister",
+        mover_party: "Labor",
+        house: "representatives",
+        date: "2026-08-19"
+      }
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 10,
+        topic: "ministerial conduct",
+        motion_text: "That the House censure the minister.",
+        target_name: "Alex Downey"
+      )
+
+      rendered = described_class.compile(division_data, extraction)
+      expect(rendered).to include("against Alex Downey regarding ministerial conduct")
+    end
+
+    describe "template 23 target resolution" do
+      let(:division_data) do
+        {
+          time: "10:15 AM",
+          amount: "majority",
+          result: "for",
+          mover_title: "Representative",
+          mover_name: "Jordan McAllister",
+          mover_link: "https://example.com/jordan_mcallister",
+          mover_party: "Labor",
+          bill_name: "Border Processing Amendment Bill 2026",
+          bill_link: "https://example.com/bill",
+          house: "representatives",
+          date: "2026-08-19"
+        }
+      end
+
+      def compile_template_23(target_name: nil, target_electorate: nil)
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 23,
+          topic: "Border Processing Amendment Bill 2026",
+          motion_text: "That the honourable member for Brightwater be no longer heard.",
+          target_name: target_name,
+          target_electorate: target_electorate
+        )
+        described_class.compile(division_data, extraction)
+      end
+
+      it "injects the database member's facts for a matched target" do
+        create_downey_member
+
+        expect(compile_template_23(target_name: "Alex Downey")).to include(
+          "that Brightwater MP [Alex Downey](/people/representatives/brightwater/alex_downey) (Liberal) be no longer heard"
+        )
+      end
+
+      it "resolves the member from the electorate alone when only the seat is stated" do
+        create_downey_member
+
+        expect(compile_template_23(target_electorate: "Brightwater")).to include(
+          "that Brightwater MP [Alex Downey](/people/representatives/brightwater/alex_downey) (Liberal) be no longer heard"
+        )
+      end
+
+      it "quotes the extracted motion text in the motion-text blockquote" do
+        create_downey_member
+
+        expect(compile_template_23(target_name: "Alex Downey")).to include(
+          "> That the honourable member for Brightwater be no longer heard."
+        )
+      end
+
+      it "degrades to the plain extracted name when the database has no match" do
+        rendered = compile_template_23(target_name: "Alex Downey")
+
+        expect(rendered).to include("that Alex Downey be no longer heard")
+        expect(rendered).not_to include("[](")
+      end
+
+      it "degrades to the honourable-member phrasing when only an unmatchable electorate is stated" do
+        expect(compile_template_23(target_electorate: "Nowhereville")).to include(
+          "that the honourable member for Nowhereville be no longer heard"
+        )
+      end
+
+      it "renders the neutral fallback when nothing about the target is known" do
+        expect(compile_template_23).to include("that the member be no longer heard")
+      end
+    end
   end
 end
 

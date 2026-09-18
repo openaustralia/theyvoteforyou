@@ -14,6 +14,24 @@ module DivisionSummaryPipeline
   # ProvenanceValidator enforces zero-hallucination by mechanically asserting
   # that every extracted evidence quote exists verbatim in the source Hansard context.
   class ProvenanceValidator
+    # Fields the templates render verbatim in the summary sentence. A template whose
+    # fact is missing would publish a blank (for example "to the  for inquiry and
+    # report"), so absence is an error routing the draft to human review rather than
+    # to publication.
+    TEMPLATE_REQUIRED_FIELDS = {
+      9 => :regulation_name,
+      10 => :target_name,
+      13 => :committee_name,
+      19 => :rearrangement_description,
+      20 => :business_name
+    }.freeze
+
+    # Extracted facts published verbatim; each is mechanically verified against the
+    # Hansard context exactly like claim evidence.
+    EXTRACTED_TEMPLATE_FIELDS = %i[target_name target_electorate committee_name
+                                   regulation_name business_name
+                                   rearrangement_description].freeze
+
     def self.validate(extraction, context_packet)
       new(extraction, context_packet).validate
     end
@@ -35,6 +53,7 @@ module DivisionSummaryPipeline
       check_topic
       check_motion_text
       check_template_specific_rules
+      check_extracted_field_provenance
       check_claims_provenance
 
       is_valid = errors.empty?
@@ -119,6 +138,28 @@ module DivisionSummaryPipeline
     def check_template_specific_rules
       if extraction.template_id == 2 && extraction.declines_second_reading.nil?
         errors << "Template 2 requires 'declines_second_reading' to be explicitly boolean (true or false)."
+      end
+
+      TEMPLATE_REQUIRED_FIELDS.each do |template_id, field|
+        next unless extraction.template_id == template_id
+        next unless extraction.public_send(field).blank?
+
+        errors << "Template #{template_id} requires '#{field}' but it was not extracted; needs human review rather than publishing a blank."
+      end
+
+      if extraction.template_id == 23 && extraction.target_name.blank? && extraction.target_electorate.blank?
+        errors << "Template 23 requires 'target_name' or 'target_electorate' to identify the member who is no longer heard."
+      end
+    end
+
+    def check_extracted_field_provenance
+      EXTRACTED_TEMPLATE_FIELDS.each do |field|
+        value = extraction.public_send(field)
+        next if value.blank?
+        next unless context_packet && context_packet.hansard_context.present?
+        next if self.class.verify_provenance(value, context_packet.hansard_context)
+
+        errors << "Provenance check failed: '#{field}' (\"#{value[0..80]}\") was not found in Hansard source."
       end
     end
 
