@@ -55,6 +55,9 @@ namespace :ai do
        "semantic extraction, provenance validation, template compilation) for a Division with " \
        "several Bedrock models, saving each as an AiDivisionSummary - skips any model already " \
        "saved for this Division (openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+  # The pipeline's only entry point: no cron job, no feature flag, nothing automatic. Models
+  # with an error-free summary already saved are skipped, so re-running retries only what
+  # failed. Needs Bedrock credentials; see ARCHITECTURE.md section 15.
   task summarize_division: :environment do
     division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:summarize_division DIVISION_ID=123" }
     division = Division.find(division_id)

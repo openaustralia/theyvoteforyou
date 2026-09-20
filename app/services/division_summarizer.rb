@@ -2,20 +2,32 @@
 
 require "aws-sdk-bedrockruntime"
 
-# DivisionSummarizer acts as an orchestrator executing the 5-stage AI division summary
-# pipeline:
+# Orchestrates the 5-stage AI division summary pipeline:
 # 1. Fetch wider Hansard context (ContextBuilder)
-# 2. Run the Procedural State Machine (ProceduralRouter)
-# 3. Run Semantic Extraction for structured JSON (SemanticExtractor)
+# 2. Classify the vote against fixed procedural rules (ProceduralRouter)
+# 3. Extract structured JSON from an LLM (SemanticExtractor)
 # 4. Assert mechanical zero-hallucination provenance (ProvenanceValidator)
 # 5. Compile verified data into publication-ready Markdown (TemplateCompiler)
 #
-# It is read-only: nothing here writes to the database. Every result is a draft for human
-# review via the existing WikiMotion edit form or saved to AiDivisionSummary.
+# The design turns on one constraint: the LLM is a sensor, not an author. It fills in a fixed
+# form at stage 3 and writes none of the published prose, which comes from the 23
+# human-approved templates in division_summary_pipeline/templates/ and from database facts.
+# Anything it returns that stage 4 cannot trace back to Hansard is rejected rather than
+# published. ARCHITECTURE.md in app/services/division_summary_pipeline/ explains why each
+# stage exists, what it deliberately does not do, and what is not wired up yet.
+#
+# Read-only: nothing here writes to the database. Every Result is a draft for human review,
+# saved as an AiDivisionSummary and edited onto the Division through the WikiMotion form.
 class DivisionSummarizer
+  # Which AI models to ask, and which AWS region hosts them. Borrowed from the policy
+  # classifier so the two AI features share one model list and one set of credentials.
+  # Choosing a model deliberately for this feature is open work (ARCHITECTURE.md section 13).
   MODELS = DivisionPolicyClassifier::MODELS.dup.freeze
   REGION = DivisionPolicyClassifier::REGION
 
+  # `raw` holds the model's untouched reply so a reviewer can judge what it actually said,
+  # not only what the pipeline made of it. Failures arrive here as `error` rather than as
+  # exceptions, so one bad model or division doesn't abandon the rest of a run.
   Result = Struct.new(:model, :title, :description, :raw, :error, keyword_init: true)
 
   # client: only for tests, to inject a stubbed Aws::BedrockRuntime::Client
@@ -29,6 +41,9 @@ class DivisionSummarizer
     @extractor = extractor
   end
 
+  # Several models are asked the same division so a reviewer can compare drafts before any
+  # one model is trusted; which models to keep asking is still an open decision
+  # (ARCHITECTURE.md section 13).
   def summarize_with_all_models
     @models.transform_values { |model_id| summarize_with(model_id) }
   end
@@ -49,10 +64,13 @@ class DivisionSummarizer
       hansard_snippet: packet.hansard_context.to_s[0..1000]
     )
 
-    # Stage 3: Semantic Extractor (prompting the LLM strictly for structured JSON)
+    # Stage 3: Semantic Extractor, the only point in the pipeline that calls an LLM. It is
+    # given the router's shortlist and answers in JSON; it is never asked for prose.
     extractor = @extractor || DivisionSummaryPipeline::SemanticExtractor.new(model_id, client: client)
     raw_response = extractor.extract_raw(packet)
 
+    # Unparseable output is not retried: a model that ignored the schema once is more useful
+    # to a reviewer as a saved raw response than as a second guess.
     extraction = DivisionSummaryPipeline::ExtractionPayload.from_json(raw_response)
     unless extraction
       return Result.new(
@@ -72,7 +90,10 @@ class DivisionSummarizer
       )
     end
 
-    # Progressive context expansion fallback if context was reported insufficient
+    # Progressive context expansion. Debate is routinely adjourned and resumed, so the
+    # speeches immediately before a vote can refer back to a mover's explanation given
+    # earlier in the day or on an earlier sitting day. A model that reports the gap instead
+    # of inventing the missing speech earns a second attempt over the whole sitting day.
     if !extraction.sufficient_context && packet.context_level != :sitting_day
       expanded_packet = DivisionSummaryPipeline::ContextBuilder.build(
         division,
@@ -92,7 +113,9 @@ class DivisionSummarizer
       end
     end
 
-    # Stage 4: Provenance Validator (mechanically asserting evidence quotes in source)
+    # Stage 4: Provenance Validator. A single unverifiable quote fails the whole extraction
+    # rather than being dropped from it, because a summary that is right except for one
+    # invented sentence is the outcome this pipeline exists to prevent.
     validation = DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, packet)
     unless validation.is_valid
       error_msg = "Validation failed: #{validation.errors.join('; ')}"
@@ -105,7 +128,7 @@ class DivisionSummarizer
       )
     end
 
-    # Stage 5: Template Compiler (injecting validated facts into Markdown templates)
+    # Stage 5: Template Compiler, running on verified data only, with no AI involvement.
     #
     # PLACEHOLDER, not dead code: digest_section is deliberately nil until a Bills Digest lookup
     # exists, so every compiled summary currently gets the "No Bill Digest found." fallback defined
@@ -133,6 +156,8 @@ class DivisionSummarizer
 
   attr_reader :division
 
+  # Lazy so nothing contacts AWS at boot: a machine with no Bedrock credentials still starts
+  # the app and still runs the whole offline suite.
   def client
     @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
   end
@@ -147,6 +172,7 @@ class DivisionSummarizer
     )
   end
 
+  # Falls back to the Hansard debate heading so a draft is never saved with a blank title.
   def division_default_title
     division.respond_to?(:name) ? division.name : "Division #{division.respond_to?(:number) ? division.number : ''}"
   end

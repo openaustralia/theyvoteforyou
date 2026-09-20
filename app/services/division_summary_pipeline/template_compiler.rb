@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 module DivisionSummaryPipeline
-  # TemplateCompiler deterministically merges authoritative TVFY facts,
-  # validated semantic extractions, and human-curated Markdown templates.
+  # Stage 5: merges authoritative TVFY facts and validated extractions into one of the 23
+  # human-curated Markdown templates in templates/, with no AI involvement.
+  #
+  # This is where the pipeline's guarantee is cashed in. Published sentences come from the
+  # templates, numbers from the database, quoted passages from Hansard by way of stage 4, so
+  # nothing here is generated and every part of the output is attributable. The awkward
+  # details below are therefore grammar and degradation, not judgement: articles, duplicated
+  # determiners, and falling back to plain text so an unresolved value cannot render as
+  # broken Markdown in front of a reader.
   class TemplateCompiler
     DEFAULT_TEMPLATES_DIR = File.expand_path("templates", __dir__)
 
@@ -14,6 +21,9 @@ module DivisionSummaryPipeline
       @templates_dir = templates_dir || DEFAULT_TEMPLATES_DIR
     end
 
+    # An unknown placeholder renders as empty rather than being left in place, so a template
+    # edited to use a key this class does not build degrades quietly instead of publishing
+    # "{{whatever}}". ProvenanceValidator is what stops a required fact going missing here.
     def compile(division_or_data, extraction, digest_section: nil)
       template_text = load_template(extraction.template_id)
       data = prepare_compilation_data(division_or_data, extraction, digest_section)
@@ -34,6 +44,9 @@ module DivisionSummaryPipeline
       rendered.strip
     end
 
+    # Templates are matched on the leading number alone ("6_passing_a_bill.md" is Template
+    # 6); the rest of the file name is for people. Catalogue headings are kept out of the
+    # files themselves so they can never leak into published output (ARCHITECTURE.md § 8).
     def load_template(template_id)
       pattern = File.join(@templates_dir, "#{template_id}_*.md")
       matching = Dir.glob(pattern)
@@ -56,12 +69,15 @@ module DivisionSummaryPipeline
       successful_text = is_successful ? "successful" : "unsuccessful"
       result_phrasing = is_successful ? "for" : "against"
 
-      # 2. Majority amount formatting
+      # 2. Majority amount formatting. The article is computed rather than written into the
+      # templates because the wording varies ("a majority", "an overwhelming majority").
       raw_amount = raw[:amount].presence || "majority"
       clean_amount = raw_amount.sub(/\A[Aa]n?\s+/, "").strip
       amount_with_article = clean_amount.downcase =~ /\A[aeiou]/ ? "an #{clean_amount}" : "a #{clean_amount}"
 
-      # 3. Basic attributes
+      # 3. Basic attributes. Nothing populates the mover fields for a live Division yet, so
+      # outside the evaluation fixtures the name falls back to the debate heading and the
+      # party and link render empty. Resolving the mover is open work (ARCHITECTURE.md § 13).
       time = raw[:time].presence || raw[:clock_time].to_s
       mover_name = raw[:mover_name].presence || raw[:name].to_s
       mover_link = raw[:mover_link].to_s
@@ -70,7 +86,8 @@ module DivisionSummaryPipeline
       bill_name = raw[:bill_name].presence || extraction.topic
       bill_link = raw[:bill_link].to_s
 
-      # 4. Rebellions text
+      # 4. Rebellions text (members voting against their own party). Zero is stated rather
+      # than omitted: silence would read as "not known" on a site people check for this.
       rebellions_val = raw[:rebellions]
       rebellions_text = if rebellions_val.is_a?(String) && rebellions_val.strip.present?
                           "#{rebellions_val.strip}\n"
@@ -80,7 +97,9 @@ module DivisionSummaryPipeline
                           "Nobody voted against their party on this occasion.\n"
                         end
 
-      # 5. Digest section. Wording contract comes from TEMPLATES.md (the original template document):
+      # 5. Digest section. A Bills Digest is the Parliamentary Library's impartial summary of
+      # a bill, which is why it can be quoted without attribution problems. Wording contract
+      # comes from TEMPLATES.md (the original template document):
       # when a Bills Digest is found the section starts "According to the [Bill Digest](LINK):"
       # followed by the digest's key points as dot points; when no digest is found the fallback is a
       # blockquote containing exactly "No Bill Digest found." (no header, since there is nothing to
@@ -102,7 +121,11 @@ module DivisionSummaryPipeline
       formatted_motion = format_blockquote(extraction.motion_text)
       formatted_claims = format_claims_blockquote(extraction)
 
-      # 7. Template 2 Intro Sentence
+      # 7. Template 2 intro sentence, built here rather than in the template because its
+      # ending inverts: an amendment declining the bill a second reading is an attempt to
+      # stop the bill, so a vote for it was in effect a vote against it, while any other
+      # second reading amendment leaves the text alone. Spelling this out is the point of the
+      # template, since a reader has no way to tell the two apart from the vote alone.
       intro_sentence = ""
       if template_id == 2
         base_sentence = "At #{time}, #{amount_with_article} voted #{result_phrasing} a second reading amendment " \
@@ -116,7 +139,9 @@ module DivisionSummaryPipeline
                          end
       end
 
-      # 8. Chamber logic
+      # 8. Chamber logic. What "passed" means to a reader depends on the stage: a second
+      # reading agrees the bill's main idea and detailed consideration follows, while a third
+      # reading sends the bill to the other chamber.
       house = raw[:house].to_s.downcase
       chamber = house.include?("senate") ? "Senate" : "House of Representatives"
       other_chamber = chamber == "Senate" ? "House of Representatives" : "Senate"
@@ -136,6 +161,7 @@ module DivisionSummaryPipeline
       # target renders as broken markdown like "[Peter Dutton]() ()".
       target = resolve_target(raw, extraction)
 
+      # One table for all 23 templates, each of which uses only the keys it needs.
       {
         "time" => time,
         "amount" => clean_amount,
@@ -257,6 +283,8 @@ module DivisionSummaryPipeline
       formatted.join("\n")
     end
 
+    # Only reached with claims that survived stage 4, so every dot point published here is
+    # traceable to something the member actually said.
     def format_claims_blockquote(extraction)
       claims = extraction.mover_claims || []
       return "> [No explanatory claims recorded]" if claims.empty?
@@ -271,6 +299,10 @@ module DivisionSummaryPipeline
 
     private
 
+    # Everything read here is a Type 1 authoritative fact (ARCHITECTURE.md, Data
+    # classification): counts, dates, times and bill details from the database, with no AI
+    # involvement. Accepts a Hash as well as a Division so the evaluation fixtures can drive
+    # stage 5 without the database.
     def extract_attributes(division_or_data)
       if division_or_data.is_a?(Hash)
         norm = {}

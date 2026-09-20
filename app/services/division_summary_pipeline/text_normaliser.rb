@@ -5,6 +5,11 @@ require "htmlentities"
 module DivisionSummaryPipeline
   # TextNormaliser handles cleaning, whitespace collapsing, entity decoding,
   # and character normalisation for Hansard text and provenance assertion.
+  #
+  # Keep #normalise_for_matching separate from the other two and out of anything published.
+  # It exists so stage 4 compares words rather than typography (Hansard and a model's
+  # transcription of it differ in quote and dash characters, wrapping and case), and it is
+  # lossy by design: text put through it is no longer fit to show anyone.
   class TextNormaliser
     # Decodes the full HTML entity table (named and numeric), matching the Python prototype's
     # html.unescape. The same gem Division already uses for entity decoding. Not frozen: the

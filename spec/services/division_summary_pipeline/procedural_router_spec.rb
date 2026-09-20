@@ -166,6 +166,18 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.locked_out_templates).to eq([18])
       end
 
+      it "marks the general motion fallback's candidate advisory, unlike a real fence" do
+        fallback = described_class.route(
+          speaker_question: "The question is that the report of the Audit Committee be adopted."
+        )
+        fenced = described_class.route(
+          speaker_question: "The question is that the bill be read a second time."
+        )
+
+        expect(fallback.advisory_candidates).to be(true)
+        expect(fenced.advisory_candidates).to be_falsey
+      end
+
       it "routes Third Reading to passing a bill (Template 6)" do
         decision = described_class.route(
           speaker_question: "The question is that this bill be now read a third time."

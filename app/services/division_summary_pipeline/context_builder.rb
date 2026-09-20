@@ -3,8 +3,8 @@
 require "nokogiri"
 
 module DivisionSummaryPipeline
-  # ContextPacket holds all extracted parliamentary context, metadata,
-  # and the procedural routing decision for a division.
+  # The one object every later stage reads from. Stages 3 to 5 see only this, never the
+  # Division or the XML, so whatever is missing here cannot be recovered downstream.
   ContextPacket = Struct.new(
     :division_id,
     :date,
@@ -21,8 +21,13 @@ module DivisionSummaryPipeline
     keyword_init: true
   )
 
-  # ContextBuilder extracts debate context surrounding a division at progressive
-  # tiers (immediate, subdebate, sitting day) from the official debate source.
+  # Stage 1: assembles the debate context and database facts for one division.
+  #
+  # Context is gathered at the narrowest tier that works, widening only on demand, because a
+  # whole sitting day of Hansard is slow and expensive to send and buries the speeches that
+  # actually bear on the vote: :immediate, then :subdebate (the default), then :sitting_day,
+  # which the orchestrator asks for only when the extractor reports the narrower packet was
+  # not enough.
   #
   # This does not re-fetch or re-parse ParlParse XML itself: They Vote For You already has a
   # loader for the same source (app/lib/data_loader/debates.rb, debates_xml.rb, division_xml.rb),
@@ -82,6 +87,9 @@ module DivisionSummaryPipeline
       nil
     end
 
+    # Swallows fetch and parse failures into nil so #build degrades to the Division-record
+    # fallback. A summariser run that dies because Hansard was briefly unreachable would be
+    # worse than one that produces a thinner draft and says so.
     def parse_document
       return Nokogiri::XML(xml_content) if xml_content.present?
       return nil if division_house.blank? || division_date.blank?
@@ -92,6 +100,10 @@ module DivisionSummaryPipeline
       nil
     end
 
+    # The "SPEECH: <speaker>:" prefix on each speech is a contract with stage 4, not
+    # formatting: ProvenanceValidator.extract_speaker_text splits on those markers to verify
+    # a quote against the member it was attributed to. Drop the tagging and a genuine quote
+    # from one member silently passes as another's.
     def build_from_matched_division(division_xml)
       speaker_q = division_xml.operative_question.presence || DEFAULT_SPEAKER_QUESTION
       heading = division_xml.name.to_s
@@ -134,6 +146,8 @@ module DivisionSummaryPipeline
                       ""
                     end
 
+      # Stage 2 routes entirely on this sentence, so it is worth reconstructing from the
+      # stored motion rather than defaulting: a wrong or absent question misroutes the vote.
       speaker_q = if motion_text =~ /The (?:immediate )?question is that.*?(?:\.|\n|\z)/i
                     Regexp.last_match(0).strip
                   elsif motion_text =~ /That .*/i
@@ -154,6 +168,8 @@ module DivisionSummaryPipeline
       )
     end
 
+    # Stage 2 runs here rather than in the orchestrator so a packet is never in circulation
+    # without its routing decision attached.
     def route(speaker_question, heading, hansard_context)
       ProceduralRouter.route(
         speaker_question: speaker_question,
@@ -163,6 +179,9 @@ module DivisionSummaryPipeline
       )
     end
 
+    # Counts, dates and times come from the Division record, never from the XML and never
+    # from the model: they are Type 1 authoritative facts (ARCHITECTURE.md, Data
+    # classification) that stage 5 publishes as given.
     def assemble_packet(speaker_question:, hansard_context:, debate_heading:, procedural_decision:)
       metadata = {
         tvfy_id: division_id,
@@ -251,6 +270,8 @@ module DivisionSummaryPipeline
       end
     end
 
+    # Hansard records the same moment as both "12:30 PM" and "12:30", so times are only
+    # comparable once flattened. Used for matching a division, never for published text.
     def normalise_time(time_str)
       return "" if time_str.blank?
 

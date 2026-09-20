@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 module DivisionSummaryPipeline
-  # ProceduralDecision records the outcome of the procedural state machine routing.
+  # A decision is either settled here (is_deterministic) or fenced: candidate_templates is
+  # the set the extractor may choose from and locked_out_templates is what it may not choose
+  # even so, both re-checked by ProvenanceValidator#check_routing_fence. rule_name and reason
+  # are recorded so a reviewer can tell why a division was classified as it was.
+  #
+  # advisory_candidates marks a shortlist as a default rather than a constraint, so the fence
+  # is not enforced against it. Only the general-motion fallback sets it: reaching that rule
+  # means no pattern matched, so an extractor that recognises the motion is better informed
+  # than the default, whereas every other shortlist is positive evidence about the question.
   ProceduralDecision = Struct.new(
     :is_deterministic,
     :template_id,
@@ -9,6 +17,7 @@ module DivisionSummaryPipeline
     :locked_out_templates,
     :rule_name,
     :reason,
+    :advisory_candidates,
     keyword_init: true
   ) do
     def requires_nuance?
@@ -16,12 +25,19 @@ module DivisionSummaryPipeline
     end
   end
 
-  # ProceduralRouter anchors parliamentary classification to the single source
-  # of procedural truth: the Speaker's Question ("The question is that...").
+  # Stage 2: classifies a division from the Speaker's Question alone, before any LLM runs.
   #
-  # It catches deterministic procedural traps directly in code, defeats the
-  # "Limitation of Debate" (guillotine) trap, and fences candidate templates
-  # for ambiguous stages so the LLM operates within strict boundaries.
+  # What a division decided is fixed by the one sentence the chair puts to the chamber ("The
+  # question is that..."), not by the Hansard heading above it or the subject being argued
+  # about. Anchoring here is what defeats the heading traps below. Chamber, heading and
+  # surrounding debate only narrow cases the question leaves genuinely open.
+  #
+  # These rules live in code rather than in the prompt because they are stable and knowable,
+  # and because a model asked to classify freely handles the easy cases and fails the traps.
+  # Rules are matched in order, first match wins, so ordering is part of the logic.
+  #
+  # Keep this a router. Everything genuinely ambiguous belongs to the extractor inside a
+  # fence, not to more rules here (ARCHITECTURE.md, constraint 3).
   class ProceduralRouter
     def self.route(speaker_question:, chamber: "", debate_heading: "", hansard_snippet: "")
       q = speaker_question.to_s.strip.downcase
@@ -72,7 +88,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 22: Closure of debate ("That the question be now put")
+      # Template 22: Closure of debate. Decides only that debate ends now, never the matter
+      # under debate, which is usually put in a separate division moments later.
       if q_clean.include?("question be now put") || q_clean.include?("now put")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -84,7 +101,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 17: Suspension of standing orders
+      # Template 17: Suspension of standing orders (the chamber's own rulebook). Decides only
+      # that the rules are set aside, not the merits of whatever is then moved under them.
       if q_clean.include?("standing orders be suspended") ||
          q_clean.include?("standing and sessional orders be suspended") ||
          q_clean.include?("suspend standing orders") ||
@@ -99,7 +117,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 1: First reading
+      # Template 1: First reading, the formal introduction of a bill. Carries no view on the
+      # bill's merits, which is exactly what a reader is liable to assume it does.
       if q_clean.include?("read a first time") || q_clean.include?("first reading")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -111,7 +130,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 20: Withdrawal of business
+      # Template 20: Withdrawal of business, removing an item from the Notice Paper (the
+      # chamber's list of scheduled business) so it is not dealt with.
       if q_clean.include?("withdrawal of") || q_clean.include?("be withdrawn") || q_clean.include?("withdraw notice")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -123,7 +143,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 21: Parliamentary zone works
+      # Template 21: Parliamentary zone works, which the Parliament Act 1974 requires both
+      # houses to approve by resolution.
       if q_clean.include?("parliamentary zone") || q_clean.include?("parliament act 1974")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -135,7 +156,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 9: Disallowance motion
+      # Template 9: Disallowance motion. Regulations are law the government makes under
+      # powers an Act gives it, without a fresh vote; disallowing one strips its legal force.
       if q_clean.include?("disallow") || q_clean.include?("disallowance")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -147,7 +169,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 8: Production of documents. Wording varies between the chambers' orders for the
+      # Template 8: Production of documents. The chamber ordering the government to hand over
+      # papers it holds. Wording varies between the chambers' orders for the
       # production of documents, so tolerate "papers" as well as "documents", and "laid upon the
       # table" as well as "laid on the table". These votes are about access to the documents, never
       # about the subject the documents deal with, so a missed match here would misroute badly.
@@ -168,9 +191,10 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 10: Censure motion. Motions of no confidence in a minister or member
-      # (often worded "want of confidence") are the same class of vote: a formal expression
-      # of disapproval. When one is moved under a suspension of standing orders, the
+      # Template 10: Censure motion, a formal expression of disapproval of a minister or
+      # member carrying no legal effect. Motions of no confidence in a minister or member
+      # (often worded "want of confidence") are the same class of vote.
+      # When one is moved under a suspension of standing orders, the
       # suspension rule above still catches the suspension division first, by design.
       if q_clean.include?("censure") || q_clean.include?("reprimand") ||
          q_clean.include?("no confidence") || q_clean.include?("want of confidence")
@@ -184,7 +208,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 11: Budget - Estimates committees
+      # Template 11: Estimates committees, which question officials about planned department
+      # spending. These votes organise that scrutiny; they do not decide the spending.
       if q_clean.include?("estimates") && (q_clean.include?("committee") || q_clean.include?("budget"))
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -196,7 +221,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 12: Establishing a select committee
+      # Template 12: Establishing a select committee, appointed to inquire into one subject
+      # and disband once it reports. Distinct from a referral to a standing committee (13).
       if q_clean.include?("select committee") &&
          (q_clean.include?("appoint") || q_clean.include?("establish") || q_clean.include?("inquire"))
         return ProceduralDecision.new(
@@ -209,7 +235,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 14: Selection of Bills committee
+      # Template 14: Selection of Bills Committee, the Senate committee that recommends which
+      # bills other committees should examine before the Senate votes on them.
       if q_clean.include?("selection of bills")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -221,7 +248,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 16: Matter of urgency
+      # Template 16: Matter of urgency, the Senate's device for setting aside time to debate
+      # an issue immediately. Decides that the debate happens, not the issue.
       if q_clean.include?("matter of urgency") || q_clean.include?("urgency motion")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -258,7 +286,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 5: Report from Federation Chamber
+      # Template 5: Report from the Federation Chamber, the House's second debating chamber,
+      # whose work comes back to the House for formal agreement.
       if q_clean.include?("federation chamber") && (q_clean.include?("report") || q_clean.include?("agreed to"))
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -270,7 +299,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Template 7: Agreeing to amendments / message between houses
+      # Template 7: Consideration of a message. A bill must pass both houses in identical
+      # words, so a house that amends one sends the other a "message" to accept or reject.
       if (q_clean.include?("amendments made by the senate") && q_clean.include?("agreed to")) ||
          (q_clean.include?("amendments made by the house") && q_clean.include?("agreed to")) ||
          (q_clean.include?("senate message") && q_clean.include?("agreed to")) ||
@@ -288,17 +318,25 @@ module DivisionSummaryPipeline
       # -----------------------------------------------------------------
       # 2. GUILLOTINE TRAP AVOIDANCE
       #
-      # A "Limitation of Debate" heading covers every division that follows while the guillotine
-      # is running - substantive amendment and bill votes included. The heading alone therefore
-      # never identifies a guillotine motion: only a question that is itself about limiting the
-      # time for debate does. Wherever routing stays ambiguous below, Template 18 is fenced off
-      # so the extractor cannot land on it from the heading alone.
+      # The misclassification this whole stage exists to prevent. A "guillotine" caps the
+      # time left for debate, and a "Limitation of Debate" heading then covers every division
+      # that follows while it runs, substantive amendment and bill votes included. Reported
+      # as time-limit procedure, those votes tell a reader the opposite of what their
+      # representative actually decided.
+      #
+      # The heading alone therefore never identifies a guillotine motion: only a question
+      # that is itself about limiting the time for debate does. Wherever routing stays
+      # ambiguous below, Template 18 is fenced off so the extractor cannot land on it from
+      # the heading alone.
       # -----------------------------------------------------------------
       is_heading_guillotine = heading.include?("limitation of debate") || heading.include?("guillotine")
       is_substantive_amendment = q_clean.include?("amendment") ||
                                  q_clean.include?("words after") ||
                                  q_clean.include?("words be omitted")
 
+      # A guillotine heading over an amendment question: a substantive vote on the bill. The
+      # extractor sees the same misleading heading, so Template 18 is banned outright rather
+      # than merely left off the shortlist.
       if is_heading_guillotine && is_substantive_amendment
         candidates = if is_senate
                        [2, 3]
@@ -318,7 +356,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Question explicitly on the guillotine / time allocation itself
+      # Template 18 is only ever reached this way, from a question about the time limit
+      # itself. Never from the heading a division happens to sit under.
       if q_clean.include?("time allotted") ||
          q_clean.include?("limitation of debate") ||
          (q_clean.include?("guillotine") && !is_substantive_amendment)
@@ -334,9 +373,14 @@ module DivisionSummaryPipeline
 
       # -----------------------------------------------------------------
       # 3. NUANCED ROUTING (Fencing candidates for Semantic Extractor)
+      #
+      # What remains are the bill stages, where one form of words can mean two different
+      # votes. A bill is read three times in each chamber: the first reading introduces it,
+      # the second reading settles its main idea, the third passes it out of the chamber.
+      # These rules narrow as far as the wording honestly allows and fence the rest.
       # -----------------------------------------------------------------
 
-      # Third reading: Passing a Bill (Template 6)
+      # Template 6: third reading, so the bill leaves this chamber for the other one.
       if q_clean.include?("read a third time") || q_clean.include?("third reading")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -348,7 +392,9 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Second reading question: Could be passing second reading (6) or second reading amendment (2)
+      # Second reading wording covers two different votes: agreeing to the bill's main idea
+      # (Template 6), or an amendment to that motion, which records an opinion without
+      # changing the bill's text (Template 2). Only the question's own words separate them.
       if q_clean.include?("read a second time") || q_clean.include?("second reading")
         if q_clean.include?("amendment") || q_clean.include?("words after") || q_clean.include?("declining")
           return ProceduralDecision.new(
@@ -375,7 +421,9 @@ module DivisionSummaryPipeline
         )
       end
 
-      # General amendment question
+      # An amendment with no stage named. Each chamber amends at its own stage (the Senate
+      # in committee, the House in consideration in detail), so the chamber narrows the
+      # shortlist and a stage named in the surrounding debate settles it outright.
       if q_clean.include?("amendment") || q_clean.include?("amendments be agreed to")
         candidates = if is_senate
                        [2, 3]
@@ -401,7 +449,8 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Committee referral (General)
+      # Template 13: referral to an existing standing or joint committee, as against
+      # appointing a new select committee (12).
       if q_clean.include?("referred to") && q_clean.include?("committee")
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -413,12 +462,15 @@ module DivisionSummaryPipeline
         )
       end
 
-      # Fallback to General Motion (Template 15)
+      # Parliament votes on plenty that fits no pattern, so an unmatched question falls to
+      # the general motion template rather than failing the run. The guillotine lockout still
+      # applies: the heading can mislead the extractor here as readily as anywhere else.
       ProceduralDecision.new(
         is_deterministic: false,
         template_id: nil,
         candidate_templates: [15],
         locked_out_templates: is_heading_guillotine ? [18] : [],
+        advisory_candidates: true,
         rule_name: "GENERAL_MOTION_FALLBACK",
         reason: if is_heading_guillotine
                   "Unmatched specific procedural pattern; default candidate is General Motion (Template 15). Heading was 'Limitation of Debate', so Template 18 is locked out."

@@ -3,7 +3,10 @@
 require "json"
 
 module DivisionSummaryPipeline
-  # ClaimEvidence pairs an assertion regarding a motion with a verbatim quote from Hansard.
+  # Pairs an assertion about a motion with the verbatim Hansard quote that proves it. The
+  # pairing is the whole point: `claim` is the model's own wording and is published, so it is
+  # only allowed out if `evidence` survives stage 4. `speaker` narrows which part of the
+  # transcript that check searches.
   ClaimEvidence = Struct.new(:claim, :evidence, :speaker, keyword_init: true) do
     def to_h
       {
@@ -14,9 +17,17 @@ module DivisionSummaryPipeline
     end
   end
 
-  # ExtractionPayload represents the structured semantic payload extracted by
-  # the LLM from Hansard context. The LLM never writes final summary prose;
-  # it only populates this schema.
+  # The structured payload the LLM populates, and the full extent of what it is allowed to
+  # say. Nothing outside these fields reaches a summary. Three of them are easy to misread:
+  #
+  # - sufficient_context / missing_context_clue: the model reporting that the excerpt was too
+  #   thin, which the orchestrator answers by rebuilding the packet over the whole sitting
+  #   day. Reporting the gap is wanted behaviour, not a failure.
+  # - declines_second_reading: inverts what a vote for a Template 2 amendment means, so the
+  #   compiled summary says the opposite thing depending on it.
+  # - target_name, committee_name and the rest: the one fact a given template names, taken
+  #   verbatim from Hansard. Deliberately never a party, electorate or link; those are
+  #   database facts MemberResolver supplies (ARCHITECTURE.md, Data classification).
   class ExtractionPayload
     attr_accessor :template_id, :topic, :motion_text, :mover_claims,
                   :declines_second_reading, :sufficient_context, :missing_context_clue,
@@ -58,6 +69,9 @@ module DivisionSummaryPipeline
       @legacy_description = legacy_description
     end
 
+    # Replies in the shape an earlier prompt asked for: prose written by the model, with no
+    # template and no evidence. Recognised only so saved responses from before the pipeline
+    # existed still read back; it bypasses stages 4 and 5, so it is not a path to extend.
     def legacy?
       @template_id.zero? && @legacy_description.present?
     end
@@ -91,7 +105,9 @@ module DivisionSummaryPipeline
       to_h.to_json(options)
     end
 
-    # Parses raw JSON output from the model, handling markdown fences and key normalisation.
+    # Tolerates the wrappings models add despite being told not to (Markdown fences, a line
+    # of preamble). Leniency is safe here because it only affects whether the payload parses;
+    # what it claims is still checked against Hansard in stage 4.
     def self.from_json(json_str)
       return nil if json_str.nil? || json_str.to_s.strip.empty?
 
@@ -111,7 +127,8 @@ module DivisionSummaryPipeline
       nil
     end
 
-    # Constructs an ExtractionPayload from a Ruby hash.
+    # Keys are lower-cased first because models vary the casing of field names between
+    # replies, and a mis-cased key would silently read as a missing field.
     def self.from_h(data)
       return nil unless data.is_a?(Hash)
 
@@ -156,6 +173,9 @@ module DivisionSummaryPipeline
       )
     end
 
+    # Models return claims in several shapes, so all are accepted. A claim arriving without
+    # its own evidence becomes its own evidence rather than being trusted: it then only
+    # survives stage 4 if those exact words are genuinely in Hansard, which is usually not.
     def self.parse_claims(claims_raw)
       claims = []
       if claims_raw.is_a?(Array)
@@ -187,7 +207,9 @@ module DivisionSummaryPipeline
       value.to_s.strip.presence
     end
 
-    # Returns the JSON Schema definition for the expected LLM output.
+    # The JSON Schema for the expected LLM output. It mirrors this class field for field and
+    # lives beside it so the two cannot drift; the descriptions double as per-field
+    # instructions to the model.
     def self.json_schema
       {
         "$schema": "http://json-schema.org/draft-07/schema#",
