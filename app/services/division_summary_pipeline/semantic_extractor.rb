@@ -4,11 +4,13 @@ require "aws-sdk-bedrockruntime"
 require "json"
 
 module DivisionSummaryPipeline
-  # SemanticExtractor prompts an LLM strictly for structured JSON containing
-  # operative motion text, procedural stage identification, and mover claims
-  # paired with verbatim evidence quotes from Hansard.
+  # Stage 3: the pipeline's only LLM call, prompting strictly for structured JSON.
   #
-  # The LLM acts purely as a semantic sensor; it never writes published prose.
+  # The model is used as a semantic sensor, for the one job deterministic code cannot do:
+  # reading what a debate was about. It is trusted with nothing else. It writes no published
+  # prose, supplies no numbers, and every quote it returns is checked against Hansard by
+  # stage 4 before any of it is compiled, so a wrong answer here is caught rather than
+  # printed.
   class SemanticExtractor
     REGION = "ap-southeast-2"
 
@@ -36,6 +38,9 @@ module DivisionSummaryPipeline
       ExtractionPayload.from_json(extract_raw(context_packet))
     end
 
+    # Tagged sections rather than prose: models attend to delimited blocks more reliably, and
+    # the Speaker's Question leads because rule 1 of the system prompt tells the model to read
+    # everything else in light of it.
     def build_user_prompt(packet)
       sections = []
       sections << "<speaker_question>\n#{packet.speaker_question.to_s.strip}\n</speaker_question>"
@@ -50,6 +55,8 @@ module DivisionSummaryPipeline
       ]
       sections << "<division_metadata>\n#{meta_lines.join("\n")}\n</division_metadata>"
 
+      # The model is asked to respect stage 2's fence (system prompt rule 2), and
+      # ProvenanceValidator#check_routing_fence rejects the extraction if it did not.
       if packet.procedural_decision
         decision = packet.procedural_decision
         cand_str = decision.candidate_templates.join(", ")
@@ -68,6 +75,12 @@ module DivisionSummaryPipeline
       sections.join("\n\n")
     end
 
+    # Treat this prompt as source code: editing a rule changes every future extraction, and
+    # several rules are load-bearing rather than stylistic. Rule 5 (a verbatim quote per
+    # claim) is what makes stage 4's verification possible at all, rule 9 restates the
+    # guillotine trap the router already fences, rule 6 is the non-partisanship OAF requires,
+    # and rule 11 keeps member details out of the model's hands because MemberResolver looks
+    # them up in the database.
     def system_prompt
       <<~PROMPT
         You are the Semantic Extractor for They Vote For You (theyvoteforyou.org.au), a project of
@@ -205,10 +218,14 @@ module DivisionSummaryPipeline
 
     private
 
+    # Lazy so nothing contacts AWS at boot or under test.
     def bedrock_client
       @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
     end
 
+    # Temperature 0 because this is extraction, not writing: re-running a division should
+    # give as near the same answer as the model allows, so a reviewer can tell a changed
+    # summary from a differently-worded one.
     def call_bedrock(user_prompt)
       response = bedrock_client.converse(
         model_id: @model_id,

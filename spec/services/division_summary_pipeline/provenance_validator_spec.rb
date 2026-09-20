@@ -322,6 +322,90 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
         expect(template_20.errors.join).to include("business_name")
       end
     end
+
+    describe "the procedural router's fence" do
+      def packet_with(decision)
+        DivisionSummaryPipeline::ContextPacket.new(
+          division_id: 2788,
+          date: "2026-08-18",
+          house: "representatives",
+          clock_time: "12:39 PM",
+          speaker_question: "The question is that the amendment be agreed to.",
+          hansard_context: "DEBATE: Housing Affordability Measures Bill",
+          procedural_decision: decision
+        )
+      end
+
+      def extraction_for(template_id)
+        DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: template_id,
+          topic: "Housing Affordability Measures",
+          motion_text: "That the amendment be agreed to.",
+          declines_second_reading: false
+        )
+      end
+
+      it "rejects a template the router locked out" do
+        decision = DivisionSummaryPipeline::ProceduralRouter.route(
+          speaker_question: "The question is that the amendment be agreed to.",
+          chamber: "representatives",
+          debate_heading: "Limitation of Debate"
+        )
+        expect(decision.locked_out_templates).to include(18)
+
+        result = described_class.validate(extraction_for(18), packet_with(decision))
+
+        expect(result.is_valid).to be(false)
+        expect(result.errors.join).to include("locked out")
+        expect(result.requires_human_review).to be(true)
+      end
+
+      it "accepts a template from the candidates the router fenced the extractor to" do
+        decision = DivisionSummaryPipeline::ProceduralRouter.route(
+          speaker_question: "The question is that the amendment be agreed to.",
+          chamber: "representatives",
+          debate_heading: "Limitation of Debate"
+        )
+
+        result = described_class.validate(extraction_for(2), packet_with(decision))
+
+        expect(result.errors).to be_empty
+      end
+
+      it "rejects a template outside the candidates the router fenced the extractor to" do
+        decision = DivisionSummaryPipeline::ProceduralRouter.route(
+          speaker_question: "The question is that the bill be read a second time.",
+          chamber: "representatives"
+        )
+        expect(decision.candidate_templates).to contain_exactly(2, 6)
+
+        result = described_class.validate(extraction_for(15), packet_with(decision))
+
+        expect(result.is_valid).to be(false)
+        expect(result.errors.join).to include("outside the candidates")
+      end
+
+      # Reaching the general-motion fallback means no rule matched, so its single candidate
+      # is a default rather than evidence about the question. An extractor that recognises
+      # the motion is better informed than the default and is left to say so.
+      it "allows any template when the router fell through to the general motion fallback" do
+        decision = DivisionSummaryPipeline::ProceduralRouter.route(
+          speaker_question: "The question is that this House notes the report.",
+          chamber: "representatives"
+        )
+        expect(decision.rule_name).to eq("GENERAL_MOTION_FALLBACK")
+
+        result = described_class.validate(extraction_for(17), packet_with(decision))
+
+        expect(result.errors).to be_empty
+      end
+
+      it "skips the check when no routing decision reached the validator" do
+        result = described_class.validate(extraction_for(15), packet_with(nil))
+
+        expect(result.errors).to be_empty
+      end
+    end
   end
 end
 

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module DivisionSummaryPipeline
-  # ValidationResult holds the outcome of the mechanical provenance verification.
+  # The distinction that matters here: `errors` stop compilation outright, `warnings` do not.
+  # Anything that would put an unsupported statement in front of a reader is an error; a
+  # doubt a human should look at, but which publishes nothing false on its own, is a warning.
   ValidationResult = Struct.new(
     :is_valid,
     :errors,
@@ -11,8 +13,17 @@ module DivisionSummaryPipeline
     keyword_init: true
   )
 
-  # ProvenanceValidator enforces zero-hallucination by mechanically asserting
-  # that every extracted evidence quote exists verbatim in the source Hansard context.
+  # Stage 4: enforces zero hallucination by asserting every extracted quote exists verbatim
+  # in the source Hansard context.
+  #
+  # Nothing the model returned is treated as true until it is found in the transcript, because
+  # a model is perfectly capable of producing a quote that reads like Hansard and was never
+  # said. The check is plain substring matching on purpose: anything cleverer would start
+  # accepting near-misses, and a near-miss here is a fabricated quote attributed to a real
+  # politician.
+  #
+  # This stage is what makes the rest of the design safe to run at all. The LLM is allowed to
+  # be wrong upstream precisely because being wrong is caught here rather than published.
   class ProvenanceValidator
     # Fields the templates render verbatim in the summary sentence. A template whose
     # fact is missing would publish a blank (for example "to the  for inquiry and
@@ -45,11 +56,14 @@ module DivisionSummaryPipeline
       @review_reason = nil
     end
 
+    # Every check runs even after one fails, so a reviewer sees everything wrong with a draft
+    # at once rather than rerunning the pipeline to find the next problem.
     def validate
       return failure_result(["Extraction payload is missing or nil."]) unless extraction
 
       check_context_sufficiency
       check_template_id
+      check_routing_fence
       check_topic
       check_motion_text
       check_template_specific_rules
@@ -72,6 +86,9 @@ module DivisionSummaryPipeline
     end
 
     # Mechanically verifies that a quote or snippet exists verbatim in the source text.
+    # Normalising both sides first (quotes, dashes, spacing, case) forgives typography, which
+    # differs between Hansard and a model's transcription of it, and nothing else.
+    #
     # No partial-match tolerance: a fabricated middle between two genuine bookends must
     # be rejected, so the whole normalised snippet has to appear as one substring.
     def self.verify_provenance(snippet, full_text)
@@ -119,6 +136,9 @@ module DivisionSummaryPipeline
       )
     end
 
+    # A warning, not an error: the orchestrator has already retried over the whole sitting
+    # day by this point, and what the model did extract from a thin excerpt can still be
+    # correct and fully evidenced. It is a human's call, not the pipeline's.
     def check_context_sufficiency
       unless extraction.sufficient_context
         @requires_review = true
@@ -133,10 +153,40 @@ module DivisionSummaryPipeline
       end
     end
 
+    # Re-checks stage 2's fence, which otherwise reaches the model only as an instruction
+    # (SemanticExtractor's system prompt, rule 2) with nothing verifying it was obeyed. A
+    # locked-out template is always an error: the router locks one out only where it has
+    # positive evidence the template is wrong, and Template 18 under a "Limitation of Debate"
+    # heading is the case the whole routing stage exists to prevent. Candidates are enforced
+    # on the same footing unless the decision marked them advisory (see ProceduralDecision).
+    #
+    # Failing here sends the draft to human review rather than discarding the extraction,
+    # because a model contradicting the router means one of the two is wrong about this
+    # division and the code cannot tell which.
+    def check_routing_fence
+      decision = context_packet&.procedural_decision
+      return unless decision
+
+      template_id = extraction.template_id
+      candidates = decision.candidate_templates.to_a
+
+      if decision.locked_out_templates.to_a.include?(template_id)
+        errors << "Template #{template_id} is locked out by procedural rule #{decision.rule_name}: #{decision.reason}"
+      end
+
+      return if decision.advisory_candidates || candidates.empty? || candidates.include?(template_id)
+
+      errors << "Template #{template_id} is outside the candidates #{candidates.inspect} set by procedural " \
+                "rule #{decision.rule_name}: #{decision.reason}"
+    end
+
     def check_topic
       errors << "Field 'topic' must not be empty." if extraction.topic.blank?
     end
 
+    # Unverifiable motion text is only a warning, unlike claim evidence: a motion is often
+    # recorded in a form the surrounding transcript never repeats word for word, so failing
+    # the draft on it would reject far more good summaries than bad ones.
     def check_motion_text
       if extraction.motion_text.blank?
         errors << "Field 'motion_text' must not be empty."
@@ -149,6 +199,9 @@ module DivisionSummaryPipeline
     end
 
     def check_template_specific_rules
+      # Template 2's summary states the opposite thing depending on this flag: an amendment
+      # declining a second reading makes a vote for it a vote against the bill proceeding.
+      # Left unanswered there is no safe default, so the model must commit either way.
       if extraction.template_id == 2 && extraction.declines_second_reading.nil?
         errors << "Template 2 requires 'declines_second_reading' to be explicitly boolean (true or false)."
       end
@@ -165,6 +218,8 @@ module DivisionSummaryPipeline
       end
     end
 
+    # These facts are published verbatim, so they earn a quote's treatment rather than a
+    # field's. A name printed beside a censure motion is the last place to accept a guess.
     def check_extracted_field_provenance
       EXTRACTED_TEMPLATE_FIELDS.each do |field|
         value = extraction.public_send(field)
@@ -178,6 +233,8 @@ module DivisionSummaryPipeline
 
     def check_claims_provenance
       claims = extraction.mover_claims || []
+      # Templates 22 and 23 decide only that debate ends or a member stops speaking, so
+      # having nothing to report about the underlying argument is correct, not a gap.
       if claims.empty? && ![22, 23].include?(extraction.template_id)
         warnings << "No mover claims extracted."
       end

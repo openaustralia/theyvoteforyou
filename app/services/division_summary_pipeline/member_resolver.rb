@@ -8,7 +8,10 @@ module DivisionSummaryPipeline
   ResolvedMember = Struct.new(:member, :name, :party, :electorate, :link, keyword_init: true)
 
   # MemberResolver turns a name or electorate extracted from Hansard into authoritative
-  # TVFY member facts. The extraction never supplies parties, electorates or profile
+  # TVFY member facts, for the templates that must name a second person (who a censure
+  # motion targets, which member was ruled no longer heard).
+  #
+  # The extraction never supplies parties, electorates or profile
   # links (ARCHITECTURE.md, Data classification section: member details are Type 1
   # facts with zero AI involvement); it only reports what the Hansard text states, and
   # this class asks the database for the rest. Scoping by the division's house and date
@@ -36,6 +39,8 @@ module DivisionSummaryPipeline
 
     private
 
+    # Name before electorate, since Hansard states a name less ambiguously than a seat, and
+    # the most recent matching stint when a person held several.
     def find_member(name:, electorate:, house:, date:)
       scope = Member.all
       scope = scope.in_house(house) if house.present?

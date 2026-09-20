@@ -65,8 +65,8 @@ second time (section 5).
 Before the AI is involved at all, ordinary code looks only at the Speaker's question and applies
 fixed parliamentary rules:
 
-- The obvious cases need no AI. "That the question be now put" is a closure of debate: Template 22
-  is chosen outright.
+- The obvious cases are decided here. "That the question be now put" is a closure of debate:
+  Template 22 is chosen outright, and the extractor is held to it.
 - The heading traps are defeated in code. A "Limitation of Debate" heading makes every later vote
   that day look like a guillotine, but when the question itself is about a bill amendment, it is an
   amendment vote, not a guillotine, and Template 18 is locked out.
@@ -74,8 +74,11 @@ fixed parliamentary rules:
   bill passing, or a vote on a second reading amendment. The router passes the packet on to the AI,
   but the AI is only allowed to choose between Template 6 and Template 2.
 
-Divisions with an obvious procedural question are fully classified here, without any AI
-involvement.
+Divisions with an obvious procedural question are classified here, by code alone. The extractor
+is still called for them (it supplies the topic, motion text and claims the template needs), but
+it cannot change the classification: Stage 4 rejects a `template_id` outside what this stage
+allowed. Skipping the call entirely for a deterministic route would save a model call per obvious
+division and is a reasonable future change, but it is not what the code does today.
 
 ### Step 3: Extract the meaning (SemanticExtractor)
 
@@ -242,6 +245,12 @@ for human review (section 11).
 - Mechanically checks that every evidence quote in `mover_claims` exists verbatim in the Hansard
   debate context.
 - Enforces schema rules and template-specific constraints.
+- Re-checks Stage 2's fence, which otherwise reaches the model only as a system prompt instruction:
+  a `template_id` in the decision's `locked_out_templates` is an error, and so is one outside its
+  `candidate_templates`. This is what makes the guillotine lockout a lockout rather than a request.
+  The general-motion fallback is exempt (`advisory_candidates`), because reaching it means no rule
+  matched, so its single candidate is a default rather than evidence about the question and an
+  extractor that recognises the motion is better informed than the fallback.
 - Rejects unsupported claims and flags them for human editorial review rather than publishing
   unverified interpretations.
 
