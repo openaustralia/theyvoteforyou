@@ -73,7 +73,7 @@ module DivisionSummaryPipeline
       is_valid = errors.empty?
       if !is_valid && !requires_review
         @requires_review = true
-        @review_reason = "Validation errors detected: " + errors.first(2).join("; ")
+        @review_reason = "Validation errors detected: #{errors.first(2).join('; ')}"
       end
 
       ValidationResult.new(
@@ -91,7 +91,7 @@ module DivisionSummaryPipeline
     #
     # No partial-match tolerance: a fabricated middle between two genuine bookends must
     # be rejected, so the whole normalised snippet has to appear as one substring.
-    def self.verify_provenance(snippet, full_text)
+    def self.verify_provenance?(snippet, full_text)
       norm_snippet = TextNormaliser.normalise_for_matching(snippet)
       norm_source = TextNormaliser.normalise_for_matching(full_text)
 
@@ -109,7 +109,7 @@ module DivisionSummaryPipeline
     # verifiable as a whole).
     def self.extract_speaker_text(speaker_name, full_text)
       full_text = full_text.to_s
-      return full_text if speaker_name.blank? || !full_text.include?("SPEECH:")
+      return full_text if speaker_name.blank? || full_text.exclude?("SPEECH:")
 
       norm_speaker = TextNormaliser.normalise_for_matching(speaker_name)
       chunks = full_text.split(/(?=SPEECH: )/)
@@ -140,17 +140,17 @@ module DivisionSummaryPipeline
     # day by this point, and what the model did extract from a thin excerpt can still be
     # correct and fully evidenced. It is a human's call, not the pipeline's.
     def check_context_sufficiency
-      unless extraction.sufficient_context
-        @requires_review = true
-        @review_reason = extraction.missing_context_clue || "Model reported insufficient context."
-        warnings << "Context flagged as insufficient: #{review_reason}"
-      end
+      return if extraction.sufficient_context
+
+      @requires_review = true
+      @review_reason = extraction.missing_context_clue || "Model reported insufficient context."
+      warnings << "Context flagged as insufficient: #{review_reason}"
     end
 
     def check_template_id
-      unless extraction.template_id.is_a?(Integer) && extraction.template_id.between?(1, 23)
-        errors << "Invalid template_id #{extraction.template_id}. Must be an integer between 1 and 23."
-      end
+      return if extraction.template_id.is_a?(Integer) && extraction.template_id.between?(1, 23)
+
+      errors << "Invalid template_id #{extraction.template_id}. Must be an integer between 1 and 23."
     end
 
     # Re-checks stage 2's fence, which otherwise reaches the model only as an instruction
@@ -170,9 +170,7 @@ module DivisionSummaryPipeline
       template_id = extraction.template_id
       candidates = decision.candidate_templates.to_a
 
-      if decision.locked_out_templates.to_a.include?(template_id)
-        errors << "Template #{template_id} is locked out by procedural rule #{decision.rule_name}: #{decision.reason}"
-      end
+      errors << "Template #{template_id} is locked out by procedural rule #{decision.rule_name}: #{decision.reason}" if decision.locked_out_templates.to_a.include?(template_id)
 
       return if decision.advisory_candidates || candidates.empty? || candidates.include?(template_id)
 
@@ -192,9 +190,7 @@ module DivisionSummaryPipeline
         errors << "Field 'motion_text' must not be empty."
       elsif context_packet && context_packet.hansard_context.present?
         first_line = extraction.motion_text.strip.split("\n").first.to_s.strip
-        if first_line.length > 20 && !self.class.verify_provenance(first_line, context_packet.hansard_context)
-          warnings << "First line of motion text could not be verified in Hansard context: '#{first_line[0..50]}...'"
-        end
+        warnings << "First line of motion text could not be verified in Hansard context: '#{first_line[0..50]}...'" if first_line.length > 20 && !self.class.verify_provenance?(first_line, context_packet.hansard_context)
       end
     end
 
@@ -202,20 +198,18 @@ module DivisionSummaryPipeline
       # Template 2's summary states the opposite thing depending on this flag: an amendment
       # declining a second reading makes a vote for it a vote against the bill proceeding.
       # Left unanswered there is no safe default, so the model must commit either way.
-      if extraction.template_id == 2 && extraction.declines_second_reading.nil?
-        errors << "Template 2 requires 'declines_second_reading' to be explicitly boolean (true or false)."
-      end
+      errors << "Template 2 requires 'declines_second_reading' to be explicitly boolean (true or false)." if extraction.template_id == 2 && extraction.declines_second_reading.nil?
 
       TEMPLATE_REQUIRED_FIELDS.each do |template_id, field|
         next unless extraction.template_id == template_id
-        next unless extraction.public_send(field).blank?
+        next if extraction.public_send(field).present?
 
         errors << "Template #{template_id} requires '#{field}' but it was not extracted; needs human review rather than publishing a blank."
       end
 
-      if extraction.template_id == 23 && extraction.target_name.blank? && extraction.target_electorate.blank?
-        errors << "Template 23 requires 'target_name' or 'target_electorate' to identify the member who is no longer heard."
-      end
+      return unless extraction.template_id == 23 && extraction.target_name.blank? && extraction.target_electorate.blank?
+
+      errors << "Template 23 requires 'target_name' or 'target_electorate' to identify the member who is no longer heard."
     end
 
     # These facts are published verbatim, so they earn a quote's treatment rather than a
@@ -225,7 +219,7 @@ module DivisionSummaryPipeline
         value = extraction.public_send(field)
         next if value.blank?
         next unless context_packet && context_packet.hansard_context.present?
-        next if self.class.verify_provenance(value, context_packet.hansard_context)
+        next if self.class.verify_provenance?(value, context_packet.hansard_context)
 
         errors << "Provenance check failed: '#{field}' (\"#{value[0..80]}\") was not found in Hansard source."
       end
@@ -235,14 +229,10 @@ module DivisionSummaryPipeline
       claims = extraction.mover_claims || []
       # Templates 22 and 23 decide only that debate ends or a member stops speaking, so
       # having nothing to report about the underlying argument is correct, not a gap.
-      if claims.empty? && ![22, 23].include?(extraction.template_id)
-        warnings << "No mover claims extracted."
-      end
+      warnings << "No mover claims extracted." if claims.empty? && [22, 23].exclude?(extraction.template_id)
 
       claims.each_with_index do |claim, idx|
-        if claim.claim.blank?
-          errors << "Claim ##{idx + 1} has an empty claim text."
-        end
+        errors << "Claim ##{idx + 1} has an empty claim text." if claim.claim.blank?
 
         if claim.evidence.blank?
           errors << "Claim ##{idx + 1} ('#{claim.claim.to_s[0..40]}...') is missing supporting evidence."
@@ -250,7 +240,7 @@ module DivisionSummaryPipeline
           # MECHANICAL PROVENANCE ASSERTION, scoped to the claimed speaker's own words so a
           # genuine quote from one member can't be credited to another.
           speaker_context = self.class.extract_speaker_text(claim.speaker, context_packet.hansard_context)
-          unless self.class.verify_provenance(claim.evidence, speaker_context)
+          unless self.class.verify_provenance?(claim.evidence, speaker_context)
             attribution = claim.speaker.present? ? " attributed to '#{claim.speaker}'" : ""
             errors << "Provenance check failed: Evidence for claim ##{idx + 1}#{attribution} was not found in Hansard source: \"#{claim.evidence[0..80]}...\""
           end
@@ -259,4 +249,3 @@ module DivisionSummaryPipeline
     end
   end
 end
-

@@ -5,8 +5,8 @@ require "spec_helper"
 describe DivisionSummaryPipeline::MemberResolver do
   describe ".resolve" do
     def create_downey_member(overrides = {})
-      FactoryBot.create(:member, {
-        person: FactoryBot.create(:person),
+      create(:member, {
+        person: create(:person),
         first_name: "Alex",
         last_name: "Downey",
         constituency: "Brightwater",

@@ -248,11 +248,9 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
 
       def extraction_with(fields)
         DivisionSummaryPipeline::ExtractionPayload.new(
-          {
-            template_id: 13,
-            topic: "budget estimates",
-            motion_text: "That the matter be referred to the Selection of Bills Committee for inquiry and report."
-          }.merge(fields)
+          template_id: 13,
+          topic: "budget estimates",
+          motion_text: "That the matter be referred to the Selection of Bills Committee for inquiry and report.", **fields
         )
       end
 
@@ -408,4 +406,3 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
     end
   end
 end
-

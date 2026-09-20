@@ -16,7 +16,7 @@ module DivisionSummaryPipeline
 
     def initialize(model_id = nil, client: nil, llm_caller: nil)
       @model_id = model_id
-      @client = client
+      @bedrock_client = client
       @llm_caller = llm_caller
     end
 
@@ -66,9 +66,7 @@ module DivisionSummaryPipeline
         sections << "<procedural_routing_guidance>\n#{routing_note}\n</procedural_routing_guidance>"
       end
 
-      if packet.official_summary.present?
-        sections << "<official_summary>\n#{packet.official_summary.to_s.strip}\n</official_summary>"
-      end
+      sections << "<official_summary>\n#{packet.official_summary.to_s.strip}\n</official_summary>" if packet.official_summary.present?
 
       sections << "<hansard_context>\n#{packet.hansard_context.to_s.strip}\n</hansard_context>"
 
@@ -220,7 +218,7 @@ module DivisionSummaryPipeline
 
     # Lazy so nothing contacts AWS at boot or under test.
     def bedrock_client
-      @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
+      @bedrock_client ||= Aws::BedrockRuntime::Client.new(region: REGION)
     end
 
     # Temperature 0 because this is extraction, not writing: re-running a division should
@@ -237,4 +235,3 @@ module DivisionSummaryPipeline
     end
   end
 end
-

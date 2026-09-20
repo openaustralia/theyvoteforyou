@@ -174,6 +174,10 @@ class DivisionSummarizer
 
   # Falls back to the Hansard debate heading so a draft is never saved with a blank title.
   def division_default_title
-    division.respond_to?(:name) ? division.name : "Division #{division.respond_to?(:number) ? division.number : ''}"
+    if division.respond_to?(:name)
+      division.name
+    else
+      "Division #{division.number if division.respond_to?(:number)}"
+    end
   end
 end

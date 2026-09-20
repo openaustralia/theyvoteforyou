@@ -19,7 +19,7 @@ module DivisionSummaryPipeline
 
     # Strips XML markup while preserving line breaks and unescaping entities.
     def self.strip_xml_markup(raw_xml)
-      return "" if raw_xml.nil? || raw_xml.empty?
+      return "" if raw_xml.blank?
 
       cleaned = raw_xml.dup
       cleaned.gsub!(/<\?[^>]+\?>/, "")
@@ -47,7 +47,7 @@ module DivisionSummaryPipeline
 
     # Cleans and normalises plain text whitespace.
     def self.clean_text(text)
-      return "" if text.nil? || text.empty?
+      return "" if text.blank?
 
       cleaned = ENTITY_DECODER.decode(text.to_s)
       cleaned.gsub!("\r\n", "\n")
@@ -63,7 +63,7 @@ module DivisionSummaryPipeline
     # - Collapses all whitespace into a single space
     # - Converts to lowercase
     def self.normalise_for_matching(text)
-      return "" if text.nil? || text.empty?
+      return "" if text.blank?
 
       s = text.to_s.dup
       s.tr!("“”", "\"\"")

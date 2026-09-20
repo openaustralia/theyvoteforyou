@@ -189,4 +189,3 @@ describe DivisionSummaryPipeline::ProceduralRouter do
     end
   end
 end
-
