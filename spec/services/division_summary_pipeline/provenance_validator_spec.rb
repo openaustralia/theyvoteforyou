@@ -65,6 +65,148 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       expect(result.requires_human_review).to be(true)
     end
 
+    it "rejects a long quote with a fabricated middle even when its start and end are genuine" do
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 2,
+        topic: "Consumer Data Right Reform",
+        motion_text: "That all words after 'That' be omitted",
+        declines_second_reading: true,
+        mover_claims: [
+          DivisionSummaryPipeline::ClaimEvidence.new(
+            claim: "Fabricated middle spliced between two genuine phrases",
+            evidence: "many small retailers still lack the technical systems needed to secretly triple " \
+                      "the levy on regional co-operatives before new data-sharing obligations take effect",
+            speaker: "Priya Nakamura"
+          )
+        ]
+      )
+
+      result = described_class.validate(extraction, context_packet)
+      expect(result.is_valid).to be(false)
+      expect(result.errors.first).to include("Provenance check failed")
+    end
+
+    it "rejects a genuine quote attributed to a speaker who did not say it" do
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 2,
+        topic: "Consumer Data Right Reform",
+        motion_text: "That all words after 'That' be omitted",
+        declines_second_reading: true,
+        mover_claims: [
+          DivisionSummaryPipeline::ClaimEvidence.new(
+            claim: "Small retailers are not yet ready to comply",
+            evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
+            speaker: "Jordan McAllister"
+          )
+        ]
+      )
+
+      result = described_class.validate(extraction, context_packet)
+      expect(result.is_valid).to be(false)
+      expect(result.errors.first).to include("Provenance check failed")
+      expect(result.errors.first).to include("attributed to 'Jordan McAllister'")
+    end
+
+    it "still validates evidence with no speaker attribution against the whole context" do
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 2,
+        topic: "Consumer Data Right Reform",
+        motion_text: "That all words after 'That' be omitted",
+        declines_second_reading: true,
+        mover_claims: [
+          DivisionSummaryPipeline::ClaimEvidence.new(
+            claim: "Small retailers are not yet ready to comply",
+            evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
+            speaker: nil
+          )
+        ]
+      )
+
+      result = described_class.validate(extraction, context_packet)
+      expect(result.is_valid).to be(true)
+    end
+
+    context "with more than one speaker in the transcript" do
+      let(:hansard_context) do
+        <<~TEXT
+          DEBATE: Consumer Data Right Reform
+          SPEECH: Priya Nakamura:
+          many small retailers still lack the technical systems needed to comply with the proposed timeframe.
+          SPEECH: Jordan McAllister:
+          the opposition will not stand in the way of stronger privacy protections for consumers.
+        TEXT
+      end
+
+      it "verifies evidence against only the claimed speaker's own lines" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Consumer Data Right Reform",
+          motion_text: "That all words after 'That' be omitted",
+          declines_second_reading: true,
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(
+              claim: "The opposition supports stronger privacy protections",
+              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
+              speaker: "Jordan McAllister"
+            )
+          ]
+        )
+
+        result = described_class.validate(extraction, context_packet)
+        expect(result.is_valid).to be(true)
+      end
+
+      it "rejects a quote from one speaker credited to the other" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Consumer Data Right Reform",
+          motion_text: "That all words after 'That' be omitted",
+          declines_second_reading: true,
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(
+              claim: "The opposition supports stronger privacy protections",
+              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
+              speaker: "Priya Nakamura"
+            )
+          ]
+        )
+
+        result = described_class.validate(extraction, context_packet)
+        expect(result.is_valid).to be(false)
+        expect(result.errors.first).to include("Provenance check failed")
+      end
+    end
+
+    context "when hansard_context has no per-speaker SPEECH: tagging (Hansard XML fallback)" do
+      let(:hansard_context) do
+        <<~TEXT
+          DEBATE: Consumer Data Right Reform
+
+          MOTION:
+          many small retailers still lack the technical systems needed to comply with the proposed timeframe.
+        TEXT
+      end
+
+      it "still verifies evidence against the whole context regardless of the claimed speaker" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Consumer Data Right Reform",
+          motion_text: "That all words after 'That' be omitted",
+          declines_second_reading: true,
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(
+              claim: "Small retailers are not yet ready to comply",
+              evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
+              speaker: "Priya Nakamura"
+            )
+          ]
+        )
+
+        result = described_class.validate(extraction, context_packet)
+        expect(result.is_valid).to be(true)
+      end
+    end
+
     it "enforces template 2 declines_second_reading boolean requirement" do
       extraction = DivisionSummaryPipeline::ExtractionPayload.new(
         template_id: 2,

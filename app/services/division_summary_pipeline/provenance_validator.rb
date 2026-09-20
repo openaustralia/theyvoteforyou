@@ -71,25 +71,38 @@ module DivisionSummaryPipeline
       )
     end
 
-    # Mechanically verifies that a quote or snippet exists in the source text.
+    # Mechanically verifies that a quote or snippet exists verbatim in the source text.
+    # No partial-match tolerance: a fabricated middle between two genuine bookends must
+    # be rejected, so the whole normalised snippet has to appear as one substring.
     def self.verify_provenance(snippet, full_text)
       norm_snippet = TextNormaliser.normalise_for_matching(snippet)
       norm_source = TextNormaliser.normalise_for_matching(full_text)
 
       return false if norm_snippet.empty? || norm_source.empty?
-      return true if norm_source.include?(norm_snippet)
 
-      # For longer quotes (the prototype's threshold is 80 characters), tolerate minor
-      # mid-quote formatting breaks by matching the first and last 8 words instead of the
-      # whole quote.
-      words = norm_snippet.split(" ")
-      if norm_snippet.length > 80
-        start_chunk = words.first(8).join(" ")
-        end_chunk = words.last(8).join(" ")
-        return true if norm_source.include?(start_chunk) && norm_source.include?(end_chunk)
+      norm_source.include?(norm_snippet)
+    end
+
+    # Restricts hansard_context to the lines spoken by speaker_name, so a claim's evidence
+    # can only be verified against words that speaker actually said, not the whole day's
+    # debate. Falls back to the full text when there's no speaker to scope by, or when the
+    # text has no per-speaker "SPEECH:" tagging to filter on at all (the ContextBuilder
+    # fallback path used when no matching Hansard XML was found has no such tagging: it
+    # exists only for the primary source, but the quote and its date, house etc. are still
+    # verifiable as a whole).
+    def self.extract_speaker_text(speaker_name, full_text)
+      full_text = full_text.to_s
+      return full_text if speaker_name.blank? || !full_text.include?("SPEECH:")
+
+      norm_speaker = TextNormaliser.normalise_for_matching(speaker_name)
+      chunks = full_text.split(/(?=SPEECH: )/)
+
+      speaker_chunks = chunks.select do |chunk|
+        label_line = chunk.sub(/\ASPEECH:\s*/, "").lines.first.to_s
+        TextNormaliser.normalise_for_matching(label_line).include?(norm_speaker)
       end
 
-      false
+      speaker_chunks.join("\n")
     end
 
     private
@@ -177,9 +190,12 @@ module DivisionSummaryPipeline
         if claim.evidence.blank?
           errors << "Claim ##{idx + 1} ('#{claim.claim.to_s[0..40]}...') is missing supporting evidence."
         elsif context_packet && context_packet.hansard_context.present?
-          # MECHANICAL PROVENANCE ASSERTION
-          unless self.class.verify_provenance(claim.evidence, context_packet.hansard_context)
-            errors << "Provenance check failed: Evidence for claim ##{idx + 1} was not found in Hansard source: \"#{claim.evidence[0..80]}...\""
+          # MECHANICAL PROVENANCE ASSERTION, scoped to the claimed speaker's own words so a
+          # genuine quote from one member can't be credited to another.
+          speaker_context = self.class.extract_speaker_text(claim.speaker, context_packet.hansard_context)
+          unless self.class.verify_provenance(claim.evidence, speaker_context)
+            attribution = claim.speaker.present? ? " attributed to '#{claim.speaker}'" : ""
+            errors << "Provenance check failed: Evidence for claim ##{idx + 1}#{attribution} was not found in Hansard source: \"#{claim.evidence[0..80]}...\""
           end
         end
       end
