@@ -50,9 +50,7 @@ module DivisionSummaryPipeline
     def load_template(template_id)
       pattern = File.join(@templates_dir, "#{template_id}_*.md")
       matching = Dir.glob(pattern)
-      if matching.empty?
-        raise Errno::ENOENT, "No template found for ID #{template_id} in #{@templates_dir}"
-      end
+      raise Errno::ENOENT, "No template found for ID #{template_id} in #{@templates_dir}" if matching.empty?
 
       File.read(matching.first, encoding: "utf-8")
     end
@@ -65,7 +63,7 @@ module DivisionSummaryPipeline
       # reads "voted for/against ...", so any raw result spelling is normalised to those two
       # words here rather than interpolated as-is.
       result_raw = raw[:result].to_s.downcase
-      is_successful = %w[passed agreed\ to for yes successful carried].include?(result_raw)
+      is_successful = ["passed", "agreed to", "for", "yes", "successful", "carried"].include?(result_raw)
       successful_text = is_successful ? "successful" : "unsuccessful"
       result_phrasing = is_successful ? "for" : "against"
 
@@ -133,7 +131,7 @@ module DivisionSummaryPipeline
                         "[#{bill_name}](#{bill_link}), which means it was #{successful_text}."
         intro_sentence = if extraction.declines_second_reading
                            "#{base_sentence} Because the amendment sought to decline the bill a second reading, " \
-                           "a vote for it was in effect a vote against the bill proceeding."
+                             "a vote for it was in effect a vote against the bill proceeding."
                          else
                            "#{base_sentence} The text of the bill is unchanged either way."
                          end
@@ -241,9 +239,7 @@ module DivisionSummaryPipeline
     # database match yields the full "Dickson MP [Name](link) (Party)" form, and every
     # fallback degrades to plain text naming the person the way Hansard stated it.
     def target_clause(target, extraction)
-      unless target&.member || extraction.target_name.present? || extraction.target_electorate.present?
-        return "the member"
-      end
+      return "the member" unless target&.member || extraction.target_name.present? || extraction.target_electorate.present?
 
       return linkified_target(target) if target&.member
 
@@ -318,7 +314,7 @@ module DivisionSummaryPipeline
         if div.respond_to?(:division_info) && div.division_info
           turnout = div.division_info.turnout.to_i
           maj = div.division_info.majority.to_i
-          amount = (turnout.positive? && maj > (turnout / 2)) ? "large majority" : "majority"
+          amount = turnout.positive? && maj > (turnout / 2) ? "large majority" : "majority"
         end
 
         result = if div.respond_to?(:passed?)
@@ -347,4 +343,3 @@ module DivisionSummaryPipeline
     end
   end
 end
-

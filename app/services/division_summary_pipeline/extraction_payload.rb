@@ -56,8 +56,8 @@ module DivisionSummaryPipeline
       @topic = topic.to_s
       @motion_text = motion_text.to_s
       @mover_claims = mover_claims || []
-      @declines_second_reading = declines_second_reading.nil? ? nil : !!declines_second_reading
-      @sufficient_context = sufficient_context.nil? ? true : !!sufficient_context
+      @declines_second_reading = declines_second_reading.nil? ? nil : !declines_second_reading.nil?
+      @sufficient_context = sufficient_context.nil? || !sufficient_context.nil?
       @missing_context_clue = missing_context_clue
       @target_name = self.class.optional_text(target_name)
       @target_electorate = self.class.optional_text(target_electorate)
@@ -152,9 +152,9 @@ module DivisionSummaryPipeline
       claims = parse_claims(claims_raw)
 
       declines = norm_data["declines_second_reading"]
-      declines = declines.nil? ? nil : !!declines
+      declines = declines.nil? ? nil : !declines.nil?
 
-      sufficient = norm_data.key?("sufficient_context") ? !!norm_data["sufficient_context"] : true
+      sufficient = norm_data.key?("sufficient_context") ? !norm_data["sufficient_context"].nil? : true
 
       new(
         template_id: tpl_id,
@@ -215,7 +215,7 @@ module DivisionSummaryPipeline
         "$schema": "http://json-schema.org/draft-07/schema#",
         title: "ExtractionPayload",
         type: "object",
-        required: ["template_id", "topic", "motion_text", "mover_claims"],
+        required: %w[template_id topic motion_text mover_claims],
         properties: {
           template_id: {
             type: "integer",
@@ -228,7 +228,7 @@ module DivisionSummaryPipeline
             description: "A concise 2-to-5 word description of the bill, motion, or subject."
           },
           declines_second_reading: {
-            type: ["boolean", "null"],
+            type: %w[boolean null],
             description: "For Template 2 only: true if the amendment explicitly seeks to decline the second reading."
           },
           mover_claims: {
@@ -236,7 +236,7 @@ module DivisionSummaryPipeline
             description: "1 to 4 claims made by the mover, each with verbatim evidence from Hansard.",
             items: {
               type: "object",
-              required: ["claim", "evidence"],
+              required: %w[claim evidence],
               properties: {
                 claim: {
                   type: "string",
@@ -247,7 +247,7 @@ module DivisionSummaryPipeline
                   description: "Verbatim quote from the provided Hansard text proving the claim."
                 },
                 speaker: {
-                  type: ["string", "null"],
+                  type: %w[string null],
                   description: "The name of the member who made the statement."
                 }
               }
@@ -258,27 +258,27 @@ module DivisionSummaryPipeline
             description: "The exact wording of the motion or amendment as put to the chamber."
           },
           target_name: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Name of the member or minister the motion targets (templates 10 and 23), verbatim from the Hansard text; null if not stated."
           },
           target_electorate: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Electorate of the member the motion targets (template 23, e.g. 'Dickson' from 'the honourable member for Dickson'), verbatim; null if not stated."
           },
           committee_name: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Name of the committee the motion concerns (template 13), verbatim from the Hansard text; null if not stated."
           },
           regulation_name: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Name of the legislative instrument the motion would disallow (template 9), verbatim from the Hansard text; null if not stated."
           },
           business_name: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Name of the business withdrawn from the Notice Paper (template 20), verbatim from the Hansard text; null if not stated."
           },
           rearrangement_description: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "What the rearrangement of business does, in the motion's operative words (template 19); null if not stated."
           },
           sufficient_context: {
@@ -286,7 +286,7 @@ module DivisionSummaryPipeline
             description: "Whether the provided excerpt had sufficient context to extract the purpose and motion."
           },
           missing_context_clue: {
-            type: ["string", "null"],
+            type: %w[string null],
             description: "Clue if context was missing (e.g. 'Mover introduced amendment on previous sitting day')."
           }
         }
@@ -294,4 +294,3 @@ module DivisionSummaryPipeline
     end
   end
 end
-

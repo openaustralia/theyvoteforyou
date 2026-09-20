@@ -481,4 +481,3 @@ module DivisionSummaryPipeline
     end
   end
 end
-

@@ -393,7 +393,7 @@ app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md
   context_builder.rb          Stage 1: adapts the existing Hansard loader into a ContextPacket
   procedural_router.rb        Stage 2: deterministic routing on the Speaker's Question
   semantic_extractor.rb       Stage 3: LLM prompt + Bedrock call, structured JSON only
-  extraction_schema.rb        ExtractionPayload / ClaimEvidence value objects + JSON schema
+  extraction_payload.rb       ExtractionPayload / ClaimEvidence value objects + JSON schema
   provenance_validator.rb     Stage 4: mechanical evidence-in-source assertions
   member_resolver.rb          resolves an extracted name or electorate to TVFY member facts
   template_compiler.rb        Stage 5: injects validated data into the Markdown templates

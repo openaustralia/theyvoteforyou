@@ -3,6 +3,7 @@
 require "spec_helper"
 require "json"
 
+# rubocop:disable RSpec/DescribeClass -- exercises the whole pipeline end to end, not one class
 describe "Parliamentary Evaluation Corpus" do
   # Fictional fixtures (see ARCHITECTURE.md in the pipeline directory's "fictional data" note) exercising
   # the pipeline end to end against real ParlParse <debates> XML - the shape ContextBuilder
@@ -86,4 +87,4 @@ describe "Parliamentary Evaluation Corpus" do
     end
   end
 end
-
+# rubocop:enable RSpec/DescribeClass

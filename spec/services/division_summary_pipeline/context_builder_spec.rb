@@ -83,11 +83,12 @@ describe DivisionSummaryPipeline::ContextBuilder do
     it "fetches via DataLoader::Debates.fetch_xml_document rather than its own HTTP client, so there is one fetch mechanism to maintain" do
       division_data = { id: 1052, house: "representatives", name: "Closure of Debate", date: "2026-08-19", number: 1 }
       doc = Nokogiri::XML(parlparse_xml)
-      expect(DataLoader::Debates).to receive(:fetch_xml_document).with("representatives", "2026-08-19").and_return(doc)
+      allow(DataLoader::Debates).to receive(:fetch_xml_document).with("representatives", "2026-08-19").and_return(doc)
 
       packet = described_class.build(division_data)
 
       expect(packet.speaker_question).to eq("That the question be now put.")
+      expect(DataLoader::Debates).to have_received(:fetch_xml_document).with("representatives", "2026-08-19")
     end
   end
 end

@@ -89,4 +89,3 @@ describe DivisionSummaryPipeline::ExtractionPayload do
     end
   end
 end
-
