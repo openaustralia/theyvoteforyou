@@ -330,9 +330,11 @@ supplies a URL, a party or an electorate it wasn't given.
 Every claim made by the mover must have an `evidence` field containing an exact quote from the
 Hansard context. The `ProvenanceValidator` mechanically asserts that the evidence appears in the
 source: normalised evidence `include?` normalised Hansard context, where normalisation swaps curly
-for straight quotes, replaces em/en dashes with hyphens, collapses whitespace and lowercases. For
-quotes longer than 80 characters it tolerates minor mid-quote formatting breaks by matching the
-first and last 8 words instead of the whole quote. Any claim that fails this mechanical
+for straight quotes, replaces em/en dashes with hyphens, collapses whitespace and lowercases. The
+whole normalised quote must appear as one substring; there is no partial-match tolerance, since a
+fabricated middle between two genuine bookends would otherwise pass. The search is also scoped to
+the claimed `speaker`'s own lines (via the `SPEECH:` tagging `ContextBuilder` adds), so a claim
+can't be verified against words a different member said. Any claim that fails this mechanical
 verification is rejected and flagged for human review rather than published.
 
 The template-specific facts (`target_name`, `target_electorate`, `committee_name`,
