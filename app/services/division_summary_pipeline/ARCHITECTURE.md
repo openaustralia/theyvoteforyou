@@ -625,6 +625,10 @@ pipeline, and the offline suites all run with them empty.
    - With neither, the section renders as the blockquote `> No Bill Digest found.` - the fallback
      `TEMPLATES.md` prescribes. It deliberately has no "According to the..." header, because with
      no digest there is nothing to link to.
+   Filling those inputs is not just plumbing: APH blocks automated clients, OAF's ParlInfo access
+   is a negotiated arrangement living in `openaustralia-parser`, and Bills Digests are
+   CC BY-NC-ND licensed. See `docs/bills-digest-integration.md` for the findings, the options and
+   what needs sign-off, before writing any fetcher.
    A future integration only has to fill those inputs - the seam is the Stage 5 call in
    `DivisionSummarizer#summarize_with`, which is marked PLACEHOLDER in a comment.
 2. **Template 9's regulation summary (`regulation_summary`).** Same shape: `TEMPLATES.md` sources
