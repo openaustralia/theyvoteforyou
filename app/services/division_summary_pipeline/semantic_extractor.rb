@@ -66,6 +66,15 @@ module DivisionSummaryPipeline
         sections << "<procedural_routing_guidance>\n#{routing_note}\n</procedural_routing_guidance>"
       end
 
+      # Stage 1 can tell when the speeches beside a division may not be the debate about it (a
+      # successive or deferred division, or no Hansard XML at all). Passing that on is what
+      # lets the model answer with sufficient_context: false instead of reading unrelated
+      # speeches as the argument for this vote.
+      if packet.respond_to?(:context_warnings) && packet.context_warnings.present?
+        notes = Array(packet.context_warnings).map { |w| "- #{w}" }.join("\n")
+        sections << "<context_warnings>\n#{notes}\n</context_warnings>"
+      end
+
       sections << "<official_summary>\n#{packet.official_summary.to_s.strip}\n</official_summary>" if packet.official_summary.present?
 
       sections << "<hansard_context>\n#{packet.hansard_context.to_s.strip}\n</hansard_context>"
@@ -95,7 +104,7 @@ module DivisionSummaryPipeline
            - You MUST choose a template_id from <procedural_routing_guidance> candidate templates if provided.
            - You MUST NEVER select a template listed under Disallowed Templates.
 
-        3. THE TEMPLATE CATALOGUE (template_id 1 to 23):
+        3. THE TEMPLATE CATALOGUE (template_id 1 to 28):
             1: First Reading
             2: Second Reading Amendment (e.g. "That all words after 'That' be omitted with a view to substituting...")
             3: In Committee Amendment (Senate)
@@ -113,12 +122,20 @@ module DivisionSummaryPipeline
            15: General Motion
            16: Matter of Urgency (Senate)
            17: Suspension of Standing Orders
-           18: Limitation of Debate (Guillotine)
+           18: Limitation of Debate (Guillotine), including the House question "That the bill be
+               considered urgent", which is the first of the two questions that impose a time limit
            19: Rearrangement of Business
            20: Withdrawal of Business
            21: Parliamentary Zone Proposed Works
-           22: Closure of Debate ("That the question be now put")
+           22: Closure of Debate ("That the question be now put"), and the two related closures:
+               "That the business of the day be called on", which ends a discussion on a matter of
+               public importance, and "That the ballot be taken now" during the election of a Speaker
            23: Member Be No Longer Heard (House of Representatives)
+           24: Suspension of a Member
+           25: Dissent from Ruling of the Chair
+           26: Adjournment of the Chamber
+           27: Taking Note
+           28: Question That a Clause or Part Stand As Printed (Senate committee of the whole)
 
         4. OPERATIVE MOTION TEXT:
            Extract the exact operative wording of the motion or amendment as put to the chamber from the Hansard context.
@@ -139,8 +156,10 @@ module DivisionSummaryPipeline
              not about the business being limited.
            - Template 9 (Disallowance): claims describe what the regulation does and why it should stop
              having legal force. Regulations are law made under powers an Act gives the government.
-           - Templates 22 and 23 (Closure, Member Be No Longer Heard): these decide only that debate ends or
-             a speaker sits down, so make no claims about the underlying question.
+           - Templates 22, 23, 24 and 26 (Closure, Member Be No Longer Heard, Suspension of a Member,
+             Adjournment): these decide only that debate ends, that a speaker sits down, that a member
+             leaves, or that the sitting ends. Make no claims about the underlying question, and return
+             an empty mover_claims array rather than manufacturing points to fill it.
 
         6. NEUTRALITY IS NOT OPTIONAL:
            Claims describe the procedure and record facts in plain, functional terms. Never characterise a vote
@@ -148,9 +167,20 @@ module DivisionSummaryPipeline
            candidate or position.
 
         7. TEMPLATE 2 (SECOND READING AMENDMENT):
-           If template_id is 2, you MUST set 'declines_second_reading' to true if the amendment explicitly
-           declines a second reading ("declining to give the bill a second reading..."). An amendment worded
-           "whilst not declining to give the bill a second reading..." is false.
+           If template_id is 2, you MUST set 'declines_second_reading' to true or false; never null.
+           The House of Representatives Guide to Procedures lists the standard forms of words substituted
+           into a reasoned amendment. Decide from the words of the amendment itself, not from its tone:
+             declines_second_reading = true
+               - "the House declines to give the bill a second reading as it is of the opinion that ..."
+               - "the bill be withdrawn and redrafted to provide for ..."
+               - "the bill be withdrawn and a select committee be appointed to inquire into ..."
+               - "the House is of the opinion that the bill should not be proceeded with until ..."
+             declines_second_reading = false
+               - "whilst not declining to give the bill a second reading, the House is of the opinion that ..."
+               - "whilst not opposing the provisions of the bill, the House is of the opinion that ..."
+               - "the House disapproves of the inequitable and disproportionate charges imposed by the bill ..."
+           Note the two "whilst not ..." forms carefully: they contain the words "declining to give the bill
+           a second reading" inside a negation, and they are false, not true.
 
         8. CONTEXT SUFFICIENCY AND RESUMED DEBATES:
            Debate is frequently adjourned and later resumed, so an excerpt can begin mid-conversation with the
@@ -159,6 +189,11 @@ module DivisionSummaryPipeline
            and state 'missing_context_clue' (for example: "mover's opening speech may be earlier in this
            sitting day's debate or on a previous sitting day"). Do not reconstruct a missing speech from
            inference; extract only what the excerpt supports.
+           A <context_warnings> block, when present, lists reasons the speeches in this excerpt may not be
+           the debate about this division at all (divisions taken one after another with no debate between
+           them, deferred divisions put later in the day without further debate, or no Hansard XML being
+           available). Check the speeches against <speaker_question> before using them, and set
+           'sufficient_context' to false when they do not match the question being decided.
 
         9. DEBATE HEADINGS ARE NOT VOTES:
            A debate heading such as "Limitation of Debate" describes a stretch of business, not each division
@@ -178,8 +213,11 @@ module DivisionSummaryPipeline
            does not state - the pipeline looks those up in its own database from what you extract.
            - Template 9 (Disallowance): 'regulation_name' is the legislative instrument the motion
              would disallow.
-           - Template 10 (Censure): 'target_name' is the member or minister the motion censures or
-             expresses want of confidence in.
+           - Template 10 (Censure): 'target_name' is who the motion censures or expresses want of
+             confidence in, in the words the motion uses. That is often an individual, but a censure or
+             no confidence motion is just as often directed at the government as a whole, in which case
+             extract the words the motion uses for it ("the Government", "the Prime Minister and the
+             Government") rather than leaving the field null.
            - Template 13 (Committee Referral): 'committee_name' is the committee the matter is referred to.
            - Template 19 (Rearrangement of Business): 'rearrangement_description' is what happens to the
              business, in the motion's operative words.
@@ -188,10 +226,34 @@ module DivisionSummaryPipeline
            - Template 23 (Member Be No Longer Heard): give 'target_electorate' when the motion names
              the electorate ("the honourable member for Dickson" yields target_electorate "Dickson")
              and 'target_name' when the Hansard text states the member's name.
+           - Template 24 (Suspension of a Member): 'target_name' or 'target_electorate' is the member being suspended.
+           - Template 28 (Stand As Printed): 'topic' names the part of the bill the amendment would omit,
+             in the words the chair used (for example "clause 4" or "Schedule 2").
+           - Template 17 (Suspension of Standing Orders): the summary quotes the motion's own statement of
+             purpose, which is the words after "as would prevent", so set 'motion_text' to the whole
+             question including that phrase rather than to a shortened form of it.
+           - Template 7 (Consideration of a Message): the summary reads the form of the question off
+             'motion_text' - agree, disagree, insist, does not insist, or a request under section 53 -
+             because those forms mean different things and two of them are put the opposite way round
+             from what they decide. Set 'motion_text' to the question as the chair put it, keeping the
+             operative words ("does not insist on its amendments", "be disagreed to") intact.
+
+        12. AUSTRALIAN PARLIAMENTARY TERMINOLOGY & VOTING POLARITY:
+           - Strictly avoid US congressional terminology: NEVER use "Congress", "Congressman", "filibuster",
+             "bill sponsor" (use "mover" or "minister"), or "table a bill" in the US sense of killing it (in Australia,
+             tabling a document means presenting it for public access).
+           - "Stand as printed" polarity: In the Senate, when an amendment seeks to omit a clause, item,
+             section, Subdivision, Division, Part or Schedule, the question is put in the inverted form "That
+             the [unit] stand as printed". A vote AGAINST that question is what omits the unit, so it supports
+             the amendment; a vote FOR it keeps the unit and defeats the amendment. Use template_id 28 for
+             these questions and set 'motion_text' to the question as the chair put it.
+             One exception: "That the bill stand as printed" is not an omission at all. It is the final
+             question in committee of the whole when no amendments have been agreed to, equivalent to "That
+             the bill, as amended, be agreed to", and carries no inversion. Do not use template 28 for it.
 
         Respond ONLY with a valid JSON object matching this schema. Do not enclose in markdown fences or include commentary:
         {
-          "template_id": 1 to 23,
+          "template_id": 1 to 28,
           "topic": "Concise 2-5 word description",
           "motion_text": "Exact operative motion text",
           "mover_claims": [

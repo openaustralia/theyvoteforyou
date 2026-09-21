@@ -34,5 +34,11 @@ describe DivisionSummaryPipeline::TextNormaliser do
       normalised = described_class.normalise_for_matching(input)
       expect(normalised).to eq("\"the minister's 'decision'-immediate action\"")
     end
+
+    it "decodes HTML entities so entity representations match plain text" do
+      input = "Trade &amp; Industry &mdash; &quot;Urgent&#160;Reform&quot;"
+      normalised = described_class.normalise_for_matching(input)
+      expect(normalised).to eq("trade & industry - \"urgent reform\"")
+    end
   end
 end

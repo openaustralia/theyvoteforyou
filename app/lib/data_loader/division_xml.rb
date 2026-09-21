@@ -115,6 +115,22 @@ module DataLoader
       end
     end
 
+    # True when another <division> sits between this one and the last heading, so no debate
+    # intervened. Where divisions follow one another with no intervening debate the bells are
+    # rung for one minute and the questions are put in a run (House S.O. 131, Guide p. 57; the
+    # Senate equivalent in Senate Guide No. 3), which means only the first of the run has the
+    # debate about it in front of it. DivisionSummaryPipeline::ContextBuilder uses this to warn
+    # that the speeches next to this division may belong to an earlier question.
+    def preceded_by_division?
+      previous_element = division_xml.previous_element
+      while previous_element&.name&.exclude?("heading")
+        return true if previous_element.name == "division"
+
+        previous_element = previous_element.previous_element
+      end
+      false
+    end
+
     private
 
     def preceding_major_heading_element

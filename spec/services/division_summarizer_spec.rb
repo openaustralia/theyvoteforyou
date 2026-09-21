@@ -145,5 +145,64 @@ describe DivisionSummarizer do
     it "returns each model's summary" do
       expect(results.values).to all(have_attributes(title: "A title"))
     end
+
+    # ARCHITECTURE.md constraint 4: the extractor reporting a thin excerpt earns a second
+    # attempt over the whole sitting day. That path was unreachable until ExtractionPayload
+    # stopped coercing sufficient_context to true (KNOWN_ISSUES.md, KI-15), so it is worth a
+    # regression test of its own rather than trusting the constraint.
+    context "when the model reports the excerpt was not enough" do
+      let(:responses) do
+        [
+          %({"template_id": 22, "topic": "Closure", "motion_text": "That the question be now put.", ) +
+            %("sufficient_context": false, "missing_context_clue": "mover's speech is earlier in the day"}),
+          %({"template_id": 22, "topic": "Closure of Debate", "motion_text": "That the question be now put.", ) +
+            %("sufficient_context": true})
+        ]
+      end
+
+      let(:extractor) do
+        calls = []
+        replies = responses.dup
+        double = Object.new
+        double.define_singleton_method(:calls) { calls }
+        double.define_singleton_method(:extract_raw) do |packet|
+          calls << packet.context_level
+          replies.shift
+        end
+        double
+      end
+
+      let(:summarizer) do
+        described_class.new(division, models: models, client: stubbed_client, extractor: extractor)
+      end
+
+      it "rebuilds the packet over the whole sitting day and asks again" do
+        expect(result.error).to be_nil
+        expect(extractor.calls).to eq(%i[subdebate sitting_day])
+        expect(result.title).to eq("Closure of Debate")
+      end
+    end
+
+    context "when the model reports the excerpt was enough" do
+      let(:extractor) do
+        calls = []
+        double = Object.new
+        double.define_singleton_method(:calls) { calls }
+        double.define_singleton_method(:extract_raw) do |packet|
+          calls << packet.context_level
+          %({"template_id": 22, "topic": "Closure", "motion_text": "That the question be now put."})
+        end
+        double
+      end
+
+      let(:summarizer) do
+        described_class.new(division, models: models, client: stubbed_client, extractor: extractor)
+      end
+
+      it "does not widen the context" do
+        expect(result.error).to be_nil
+        expect(extractor.calls).to eq([:subdebate])
+      end
+    end
   end
 end
