@@ -56,8 +56,9 @@ module DivisionSummaryPipeline
       @topic = topic.to_s
       @motion_text = motion_text.to_s
       @mover_claims = mover_claims || []
-      @declines_second_reading = declines_second_reading.nil? ? nil : !declines_second_reading.nil?
-      @sufficient_context = sufficient_context.nil? || !sufficient_context.nil?
+      @declines_second_reading = self.class.optional_boolean(declines_second_reading)
+      parsed_sufficiency = self.class.optional_boolean(sufficient_context)
+      @sufficient_context = parsed_sufficiency.nil? || parsed_sufficiency
       @missing_context_clue = missing_context_clue
       @target_name = self.class.optional_text(target_name)
       @target_electorate = self.class.optional_text(target_electorate)
@@ -151,10 +152,9 @@ module DivisionSummaryPipeline
       claims_raw = norm_data["mover_claims"] || norm_data["introducer_claims"] || []
       claims = parse_claims(claims_raw)
 
-      declines = norm_data["declines_second_reading"]
-      declines = declines.nil? ? nil : !declines.nil?
-
-      sufficient = norm_data.key?("sufficient_context") ? !norm_data["sufficient_context"].nil? : true
+      declines = optional_boolean(norm_data["declines_second_reading"])
+      sufficient = optional_boolean(norm_data["sufficient_context"])
+      sufficient = true if sufficient.nil?
 
       new(
         template_id: tpl_id,
@@ -207,6 +207,28 @@ module DivisionSummaryPipeline
       value.to_s.strip.presence
     end
 
+    TRUTHY_STRINGS = %w[true yes y 1].freeze
+    FALSEY_STRINGS = %w[false no n 0].freeze
+
+    # Three-state on purpose: true, false, and "the model did not answer", which are three
+    # different things here. `declines_second_reading` inverts what a Template 2 summary
+    # says, so `false` has to survive as `false` rather than collapsing into the same value
+    # as `true`, and ProvenanceValidator refuses a nil there rather than guessing. Likewise a
+    # `false` `sufficient_context` is what triggers the orchestrator's sitting-day retry.
+    #
+    # Models return these as JSON booleans most of the time and as the strings "true"/"false"
+    # or "yes"/"no" often enough to be worth accepting; anything else is nil, i.e. unanswered.
+    def self.optional_boolean(value)
+      return nil if value.nil?
+      return value if [true, false].include?(value)
+
+      text = value.to_s.strip.downcase
+      return true if TRUTHY_STRINGS.include?(text)
+      return false if FALSEY_STRINGS.include?(text)
+
+      nil
+    end
+
     # The JSON Schema for the expected LLM output. It mirrors this class field for field and
     # lives beside it so the two cannot drift; the descriptions double as per-field
     # instructions to the model.
@@ -220,8 +242,8 @@ module DivisionSummaryPipeline
           template_id: {
             type: "integer",
             minimum: 1,
-            maximum: 23,
-            description: "The matching parliamentary template ID (1 to 23)."
+            maximum: 28,
+            description: "The matching parliamentary template ID (1 to 28)."
           },
           topic: {
             type: "string",
@@ -259,11 +281,11 @@ module DivisionSummaryPipeline
           },
           target_name: {
             type: %w[string null],
-            description: "Name of the member or minister the motion targets (templates 10 and 23), verbatim from the Hansard text; null if not stated."
+            description: "Name of the member, minister or body the motion targets (templates 10, 23 and 24), verbatim from the Hansard text; null if not stated."
           },
           target_electorate: {
             type: %w[string null],
-            description: "Electorate of the member the motion targets (template 23, e.g. 'Dickson' from 'the honourable member for Dickson'), verbatim; null if not stated."
+            description: "Electorate of the member the motion targets (templates 23 and 24, e.g. 'Dickson' from 'the honourable member for Dickson'), verbatim; null if not stated."
           },
           committee_name: {
             type: %w[string null],

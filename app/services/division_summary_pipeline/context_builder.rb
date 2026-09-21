@@ -18,6 +18,7 @@ module DivisionSummaryPipeline
     :context_level,
     :procedural_decision,
     :extra_context,
+    :context_warnings,
     keyword_init: true
   )
 
@@ -39,6 +40,21 @@ module DivisionSummaryPipeline
   # needed (the operative question text, and speeches gathered at progressive context tiers)
   # was added directly to DataLoader::DivisionXml as additive public methods.
   class ContextBuilder
+    # House S.O. 133 (Guide p. 58): on Mondays a division called between 10 am and 12 noon is
+    # deferred until after 12 noon, and on Tuesdays one called before 2 pm is deferred until
+    # after the discussion of the matter of public importance. The Chair then puts all the
+    # deferred questions in the order they were deferred, without further debate, so the
+    # speeches beside such a division belong to whatever business the chamber had reached.
+    #
+    # The standing order fixes when the deferral window opens but not how long the run of
+    # deferred questions takes, so the hour-long windows below are this code's own conservative
+    # estimate of when they are put, not something either guide states. They only raise a
+    # warning, so an over-wide window costs a reviewer a look rather than publishing anything.
+    DEFERRED_DIVISION_WINDOWS = {
+      1 => ("12:00".."12:59"), # Monday, after the 10 am to 12 noon deferral window
+      2 => ("16:00".."16:59")  # Tuesday, after the matter of public importance
+    }.freeze
+
     DEFAULT_LEVEL = :subdebate
     DEFAULT_SPEAKER_QUESTION = "The question is that the motion be agreed to."
 
@@ -129,8 +145,57 @@ module DivisionSummaryPipeline
         speaker_question: speaker_q,
         hansard_context: hansard_context,
         debate_heading: heading,
-        procedural_decision: route(speaker_q, heading, hansard_context)
+        procedural_decision: route(speaker_q, heading, hansard_context),
+        context_warnings: context_warnings(division_xml, speeches)
       )
+    end
+
+    # Stage 1 takes the speeches immediately before the <division> element, which assumes the
+    # debate next to a division is the debate about it. Two procedures break that assumption in
+    # a knowable way, so the packet says when it may be looking at the wrong debate rather than
+    # letting the extractor treat unrelated speeches as the argument for this vote
+    # (KNOWN_ISSUES.md, KI-6). This is the same class of trap as the "Limitation of Debate"
+    # heading: usually right, silently wrong in cases the standing orders spell out.
+    #
+    # These are warnings, not errors. Detecting the risk is cheap and reliable; recovering the
+    # right debate is neither, so the judgement is handed to the extractor (which can report
+    # insufficient context) and then to a reviewer.
+    def context_warnings(division_xml, speeches)
+      warnings = []
+
+      if division_xml.respond_to?(:preceded_by_division?) && division_xml.preceded_by_division?
+        warnings << "This division immediately follows another with no debate between them. Where divisions " \
+                    "are taken successively only the first has the debate about it in front of it, so the " \
+                    "speeches in this excerpt may belong to an earlier question."
+      end
+
+      warnings << "No debate speeches were found immediately before this division." if speeches.empty?
+
+      deferred = deferred_division_warning
+      warnings << deferred if deferred
+
+      warnings
+    end
+
+    def deferred_division_warning
+      return nil unless division_house.include?("representative")
+
+      date = begin
+        Date.parse(division_date)
+      rescue ArgumentError, TypeError
+        nil
+      end
+      return nil unless date
+
+      window = DEFERRED_DIVISION_WINDOWS[date.wday]
+      return nil unless window
+
+      time = normalise_time(division_clock_time)
+      return nil unless time.match?(/\A\d\d:\d\d\z/) && window.cover?(time)
+
+      "This division was taken in the part of the day when the House puts questions whose divisions were " \
+        "deferred earlier (Standing Order 133). A deferred question is put without further debate, so the " \
+        "speeches in this excerpt may be about different business altogether."
     end
 
     # Fallback when Hansard XML is unavailable or no <division> in it matches: uses the
@@ -164,7 +229,9 @@ module DivisionSummaryPipeline
         speaker_question: speaker_q,
         hansard_context: hansard_context,
         debate_heading: heading,
-        procedural_decision: route(speaker_q, heading, hansard_context)
+        procedural_decision: route(speaker_q, heading, hansard_context),
+        context_warnings: ["No Hansard XML was available for this division, so this packet was built from the " \
+                           "Division record's own stored motion text and carries no surrounding debate."]
       )
     end
 
@@ -182,7 +249,8 @@ module DivisionSummaryPipeline
     # Counts, dates and times come from the Division record, never from the XML and never
     # from the model: they are Type 1 authoritative facts (ARCHITECTURE.md, Data
     # classification) that stage 5 publishes as given.
-    def assemble_packet(speaker_question:, hansard_context:, debate_heading:, procedural_decision:)
+    def assemble_packet(speaker_question:, hansard_context:, debate_heading:, procedural_decision:,
+                        context_warnings: [])
       metadata = {
         tvfy_id: division_id,
         house: division_house,
@@ -207,7 +275,8 @@ module DivisionSummaryPipeline
         official_summary: nil,
         context_level: context_level,
         procedural_decision: procedural_decision,
-        extra_context: extra_context
+        extra_context: extra_context,
+        context_warnings: context_warnings
       )
     end
 

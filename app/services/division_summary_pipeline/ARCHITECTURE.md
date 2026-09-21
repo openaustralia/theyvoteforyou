@@ -5,6 +5,11 @@ This directory contains the 5-stage modular AI division summary pipeline for The
 end, how each stage works in detail, how it reuses the rest of the app rather than duplicating it,
 the template catalogue, and the constraints and open work that govern future changes.
 
+`KNOWN_ISSUES.md` beside it is the defect register: where the code does not do what this document
+describes, each entry checked against the chambers' own procedural guides. Keep the two apart. This
+file says how the pipeline is meant to work; that one says where it currently doesn't, and is the
+first thing to read before changing routing, a template or the compiler.
+
 **Status: built and reviewed offline; not yet wired to live systems.** The pipeline runs when
 someone invokes `rake ai:summarize_division`; it publishes nothing by itself and contacts no live
 system at boot or under test. Section 14 explains how to verify it, and section 15 is the wiring
@@ -27,13 +32,16 @@ team, but using off-the-shelf generative AI to draft them introduces serious pit
 
 ## 2. The core design
 
-The pipeline treats the system as a **symbolic program around a probabilistic semantic sensor**:
+The pipeline treats the system as a **symbolic program around a probabilistic semantic sensor**. In modern AI terminology, it is a **Compound AI System** and a **hybrid neurosymbolic pipeline** (or more plainly, a deterministic parliamentary summarisation system with a constrained generative extraction component):
 
-- **Deterministic code** manages structure, voting data, debate retrieval, procedural trap
-  handling, provenance assertions, and template injection.
-- **The LLM is a Semantic Extractor**: it reads Hansard context and extracts predefined variables
-  into strict JSON with verbatim evidence quotes.
-- **The LLM never writes the published summary prose.**
+- **A Compound AI System**: Rather than relying on a monolithic generative model to read Hansard and draft a summary, the pipeline orchestrates five distinct stages. The system's intelligence and reliability live in the deterministic orchestration, targeted context assembly, procedural routing, and provenance validation, not solely in the model's weights.
+- **Neurosymbolic AI**: The architecture explicitly combines neural statistical processing (the LLM parsing unstructured debate text in Stage 3) with symbolic, deterministic computation:
+  - formal parliamentary state machine rules and candidate fences (Stage 2 ProceduralRouter),
+  - mechanical string matching, schema validation, and routing fence assertions (Stage 4 ProvenanceValidator), and
+  - deterministic document compilation with grammar normalisation (Stage 5 TemplateCompiler).
+- **Constrained Information Extraction (IE)**: The LLM is repurposed from a creative author into a structured semantic extractor. It reads the Hansard context and extracts predefined variables into strict JSON with verbatim evidence quotes. The model has **epistemic access** to the debate text, but **zero authorial authority** over the final artifact.
+- **Deterministic document synthesis**: The LLM never writes the published summary prose. The published text is software-compiled from human-authored templates, authoritative TVFY database facts, and mechanically verified extractions. In civic technology, where public trust, non-partisanship, and auditability are critical, summaries are computed rather than generated.
+- **Model independence**: Because the LLM sits down the stack as a constrained extraction microservice conforming to a fixed schema, the model is architecturally swappable. TVFY is not locked to Bedrock or Claude; an alternative foundation model, an open-weight model, or a specialised semantic classifier could be substituted without altering the surrounding pipeline.
 
 ## 3. How it works: one division through the pipeline
 
@@ -110,7 +118,7 @@ No claim reaches a compiled summary without passing this mechanical check.
 
 ### Step 5: Compile the summary (TemplateCompiler)
 
-The AI's work is done. The compiler takes a pre-written, human-approved Markdown template (the 23
+The AI's work is done. The compiler takes a pre-written, human-approved Markdown template (the 28
 in section 8), fills its placeholders with the database facts (12:30 pm, the vote counts, the
 rebellions) and the verified extractions (the motion text, the mover's claims), and applies
 deterministic tidying: article grammar ("a" becomes "an" where the next word starts with a vowel),
@@ -128,43 +136,33 @@ for human review (section 11).
 ## 4. The five stages
 
 ```text
-                       EXISTING TVFY / OAF DATA
-                                  │
           Division (ActiveRecord)   ──┐
           (id, date, house, number,   │  same identity DataLoader::Debates
            votes, bills, rebellions)  │  used to create this Division row
                                       ▼
                      DataLoader::Debates / DebatesXml / DivisionXml
-                     (app/lib/data_loader/ - the existing ParlParse XML
-                      loader used nightly by application:load:divisions)
-                                  │
-                                  ▼
-               [1] ContextBuilder
-                   Thin adapter, not a second parser: finds the matching
-                   DataLoader::DivisionXml by divnumber and reads its
-                   #operative_question / #context_speeches / #name
-                   (Progressive tiers: Immediate, Subdebate, Sitting Day)
-                             │
-                             ▼
-               [2] ProceduralRouter
-                   Procedural State Machine
-                   Deterministic procedural traps (closure, member heard, etc.)
-                   Guillotine trap lockout & template candidate fencing
-                             │
-                             ▼
-               [3] SemanticExtractor
-                   Constrained LLM extraction via Bedrock
-                   Strict JSON schema (topic, operative motion, mover claims, evidence)
-                   Never writes published prose
-                             │
-                             ▼
-               [4] ProvenanceValidator
-                   Zero-hallucination assertion: evidence quote in source text
-                   Schema validity & constraint checks
-                             │
-                             ▼
-               [5] TemplateCompiler
-                   Injects verified facts & extractions into 1 of 23 templates
+                                      │
+                         debate XML / excerpt XML
+                                      │
+                                      ▼
+                   Stage 1: ContextBuilder (Ruby)
+                   Produces: ContextPacket
+                                      │
+                                      ▼
+                   Stage 2: ProceduralRouter (deterministic rules)
+                   Fences: candidate / disallowed templates
+                                      │
+                                      ▼
+                   Stage 3: SemanticExtractor (AWS Bedrock)
+                   Produces: ExtractionPayload (JSON)
+                                      │
+                                      ▼
+                   Stage 4: ProvenanceValidator (mechanical search)
+                   Verifies: every quote exists in source transcript
+                                      │
+                                      ▼
+                   Stage 5: TemplateCompiler (Ruby)
+                   Injects verified facts & extractions into 1 of 28 templates
                    Produces final publication-ready Markdown
                              │
                              ▼
@@ -189,6 +187,13 @@ for human review (section 11).
   - **Level B (Subdebate)**: The full subdebate leading up to the vote (default).
   - **Level C (Sitting Day)**: Speeches across the sitting day when prior debate context is
     required.
+- Flags the cases where the speeches beside a division may not be the debate about it at all, as
+  `context_warnings` on the packet: a division taken immediately after another with no debate
+  between them (House S.O. 131), a House division falling in the part of the day when deferred
+  divisions are put (S.O. 133), no speeches found at all, or no matching Hansard XML. The warnings
+  reach the extractor in the prompt, so it can answer `sufficient_context: false` rather than
+  reading unrelated speeches as the argument for this vote, and reach the validator, which records
+  them and marks the draft for review.
 
 ### Stage 2: Procedural Router (`DivisionSummaryPipeline::ProceduralRouter`)
 
@@ -203,6 +208,15 @@ for human review (section 11).
   question that mentions a censure ("...as would prevent me from moving a censure motion") is a
   vote about suspending the standing orders; the censure division, if it happens, is a separate
   division. This implements `TEMPLATES.md` template 10's own instruction.
+- Puts the suspension rule first of all, ahead of the closure rule as well as the subject-matter
+  rules, for the same reason: a suspension question recites the motion it would enable, so it
+  carries the trigger words of whichever rule covers that motion (House Guide p. 2). Suspensions
+  moved to let a question be put forthwith are common enough that having closure above suspension
+  published them as closures (`KNOWN_ISSUES.md`, KI-16).
+- Routes the House declaration of urgency, "That the bill be considered urgent", to Template 18. It
+  is not a separate procedure but the first of the two questions that impose a time limit
+  (House S.O.s 82-84), and the Senate matter-of-urgency rule is matched earlier, so the keyword
+  collision between the two is safe.
 - Treats "Member be no longer heard" as a House of Representatives procedure: a Senate match is
   fenced as ambiguous (`MEMBER_NO_LONGER_HEARD_CHAMBER_CONFLICT`, candidate 23) rather than
   asserting a House-only template from possibly-wrong chamber metadata.
@@ -213,7 +227,7 @@ for human review (section 11).
   reading be made an order of the day for the next sitting") to Template 19 ahead of the second
   reading and amendment rules, which would otherwise fence them between Templates 2 and 6: these
   votes decide when business is discussed, not the fate of the bill. The end-of-day "that the
-  House do now adjourn" is deliberately left unmatched.
+  House do now adjourn" is a different question and goes to Template 26.
 - Treats motions of no confidence in a minister or member (worded "no confidence" or the
   traditional "want of confidence") as censure motions (Template 10) when put directly. A
   no-confidence motion moved under a suspension of standing orders is caught first by the
@@ -224,7 +238,7 @@ for human review (section 11).
 - Prompts AWS Bedrock (or a stubbed client in testing, or an injected `llm_caller`) strictly for
   JSON matching `ExtractionPayload.json_schema`; the orchestrator keeps the raw response so it can
   be stored on the `AiDivisionSummary` record.
-- The system prompt (`SemanticExtractor#system_prompt`) carries the full 23-template catalogue, the
+- The system prompt (`SemanticExtractor#system_prompt`) carries the full 28-template catalogue, the
   non-partisan neutrality rule, the Australian English constraint and the "moved formally" claims
   fallback. It also scopes claims to what each vote decides (a production-of-documents claim is
   about access to the documents, never the documents' subject matter; a closure claim is not about
@@ -233,7 +247,7 @@ for human review (section 11).
   only what the excerpt supports and set `sufficient_context: false` with a `missing_context_clue`
   rather than reconstructing a missing speech.
 - Extracts:
-  - `template_id` (1 to 23, conforming to router candidates)
+  - `template_id` (1 to 28, conforming to router candidates)
   - `topic` (concise 2-5 words)
   - `motion_text` (exact operative wording)
   - `mover_claims` (array of functional points, each paired with an `evidence` quote from Hansard)
@@ -242,8 +256,9 @@ for human review (section 11).
 
 ### Stage 4: Provenance Validator (`DivisionSummaryPipeline::ProvenanceValidator`)
 
-- Mechanically checks that every evidence quote in `mover_claims` exists verbatim in the Hansard
-  debate context.
+- Mechanically asserts verbatim provenance: every evidence quote in `mover_claims` and every
+  extracted template-specific fact must exist as an exact substring in the Hansard debate context
+  (scoped to the attributed speaker).
 - Enforces schema rules and template-specific constraints.
 - Re-checks Stage 2's fence, which otherwise reaches the model only as a system prompt instruction:
   a `template_id` in the decision's `locked_out_templates` is an error, and so is one outside its
@@ -253,14 +268,43 @@ for human review (section 11).
   extractor that recognises the motion is better informed than the fallback.
 - Rejects unsupported claims and flags them for human editorial review rather than publishing
   unverified interpretations.
+- **Scope of the assertion**: Substring verification mechanically proves that quoted words were
+  actually spoken in Hansard (eliminating fabricated evidence), but cannot prove that the model's
+  interpreted `claim` faithfully represents the quote in context. This boundary is why the pipeline
+  claims mechanical verbatim provenance rather than "zero hallucination", and why human review of
+  saved drafts remains essential before publication.
 
 ### Stage 5: Template Compiler (`DivisionSummaryPipeline::TemplateCompiler`)
 
 - Injects authoritative TVFY database facts (official vote tallies, rebellions, member links,
-  dates, times) and validated extractions into one of 23 human-curated Markdown templates.
+  dates, times) and validated extractions into one of 28 human-curated Markdown templates.
 - Substitutes variables deterministically without AI involvement, including small grammar fixes
   (indefinite articles, duplicated definite articles) and the database-resolved member facts
   described in sections 6 and 7.
+- Enforces parliamentary and constitutional accuracy:
+  - Resolves mover details from speaker claims or division data via `MemberResolver`, never falling back
+    to debate or division headings.
+  - Inverts success condition for Senate "stand as printed" questions (Senate S.O. 117 / Constitution s 23),
+    so a negatived vote correctly reflects the omission of the clause from the bill.
+  - Explains the Section 128 constitutional requirement for an absolute majority division on third reading
+    of Constitution Alteration bills.
+  - Explains Section 23 equal division (tied vote passing in the negative in the Senate) versus Section 40
+    Speaker casting votes in the House of Representatives.
+  - Detects a House turnout below the quorum, which is one fifth of the members sitting in the House
+    on the day, and says that under House S.O. 58 the House has not made a decision on the question.
+    There is deliberately no Senate equivalent: the Senate guides set out no rule voiding a Senate
+    division for want of a quorum, and an unverifiable citation is not one to publish.
+  - Flags, rather than resolves, a question carried on fewer votes than an absolute majority, whether
+    that requirement is unconditional (section 128, rescinding a Senate order) or turns on how the
+    motion was moved (a suspension of standing orders).
+  - Reads the form of a message question (agree, disagree, insist, does not insist, request) off the
+    motion text, because those forms mean different things and two of them are put the opposite way
+    round from what they decide.
+  - Takes a suspension's stated purpose from the motion's own words after "as would prevent", rather
+    than asserting one.
+  - Replaces party rebellions with a conscience vote note when whips are free.
+  - Holds all of its cosmetic tidying off the placeholders that carry verbatim source text, so a
+    quoted motion is never silently edited after stage 4 has verified it.
 
 ## 5. Relationship to the existing Hansard loader
 
@@ -352,7 +396,18 @@ way, since they are published verbatim in the summary sentence. A template whose
 missing altogether (say Template 13 with no committee name) is likewise an error routing the draft
 to human review: a blank is never published silently where a name should be.
 
-## 8. The 23 template catalogue
+### Provenance limits and semantic interpretation
+
+The validator mechanically asserts that quoted evidence occurs in the supplied Hansard text. It
+cannot verify that the model's high-level claim or framing is a faithful interpretation of that
+quotation. For example, a model could theoretically pair a genuine, verbatim quote about general
+economic conditions with an unsupported claim about specific tax cuts. Verbatim substring matching
+eliminates fabricated quotes (a primary failure mode of generative models), but does not guarantee
+semantic alignment. Describing this check as **mechanical verbatim provenance assertion** rather than
+"zero hallucination" accurately reflects what the mechanism actually proves, which is why drafts are
+held for human editorial review rather than published directly.
+
+## 8. The 28 template catalogue
 
 The templates reside in `app/services/division_summary_pipeline/templates/`. The file name carries
 the catalogue number and name; the text of each file is only publishable content. Catalogue
@@ -384,7 +439,19 @@ table is where the number-to-name mapping lives:
 23. `23_member_no_longer_heard.md` - Member Be No Longer Heard (House of Representatives). Its
     intro sentence carries a single `{{target_clause}}` placeholder that the compiler fills from
     database-resolved member facts, degrading to plain text when the target cannot be resolved.
-    Its motion-text blockquote quotes the extracted `{{motion_text}}`, like the other 22 templates.
+24. `24_suspension_of_member.md` - Suspension of a Member (House S.O. 94 / Senate S.O. 203). Carries
+    `{{target_clause}}` for the named member being suspended.
+25. `25_dissent_from_ruling.md` - Dissent from Ruling of the Chair (House S.O. 87; the Guides to
+    Senate Procedure describe the Senate equivalent without giving its standing order number)
+26. `26_adjournment.md` - Adjournment of the Chamber (House S.O. 29 and S.O. 31)
+27. `27_taking_note.md` - Taking Note (House S.O. 202(a); Senate motions to take note of answers
+    are debated under Senate S.O. 72(4))
+28. `28_stand_as_printed.md` - Question That a Clause or Part Stand As Printed. The Senate puts an
+    amendment to omit part of a bill in this inverted form so the part has to hold majority support
+    to survive, which means defeating the question is what omits the part. The compiler keeps the
+    reported vote direction true to the question and explains the consequence in
+    `{{stand_as_printed_effect_clause}}`, so the summary cannot read as though a defeated question
+    left the bill untouched.
 
 ## 9. Where everything lives
 
@@ -398,8 +465,9 @@ app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md
   member_resolver.rb          resolves an extracted name or electorate to TVFY member facts
   template_compiler.rb        Stage 5: injects validated data into the Markdown templates
   text_normaliser.rb          shared text cleaning and quote-matching normalisation
-  templates/                  the 23 Markdown templates ({{placeholder}} syntax)
+  templates/                  the 28 Markdown templates ({{placeholder}} syntax)
   ARCHITECTURE.md             this document
+  KNOWN_ISSUES.md             defect register, checked against the chambers' procedural guides
 app/services/division_summarizer.rb         orchestrator that runs the five stages
 app/models/ai_division_summary.rb           output model: one saved draft per division and model
 app/lib/data_loader/debates.rb              existing loader + fetch_xml_document/xml_url helpers
@@ -493,7 +561,13 @@ TVFY actually gets its data, not because they sounded good in a design document.
 
 ## 13. Open follow-up work
 
-Not blocking, but worth tracking as separate issues rather than silently forgetting:
+Not blocking, but worth tracking as separate issues rather than silently forgetting.
+
+**`KNOWN_ISSUES.md` in this directory is the defect register**, and is the more urgent list of the
+two: it records where the pipeline currently misstates what a chamber decided, each entry checked
+against the House of Representatives `Guide to Procedures` and the `Guides to Senate procedure`.
+Read it before changing routing, a template or the compiler. The rest of this section is work that
+was never built, rather than work that is wrong.
 
 - **Growing the evaluation corpus.** Two fixtures cover Templates 2 and 22 only. A fuller corpus -
   organised by procedural category (second reading, closure, amendment, first reading, censure,
@@ -635,7 +709,16 @@ pipeline, and the offline suites all run with them empty.
    this section from the regulation's Explanatory Statement on legislation.gov.au, attributed
    rather than neutral because the government writes it. Currently left empty; pass it through the
    division data the same way.
-3. **Template 22's follow-up division link (`followup_link`).** `TEMPLATES.md`'s closure template
+3. **Template 6's originating chamber (`bill_originating_house`).** Where a bill goes once it
+   passes a chamber depends on where it started, and the `bills` table records only
+   `official_id`, `url` and `title`. A bill that started in this chamber goes to the other one; a
+   bill that came from the other chamber and passes here unamended goes to the Governor-General
+   for assent, and one this chamber amended goes back with a schedule of amendments (House Guide
+   to Procedures pp. 87-88). `TemplateCompiler` therefore names the destination only when a
+   `bill_originating_house` attribute on the division data settles it outright, and otherwise
+   stops at "This means the bill has now passed the [Chamber]." Supplying that attribute is all a
+   future integration has to do. Nothing populates it yet.
+4. **Template 22's follow-up division link (`followup_link`).** `TEMPLATES.md`'s closure template
    links to the division that put the underlying question. The compiler renders
    "The [Chamber] then voted on the question itself, which you can read about [here](...)" when a
    `followup_link` attribute is supplied, and omits the sentence when it is not. Resolving the

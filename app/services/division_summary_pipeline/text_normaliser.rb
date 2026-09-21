@@ -58,6 +58,7 @@ module DivisionSummaryPipeline
     end
 
     # Normalises text specifically for robust substring provenance matching:
+    # - Decodes HTML entities (e.g. &amp;, &#160;, &quot;)
     # - Replaces curly quotes with straight quotes
     # - Replaces em/en dashes with hyphens
     # - Collapses all whitespace into a single space
@@ -65,7 +66,7 @@ module DivisionSummaryPipeline
     def self.normalise_for_matching(text)
       return "" if text.blank?
 
-      s = text.to_s.dup
+      s = ENTITY_DECODER.decode(text.to_s)
       s.tr!("“”", "\"\"")
       s.tr!("‘’", "''")
       s.gsub!(/[\u2014\u2013]/, "-")

@@ -77,6 +77,66 @@ describe DivisionSummaryPipeline::ExtractionPayload do
     end
   end
 
+  # A false answer and no answer at all are different things here, and the coercion used to
+  # collapse them: `!value.nil?` is true for `false`, so every supplied value became true.
+  # Template 2's summary says the opposite thing depending on declines_second_reading, and a
+  # false sufficient_context is the only trigger for the orchestrator's sitting-day retry.
+  describe "boolean fields" do
+    def payload_with(json)
+      described_class.from_json(json)
+    end
+
+    it "keeps a false declines_second_reading false" do
+      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": false}')
+
+      expect(payload.declines_second_reading).to be(false)
+    end
+
+    it "keeps a true declines_second_reading true" do
+      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": true}')
+
+      expect(payload.declines_second_reading).to be(true)
+    end
+
+    it "leaves declines_second_reading nil when the model did not answer" do
+      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y"}')
+
+      expect(payload.declines_second_reading).to be_nil
+    end
+
+    it "keeps a false sufficient_context false, so the orchestrator can widen the context" do
+      payload = payload_with('{"template_id": 6, "topic": "x", "motion_text": "y", "sufficient_context": false}')
+
+      expect(payload.sufficient_context).to be(false)
+    end
+
+    it "defaults sufficient_context to true when the model omitted it" do
+      payload = payload_with('{"template_id": 6, "topic": "x", "motion_text": "y"}')
+
+      expect(payload.sufficient_context).to be(true)
+    end
+
+    it "accepts the string booleans models sometimes return" do
+      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", ' \
+                             '"declines_second_reading": "false", "sufficient_context": "no"}')
+
+      expect(payload.declines_second_reading).to be(false)
+      expect(payload.sufficient_context).to be(false)
+    end
+
+    it "treats an unrecognised value as unanswered rather than as true" do
+      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": "maybe"}')
+
+      expect(payload.declines_second_reading).to be_nil
+    end
+
+    it "round-trips a false declines_second_reading through the constructor" do
+      payload = described_class.new(template_id: 2, topic: "x", motion_text: "y", declines_second_reading: false)
+
+      expect(payload.declines_second_reading).to be(false)
+    end
+  end
+
   describe ".json_schema" do
     it "returns a valid JSON Schema draft-07 specification" do
       schema = described_class.json_schema
@@ -86,6 +146,14 @@ describe DivisionSummaryPipeline::ExtractionPayload do
         :target_name, :target_electorate, :committee_name,
         :regulation_name, :business_name, :rearrangement_description
       )
+    end
+
+    # The catalogue grew to 28 but the schema still capped template_id at 23, so the document
+    # the model is handed disagreed with the catalogue in the same prompt.
+    it "allows the whole 28-template catalogue" do
+      schema = described_class.json_schema
+
+      expect(schema[:properties][:template_id][:maximum]).to eq(28)
     end
   end
 end

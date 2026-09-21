@@ -6,11 +6,11 @@ require "aws-sdk-bedrockruntime"
 # 1. Fetch wider Hansard context (ContextBuilder)
 # 2. Classify the vote against fixed procedural rules (ProceduralRouter)
 # 3. Extract structured JSON from an LLM (SemanticExtractor)
-# 4. Assert mechanical zero-hallucination provenance (ProvenanceValidator)
+# 4. Assert mechanical verbatim provenance (ProvenanceValidator)
 # 5. Compile verified data into publication-ready Markdown (TemplateCompiler)
 #
 # The design turns on one constraint: the LLM is a sensor, not an author. It fills in a fixed
-# form at stage 3 and writes none of the published prose, which comes from the 23
+# form at stage 3 and writes none of the published prose, which comes from the 28
 # human-approved templates in division_summary_pipeline/templates/ and from database facts.
 # Anything it returns that stage 4 cannot trace back to Hansard is rejected rather than
 # published. ARCHITECTURE.md in app/services/division_summary_pipeline/ explains why each

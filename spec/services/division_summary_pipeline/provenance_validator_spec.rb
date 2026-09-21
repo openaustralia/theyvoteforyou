@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require_relative "../../../app/services/division_summary_pipeline/context_builder"
 
 describe DivisionSummaryPipeline::ProvenanceValidator do
   describe ".validate" do
@@ -174,6 +175,25 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
         result = described_class.validate(extraction, context_packet)
         expect(result.is_valid).to be(false)
         expect(result.errors.first).to include("Provenance check failed")
+      end
+
+      it "matches speaker when the extracted attribution includes an honorific like Mr or Senator" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Consumer Data Right Reform",
+          motion_text: "That all words after 'That' be omitted",
+          declines_second_reading: true,
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(
+              claim: "The opposition supports stronger privacy protections",
+              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
+              speaker: "Mr McAllister"
+            )
+          ]
+        )
+
+        result = described_class.validate(extraction, context_packet)
+        expect(result.is_valid).to be(true)
       end
     end
 
@@ -402,6 +422,112 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
         result = described_class.validate(extraction_for(15), packet_with(nil))
 
         expect(result.errors).to be_empty
+      end
+    end
+
+    # House Guide pp. 68-69 gives a closed list of reasoned-amendment forms, and two of them
+    # read as declining until the negation is noticed. Template 2 publishes the opposite
+    # sentence depending on the flag, so a flag that disagrees with the motion text the model
+    # itself returned is caught mechanically rather than trusted (KNOWN_ISSUES.md, KI-11).
+    describe "declines_second_reading against the motion text" do
+      def template_2_extraction(motion_text, declines)
+        DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Example Bill 2026",
+          motion_text: motion_text,
+          declines_second_reading: declines,
+          mover_claims: []
+        )
+      end
+
+      it "rejects a true flag on a 'whilst not declining' amendment" do
+        extraction = template_2_extraction(
+          "That all words after \"That\" be omitted with a view to substituting: \"whilst not declining to " \
+          "give the bill a second reading, the House is of the opinion that ...\"", true
+        )
+
+        result = described_class.validate(extraction, nil)
+
+        expect(result.errors.join).to include("whilst not declining/opposing")
+        expect(result.is_valid).to be(false)
+      end
+
+      it "rejects a true flag on a 'whilst not opposing' amendment" do
+        extraction = template_2_extraction(
+          "That all words after \"That\" be omitted: \"whilst not opposing the provisions of the bill, the " \
+          "House is of the opinion that ...\"", true
+        )
+
+        result = described_class.validate(extraction, nil)
+
+        expect(result.is_valid).to be(false)
+      end
+
+      it "rejects a false flag on an amendment that declines the second reading" do
+        extraction = template_2_extraction(
+          "That all words after \"That\" be omitted: \"the House declines to give the bill a second reading " \
+          "as it is of the opinion that ...\"", false
+        )
+
+        result = described_class.validate(extraction, nil)
+
+        expect(result.errors.join).to include("declines to give the bill a second reading")
+        expect(result.is_valid).to be(false)
+      end
+
+      it "accepts a true flag on an amendment that does decline the second reading" do
+        extraction = template_2_extraction(
+          "That all words after \"That\" be omitted: \"the House declines to give the bill a second reading\"", true
+        )
+
+        result = described_class.validate(extraction, nil)
+
+        expect(result.errors).to be_empty
+      end
+
+      it "accepts a false flag on a 'whilst not declining' amendment" do
+        extraction = template_2_extraction(
+          "That all words after \"That\" be omitted: \"whilst not declining to give the bill a second reading, " \
+          "the House is of the opinion that ...\"", false
+        )
+
+        result = described_class.validate(extraction, nil)
+
+        expect(result.errors).to be_empty
+      end
+    end
+
+    # Stage 1 can tell when the debate beside a division may not be about it. Carrying those
+    # flags through to the draft is the point; they are invisible to a reviewer otherwise.
+    describe "context warnings from stage 1" do
+      it "records them as warnings and sends the draft to human review" do
+        packet = DivisionSummaryPipeline::ContextPacket.new(
+          hansard_context: "DEBATE: Bills\n\nSPEECH: Fictional Member:\nnothing relevant",
+          context_warnings: ["This division immediately follows another with no debate between them."]
+        )
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 22, topic: "Closure", motion_text: "That the question be now put."
+        )
+
+        result = described_class.validate(extraction, packet)
+
+        expect(result.is_valid).to be(true)
+        expect(result.warnings.join).to include("Context warning: This division immediately follows another")
+        expect(result.requires_human_review).to be(true)
+      end
+
+      it "leaves a packet with no warnings alone" do
+        packet = DivisionSummaryPipeline::ContextPacket.new(
+          hansard_context: "DEBATE: Bills\n\nSPEECH: Fictional Member:\nThat the question be now put.",
+          context_warnings: []
+        )
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 22, topic: "Closure", motion_text: "That the question be now put."
+        )
+
+        result = described_class.validate(extraction, packet)
+
+        expect(result.requires_human_review).to be(false)
       end
     end
   end

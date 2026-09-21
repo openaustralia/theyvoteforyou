@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require_relative "../../../app/services/division_summary_pipeline/context_builder"
 
 describe DivisionSummaryPipeline::SemanticExtractor do
   let(:packet) do
@@ -52,8 +53,20 @@ describe DivisionSummaryPipeline::SemanticExtractor do
       prompt = described_class.new.system_prompt
 
       expect(prompt).to include("23: Member Be No Longer Heard")
+      expect(prompt).to include("24: Suspension of a Member")
+      expect(prompt).to include("25: Dissent from Ruling of the Chair")
+      expect(prompt).to include("26: Adjournment of the Chamber")
+      expect(prompt).to include("27: Taking Note")
       expect(prompt).to include("NEUTRALITY IS NOT OPTIONAL")
       expect(prompt).to include("Australian English")
+    end
+
+    it "guards against US congressional terminology and explains stand as printed polarity" do
+      prompt = described_class.new.system_prompt
+
+      expect(prompt).to include("AUSTRALIAN PARLIAMENTARY TERMINOLOGY & VOTING POLARITY")
+      expect(prompt).to include("Strictly avoid US congressional terminology")
+      expect(prompt).to include("\"Stand as printed\" polarity")
     end
 
     it "scopes claims to what each procedural template actually decides" do
@@ -61,7 +74,7 @@ describe DivisionSummaryPipeline::SemanticExtractor do
 
       expect(prompt).to include("They are never about the subject matter the documents deal with.")
       expect(prompt).to include("not about the merits of that underlying matter.")
-      expect(prompt).to include("so make no claims about the underlying question.")
+      expect(prompt).to include("Make no claims about the underlying question")
     end
 
     it "warns about resumed debates and headings that do not describe the vote" do
