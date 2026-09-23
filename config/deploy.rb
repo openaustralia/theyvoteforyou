@@ -3,7 +3,7 @@
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
-set :rvm_ruby_version, "3.4.4"
+set :rvm_ruby_version, File.read(File.join(__dir__, "..", ".ruby-version")).strip
 
 # The deploy target is found dynamically by its EC2 tags (Application and Roles, set by
 # Terraform in the openaustralia/infrastructure repo) and reached via AWS SSM Session

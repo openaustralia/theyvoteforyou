@@ -11,6 +11,9 @@ deploy-staging:
 	bundle exec cap staging deploy
 
 dev-services-up:
-	COMPOSE_PROJECT_NAME=theyvoteforyou-dev docker compose -f docker-stack/dev/docker-compose.yml up --build -d
+	COMPOSE_PROJECT_NAME=theyvoteforyou-dev docker compose -f docker-stack/dev/docker-compose.yml up --build -d mysql elasticsearch dejavu mailpit
+# Full dev stack, including the app itself - an alternative to `bundle exec rails s` on the host.
+dev-up:
+	COMPOSE_PROJECT_NAME=theyvoteforyou-dev RUBY_VERSION=$$(cat .ruby-version) docker compose -f docker-stack/dev/docker-compose.yml up --build -d
 test-services-up:
 	COMPOSE_PROJECT_NAME=theyvoteforyou-test docker compose -f docker-stack/test/docker-compose.yml up --build -d
