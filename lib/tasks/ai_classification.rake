@@ -38,6 +38,8 @@ namespace :ai do
       if suggestion
         puts "== #{label} (already classified, skipping) =="
       else
+        puts "Calling #{label} (#{model_id})..."
+        $stdout.flush
         result = classifier.classify_with(model_id)
         suggestion = AiPolicySuggestion.save_from_result!(division, result)
         puts "== #{label} =="
@@ -72,6 +74,8 @@ namespace :ai do
       if summary && summary.error.blank?
         puts "== #{label} (already summarised, skipping) =="
       else
+        puts "Calling #{label} (#{model_id})..."
+        $stdout.flush
         result = summarizer.summarize_with(model_id)
         summary = AiDivisionSummary.save_from_result!(division, result)
         puts "== #{label} =="
