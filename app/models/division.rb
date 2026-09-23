@@ -30,6 +30,20 @@ class Division < ApplicationRecord
     Division.order(:date).first.date
   end
 
+  # The neighbouring divisions in the same house, in the order they were held (date, then the
+  # division number within that day), for paging through divisions one at a time.
+  def previous_division
+    same_house = Division.in_house(house)
+    same_house.where("date < :date OR (date = :date AND number < :number)", date: date, number: number)
+              .order(date: :desc, number: :desc).first
+  end
+
+  def next_division
+    same_house = Division.in_house(house)
+    same_house.where("date > :date OR (date = :date AND number > :number)", date: date, number: number)
+              .order(:date, :number).first
+  end
+
   def url_params
     {
       date: date,
