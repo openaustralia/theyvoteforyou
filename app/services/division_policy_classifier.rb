@@ -14,8 +14,8 @@ class DivisionPolicyClassifier
   # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in that region: Sydney doesn't host it directly,
   #   so it runs via the Australia-pinned cross-region inference profile
   #   au.anthropic.claude-haiku-4-5-20251001-v1:0 instead of a plain model id.
-  # - DeepSeek-R1 and Llama 4 Maverick aren't offered in ap-southeast-2 at all, so those two run
-  #   from us-west-2 instead (see MODEL_REGIONS).
+  # - DeepSeek-R1 isn't offered in ap-southeast-2 at all, so it runs from us-west-2 instead (see
+  #   MODEL_REGIONS).
   MODELS = {
     "kimi-k2.5" => "moonshotai.kimi-k2.5",
     "deepseek-v3.2" => "deepseek.v3.2",
@@ -24,8 +24,7 @@ class DivisionPolicyClassifier
     "glm-5" => "zai.glm-5",
     "mistral-large-3" => "mistral.mistral-large-3-675b-instruct",
     "gemma-3-27b" => "google.gemma-3-27b-it",
-    "deepseek-r1" => "deepseek.r1-v1:0",
-    "llama4-maverick" => "meta.llama4-maverick-17b-instruct-v1:0"
+    "deepseek-r1" => "deepseek.r1-v1:0"
   }.freeze
 
   # Human-readable names for display, keyed by model id (what AiPolicySuggestion#model stores)
@@ -38,16 +37,14 @@ class DivisionPolicyClassifier
     "zai.glm-5" => "GLM 5",
     "mistral.mistral-large-3-675b-instruct" => "Mistral Large 3",
     "google.gemma-3-27b-it" => "Gemma 3 27B",
-    "deepseek.r1-v1:0" => "DeepSeek-R1",
-    "meta.llama4-maverick-17b-instruct-v1:0" => "Llama 4 Maverick"
+    "deepseek.r1-v1:0" => "DeepSeek-R1"
   }.freeze
 
   REGION = "ap-southeast-2"
 
   # Model ids not offered in REGION, mapped to the region that does host them.
   MODEL_REGIONS = {
-    "deepseek.r1-v1:0" => "us-west-2",
-    "meta.llama4-maverick-17b-instruct-v1:0" => "us-west-2"
+    "deepseek.r1-v1:0" => "us-west-2"
   }.freeze
 
   EXAMPLES_PER_POLICY = 2
