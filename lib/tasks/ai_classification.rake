@@ -39,7 +39,7 @@ namespace :ai do
         puts "== #{label} (already classified, skipping) =="
       else
         result = classifier.classify_with(model_id)
-        suggestion = AiPolicySuggestion.create_from_result!(division, result)
+        suggestion = AiPolicySuggestion.save_from_result!(division, result)
         puts "== #{label} =="
       end
 

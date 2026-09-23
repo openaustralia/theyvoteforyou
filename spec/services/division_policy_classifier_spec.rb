@@ -23,6 +23,13 @@ describe DivisionPolicyClassifier do
     stubbed_client.stub_responses(:converse, converse_response(text))
   end
 
+  # MODELS says which models to call, MODEL_LABELS says how to name them on the division page, and
+  # they're maintained by hand. A model in one and not the other either never gets displayed or
+  # never gets called, with nothing else failing to say so.
+  it "labels every model it classifies with" do
+    expect(described_class::MODEL_LABELS.keys).to match_array(described_class::MODELS.values)
+  end
+
   describe "#classify_with" do
     it "matches an existing policy" do
       policy = create(:policy)

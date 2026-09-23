@@ -3,7 +3,7 @@
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
-set :rvm_ruby_version, "3.4.4"
+set :rvm_ruby_version, File.read(File.join(__dir__, "..", ".ruby-version")).strip
 
 # The deploy target is found dynamically by its EC2 tags (Application and Roles, set by
 # Terraform in the openaustralia/infrastructure repo) and reached via AWS SSM Session
@@ -67,7 +67,11 @@ namespace :foreman do
   task :export do
     on roles(:app) do
       within current_path do
-        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path}"
+        # Procfile.production deliberately doesn't hardcode RAILS_ENV; foreman
+        # bakes it into the exported units from this per-stage env file, so
+        # staging's worker runs as staging rather than production
+        execute :echo, "RAILS_ENV=#{fetch(:rails_env)}", ">", "#{shared_path}/foreman.env"
+        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
       end
     end
   end

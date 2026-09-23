@@ -9,10 +9,11 @@ describe CardScreenshotter::Utils do
 
   before do
     allow(Selenium::WebDriver).to receive(:for).and_return(driver)
-    allow(driver).to receive(:execute_script).and_return(
+    allow(driver).to receive(:execute_script).with(/window.innerWidth/).and_return(
       [described_class::CARD_WIDTH, described_class::CARD_HEIGHT, described_class::CARD_WIDTH,
        described_class::CARD_HEIGHT]
     )
+    allow(driver).to receive(:execute_script).with(described_class::ALL_IMAGES_LOADED_SCRIPT).and_return(true)
     allow(driver).to receive(:quit)
   end
 
@@ -25,6 +26,29 @@ describe CardScreenshotter::Utils do
       ) do |error|
         expect(error.cause).to be_a(Net::ReadTimeout)
       end
+    end
+
+    it "fails rather than screenshotting a page whose images have not loaded" do
+      stub_const("CardScreenshotter::Utils::IMAGE_LOAD_TIMEOUT", 0.05)
+      allow(driver).to receive(:get)
+      allow(driver).to receive(:execute_script).with(described_class::ALL_IMAGES_LOADED_SCRIPT).and_return(false)
+      allow(driver).to receive(:screenshot_as)
+
+      expect { screenshotter.screenshot("https://example.com/foo?card=true") }.to raise_error(
+        CardScreenshotter::ScreenshotError, %r{images did not all load.*https://example\.com/foo\?card=true}
+      ) do |error|
+        expect(error.cause).to be_a(Selenium::WebDriver::Error::TimeoutError)
+      end
+      expect(driver).not_to have_received(:screenshot_as)
+    end
+
+    it "waits for images that arrive after the page load event" do
+      allow(driver).to receive(:get)
+      allow(driver).to receive(:execute_script).with(described_class::ALL_IMAGES_LOADED_SCRIPT)
+                                               .and_return(false, false, true)
+      allow(driver).to receive(:screenshot_as).with(:png).and_return("png data")
+
+      expect(screenshotter.screenshot("https://example.com")).to eq "png data"
     end
   end
 

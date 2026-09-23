@@ -43,8 +43,11 @@ class Policy < ApplicationRecord
     most_recent_version ? most_recent_version.created_at : updated_at
   end
 
+  # Returns nil if the user who made this edit has since been deleted. Only a policy's owner is
+  # protected from deletion (User#policies is dependent: :restrict_with_exception); a user who
+  # merely edited someone else's policy isn't, so their account can still be removed later.
   def last_edited_by
-    User.find(most_recent_version.whodunnit)
+    User.find_by(id: most_recent_version.whodunnit)
   end
 
   def members_who_could_have_voted_on_this_policy

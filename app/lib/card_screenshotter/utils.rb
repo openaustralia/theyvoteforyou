@@ -8,6 +8,10 @@ module CardScreenshotter
     # Transient errors (e.g. Net::ReadTimeout) get this many attempts, with a
     # browser restart in between, before the url is reported and skipped
     MAX_SCREENSHOT_ATTEMPTS = 3
+    # A card with portraits missing is wrong, not just slow, so give the images
+    # this long to arrive and treat anything else as a failed screenshot
+    IMAGE_LOAD_TIMEOUT = 10
+    ALL_IMAGES_LOADED_SCRIPT = "return Array.from(document.images).every(i => i.complete && i.naturalWidth > 0)"
 
     attr_reader :driver
 
@@ -69,11 +73,21 @@ module CardScreenshotter
 
     def screenshot(url)
       driver.get(url)
+      wait_for_images!
       driver.screenshot_as(:png)
     rescue StandardError => e
       # Include the failing url in the message. The original error is
       # preserved as the cause of the new exception
       raise ScreenshotError, "Error #{e} while screenshotting url: #{url}"
+    end
+
+    # The page's load event doesn't guarantee every image was fetched
+    # successfully (see #1749, where each portrait was a 403). Raises
+    # Selenium::WebDriver::Error::TimeoutError if any image is still broken.
+    def wait_for_images!
+      Selenium::WebDriver::Wait.new(timeout: IMAGE_LOAD_TIMEOUT, message: "images did not all load").until do
+        driver.execute_script(ALL_IMAGES_LOADED_SCRIPT)
+      end
     end
 
     def save_image(image, path)

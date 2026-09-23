@@ -36,7 +36,7 @@ The final step is to customise the site language and interface. The best way to 
 
 #### Ukraine
 
-People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](http://everypolitician.org/ukraine/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
+People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](https://everypolitician.org/territories/ua/national/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
 
     bundle exec rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
 
@@ -46,90 +46,23 @@ Once the people data has been loaded you can start loading votes. These are scra
 
 ## Development
 
-If your machine is already set up to develop Rails applications with MySQL just
-carry out the following steps and you should be good to go.
+[AGENTS.md](AGENTS.md#development-environment) carries the working knowledge of the codebase for AI coding agents
+(and is a useful orientation for humans too). Cross-cutting engineering decisions are recorded as Architecture
+Decision Records in [docs/adr/](docs/adr); add a new numbered file when you make one. [CONTEXT.md](CONTEXT.md) holds
+the canonical vocabulary for concepts with more than one plausible name.
 
-[AGENTS.md](AGENTS.md) carries the working knowledge of the codebase for AI coding
-agents (and is a useful orientation for humans too). Cross-cutting engineering
-decisions are recorded as Architecture Decision Records in [docs/adr/](docs/adr);
-add a new numbered file when you make one. [CONTEXT.md](CONTEXT.md) holds the
-canonical vocabulary for concepts with more than one plausible name.
-
-Developing with [Vagrant](https://www.vagrantup.com/) is also possible (see below) but was
-mainly useful with the retired PHP application. A new Vagrant setup can be found in the
-[OpenAustralia/Infrastructure](https://github.com/openaustralia/infrastructure#provisioning-local-development-servers-using-vagrant)
-repository, however this is primarily intended as a "production-like" test environment
-rather than providing a development environment.
-
-Before beginning, install MySQL, HTMLTidy and Ruby:
+In short:
 
 ```
-# OS X ...
-brew install tidy-html5 mysql rbenv ruby-build
-rbenv install $(cat .ruby-version)
-
-# ... or Linux (Debian)
-sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev
-# then follow: https://github.com/sstephenson/rbenv#basic-github-checkout to get rbenv and ruby-build
-```
-
-Steps required to configure, install and start the Rails application:
-
-```
-# Install bundle
+make dev-services-up   # mysql, elasticsearch, dejavu, mailpit - always in Docker
 bundle install
-
-# Install mailcatcher
-gem install mailcatcher
-
-# Copy the default config files over.
-cp config/database.yml.example config/database.yml
-
-# (Edit config/database.yml and fill in your username, password and database settings.)
-bundle exec rake application:config:dev
-
-# Set up your database (including seed data)
-bundle exec rake db:setup
-
-# Run tests
-bundle exec rake
-
-# Start the server
-bundle exec rails server
+bin/rails db:setup
 ```
 
-### With Vagrant
+Then run the app either natively (`bundle exec rails s`) or in Docker (`make dev-up`); either way it's at
+<http://localhost:3000>.
 
-Once you have [vagrant][1] and [virtualbox][2] installed and have cloned this
-repository run `vagrant up`. This will download the base virtualbox image
-and set up the development environment, be prepared for a bit of a wait.
-
-Run the tests from inside the VM like this:
-
-* `vagrant ssh`
-* `cd /vagrant`
-* `bundle exec rake`
-
-Assuming they pass, you can start the rails server:
-
-* `bundle exec rails server`
-
-Once it is up you can browse to http://localhost:3000
-
-When manually testing the site, the "sign up" confirmation emails will
-automatically go to a dummy smtp server called [mailcatcher][3]. To check the
-emails, browse to http://localhost:1080
-
-If vagrant reports that it can't mount the `/vagrant` virtualbox shared folder,
-it's because the VM has had its kernel updated. Run
-`vagrant provision && vagrant reload` and you should be back in business.
-
-The original PHP app is also available at http://localhost:8080 but only if
-you're running an older branch (out of scope for this guide).
-
-[1]: http://www.vagrantup.com/
-[2]: https://www.virtualbox.org/
-[3]: http://mailcatcher.me/
+Mail sent in development is caught by mailpit at <http://localhost:1088>.
 
 ## Loading data
 
@@ -149,9 +82,13 @@ need updating but can be run as often as you like as it only updates data.
 optional and if omitted, allows you to load a single date.
 * `application:cache` this namespace contains cache updating tasks that are
 necessary for the site to run. They should be self-explanatory.
+* `application:portraits:mirror` downloads MP portraits into `public/system/portraits/`
+so the site serves them itself. Run it once after first setting up, then the nightly
+cron keeps it current.
 
 Daily updates are carried out by the `application:load:daily` Rake task,
-which is run daily at 09:15 by cron.
+which is run daily at 09:15 by cron. Portraits and social media cards are refreshed
+by `application:cron:nightly`, run at 02:05.
 
 ### Popolo
 

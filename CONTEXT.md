@@ -5,6 +5,18 @@ policies. This glossary records the canonical terms for concepts that have more 
 
 ## Language
 
+### People and how they appear
+
+**Portrait**:
+The photograph of an MP or senator shown beside their name, on pages and on cards. Sourced from
+openaustralia.org.au but served by this site.
+_Avoid_: Face, photo, member image, headshot
+
+**Card**:
+The 1200x628 image generated nightly for a policy, person, or comparison, and pointed at by the page's OpenGraph
+tags so social media previews show it. A card contains portraits; it is not itself a portrait.
+_Avoid_: OG image, social image, share image, screenshot
+
 ### Server migration
 
 **Cutover**:
