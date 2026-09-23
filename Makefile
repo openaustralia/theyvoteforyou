@@ -17,3 +17,7 @@ dev-up:
 	COMPOSE_PROJECT_NAME=theyvoteforyou-dev RUBY_VERSION=$$(cat .ruby-version) docker compose -f docker-stack/dev/docker-compose.yml up --build -d
 test-services-up:
 	COMPOSE_PROJECT_NAME=theyvoteforyou-test docker compose -f docker-stack/test/docker-compose.yml up --build -d
+
+dev-load-data:
+	bundle exec rake application:load:members
+	bundle exec rake "application:load:divisions[$$(date -d '100 days ago' +%F),$$(date +%F)]"

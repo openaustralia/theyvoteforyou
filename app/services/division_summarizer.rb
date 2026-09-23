@@ -66,7 +66,7 @@ class DivisionSummarizer
 
     # Stage 3: Semantic Extractor, the only point in the pipeline that calls an LLM. It is
     # given the router's shortlist and answers in JSON; it is never asked for prose.
-    extractor = @extractor || DivisionSummaryPipeline::SemanticExtractor.new(model_id, client: client_for(model_id))
+    extractor = @extractor || DivisionSummaryPipeline::SemanticExtractor.new(model_id, client: client)
     raw_response = extractor.extract_raw(packet)
 
     # Unparseable output is not retried: a model that ignored the schema once is more useful
@@ -158,12 +158,8 @@ class DivisionSummarizer
 
   # Lazy so nothing contacts AWS at boot: a machine with no Bedrock credentials still starts
   # the app and still runs the whole offline suite.
-  def client_for(model_id)
-    return @client if @client
-
-    @clients ||= {}
-    region = DivisionPolicyClassifier::MODEL_REGIONS.fetch(model_id, REGION)
-    @clients[region] ||= Aws::BedrockRuntime::Client.new(region: region)
+  def client
+    @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
   end
 
   # The Hansard context packet for this division, built once and reused across model calls
