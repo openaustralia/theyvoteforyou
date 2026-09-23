@@ -14,8 +14,6 @@ class DivisionPolicyClassifier
   # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in that region: Sydney doesn't host it directly,
   #   so it runs via the Australia-pinned cross-region inference profile
   #   au.anthropic.claude-haiku-4-5-20251001-v1:0 instead of a plain model id.
-  # - DeepSeek-R1 isn't offered in ap-southeast-2 at all, so it runs from us-west-2 instead (see
-  #   MODEL_REGIONS).
   MODELS = {
     "kimi-k2.5" => "moonshotai.kimi-k2.5",
     "deepseek-v3.2" => "deepseek.v3.2",
@@ -23,8 +21,7 @@ class DivisionPolicyClassifier
     "qwen3-235b" => "qwen.qwen3-235b-a22b-2507-v1:0",
     "glm-5" => "zai.glm-5",
     "mistral-large-3" => "mistral.mistral-large-3-675b-instruct",
-    "gemma-3-27b" => "google.gemma-3-27b-it",
-    "deepseek-r1" => "deepseek.r1-v1:0"
+    "gemma-3-27b" => "google.gemma-3-27b-it"
   }.freeze
 
   # Human-readable names for display, keyed by model id (what AiPolicySuggestion#model stores)
@@ -36,16 +33,10 @@ class DivisionPolicyClassifier
     "qwen.qwen3-235b-a22b-2507-v1:0" => "Qwen3 235B",
     "zai.glm-5" => "GLM 5",
     "mistral.mistral-large-3-675b-instruct" => "Mistral Large 3",
-    "google.gemma-3-27b-it" => "Gemma 3 27B",
-    "deepseek.r1-v1:0" => "DeepSeek-R1"
+    "google.gemma-3-27b-it" => "Gemma 3 27B"
   }.freeze
 
   REGION = "ap-southeast-2"
-
-  # Model ids not offered in REGION, mapped to the region that does host them.
-  MODEL_REGIONS = {
-    "deepseek.r1-v1:0" => "us-west-2"
-  }.freeze
 
   EXAMPLES_PER_POLICY = 2
   MAX_EXAMPLES = 40
@@ -73,7 +64,7 @@ class DivisionPolicyClassifier
   end
 
   def classify_with(model_id)
-    response = client_for(model_id).converse(
+    response = client.converse(
       model_id: model_id,
       system: [{ text: system_prompt }],
       messages: [{ role: "user", content: [{ text: division_prompt }] }],
@@ -88,12 +79,8 @@ class DivisionPolicyClassifier
 
   attr_reader :division
 
-  def client_for(model_id)
-    return @client if @client
-
-    @clients ||= {}
-    region = MODEL_REGIONS.fetch(model_id, REGION)
-    @clients[region] ||= Aws::BedrockRuntime::Client.new(region: region)
+  def client
+    @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
   end
 
   def system_prompt
