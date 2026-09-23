@@ -90,3 +90,15 @@
     margin-bottom: 15px;
   }
 }
+
+.division-staff-status {
+  margin: $line-height-computed / 2 0 0;
+
+  > li {
+    padding-left: 0;
+  }
+
+  .label {
+    font-weight: normal;
+  }
+}
