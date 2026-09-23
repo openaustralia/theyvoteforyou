@@ -174,7 +174,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.7)
-    csv (3.3.5)
+    csv (3.3.6)
     dalli (3.2.8)
     date (3.5.1)
     debug_inspector (1.2.0)
@@ -293,7 +293,7 @@ GEM
     http-cookie (1.0.8)
       domain_name (~> 0.5)
     http_parser.rb (0.8.0)
-    httparty (0.24.0)
+    httparty (0.24.2)
       csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
