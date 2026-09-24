@@ -15,7 +15,7 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 ### Thanks for making this
 
-<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit library. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
+<%= inline_project_name %> is a library built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
 [Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. OpenAustralia Foundation owes Julian and Francis a massive debt of gratitude for everything they've done.
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation in 2013 made the initial development of this project possible.
