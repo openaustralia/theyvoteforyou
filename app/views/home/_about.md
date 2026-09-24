@@ -5,7 +5,7 @@ In Australia, every 3 years or so, we all head to polling places across the coun
 Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
 
 ### How your MP votes on issues you care about
-We’ve peeled back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). There is a whole [list of policies](/policies).
+This library peels back the layers of stuffy jargon, arcane procedures and language so you can find out whether a member voted on [expanding powers to intercept communications](/policies/44) or for [Aboriginal land rights](/policies/24). A whole [list of policies](/policies) is indexed.
 <% if policy(PolicyDivision).new? %>
   If you see one missing, you can [add your own](<%= new_policy_path() %>).
 <% end %>
@@ -15,8 +15,8 @@ It’s easy to [get started by searching](/search) or head to the full list of [
 
 ### Thanks for making this
 
-<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
-[Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. We owe Julian and Francis a massive debt of gratitude for everything they've done.
+<%= inline_project_name %> was built by the [OpenAustralia Foundation](https://www.oaf.org.au), an independent, non-partisan not-for-profit library. It is based on the ground-breaking [UK Public Whip site](http://www.publicwhip.org.uk/) originally created by
+[Francis Irving](http://www.flourish.org/) and [Julian Todd](http://www.goatchurch.org.uk/) in 2003. OpenAustralia Foundation owes Julian and Francis a massive debt of gratitude for everything they've done.
 
 A huge thank you to [Google Australia](http://www.google.com.au) whose donation in 2013 made the initial development of this project possible.
 
@@ -24,15 +24,15 @@ A huge thank you to [Google Australia](http://www.google.com.au) whose donation 
 
 ### <a name='contribute'></a>You can help
 
-Make this project better for everyone by
+Make this library better for everyone by
 <% if policy(PolicyDivision).new? %>
   [summarising divisions](/help/research) and [maintaining and discussing policies](/policies).
 <% else %>
-  letting us know about anything that's missing or you think is incorrect.
+  letting OpenAustralia Foundation know about anything that's missing or you think is incorrect.
 <% end %>
-You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support us in creating and maintaining projects like this.
+You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustralia&nbsp;Foundation to support the creation and maintenance of projects like this.
 
-<%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in their own big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/theyvoteforyou), where you can find out how to contribute yourself.
+<%= inline_project_name %> is an Open Source project. That means that a whole community of people add to and help maintain and improve this website in big and small ways. The project is hosted on [GitHub](https://github.com/openaustralia/theyvoteforyou), where you can find out how to contribute yourself.
 
 <%= inline_project_name %> keeps getting better due to the efforts of
 
@@ -40,7 +40,7 @@ You can also [make a donation](https://www.oaf.org.au/donate/) to the OpenAustra
 
 ### <a name='contact'></a>Contact
 
-Email us at [<%= Rails.configuration.contact_email %>](mailto:<%= Rails.configuration.contact_email %>).
+Email the library at [<%= Rails.configuration.contact_email %>](mailto:<%= Rails.configuration.contact_email %>).
 
 You can also read the [OpenAustralia Foundation Blog](https://www.oaf.org.au/blog/), follow us on [Bluesky](https://bsky.app/profile/oaf.org.au) or [Mastodon](https://social.oaf.org.au/@oaf) and [contribute to our work on Github](https://github.com/openaustralia).
 
