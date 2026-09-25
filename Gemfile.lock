@@ -442,7 +442,7 @@ GEM
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    psych (5.2.6)
+    psych (5.5.0)
       date
       stringio
     public_suffix (7.0.5)
@@ -767,7 +767,7 @@ DEPENDENCIES
   numbers_and_words
   oj
   paper_trail
-  psych (~> 5.2.6)
+  psych (~> 5.5.0)
   pundit
   rack (~> 3)
   rack-cors

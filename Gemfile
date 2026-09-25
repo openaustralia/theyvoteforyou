@@ -181,7 +181,7 @@ group :doc do
   gem "sdoc", require: false
 end
 # Fix Unresolved or ambiguous specs
-gem "psych", "~> 5.2.6"
+gem "psych", "~> 5.5.0"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
