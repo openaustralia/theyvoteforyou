@@ -73,8 +73,10 @@ namespace :foreman do
         execute :echo, "RAILS_ENV=#{fetch(:rails_env)}", ">", "#{shared_path}/foreman.env"
         # sudo doesn't inherit the deploy user's RVM-selected ruby, so this bypasses
         # capistrano-rvm's bin-mapping (which only rewrites calls starting with :bundle,
-        # not :sudo) and would otherwise run against root's own default ruby
-        execute :sudo, "/usr/local/rvm/bin/rvm", fetch(:rvm_ruby_version), "do", :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
+        # not :sudo) and would otherwise run against root's own default ruby. "." (not the
+        # actual version) matches the sudoers NOPASSWD rule the infrastructure repo grants,
+        # and rvm resolves it from current_path's own .ruby-version anyway.
+        execute :sudo, "/usr/local/rvm/bin/rvm", ".", "do", :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
       end
     end
   end
