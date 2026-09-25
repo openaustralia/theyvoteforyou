@@ -1,0 +1,16 @@
+- ai = DivisionAiSummaries.new(division)
+- if ai.any?
+  .panel.panel-default.ai-summary-drafts-editor
+    .panel-heading
+      %h3.panel-title AI summary drafts
+    .list-group
+      - ai.each do |row|
+        - next unless row.drafted?
+        .list-group-item{class: ("list-group-item-danger" if row.error?)}
+          %h4.list-group-item-heading= row.label
+          - if row.error?
+            %p.list-group-item-text.text-danger= row.error
+          - else
+            %p.list-group-item-text= row.title
+            %button.btn.btn-primary.btn-xs.ai-summary-use-draft{type: "button", data: {title: row.title, description: row.description}}
+              Use this draft
