@@ -598,7 +598,7 @@ GEM
       sexp_processor (~> 4.16)
     rubyntlm (0.6.5)
       base64
-    rubyzip (3.3.0)
+    rubyzip (3.4.0)
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
