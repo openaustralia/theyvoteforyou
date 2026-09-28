@@ -75,6 +75,34 @@ describe DataLoader::DivisionXml do
     end
   end
 
+  describe "#debate_title" do
+    it "is the raw minor heading, so the same debate can be found on other days" do
+      division = divisions("#{heading}<division divnumber=\"1\" id=\"d1\"/>").first
+
+      expect(division.debate_title).to eq("Fair Pricing Bill 2026; Second Reading")
+    end
+  end
+
+  describe "#earlier_same_debate_speeches" do
+    it "finds speeches before an earlier division and under an earlier appearance of the heading" do
+      division = divisions(<<~XML).last
+        #{heading}
+        <speech id="s1" speakername="Robin Carrow"><p>I move the amendment circulated in my name.</p></speech>
+        <minor-heading id="h3">Questions without Notice</minor-heading>
+        <speech id="s2" speakername="Sam Okafor"><p>An unrelated question.</p></speech>
+        <minor-heading id="h4">Fair Pricing Bill 2026; Second Reading</minor-heading>
+        <speech id="s3" speakername="Jess Harlow"><p>Debate resumed.</p></speech>
+        <division divnumber="1" id="d1"/>
+        <speech id="s4" speakername="Casey Whitlow"><p>The question now is that the bill be read a second time.</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      speakers = division.earlier_same_debate_speeches.map { |speech| speech.attr(:speakername) }
+
+      expect(speakers).to eq(["Robin Carrow", "Jess Harlow"])
+    end
+  end
+
   describe "#operative_question" do
     it "keeps the paragraph breaks of the chair's statement when there is no pwmotiontext" do
       division = divisions(<<~XML).first
