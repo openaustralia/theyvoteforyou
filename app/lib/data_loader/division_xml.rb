@@ -93,11 +93,18 @@ module DataLoader
     # paragraph precedes the division (see #motion for why that happens). Used by
     # DivisionSummaryPipeline::ContextBuilder to anchor procedural routing on the actual
     # question Hansard records, rather than a second, independent read of this XML.
+    #
+    # Current ParlParse XML carries no pwmotiontext attributes at all (motion text is
+    # <p class="italic">), so for recent divisions this is the last speech before the
+    # division: usually the chair's "The question is ...", which is often only a reference
+    # such as "the motion moved by the member for Fadden". ContextBuilder therefore also reads
+    # the motion as moved (DataLoader::SpeechText#moved_text) rather than relying on this alone.
     def operative_question
       nearest_motion_text = pwmotiontexts.last
       return nearest_motion_text.text.strip if nearest_motion_text.present?
 
-      previous_speeches.last&.text&.strip
+      last_speech = previous_speeches.last
+      SpeechText.paragraph_text(last_speech) if last_speech
     end
 
     # Speeches leading up to this division, for building wider prompt context than the
@@ -105,14 +112,23 @@ module DataLoader
     # list #motion falls back to - previous siblings up to the last heading or another
     # division. :immediate is the tail of that list; :sitting_day widens the search to
     # every speech anywhere earlier in the day's XML, via Nokogiri's "preceding" axis
-    # rather than a hand-rolled document walk.
+    # rather than a hand-rolled document walk. Each is a DataLoader::SpeechText#context_speech
+    # hash.
+    #
+    # A long debate runs past the :subdebate limit, and the motion it decides was moved at the
+    # start of it, so the tail alone can hold nothing but argument and a closure motion. The
+    # latest speech that moved something before the tail is therefore kept in front of it.
     def context_speeches(level = :subdebate)
       speeches = level == :sitting_day ? division_xml.xpath("preceding::speech").to_a : previous_speeches
       limit = CONTEXT_SPEECH_LIMITS.fetch(level, CONTEXT_SPEECH_LIMITS[:subdebate])
+      selected = speeches.last(limit)
 
-      speeches.last(limit).map do |speech|
-        { speaker: speech_speaker(speech), time: speech.attr(:time), text: speech.text.strip }
+      if level == :subdebate
+        earlier_move = speeches[0...-limit].reverse.find { |speech| SpeechText.moved_text(speech) }
+        selected = [earlier_move, *selected] if earlier_move
       end
+
+      selected.map { |speech| SpeechText.context_speech(speech) }
     end
 
     # True when another <division> sits between this one and the last heading, so no debate
@@ -220,8 +236,7 @@ module DataLoader
     end
 
     def speech_speaker(speech)
-      member = Member.find_by(gid: speech.attr(:speakerid))
-      member ? member.name : speech.attr(:speakername)
+      SpeechText.speaker_name(speech)
     end
 
     def title_case(title)
