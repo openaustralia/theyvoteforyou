@@ -8,6 +8,19 @@ module DataLoader
     # tier when building an LLM prompt (see #context_speeches). Not used by the loader itself.
     CONTEXT_SPEECH_LIMITS = { immediate: 5, subdebate: 25, sitting_day: 200 }.freeze
 
+    # The chair putting a question, or saying one was deferred, as against a member debating it
+    # (see #preceded_by_division?). Current Hansard names the member in the chair like any other
+    # speaker, so the words are all there is to go on; the length cap keeps a member's speech
+    # that happens to say "the question is" from passing as one.
+    CHAIR_STATEMENT = /\bquestion\s+(?:is|now\s+is|we're\s+dealing\s+with)\b|\bdeferred\b/i
+    CHAIR_STATEMENT_MAXIMUM_SIZE = 1200
+
+    # Also used by DivisionSummaryPipeline::EarlierDebate, so the two agree on what the chair says.
+    def self.chair_statement_text?(text)
+      text = text.to_s.strip
+      text.size <= CHAIR_STATEMENT_MAXIMUM_SIZE && text.match?(CHAIR_STATEMENT)
+    end
+
     attr_accessor :division_xml, :house
 
     def initialize(division_xml, house)
@@ -131,20 +144,28 @@ module DataLoader
       selected.map { |speech| SpeechText.context_speech(speech) }
     end
 
-    # True when another <division> sits between this one and the last heading, so no debate
-    # intervened. Where divisions follow one another with no intervening debate the bells are
-    # rung for one minute and the questions are put in a run (House S.O. 131, Guide p. 57; the
-    # Senate equivalent in Senate Guide No. 3), which means only the first of the run has the
-    # debate about it in front of it. DivisionSummaryPipeline::ContextBuilder uses this to warn
-    # that the speeches next to this division may belong to an earlier question.
+    # True when this division follows another with no debate between them. Where divisions
+    # follow one another with no intervening debate the bells are rung for one minute and the
+    # questions are put in a run (House S.O. 131, Guide p. 57; the Senate equivalent in Senate
+    # Guide No. 3), which means only the first of the run has the debate about it in front of
+    # it. DivisionSummaryPipeline::ContextBuilder uses this to warn that the debate about this
+    # question may sit before the earlier division.
+    #
+    # The chair's own words between two divisions ("The question now is that the amendment
+    # moved by ... be agreed to") are how a run is put, so they do not break it. Any other
+    # speech (a member moving the next amendment, say) means the debate about this question is
+    # right there. Checking for any earlier division under the same heading, as this once did,
+    # raised the warning for every amendment after the first in a Senate second reading debate.
     def preceded_by_division?
-      previous_element = division_xml.previous_element
-      while previous_element&.name&.exclude?("heading")
-        return true if previous_element.name == "division"
+      run_elements.any? { |element| element.name == "division" }
+    end
 
-        previous_element = previous_element.previous_element
-      end
-      false
+    # What the chair said while putting the run of divisions this one ends, earliest first,
+    # including the statement just before this division. Only the first question of a deferred
+    # run says it was deferred ("In accordance with standing order 133, I shall now proceed to
+    # put the question on ..."), so the later ones inherit that from here.
+    def run_statements
+      run_elements.select { |element| element.name == "speech" }.reverse.map { |speech| SpeechText.paragraph_text(speech) }
     end
 
     private
@@ -179,6 +200,24 @@ module DataLoader
         previous_element = previous_element.previous_element
       end
       pwmotiontexts.reverse
+    end
+
+    # The divisions and chair's statements running back from this division to the nearest
+    # debate speech or heading, nearest first.
+    def run_elements
+      elements = []
+      element = division_xml.previous_element
+      while element&.name&.exclude?("heading")
+        break if element.name == "speech" && !chair_statement?(element)
+
+        elements << element
+        element = element.previous_element
+      end
+      elements
+    end
+
+    def chair_statement?(speech)
+      self.class.chair_statement_text?(speech.text)
     end
 
     def previous_speeches

@@ -12,6 +12,69 @@ describe DataLoader::DivisionXml do
 
   let(:heading) { "<major-heading id=\"h1\">BILLS</major-heading><minor-heading id=\"h2\">Fair Pricing Bill 2026; Second Reading</minor-heading>" }
 
+  describe "#preceded_by_division?" do
+    it "is true when the division follows another with nothing between them" do
+      second = divisions("#{heading}<division divnumber=\"1\" id=\"d1\"/><division divnumber=\"2\" id=\"d2\"/>").last
+
+      expect(second.preceded_by_division?).to be(true)
+    end
+
+    # Each amendment in a Senate second reading debate is moved and put in turn under one
+    # heading. The move sits right in front of its own division, so this is not a run of
+    # questions without debate, which is what the flag once wrongly reported.
+    it "is false when a speech sits between this division and the earlier one" do
+      second = divisions(<<~XML).last
+        #{heading}
+        <division divnumber="1" id="d1"/>
+        <speech id="s1" speakername="Morgan Treloar"><p>I move the second reading amendment on sheet 9001:</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(second.preceded_by_division?).to be(false)
+    end
+
+    # The chair puts each question of a run in words of its own, and current Hansard records
+    # them as a speech by the named member in the chair, so they do not break the run.
+    it "is true when only the chair putting the next question sits between the divisions" do
+      second = divisions(<<~XML).last
+        #{heading}
+        <division divnumber="1" id="d1"/>
+        <speech id="s1" speakerid="uk.org.publicwhip/lord/900001" speakername="Casey Whitlow"><p>The question now is that the amendment moved by Senator Treloar be agreed to.</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(second.preceded_by_division?).to be(true)
+    end
+  end
+
+  describe "#run_statements" do
+    let(:deferred_run) do
+      divisions(<<~XML)
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar"><p>That is why the amendment should be supported.</p></speech>
+        <speech id="s2" speakername="Casey Whitlow"><p>In accordance with standing order 133, I shall now proceed to put the question on the amendment moved by the member for Exampleton, on which a division was called for and deferred.</p><p>The question is that the amendment be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+        <speech id="s3" speakername="Casey Whitlow"><p>The question now is that the amendment moved by the member for Fairview be agreed to.</p></speech>
+        <division divnumber="2" id="d2"/>
+        <speech id="s4" speakername="Casey Whitlow"><p>The question now is that the bill be now read a second time.</p></speech>
+        <division divnumber="3" id="d3"/>
+      XML
+    end
+
+    # Only the first question of a deferred run says it was deferred.
+    it "reaches back across the run to what the chair said before its first question" do
+      statements = deferred_run.last.run_statements
+
+      expect(statements.size).to eq(3)
+      expect(statements.first).to start_with("In accordance with standing order 133")
+      expect(statements.last).to eq("The question now is that the bill be now read a second time.")
+    end
+
+    it "stops at the debate in front of the run" do
+      expect(deferred_run.first.run_statements.join).not_to include("should be supported")
+    end
+  end
+
   describe "#operative_question" do
     it "keeps the paragraph breaks of the chair's statement when there is no pwmotiontext" do
       division = divisions(<<~XML).first
