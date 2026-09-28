@@ -37,6 +37,45 @@ describe DivisionSummaryPipeline::SemanticExtractor do
     end
   end
 
+  describe "#build_user_prompt" do
+    subject(:prompt) { described_class.new.build_user_prompt(packet) }
+
+    it "points the model at the motion Stage 1 found, and who moved it" do
+      packet.mover = DivisionSummaryPipeline::MoverFinder::Result.new(
+        speech: { speaker: "Jo Rae", moved_text: "That the debate be adjourned." },
+        member: DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
+      )
+
+      expect(prompt).to include("<motion_as_moved>\nMoved by: Jo Rae\nTerms as moved:\nThat the debate be adjourned.")
+    end
+
+    # Stage 4 treats every word of <hansard_context> as something a member said, so the model's
+    # own note from a first attempt must travel beside it, never inside it.
+    it "sends a first attempt's clue in its own section, outside the transcript" do
+      packet.extra_context = "The mover's speech may be on an earlier sitting day."
+
+      hansard = prompt[%r{<hansard_context>.*</hansard_context>}m]
+      expect(prompt).to include("<missing_context_clue>\nThe mover's speech may be on an earlier sitting day.")
+      expect(hansard).not_to include("earlier sitting day")
+    end
+
+    it "tells the model when the routing candidates are only a default" do
+      packet.procedural_decision = DivisionSummaryPipeline::ProceduralRouter.route(
+        speaker_question: "The question is that the motion be agreed to."
+      )
+
+      expect(prompt).to include("These candidates are a default, not a constraint")
+    end
+
+    it "does not soften a fence the validator enforces" do
+      packet.procedural_decision = DivisionSummaryPipeline::ProceduralRouter.route(
+        speaker_question: "The question is that the amendment be agreed to.", chamber: "representatives"
+      )
+
+      expect(prompt).not_to include("default, not a constraint")
+    end
+  end
+
   describe "#extract" do
     it "parses the model's raw JSON into an ExtractionPayload" do
       llm_caller = ->(_system_prompt, _user_prompt) { "{\"template_id\": 22, \"topic\": \"Closure\", \"motion_text\": \"x\"}" }
@@ -75,6 +114,10 @@ describe DivisionSummaryPipeline::SemanticExtractor do
       expect(prompt).to include("They are never about the subject matter the documents deal with.")
       expect(prompt).to include("not about the merits of that underlying matter.")
       expect(prompt).to include("Make no claims about the underlying question")
+    end
+
+    it "gives the lead-in each template puts before the claims, so claims read on from it" do
+      expect(described_class.new.system_prompt).to include("\"states that this amendment will:\"")
     end
 
     it "warns about resumed debates and headings that do not describe the vote" do

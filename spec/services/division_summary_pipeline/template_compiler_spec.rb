@@ -1185,5 +1185,107 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         expect(rendered).to include("do not record which way that casting vote went")
       end
     end
+
+    # What the September 2026 test runs got wrong in drafts that otherwise passed.
+    describe "facts the drafts from real divisions got wrong" do
+      let(:senate_data) { { time: "11:00 AM", amount: "majority", result: "passed", house: "senate" } }
+
+      def extraction(template_id, **fields)
+        DivisionSummaryPipeline::ExtractionPayload.new(template_id: template_id, topic: "Example topic",
+                                                       motion_text: "That the motion be agreed to.", **fields)
+      end
+
+      # Whip#free? is true for any whipless party (independents, the presiding officer), which
+      # is nearly every division; Whip#free_vote? is the list of actual conscience votes.
+      it "does not call a division a conscience vote because an independent has no whip" do
+        division = create(:division, house: "senate", date: Date.new(2026, 9, 14), number: 7)
+        create(:whip, division: division, party: "Independent", whip_guess: "none")
+
+        expect(described_class.compile(division, extraction(15))).not_to include("conscience vote")
+      end
+
+      it "still calls a listed conscience vote one, in the Senate's own words" do
+        division = create(:division, house: "senate", date: Date.new(2022, 11, 24), number: 1)
+        create(:whip, division: division, party: "Australian Labor Party", whip_guess: "none")
+
+        expect(described_class.compile(division, extraction(15))).to include("Senators were not bound by party whips")
+      end
+
+      it "names the mover Stage 1 found when the division data has none" do
+        mover = DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
+
+        rendered = described_class.compile(senate_data.merge(house: "representatives"), extraction(15), mover: mover)
+
+        expect(rendered).to include("introduced by Representative Jo Rae")
+      end
+
+      it "prefers a mover the division data supplies" do
+        mover = DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
+
+        rendered = described_class.compile(senate_data.merge(mover_name: "Sam Taylor"), extraction(15), mover: mover)
+
+        expect(rendered).to include("introduced by Senator Sam Taylor")
+      end
+
+      # Unresolved, the claims' speaker is whatever the model wrote, and T3 once printed it
+      # after a hard-coded "Senator".
+      it "does not print an unresolved speaker the model named as the mover" do
+        claims = [DivisionSummaryPipeline::ClaimEvidence.new(claim: "It fixes the rail rules",
+                                                             evidence: "the amendment fixes the rail safety rules",
+                                                             speaker: "The PRESIDENT")]
+
+        rendered = described_class.compile(senate_data, extraction(3, mover_claims: claims))
+
+        expect(rendered).to include("an amendment introduced by a member to the bill")
+        expect(rendered).not_to include("PRESIDENT")
+        expect(rendered).not_to include("Senator a member")
+      end
+
+      it "does not print the model's topic as though it were the bill's title" do
+        rendered = described_class.compile(senate_data.merge(result: "negatived"),
+                                           extraction(2, topic: "Early childhood wages", declines_second_reading: false))
+
+        expect(rendered).to include("second reading amendment introduced by a member to the bill,")
+        expect(rendered).not_to include("Early childhood wages,")
+      end
+
+      it "quotes the matter of urgency itself rather than calling the topic urgent" do
+        motion = "That, in the opinion of the Senate, the following is a matter of urgency:\n\n" \
+                 "The need for the Government to publish its housing plan."
+
+        rendered = described_class.compile(senate_data, extraction(16, topic: "Housing plan urgency", motion_text: motion))
+
+        expect(rendered).to include("declaring a matter of urgency: \"The need for the Government to publish its housing plan\"")
+        expect(rendered).not_to include("declaring Housing plan urgency")
+      end
+
+      it "keeps a long suspension purpose whole, including a bill title with \"No. 3\" in it" do
+        purpose = "the member for Exampleton moving a motion to bring on the Example Measures Amendment Bill 2026 " \
+                  "(No. 3), having earlier been referred to the Federation Chamber, for further consideration in " \
+                  "detail by the House immediately and for the remaining stages to be passed without delay"
+        motion = "That so much of the standing orders be suspended as would prevent #{purpose}."
+
+        rendered = described_class.compile(senate_data.merge(house: "representatives"), extraction(17, motion_text: motion))
+
+        expect(rendered).to include("otherwise prevent #{purpose}")
+        expect(rendered).not_to include("regarding Example topic")
+      end
+
+      it "reads \"That the debate be adjourned\" as what the rearrangement does" do
+        rendered = described_class.compile(senate_data.merge(house: "representatives"),
+                                           extraction(19, rearrangement_description: "That the debate be adjourned."))
+
+        expect(rendered).to include("specifically that the debate be adjourned, which means")
+      end
+
+      # The prompt shows the model these, so a claim reads on from the sentence it follows.
+      it "reads each template's lead-in into claims from the template itself" do
+        lead_ins = described_class.claims_lead_ins
+
+        expect(lead_ins[2]).to eq("states that this amendment will:")
+        expect(lead_ins[17]).to eq("states that suspending standing orders is necessary to:")
+        expect(lead_ins.keys).not_to include(22, 26)
+      end
+    end
   end
 end

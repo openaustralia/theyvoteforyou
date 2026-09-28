@@ -163,5 +163,115 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.context_warnings.join).to include("No Hansard XML was available")
       end
     end
+
+    # Current ParlParse XML differs from the fixture above in ways that broke every division
+    # in the September 2026 test runs: no pwmotiontext (a motion is <p class="italic"> after
+    # "I move:"), paragraphs with nothing between them, and the chair recorded as a named
+    # member putting the question, often only by reference.
+    describe "Hansard in the shape current ParlParse produces" do
+      def debates(date, body)
+        "<debates><major-heading id=\"h1\" url=\"x\">BILLS</major-heading>#{body}</debates>".gsub("DATE", date)
+      end
+
+      def division_element(number, time)
+        "<division divdate=\"DATE\" divnumber=\"#{number}\" id=\"d#{number}\" time=\"#{time}\" url=\"x\">" \
+          "<divisioncount ayes=\"40\" noes=\"30\" pairs=\"0\" tellerayes=\"0\" tellernoes=\"0\"/></division>"
+      end
+
+      let(:suspension_xml) do
+        debates("2026-08-20", <<~XML)
+          <minor-heading id="h2" url="x">Example Report; Suspension of Standing Orders</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/lord/900101" speakername="Morgan Treloar" time="15:30:00" url="x"><p>Pursuant to contingent notice standing in my name, I move:</p><p class="italic">That so much of the standing orders be suspended as would prevent the Senate:</p><p class="italic">(a) considering the report forthwith; and</p><p class="italic">(b) voting on it today.</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="15:44:00" url="x"><p>The question is that the motion moved by Senator Treloar be agreed to.</p></speech>
+          #{division_element(2, '15:45:00')}
+        XML
+      end
+
+      let(:suspension) do
+        described_class.build({ id: 1, house: "senate", date: "2026-08-20", number: 2, clock_time: "3:45 PM" },
+                              xml_content: suspension_xml)
+      end
+
+      it "keeps a motion's paragraphs apart, as members and models quote them" do
+        expect(suspension.hansard_context).to include("prevent the Senate:\n\n(a) considering the report forthwith; and")
+      end
+
+      it "routes a question put by reference on the motion as moved, and knows who moved it" do
+        expect(suspension.procedural_decision.template_id).to eq(17)
+        expect(suspension.mover.speech[:speaker]).to eq("Morgan Treloar")
+        expect(suspension.mover.moved_text).to start_with("That so much of the standing orders be suspended")
+      end
+
+      # Stage 4 treats every word of hansard_context as something a member said.
+      it "keeps a first attempt's clue out of the transcript" do
+        packet = described_class.build({ id: 1, house: "senate", date: "2026-08-20", number: 2, clock_time: "3:45 PM" },
+                                       xml_content: suspension_xml, extra_context: "The mover's reasons may be earlier.")
+
+        expect(packet.extra_context).to eq("The mover's reasons may be earlier.")
+        expect(packet.hansard_context).not_to include("reasons may be earlier")
+      end
+
+      # A Monday division at 12.05 is in the window when deferred divisions are put, but a
+      # motion moved at 12.00 was put there and then.
+      it "does not warn about the Monday deferral window when the motion was moved inside it" do
+        xml = debates("2026-08-24", <<~XML)
+          <minor-heading id="h2" url="x">Example Bill 2026; Consideration of Senate Message</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/member/900201" speakername="Robin Carrow" time="12:00:00" url="x"><p>I move:</p><p class="italic">That the amendments be considered at the next sitting.</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="12:01:00" url="x"><p>The question is that the amendments be considered at the next sitting.</p></speech>
+          #{division_element(1, '12:05:00')}
+        XML
+
+        packet = described_class.build({ id: 1, house: "representatives", date: "2026-08-24", number: 1, clock_time: "12:05 PM" },
+                                       xml_content: xml)
+
+        expect(packet.context_warnings.join).not_to include("Standing Order 133")
+        expect(packet.procedural_decision.template_id).to eq(19)
+      end
+
+      # Only the first question of a deferred run says it was deferred.
+      it "carries the chair's deferral along a run of divisions" do
+        xml = debates("2026-08-20", <<~XML)
+          <minor-heading id="h2" url="x">Example Bill 2026; Second Reading</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="09:20:00" url="x"><p>In accordance with standing order 133, I shall now proceed to put the question on the amendment moved by the member for Exampleton, on which a division was called for and deferred.</p><p>The question is that the amendment be agreed to.</p></speech>
+          #{division_element(1, '09:21:00')}
+          <speech id="s2" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="09:27:00" url="x"><p>The question now is that the amendment moved by the member for Fairview be agreed to.</p></speech>
+          #{division_element(2, '09:28:00')}
+        XML
+
+        packet = described_class.build({ id: 2, house: "representatives", date: "2026-08-20", number: 2, clock_time: "9:28 AM" },
+                                       xml_content: xml)
+
+        expect(packet.context_warnings.join).to include("immediately follows another with no debate between them")
+        expect(packet.context_warnings.join).to include("The chair's words show this division was deferred")
+        expect(packet.procedural_decision.candidate_templates).to eq([2])
+      end
+
+      # A deferred division is put without debate, often on another sitting day, so the
+      # amendment it decides was moved in an earlier day's XML under the same heading.
+      it "brings in the amendment from the earlier sitting day it was moved on" do
+        heading = "<minor-heading id=\"h2\" url=\"x\">Example Bill 2026; Second Reading</minor-heading>"
+        earlier_day = debates("2026-08-18", <<~XML)
+          #{heading}
+          <speech id="s1" speakerid="uk.org.publicwhip/member/900301" speakername="Robin Carrow" time="12:33:00" url="x"><p>I rise to speak, and I move:</p><p class="italic">That all words after "That" be omitted with a view to substituting the following words: "whilst not declining to give the bill a second reading, the House notes the cost to small business".</p><p>Small businesses cannot absorb these costs.</p></speech>
+        XML
+        today = debates("2026-08-20", <<~XML)
+          #{heading}
+          <speech id="s2" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="09:20:00" url="x"><p>In accordance with standing order 133, I shall now proceed to put the question on the amendment moved by the member for Exampleton.</p><p>The question is that the amendment be agreed to.</p></speech>
+          #{division_element(1, '09:21:00')}
+        XML
+        fetcher = ->(_house, date) { Nokogiri::XML(earlier_day) if date == "2026-08-18" }
+        # The chair names the mover only by electorate, which takes the member's record to match.
+        create(:member, person: create(:person), gid: "uk.org.publicwhip/member/900301", first_name: "Robin",
+                        last_name: "Carrow", constituency: "Exampleton", party: "Example Party", house: "representatives",
+                        entered_house: "2020-01-01", left_house: "9999-12-31")
+
+        packet = described_class.build({ id: 1, house: "representatives", date: "2026-08-20", number: 1, clock_time: "9:21 AM" },
+                                       xml_content: today, xml_fetcher: fetcher)
+
+        expect(packet.earlier_debate_dates).to eq(["2026-08-18"])
+        expect(packet.hansard_context).to include("whilst not declining to give the bill a second reading")
+        expect(packet.mover.member.name).to eq("Robin Carrow")
+      end
+    end
   end
 end

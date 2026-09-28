@@ -452,5 +452,110 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.reason).to include("election of the Speaker")
       end
     end
+
+    # The chair often puts a question only by reference, so the router can also read the first
+    # paragraph of the motion as moved (ContextBuilder passes it in).
+    describe "routing on the motion as moved" do
+      let(:reference) { "The question is that the motion moved by Senator Okafor be agreed to." }
+
+      it "routes a reference-only question on a motion with a fixed opening, and holds to it" do
+        decision = described_class.route(
+          speaker_question: reference, chamber: "senate",
+          motion_text: "That so much of the standing orders be suspended as would prevent the senator moving a motion."
+        )
+
+        expect(decision.template_id).to eq(17)
+        expect(decision.is_deterministic).to be(true)
+        expect(decision.advisory_candidates).to be_falsey
+        expect(decision.reason).to include("routed on the motion as moved")
+      end
+
+      it "reads a numbered first paragraph as the opening" do
+        decision = described_class.route(
+          speaker_question: reference, chamber: "senate",
+          motion_text: "(1) That a select committee, to be known as the Select Committee on Regional Rail, be established to inquire into and report on:"
+        )
+
+        expect(decision.template_id).to eq(12)
+        expect(decision.is_deterministic).to be(true)
+      end
+
+      # A route read from any other opening is only a default, as the fallback was, and the
+      # validator does not enforce it.
+      it "makes a route from any other opening advisory" do
+        decision = described_class.route(
+          speaker_question: reference, chamber: "senate",
+          motion_text: "That the Senate censures the Minister for Regional Transport for failing to answer."
+        )
+
+        expect(decision.candidate_templates).to eq([10])
+        expect(decision.template_id).to be_nil
+        expect(decision.is_deterministic).to be(false)
+        expect(decision.advisory_candidates).to be(true)
+      end
+
+      it "lets the question win whenever it matches a rule itself" do
+        decision = described_class.route(
+          speaker_question: "The question is that the bill be now read a third time.", chamber: "senate",
+          motion_text: "That so much of the standing orders be suspended as would prevent the senator moving a motion."
+        )
+
+        expect(decision.template_id).to eq(6)
+        expect(decision.reason).not_to include("routed on the motion as moved")
+      end
+    end
+
+    # Forms found in the House and Senate XML for September 2026 that routed to the wrong
+    # template or to a fence wider than the question allows.
+    describe "questions taken from recent Hansard" do
+      it "routes a Senate message's amendments being considered at a set time to Template 19" do
+        ["at the next sitting", "immediately"].each do |time|
+          decision = described_class.route(
+            speaker_question: "The question is that the amendments be considered #{time}.",
+            chamber: "representatives", debate_heading: "Bills - Example Bill 2026; Consideration of Senate Message"
+          )
+
+          expect(decision.template_id).to eq(19), time
+        end
+      end
+
+      it "routes the House agreeing to the other chamber's amendments under a message heading to Template 7" do
+        decision = described_class.route(
+          speaker_question: "The question is that the amendments be agreed to.",
+          chamber: "representatives", debate_heading: "Bills - Example Bill 2026; Consideration of Senate Message"
+        )
+
+        expect(decision.template_id).to eq(7)
+      end
+
+      it "fences an amendment put by reference under a second reading heading to Template 2" do
+        decision = described_class.route(
+          speaker_question: "The question is that the amendment moved by the honourable member for Exampleton be agreed to.",
+          chamber: "representatives", debate_heading: "Bills - Example Bill 2026; Second Reading"
+        )
+
+        expect(decision.candidate_templates).to eq([2])
+      end
+
+      it "routes an order for production that never says \"documents\" to Template 8" do
+        decision = described_class.route(
+          speaker_question: "That there be laid on the table by the Minister representing the Minister for Health, " \
+                            "by no later than 5 pm on Friday, a copy of the report entitled 'Example Review'.",
+          chamber: "senate"
+        )
+
+        expect(decision.template_id).to eq(8)
+      end
+
+      it "does not treat amending a select committee's resolution of appointment as establishing one" do
+        decision = described_class.route(
+          speaker_question: "(1) That paragraph (3) of the resolution of appointment of the Joint Select Committee " \
+                            "on Example Technology, relating to membership of the committee, be amended as follows:",
+          chamber: "senate"
+        )
+
+        expect(decision.template_id).not_to eq(12)
+      end
+    end
   end
 end

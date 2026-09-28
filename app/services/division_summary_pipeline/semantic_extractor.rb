@@ -14,6 +14,11 @@ module DivisionSummaryPipeline
   class SemanticExtractor
     REGION = "ap-southeast-2"
 
+    # Bedrock's SDK default is 60 seconds, and the larger open-weight models regularly take
+    # longer than that to answer a long debate: GLM 5 failed with Net::ReadTimeout on two of the
+    # eight test divisions. The SDK retries on a timeout, so a short one wastes minutes as well.
+    HTTP_READ_TIMEOUT = 300
+
     def initialize(model_id = nil, client: nil, llm_caller: nil)
       @model_id = model_id
       @bedrock_client = client
@@ -56,12 +61,18 @@ module DivisionSummaryPipeline
       sections << "<division_metadata>\n#{meta_lines.join("\n")}\n</division_metadata>"
 
       # The model is asked to respect stage 2's fence (system prompt rule 2), and
-      # ProvenanceValidator#check_routing_fence rejects the extraction if it did not.
+      # ProvenanceValidator#check_routing_fence rejects the extraction if it did not. An advisory
+      # shortlist is not enforced there, so the model is told it is only a default; otherwise
+      # rule 2's "MUST" turns the general-motion fallback into a fence nothing checks.
       if packet.procedural_decision
         decision = packet.procedural_decision
         cand_str = decision.candidate_templates.join(", ")
         locked_str = decision.locked_out_templates.join(", ")
         routing_note = "Rule: #{decision.rule_name}. Candidates: [#{cand_str}]."
+        if decision.advisory_candidates
+          routing_note += " These candidates are a default, not a constraint: choose another template if the " \
+                          "<speaker_question> or <motion_as_moved> clearly fits it better."
+        end
         routing_note += " Disallowed Templates: [#{locked_str}]." if locked_str.present?
         sections << "<procedural_routing_guidance>\n#{routing_note}\n</procedural_routing_guidance>"
       end
@@ -77,9 +88,32 @@ module DivisionSummaryPipeline
 
       sections << "<official_summary>\n#{packet.official_summary.to_s.strip}\n</official_summary>" if packet.official_summary.present?
 
+      motion = motion_as_moved(packet)
+      sections << "<motion_as_moved>\n#{motion}\n</motion_as_moved>" if motion
+
+      # The model's own note from a first attempt, kept out of <hansard_context> because stage 4
+      # verifies quotes against every word in there.
+      clue = packet.extra_context.to_s.strip if packet.respond_to?(:extra_context)
+      sections << "<missing_context_clue>\n#{clue}\n</missing_context_clue>" if clue.present?
+
       sections << "<hansard_context>\n#{packet.hansard_context.to_s.strip}\n</hansard_context>"
 
       sections.join("\n\n")
+    end
+
+    # The motion the division decides, as found by rule (MoverFinder): who moved it and its
+    # terms. Long debates bury the motion among speeches about the bill, and the chair usually
+    # puts the question by reference, so this points the model at the text to extract. Every
+    # word of it is also in <hansard_context>, where stage 4 verifies quotes.
+    def motion_as_moved(packet)
+      mover = packet.respond_to?(:mover) ? packet.mover : nil
+      return nil unless mover
+
+      name = mover.member&.name.presence || mover.speech&.dig(:speaker)
+      lines = []
+      lines << "Moved by: #{name}" if name.present?
+      lines << (mover.moved_text.present? ? "Terms as moved:\n#{mover.moved_text}" : "The terms moved are not in this excerpt.")
+      lines.join("\n")
     end
 
     # Treat this prompt as source code: editing a rule changes every future extraction, and
@@ -101,7 +135,8 @@ module DivisionSummaryPipeline
            Inspect <speaker_question> to determine what is being decided.
 
         2. OBEY PROCEDURAL ROUTING GUIDANCE:
-           - You MUST choose a template_id from <procedural_routing_guidance> candidate templates if provided.
+           - You MUST choose a template_id from <procedural_routing_guidance> candidate templates if provided,
+             unless the guidance says its candidates are only a default.
            - You MUST NEVER select a template listed under Disallowed Templates.
 
         3. THE TEMPLATE CATALOGUE (template_id 1 to 28):
@@ -124,7 +159,9 @@ module DivisionSummaryPipeline
            17: Suspension of Standing Orders
            18: Limitation of Debate (Guillotine), including the House question "That the bill be
                considered urgent", which is the first of the two questions that impose a time limit
-           19: Rearrangement of Business
+           19: Rearrangement of Business, including adjourning or postponing a debate ("That the debate be
+               adjourned") and setting when business will be considered ("That the amendments be considered
+               at the next sitting")
            20: Withdrawal of Business
            21: Parliamentary Zone Proposed Works
            22: Closure of Debate ("That the question be now put"), and the two related closures:
@@ -133,17 +170,35 @@ module DivisionSummaryPipeline
            23: Member Be No Longer Heard (House of Representatives)
            24: Suspension of a Member
            25: Dissent from Ruling of the Chair
-           26: Adjournment of the Chamber
+           26: Adjournment of the Chamber: only "That the House (or Senate) do now adjourn", which ends the
+               sitting. Adjourning a debate is Template 19, not 26.
            27: Taking Note
            28: Question That a Clause or Part Stand As Printed (Senate committee of the whole)
 
         4. OPERATIVE MOTION TEXT:
-           Extract the exact operative wording of the motion or amendment as put to the chamber from the Hansard context.
+           Extract the full terms of the motion or amendment being decided, as moved: usually the words after
+           "I move" in the mover's speech, and given in <motion_as_moved> when that block is present. The chair
+           often puts the question by reference ("That the amendment moved by Senator Example be agreed to");
+           that reference is not the motion text. Copy the terms as they appear, keeping their clauses and
+           paragraph breaks. Only if the terms are nowhere in <hansard_context>, use the chair's question
+           and set 'sufficient_context' to false.
 
         5. MOVER CLAIMS WITH VERBATIM EVIDENCE:
            Extract 1 to 4 functional points made by the mover explaining the amendment or motion.
            CRITICAL: Every claim MUST be accompanied by a verbatim quote from <hansard_context> in the 'evidence' field.
            If a claim cannot be quoted verbatim from the text, DO NOT INCLUDE IT.
+           The evidence is checked character by character against the transcript, so:
+           - Copy ONE continuous passage exactly: the same words in the same order with the same punctuation,
+             keeping Hansard's spelling. One or two complete sentences is best.
+           - Never join separate passages with "..." or an ellipsis, never paraphrase, shorten or correct the
+             words, and never wrap the evidence in quotation marks.
+           - Never include the transcript's own labels ("SPEECH: Name [time]:", "DEBATE:", "DIVISION").
+           - Set 'speaker' to the name exactly as it appears in the SPEECH: label the passage sits under.
+           - If two separate passages support a point, make them two claims.
+           Each claim is printed as a bullet straight after the lead-in of the template you choose (listed in
+           rule 13), so write every claim to continue that sentence grammatically, as the mover's position and
+           not as a statement of fact. After "states that this amendment will:" write "note the uncertainty
+           caused by ..." or "call on the Government to ...", not "Rural students face higher costs".
            If the mover did not give a separate speech in the provided excerpt (for example the amendment was
            moved formally), draw the functional claims strictly from the operative clauses of the amendment or
            motion itself, attributed to the mover.
@@ -189,6 +244,11 @@ module DivisionSummaryPipeline
            and state 'missing_context_clue' (for example: "mover's opening speech may be earlier in this
            sitting day's debate or on a previous sitting day"). Do not reconstruct a missing speech from
            inference; extract only what the excerpt supports.
+           An "EARLIER IN THIS DEBATE" section in <hansard_context> holds the speeches that moved something
+           or put a question in the same debate on earlier sitting days or earlier today; use it to find the
+           terms of a motion that was moved before the division was taken, as happens with deferred divisions.
+           A <missing_context_clue> block, when present, is your own note from an earlier attempt. It is not
+           Hansard: never quote it as evidence.
            A <context_warnings> block, when present, lists reasons the speeches in this excerpt may not be
            the debate about this division at all (divisions taken one after another with no debate between
            them, deferred divisions put later in the day without further debate, or no Hansard XML being
@@ -219,8 +279,9 @@ module DivisionSummaryPipeline
              extract the words the motion uses for it ("the Government", "the Prime Minister and the
              Government") rather than leaving the field null.
            - Template 13 (Committee Referral): 'committee_name' is the committee the matter is referred to.
-           - Template 19 (Rearrangement of Business): 'rearrangement_description' is what happens to the
-             business, in the motion's operative words.
+           - Template 19 (Rearrangement of Business): 'rearrangement_description' is the motion's operative
+             words after "That", copied verbatim ("That the debate be adjourned." gives "the debate be
+             adjourned").
            - Template 20 (Withdrawal of Business): 'business_name' is the item withdrawn from the
              Notice Paper.
            - Template 23 (Member Be No Longer Heard): give 'target_electorate' when the motion names
@@ -251,15 +312,23 @@ module DivisionSummaryPipeline
              question in committee of the whole when no amendments have been agreed to, equivalent to "That
              the bill, as amended, be agreed to", and carries no inversion. Do not use template 28 for it.
 
+        13. HOW YOUR FIELDS ARE PRINTED:
+           - 'topic' is printed mid-sentence and as the draft's title. Name the subject in 2 to 5 words, in
+             sentence case (capitalise proper nouns only), describing what the motion is about rather than the
+             procedure: leave out words such as motion, amendment, urgency, suspension, referral, inquiry,
+             second reading and vote. For example "veterans' health treatment" or "migration levels".
+           - Claims are printed after these lead-ins, by template (templates not listed print no claims):
+        #{claims_lead_in_lines}
+
         Respond ONLY with a valid JSON object matching this schema. Do not enclose in markdown fences or include commentary:
         {
           "template_id": 1 to 28,
-          "topic": "Concise 2-5 word description",
+          "topic": "The subject in 2-5 words, sentence case, no procedural words",
           "motion_text": "Exact operative motion text",
           "mover_claims": [
             {
               "claim": "Clear functional summary in Australian English",
-              "evidence": "Verbatim quote from hansard_context proving claim",
+              "evidence": "One continuous passage copied exactly from hansard_context, no ellipses or quotation marks",
               "speaker": "Name of speaker"
             }
           ],
@@ -278,9 +347,13 @@ module DivisionSummaryPipeline
 
     private
 
+    def claims_lead_in_lines
+      TemplateCompiler.claims_lead_ins.map { |id, lead_in| "     #{id}: \"#{lead_in}\"" }.join("\n")
+    end
+
     # Lazy so nothing contacts AWS at boot or under test.
     def bedrock_client
-      @bedrock_client ||= Aws::BedrockRuntime::Client.new(region: REGION)
+      @bedrock_client ||= Aws::BedrockRuntime::Client.new(region: REGION, http_read_timeout: HTTP_READ_TIMEOUT)
     end
 
     # Temperature 0 because this is extraction, not writing: re-running a division should

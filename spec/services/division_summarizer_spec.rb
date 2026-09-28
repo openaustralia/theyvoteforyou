@@ -150,6 +150,69 @@ describe DivisionSummarizer do
     # attempt over the whole sitting day. That path was unreachable until ExtractionPayload
     # stopped coercing sufficient_context to true (KNOWN_ISSUES.md, KI-15), so it is worth a
     # regression test of its own rather than trusting the constraint.
+    # Real Hansard XML rather than a stubbed packet, so Stage 1 finds the mover and routes the
+    # question as it would for a live division.
+    context "with the division's Hansard XML" do
+      let(:division) { create(:division, house: "representatives", date: Date.new(2026, 8, 19), number: 1) }
+      # The day opens with another bill's consideration in detail, so the start of the whole
+      # day's transcript says something the debate about this division does not.
+      let(:xml_content) do
+        <<~XML
+          <debates>
+            <major-heading id="h1" url="x">BILLS</major-heading>
+            <minor-heading id="h2" url="x">Other Bill 2026; Consideration in Detail</minor-heading>
+            <speech id="s0" speakername="Jess Harlow" time="09:30:00" url="x"><p>We are in consideration in detail of the other bill.</p></speech>
+            <minor-heading id="h3" url="x">Example Bill 2026</minor-heading>
+            <speech id="s1" speakername="Robin Carrow" time="10:00:00" url="x"><p>I move:</p><p class="italic">That the words "the Minister" be omitted.</p></speech>
+            <speech id="s2" speakername="Casey Whitlow" time="10:05:00" url="x"><p>The question is that the amendment be agreed to.</p></speech>
+            <division divdate="2026-08-19" divnumber="1" id="d1" time="10:06:00" url="x"><divisioncount ayes="40" noes="30" pairs="0" tellerayes="0" tellernoes="0"/></division>
+          </debates>
+        XML
+      end
+
+      it "names the mover Stage 1 found from Hansard, not whoever the model credits" do
+        stub_converse_text(%({"template_id": 4, "topic": "Omitting the Minister", "motion_text": "That the words \\"the Minister\\" be omitted."}))
+        summarizer = described_class.new(division, models: models, client: stubbed_client, xml_content: xml_content)
+
+        expect(summarizer.summarize_with(model_id).description).to include("introduced by Representative Robin Carrow")
+      end
+
+      context "when the first model reports the excerpt was not enough" do
+        let(:models) { { "first" => "first.model-v1:0", "second" => "second.model-v1:0" } }
+        let(:packets) { [] }
+        let(:extractor) do
+          seen = packets
+          replies = [
+            %({"template_id": 4, "topic": "x", "motion_text": "x", "sufficient_context": false, ) +
+              %("missing_context_clue": "the first model's own note"}),
+            %({"template_id": 4, "topic": "x", "motion_text": "x"}),
+            %({"template_id": 4, "topic": "x", "motion_text": "x"})
+          ]
+          double = Object.new
+          double.define_singleton_method(:extract_raw) do |packet|
+            seen << packet
+            replies.shift
+          end
+          double
+        end
+
+        before do
+          described_class.new(division, models: models, client: stubbed_client, xml_content: xml_content,
+                                        extractor: extractor).summarize_with_all_models
+        end
+
+        it "keeps the routing decided on the speeches beside the division" do
+          expect(packets.map { |packet| packet.procedural_decision.candidate_templates }).to all(eq([2, 4]))
+        end
+
+        it "gives the later models the whole day, but not the first model's note" do
+          expect(packets.map(&:context_level)).to eq(%i[subdebate sitting_day sitting_day])
+          expect(packets[1].extra_context).to eq("the first model's own note")
+          expect(packets[2].extra_context).to be_nil
+        end
+      end
+    end
+
     context "when the model reports the excerpt was not enough" do
       let(:responses) do
         [

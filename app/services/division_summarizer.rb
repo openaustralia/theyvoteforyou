@@ -32,12 +32,15 @@ class DivisionSummarizer
 
   # client: only for tests, to inject a stubbed Aws::BedrockRuntime::Client
   # xml_content: optional raw or debates XML string for offline tests/fixtures
+  # xml_fetcher: optional callable (house, date) -> parsed XML for earlier sitting days, for
+  #   offline tests; see ContextBuilder.build
   # extractor: optional custom/mock extractor instance
-  def initialize(division, models: MODELS, client: nil, xml_content: nil, extractor: nil)
+  def initialize(division, models: MODELS, client: nil, xml_content: nil, xml_fetcher: nil, extractor: nil)
     @division = division
     @models = models
     @client = client
     @xml_content = xml_content
+    @xml_fetcher = xml_fetcher
     @extractor = extractor
   end
 
@@ -98,9 +101,14 @@ class DivisionSummarizer
       expanded_packet = DivisionSummaryPipeline::ContextBuilder.build(
         division,
         xml_content: @xml_content,
+        xml_fetcher: @xml_fetcher,
         context_level: :sitting_day,
         extra_context: extraction.missing_context_clue
       )
+      # Routing is about this division and was decided on the speeches beside it. Routed again,
+      # the widened packet would be read from the start of the day's transcript, which is some
+      # other debate, and could fence this and every later model differently.
+      expanded_packet.procedural_decision = packet.procedural_decision
       expanded_response = extractor.extract_raw(expanded_packet)
       expanded_extraction = DivisionSummaryPipeline::ExtractionPayload.from_json(expanded_response)
       if expanded_extraction
@@ -108,8 +116,9 @@ class DivisionSummarizer
         packet = expanded_packet
         raw_response = expanded_response
         # Keep the widest context for the remaining models: if one model needed the sitting
-        # day's debate to extract with evidence, the others do too.
-        @hansard_packet = packet
+        # day's debate to extract with evidence, the others do too. Its missing_context_clue
+        # was this model's own note, so the others do not get it.
+        @hansard_packet = packet.dup.tap { |shared| shared.extra_context = nil }
       end
     end
 
@@ -136,7 +145,9 @@ class DivisionSummarizer
     # division_summary_pipeline/ARCHITECTURE.md for the exact contract a future digest integration
     # must meet (digest_link + digest_key_points, or a pre-formatted section starting "According to
     # the [Bill Digest](LINK):").
-    compiled_markdown = DivisionSummaryPipeline::TemplateCompiler.compile(division, extraction, digest_section: nil)
+    compiled_markdown = DivisionSummaryPipeline::TemplateCompiler.compile(
+      division, extraction, digest_section: nil, mover: packet.mover&.member
+    )
     title = extraction.topic.presence || division_default_title
 
     Result.new(
@@ -159,7 +170,9 @@ class DivisionSummarizer
   # Lazy so nothing contacts AWS at boot: a machine with no Bedrock credentials still starts
   # the app and still runs the whole offline suite.
   def client
-    @client ||= Aws::BedrockRuntime::Client.new(region: REGION)
+    @client ||= Aws::BedrockRuntime::Client.new(
+      region: REGION, http_read_timeout: DivisionSummaryPipeline::SemanticExtractor::HTTP_READ_TIMEOUT
+    )
   end
 
   # The Hansard context packet for this division, built once and reused across model calls
@@ -168,6 +181,7 @@ class DivisionSummarizer
     @hansard_packet ||= DivisionSummaryPipeline::ContextBuilder.build(
       division,
       xml_content: @xml_content,
+      xml_fetcher: @xml_fetcher,
       context_level: :subdebate
     )
   end

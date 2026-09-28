@@ -64,6 +64,11 @@ would be slow, expensive and noisy. So Stage 1 assembles a small, targeted packe
 - The debate speeches leading up to the vote, starting with those closest to it. By default this
   is the whole subdebate; if that proves not to be enough, the packet is widened to the entire
   sitting day (Step 3).
+- When the motion being decided was moved somewhere else, the speeches that moved it. A deferred
+  division is often put on a later sitting day than the debate about it, without further debate,
+  so Stage 1 looks back through earlier days under the same heading for the move.
+- Who moved the motion and its exact terms, found by rule from Hansard rather than taken from the
+  model's answer.
 
 The packet is built by reusing the app's existing Hansard loader rather than parsing anything a
 second time (section 5).
@@ -184,13 +189,33 @@ for human review (section 11).
   now put."`) immediately preceding the vote.
 - Gathers debate speeches at progressive context tiers:
   - **Level A (Immediate)**: Speeches immediately before the division.
-  - **Level B (Subdebate)**: The full subdebate leading up to the vote (default).
+  - **Level B (Subdebate)**: The full subdebate leading up to the vote (default), capped at 25
+    speeches. When the debate runs longer, the latest speech that moved something before the cap
+    is kept in front of it, because a long debate's motion was moved at its start.
   - **Level C (Sitting Day)**: Speeches across the sitting day when prior debate context is
     required.
+  - **Level D (Earlier in the same debate)**: `EarlierDebate` adds only the speeches that moved
+    something or put a question, from earlier under the same heading today and then from up to 8
+    earlier sitting days (70 calendar days) of the same heading. It runs when the chair says the
+    division was deferred, when nothing beside the division moved anything and the question
+    refers to something moved, and always on the Level C retry. This is what a deferred division
+    needs: Hansard puts it without debate, often on the next sitting day, so the amendment it
+    decides is in another day's XML.
+- Keeps each paragraph of a speech apart (`DataLoader::SpeechText`). Nokogiri's `#text` joins
+  sibling paragraphs with nothing between them ("the Senate:(a) notes"), which a model quotes with
+  normal spacing, so genuine quotes failed Stage 4.
+- Finds the mover by rule (`MoverFinder`): from the chair's "moved by Senator Example" or "moved by
+  the member for Exampleton" first, otherwise the "I move" in the last few speeches. The mover and
+  the terms moved travel on the packet as `packet.mover`, reach the prompt as `<motion_as_moved>`,
+  and are what Stage 5 names as the mover.
 - Flags the cases where the speeches beside a division may not be the debate about it at all, as
   `context_warnings` on the packet: a division taken immediately after another with no debate
-  between them (House S.O. 131), a House division falling in the part of the day when deferred
-  divisions are put (S.O. 133), no speeches found at all, or no matching Hansard XML. The warnings
+  between them (House S.O. 131; the chair putting the next question does not count as debate), the
+  chair saying the division was deferred (read from the text, and carried along a run of
+  divisions, since only the first question of a deferred run says so), a House division falling in
+  the part of the day when deferred divisions are put (S.O. 133) unless its motion was moved in
+  that window, speeches added from earlier in the debate, no speeches found at all, or no matching
+  Hansard XML. The warnings
   reach the extractor in the prompt, so it can answer `sufficient_context: false` rather than
   reading unrelated speeches as the argument for this vote, and reach the validator, which records
   them and marks the draft for review.
@@ -232,6 +257,17 @@ for human review (section 11).
   traditional "want of confidence") as censure motions (Template 10) when put directly. A
   no-confidence motion moved under a suspension of standing orders is caught first by the
   suspension rule, because the suspension is the division being taken at that point.
+- Routes on the motion as moved when the question matches nothing. The chair often puts a
+  question only by reference ("the motion moved by the member for Exampleton be agreed to",
+  "business of the Senate No. 3 ... be agreed to"), so a question that falls to the general-motion
+  fallback is routed again on the first paragraph of `packet.mover.moved_text`. That route is
+  binding only when the motion opens in a fixed form (a suspension of standing orders, a referral
+  to a committee, an order for production, establishing a select committee); otherwise it is
+  advisory, like the fallback, and the prompt tells the model so.
+- Uses the section heading where the question leaves the stage open: an amendment put by reference
+  under a "Second Reading" heading is Template 2, and "the amendments be agreed to" under a
+  message heading is Template 7. Setting when a message's amendments are considered ("at the next
+  sitting", "immediately") is Template 19.
 
 ### Stage 3: Semantic Extractor (`DivisionSummaryPipeline::SemanticExtractor`)
 
@@ -347,12 +383,23 @@ So `DivisionSummaryPipeline::ContextBuilder` is a thin adapter, not a second loa
    on), falling back to clock time or `debate_gid` only if the number is missing or ambiguous. It
    does **not** implement its own weighted or fuzzy matching - a division either is or isn't the one
    with this `divnumber` on this day.
-4. It reads three small, additive public methods added to `DataLoader::DivisionXml` for this
-   feature - `#operative_question`, `#context_speeches(level)` and the pre-existing `#name` - all
-   built from the exact same private sibling-traversal helpers (`pwmotiontexts`,
-   `previous_speeches`) `#motion` already uses, plus one Nokogiri `preceding::speech` XPath call
-   for the widened sitting-day tier. No new document-walking logic was written; the new methods
-   just expose more of what the existing parser can already compute.
+4. It reads small, additive public methods added to `DataLoader::DivisionXml` for this feature -
+   `#operative_question`, `#context_speeches(level)` and the pre-existing `#name` - built from the
+   same private sibling-traversal helpers (`pwmotiontexts`, `previous_speeches`) `#motion`
+   already uses, plus one Nokogiri `preceding::speech` XPath call for the widened sitting-day tier.
+   Level D and the context warnings added `#debate_title`, `#earlier_same_debate_speeches`,
+   `#preceded_by_division?` and `#run_statements`, and `DebatesXml#speeches_under_minor_heading`
+   for other days' XML. Speech text goes through `DataLoader::SpeechText`, which the nightly loader
+   does not use, so `#motion` keeps its PHP-compatible formatting.
+
+   Current ParlParse XML carries no `pwmotiontext` attributes at all. A motion's terms are
+   `<p class="italic">` paragraphs after "I move:" in the mover's speech (italic also marks
+   incorporated speeches and notes such as "Leave granted.", which is why only paragraphs after an
+   "I move" count), and the chair is recorded as a named member with a `speakerid`, not as
+   `nospeaker`. So for recent divisions `#operative_question` is the chair's last statement, which
+   is often only a reference to the motion, and the motion itself comes from
+   `SpeechText.moved_text`. The pipeline's older fixtures used `pwmotiontext` and a newline between
+   paragraphs, which is why none of this showed until real divisions were run.
 
 If Hansard XML can't be fetched or no `<division>` in it matches (offline tests, a transient fetch
 failure, or Hansard XML that's since disappeared from the source for an old division),
@@ -462,7 +509,9 @@ app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md
   semantic_extractor.rb       Stage 3: LLM prompt + Bedrock call, structured JSON only
   extraction_payload.rb       ExtractionPayload / ClaimEvidence value objects + JSON schema
   provenance_validator.rb     Stage 4: mechanical evidence-in-source assertions
-  member_resolver.rb          resolves an extracted name or electorate to TVFY member facts
+  member_resolver.rb          resolves an extracted name, electorate or Hansard speaker id to TVFY member facts
+  mover_finder.rb             Stage 1: the mover and the terms moved, found by rule from Hansard
+  earlier_debate.rb           Stage 1, Level D: the moving speeches from earlier in the same debate
   template_compiler.rb        Stage 5: injects validated data into the Markdown templates
   text_normaliser.rb          shared text cleaning and quote-matching normalisation
   templates/                  the 28 Markdown templates ({{placeholder}} syntax)
@@ -472,6 +521,7 @@ app/services/division_summarizer.rb         orchestrator that runs the five stag
 app/models/ai_division_summary.rb           output model: one saved draft per division and model
 app/lib/data_loader/debates.rb              existing loader + fetch_xml_document/xml_url helpers
 app/lib/data_loader/division_xml.rb         existing parser + operative_question/context_speeches
+app/lib/data_loader/speech_text.rb          one <speech> with its paragraphs kept apart, and what it moved
 lib/tasks/ai_classification.rake            rake ai:summarize_division runs the whole pipeline
 spec/services/division_summary_pipeline/    software specs + evaluation corpus
 spec/fixtures/division_summaries/           evaluation fixtures (test_1, test_2)
@@ -552,7 +602,11 @@ TVFY actually gets its data, not because they sounded good in a design document.
    genuinely ambiguous is left to the LLM inside candidate fences, and its output is then
    provenance-checked. Do not grow it toward "completely understanding Parliament" in code.
 4. **Progressive context stays.** Level A (immediate speeches) -> Level B (subdebate, default) ->
-   Level C (sitting day), expanded when the extractor reports `sufficient_context: false`.
+   Level C (sitting day), expanded when the extractor reports `sufficient_context: false`. Level D
+   (the moving speeches from earlier in the same debate, including earlier sitting days) is added
+   to whichever tier is in use when the motion was moved elsewhere. It adds moves and the chair's
+   statements only, never whole earlier debates. The widened packet keeps the routing decision
+   made on the speeches beside the division.
 5. **Two kinds of tests.** Software specs prove the code behaves as designed; the parliamentary
    evaluation corpus (`spec/fixtures/division_summaries/`) proves real-shaped Hansard flows end to
    end with 100% provenance and exact expected output. The corpus currently covers Templates 2 and
@@ -590,14 +644,6 @@ was never built, rather than work that is wrong.
   division data, but nothing resolves "the division that put the underlying question" yet.
   Finding it is a deterministic lookup over same-debate divisions - a candidate for a future
   ContextBuilder extension rather than new data plumbing.
-- **The mover's facts are not wired for live divisions.** `TemplateCompiler` reads
-  `mover_name`/`mover_title`/`mover_party`/`mover_link` from the division data and the evaluation
-  fixtures supply them, but nothing populates them from a real `Division`: `extract_attributes`
-  provides none, so the mover name falls back to the division's own name and the link and party
-  stay empty. The loader knows the mover (the Hansard XML carries speaker IDs that
-  `DataLoader::DivisionXml` already resolves to `Member` records via `Member.find_by(gid:)`), so a
-  deterministic mover resolution through `MemberResolver` is the same pattern as the existing
-  target resolution.
 - **Surfacing `AiDivisionSummary` drafts in the admin panel** for the review workflow.
 - **Decide whether `LLM_Divisions/` is committed to this repo as archived reference** (the
   `ARCHIVED.md` in it supports that) or kept untracked; the conversation transcripts in it are

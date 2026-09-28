@@ -20,12 +20,22 @@ module DivisionSummaryPipeline
   class MemberResolver
     include Rails.application.routes.url_helpers
 
-    def self.resolve(name: nil, electorate: nil, house: nil, date: nil)
-      new.resolve(name: name, electorate: electorate, house: house, date: date)
+    def self.resolve(name: nil, electorate: nil, house: nil, date: nil, gid: nil)
+      new.resolve(name: name, electorate: electorate, house: house, date: date, gid: gid)
     end
 
-    def resolve(name: nil, electorate: nil, house: nil, date: nil)
-      member = find_member(name: name, electorate: electorate, house: house, date: date)
+    # A member known only by the name Hansard printed, with no database record behind it, so no
+    # party, electorate or link can be given. Built here so callers need not reach for
+    # ResolvedMember directly, which lives in this file and so cannot be autoloaded on its own.
+    def self.named(name)
+      ResolvedMember.new(member: nil, name: name.presence, party: nil, electorate: nil, link: nil)
+    end
+
+    # gid is the Hansard speaker id ("uk.org.publicwhip/member/123"), which identifies a member
+    # stint exactly, so it is tried before any name or electorate.
+    def resolve(name: nil, electorate: nil, house: nil, date: nil, gid: nil)
+      member = (Member.find_by(gid: gid) if gid.present?) ||
+               find_member(name: name, electorate: electorate, house: house, date: date)
       return ResolvedMember.new(member: nil, name: nil, party: nil, electorate: nil, link: nil) unless member
 
       ResolvedMember.new(
