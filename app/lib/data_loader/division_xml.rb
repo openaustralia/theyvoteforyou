@@ -144,6 +144,32 @@ module DataLoader
       selected.map { |speech| SpeechText.context_speech(speech) }
     end
 
+    # The title of the debate this division sits in: the nearest preceding minor heading
+    # ("Example Bill 2026; Second Reading"), or the major heading when there is none. Raw
+    # Hansard text, unlike #name, so it can be compared with the same heading elsewhere.
+    def debate_title
+      heading = division_xml.at_xpath("preceding::minor-heading[1]") || division_xml.at_xpath("preceding::major-heading[1]")
+      heading&.text.to_s.gsub(/[[:space:]]+/, " ").strip
+    end
+
+    # Speeches from earlier in the same debate on this sitting day that the :subdebate tier
+    # cannot reach: those before an earlier division under this heading, and those under an
+    # earlier appearance of the same heading, as when a debate is interrupted by Question Time
+    # and resumed under a repeated heading. DebatesXml#speeches_under_minor_heading does the same
+    # for other sitting days.
+    def earlier_same_debate_speeches
+      title = DebatesXml.normalise_heading(debate_title)
+      return [] if title.empty?
+
+      already_read = previous_speeches.map(&:pointer_id)
+      division_xml.xpath("preceding::speech").select do |speech|
+        next false if already_read.include?(speech.pointer_id)
+
+        section = speech.at_xpath("preceding::minor-heading[1]") || speech.at_xpath("preceding::major-heading[1]")
+        section && DebatesXml.normalise_heading(section.text) == title
+      end
+    end
+
     # True when this division follows another with no debate between them. Where divisions
     # follow one another with no intervening debate the bells are rung for one minute and the
     # questions are put in a run (House S.O. 131, Guide p. 57; the Senate equivalent in Senate
