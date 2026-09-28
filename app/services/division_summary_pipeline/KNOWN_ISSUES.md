@@ -37,7 +37,9 @@ check there before publishing.
   entry says which one.
 
 This register was compiled with AI assistance (Claude Code, claude-opus-5[1m]), and revised with the
-same assistance in a later pass that fixed most of the entries and added KI-15 to KI-19. The
+same assistance in a later pass that fixed most of the entries and added KI-15 to KI-19. KI-20 to
+KI-29 were added with Claude Code (claude-opus-5-5) from a test run over eight real divisions in
+September 2026; see "Where KI-20 to KI-29 came from" below. The
 procedural citations are drawn from the two guides named above and should be checked against them;
 the code behaviour marked **Confirmed** was reproduced against this working tree.
 
@@ -67,6 +69,16 @@ mistake being reintroduced, and gains a note saying what the fix does and which 
 | [KI-17](#ki-17) | Medium | Fixed | The compiler's grammar tidying edited quoted Hansard |
 | [KI-18](#ki-18) | Medium | Open | A tied House division cannot be resolved from the recorded figures |
 | [KI-19](#ki-19) | Low | Verify | Template 21 cites the Parliament Act 1974, which neither guide mentions |
+| [KI-20](#ki-20) | High | Fixed | Stage 1 misread current ParlParse XML: glued paragraphs, and no motion text |
+| [KI-21](#ki-21) | High | Fixed | A deferred division, or a long debate, left the motion out of the packet |
+| [KI-22](#ki-22) | High | Fixed | Almost every division was called a conscience vote |
+| [KI-23](#ki-23) | Medium | Fixed | Real question forms routed to the wrong template or too wide a fence |
+| [KI-24](#ki-24) | Medium | Fixed | The mover was whoever the model credited, or "a member" |
+| [KI-25](#ki-25) | Medium | Fixed | Stage 4 rejected genuine quotes over formatting, and let weak evidence through |
+| [KI-26](#ki-26) | Low | Fixed | Wording from verbatim text read badly in Templates 2, 16, 17 and 19 |
+| [KI-27](#ki-27) | Medium | Fixed | The context retry leaked one model's note and re-routed the division |
+| [KI-28](#ki-28) | Medium | Open | Validator warnings and the review flag are thrown away |
+| [KI-29](#ki-29) | Medium | Open | Findings from the same audit that have not been worked on |
 
 ---
 
@@ -691,3 +703,199 @@ this register exists to say out loud.
   document was wrong.
 
 **Fixed**, all four, along with the sections describing behaviour this round of work changed.
+
+## Where KI-20 to KI-29 came from
+
+In September 2026 the pipeline was run with seven Bedrock models over eight real divisions from
+May and September 2026 (Senate 14 September #7, 16 September #15, 17 September #5 and #10; House
+14 May #1, 28 May #5, 14 September #1, 17 September #2). Only 15 of the 56 drafts compiled, and
+two divisions produced none. The day's ParlParse XML for each was then replayed through Stages 1
+and 2, and Stages 4 and 5 were run offline on hand-written extractions, which is what **Confirmed**
+means for these entries. Routing was also checked over all 58 divisions in those XML files. The
+reports did not include each model's raw response, so failures that depend on exactly what a
+model returned are described as reported, not reproduced.
+
+One cause sits under most of these. The pipeline's specs and evaluation fixtures were written in
+an XML shape current ParlParse output does not produce, so the offline suite passed while every
+real division was misread (KI-20). New fixtures copy the real shape with invented names.
+
+### KI-20
+
+**Stage 1 misread current ParlParse XML.** Severity: High. Status: **Fixed**. Confirmed on all
+eight divisions.
+
+- `speech.text` joins sibling paragraphs with nothing between them, so "the Senate:</p><p>(a)
+  notes" reached the model as "the Senate:(a) notes". Models quote with normal spacing, so genuine
+  quotes failed Stage 4, and the compiled motion text was mangled.
+- Current files carry no `pwmotiontext` attributes. A motion's terms are `<p class="italic">`
+  after "I move:", so `DivisionXml#operative_question` was always the chair's last statement. That
+  is often only a reference ("the motion moved by the member for Exampleton be agreed to"), which
+  sent a suspension of standing orders and a committee referral to the Template 15 fallback.
+- The chair is recorded as a named member with a `speakerid`, not as `nospeaker`, so "only the
+  chair spoke" could not be read from the markup.
+- A typesetting artefact, a run of non-breaking spaces and a full stop before a hyphenated word,
+  reached published motion text as "is .anti-competitive".
+
+**Fixed**: `DataLoader::SpeechText` keeps paragraphs apart, drops the artefact and reads the terms
+moved (italic or `pwmotiontext` paragraphs after "I move", including the Senate's longer forms).
+The router re-routes a fallback question on the motion as moved (KI-23). Specs:
+`spec/lib/data_loader/speech_text_spec.rb`, `spec/lib/data_loader/division_xml_spec.rb`, and
+"Hansard in the shape current ParlParse produces" in `context_builder_spec.rb`.
+
+### KI-21
+
+**A deferred division, or a long debate, left the motion out of the packet.** Severity: High.
+Status: **Fixed**. Confirmed.
+
+The two divisions that produced no draft had the shortest debates, but only one failed for that
+reason. House 14 May 2026 #1 was a second reading amendment moved on 12 May; the division was
+deferred on 13 May (House S.O. 133) and put on 14 May without debate. The packet held one
+statement from the chair, so every model left `declines_second_reading` unset. Even the sitting
+day retry only read 14 May. Separately, the Level B tier keeps the last 25 speeches, and a long
+debate's motion is moved at its start: Senate 16 September 2026 #2 had its suspension motion in
+speech 1 of 34, with a closure motion inside the tail.
+
+**Fixed**: `EarlierDebate` (Level D, `ARCHITECTURE.md` section 4) adds the moving speeches and
+the chair's statements from earlier under the same heading, today and on up to 8 earlier sitting
+days. Deferral is read from the chair's words, and carried along a run of divisions, since only
+the first says so. `DivisionXml#context_speeches` keeps the latest earlier move in front of the
+tail. The other 0-of-7 division (House 14 September 2026 #1) was short, but failed on routing
+(KI-23). Specs: `earlier_debate_spec.rb`, `context_builder_spec.rb`, `division_xml_spec.rb`.
+
+### KI-22
+
+**Almost every division was called a conscience vote.** Severity: High. Status: **Fixed**.
+Confirmed: every draft that compiled said "This was a conscience vote (free vote)".
+
+The compiler asked `Whip#free?`, which is true for any whipless party (independents, the
+presiding officer), so nearly every division qualified. `Whip#free_vote?` is the actual list of
+conscience votes.
+
+**Fixed**: the compiler uses `Whip#free_vote?`, and says "Senators" in the Senate. That list stops
+at 1 December 2022 (`whip.rb`), so a later conscience vote will not be called one until someone
+adds it. Specs: "facts the drafts from real divisions got wrong" in `template_compiler_spec.rb`.
+
+### KI-23
+
+**Real question forms routed to the wrong template or too wide a fence.** Severity: Medium.
+Status: **Fixed**. Confirmed against the 58 divisions in the replayed XML.
+
+- A question put by reference fell to the Template 15 fallback (above, KI-20).
+- "That the amendments be considered at the next sitting", the House's answer to a Senate
+  message, matched the amendment rule and was fenced to Templates 2 and 4 (House 14 September
+  2026 #1; every model chose a template outside the fence and failed). "... considered immediately" did the same.
+- "That the amendments be agreed to" under a "Consideration of Senate Message" heading, and an
+  amendment put by reference under a "Second Reading" heading, were fenced to [2, 4], which let
+  Template 4 say a second reading amendment had changed the text of the bill.
+- An order for the production of documents that never says "documents" or "papers" ("That there
+  be laid on the table ... a copy of the report entitled ...") missed Template 8.
+- Once routed on the motion, amending a joint select committee's "resolution of appointment"
+  matched Template 12 and would have been reported as establishing a committee.
+- The prompt told the model it MUST pick from the candidates, even for the fallback's shortlist
+  the validator does not enforce.
+
+**Fixed**: the router re-routes on the motion's first paragraph, binding only when the motion
+opens in a fixed form and advisory otherwise, and uses the heading where the question leaves the
+stage open (`ARCHITECTURE.md`, Stage 2). The prompt says when candidates are only a default.
+Specs: "routing on the motion as moved" and "questions taken from recent Hansard" in
+`procedural_router_spec.rb`, and `semantic_extractor_spec.rb`.
+
+### KI-24
+
+**The mover was whoever the model credited, or "a member".** Severity: Medium. Status:
+**Fixed**. Confirmed.
+
+The compiler took the mover from the first claim's speaker. A draft with no claims said
+"introduced by a member", and an unresolved speaker string was printed as the model wrote it,
+after a title Templates 3, 4 and 5 hard-coded ("introduced by Senator a member").
+
+**Fixed**: `MoverFinder` finds the mover by rule from the chair's "moved by ..." or the latest "I
+move" (all eight divisions resolve), `ContextBuilder` puts it on the packet, and the compiler
+prefers it. An unresolved model string falls back to "a member", and Templates 3, 4 and 5 use
+`{{mover_title}}`. Specs: `mover_finder_spec.rb`, `template_compiler_spec.rb`,
+`division_summarizer_spec.rb`.
+
+### KI-25
+
+**Stage 4 rejected genuine quotes over formatting, and let weak evidence through.** Severity:
+Medium. Status: **Fixed**. The 16 failing quotes the reports show all verify now.
+
+- Rejected: evidence wrapped in quotation marks, evidence starting with the pipeline's own
+  "SPEECH: Name [time]:" label, spacing next to punctuation, and fields the chosen template never
+  prints (a Template 17 failed on `rearrangement_description`).
+- Let through: evidence of a few words, which is found in almost any debate, and a claim credited
+  to "Rae" checked against a member named "Graeme", because speaker scoping matched substrings.
+
+**Fixed**: the wrapping and labels are stripped from the evidence only, normalisation ignores
+spacing beside punctuation, only fields a template renders are checked, evidence under 20
+characters fails with its own message, and speakers are matched word by word. An ellipsis is
+still rejected, now with a message saying why. Specs: `provenance_validator_spec.rb`,
+`text_normaliser_spec.rb`.
+
+### KI-26
+
+**Wording from verbatim text read badly.** Severity: Low. Status: **Fixed**. Confirmed.
+
+"declaring Migration policy urgency as a matter of urgency" (Template 16), a suspension purpose
+cut to "regarding Suspension of standing orders" by a 240-character cap (Template 17),
+"specifically to the debate be adjourned" (Template 19), and the model's topic printed as a
+linked bill title when the division has no bill record.
+
+**Fixed**: Template 16 quotes the matter itself, the Template 17 purpose has no length cap and
+runs to the end of its clause (a semicolon, colon, paragraph break or sentence end), Template 19 reads "specifically that ...", and a missing bill is
+"the bill". Specs: `template_compiler_spec.rb`.
+
+### KI-27
+
+**The context retry leaked one model's note and re-routed the division.** Severity: Medium.
+Status: **Fixed**. Read, and held by specs; the reports do not show it happening.
+
+A model's `missing_context_clue` went into `hansard_context`, where Stage 4 treats every word as
+Hansard, and the widened packet (with that clue) was kept for every later model. The widened
+packet was also routed again on the first 1,000 characters of the whole sitting day, which is
+some other debate. Separately, one model's calls failed with `Net::ReadTimeout`; the AWS SDK's
+default read timeout is 60 seconds (`aws-sdk-core` 3.254.1).
+
+**Fixed**: the clue travels as `<missing_context_clue>` beside the transcript, is dropped before
+the packet is shared, and the widened packet keeps the original routing decision. The Bedrock
+read timeout is 300 seconds. Specs: `context_builder_spec.rb`, `semantic_extractor_spec.rb`,
+`division_summarizer_spec.rb`.
+
+### KI-28
+
+**Validator warnings and the review flag are thrown away.** Severity: Medium. Status: Open.
+
+Section 4 of `ARCHITECTURE.md` says Stage 1's warnings "reach the validator, which records them
+and marks the draft for review". The validator does compute them, but `DivisionSummarizer` builds
+its result without `warnings` or `requires_human_review`, and `AiDivisionSummary` has no column
+for them. So a deferred-division warning, or motion text that could not be verified, reaches no
+reviewer.
+
+A fix needs a decision: a column on `AiDivisionSummary`, or appending the warnings to the saved
+draft's notes. Until then the document describes something the code does not do.
+
+### KI-29
+
+**Findings from the same audit that have not been worked on.** Severity: Medium. Status: Open.
+
+An automated audit of the eight divisions raised these. They are recorded as **Read**: each was
+reported with a file reference but has not been reproduced here.
+
+- A reply with no usable `template_id` and a `description` key is saved as a legacy title and
+  description, skipping Stage 4 entirely (`extraction_payload.rb`, `division_summarizer.rb`).
+- "Amendment" in a bill's title triggers the amendment rule, so "That the Example Amendment Bill
+  2026 be exempted from the cut-off" is fenced to [2, 3] (seen at Senate 14 September 2026 #2).
+- Unverifiable `motion_text` is only a warning (a deliberate choice, recorded in
+  `check_motion_text`), but the compiler blockquotes it as the motion and builds the Template 16
+  and 17 prose from it. Making it an error for those templates, or rendering the motion Stage 1
+  found, needs deciding.
+- A draft with no claims passes and publishes "[No explanatory claims recorded]"; the "1 to 4"
+  claim cap in the prompt is not enforced.
+- Every mover's statement is dated with the division's time, not the speech's.
+- Claims are the model's paraphrase but are set in blockquotes like quotations.
+- The draft title is the model's `topic`.
+- The Senate's Template 2 explainer describes only the House.
+- "Large majority" is used for any majority over half the turnout; the division page uses more
+  than two thirds (`divisions_helper.rb`).
+- No draft says it was drafted with AI or by which model. How it should say so is a decision for
+  the team, since drafts are meant for the public site.

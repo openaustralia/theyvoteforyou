@@ -19,6 +19,8 @@ module DivisionSummaryPipeline
     :procedural_decision,
     :extra_context,
     :context_warnings,
+    :mover,
+    :earlier_debate_dates,
     keyword_init: true
   )
 
@@ -58,15 +60,31 @@ module DivisionSummaryPipeline
     DEFAULT_LEVEL = :subdebate
     DEFAULT_SPEAKER_QUESTION = "The question is that the motion be agreed to."
 
-    def self.build(division, xml_content: nil, context_level: DEFAULT_LEVEL, extra_context: nil)
-      new(division, xml_content: xml_content, context_level: context_level, extra_context: extra_context).build
+    # The chair saying a division was deferred, in either chamber's words: "on which a division
+    # was called for and deferred", "the division is deferred until ...", "we have a deferred
+    # vote on ...". Read from the text because the time-of-day windows below miss deferrals put
+    # on other days, such as at the start of the next sitting day.
+    DEFERRED_STATEMENT = /standing\s+order\s+133|called\s+for\s+and\s+deferred|(?:division|vote)\s+(?:is|was|be|being|has\s+been)\s+deferred|deferred\s+(?:division|vote|question)/i
+
+    # Question wording that points at something moved earlier, so its terms should be in the
+    # packet. Used only to decide whether to look for them.
+    REFERS_TO_MOVED_BUSINESS = /\bmoved\b|\bamendments?\b|\bmotion\b|\bread\s+a\s+(?:second|third)\s+time\b/i
+
+    # xml_fetcher: callable (house, date) returning a parsed ParlParse document or nil, used to
+    # read earlier sitting days of the same debate (EarlierDebate). Defaults to the loader's own
+    # fetch when this division's XML is fetched too, and to none when xml_content is supplied,
+    # so offline fixtures never reach the network.
+    def self.build(division, xml_content: nil, context_level: DEFAULT_LEVEL, extra_context: nil, xml_fetcher: nil)
+      new(division, xml_content: xml_content, context_level: context_level, extra_context: extra_context,
+                    xml_fetcher: xml_fetcher).build
     end
 
-    def initialize(division, xml_content: nil, context_level: DEFAULT_LEVEL, extra_context: nil)
+    def initialize(division, xml_content: nil, context_level: DEFAULT_LEVEL, extra_context: nil, xml_fetcher: nil)
       @division = division
       @xml_content = xml_content
       @context_level = context_level
       @extra_context = extra_context
+      @xml_fetcher = xml_fetcher
     end
 
     def build
@@ -79,6 +97,13 @@ module DivisionSummaryPipeline
     private
 
     attr_reader :division, :xml_content, :context_level, :extra_context
+
+    def xml_fetcher
+      return @xml_fetcher if @xml_fetcher
+      return nil if xml_content.present? || !defined?(DataLoader::Debates)
+
+      ->(house, date) { DataLoader::Debates.fetch_xml_document(house, date) }
+    end
 
     # Finds the DataLoader::DivisionXml (the same wrapper the nightly loader parses this
     # division's date/number/motion out of) that corresponds to this division, or nil if no
@@ -120,24 +145,32 @@ module DivisionSummaryPipeline
     # formatting: ProvenanceValidator.extract_speaker_text splits on those markers to verify
     # a quote against the member it was attributed to. Drop the tagging and a genuine quote
     # from one member silently passes as another's.
+    #
+    # hansard_context holds Hansard text and nothing else, because stage 4 treats every word of
+    # it as something a member said. The extractor's own missing_context_clue from a first
+    # pass travels separately, as packet.extra_context, for the same reason.
     def build_from_matched_division(division_xml)
       speaker_q = division_xml.operative_question.presence || DEFAULT_SPEAKER_QUESTION
       heading = division_xml.name.to_s
       speeches = division_xml.context_speeches(context_level)
+      deferred = deferred_by_chair?(division_xml, speeches)
+      earlier = earlier_debate(division_xml, speaker_q, speeches, deferred)
+      mover = MoverFinder.find(question: speaker_q, speeches: earlier.speeches + speeches,
+                               house: division_house, date: division_date)
 
       lines = []
-      lines << "DEBATE: #{heading}" if heading.present?
+      lines << "DEBATE: #{TextNormaliser.clean_text(heading)}" if heading.present?
       lines << ""
-
-      speeches.each do |speech|
-        label = speech[:speaker].presence || "Member"
-        label += " [#{speech[:time]}]" if speech[:time].present?
-        lines << "SPEECH: #{label}:\n#{TextNormaliser.clean_text(speech[:text])}\n"
+      unless earlier.empty?
+        lines << "EARLIER IN THIS DEBATE (only the speeches that moved something or put a question, " \
+                 "from #{earlier.dates.join(', ')}):"
+        earlier.speeches.each { |speech| lines << speech_block(speech, dated: true) }
+        lines << "THE SPEECHES BEFORE THIS DIVISION:"
       end
+      speeches.each { |speech| lines << speech_block(speech) }
 
       time_str = division_xml.clock_time.presence || division_clock_time
       lines << "DIVISION [#{time_str}]"
-      lines << "\nPRIOR_DEBATE_CONTEXT:\n#{extra_context.strip}" if extra_context.present?
 
       hansard_context = lines.join("\n")
 
@@ -145,9 +178,45 @@ module DivisionSummaryPipeline
         speaker_question: speaker_q,
         hansard_context: hansard_context,
         debate_heading: heading,
-        procedural_decision: route(speaker_q, heading, hansard_context),
-        context_warnings: context_warnings(division_xml, speeches)
+        procedural_decision: route(speaker_q, heading, hansard_context, motion_text: mover&.moved_text),
+        context_warnings: context_warnings(division_xml, speeches, earlier, deferred: deferred),
+        mover: mover,
+        earlier_debate_dates: earlier.dates
       )
+    end
+
+    def speech_block(speech, dated: false)
+      label = speech[:speaker].presence || "Member"
+      stamp = [(speech[:date] if dated), speech[:time].presence].compact.join(" ")
+      label += " [#{stamp}]" if stamp.present?
+      "SPEECH: #{label}:\n#{TextNormaliser.clean_text(speech[:text])}\n"
+    end
+
+    # The rest of this division's own debate, when the motion it decides is not in the speeches
+    # beside it (EarlierDebate explains when that happens). Skipped when a speech in front of the
+    # division already moves something and the chair is not describing a deferred question, so
+    # the common case costs nothing. The sitting-day retry always looks, because the extractor
+    # has already said the narrower packet was not enough.
+    def earlier_debate(division_xml, speaker_question, speeches, deferred)
+      empty = EarlierDebate::Result.new(speeches: [], dates: [])
+      moved_here = speeches.any? { |s| s[:moved_text].present? }
+      wanted = context_level == :sitting_day || deferred ||
+               (!moved_here && speaker_question.to_s.match?(REFERS_TO_MOVED_BUSINESS))
+      return empty unless wanted
+
+      EarlierDebate.collect(division_xml: division_xml, house: division_house, date: division_date,
+                            fetcher: xml_fetcher, exhaustive: context_level == :sitting_day)
+    rescue StandardError => e
+      Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not gather earlier debate: #{e.message}" if defined?(Rails)
+      empty
+    end
+
+    # Whether the chair says this division was deferred, in the speeches beside it or anywhere
+    # in the run of divisions it belongs to: only the first question of a deferred run says so
+    # (DataLoader::DivisionXml#run_statements).
+    def deferred_by_chair?(division_xml, speeches)
+      run = division_xml.respond_to?(:run_statements) ? division_xml.run_statements : []
+      (speeches.map { |s| s[:text].to_s } + run).any? { |text| text.match?(DEFERRED_STATEMENT) }
     end
 
     # Stage 1 takes the speeches immediately before the <division> element, which assumes the
@@ -160,24 +229,37 @@ module DivisionSummaryPipeline
     # These are warnings, not errors. Detecting the risk is cheap and reliable; recovering the
     # right debate is neither, so the judgement is handed to the extractor (which can report
     # insufficient context) and then to a reviewer.
-    def context_warnings(division_xml, speeches)
+    def context_warnings(division_xml, speeches, earlier = nil, deferred: false)
       warnings = []
 
       if division_xml.respond_to?(:preceded_by_division?) && division_xml.preceded_by_division?
         warnings << "This division immediately follows another with no debate between them. Where divisions " \
                     "are taken successively only the first has the debate about it in front of it, so the " \
-                    "speeches in this excerpt may belong to an earlier question."
+                    "debate about this question may be before the earlier division."
       end
 
       warnings << "No debate speeches were found immediately before this division." if speeches.empty?
 
-      deferred = deferred_division_warning
-      warnings << deferred if deferred
+      deferred_warning = deferred_division_warning(speeches, deferred_by_chair: deferred)
+      warnings << deferred_warning if deferred_warning
+
+      if earlier.present?
+        warnings << "The motion this division decides was not moved in the speeches beside it, so the packet " \
+                    "adds the speeches from earlier in the same debate (#{earlier.dates.join(', ')}) that moved " \
+                    "something or put a question. Check they are about the same question."
+      end
 
       warnings
     end
 
-    def deferred_division_warning
+    # Said outright by the chair where Hansard records it, and otherwise inferred from the
+    # House's deferral windows. A motion moved inside the window was put there and then, so the
+    # window alone is no reason to doubt the speeches beside it.
+    def deferred_division_warning(speeches = [], deferred_by_chair: false)
+      if deferred_by_chair
+        return "The chair's words show this division was deferred, and a deferred question is put without " \
+               "further debate, so the debate about it took place earlier than the speeches beside it."
+      end
       return nil unless division_house.include?("representative")
 
       date = begin
@@ -192,6 +274,7 @@ module DivisionSummaryPipeline
 
       time = normalise_time(division_clock_time)
       return nil unless time.match?(/\A\d\d:\d\d\z/) && window.cover?(time)
+      return nil if speeches.any? { |s| s[:moved_text].present? && window.cover?(normalise_time(s[:time])) }
 
       "This division was taken in the part of the day when the House puts questions whose divisions were " \
         "deferred earlier (Standing Order 133). A deferred question is put without further debate, so the " \
@@ -222,8 +305,7 @@ module DivisionSummaryPipeline
                   end
 
       heading = division_name
-      hansard_context = "DEBATE: #{heading}\n\nMOTION:\n#{motion_text}"
-      hansard_context += "\n\nPRIOR_DEBATE_CONTEXT:\n#{extra_context.strip}" if extra_context.present?
+      hansard_context = "DEBATE: #{TextNormaliser.clean_text(heading)}\n\nMOTION:\n#{motion_text}"
 
       assemble_packet(
         speaker_question: speaker_q,
@@ -237,12 +319,13 @@ module DivisionSummaryPipeline
 
     # Stage 2 runs here rather than in the orchestrator so a packet is never in circulation
     # without its routing decision attached.
-    def route(speaker_question, heading, hansard_context)
+    def route(speaker_question, heading, hansard_context, motion_text: nil)
       ProceduralRouter.route(
         speaker_question: speaker_question,
         chamber: division_house,
         debate_heading: heading,
-        hansard_snippet: hansard_context.to_s[0..1000]
+        hansard_snippet: hansard_context.to_s[0..1000],
+        motion_text: motion_text.to_s.split(/\n{2,}/).first.to_s
       )
     end
 
@@ -250,7 +333,7 @@ module DivisionSummaryPipeline
     # from the model: they are Type 1 authoritative facts (ARCHITECTURE.md, Data
     # classification) that stage 5 publishes as given.
     def assemble_packet(speaker_question:, hansard_context:, debate_heading:, procedural_decision:,
-                        context_warnings: [])
+                        context_warnings: [], mover: nil, earlier_debate_dates: [])
       metadata = {
         tvfy_id: division_id,
         house: division_house,
@@ -276,7 +359,9 @@ module DivisionSummaryPipeline
         context_level: context_level,
         procedural_decision: procedural_decision,
         extra_context: extra_context,
-        context_warnings: context_warnings
+        context_warnings: context_warnings,
+        mover: mover,
+        earlier_debate_dates: earlier_debate_dates
       )
     end
 

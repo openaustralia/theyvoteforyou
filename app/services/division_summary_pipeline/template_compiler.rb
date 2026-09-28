@@ -23,12 +23,28 @@ module DivisionSummaryPipeline
     # (one fifth of the House) from 30 to 31. See #house_quorum_threshold.
     HOUSE_OF_151_FROM = Date.new(2019, 7, 1)
 
-    def self.compile(division_or_data, extraction, digest_section: nil, templates_dir: nil)
-      new(templates_dir: templates_dir).compile(division_or_data, extraction, digest_section: digest_section)
+    # mover: the ResolvedMember ContextBuilder found for whoever moved the motion (MoverFinder),
+    # used when the division data does not name one.
+    def self.compile(division_or_data, extraction, digest_section: nil, templates_dir: nil, mover: nil)
+      new(templates_dir: templates_dir).compile(division_or_data, extraction, digest_section: digest_section, mover: mover)
     end
 
     def initialize(templates_dir: nil)
       @templates_dir = templates_dir || DEFAULT_TEMPLATES_DIR
+    end
+
+    # The sentence each template prints the mover's claims after ("states that this amendment
+    # will:"), keyed by template number, for templates that print claims at all. Read from the
+    # template files themselves so SemanticExtractor can tell the model how each claim will be
+    # read without keeping a second copy of the wording that could drift from the templates.
+    def self.claims_lead_ins(templates_dir = DEFAULT_TEMPLATES_DIR)
+      Dir.glob(File.join(templates_dir, "*.md")).each_with_object({}) do |path, lead_ins|
+        text = File.read(path, encoding: "utf-8")
+        next unless text.include?("{{introducer_claims}}")
+
+        lead_in = text.split("{{introducer_claims}}").first.strip.lines.last.to_s
+        lead_ins[File.basename(path)[/\A\d+/].to_i] = lead_in.sub(/\A.*?\{\{mover_name\}\}\s*/, "").strip
+      end.sort.to_h
     end
 
     # Placeholders whose value is source text reproduced word for word: the motion as Hansard
@@ -42,9 +58,9 @@ module DivisionSummaryPipeline
     # An unknown placeholder renders as empty rather than being left in place, so a template
     # edited to use a key this class does not build degrades quietly instead of publishing
     # "{{whatever}}". ProvenanceValidator is what stops a required fact going missing here.
-    def compile(division_or_data, extraction, digest_section: nil)
+    def compile(division_or_data, extraction, digest_section: nil, mover: nil)
       template_text = load_template(extraction.template_id)
-      data = prepare_compilation_data(division_or_data, extraction, digest_section)
+      data = prepare_compilation_data(division_or_data, extraction, digest_section, mover)
 
       verbatim = {}
       rendered = template_text.gsub(/\{\{([^}]+)\}\}/) do
@@ -91,7 +107,7 @@ module DivisionSummaryPipeline
       File.read(matching.first, encoding: "utf-8")
     end
 
-    def prepare_compilation_data(division_or_data, extraction, digest_section)
+    def prepare_compilation_data(division_or_data, extraction, digest_section, mover = nil)
       raw = extract_attributes(division_or_data)
       template_id = extraction.template_id
 
@@ -162,13 +178,15 @@ module DivisionSummaryPipeline
       # 5. Basic attributes. Mover details are resolved via MemberResolver from Hansard speaker claims
       # or raw division data, never falling back to debate headings. Unresolved details degrade cleanly.
       time = raw[:time].presence || raw[:clock_time].to_s
-      mover_attrs = resolve_mover_attributes(raw, extraction, is_senate)
+      mover_attrs = resolve_mover_attributes(raw, extraction, is_senate, mover)
       mover_name = mover_attrs[:name]
       mover_link = mover_attrs[:link]
       mover_party = mover_attrs[:party]
       mover_title = mover_attrs[:title]
 
-      bill_name = raw[:bill_name].presence || extraction.topic
+      # The model's topic is its own description, not a bill's title, so it is never printed as
+      # a linked bill name.
+      bill_name = raw[:bill_name].presence || "bill"
       bill_link = raw[:bill_link].to_s
 
       # Needed before the notices in step 6 as well as by the stage clause in step 10, so both
@@ -177,16 +195,16 @@ module DivisionSummaryPipeline
       is_constitution_bill = [bill_name, extraction.topic].compact.any? { |t| t.to_s.match?(/constitution\s+alteration/i) }
 
       # 6. Rebellions text (members voting against their own party) and procedural notices.
-      is_free_vote = raw[:free_vote] || (division_or_data.respond_to?(:whips) && division_or_data.whips.any?(&:free?))
+      is_free_vote = raw[:free_vote] || free_vote?(division_or_data)
 
       rebellions_text = if is_free_vote
-                          "This was a conscience vote (free vote). Members were not bound by party whips, so no party rebellions are recorded.\n"
+                          "This was a conscience vote (free vote). #{is_senate ? 'Senators' : 'Members'} were not bound by party whips, so no party rebellions are recorded.\n"
                         else
                           rebellions_val = raw[:rebellions]
                           if rebellions_val.is_a?(String) && rebellions_val.strip.present?
                             "#{rebellions_val.strip}\n"
                           elsif rebellions_val.is_a?(Integer) && rebellions_val.positive?
-                            "#{rebellions_val} member(s) voted against their party.\n"
+                            "#{rebellions_val} #{is_senate ? 'senator(s)' : 'member(s)'} voted against their party.\n"
                           else
                             "Nobody voted against their party on this occasion.\n"
                           end
@@ -305,6 +323,7 @@ module DivisionSummaryPipeline
         "continuation_clause" => is_successful ? "They were unable to continue speaking, and the debate went on without them." : "They were able to continue speaking.",
         "suspension_effect_clause" => is_successful ? "The usual rules were set aside so the matter could be dealt with immediately." : "",
         "suspension_purpose_clause" => suspension_purpose_clause(extraction, template_id),
+        "urgency_matter_clause" => urgency_matter_clause(extraction),
         "suspension_form" => is_senate ? "sitting" : "service",
         "suspension_period_sentence" => suspension_period_sentence(is_senate),
         "message_action_clause" => message_action_clause(msg_form, chamber, other_chamber),
@@ -324,7 +343,7 @@ module DivisionSummaryPipeline
         "committee_name" => extraction.committee_name.presence || raw[:committee_name] || "",
         "business_name" => extraction.business_name.presence || raw[:business_name] || "",
         "motion_link" => raw[:motion_link] || "",
-        "rearrangement_description" => extraction.rearrangement_description.presence || raw[:rearrangement_description] || "",
+        "rearrangement_description" => rearrangement_clause(extraction.rearrangement_description.presence || raw[:rearrangement_description]),
         "regulation_name" => extraction.regulation_name.presence || raw[:regulation_name] || "",
         "regulation_link" => raw[:regulation_link] || "",
         "regulation_summary" => raw[:regulation_summary] || "",
@@ -421,16 +440,50 @@ module DivisionSummaryPipeline
     # urgent matter" was a guess, and read as a characterisation of the matter rather than a
     # description of the vote (KNOWN_ISSUES.md, KI-10). Falls back to naming the topic, and to
     # saying nothing at all when even that is missing.
+    #
+    # The purpose runs to the end of the sentence, which is a semicolon, a colon, a paragraph
+    # break, or a full stop followed by a new sentence or the end. A plain full stop is not
+    # enough, since purposes cite "notice of motion No. 3", and a length cap was not either: a
+    # suspension to return a bill with a long title from the Federation Chamber ran past it and
+    # fell back to "regarding Suspension of standing orders".
+    SUSPENSION_PURPOSE = /as\s+would\s+prevent\s+(.+?)(?=[;:]|\n\s*\n|\.(?:\s+[A-Z]|\s*\z)|\z)/m
+
     def suspension_purpose_clause(extraction, template_id)
       return "" unless template_id == 17
 
-      match = extraction.motion_text.to_s.match(/as would prevent\s+(.{3,240}?)(?:[.;:]|\z)/im)
+      match = extraction.motion_text.to_s.match(SUSPENSION_PURPOSE)
       if match
         purpose = match[1].to_s.gsub(/\s+/, " ").strip.sub(/[,-]\z/, "")
         return " to set aside the rules that would otherwise prevent #{purpose}" if purpose.present?
       end
 
-      extraction.topic.presence ? " regarding #{extraction.topic}" : ""
+      # A topic that only names the procedure adds a stutter, not a purpose.
+      topic = extraction.topic.to_s
+      topic.present? && !topic.match?(/standing\s+orders|suspen/i) ? " regarding #{topic}" : ""
+    end
+
+    # Template 16 names the matter the motion declares urgent in the motion's own words, which
+    # follow "is a matter of urgency:" (Senate S.O. 75). Printing the extracted topic there
+    # instead produced "declaring Migration policy urgency as a matter of urgency", since the
+    # topic is the model's own two to five words and often repeats the procedure.
+    URGENCY_MATTER = /matter\s+of\s+urgency\s*[:-]\s*(.+)\z/im
+
+    def urgency_matter_clause(extraction)
+      match = extraction.motion_text.to_s.match(URGENCY_MATTER)
+      if match
+        matter = match[1].gsub(/\s+/, " ").strip.sub(/\.\z/, "")
+        return "declaring a matter of urgency: \"#{matter}\"" if matter.present?
+      end
+
+      topic = extraction.topic.to_s.sub(/\s*(?:matter\s+of\s+)?urgency(?:\s+motion)?\s*\z/i, "").strip
+      topic.present? ? "declaring #{topic} a matter of urgency" : "declaring a matter of urgency"
+    end
+
+    # Template 19 reads "specifically that <description>", so the motion's own "That" and
+    # closing full stop are dropped from the operative words it was given ("That the debate be
+    # adjourned." reads "specifically that the debate be adjourned").
+    def rearrangement_clause(description)
+      description.to_s.strip.sub(/\AThat\s+/i, "").sub(/\.\z/, "")
     end
 
     # House S.O. 94(d) sets escalating periods rather than "the remainder of the sitting", and
@@ -889,7 +942,7 @@ module DivisionSummaryPipeline
                     turnout.positive? && aye_votes == no_votes
                   end
 
-        is_free = div.respond_to?(:whips) && div.whips.any?(&:free?)
+        is_free = free_vote?(div)
 
         {
           id: div.respond_to?(:id) ? div.id : nil,
@@ -913,14 +966,24 @@ module DivisionSummaryPipeline
       end
     end
 
-    def resolve_mover_attributes(raw, extraction, is_senate)
+    # A conscience vote is one where a party let its members vote as they chose, which
+    # Whip#free_vote? records from the list of known free votes. Whip#free? was used here
+    # before, and it is also true for every whipless "party" (independents, the Speaker, the
+    # President, the crossbench), so almost every division was described as a conscience vote.
+    def free_vote?(division)
+      division.respond_to?(:whips) && division.whips.any?(&:free_vote?)
+    end
+
+    def resolve_mover_attributes(raw, extraction, is_senate, mover = nil)
       name = raw[:mover_name].presence
       link = raw[:mover_link].to_s
       party = raw[:mover_party].presence || raw[:party].to_s
       title = raw[:mover_title].presence || raw[:title].presence
 
+      # The mover found from Hansard by rule comes before the claims' speaker, which is only
+      # whoever the model attributed its first claim to.
       if name.blank?
-        resolved_details = resolve_mover_from_claims(extraction, raw, is_senate)
+        resolved_details = resolve_mover_from_packet(mover, is_senate) || resolve_mover_from_claims(extraction, raw)
         name = resolved_details[:name]
         link = resolved_details[:link]
         party = resolved_details[:party]
@@ -938,7 +1001,21 @@ module DivisionSummaryPipeline
       end
     end
 
-    def resolve_mover_from_claims(extraction, raw, is_senate)
+    def resolve_mover_from_packet(mover, is_senate)
+      return nil if mover&.name.blank?
+
+      if mover.member
+        { name: mover.name, link: mover.link.to_s, party: mover.party.to_s,
+          title: mover.member.senator? ? "Senator" : "Representative" }
+      else
+        { name: mover.name, link: "", party: "", title: is_senate ? "Senator" : "Representative" }
+      end
+    end
+
+    # The model's speaker string is printed only once it resolves to a member. Unresolved, it
+    # is whatever the model wrote ("The PRESIDENT", "Mr Example"), and "Senator The PRESIDENT"
+    # is worse than the neutral "a member" resolve_mover_attributes falls back to.
+    def resolve_mover_from_claims(extraction, raw)
       mover_speaker = extraction.mover_claims&.map(&:speaker)&.find(&:present?)
       return {} if mover_speaker.blank?
 
@@ -947,21 +1024,14 @@ module DivisionSummaryPipeline
         house: raw[:house].presence,
         date: raw[:date].presence
       )
-      if resolved&.member
-        {
-          name: resolved.name,
-          link: resolved.link,
-          party: resolved.party,
-          title: resolved.member.senator? ? "Senator" : "Representative"
-        }
-      else
-        {
-          name: mover_speaker,
-          link: "",
-          party: "",
-          title: is_senate ? "Senator" : "Representative"
-        }
-      end
+      return {} unless resolved&.member
+
+      {
+        name: resolved.name,
+        link: resolved.link,
+        party: resolved.party,
+        title: resolved.member.senator? ? "Senator" : "Representative"
+      }
     end
   end
 end

@@ -28,6 +28,16 @@ describe DivisionSummaryPipeline::MemberResolver do
       expect(resolved.link).to eq("/people/representatives/brightwater/alex_downey")
     end
 
+    # Hansard's speaker id is exact, so it is trusted over a name that may be spelt differently.
+    it "resolves a Hansard speaker id to the member, whatever name is given" do
+      create_downey_member(gid: "uk.org.publicwhip/member/900501")
+
+      resolved = described_class.resolve(gid: "uk.org.publicwhip/member/900501", name: "A. Downey")
+
+      expect(resolved.name).to eq("Alex Downey")
+      expect(resolved.link).to eq("/people/representatives/brightwater/alex_downey")
+    end
+
     it "resolves the member from the electorate when the Hansard text only states the seat" do
       create_downey_member
 
@@ -72,6 +82,17 @@ describe DivisionSummaryPipeline::MemberResolver do
       expect(resolved.member).to be_nil
       expect(resolved.name).to be_nil
       expect(resolved.party).to be_nil
+      expect(resolved.link).to be_nil
+    end
+  end
+
+  describe ".named" do
+    # For a mover Hansard names but TVFY has no record of: printed as given, with no link.
+    it "carries the name alone" do
+      resolved = described_class.named("Jo Rae")
+
+      expect(resolved.name).to eq("Jo Rae")
+      expect(resolved.member).to be_nil
       expect(resolved.link).to be_nil
     end
   end

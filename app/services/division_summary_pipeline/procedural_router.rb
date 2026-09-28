@@ -39,7 +39,56 @@ module DivisionSummaryPipeline
   # Keep this a router. Everything genuinely ambiguous belongs to the extractor inside a
   # fence, not to more rules here (ARCHITECTURE.md, constraint 3).
   class ProceduralRouter
-    def self.route(speaker_question:, chamber: "", debate_heading: "", hansard_snippet: "")
+    # motion_text is the first paragraph of the motion as moved (ContextBuilder, via
+    # MoverFinder), used only when the question itself matched no rule. The chair often puts a
+    # question by reference - "the motion moved by the member for Exampleton be agreed to",
+    # "business of the Senate No. 3 ... as amended be agreed to" - and a reference carries none
+    # of the words the rules look for, so it fell to the general-motion fallback even when the
+    # motion was a suspension of standing orders or a committee referral. The question still
+    # wins whenever it says enough on its own, since it is what the chamber actually decided,
+    # and only the operative first paragraph is read so the clauses of a long motion cannot trip
+    # an unrelated rule.
+    #
+    # Even a first paragraph can mislead: a motion amending a committee's resolution of
+    # appointment names the committee without creating one. So a route taken from the motion is
+    # only binding when the motion opens in one of the fixed forms below, and is otherwise a
+    # default the extractor may depart from, like the fallback it replaced.
+    def self.route(speaker_question:, chamber: "", debate_heading: "", hansard_snippet: "", motion_text: "")
+      decision = route_question(speaker_question: speaker_question, chamber: chamber,
+                                debate_heading: debate_heading, hansard_snippet: hansard_snippet)
+      return decision unless decision.rule_name == "GENERAL_MOTION_FALLBACK" && motion_text.to_s.strip.present?
+
+      from_motion = route_question(speaker_question: motion_text, chamber: chamber,
+                                   debate_heading: debate_heading, hansard_snippet: hansard_snippet)
+      return decision if from_motion.rule_name == "GENERAL_MOTION_FALLBACK"
+
+      from_motion.reason = "The question referred to the motion without stating it, so it was routed on the " \
+                           "motion as moved. #{from_motion.reason}"
+      unless fixed_opening?(motion_text)
+        from_motion.is_deterministic = false
+        from_motion.template_id = nil
+        from_motion.advisory_candidates = true
+      end
+      from_motion
+    end
+
+    # Openings that settle what a motion does however the rest of it reads: a suspension of
+    # standing orders, a referral to a committee, an order for the production of documents and
+    # the establishment of a select committee, as the Senate's standard forms word them.
+    FIXED_MOTION_OPENINGS = [
+      /\Athat so much of the standing/,
+      /\Athat the following matters? be referred/,
+      /\Athat there be laid on the table/,
+      /\Athat a select committee/
+    ].freeze
+
+    # A leading paragraph number ("(1) That ...") is not part of the opening.
+    def self.fixed_opening?(motion_text)
+      opening = motion_text.to_s.strip.downcase.sub(/\A\(\w+\)\s*/, "")
+      FIXED_MOTION_OPENINGS.any? { |pattern| opening.match?(pattern) }
+    end
+
+    def self.route_question(speaker_question:, chamber:, debate_heading:, hansard_snippet:)
       q = speaker_question.to_s.strip.downcase
       heading = debate_heading.to_s.strip.downcase
       context = hansard_snippet.to_s.strip.downcase
@@ -272,13 +321,17 @@ module DivisionSummaryPipeline
       # production of documents, so tolerate "papers" as well as "documents", and "laid upon the
       # table" as well as "laid on the table". These votes are about access to the documents, never
       # about the subject the documents deal with, so a missed match here would misroute badly.
+      #
+      # "Laid on the table" is enough on its own. The Senate's usual order reads "That there be
+      # laid on the table by the Minister ..., by no later than ...:" and then lists what is wanted
+      # ("a copy of the report entitled ...", "all ministerial submissions ..."), often without
+      # ever saying "documents" or "papers".
       if q_clean.include?("production of documents") ||
          q_clean.include?("production of papers") ||
          q_clean.include?("order for the production") ||
          q_clean.include?("produce documents") ||
-         (q_clean.include?("documents") && q_clean.include?("laid on the table")) ||
-         (q_clean.include?("papers") &&
-           (q_clean.include?("laid on the table") || q_clean.include?("laid upon the table")))
+         q_clean.include?("laid on the table") ||
+         q_clean.include?("laid upon the table")
         return ProceduralDecision.new(
           is_deterministic: true,
           template_id: 8,
@@ -321,7 +374,9 @@ module DivisionSummaryPipeline
 
       # Template 12: Establishing a select committee, appointed to inquire into one subject
       # and disband once it reports. Distinct from a referral to a standing committee (13).
-      if q_clean.include?("select committee") &&
+      # Amending an existing committee's "resolution of appointment" (its membership, say) names
+      # a select committee and the word "appointment" without establishing anything.
+      if q_clean.include?("select committee") && q_clean.exclude?("resolution of appointment") &&
          (q_clean.include?("appoint") || q_clean.include?("establish") || q_clean.include?("inquire"))
         return ProceduralDecision.new(
           is_deterministic: true,
@@ -372,10 +427,12 @@ module DivisionSummaryPipeline
 
       # Template 19: Rearrangement of business. This also covers adjourning or postponing
       # debate on a bill or motion ("that the debate be adjourned", "the second reading be
-      # made an order of the day for the next sitting"). Those questions often name a bill
-      # stage, so they must be caught here, before the second reading and amendment rules
-      # below fence them between Templates 2 and 6 as though the bill itself were being
-      # decided.
+      # made an order of the day for the next sitting"), and setting when something will be
+      # considered ("that the amendments be considered at the next sitting" or "... considered
+      # immediately", the House's usual answers to a Senate message). Those questions often name
+      # a bill stage or the amendments, so they must be caught here, before the second reading
+      # and amendment rules below fence them as though the bill or the amendments themselves
+      # were being decided.
       if q_clean.include?("rearrangement of business") ||
          q_clean.include?("postpone") ||
          q_clean.include?("order of the day be postponed") ||
@@ -383,7 +440,8 @@ module DivisionSummaryPipeline
          q_clean.include?("debate be adjourned") ||
          q_clean.include?("debate be now adjourned") ||
          q_clean.include?("adjourn the debate") ||
-         q_clean.include?("business of the senate be rearranged")
+         q_clean.include?("business of the senate be rearranged") ||
+         q_clean.match?(/\bconsidered (?:at the next sitting|at a later hour|later this day|immediately)\b/)
         return ProceduralDecision.new(
           is_deterministic: true,
           template_id: 19,
@@ -422,7 +480,10 @@ module DivisionSummaryPipeline
                            (q_clean.include?("disagreed to") && q_clean.include?("amendment")) ||
                            q_clean.include?("requested amendment") ||
                            q_clean.include?("requests be made") ||
-                           q_clean.include?("press its request")
+                           q_clean.include?("press its request") ||
+                           # Under a message heading the House puts the other chamber's
+                           # amendments without naming where they came from.
+                           (heading.include?("message") && q_clean.match?(/\bamendments? be (?:dis)?agreed to\b/))
 
       if is_message_pattern
         return ProceduralDecision.new(
@@ -607,7 +668,12 @@ module DivisionSummaryPipeline
                        [2, 3, 4]
                      end
 
-        if context.include?("in committee") || context.include?("committee of the whole")
+        # The chair often puts a second reading amendment only by reference ("the amendment
+        # moved by the honourable member for Exampleton be agreed to"), and a deferred run of
+        # them has no debate beside it, but the section heading still names the stage.
+        if heading.include?("second reading")
+          candidates = [2]
+        elsif context.include?("in committee") || context.include?("committee of the whole")
           candidates = [3]
         elsif context.include?("consideration in detail")
           candidates = [4]
@@ -653,5 +719,7 @@ module DivisionSummaryPipeline
                 end
       )
     end
+
+    private_class_method :route_question
   end
 end

@@ -127,6 +127,99 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       expect(result.is_valid).to be(true)
     end
 
+    # What models wrapped round genuine quotes in the September 2026 test runs, and what they
+    # shortened them to. The wrapping is not part of the quote; the shortening proves nothing.
+    describe "the form of the evidence" do
+      def claim_with(evidence)
+        DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 2,
+          topic: "Consumer Data Right Reform",
+          motion_text: "That all words after 'That' be omitted",
+          declines_second_reading: true,
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(claim: "Retailers are not ready", evidence: evidence,
+                                                       speaker: "Priya Nakamura")
+          ]
+        )
+      end
+
+      let(:quote) { "many small retailers still lack the technical systems needed to comply" }
+
+      it "accepts a quote wrapped in quotation marks" do
+        expect(described_class.validate(claim_with("\"#{quote}\""), context_packet).errors).to be_empty
+      end
+
+      it "accepts a quote that starts with this pipeline's own speech label" do
+        expect(described_class.validate(claim_with("SPEECH: Priya Nakamura [12:31]: #{quote}"), context_packet).errors).to be_empty
+      end
+
+      it "says so when the evidence stitches passages together with an ellipsis" do
+        result = described_class.validate(claim_with("many small retailers still lack ... new data-sharing obligations"),
+                                          context_packet)
+
+        expect(result.is_valid).to be(false)
+        expect(result.errors.join).to include("ellipsis")
+      end
+
+      it "rejects evidence too short to show where the claim came from, even when it is found" do
+        result = described_class.validate(claim_with("small retailers"), context_packet)
+
+        expect(result.is_valid).to be(false)
+        expect(result.errors.join).to include("too short")
+      end
+    end
+
+    # Hansard labels one member "Graeme"; a claim credited to "Rae" once matched that label,
+    # because "rae" is inside "graeme".
+    context "when one member's name is part of another's" do
+      let(:hansard_context) do
+        <<~TEXT
+          DEBATE: Example Bill 2026; Second Reading
+          SPEECH: Graeme Lockyer [11:40]:
+          the regional hospitals in my electorate have waited three years for this funding.
+          SPEECH: Jo Rae [11:44]:
+          I move: That the debate be adjourned.
+        TEXT
+      end
+
+      it "does not check a claim credited to that member against the other member's words" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 19,
+          topic: "Adjournment of debate",
+          motion_text: "That the debate be adjourned.",
+          rearrangement_description: "That the debate be adjourned.",
+          mover_claims: [
+            DivisionSummaryPipeline::ClaimEvidence.new(
+              claim: "Regional hospitals have waited for funding",
+              evidence: "the regional hospitals in my electorate have waited three years for this funding",
+              speaker: "Rae"
+            )
+          ]
+        )
+
+        result = described_class.validate(extraction, context_packet)
+
+        expect(result.errors).to contain_exactly(a_string_including("attributed to 'Rae' was not found"))
+      end
+    end
+
+    # The first line of a motion is often only "That the Senate:" once paragraphs are kept
+    # apart, so only checking that line let invented clauses through without a word.
+    it "warns when a later clause of the motion text is not in Hansard" do
+      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        template_id: 2,
+        topic: "Consumer Data Right Reform",
+        motion_text: "many small retailers still lack the technical systems needed to comply with the proposed timeframe.\n\n" \
+                     "(b) calls on the Government to abolish the scheme.",
+        declines_second_reading: false
+      )
+
+      result = described_class.validate(extraction, context_packet)
+
+      expect(result.warnings.join).to include("Motion text could not be verified")
+      expect(result.errors).to be_empty
+    end
+
     context "with more than one speaker in the transcript" do
       let(:hansard_context) do
         <<~TEXT
@@ -338,6 +431,18 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
         expect(template_10.errors.join).to include("target_name")
         expect(template_19.errors.join).to include("rearrangement_description")
         expect(template_20.errors.join).to include("business_name")
+      end
+
+      # A field the chosen template never prints cannot reach a reader, so a paraphrase in it
+      # is no reason to reject the draft (a Template 17 in the test runs failed this way).
+      it "does not check a field the chosen template never renders" do
+        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+          template_id: 17, topic: "Suspension of standing orders",
+          motion_text: "That so much of the standing orders be suspended as would prevent the member moving a motion.",
+          rearrangement_description: "a paraphrase that appears nowhere in Hansard"
+        )
+
+        expect(described_class.validate(extraction, context_packet).errors.join).not_to include("rearrangement_description")
       end
     end
 

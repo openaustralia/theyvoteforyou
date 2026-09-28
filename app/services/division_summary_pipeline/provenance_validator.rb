@@ -46,11 +46,27 @@ module DivisionSummaryPipeline
     # The explicitly declining form from the same list.
     DECLINING_PATTERN = /declin(?:es|ing)\s+to\s+give\s+the\s+bill\s+a\s+second\s+reading/i
 
-    # Extracted facts published verbatim; each is mechanically verified against the
-    # Hansard context exactly like claim evidence.
-    EXTRACTED_TEMPLATE_FIELDS = %i[target_name target_electorate committee_name
-                                   regulation_name business_name
-                                   rearrangement_description].freeze
+    # Extracted facts published verbatim, by the template that publishes them; each is
+    # mechanically verified against the Hansard context exactly like claim evidence. A field the
+    # chosen template never renders is not checked: it cannot reach a reader, and failing a
+    # suspension-of-standing-orders draft over a paraphrased rearrangement_description it would
+    # never print rejected a good summary for nothing. The target fields also pick which member
+    # MemberResolver links to, so they count as rendered wherever a target is named.
+    RENDERED_TEMPLATE_FIELDS = {
+      9 => %i[regulation_name],
+      10 => %i[target_name target_electorate],
+      13 => %i[committee_name],
+      19 => %i[rearrangement_description],
+      20 => %i[business_name],
+      23 => %i[target_name target_electorate],
+      24 => %i[target_name target_electorate]
+    }.freeze
+
+    # What a model wraps round a quote without it being part of the quote: quotation marks, and
+    # the "SPEECH: Name [time]:" or "DEBATE:" labels ContextBuilder puts in the transcript, which
+    # are this pipeline's own markup rather than anything a member said.
+    OWN_LABEL = /\A\s*(?:SPEECH|DEBATE):[^\n\[:]*(?:\[[^\]\n]*\])?\s*:\s*/i
+    WRAPPING_QUOTES = /\A[\s"'\u201C\u201D\u2018\u2019]+|[\s"'\u201C\u201D\u2018\u2019]+\z/
 
     def self.validate(extraction, context_packet)
       new(extraction, context_packet).validate
@@ -101,13 +117,28 @@ module DivisionSummaryPipeline
     #
     # No partial-match tolerance: a fabricated middle between two genuine bookends must
     # be rejected, so the whole normalised snippet has to appear as one substring.
+    #
+    # Quotation marks and this pipeline's own labels round the snippet are removed first. That
+    # only ever shortens the snippet, so whatever is left must still be found word for word.
     def self.verify_provenance?(snippet, full_text)
-      norm_snippet = TextNormaliser.normalise_for_matching(snippet)
+      norm_snippet = TextNormaliser.normalise_for_matching(strip_quote_wrapping(snippet))
       norm_source = TextNormaliser.normalise_for_matching(full_text)
 
       return false if norm_snippet.empty? || norm_source.empty?
 
       norm_source.include?(norm_snippet)
+    end
+
+    # A handful of common words ("the Government", "this bill") is found in almost any debate,
+    # so as evidence it verifies nothing.
+    MINIMUM_EVIDENCE_SIZE = 20
+
+    def self.too_short_to_verify?(evidence)
+      TextNormaliser.normalise_for_matching(strip_quote_wrapping(evidence)).size < MINIMUM_EVIDENCE_SIZE
+    end
+
+    def self.strip_quote_wrapping(snippet)
+      snippet.to_s.sub(OWN_LABEL, "").gsub(WRAPPING_QUOTES, "")
     end
 
     HONORIFIC_PATTERN = /\b(mr|mrs|ms|miss|dr|senator|representative|member|hon|honourable|mp)\b/i
@@ -133,19 +164,17 @@ module DivisionSummaryPipeline
       speaker_chunks.join("\n")
     end
 
+    # Compared word by word, never as substrings: "rae" is inside "graeme", so a substring
+    # match credited one member's words to another and defeated the scoping.
     def self.speaker_matches?(label_line, speaker_name)
-      norm_label = TextNormaliser.normalise_for_matching(label_line)
-      norm_speaker = TextNormaliser.normalise_for_matching(speaker_name)
-      return true if norm_label.include?(norm_speaker)
-
       clean_label = clean_speaker_name(label_line)
       clean_speaker = clean_speaker_name(speaker_name)
       return false if clean_speaker.blank?
-      return true if clean_label.include?(clean_speaker)
 
       label_tokens = clean_label.split
       speaker_tokens = clean_speaker.split
       return false if label_tokens.empty? || speaker_tokens.empty?
+      return true if (speaker_tokens - label_tokens).empty? || (label_tokens - speaker_tokens).empty?
 
       # Match on surname if first names match or one side only supplied a surname
       label_tokens.last == speaker_tokens.last &&
@@ -238,12 +267,16 @@ module DivisionSummaryPipeline
     # Unverifiable motion text is only a warning, unlike claim evidence: a motion is often
     # recorded in a form the surrounding transcript never repeats word for word, so failing
     # the draft on it would reject far more good summaries than bad ones.
+    #
+    # The whole motion is checked, not its first line. With paragraphs kept apart
+    # (DataLoader::SpeechText) the first line is often only "That the Senate:", which proves
+    # nothing about the clauses the draft goes on to quote.
     def check_motion_text
       if extraction.motion_text.blank?
         errors << "Field 'motion_text' must not be empty."
-      elsif context_packet && context_packet.hansard_context.present?
-        first_line = extraction.motion_text.strip.split("\n").first.to_s.strip
-        warnings << "First line of motion text could not be verified in Hansard context: '#{first_line[0..50]}...'" if first_line.length > 20 && !self.class.verify_provenance?(first_line, context_packet.hansard_context)
+      elsif context_packet && context_packet.hansard_context.present? &&
+            !self.class.verify_provenance?(extraction.motion_text, context_packet.hansard_context)
+        warnings << "Motion text could not be verified in Hansard context: '#{extraction.motion_text.strip[0..80]}...'"
       end
     end
 
@@ -294,7 +327,7 @@ module DivisionSummaryPipeline
     # These facts are published verbatim, so they earn a quote's treatment rather than a
     # field's. A name printed beside a censure motion is the last place to accept a guess.
     def check_extracted_field_provenance
-      EXTRACTED_TEMPLATE_FIELDS.each do |field|
+      RENDERED_TEMPLATE_FIELDS.fetch(extraction.template_id, []).each do |field|
         value = extraction.public_send(field)
         next if value.blank?
         next unless context_packet && context_packet.hansard_context.present?
@@ -319,9 +352,13 @@ module DivisionSummaryPipeline
           # MECHANICAL PROVENANCE ASSERTION, scoped to the claimed speaker's own words so a
           # genuine quote from one member can't be credited to another.
           speaker_context = self.class.extract_speaker_text(claim.speaker, context_packet.hansard_context)
-          unless self.class.verify_provenance?(claim.evidence, speaker_context)
+          if self.class.too_short_to_verify?(claim.evidence)
+            errors << "Evidence for claim ##{idx + 1} is too short to show where the claim comes from: " \
+                      "\"#{claim.evidence}\". Quote at least a full clause."
+          elsif !self.class.verify_provenance?(claim.evidence, speaker_context)
             attribution = claim.speaker.present? ? " attributed to '#{claim.speaker}'" : ""
-            errors << "Provenance check failed: Evidence for claim ##{idx + 1}#{attribution} was not found in Hansard source: \"#{claim.evidence[0..80]}...\""
+            elision = claim.evidence.match?(/\.\.\.|\u2026/) ? " It joins separate passages with an ellipsis; evidence has to be one continuous passage." : ""
+            errors << "Provenance check failed: Evidence for claim ##{idx + 1}#{attribution} was not found in Hansard source: \"#{claim.evidence[0..80]}...\"#{elision}"
           end
         end
       end
