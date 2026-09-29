@@ -100,6 +100,12 @@ module DataLoader
       end
     end
 
+    # The ParlParse ids ("r7339") of the bills this division is about, for finding the same
+    # bill's debate under its other headings.
+    def bill_ids
+      bills.filter_map { |bill| bill[:id].presence }
+    end
+
     # The exact wording of the question being decided at this division: the operative
     # <p pwmotiontext> paragraph nearest the division - the same source #motion's primary
     # case reads from - falling back to the nearest preceding speech when no motion-text
@@ -153,20 +159,22 @@ module DataLoader
     end
 
     # Speeches from earlier in the same debate on this sitting day that the :subdebate tier
-    # cannot reach: those before an earlier division under this heading, and those under an
-    # earlier appearance of the same heading, as when a debate is interrupted by Question Time
-    # and resumed under a repeated heading. DebatesXml#speeches_under_minor_heading does the same
-    # for other sitting days.
+    # cannot reach: those before an earlier division under this heading, those under an earlier
+    # appearance of the same heading, as when a debate is interrupted by Question Time and
+    # resumed under a repeated heading, and those under another heading about the same bill, as
+    # when a second reading amendment moved in the "; Second Reading" debate is put under
+    # "; Limitation of Debate". DebatesXml#speeches_under_minor_heading does the same for other
+    # sitting days.
     def earlier_same_debate_speeches
       title = DebatesXml.normalise_heading(debate_title)
       return [] if title.empty?
 
+      bill_ids = self.bill_ids
       already_read = previous_speeches.map(&:pointer_id)
       division_xml.xpath("preceding::speech").select do |speech|
         next false if already_read.include?(speech.pointer_id)
 
-        section = speech.at_xpath("preceding::minor-heading[1]") || speech.at_xpath("preceding::major-heading[1]")
-        section && DebatesXml.normalise_heading(section.text) == title
+        DebatesXml.same_debate_section?(DebatesXml.section_heading(speech), title, bill_ids)
       end
     end
 
