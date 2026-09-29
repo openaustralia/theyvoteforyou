@@ -86,6 +86,26 @@ describe DivisionSummaryPipeline::MemberResolver do
     end
   end
 
+  # The one name matcher the pipeline uses, for the mover the chair names and for whose words an
+  # explanation is.
+  describe ".same_speaker?" do
+    it "matches a surname, a title and a full name to the same member" do
+      expect(described_class.same_speaker?("Senator Treloar", "Morgan Treloar")).to be(true)
+      expect(described_class.same_speaker?("Hodgins-Wray", "Steph Hodgins-Wray")).to be(true)
+      expect(described_class.same_speaker?("Mr Morgan Treloar MP", "Morgan Treloar")).to be(true)
+    end
+
+    # Matching substrings once credited one member's words to another.
+    it "compares whole words, never parts of them" do
+      expect(described_class.same_speaker?("Rae", "Graeme Ostrowski")).to be(false)
+    end
+
+    it "does not match two members who only share a surname" do
+      expect(described_class.same_speaker?("Morgan Treloar", "Casey Treloar")).to be(false)
+      expect(described_class.same_speaker?("", "Casey Treloar")).to be(false)
+    end
+  end
+
   describe ".named" do
     # For a mover Hansard names but TVFY has no record of: printed as given, with no link.
     it "carries the name alone" do
