@@ -484,6 +484,16 @@ as an `AiDivisionSummary`, skipping models that already have an error-free draft
 credentials for Bedrock in ap-southeast-2 and divisions loaded via `application:load:divisions`.
 Nothing is published by this task.
 
+```bash
+rake ai:summarize_division_local DIVISION_ID=123
+```
+
+The same pipeline with a model served by llama.cpp's `llama-server` in place of Bedrock, for
+testing a change without AWS credentials (`lib/tasks/local_llm.rake`). `LLAMA_URL` (default
+`http://127.0.0.1:8080`), `LLAMA_TIMEOUT` and `LLAMA_MAX_TOKENS` configure it. It always re-runs,
+overwrites that model's saved draft, and keeps every reply under `tmp/llm_replies/`, with the prompt
+that produced it beside it (`...-prompt.json`).
+
 ## 12. Architectural constraints for future work
 
 1. **No second Hansard pipeline.** Consume `Hansard -> openaustralia-parser -> ParlParse XML ->
