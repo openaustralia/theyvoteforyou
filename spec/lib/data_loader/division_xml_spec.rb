@@ -125,6 +125,95 @@ describe DataLoader::DivisionXml do
     end
   end
 
+  describe "#limitation_of_debate_statement" do
+    let(:chair) { "speakerid=\"uk.org.publicwhip/lord/900001\" speakername=\"Casey Whitlow\"" }
+    let(:expiry) do
+      "<speech id=\"s1\" #{chair}><p>Pursuant to order agreed on 18 August 2026, the time allotted for " \
+        "consideration of these bills has expired. The question is that the amendment on sheet 9001 be agreed to.</p></speech>"
+    end
+
+    # As on 20 August 2026, when one order's time expired and 24 divisions on 12 bills followed.
+    it "reaches back across other bills' sections to the chair saying the time has expired" do
+      last = divisions(<<~XML).last
+        <minor-heading id="h2">Fair Pricing Bill 2026; Limitation of Debate</minor-heading>
+        #{expiry}
+        <division divnumber="1" id="d1"/>
+        <minor-heading id="h3">Clean Rivers Bill 2026; Limitation of Debate</minor-heading>
+        <speech id="s2" speakerid="uk.org.publicwhip/lord/900003" speakername="Morgan Treloar"><p>I table a supplementary explanatory memorandum relating to the government amendments to be moved to this bill.</p></speech>
+        <speech id="s3" #{chair}><p>The question now is that the remaining stages of the bill be agreed to and the bill be now passed.</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(last.limitation_of_debate_statement.attr(:id)).to eq("s1")
+    end
+
+    # As on 18 August 2026, when only the second reading's time expired, under that stage's own
+    # heading, and the chair read out every amendment circulated as she put it.
+    it "finds a statement that cites the order under another heading, past the chair's long statements" do
+      circulated = "<p>(1) Schedule 1, item 1, page 3 (lines 4 and 5), omit the item.</p>" * 30
+      last = divisions(<<~XML).last
+        #{heading}
+        <speech id="s1" #{chair}><p>Pursuant to order, the time allotted for the second reading of this bill has expired. The question is that the amendments on sheet 9001 be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+        <speech id="s2" #{chair}><p>I will now deal with the amendments circulated by Senator Treloar. The question is that the amendments on sheet 9002 be agreed to.</p>#{circulated}</speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(last.limitation_of_debate_statement.attr(:id)).to eq("s1")
+    end
+
+    it "finds the statement when the chair goes straight on to read out the first amendment" do
+      circulated = "<p>(1) Schedule 1, item 1, page 3 (lines 4 and 5), omit the item.</p>" * 30
+      division = divisions(<<~XML).last
+        <minor-heading id="h2">Fair Pricing Bill 2026; Limitation of Debate</minor-heading>
+        <speech id="s1" #{chair}><p>Pursuant to order, the time allotted for the remaining stages of this bill has expired. The question is that the amendments on sheet 9001 be agreed to.</p>#{circulated}</speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.limitation_of_debate_statement.attr(:id)).to eq("s1")
+    end
+
+    # A senator asking by leave to have their vote recorded stops it too, which only leaves the
+    # guillotine unmentioned in the draft.
+    it "is nil when anyone but the chair speaks between the statement and the division" do
+      last = divisions(<<~XML).last
+        #{heading}
+        <speech id="s1" #{chair}><p>Pursuant to order, the time allotted for the second reading of this bill has expired. The question is that the amendments on sheet 9001 be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+        <speech id="s2" speakerid="uk.org.publicwhip/lord/900003" speakername="Morgan Treloar"><p>By leave, I ask that my name be recorded as opposing the amendment.</p></speech>
+        <speech id="s3" #{chair}><p>The question now is that the bill be now read a second time.</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(last.limitation_of_debate_statement).to be_nil
+    end
+
+    it "is nil once the bill has moved on to a stage debated under its own heading" do
+      last = divisions(<<~XML).last
+        <minor-heading id="h2">Fair Pricing Bill 2026; Limitation of Debate</minor-heading>
+        #{expiry}
+        <division divnumber="1" id="d1"/>
+        <minor-heading id="h3">Fair Pricing Bill 2026; In Committee</minor-heading>
+        <speech id="s2" #{chair}><p>The question is that the amendment moved by Senator Treloar be agreed to.</p></speech>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(last.limitation_of_debate_statement).to be_nil
+    end
+
+    # The standing orders time some debates themselves. Their chair cites the standing order, not
+    # an order of the Senate, and no bill's questions are being put without debate.
+    it "is nil for a debate the standing orders time" do
+      division = divisions(<<~XML).last
+        <minor-heading id="h2">Cost of Living; Matter of Urgency</minor-heading>
+        <speech id="s1" #{chair}><p>Pursuant to standing order 75, the time allotted for the discussion has expired. The question is that the motion moved by Senator Treloar be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.limitation_of_debate_statement).to be_nil
+    end
+  end
+
   describe "#question_speech" do
     it "is the chair putting the question, named as current Hansard names the chair" do
       division = divisions(<<~XML).first
