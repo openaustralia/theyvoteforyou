@@ -126,6 +126,19 @@ module DataLoader
       SpeechText.paragraph_text(last_speech) if last_speech
     end
 
+    # The chair's statement putting this division's question: the last speech before the
+    # division, when it is the chair's (its words say so, or it has no speaker, which is how
+    # older files record the chair). Nil when the last speech is a member speaking, which means
+    # the question itself was not recorded. Used by the AI summary pipeline to quote the question
+    # and say who put it and when.
+    def question_speech
+      last_speech = previous_speeches.last
+      return nil unless last_speech
+      return last_speech if last_speech.attr(:nospeaker) == "true" || chair_statement?(last_speech)
+
+      nil
+    end
+
     # Speeches leading up to this division, for building wider prompt context than the
     # single motion paragraph #motion returns. :subdebate (the default) is the same speech
     # list #motion falls back to - previous siblings up to the last heading or another

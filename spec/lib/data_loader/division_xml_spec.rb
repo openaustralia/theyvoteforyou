@@ -125,6 +125,40 @@ describe DataLoader::DivisionXml do
     end
   end
 
+  describe "#question_speech" do
+    it "is the chair putting the question, named as current Hansard names the chair" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar"><p>I move the second reading amendment on sheet 9001:</p></speech>
+        <speech id="s2" speakername="Casey Whitlow"><p>The question is that the amendment be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.question_speech.attr(:id)).to eq("s2")
+    end
+
+    it "is the unnamed speech older files use for the chair" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" nospeaker="true"><p pwmotiontext="moved">That the question be now put.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.question_speech.attr(:id)).to eq("s1")
+    end
+
+    # Then the question itself was not recorded, and a member's speech is not it.
+    it "is nil when the last speech is a member speaking" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar"><p>I will be voting against this bill because it is unfair to students.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.question_speech).to be_nil
+    end
+  end
+
   describe "#operative_question" do
     it "keeps the paragraph breaks of the chair's statement when there is no pwmotiontext" do
       division = divisions(<<~XML).first
