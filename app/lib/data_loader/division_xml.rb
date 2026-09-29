@@ -21,6 +21,21 @@ module DataLoader
       text.size <= CHAIR_STATEMENT_MAXIMUM_SIZE && text.match?(CHAIR_STATEMENT)
     end
 
+    # The chair saying the time a limitation of debate (a "guillotine") allotted has run out, in
+    # the words Senate Hansard records: "Pursuant to order agreed on 18 August 2026, the time
+    # allotted for consideration of 12 bills has expired", "... the time allocated for the
+    # remaining stages of this bill has expired". A bill title can hold a full stop ("No. 2"),
+    # hence the bounded gap rather than one that stops at the end of a sentence.
+    TIME_EXPIRED = /\btime\s+(?:allotted|allocated)\b.{0,300}?\bhas\s+(?:now\s+)?expired\b/im
+    # The order being cited, which is what tells a guillotine apart from a debate the standing
+    # orders time, such as a matter of urgency. "Pursuant to standing order 75" does not match.
+    ORDER_CITED = /\bpursuant\s+to\s+(?:the\s+)?order\b/i
+    # How Hansard heads the questions put once a guillotine's time has expired: "Example Bill
+    # 2026; Limitation of Debate". Compared with the heading as DebatesXml.normalise_heading gives it.
+    LIMITATION_OF_DEBATE_HEADING = /limitation\s+of\s+debate\z/
+    # How far into a speech the expiry must be said (see #limitation_expiry?).
+    LIMITATION_STATEMENT_OPENING = 400
+
     attr_accessor :division_xml, :house
 
     def initialize(division_xml, house)
@@ -191,6 +206,36 @@ module DataLoader
       end
     end
 
+    # The chair's statement that a limitation of debate's time has expired, when this division is
+    # one of the questions put because it did, or nil. Once the time expires the chair must put
+    # the question before the chamber and any other questions needed to conclude proceedings on
+    # the bill (Senate Guide No. 17, Debating legislation under time limits), one after another
+    # and without debate, so the only speeches beside such a division are the chair's.
+    #
+    # The statement can be a long way back: after one order's time expired on 20 August 2026 the
+    # Senate took 24 divisions on 12 bills, each bill under its own "; Limitation of Debate"
+    # heading. So this walks back through what such a run is made of: divisions, sections with
+    # that heading (where a minister tabling a document is part of it too), and the chair's
+    # statements, which run long when the chair reads out the amendments circulated, so a speech
+    # by whoever made the expiry statement counts as one. Anything else between the two is
+    # debate or other business, as is any other heading. That, and the statement having to cite
+    # the order or sit under that heading, keep a debate the standing orders time from reading
+    # as a guillotine. A senator asking by leave to have a vote recorded also stops it, which
+    # only leaves the guillotine unmentioned.
+    def limitation_of_debate_statement
+      others = []
+      element = division_xml.previous_element
+      while element
+        if element.name == "speech" && limitation_expiry?(element)
+          return others.all? { |speech| same_speaker?(speech, element) } ? element : nil
+        end
+        return nil unless limitation_run_continues?(element, others)
+
+        element = element.previous_element
+      end
+      nil
+    end
+
     # True when this division follows another with no debate between them. Where divisions
     # follow one another with no intervening debate the bells are rung for one minute and the
     # questions are put in a run (House S.O. 131, Guide p. 57; the Senate equivalent in Senate
@@ -265,6 +310,41 @@ module DataLoader
 
     def chair_statement?(speech)
       self.class.chair_statement_text?(speech.text)
+    end
+
+    # Whether #limitation_of_debate_statement can walk back past this element, noting in others
+    # each speech that is not plainly the chair's. Those have to turn out to be the chair's too,
+    # so a second speaker among them ends the walk.
+    def limitation_run_continues?(element, others)
+      case element.name
+      when "minor-heading" then limitation_heading?(element)
+      when "speech"
+        others << element unless chair_statement?(element) || limitation_section?(element)
+        others.map { |speech| speech.attr(:speakerid) }.uniq.size <= 1
+      else true
+      end
+    end
+
+    # The chair opens with it ("Minister, please resume your seat. Pursuant to order ..."), and
+    # may go straight on to read out the first amendment circulated, so only the opening is read:
+    # a length limit would miss that, and a member mentioning the order in passing does not open
+    # a speech with it.
+    def limitation_expiry?(speech)
+      opening = speech.text.to_s.strip[0, LIMITATION_STATEMENT_OPENING]
+      opening.match?(TIME_EXPIRED) && (opening.match?(ORDER_CITED) || limitation_section?(speech))
+    end
+
+    def limitation_section?(node)
+      heading = DebatesXml.section_heading(node)
+      heading&.name == "minor-heading" && limitation_heading?(heading)
+    end
+
+    def limitation_heading?(heading)
+      DebatesXml.normalise_heading(heading.text).match?(LIMITATION_OF_DEBATE_HEADING)
+    end
+
+    def same_speaker?(speech, other)
+      speech.attr(:speakerid).present? && speech.attr(:speakerid) == other.attr(:speakerid)
     end
 
     def previous_speeches
