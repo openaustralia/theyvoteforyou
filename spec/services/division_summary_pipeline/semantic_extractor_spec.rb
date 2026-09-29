@@ -1,131 +1,49 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../app/services/division_summary_pipeline/context/context_builder"
 
 describe DivisionSummaryPipeline::SemanticExtractor do
-  let(:packet) do
-    DivisionSummaryPipeline::ContextPacket.new(
-      division_id: 1052,
-      date: "2026-08-19",
-      house: "representatives",
-      clock_time: "10:15 AM",
-      speaker_question: "The question is that the question be now put.",
-      hansard_context: "DEBATE: Bills\n\nSPEECH: Jordan McAllister [10:14]:\nThat the question be now put.",
-      debate_heading: "Bills",
-      division_metadata: { name: "Closure of Debate", aye_votes: 82, no_votes: 54 },
-      context_level: :subdebate
-    )
+  let(:chair) do
+    summary_speech("<p>The question is that the question be now put.</p>", id: "s2", name: "Robin Castellan",
+                                                                           gid: "uk.org.publicwhip/member/2", time: "10:14")
   end
+  let(:mover) do
+    summary_speech("<p>I move: That the question be now put.</p>", id: "s1", name: "Jordan McAllister",
+                                                                   gid: "uk.org.publicwhip/member/1", time: "10:13")
+  end
+  let(:packet) do
+    summary_packet(speeches: [mover, chair], question: "The question is that the question be now put.",
+                   routing: DivisionSummaryPipeline::RoutingDecision.settled(22, rule_name: "CLOSURE_OF_DEBATE", reason: "test"),
+                   facts: { house: "representatives", date: "2026-08-19", number: 1, clock_time: "10:15 AM" })
+  end
+  let(:reply) { { interpretation: { template_id: 22, missing: [] }, references: { explanation: [] } }.to_json }
 
   describe "#extract_raw" do
-    it "sends the system prompt and the built user prompt through the injected caller" do
+    it "sends the system prompt and this packet's user prompt through the injected caller, and returns the reply untouched" do
       prompts = []
-      llm_caller = lambda do |system_prompt, user_prompt|
-        prompts << [system_prompt, user_prompt]
-        "{\"template_id\": 22, \"topic\": \"Closure of Debate\", \"motion_text\": \"That the question be now put.\"}"
-      end
+      raw = described_class.new(llm_caller: ->(system, user) { (prompts << [system, user]) && reply }).extract_raw(packet)
 
-      raw = described_class.new(llm_caller: llm_caller).extract_raw(packet)
-
-      expect(raw).to include("template_id")
-      expect(prompts.length).to eq(1)
-      expect(prompts.first[0]).to include("NEUTRALITY IS NOT OPTIONAL")
-      expect(prompts.first[1]).to include("<speaker_question>")
-      expect(prompts.first[1]).to include("That the question be now put.")
-      expect(prompts.first[1]).to include("<hansard_context>")
-    end
-  end
-
-  describe "#build_user_prompt" do
-    subject(:prompt) { described_class.new.build_user_prompt(packet) }
-
-    it "points the model at the motion Stage 1 found, and who moved it" do
-      packet.mover = DivisionSummaryPipeline::MoverFinder::Result.new(
-        speech: { speaker: "Jo Rae", moved_text: "That the debate be adjourned." },
-        member: DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
-      )
-
-      expect(prompt).to include("<motion_as_moved>\nMoved by: Jo Rae\nTerms as moved:\nThat the debate be adjourned.")
+      expect(raw).to eq(reply)
+      expect(prompts.first[0]).to eq(DivisionSummaryPipeline::ExtractionPrompt.system_prompt)
+      expect(prompts.first[1]).to eq(DivisionSummaryPipeline::ExtractionPrompt.user_prompt(packet))
     end
 
-    # Stage 4 treats every word of <hansard_context> as something a member said, so the model's
-    # own note from a first attempt must travel beside it, never inside it.
-    it "sends a first attempt's clue in its own section, outside the transcript" do
-      packet.extra_context = "The mover's speech may be on an earlier sitting day."
+    it "asks Bedrock at temperature 0 when no caller is injected" do
+      client = Aws::BedrockRuntime::Client.new(stub_responses: true, region: "ap-southeast-2")
+      client.stub_responses(:converse, { output: { message: { role: "assistant", content: [{ text: reply }] } },
+                                         stop_reason: "end_turn", usage: { input_tokens: 1, output_tokens: 1, total_tokens: 2 },
+                                         metrics: { latency_ms: 1 } })
 
-      hansard = prompt[%r{<hansard_context>.*</hansard_context>}m]
-      expect(prompt).to include("<missing_context_clue>\nThe mover's speech may be on an earlier sitting day.")
-      expect(hansard).not_to include("earlier sitting day")
-    end
-
-    it "tells the model when the routing candidates are only a default" do
-      packet.procedural_decision = DivisionSummaryPipeline::ProceduralRouter.route(
-        speaker_question: "The question is that the motion be agreed to."
-      )
-
-      expect(prompt).to include("These candidates are a default, not a constraint")
-    end
-
-    it "does not soften a fence the validator enforces" do
-      packet.procedural_decision = DivisionSummaryPipeline::ProceduralRouter.route(
-        speaker_question: "The question is that the amendment be agreed to.", chamber: "representatives"
-      )
-
-      expect(prompt).not_to include("default, not a constraint")
+      expect(described_class.new("example-model", client: client).extract_raw(packet)).to eq(reply)
+      expect(client.api_requests.first[:params]).to include(model_id: "example-model", inference_config: { temperature: 0 })
     end
   end
 
   describe "#extract" do
-    it "parses the model's raw JSON into an ExtractionPayload" do
-      llm_caller = ->(_system_prompt, _user_prompt) { "{\"template_id\": 22, \"topic\": \"Closure\", \"motion_text\": \"x\"}" }
+    it "parses the reply into an ExtractionPayload" do
+      extraction = described_class.new(llm_caller: ->(_system, _user) { reply }).extract(packet)
 
-      extraction = described_class.new(llm_caller: llm_caller).extract(packet)
-
-      expect(extraction).to be_a(DivisionSummaryPipeline::ExtractionPayload)
       expect(extraction.template_id).to eq(22)
-    end
-  end
-
-  describe "#system_prompt" do
-    it "carries the template catalogue, the neutrality rule and the Australian English constraint" do
-      prompt = described_class.new.system_prompt
-
-      expect(prompt).to include("23: Member Be No Longer Heard")
-      expect(prompt).to include("24: Suspension of a Member")
-      expect(prompt).to include("25: Dissent from Ruling of the Chair")
-      expect(prompt).to include("26: Adjournment of the Chamber")
-      expect(prompt).to include("27: Taking Note")
-      expect(prompt).to include("NEUTRALITY IS NOT OPTIONAL")
-      expect(prompt).to include("Australian English")
-    end
-
-    it "guards against US congressional terminology and explains stand as printed polarity" do
-      prompt = described_class.new.system_prompt
-
-      expect(prompt).to include("AUSTRALIAN PARLIAMENTARY TERMINOLOGY & VOTING POLARITY")
-      expect(prompt).to include("Strictly avoid US congressional terminology")
-      expect(prompt).to include("\"Stand as printed\" polarity")
-    end
-
-    it "scopes claims to what each procedural template actually decides" do
-      prompt = described_class.new.system_prompt
-
-      expect(prompt).to include("They are never about the subject matter the documents deal with.")
-      expect(prompt).to include("not about the merits of that underlying matter.")
-      expect(prompt).to include("Make no claims about the underlying question")
-    end
-
-    it "gives the lead-in each template puts before the claims, so claims read on from it" do
-      expect(described_class.new.system_prompt).to include("\"states that this amendment will:\"")
-    end
-
-    it "warns about resumed debates and headings that do not describe the vote" do
-      prompt = described_class.new.system_prompt
-
-      expect(prompt).to include("CONTEXT SUFFICIENCY AND RESUMED DEBATES")
-      expect(prompt).to include("Do not reconstruct a missing speech from")
-      expect(prompt).to include("DEBATE HEADINGS ARE NOT VOTES")
     end
   end
 end

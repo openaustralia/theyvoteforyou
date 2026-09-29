@@ -43,9 +43,9 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.speaker_question).to eq("That the question be now put.")
         # DataLoader::DivisionXml#name title-cases the raw ALL-CAPS Hansard heading -
         # this asserts ContextBuilder reads that existing method rather than the raw text.
-        expect(packet.hansard_context).to include("Bills")
-        expect(packet.hansard_context).to include("Border Processing Amendment Bill 2026")
-        expect(packet.procedural_decision.template_id).to eq(22)
+        expect(packet.transcript.prompt_text).to include("Bills")
+        expect(packet.transcript.prompt_text).to include("Border Processing Amendment Bill 2026")
+        expect(packet.routing.template_id).to eq(22)
       end
 
       it "works the same way for a real Division record as for a plain Hash" do
@@ -53,7 +53,7 @@ describe DivisionSummaryPipeline::ContextBuilder do
         packet = described_class.build(division, xml_content: parlparse_xml)
 
         expect(packet.speaker_question).to eq("That the question be now put.")
-        expect(packet.procedural_decision.template_id).to eq(22)
+        expect(packet.routing.template_id).to eq(22)
       end
     end
 
@@ -193,22 +193,37 @@ describe DivisionSummaryPipeline::ContextBuilder do
       end
 
       it "keeps a motion's paragraphs apart, as members and models quote them" do
-        expect(suspension.hansard_context).to include("prevent the Senate:\n\n(a) considering the report forthwith; and")
+        expect(suspension.transcript.units.map(&:text))
+          .to include("That so much of the standing orders be suspended as would prevent the Senate:",
+                      "(a) considering the report forthwith; and")
+        expect(suspension.transcript.passages(%w[S1.2 S1.3]).first.text)
+          .to eq("That so much of the standing orders be suspended as would prevent the Senate:\n\n(a) considering the report forthwith; and")
       end
 
       it "routes a question put by reference on the motion as moved, and knows who moved it" do
-        expect(suspension.procedural_decision.template_id).to eq(17)
+        expect(suspension.routing.template_id).to eq(17)
         expect(suspension.mover.speech[:speaker]).to eq("Morgan Treloar")
         expect(suspension.mover.moved_text).to start_with("That so much of the standing orders be suspended")
       end
 
-      # Stage 4 treats every word of hansard_context as something a member said.
-      it "keeps a first attempt's clue out of the transcript" do
+      # The widened retry is routed on the first packet, not on the start of the sitting day,
+      # which is some other debate (KNOWN_ISSUES.md, KI-27).
+      it "keeps a routing decision it is given rather than routing again" do
+        given = DivisionSummaryPipeline::RoutingDecision.settled(17, rule_name: "GIVEN", reason: "from the first packet")
         packet = described_class.build({ id: 1, house: "senate", date: "2026-08-20", number: 2, clock_time: "3:45 PM" },
-                                       xml_content: suspension_xml, extra_context: "The mover's reasons may be earlier.")
+                                       xml_content: suspension_xml, context_level: :sitting_day, routing: given)
 
-        expect(packet.extra_context).to eq("The mover's reasons may be earlier.")
-        expect(packet.hansard_context).not_to include("reasons may be earlier")
+        expect(packet.routing).to be(given)
+        expect(packet.context_level).to eq(:sitting_day)
+      end
+
+      it "marks the chair putting the question, and finds the motion and its introduction by rule" do
+        expect(suspension.question_speech.label).to eq("Casey Whitlow")
+        expect(suspension.transcript.unit("S2.1").kind).to eq(:chair)
+        expect(suspension).to be_motion_found
+        expect(suspension).to be_question_by_reference
+        expect(suspension.transcript.last_move_units(suspension.mover_speech, :move).map(&:text))
+          .to eq(["Pursuant to contingent notice standing in my name, I move:"])
       end
 
       # A Monday division at 12.05 is in the window when deferred divisions are put, but a
@@ -225,7 +240,7 @@ describe DivisionSummaryPipeline::ContextBuilder do
                                        xml_content: xml)
 
         expect(packet.context_warnings.join).not_to include("Standing Order 133")
-        expect(packet.procedural_decision.template_id).to eq(19)
+        expect(packet.routing.template_id).to eq(19)
       end
 
       # Only the first question of a deferred run says it was deferred.
@@ -243,7 +258,7 @@ describe DivisionSummaryPipeline::ContextBuilder do
 
         expect(packet.context_warnings.join).to include("immediately follows another with no debate between them")
         expect(packet.context_warnings.join).to include("The chair's words show this division was deferred")
-        expect(packet.procedural_decision.candidate_templates).to eq([2])
+        expect(packet.routing.allowed_templates).to eq([2])
       end
 
       # A deferred division is put without debate, often on another sitting day, so the
@@ -269,8 +284,61 @@ describe DivisionSummaryPipeline::ContextBuilder do
                                        xml_content: today, xml_fetcher: fetcher)
 
         expect(packet.earlier_debate_dates).to eq(["2026-08-18"])
-        expect(packet.hansard_context).to include("whilst not declining to give the bill a second reading")
+        expect(packet.transcript.prompt_text).to include("whilst not declining to give the bill a second reading")
         expect(packet.mover.member.name).to eq("Robin Carrow")
+      end
+
+      # As on 20 August 2026: the amendment is moved in the second reading debate, and once the
+      # guillotine's time expires the chair puts it, and then the second reading, under the
+      # bill's "; Limitation of Debate" heading.
+      context "when a guillotine's time has expired" do
+        let(:bills) { "<bills><bill id=\"r9001\" url=\"x\">Example Bill 2026</bill></bills>" }
+        let(:chair) { "speakerid=\"uk.org.publicwhip/lord/900102\" speakername=\"Casey Whitlow\"" }
+        let(:guillotine_xml) do
+          debates("2026-08-20", <<~XML)
+            <minor-heading id="h2" url="x">Example Bill 2026; Second Reading</minor-heading>
+            #{bills}
+            <speech id="s1" speakerid="uk.org.publicwhip/lord/900101" speakername="Morgan Treloar" time="12:19:00" url="x"><p>These powers go too far. I move:</p><p class="italic">Omit all words after "That", substitute "the Senate rejects the bill".</p></speech>
+            <minor-heading id="h3" url="x">Example Bill 2026; Limitation of Debate</minor-heading>
+            #{bills}
+            <speech id="s2" #{chair} time="13:15:00" url="x"><p>Pursuant to order agreed on 18 August 2026, the time allotted for consideration of 2 bills has expired. I'll now put the question on the remaining stages of the bills. The question is that the second reading amendment moved by Senator Treloar be agreed to.</p></speech>
+            <division divdate="DATE" divnumber="1" id="d1" time="13:19:00" url="x">#{bills}<divisioncount ayes="12" noes="27" pairs="0" tellerayes="0" tellernoes="0"/></division>
+            <speech id="s3" #{chair} time="13:20:00" url="x"><p>The question now is that this bill be now read a second time.</p></speech>
+            <division divdate="DATE" divnumber="2" id="d2" time="13:21:00" url="x">#{bills}<divisioncount ayes="26" noes="15" pairs="0" tellerayes="0" tellernoes="0"/></division>
+          XML
+        end
+
+        def guillotined(number, time)
+          described_class.build({ id: number, house: "senate", date: "2026-08-20", number: number, clock_time: time },
+                                xml_content: guillotine_xml)
+        end
+
+        it "carries the chair's own sentence saying the time had expired, and warns there was no further debate" do
+          packet = guillotined(2, "1:21 PM")
+
+          expect(packet.limitation_statement).to include(
+            id: "s2", speaker: "Casey Whitlow", time: "13:15:00",
+            text: "Pursuant to order agreed on 18 August 2026, the time allotted for consideration of 2 bills has expired."
+          )
+          expect(packet.context_warnings.join).to include("under a limitation of debate")
+        end
+
+        it "credits the amendment's mover from the second reading debate when the chair names them" do
+          packet = guillotined(1, "1:19 PM")
+
+          expect(packet.mover.speech[:id]).to eq("s1")
+          expect(packet.mover.found_by).to eq(:chair_named)
+          expect(packet.transcript.prompt_text).to include("the Senate rejects the bill")
+          expect(packet.context_warnings.join).to include("another stage of the same bill")
+        end
+
+        # The second reading question names nobody, and the amendment is a different question.
+        it "leaves the second reading debate's move out of a question that does not name its mover" do
+          packet = guillotined(2, "1:21 PM")
+
+          expect(packet.mover).to be_nil
+          expect(packet.transcript.prompt_text).not_to include("the Senate rejects the bill")
+        end
       end
     end
   end
