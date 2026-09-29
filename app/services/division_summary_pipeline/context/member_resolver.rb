@@ -24,6 +24,27 @@ module DivisionSummaryPipeline
       new.resolve(name: name, electorate: electorate, house: house, date: date, gid: gid)
     end
 
+    HONORIFICS = /\b(mr|mrs|ms|miss|dr|senator|representative|member|hon|honourable|mp)\b/i
+
+    # Whether two ways of writing a member's name mean the same person: "Senator Whitten" and
+    # "Tyron Whitten", or "Hodgins-May" and "Steph Hodgins-May". Compared word by word, never as
+    # substrings, because "rae" is inside "graeme" and a substring match once credited one
+    # member's words to another. A surname alone matches a full name; two full names must agree
+    # on the first name too.
+    def self.same_speaker?(one, other)
+      a = name_words(one)
+      b = name_words(other)
+      return false if a.empty? || b.empty?
+      return true if (a - b).empty? || (b - a).empty?
+
+      a.last == b.last && (a.size == 1 || b.size == 1 || a.first == b.first)
+    end
+
+    def self.name_words(name)
+      TextNormaliser.normalise_for_matching(name).gsub(HONORIFICS, " ").gsub(/\[.*?\]/, " ")
+                    .gsub(/[^\w\s]/, " ").split
+    end
+
     # A member known only by the name Hansard printed, with no database record behind it, so no
     # party, electorate or link can be given. Built here so callers need not reach for
     # ResolvedMember directly, which lives in this file and so cannot be autoloaded on its own.
