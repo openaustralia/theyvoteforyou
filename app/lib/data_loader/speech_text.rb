@@ -39,6 +39,9 @@ module DataLoader
     # same sentence, so "I move on to my next point" moves nothing.
     MOVE_PATTERN = /\bI(?:,\s*and\s+also\s+on\s+behalf\s+of\s+[^,]+,)?\s+(?:present\s+the\s+bill\s+and\s+)?(?:now\s+|formally\s+|therefore\s+|also\s+|accordingly\s+)?move\b/i
 
+    # Where an inline motion starts in the rest of an "I move" paragraph ("I move: That ...").
+    INLINE_MOTION_START = /\A[\s:,-]*(?=that\b)/i
+
     module_function
 
     def context_speech(speech)
@@ -48,8 +51,33 @@ module DataLoader
         speaker_gid: speech.attr(:speakerid),
         time: speech.attr(:time),
         text: paragraph_text(speech),
+        paragraphs: paragraphs(speech),
         moved_text: moved_text(speech)
       }
+    end
+
+    # Every block of the speech in order, each with what it is, so the pipeline can quote a
+    # member's own words without ever mistaking the motion for them:
+    #
+    # - :move, the paragraph that says "I move" (or the part of it before an inline motion),
+    # - :motion, the terms moved, and
+    # - :prose, everything else.
+    #
+    # :move and :motion blocks carry `move:`, counting the moves in the speech from 0, since a
+    # speech can move more than one thing. An inline "I move: That the question be now put." is
+    # split into "I move:" and "That the question be now put.", both exact text of the paragraph.
+    def paragraphs(speech)
+      elements = speech.element_children.to_a
+      roles = move_roles(elements)
+
+      elements.each_with_index.flat_map do |element, index|
+        role = roles[index]
+        text = paragraph_text(element)
+        next [] if text.empty?
+        next split_inline_move(text, role[:move]) if role[:kind] == :inline_move
+
+        text.split("\n\n").map { |block| role[:kind] == :prose ? { text: block, kind: :prose } : role.merge(text: block) }
+      end
     end
 
     # The name as TVFY records it where the speaker is a known member, otherwise as Hansard
@@ -67,22 +95,60 @@ module DataLoader
                           .join("\n\n")
     end
 
-    # The terms of the motion or amendment this speech moved, or nil if it moved none. Takes
-    # the motion paragraphs that follow the last "I move" paragraph, or failing those, the rest
-    # of that sentence when it reads "I move: That ..." inline, as older files and short
-    # procedural motions do.
+    # The terms of the motion or amendment this speech moved last, or nil if it moved none: the
+    # motion paragraphs that follow an "I move" paragraph, or failing those, the rest of that
+    # sentence when it reads "I move: That ..." inline, as older files and short procedural
+    # motions do.
     def moved_text(speech)
-      elements = speech.element_children.to_a
-      start = elements.rindex { |element| element.text.match?(MOVE_PATTERN) }
-      return nil unless start
+      blocks = paragraphs(speech).select { |block| block[:kind] == :motion }
+      return nil if blocks.empty?
 
-      following = elements[(start + 1)..].drop_while { |element| element.text.strip.empty? }
-      motion = following.take_while { |element| motion_element?(element) || element.text.strip.empty? }
-      text = motion.map { |element| paragraph_text(element) }.reject(&:empty?).join("\n\n")
-      return text if text.present?
+      last_move = blocks.last[:move]
+      blocks.select { |block| block[:move] == last_move }.pluck(:text).join("\n\n")
+    end
 
-      inline = elements[start].text.split(MOVE_PATTERN, 2).last.to_s.sub(/\A[\s:,-]+/, "").strip
-      inline if inline.match?(/\Athat\b/i)
+    # What each element of a speech is (see #paragraphs). An "I move" paragraph only counts as
+    # a move when motion paragraphs follow it, or it carries the motion inline, so "I move on to
+    # my next point" is prose.
+    def move_roles(elements)
+      roles = Array.new(elements.size) { { kind: :prose } }
+      moves = 0
+      elements.each_with_index do |element, index|
+        next if roles[index][:kind] != :prose || !element.text.match?(MOVE_PATTERN)
+
+        motion = motion_indices_after(elements, index)
+        if motion.any?
+          roles[index] = { kind: :move, move: moves }
+          motion.each { |i| roles[i] = { kind: :motion, move: moves } }
+        elsif inline_motion_start(paragraph_text(element))
+          roles[index] = { kind: :inline_move, move: moves }
+        else
+          next
+        end
+        moves += 1
+      end
+      roles
+    end
+
+    def motion_indices_after(elements, index)
+      following = ((index + 1)...elements.size).drop_while { |i| elements[i].text.strip.empty? }
+      following.take_while { |i| motion_element?(elements[i]) || elements[i].text.strip.empty? }
+               .reject { |i| elements[i].text.strip.empty? }
+    end
+
+    # The offset in an "I move" paragraph where an inline motion begins, or nil.
+    def inline_motion_start(text)
+      move = text.match(MOVE_PATTERN)
+      return nil unless move
+
+      gap = text[move.end(0)..].match(INLINE_MOTION_START)
+      gap && (move.end(0) + gap[0].size)
+    end
+
+    def split_inline_move(text, move)
+      start = inline_motion_start(text)
+      [{ text: text[0...start].rstrip, kind: :move, move: move }, { text: text[start..], kind: :motion, move: move }]
+        .reject { |block| block[:text].empty? }
     end
 
     def motion_element?(element)
