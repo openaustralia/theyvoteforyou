@@ -14,13 +14,16 @@ module DivisionSummaryPipeline
   #
   # - :move, the paragraph that says "I move" (or its part before an inline motion),
   # - :motion, a paragraph of the terms moved,
+  # - :quotation, a paragraph Hansard set apart from the member's own words: something they
+  #   quoted or read out, or an editorial note (KNOWN_ISSUES.md KI-38),
   # - :prose, one sentence of what a member said, and
   # - :chair, a paragraph of the chair putting this division's question.
   #
-  # Only a member's own words are cut into sentences. A motion or the chair's question is quoted
-  # whole, so they stay whole paragraphs. An "I move" paragraph is cut too, because members often
-  # give their reasons in it before moving ("... For these reasons, I move the amendment:"): only
-  # the sentence that moves is the introduction, and the rest is prose the model can quote.
+  # Only a member's own words are cut into sentences. A motion, a quotation or the chair's
+  # question is quoted whole, so they stay whole paragraphs. An "I move" paragraph is cut too,
+  # because members often give their reasons in it before moving ("... For these reasons, I move
+  # the amendment:"): only the sentence that moves is the introduction, and the rest is prose the
+  # model can quote.
   class Transcript
     # start and finish are offsets into the unit's paragraph, so consecutive units can be
     # quoted as the exact run of text they came from. move counts the moves in the speech.

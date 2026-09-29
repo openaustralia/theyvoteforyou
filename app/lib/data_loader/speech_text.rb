@@ -13,8 +13,12 @@ module DataLoader
   #
   # Current ParlParse XML marks a motion's terms as <p class="italic"> rather than the
   # <p pwmotiontext="..."> attribute older files (and DivisionXml#pwmotiontexts) use. Italic
-  # also marks incorporated speeches and procedural notes such as "Leave granted.", so a
-  # paragraph only counts as motion text when it follows "I move" in the same speech.
+  # also marks speeches incorporated by leave, and everything else Hansard sets apart from what
+  # the member said: words they quote or read out (another person's statement, a letter, a
+  # report, a petition), amendments the chair reads, and editorial notes. So a paragraph only
+  # counts as motion text when it follows "I move" in the same speech, and any other italic
+  # paragraph outside an incorporated speech is a quotation, never the member's own words
+  # (KNOWN_ISSUES.md KI-38).
   module SpeechText
     # Elements that start a new block of text. Older files nest a motion's clauses in
     # <dl><dt>(a)</dt><dd>...</dd></dl> rather than one <p> per clause.
@@ -32,15 +36,24 @@ module DataLoader
     # of the markup: "():  I rise to speak to the bill". Nobody said it either.
     EMPTY_SPEAKER_PREFIX = /\A\(\)\s*:\s*/
 
-    # "I move", allowing the adverbs members put in the middle ("I formally move") and the two
-    # longer Senate forms, "I, and also on behalf of Senator Example, move:" and "I present the
-    # bill and move:". A match is
-    # only a candidate: #moved_text also needs motion paragraphs after it, or "that ..." in the
-    # same sentence, so "I move on to my next point" moves nothing.
-    MOVE_PATTERN = /\bI(?:,\s*and\s+also\s+on\s+behalf\s+of\s+[^,]+,)?\s+(?:present\s+the\s+bill\s+and\s+)?(?:now\s+|formally\s+|therefore\s+|also\s+|accordingly\s+)?move\b/i
+    # "I move", allowing the adverbs members put in the middle ("I formally move") and the longer
+    # Senate forms: "I, and also on behalf of Senator Example, move:", and presenting or tabling
+    # something first, as in "I present the bill and move:", "I present the report of the Example
+    # Committee, together with accompanying documents and move:" and "I table a revised
+    # explanatory memorandum relating to the bill and move:". A match is only a candidate:
+    # #moved_text also needs motion paragraphs after it, or "that ..." in the same sentence, so
+    # "I move on to my next point" moves nothing.
+    MOVE_PATTERN = /\bI(?:,\s*and\s+also\s+on\s+behalf\s+of\s+[^,]+,)?\s+(?:(?:present|table)\s+[^.:;]{1,200}?\s+and\s+)?(?:now\s+|formally\s+|therefore\s+|also\s+|accordingly\s+)?move\b/i
 
     # Where an inline motion starts in the rest of an "I move" paragraph ("I move: That ...").
     INLINE_MOTION_START = /\A[\s:,-]*(?=that\b)/i
+
+    # The line Hansard puts before a speech incorporated by leave. Its wording varies: "The
+    # speech", "The speeches", "The incorporated speech" (the House), and "The speech es" where
+    # one notice is split across three tags, sometimes after a leftover "() ():" of the
+    # speaker's name. Reports, documents and messages are introduced the same way ("The report
+    # read as follows"), but they are not the member's words, so only a speech counts.
+    INCORPORATION_NOTICE = /\A(?:\(\)\s*:?\s*)*The\s+(?:incorporated\s+)?speech\s*(?:es)?\s+read\s+as\s+follows/i
 
     module_function
 
@@ -57,11 +70,13 @@ module DataLoader
     end
 
     # Every block of the speech in order, each with what it is, so the pipeline can quote a
-    # member's own words without ever mistaking the motion for them:
+    # member's own words without ever mistaking the motion, or someone else's words, for them:
     #
     # - :move, the paragraph that says "I move" (or the part of it before an inline motion),
-    # - :motion, the terms moved, and
-    # - :prose, everything else.
+    # - :motion, the terms moved,
+    # - :quotation, text Hansard set apart in italic that is neither a motion nor part of an
+    #   incorporated speech, and the notice introducing an incorporated speech, and
+    # - :prose, everything else, including a speech incorporated by leave.
     #
     # :move and :motion blocks carry `move:`, counting the moves in the speech from 0, since a
     # speech can move more than one thing. An inline "I move: That the question be now put." is
@@ -110,13 +125,20 @@ module DataLoader
     # What each element of a speech is (see #paragraphs). An "I move" paragraph only counts as
     # a move when motion paragraphs follow it, or it carries the motion inline, so "I move on to
     # my next point" is prose.
+    #
+    # An incorporated speech is found first and never searched for a move. A minister's second
+    # reading speech in the Senate is often the House speech, opening "I move that this Bill be
+    # now read a second time.", and read as a move it made the whole speech the terms moved
+    # (KI-39). The minister's real move comes before they seek leave to incorporate it.
     def move_roles(elements)
-      roles = Array.new(elements.size) { { kind: :prose } }
+      notices, incorporated = incorporation(elements)
+      set_apart = notices | incorporated
+      roles = Array.new(elements.size) { |i| notices.include?(i) ? { kind: :quotation } : { kind: :prose } }
       moves = 0
       elements.each_with_index do |element, index|
-        next if roles[index][:kind] != :prose || !element.text.match?(MOVE_PATTERN)
+        next if roles[index][:kind] != :prose || set_apart.include?(index) || !element.text.match?(MOVE_PATTERN)
 
-        motion = motion_indices_after(elements, index)
+        motion = motion_indices_after(elements, index, set_apart)
         if motion.any?
           roles[index] = { kind: :move, move: moves }
           motion.each { |i| roles[i] = { kind: :motion, move: moves } }
@@ -127,12 +149,39 @@ module DataLoader
         end
         moves += 1
       end
+      elements.each_index do |i|
+        roles[i] = { kind: :quotation } if roles[i][:kind] == :prose && incorporated.exclude?(i) && italic?(elements[i])
+      end
       roles
     end
 
-    def motion_indices_after(elements, index)
+    # The indices of the notices introducing an incorporated speech, and of the speech itself:
+    # everything after a notice up to the first plain paragraph, where the member speaks again
+    # ("I seek leave to continue my remarks later.") or Hansard records what happened next
+    # ("Debate adjourned."). Only a plain <p> ends it, because the Senate's files set lists inside
+    # an incorporated speech in plain <ul> elements. In the House an incorporated speech is plain
+    # throughout, so nothing after its notice is marked, and it reads as prose as it always did.
+    def incorporation(elements)
+      notices = Set.new
+      incorporated = Set.new
+      inside = false
+      elements.each_with_index do |element, index|
+        text = paragraph_text(element)
+        if text.match?(INCORPORATION_NOTICE)
+          notices << index
+          inside = true
+        elsif inside && element.name == "p" && !italic?(element) && !text.empty?
+          inside = false
+        elsif inside
+          incorporated << index
+        end
+      end
+      [notices, incorporated]
+    end
+
+    def motion_indices_after(elements, index, set_apart)
       following = ((index + 1)...elements.size).drop_while { |i| elements[i].text.strip.empty? }
-      following.take_while { |i| motion_element?(elements[i]) || elements[i].text.strip.empty? }
+      following.take_while { |i| set_apart.exclude?(i) && (motion_element?(elements[i]) || elements[i].text.strip.empty?) }
                .reject { |i| elements[i].text.strip.empty? }
     end
 
@@ -155,6 +204,10 @@ module DataLoader
       return true if element.attr(:pwmotiontext).present?
       return true if %w[dl blockquote].include?(element.name)
 
+      italic?(element)
+    end
+
+    def italic?(element)
       element.name == "p" && element.attr(:class).to_s.split.include?("italic")
     end
 
