@@ -27,4 +27,6 @@ Consequences:
 - Every draft ends with a fixed-form Reviewer Only report built from the pipeline's own records, never from
   model prose.
 
+See `app/services/division_summary_pipeline/ARCHITECTURE.md` section 2 for how this shapes each stage.
+
 Decided 2026-09-28, when the pipeline was rebuilt around source references (feature/1716-ai-division-summaries). Drafted with AI assistance (Claude Code, claude-opus-5-5).
