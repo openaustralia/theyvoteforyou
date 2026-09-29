@@ -86,6 +86,54 @@ describe DataLoader::SpeechText do
     end
   end
 
+  describe ".paragraphs" do
+    # The pipeline quotes a member's explanation and the motion separately, so it has to know
+    # which words are which rather than guessing from their position.
+    it "labels the move, the motion and the member's own words" do
+      node = speech(<<~XML)
+        <p>This amendment is about fairness.</p>
+        <p>I move the second reading amendment on sheet 9001:</p>
+        <p class="italic">At the end of the motion, add ", but the Senate:</p>
+        <p class="italic">(a) notes the cost of the scheme".</p>
+        <p>Students deserve better.</p>
+      XML
+
+      expect(described_class.paragraphs(node)).to eq(
+        [
+          { text: "This amendment is about fairness.", kind: :prose },
+          { text: "I move the second reading amendment on sheet 9001:", kind: :move, move: 0 },
+          { text: "At the end of the motion, add \", but the Senate:", kind: :motion, move: 0 },
+          { text: "(a) notes the cost of the scheme\".", kind: :motion, move: 0 },
+          { text: "Students deserve better.", kind: :prose }
+        ]
+      )
+    end
+
+    it "splits an inline motion from the words that introduce it, keeping both exactly" do
+      expect(described_class.paragraphs(speech("<p>I move: That the question be now put.</p>"))).to eq(
+        [{ text: "I move:", kind: :move, move: 0 }, { text: "That the question be now put.", kind: :motion, move: 0 }]
+      )
+    end
+
+    it "labels every move in a speech, so an earlier motion is never read as prose" do
+      node = speech(<<~XML)
+        <p>I move:</p>
+        <p class="italic">That the debate be adjourned.</p>
+        <p>If that fails, I move:</p>
+        <p class="italic">That the question be now put.</p>
+      XML
+
+      kinds = described_class.paragraphs(node).map { |block| [block[:kind], block[:move]] }
+      expect(kinds).to eq([[:move, 0], [:motion, 0], [:move, 1], [:motion, 1]])
+      expect(described_class.moved_text(node)).to eq("That the question be now put.")
+    end
+
+    it "treats \"I move on to\" as prose" do
+      expect(described_class.paragraphs(speech("<p>I move on to my second point.</p>")))
+        .to eq([{ text: "I move on to my second point.", kind: :prose }])
+    end
+  end
+
   describe ".context_speech" do
     it "carries the Hansard speaker id so the mover can be looked up as a member" do
       result = described_class.context_speech(speech("<p>I move: That the question be now put.</p>"))
