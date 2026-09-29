@@ -101,6 +101,28 @@ describe DataLoader::DivisionXml do
 
       expect(speakers).to eq(["Robin Carrow", "Jess Harlow"])
     end
+
+    # Under a guillotine the questions are put under "; Limitation of Debate", about amendments
+    # moved in the "; Second Reading" debate. The bills listed under each heading tie them together.
+    it "finds the same bill's debate under another heading, and not another bill's" do
+      fair_pricing = "<bills><bill id=\"r9001\" url=\"x\">Fair Pricing Bill 2026</bill></bills>"
+      division = divisions(<<~XML).last
+        #{heading}
+        #{fair_pricing}
+        <speech id="s1" speakername="Robin Carrow"><p>I move the second reading amendment on sheet 9001.</p></speech>
+        <minor-heading id="h3">Clean Rivers Bill 2026; Second Reading</minor-heading>
+        <bills><bill id="r9002" url="x">Clean Rivers Bill 2026</bill></bills>
+        <speech id="s2" speakername="Sam Okafor"><p>I move the second reading amendment on sheet 9002.</p></speech>
+        <minor-heading id="h4">Fair Pricing Bill 2026; Limitation of Debate</minor-heading>
+        #{fair_pricing}
+        <speech id="s3" speakername="Casey Whitlow"><p>The question is that the amendment moved by Senator Carrow be agreed to.</p></speech>
+        <division divnumber="1" id="d1">#{fair_pricing}</division>
+      XML
+
+      speakers = division.earlier_same_debate_speeches.map { |speech| speech.attr(:speakername) }
+
+      expect(speakers).to eq(["Robin Carrow"])
+    end
   end
 
   describe "#operative_question" do
