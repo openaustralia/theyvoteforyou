@@ -17,7 +17,7 @@ module DivisionSummaryPipeline
   # They are still deterministic, human-authored strings; the branch is what the model's
   # verbatim extraction selects, not what it writes.
   class TemplateCompiler
-    DEFAULT_TEMPLATES_DIR = File.expand_path("templates", __dir__)
+    DEFAULT_TEMPLATES_DIR = File.expand_path("../templates", __dir__)
 
     # The House grew from 150 to 151 seats at the 2019 election, which moved the quorum
     # (one fifth of the House) from 30 to 31. See #house_quorum_threshold.

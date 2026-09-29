@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../app/services/division_summary_pipeline/context_builder"
+require_relative "../../../app/services/division_summary_pipeline/context/context_builder"
 
 describe DivisionSummaryPipeline::ProvenanceValidator do
   describe ".validate" do

@@ -179,7 +179,7 @@ Both are outward-facing and are not developer calls:
 
 - `app/services/division_summarizer.rb`, the stage 5 call, marked PLACEHOLDER in a comment. The
   single point where digest data would be passed in.
-- `app/services/division_summary_pipeline/template_compiler.rb`, step 5, which turns
+- `app/services/division_summary_pipeline/compilation/template_compiler.rb`, step 5, which turns
   `digest_section` / `digest_key_points` / `digest_link` into markdown.
 - `app/services/division_summary_pipeline/ARCHITECTURE.md`, "Placeholders waiting for an
   integration", which describes the same seam from the code's point of view.
