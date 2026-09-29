@@ -28,6 +28,10 @@ module DataLoader
     # "is .anti-competitive".
     STRAY_FULL_STOP = /\u00A0{2,}\.(?=[[:alpha:]])/
 
+    # What is left at the start of a speech when the member's name and electorate are taken out
+    # of the markup: "():  I rise to speak to the bill". Nobody said it either.
+    EMPTY_SPEAKER_PREFIX = /\A\(\)\s*:\s*/
+
     # "I move", allowing the adverbs members put in the middle ("I formally move") and the two
     # longer Senate forms, "I, and also on behalf of Senator Example, move:" and "I present the
     # bill and move:". A match is
@@ -58,7 +62,7 @@ module DataLoader
     # The element's text with one blank line between blocks and single spaces inside them.
     def paragraph_text(node)
       raw_block_text(node).split(BLOCK_BREAKS)
-                          .map { |block| block.gsub(STRAY_FULL_STOP, " ").gsub(/[[:space:]]+/, " ").strip }
+                          .map { |block| block.gsub(STRAY_FULL_STOP, " ").gsub(/[[:space:]]+/, " ").strip.sub(EMPTY_SPEAKER_PREFIX, "") }
                           .reject(&:empty?)
                           .join("\n\n")
     end
