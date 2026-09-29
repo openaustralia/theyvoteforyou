@@ -54,6 +54,18 @@ describe DivisionSummaryPipeline::Transcript do
                 [:motion, "That the Senate notes it."]])
     end
 
+    # KNOWN_ISSUES.md KI-38: what a member quotes is someone else's words, so it is never cut into
+    # sentences that could be quoted as theirs.
+    it "keeps a passage the member quoted whole, marked as a quotation, and shows the model which it is" do
+      node = speech("<p>The minister said:</p><p class=\"italic\">It is fair. It is overdue.</p><p>I disagree.</p>", id: "s9")
+      quoted = described_class.build(heading: "Bills", speeches: [node])
+
+      expect(quoted.speech(1).units.map { |unit| [unit.id, unit.kind, unit.text] })
+        .to eq([["S1.1", :prose, "The minister said:"], ["S1.2", :quotation, "It is fair. It is overdue."],
+                ["S1.3", :prose, "I disagree."]])
+      expect(quoted.prompt_text).to include("[S1.2 quotation] It is fair. It is overdue.")
+    end
+
     it "finds a unit whatever case or spacing the model used for its ID" do
       expect(transcript.unit(" s1.4 ").kind).to eq(:motion)
       expect(transcript.unit("S9.9")).to be_nil

@@ -112,12 +112,14 @@ module DivisionSummaryPipeline
     # A long speech is cut to an unbroken run of whole paragraphs around its move, never inside
     # a paragraph and never with a gap in the middle, so anything quoted from it is exactly what
     # Hansard recorded, in order. The move and its terms always stay, since they are why the
-    # speech was kept, and the paragraphs either side of them are where a mover explains it.
+    # speech was kept, and the paragraphs either side of them are where a mover explains it. A
+    # quotation elsewhere in the speech is not a reason to keep it, or the run would stretch from
+    # the first quotation to the move and past the budget.
     def within_budget(speech)
       paragraphs = speech[:paragraphs]
       return speech if paragraphs.sum { |paragraph| paragraph[:text].size } <= MAX_SPEECH_CHARS
 
-      moved = paragraphs.each_index.reject { |i| paragraphs[i][:kind] == :prose }
+      moved = paragraphs.each_index.select { |i| %i[move motion].include?(paragraphs[i][:kind]) }
       low = moved.first || 0
       high = moved.last || 0
       used = paragraphs[low..high].sum { |paragraph| paragraph[:text].size }

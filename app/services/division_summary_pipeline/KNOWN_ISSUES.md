@@ -47,8 +47,13 @@ KI-36 and KI-37 came from checking that same division's draft against Hansard in
 then replaying the Senate's ParlParse XML for 18 to 20 August 2026 (69 divisions, 47 of them put
 under one of five guillotines) through Stage 1.
 
+KI-38 and KI-39 came from checking the draft for Senate 20 August 2026 #23 against Hansard in
+September 2026, after three local models all quoted the same passage as the mover's explanation,
+then comparing Stage 1 before and after the fix over the 3,856 speeches in the ParlParse XML for
+Senate 18 to 20 August 2026 and the eight test divisions' sitting days.
+
 This register was compiled with AI assistance (Claude Code: claude-opus-5[1m] for KI-1 to KI-19,
-claude-opus-5-5 for KI-20 to KI-37 and for condensing the fixed entries). The procedural
+claude-opus-5-5 for KI-20 to KI-39 and for condensing the fixed entries). The procedural
 citations should be checked against the guides named above.
 
 ## How findings were verified
@@ -99,6 +104,8 @@ citations should be checked against the guides named above.
 | KI-35 | Medium | Open | A lead-in sentence before the chair's question can decide the route | See the open entry below. |
 | KI-36 | Medium | Fixed | A question put once a guillotine's time had expired never said so, so a draft read as an ordinary vote with nobody moving or debating it | `division_xml_spec.rb` "#limitation_of_debate_statement"; `context_builder_spec.rb` "when a guillotine's time has expired"; `template_compiler_spec.rb` "says the question was put under a limitation of debate". Found by rule from the chair's statement, which can be dozens of divisions back under another bill's heading. A senator speaking by leave between the statement and the division stops the search, so the draft then says nothing about it: on 18 August 2026 that left two of the four divisions under the second reading's guillotine unmentioned. |
 | KI-37 | Medium | Fixed | Earlier debate was matched by heading alone, so a question put under "; Limitation of Debate" never found the amendment moved under the same bill's "; Second Reading" | `debates_xml_headings_spec.rb`, `division_xml_spec.rb` "finds the same bill's debate under another heading"; `earlier_debate_spec.rb`, `mover_finder_spec.rb`, `context_builder_spec.rb`. Sections are also matched by the bills listed under their headings. Such a move is only kept when the chair names its mover and nothing under the division's own heading was found: an unnamed one, such as a second reading question straight after the amendment, belongs to a different question. |
+| KI-38 | High | Fixed | Words a member quoted or read out were quoted as the member's own explanation | `speech_text_spec.rb` "labels an italic paragraph that follows no move as a quotation"; `transcript_spec.rb` "keeps a passage the member quoted whole"; `provenance_validator_spec.rb` "when the mover quotes someone else"; `earlier_debate_spec.rb` "keeps the run round the move when the speech also quotes someone far from it". At Senate 20 August 2026 #23 all three models picked a sentence of the Prime Minister's 2003 words that the mover had read out, and the draft printed it under the mover's name. Hansard sets quoted material in italic, so an italic paragraph that is neither a motion nor part of an incorporated speech is now a `:quotation` unit, which the validator never accepts as an explanation. Still open: a short quote inside a member's own sentence ("they say: 'No worries!'") is not set apart, and neither is a quote inside an incorporated speech, so those rest on the model and the reviewer. |
+| KI-39 | Medium | Fixed | An incorporated second reading speech opening with the House's "I move that this Bill be now read a second time." was read as a move, and the whole speech as its terms | `speech_text_spec.rb` "a speech incorporated by leave" and "reads a move made while presenting a report or tabling a document". Three Senate speeches on 19 and 20 August 2026 gave 7,339 to 14,500 characters of speech as the motion moved; none of the sitting days checked has a division on those bills, so none of the drafts checked here used it. Fixing it exposed that "I table ... and move:" was never read as a move either, so one of the three ministers had been found only through the copied line; tabling and presenting forms are now read. |
 
 ---
 

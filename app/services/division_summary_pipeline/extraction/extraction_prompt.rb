@@ -4,9 +4,10 @@ module DivisionSummaryPipeline
   # The words the model is given: a fixed system prompt, and a user prompt built from one
   # ContextPacket. Treat the system prompt as source code. Editing a rule changes every future
   # extraction, and several rules are load-bearing: rule 5 is why an explanation is only ever
-  # the mover's own sentences, rule 7 is the closed list KI-11 relies on, rule 9 restates the
-  # guillotine trap Stage 2 fences, and rule 8 keeps member details out of the model's hands
-  # because MemberResolver looks them up in the database.
+  # the mover's own sentences (the validator also drops anything else, a quotation included,
+  # KI-38), rule 7 is the closed list KI-11 relies on, rule 9 restates the guillotine trap Stage 2
+  # fences, and rule 8 keeps member details out of the model's hands because MemberResolver looks
+  # them up in the database.
   module ExtractionPrompt
     MAXIMUM_EXPLANATION_SENTENCES = 6
 
@@ -102,7 +103,9 @@ module DivisionSummaryPipeline
         HOW THE TRANSCRIPT IS SHOWN
         Every unit of <hansard_context> starts with an ID in square brackets. A member's own words are
         one sentence per ID ("[S3.4] ..."). Other units are whole paragraphs, marked with their kind:
-        "move" is the member saying "I move ...", "motion" is the terms they moved, and "chair" is the
+        "move" is the member saying "I move ...", "motion" is the terms they moved, "quotation" is text
+        Hansard set apart from the member's own words (something they quoted or read out, such as
+        another person's statement, a letter or a document, or an editorial note), and "chair" is the
         chair putting the question for this division.
 
         1. ANCHOR ON THE SPEAKER'S QUESTION:
@@ -121,9 +124,9 @@ module DivisionSummaryPipeline
         5. THE MOVER'S EXPLANATION:
            references.explanation lists the IDs of up to #{MAXIMUM_EXPLANATION_SENTENCES} sentences in which the
            mover explains what the motion does or why they moved it, in the order they were spoken.
-           - Only the mover's own sentences, never another member's, and never a "move", "motion" or
-             "chair" unit. The terms of the motion are printed separately; they are not an explanation of
-             themselves.
+           - Only the mover's own sentences, never another member's, and never a "move", "motion",
+             "quotation" or "chair" unit. The terms of the motion are printed separately; they are not an
+             explanation of themselves. Words the mover quoted are someone else's, even in their speech.
            - If the mover gave no explanation (the speech is only the move and its terms, or it was moved
              formally), return an empty list. Do not fill it with anything else.
            - Choose the sentences that state the mover's case plainly: what the motion would do and the

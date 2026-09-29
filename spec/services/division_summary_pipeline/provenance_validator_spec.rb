@@ -92,6 +92,28 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       expect(result.warnings.join).to include("S1.4 is motion text, not the mover's own words")
     end
 
+    # KNOWN_ISSUES.md KI-38: every model tried on a real division picked a minister's old words that
+    # a senator had quoted, and the draft printed them as the senator's explanation.
+    context "when the mover quotes someone else" do
+      let(:mover_speech) do
+        summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+          <p>The minister told the Senate:</p>
+          <p class="italic">Rural students pay no more to study.</p>
+          <p>That is wrong.</p>
+          <p>I move the second reading amendment on sheet 9001:</p>
+          #{motion_paragraph}
+        XML
+      end
+
+      it "drops the quoted words, so they are never printed as the mover's" do
+        result = validate(extraction(explanation: %w[S1.2 S1.3]))
+
+        expect(result).to be_valid
+        expect(result.evidence.explanations.map(&:text)).to eq(["That is wrong."])
+        expect(result.warnings.join).to include("S1.2 is quotation text, not the mover's own words")
+      end
+    end
+
     it "drops another member's sentence" do
       result = validate(extraction(explanation: %w[S2.1 S1.1]))
 

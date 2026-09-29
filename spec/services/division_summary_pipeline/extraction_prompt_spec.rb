@@ -86,8 +86,12 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
 
     it "asks for selections, never text for publication" do
       expect(prompt).to include("You never write text for publication", "NEUTRALITY IS NOT OPTIONAL",
-                                "never a \"move\", \"motion\" or", "return an empty list")
+                                "never a \"move\", \"motion\",", "\"quotation\" or \"chair\" unit", "return an empty list")
       expect(prompt).not_to include("topic", "Australian English (-ise")
+    end
+
+    it "says what a quotation unit is, and that words the mover quoted never explain the motion (KNOWN_ISSUES.md, KI-38)" do
+      expect(prompt).to include("\"quotation\" is text", "Words the mover quoted are someone else's, even in their speech.")
     end
 
     it "keeps the closed list of reasoned amendment forms (KNOWN_ISSUES.md, KI-11)" do

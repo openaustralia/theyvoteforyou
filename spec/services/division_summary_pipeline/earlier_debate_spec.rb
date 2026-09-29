@@ -83,6 +83,22 @@ describe DivisionSummaryPipeline::EarlierDebate do
     expect(kept[:paragraphs].last[:text]).to eq("That is my case.")
   end
 
+  # A quotation is not a move, so it must not stretch the kept run back to wherever it sits.
+  it "keeps the run round the move when the speech also quotes someone far from it" do
+    filler = (1..30).map { |n| "<p>#{"Paragraph #{n} is long. " * 60}</p>" }.join
+    long_day = day_xml(<<~XML)
+      <minor-heading id="h2">#{heading}</minor-heading>
+      <speech id="s1" speakername="Robin Carrow" speakerid="uk.org.publicwhip/member/9101" time="12:33"><p>A report said:</p><p class="italic">The scheme is failing.</p>#{filler}<p>I move:</p><p class="italic">That the bill be withdrawn.</p><p>That is my case.</p></speech>
+    XML
+    result = described_class.collect(division_xml: third_day_division, house: "representatives", date: "2026-05-14",
+                                     fetcher: ->(_house, date) { long_day if date == "2026-05-12" })
+    kept = result.speeches.first
+
+    expect(kept[:text].size).to be <= described_class::MAX_SPEECH_CHARS
+    expect(kept[:paragraphs].pluck(:kind)).to include(:move, :motion)
+    expect(kept[:paragraphs].pluck(:kind)).not_to include(:quotation)
+  end
+
   it "stops at the most recent day with a move" do
     fetched = []
     counting = lambda do |house, date|

@@ -114,9 +114,9 @@ read, the draft is built from the first reply and the Reviewer Only report says 
 ### Step 4: Resolve and check the references (ProvenanceValidator)
 
 Code turns every reference into Hansard's own text and checks it. An explanation reference that is
-not the mover's own words (another member, the chair, or the motion itself) is dropped with a
-warning. The operative motion, a template's required fact, Template 2's flag and the routing fence
-are hard requirements: if any fails, the draft is not compiled.
+not the mover's own words (another member, the chair, the motion itself, or words the mover quoted)
+is dropped with a warning. The operative motion, a template's required fact, Template 2's flag and
+the routing fence are hard requirements: if any fails, the draft is not compiled.
 
 ### Step 5: Compile the summary (TemplateCompiler)
 
@@ -205,14 +205,20 @@ Nothing publishes itself: the draft is saved as an `AiDivisionSummary` for human
   rest of the statement usually puts a question on another bill), a context warning, and in
   Stage 4 `Evidence#limitation`.
 - `DataLoader::SpeechText.paragraphs` labels every block of a speech as `:move` (the "I move"
-  words), `:motion` (the terms moved) or `:prose`. Current ParlParse XML has no `pwmotiontext`: the
-  terms moved are `<p class="italic">` after "I move", which is why only paragraphs after an "I
-  move" count.
+  words), `:motion` (the terms moved), `:quotation` or `:prose`. Current ParlParse XML has no
+  `pwmotiontext`: the terms moved are `<p class="italic">` after "I move", which is why only
+  paragraphs after an "I move" count. Hansard also sets in italic whatever a member quotes or
+  reads out, and its own editorial notes, so any other italic paragraph is a `:quotation`, never
+  the member's own words (KI-38). The exception is a speech incorporated by leave, which is the
+  member's own words however it is set: everything after "The speech read as follows" (in any of
+  its spellings) up to the first plain paragraph is `:prose`, and is never searched for a move,
+  because a Senate minister's incorporated speech often opens with the House's own "I move"
+  (KI-39).
 - `Transcript` cuts the speeches into units with IDs: prose into sentences (conservatively, so
   "No. 3" and "Mr" never end one), an "I move" paragraph into sentences so reasons given before
-  the move stay quotable, and motions and the chair's question into whole paragraphs. It keeps raw
-  text for publication and retrieves exact runs of units; `Transcript#anchor` finds a short phrase
-  inside one unit and returns Hansard's own characters for it.
+  the move stay quotable, and motions, quotations and the chair's question into whole paragraphs.
+  It keeps raw text for publication and retrieves exact runs of units; `Transcript#anchor` finds a
+  short phrase inside one unit and returns Hansard's own characters for it.
 - `DivisionFacts` is the one reader of a `Division` record or a Hash of division data.
 - `MoverFinder` finds the mover from the chair's "moved by ..." or the latest "I move", and records
   how (`found_by`); `MemberResolver` resolves members from the database and owns the one name

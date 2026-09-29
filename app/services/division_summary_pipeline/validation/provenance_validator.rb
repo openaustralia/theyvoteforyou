@@ -20,9 +20,10 @@ module DivisionSummaryPipeline
   #
   # Nothing the model returned is treated as true until it points at a unit of the transcript
   # that says it. Since the model only ever returns IDs, what can go wrong is pointing at the
-  # wrong thing: a sentence another member spoke, the motion itself instead of an explanation of
-  # it, a phrase that is not in the unit named. Those references are dropped, with a warning a
-  # reviewer sees, so the draft prints less rather than anything unsupported.
+  # wrong thing: a sentence another member spoke, words the mover quoted from someone else, the
+  # motion itself instead of an explanation of it, a phrase that is not in the unit named. Those
+  # references are dropped, with a warning a reviewer sees, so the draft prints less rather than
+  # anything unsupported.
   #
   # What the summary cannot do without is an error instead: the operative motion, a fact the
   # template names, Template 2's declines_second_reading, and a template Stage 2's fence allows.
@@ -172,7 +173,8 @@ module DivisionSummaryPipeline
 
     # The mover's own sentences, in the order spoken. A reference to anything else is dropped
     # rather than failing the draft: the motion is printed separately and is not an explanation
-    # of itself, and another member's words are not the mover's.
+    # of itself, and neither another member's words nor words the mover quoted (a :quotation
+    # unit, KI-38) are the mover's.
     def explanations
       ids = extraction.references.explanation
       return [] if ids.empty?
