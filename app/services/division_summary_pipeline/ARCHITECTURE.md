@@ -503,20 +503,22 @@ table is where the number-to-name mapping lives:
 ## 9. Where everything lives
 
 ```text
-app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md explains it)
-  context_builder.rb          Stage 1: adapts the existing Hansard loader into a ContextPacket
-  procedural_router.rb        Stage 2: deterministic routing on the Speaker's Question
-  semantic_extractor.rb       Stage 3: LLM prompt + Bedrock call, structured JSON only
-  extraction_payload.rb       ExtractionPayload / ClaimEvidence value objects + JSON schema
-  provenance_validator.rb     Stage 4: mechanical evidence-in-source assertions
-  member_resolver.rb          resolves an extracted name, electorate or Hansard speaker id to TVFY member facts
-  mover_finder.rb             Stage 1: the mover and the terms moved, found by rule from Hansard
-  earlier_debate.rb           Stage 1, Level D: the moving speeches from earlier in the same debate
-  template_compiler.rb        Stage 5: injects validated data into the Markdown templates
-  text_normaliser.rb          shared text cleaning and quote-matching normalisation
-  templates/                  the 28 Markdown templates ({{placeholder}} syntax)
-  ARCHITECTURE.md             this document
-  KNOWN_ISSUES.md             defect register, checked against the chambers' procedural guides
+app/services/division_summary_pipeline/     the pipeline itself (ARCHITECTURE.md explains it); the
+                                            folders are for people, and Zeitwerk collapses them
+                                            (config/initializers/division_summary_pipeline.rb)
+  context/context_builder.rb          Stage 1: adapts the existing Hansard loader into a ContextPacket
+  routing/procedural_router.rb        Stage 2: deterministic routing on the Speaker's Question
+  extraction/semantic_extractor.rb    Stage 3: LLM prompt + Bedrock call, structured JSON only
+  extraction/extraction_payload.rb    ExtractionPayload / ClaimEvidence value objects + JSON schema
+  validation/provenance_validator.rb  Stage 4: mechanical evidence-in-source assertions
+  context/member_resolver.rb          resolves an extracted name, electorate or Hansard speaker id to TVFY member facts
+  context/mover_finder.rb             Stage 1: the mover and the terms moved, found by rule from Hansard
+  context/earlier_debate.rb           Stage 1, Level D: the moving speeches from earlier in the same debate
+  compilation/template_compiler.rb    Stage 5: injects validated data into the Markdown templates
+  text_normaliser.rb                  shared text cleaning and quote-matching normalisation
+  templates/                          the 28 Markdown templates ({{placeholder}} syntax)
+  ARCHITECTURE.md                     this document
+  KNOWN_ISSUES.md                     defect register, checked against the chambers' procedural guides
 app/services/division_summarizer.rb         orchestrator that runs the five stages
 app/models/ai_division_summary.rb           output model: one saved draft per division and model
 app/lib/data_loader/debates.rb              existing loader + fetch_xml_document/xml_url helpers
