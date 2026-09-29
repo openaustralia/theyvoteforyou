@@ -66,6 +66,23 @@ describe DivisionSummaryPipeline::EarlierDebate do
     expect(texts).not_to include("something unrelated")
   end
 
+  # Nothing quoted from an earlier day may be cut off part way through.
+  it "keeps a long speech to an unbroken run of whole paragraphs round its move" do
+    filler = (1..30).map { |n| "<p>#{"Paragraph #{n} is long. " * 60}</p>" }.join
+    long_day = day_xml(<<~XML)
+      <minor-heading id="h2">#{heading}</minor-heading>
+      <speech id="s1" speakername="Robin Carrow" speakerid="uk.org.publicwhip/member/9101" time="12:33">#{filler}<p>I move:</p><p class="italic">That the bill be withdrawn.</p><p>That is my case.</p></speech>
+    XML
+    result = described_class.collect(division_xml: third_day_division, house: "representatives", date: "2026-05-14",
+                                     fetcher: ->(_house, date) { long_day if date == "2026-05-12" })
+    kept = result.speeches.first
+
+    expect(kept[:text].size).to be <= described_class::MAX_SPEECH_CHARS
+    expect(kept[:paragraphs].pluck(:kind)).to include(:move, :motion)
+    expect(kept[:paragraphs].pluck(:text)).to all(match(/[.:]\z/))
+    expect(kept[:paragraphs].last[:text]).to eq("That is my case.")
+  end
+
   it "stops at the most recent day with a move" do
     fetched = []
     counting = lambda do |house, date|
@@ -94,5 +111,44 @@ describe DivisionSummaryPipeline::EarlierDebate do
     result = described_class.collect(division_xml: third_day_division, house: "representatives", date: "2026-05-14", fetcher: nil)
 
     expect(result).to be_empty
+  end
+
+  # A guillotine's questions are put under "; Limitation of Debate", but the amendment was moved
+  # in the second reading debate earlier the same day.
+  context "when the question is put under another heading about the same bill" do
+    let(:bills) { "<bills><bill id=\"r9001\" url=\"x\">Fair Pricing Amendment Bill 2026</bill></bills>" }
+    let(:guillotined_division) do
+      doc = day_xml(<<~XML)
+        <minor-heading id="h2">#{heading}</minor-heading>
+        #{bills}
+        <speech id="s1" speakername="Robin Carrow" speakerid="uk.org.publicwhip/lord/9101" time="12:19">
+          <p>I move:</p><p class="italic">Omit all words after "That", substitute "the Senate rejects the bill".</p>
+        </speech>
+        <minor-heading id="h3">Fair Pricing Amendment Bill 2026; Limitation of Debate</minor-heading>
+        #{bills}
+        <speech id="s2" speakername="Casey Whitlow" time="14:16"><p>The question is that the amendment moved by Senator Carrow be agreed to.</p></speech>
+        <division divdate="2026-05-14" divnumber="1" id="d1" time="14:18">#{bills}<divisioncount ayes="12" noes="27"/></division>
+      XML
+      DataLoader::DebatesXml.new(doc, "senate").divisions.first
+    end
+
+    it "finds the move, marked as another stage of the bill" do
+      result = described_class.collect(division_xml: guillotined_division, house: "senate", date: "2026-05-14", fetcher: nil)
+
+      expect(result.speeches.pluck(:speaker)).to eq(["Robin Carrow"])
+      expect(result.speeches.first[:other_heading]).to be(true)
+    end
+
+    it "keeps looking back for this debate's own move" do
+      fetched = []
+      counting = lambda do |_house, date|
+        fetched << date
+        nil
+      end
+
+      described_class.collect(division_xml: guillotined_division, house: "senate", date: "2026-05-14", fetcher: counting)
+
+      expect(fetched).not_to be_empty
+    end
   end
 end
