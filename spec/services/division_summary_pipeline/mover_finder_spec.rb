@@ -25,6 +25,7 @@ describe DivisionSummaryPipeline::MoverFinder do
 
     expect(result.member.name).to eq("Morgan Treloar")
     expect(result.moved_text).to eq("At the end of the motion, add ...")
+    expect(result.found_by).to eq(:chair_named)
   end
 
   it "takes the move just before the question when the chair names nobody" do
@@ -33,6 +34,7 @@ describe DivisionSummaryPipeline::MoverFinder do
     result = described_class.find(question: "The question is that the debate be adjourned.", speeches: [adjourn, chair])
 
     expect(result.member.name).to eq("Sam Okafor")
+    expect(result.found_by).to eq(:recent_move)
   end
 
   # Further back it may be a different motion, such as an amendment moved long before a second
@@ -41,6 +43,45 @@ describe DivisionSummaryPipeline::MoverFinder do
     speeches = [amendment_by_treloar] + Array.new(5) { speech("Riley Ng", "A long speech about the bill.") } + [chair]
 
     expect(described_class.find(question: "The question is that the bill be now read a second time.", speeches: speeches)).to be_nil
+  end
+
+  # Under a guillotine the second reading question comes straight after the chair's statements,
+  # and the nearest move is an amendment from the second reading debate, a different question.
+  it "does not take an unnamed move from another stage of the bill as the motion being put" do
+    other_stage = amendment_by_treloar.merge(other_heading: true)
+
+    expect(described_class.find(question: "The question now is that this bill be now read a second time.",
+                                speeches: [other_stage, chair])).to be_nil
+  end
+
+  it "credits a move from another stage of the bill when the chair names its mover" do
+    other_stage = amendment_by_treloar.merge(other_heading: true)
+
+    result = described_class.find(question: "The question is that the second reading amendment moved by Senator Treloar be agreed to.",
+                                  speeches: [other_stage, chair])
+
+    expect(result.member.name).to eq("Morgan Treloar")
+    expect(result.found_by).to eq(:chair_named)
+  end
+
+  # So a move found only through the bill never displaces one that was found before.
+  it "prefers the named member's move under this debate's own heading to a later one under another" do
+    later_other_stage = speech("Morgan Treloar", "I move the amendments on sheet 9004: ...", moved_text: "(1) Schedule 1, item 2, omit the item.")
+                        .merge(other_heading: true)
+
+    result = described_class.find(question: "The question is that the second reading amendment moved by Senator Treloar be agreed to.",
+                                  speeches: [amendment_by_treloar, later_other_stage, chair])
+
+    expect(result.moved_text).to eq("At the end of the motion, add ...")
+  end
+
+  it "keeps another stage's speeches out of the window for an unnamed move" do
+    adjourn = speech("Sam Okafor", "I move: That the debate be adjourned.", moved_text: "That the debate be adjourned.")
+    other_stages = Array.new(4) { speech("Casey Whitlow", "The question is that the amendment be agreed to.").merge(other_heading: true) }
+
+    result = described_class.find(question: "The question is that the debate be adjourned.", speeches: [adjourn, *other_stages, chair])
+
+    expect(result.member.name).to eq("Sam Okafor")
   end
 
   # Another senator often moves a notice on its owner's behalf.

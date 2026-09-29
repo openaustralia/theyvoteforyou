@@ -11,13 +11,22 @@ module DivisionSummaryPipeline
   # Senator Example", "the motion moved by the member for Exampleton"), and that is trusted
   # first. Otherwise the motion being put is the one moved just before the question, so only
   # a move in the last few speeches counts: further back it may be a different motion from
-  # earlier in the debate, such as an amendment moved before a second reading question.
+  # earlier in the debate, such as an amendment moved before a second reading question. A
+  # move found under another of the bill's headings (EarlierDebate's :other_heading) never
+  # counts that way, since it belongs to a different stage: under a guillotine the second
+  # reading question comes straight after an amendment moved in the second reading debate,
+  # and would otherwise be credited to that amendment's mover. Nor does such a move displace a
+  # named member's move under this debate's own heading: it is only a fallback.
   #
   # "Business ... standing in the name of Senator Example" names whose notice it is, which is
   # weaker: another senator often moves a notice on the owner's behalf, so a recent move by
   # someone else still wins over it.
   class MoverFinder
-    Result = Struct.new(:speech, :member, keyword_init: true) do
+    # found_by says how, for the reviewer: :chair_named (the chair named the mover and their move
+    # is in the excerpt), :chair_named_only (named, but the move is not in the excerpt),
+    # :recent_move (the latest "I move" just before the question) or :notice_owner (the weaker
+    # "in the name of" hint, with no move of theirs found).
+    Result = Struct.new(:speech, :member, :found_by, keyword_init: true) do
       def moved_text
         speech&.dig(:moved_text)
       end
@@ -44,12 +53,16 @@ module DivisionSummaryPipeline
 
     def find
       hint = named_mover
-      speech = moves.reverse.find { |s| matches_hint?(s, hint) } if hint
-      speech ||= recent_unnamed_move if hint.nil? || hint[:weak]
+      speech = named_move(hint) if hint
+      found_by = (hint[:weak] ? :notice_owner : :chair_named) if hint && speech
+      if speech.nil? && (hint.nil? || hint[:weak])
+        speech = recent_unnamed_move
+        found_by = :recent_move if speech
+      end
       member = speech ? member_for_speech(speech) : member_for_hint(hint)
       return nil unless speech || member&.name
 
-      Result.new(speech: speech, member: member)
+      Result.new(speech: speech, member: member, found_by: found_by || (hint[:weak] ? :notice_owner : :chair_named_only))
     end
 
     private
@@ -60,8 +73,15 @@ module DivisionSummaryPipeline
       speeches.select { |s| s[:moved_text].present? }
     end
 
+    # The named member's latest move under this debate's own heading, or failing that under
+    # another of the bill's, so a move found only by the bill never displaces one found as before.
+    def named_move(hint)
+      same, other = moves.partition { |s| !s[:other_heading] }
+      same.reverse.find { |s| matches_hint?(s, hint) } || other.reverse.find { |s| matches_hint?(s, hint) }
+    end
+
     def recent_unnamed_move
-      speeches.last(UNNAMED_MOVE_WINDOW).reverse.find { |s| s[:moved_text].present? }
+      speeches.reject { |s| s[:other_heading] }.last(UNNAMED_MOVE_WINDOW).reverse.find { |s| s[:moved_text].present? }
     end
 
     def named_mover
@@ -78,9 +98,7 @@ module DivisionSummaryPipeline
     # the speaker's member record, since Hansard's speaker attribute carries only the name.
     def matches_hint?(speech, hint)
       if hint[:name]
-        speaker = speech[:speaker].to_s.downcase
-        wanted = hint[:name].downcase
-        speaker == wanted || speaker.end_with?(" #{wanted.split.last}")
+        MemberResolver.same_speaker?(speech[:speaker], hint[:name])
       else
         member = member_record(speech[:speaker_gid])
         member.present? && member.constituency.to_s.casecmp?(hint[:electorate])

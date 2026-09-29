@@ -2,15 +2,25 @@
 
 *This is a vote about access to the documents. It is not a vote about the subject the documents deal with, and the summary should not suggest otherwise.*
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) requiring the Government to produce documents relating to {{topic}}, which means it was {{successful_text}}.
+---
+
+At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) requiring the Government to produce documents, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion
 
-At {{time}}, {{mover_title}} {{mover_name}} states that this motion requires the production of documents to:
+{{explanation_section}}
 
-{{introducer_claims}}
+### Motion Introduction
+
+{{motion_introduction}}
 
 ### Motion Text
 
+{{motion_attribution}}
+
 {{motion_text}}
+
+### Question Put
+
+{{question_put}}

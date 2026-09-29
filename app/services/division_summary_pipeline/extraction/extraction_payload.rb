@@ -3,223 +3,116 @@
 require "json"
 
 module DivisionSummaryPipeline
-  # Pairs an assertion about a motion with the verbatim Hansard quote that proves it. The
-  # pairing is the whole point: `claim` is the model's own wording and is published, so it is
-  # only allowed out if `evidence` survives stage 4. `speaker` narrows which part of the
-  # transcript that check searches.
-  ClaimEvidence = Struct.new(:claim, :evidence, :speaker, keyword_init: true) do
-    def to_h
-      {
-        claim: claim.to_s,
-        evidence: evidence.to_s,
-        speaker: speaker
-      }
-    end
-  end
-
-  # The structured payload the LLM populates, and the full extent of what it is allowed to
-  # say. Nothing outside these fields reaches a summary. Three of them are easy to misread:
+  # What the model answers, and the full extent of what it is allowed to say. It has two parts,
+  # kept apart because they are different kinds of thing:
   #
-  # - sufficient_context / missing_context_clue: the model reporting that the excerpt was too
-  #   thin, which the orchestrator answers by rebuilding the packet over the whole sitting
-  #   day. Reporting the gap is wanted behaviour, not a failure.
-  # - declines_second_reading: inverts what a vote for a Template 2 amendment means, so the
-  #   compiled summary says the opposite thing depending on it.
-  # - target_name, committee_name and the rest: the one fact a given template names, taken
-  #   verbatim from Hansard. Deliberately never a party, electorate or link; those are
-  #   database facts MemberResolver supplies (ARCHITECTURE.md, Data classification).
+  # - Interpretation: decisions only the model can make by understanding the debate. Which
+  #   template fits, whether a second reading amendment declines the bill a second reading, and
+  #   which evidence it could not find. These steer the program; none of them is published text.
+  # - References: where the evidence is, as IDs of Transcript units. The mover's explanation is
+  #   a list of sentence IDs; the motion is a list of paragraph IDs, needed only when Stage 1
+  #   could not find it by rule; each fact a template names (a committee, a regulation, the
+  #   member a motion targets) is a unit ID and the words to find inside that unit.
+  #
+  # Nothing the model writes is ever printed. Stage 4 turns references into Hansard's own text,
+  # and a reference it cannot resolve is not quoted at all. There is deliberately no field for a
+  # topic, a claim, a motion or a note in the model's own words: an AI that can select but not
+  # write cannot put words in anyone's mouth.
   class ExtractionPayload
-    attr_accessor :template_id, :topic, :motion_text, :mover_claims,
-                  :declines_second_reading, :sufficient_context, :missing_context_clue,
-                  :target_name, :target_electorate, :committee_name, :regulation_name,
-                  :business_name, :rearrangement_description,
-                  :legacy_title, :legacy_description
+    # missing: evidence the model looked for and could not find in the transcript, from
+    # MISSING_EVIDENCE. Non-empty asks the orchestrator for a wider packet.
+    Interpretation = Data.define(:template_id, :declines_second_reading, :missing)
 
-    def initialize(
-      template_id:,
-      topic:,
-      motion_text:,
-      mover_claims: [],
-      declines_second_reading: nil,
-      sufficient_context: true,
-      missing_context_clue: nil,
-      target_name: nil,
-      target_electorate: nil,
-      committee_name: nil,
-      regulation_name: nil,
-      business_name: nil,
-      rearrangement_description: nil,
-      legacy_title: nil,
-      legacy_description: nil
-    )
-      @template_id = template_id.to_i
-      @topic = topic.to_s
-      @motion_text = motion_text.to_s
-      @mover_claims = mover_claims || []
-      @declines_second_reading = self.class.optional_boolean(declines_second_reading)
-      parsed_sufficiency = self.class.optional_boolean(sufficient_context)
-      @sufficient_context = parsed_sufficiency.nil? || parsed_sufficiency
-      @missing_context_clue = missing_context_clue
-      @target_name = self.class.optional_text(target_name)
-      @target_electorate = self.class.optional_text(target_electorate)
-      @committee_name = self.class.optional_text(committee_name)
-      @regulation_name = self.class.optional_text(regulation_name)
-      @business_name = self.class.optional_text(business_name)
-      @rearrangement_description = self.class.optional_text(rearrangement_description)
-      @legacy_title = legacy_title
-      @legacy_description = legacy_description
+    # facts maps a fact name (TemplateCatalogue::ALL_FACTS) to a FactReference.
+    References = Data.define(:explanation, :motion, :facts)
+
+    FactReference = Data.define(:unit, :text)
+
+    MISSING_EVIDENCE = {
+      "operative_motion" => "the terms of the motion or amendment being decided",
+      "mover_speech" => "the speech in which the mover moved it (only a reference to it is here)",
+      "target" => "who the motion is directed at",
+      "committee" => "the committee a matter is referred to",
+      "regulation" => "the legislative instrument a motion would disallow",
+      "business" => "the business being withdrawn",
+      "rearrangement" => "what a rearrangement of business does"
+    }.freeze
+
+    attr_reader :interpretation, :references
+
+    def initialize(interpretation:, references:)
+      @interpretation = interpretation
+      @references = references
     end
 
-    # Replies in the shape an earlier prompt asked for: prose written by the model, with no
-    # template and no evidence. Recognised only so saved responses from before the pipeline
-    # existed still read back; it bypasses stages 4 and 5, so it is not a path to extend.
-    def legacy?
-      @template_id.zero? && @legacy_description.present?
-    end
+    delegate :template_id, :declines_second_reading, :missing, to: :interpretation
 
-    def to_h
-      if legacy?
-        {
-          title: @legacy_title,
-          description: @legacy_description
-        }
-      else
-        {
-          template_id: template_id,
-          topic: topic,
-          motion_text: motion_text,
-          mover_claims: mover_claims.map(&:to_h),
-          declines_second_reading: declines_second_reading,
-          sufficient_context: sufficient_context,
-          missing_context_clue: missing_context_clue,
-          target_name: target_name,
-          target_electorate: target_electorate,
-          committee_name: committee_name,
-          regulation_name: regulation_name,
-          business_name: business_name,
-          rearrangement_description: rearrangement_description
-        }
-      end
-    end
-
-    def to_json(options = nil)
-      to_h.to_json(options)
-    end
-
-    # Tolerates the wrappings models add despite being told not to (Markdown fences, a line
-    # of preamble). Leniency is safe here because it only affects whether the payload parses;
-    # what it claims is still checked against Hansard in stage 4.
+    # Tolerates the wrappings models add despite being told not to (Markdown fences, a line of
+    # preamble), and nothing else. Leniency is safe here because it only affects whether the
+    # reply parses; every reference in it is still checked against the transcript in stage 4.
     def self.from_json(json_str)
-      return nil if json_str.nil? || json_str.to_s.strip.empty?
+      return nil if json_str.blank?
 
-      cleaned = json_str.to_s.strip
-      if cleaned.start_with?("```")
-        cleaned = cleaned.sub(/\A```(?:json)?\s*/i, "")
-        cleaned = cleaned.sub(/```\s*\z/, "")
-      end
-
-      # Find json object boundaries if there is extra preamble
-      json_match = cleaned[/\{.*\}/m]
-      cleaned = json_match if json_match
-
-      data = JSON.parse(cleaned.strip)
-      from_h(data)
+      cleaned = json_str.to_s.strip.sub(/\A```(?:json)?\s*/i, "").sub(/```\s*\z/, "")
+      cleaned = cleaned[/\{.*\}/m] || cleaned
+      from_h(JSON.parse(cleaned))
     rescue JSON::ParserError
       nil
     end
 
-    # Keys are lower-cased first because models vary the casing of field names between
-    # replies, and a mis-cased key would silently read as a missing field.
+    # Keys are lower-cased first because models vary the casing of field names between replies,
+    # and a mis-cased key would silently read as a missing field.
     def self.from_h(data)
       return nil unless data.is_a?(Hash)
 
-      norm_data = {}
-      data.each { |k, v| norm_data[k.to_s.downcase] = v }
-
-      tpl_id = norm_data["template_id"].to_i
-
-      # Check for legacy title/description payload
-      if tpl_id.zero? && norm_data["description"].present?
-        return new(
-          template_id: 0,
-          topic: norm_data["title"].to_s,
-          motion_text: "",
-          legacy_title: norm_data["title"].to_s,
-          legacy_description: norm_data["description"].to_s
-        )
-      end
-
-      claims_raw = norm_data["mover_claims"] || norm_data["introducer_claims"] || []
-      claims = parse_claims(claims_raw)
-
-      declines = optional_boolean(norm_data["declines_second_reading"])
-      sufficient = optional_boolean(norm_data["sufficient_context"])
-      sufficient = true if sufficient.nil?
+      data = downcase_keys(data)
+      interpretation = downcase_keys(data["interpretation"])
+      references = downcase_keys(data["references"])
+      return nil unless interpretation
 
       new(
-        template_id: tpl_id,
-        topic: norm_data["topic"].to_s,
-        motion_text: norm_data["motion_text"].to_s,
-        mover_claims: claims,
-        declines_second_reading: declines,
-        sufficient_context: sufficient,
-        missing_context_clue: norm_data["missing_context_clue"],
-        target_name: norm_data["target_name"],
-        target_electorate: norm_data["target_electorate"],
-        committee_name: norm_data["committee_name"],
-        regulation_name: norm_data["regulation_name"],
-        business_name: norm_data["business_name"],
-        rearrangement_description: norm_data["rearrangement_description"]
+        interpretation: Interpretation.new(
+          template_id: interpretation["template_id"].to_i,
+          declines_second_reading: optional_boolean(interpretation["declines_second_reading"]),
+          missing: Array(interpretation["missing"]).map { |item| item.to_s.strip.downcase } & MISSING_EVIDENCE.keys
+        ),
+        references: References.new(
+          explanation: unit_ids(references&.dig("explanation")),
+          motion: unit_ids(references&.dig("motion")),
+          facts: fact_references(references&.dig("facts"))
+        )
       )
     end
 
-    # Models return claims in several shapes, so all are accepted. A claim arriving without
-    # its own evidence becomes its own evidence rather than being trusted: it then only
-    # survives stage 4 if those exact words are genuinely in Hansard, which is usually not.
-    def self.parse_claims(claims_raw)
-      claims = []
-      if claims_raw.is_a?(Array)
-        claims_raw.each do |item|
-          if item.is_a?(Hash)
-            norm_item = {}
-            item.each { |k, v| norm_item[k.to_s.downcase] = v }
-            claims << ClaimEvidence.new(
-              claim: norm_item["claim"].to_s,
-              evidence: norm_item["evidence"].to_s,
-              speaker: norm_item["speaker"]
-            )
-          elsif item.is_a?(String)
-            claims << ClaimEvidence.new(claim: item, evidence: item)
-          end
-        end
-      elsif claims_raw.is_a?(String)
-        claims_raw.split("\n").each do |line|
-          cleaned = line.strip.sub(/\A[>*]\s*/, "").strip
-          claims << ClaimEvidence.new(claim: cleaned, evidence: cleaned) unless cleaned.empty?
-        end
-      end
-      claims
+    def self.downcase_keys(hash)
+      hash.to_h { |key, value| [key.to_s.downcase, value] } if hash.is_a?(Hash)
     end
 
-    # Template-specific facts are published verbatim in the compiled summary, so blank
-    # values collapse to nil and surrounding whitespace is stripped rather than published.
-    def self.optional_text(value)
-      value.to_s.strip.presence
+    def self.unit_ids(value)
+      Array(value).map { |id| id.to_s.strip.upcase }.reject(&:empty?)
+    end
+
+    # Only facts some template names are read; anything else the model adds is ignored.
+    def self.fact_references(value)
+      facts = downcase_keys(value) || {}
+      TemplateCatalogue::ALL_FACTS.keys.each_with_object({}) do |name, found|
+        reference = downcase_keys(facts[name.to_s])
+        next unless reference && reference["unit"].present? && reference["text"].present?
+
+        found[name] = FactReference.new(unit: reference["unit"].to_s.strip.upcase, text: reference["text"].to_s)
+      end
     end
 
     TRUTHY_STRINGS = %w[true yes y 1].freeze
     FALSEY_STRINGS = %w[false no n 0].freeze
 
     # Three-state on purpose: true, false, and "the model did not answer", which are three
-    # different things here. `declines_second_reading` inverts what a Template 2 summary
-    # says, so `false` has to survive as `false` rather than collapsing into the same value
-    # as `true`, and ProvenanceValidator refuses a nil there rather than guessing. Likewise a
-    # `false` `sufficient_context` is what triggers the orchestrator's sitting-day retry.
-    #
+    # different things here. `declines_second_reading` inverts what a Template 2 summary says,
+    # so `false` has to survive as `false` rather than collapsing into the same value as `true`
+    # (KNOWN_ISSUES.md, KI-15), and ProvenanceValidator refuses a nil there rather than guessing.
     # Models return these as JSON booleans most of the time and as the strings "true"/"false"
     # or "yes"/"no" often enough to be worth accepting; anything else is nil, i.e. unanswered.
     def self.optional_boolean(value)
-      return nil if value.nil?
       return value if [true, false].include?(value)
 
       text = value.to_s.strip.downcase
@@ -229,87 +122,55 @@ module DivisionSummaryPipeline
       nil
     end
 
-    # The JSON Schema for the expected LLM output. It mirrors this class field for field and
-    # lives beside it so the two cannot drift; the descriptions double as per-field
-    # instructions to the model.
+    def to_h
+      {
+        interpretation: interpretation.to_h,
+        references: {
+          explanation: references.explanation,
+          motion: references.motion,
+          facts: references.facts.transform_values(&:to_h)
+        }
+      }
+    end
+
+    # The JSON Schema the model is given. It mirrors this class and lives beside it so the two
+    # cannot drift; the descriptions double as per-field instructions.
     def self.json_schema
+      unit_ids = { type: "array", items: { type: "string", pattern: "^S\\d+\\.\\d+$" } }
       {
         "$schema": "http://json-schema.org/draft-07/schema#",
         title: "ExtractionPayload",
         type: "object",
-        required: %w[template_id topic motion_text mover_claims],
+        required: %w[interpretation references],
         properties: {
-          template_id: {
-            type: "integer",
-            minimum: 1,
-            maximum: 28,
-            description: "The matching parliamentary template ID (1 to 28)."
-          },
-          topic: {
-            type: "string",
-            description: "A concise 2-to-5 word description of the bill, motion, or subject."
-          },
-          declines_second_reading: {
-            type: %w[boolean null],
-            description: "For Template 2 only: true if the amendment explicitly seeks to decline the second reading."
-          },
-          mover_claims: {
-            type: "array",
-            description: "1 to 4 claims made by the mover, each with verbatim evidence from Hansard.",
-            items: {
-              type: "object",
-              required: %w[claim evidence],
-              properties: {
-                claim: {
-                  type: "string",
-                  description: "Concise summary of the functional purpose in Australian English (-ise, -our)."
-                },
-                evidence: {
-                  type: "string",
-                  description: "Verbatim quote from the provided Hansard text proving the claim."
-                },
-                speaker: {
-                  type: %w[string null],
-                  description: "The name of the member who made the statement."
-                }
-              }
+          interpretation: {
+            type: "object",
+            required: %w[template_id missing],
+            properties: {
+              template_id: { type: "integer", minimum: 1, maximum: TemplateCatalogue::IDS.last,
+                             description: "The template that fits the question being decided." },
+              declines_second_reading: { type: %w[boolean null],
+                                         description: "Template 2 only: whether the amendment declines to give the " \
+                                                      "bill a second reading." },
+              missing: { type: "array", items: { enum: MISSING_EVIDENCE.keys },
+                         description: "Evidence you looked for and could not find in <hansard_context>." }
             }
           },
-          motion_text: {
-            type: "string",
-            description: "The exact wording of the motion or amendment as put to the chamber."
-          },
-          target_name: {
-            type: %w[string null],
-            description: "Name of the member, minister or body the motion targets (templates 10, 23 and 24), verbatim from the Hansard text; null if not stated."
-          },
-          target_electorate: {
-            type: %w[string null],
-            description: "Electorate of the member the motion targets (templates 23 and 24, e.g. 'Dickson' from 'the honourable member for Dickson'), verbatim; null if not stated."
-          },
-          committee_name: {
-            type: %w[string null],
-            description: "Name of the committee the motion concerns (template 13), verbatim from the Hansard text; null if not stated."
-          },
-          regulation_name: {
-            type: %w[string null],
-            description: "Name of the legislative instrument the motion would disallow (template 9), verbatim from the Hansard text; null if not stated."
-          },
-          business_name: {
-            type: %w[string null],
-            description: "Name of the business withdrawn from the Notice Paper (template 20), verbatim from the Hansard text; null if not stated."
-          },
-          rearrangement_description: {
-            type: %w[string null],
-            description: "What the rearrangement of business does, in the motion's operative words (template 19); null if not stated."
-          },
-          sufficient_context: {
-            type: "boolean",
-            description: "Whether the provided excerpt had sufficient context to extract the purpose and motion."
-          },
-          missing_context_clue: {
-            type: %w[string null],
-            description: "Clue if context was missing (e.g. 'Mover introduced amendment on previous sitting day')."
+          references: {
+            type: "object",
+            required: %w[explanation],
+            properties: {
+              explanation: unit_ids.merge(description: "IDs of sentences in which the mover explains the motion."),
+              motion: unit_ids.merge(description: "Only when <motion_as_moved> says the terms were not found: IDs " \
+                                                  "of the paragraphs holding the terms moved."),
+              facts: {
+                type: "object",
+                properties: TemplateCatalogue::ALL_FACTS.to_h do |name, description|
+                  [name, { type: "object", required: %w[unit text], description: description,
+                           properties: { unit: { type: "string" }, text: { type: "string" } } }]
+                end
+              }
+            }
           }
         }
       }
