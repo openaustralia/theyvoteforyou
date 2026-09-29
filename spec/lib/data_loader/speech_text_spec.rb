@@ -33,6 +33,10 @@ describe DataLoader::SpeechText do
 
       expect(described_class.paragraph_text(node)).to eq("The scheme is anti-competitive and unfair.")
     end
+
+    it "drops what is left of the speaker's name at the start of a speech" do
+      expect(described_class.paragraph_text(speech("<p>():  I rise to speak to the bill.</p>"))).to eq("I rise to speak to the bill.")
+    end
   end
 
   describe ".moved_text" do
