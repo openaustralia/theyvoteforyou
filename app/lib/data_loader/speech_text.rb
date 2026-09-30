@@ -55,6 +55,25 @@ module DataLoader
     # read as follows"), but they are not the member's words, so only a speech counts.
     INCORPORATION_NOTICE = /\A(?:\(\)\s*:?\s*)*The\s+(?:incorporated\s+)?speech\s*(?:es)?\s+read\s+as\s+follows/i
 
+    # What Hansard records of the chamber inside a member's speech, as a paragraph of its own: the
+    # chamber's leave, interjections, the clock, and the questions it decided. Plain type, so they
+    # read as the member's own sentences, and one could have been quoted as "Senator Example said:
+    # Leave not granted." (KI-57). The forms found in House and Senate Hansard
+    # from May to September 2026, with or without Hansard's closing dash.
+    RECORD = /\A(?:
+      leave\s+(?:not\s+)?granted(?:;\s*debate\s+adjourned)? |
+      leave\s+is\s+granted\s+for\s+one\s+minute |
+      \(time\s+expired\) |
+      (?:an?\s+)?(?:(?:honourable|opposition|government|crossbench)\s+)?(?:senators?|members?)\s+interjecting |
+      (?:senator|mr|mrs|ms|miss|dr)\s+[\w'’-]+(?:\s+[\w'’-]+){0,2}\s+interjecting |
+      (?:original\s+)?question(?:,\s+as\s+amended,)?\s+
+        (?:agreed\s+to|negatived|resolved\s+in\s+the\s+(?:affirmative|negative))
+        (?:,\s+with\s+an\s+absolute\s+majority)? |
+      bills?(?:,\s+as\s+amended,)?\s+(?:read\s+a\s+(?:first|second|third)\s+time|agreed\s+to) |
+      debate\s+adjourned |
+      order!
+    )[\s.—–-]*\z/xi
+
     module_function
 
     def context_speech(speech)
@@ -76,7 +95,10 @@ module DataLoader
     # - :motion, the terms moved,
     # - :quotation, text Hansard set apart in italic that is neither a motion nor part of an
     #   incorporated speech, and the notice introducing an incorporated speech, and
-    # - :prose, everything else, including a speech incorporated by leave.
+    # - :record, Hansard recording the chamber in a paragraph of its own (RECORD), and
+    # - :prose, everything else, including a speech incorporated by leave, whose blocks also carry
+    #   `incorporated: true`: they are the member's words for the record, but were not delivered
+    #   orally in the chamber (Senate Guide No. 10).
     #
     # :move and :motion blocks carry `move:`, counting the moves in the speech from 0, since a
     # speech can move more than one thing. An inline "I move: That the question be now put." is
@@ -91,7 +113,9 @@ module DataLoader
         next [] if text.empty?
         next split_inline_move(text, role[:move]) if role[:kind] == :inline_move
 
-        text.split("\n\n").map { |block| role[:kind] == :prose ? { text: block, kind: :prose } : role.merge(text: block) }
+        text.split("\n\n").map do |block|
+          role[:kind] == :prose && block.match?(RECORD) ? { text: block, kind: :record } : { text: block }.merge(role)
+        end
       end
     end
 
@@ -140,7 +164,12 @@ module DataLoader
     def move_roles(elements)
       notices, incorporated = incorporation(elements)
       set_apart = notices | incorporated
-      roles = Array.new(elements.size) { |i| notices.include?(i) ? { kind: :quotation } : { kind: :prose } }
+      roles = Array.new(elements.size) do |i|
+        if notices.include?(i) then { kind: :quotation }
+        elsif incorporated.include?(i) then { kind: :prose, incorporated: true }
+        else { kind: :prose }
+        end
+      end
       moves = 0
       elements.each_with_index do |element, index|
         next if roles[index][:kind] != :prose || set_apart.include?(index) || !element.text.match?(MOVE_PATTERN)

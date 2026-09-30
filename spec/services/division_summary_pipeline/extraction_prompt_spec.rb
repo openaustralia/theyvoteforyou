@@ -103,7 +103,7 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
 
     it "asks for selections, never text for publication" do
       expect(prompt).to include("You never write text for publication", "NEUTRALITY IS NOT OPTIONAL",
-                                "never a \"move\", \"motion\",", "\"quotation\" or \"chair\" unit", "return an empty list")
+                                "never a \"move\", \"motion\",", "\"quotation\", \"record\" or \"chair\" unit", "return an empty list")
       expect(prompt).not_to include("topic", "Australian English (-ise")
     end
 

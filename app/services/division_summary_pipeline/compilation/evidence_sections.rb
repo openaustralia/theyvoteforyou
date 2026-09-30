@@ -30,10 +30,14 @@ module DivisionSummaryPipeline
       passages = evidence.explanations
       return NO_EXPLANATION if passages.empty?
 
-      passages.chunk_while { |a, b| same_speech?(a, b) }.map do |group|
+      passages.chunk_while { |a, b| same_speech?(a, b) && a.incorporated == b.incorporated }.map do |group|
         excerpt = group.first
         who = mover_label || speaker_label(excerpt)
-        "#{moment(excerpt)}, #{who} said:\n\n#{group.map { |passage| blockquote(passage.text) }.join("\n\n")}"
+        # Incorporated by leave, the words are the member's for the record but were not delivered
+        # orally in the chamber (Senate Guide No. 10), so they are not said to have been said
+        # (KI-55).
+        lead = excerpt.incorporated ? "#{who}'s speech, incorporated in Hansard, reads:" : "#{who} said:"
+        "#{moment(excerpt)}, #{lead}\n\n#{group.map { |passage| blockquote(passage.text) }.join("\n\n")}"
       end.join("\n\n")
     end
 

@@ -161,6 +161,17 @@ describe DataLoader::SpeechText do
       expect(described_class.moved_text(node)).to eq("That the Senate notes the minister's statement.")
     end
 
+    # KI-57: in plain type inside the member's speech, these read as the
+    # member's own sentences.
+    it "labels Hansard's records of the chamber as records, never the member's words" do
+      records = ["Leave not granted.", "Leave granted; debate adjourned.", "(Time expired)", "Opposition senators interjecting—",
+                 "An honourable member interjecting—", "Senator Example interjecting—", "Question agreed to.",
+                 "Original question, as amended, agreed to.", "Bill read a third time.", "Debate adjourned."]
+      node = speech("<p>I will keep this short.</p>#{records.map { |record| "<p>#{record}</p>" }.join}<p>They keep interjecting.</p>")
+
+      expect(described_class.paragraphs(node).pluck(:kind)).to eq([:prose] + ([:record] * records.size) + [:prose])
+    end
+
     describe "a speech incorporated by leave" do
       # The Senate's usual shape: the minister moves, seeks leave, and the House speech follows,
       # opening with the House's own "I move". Read as a move it made the whole speech the motion (KI-39).
@@ -179,8 +190,8 @@ describe DataLoader::SpeechText do
 
       it "keeps it as the member's own words, the notice before it apart, and finds only the real move" do
         expect(described_class.paragraphs(node).map { |block| [block[:kind], block[:move]] })
-          .to eq([[:move, 0], [:motion, 0], [:prose, nil], [:prose, nil], [:quotation, nil],
-                  [:prose, nil], [:prose, nil], [:prose, nil]])
+          .to eq([[:move, 0], [:motion, 0], [:prose, nil], [:record, nil], [:quotation, nil],
+                  [:prose, nil], [:prose, nil], [:record, nil]])
         expect(described_class.moved_text(node)).to eq("That this bill be now read a second time.")
       end
 

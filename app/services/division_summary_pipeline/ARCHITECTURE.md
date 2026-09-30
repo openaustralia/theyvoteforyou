@@ -148,7 +148,9 @@ Every draft has the same shape:
 
 ### About the Bill            (bill templates: the Bills Digest section)
 ### About the Amendment       (or Motion, Report...: "At 1:27 PM, Senator Example said:" + exact
-                               sentences, or "No explanatory claims recorded.")
+                               sentences, or "No explanatory claims recorded."; for words
+                               incorporated in Hansard, "Senator Example's speech, incorporated in
+                               Hansard, reads:")
 ### Motion Introduction       (the mover's "I move ..." words, exactly)
 ### Amendment Text            (or Motion Text: "Senator Example moved the following amendment:",
                                or for amendments the chair put, "The following amendments,
@@ -227,7 +229,9 @@ publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
   member's own words however it is set: everything after "The speech read as follows" (in any of
   its spellings) up to the first plain paragraph is `:prose`, and is never searched for a move,
   because a Senate minister's incorporated speech often opens with the House's own "I move"
-  (KI-39).
+  (KI-39). Hansard's records of the chamber inside a speech ("Leave granted.", "(Time expired)",
+  "Senators interjecting—", "Question agreed to.") are `:record`, never the member's words (KI-57),
+  and an incorporated speech's blocks carry `incorporated: true` (KI-55).
 - `Transcript` cuts the speeches into units with IDs: prose into sentences (conservatively, so
   "No. 3" and "Mr" never end one), an "I move" paragraph into sentences so reasons given before
   the move stay quotable, and motions, quotations and the chair's question into whole paragraphs.
