@@ -135,9 +135,11 @@ module DivisionSummaryPipeline
     #   order of the Senate (Senate S.O. 87).
     # :conditional - a suspension of standing orders, where it depends on how the motion was
     #   moved: without notice it needs the absolute majority (House S.O. 47(c), Senate
-    #   S.O. 209), but on notice, by leave, or under a contingent notice a simple majority is
-    #   enough, and Senate Guide No. 5 says contingent notices are used for most suspensions
-    #   precisely to avoid the higher bar. The question alone does not say which applied.
+    #   S.O. 209), but on notice or under a contingent notice a simple majority is enough, as it is
+    #   in the House when moved by leave (House Guide pp. 2-3) or, without notice, when the Leader
+    #   of the House and the Manager of Opposition Business agree (S.O. 47(c)(ii) as at 23 July
+    #   2025). Senate Guide No. 5 says contingent notices are used for most suspensions precisely
+    #   to avoid the higher bar. The question alone does not say which applied.
     def absolute_majority_requirement
       return :always if template_id == 6 && constitution_bill?
       return :always if facts.senate? && operative_text.match?(/\brescind(?:ed|ing)?\b/i)

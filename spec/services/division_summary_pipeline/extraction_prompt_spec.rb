@@ -112,7 +112,14 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
     end
 
     it "keeps the closed list of reasoned amendment forms (KNOWN_ISSUES.md, KI-11)" do
-      expect(prompt).to include("whilst not declining to give the bill a second reading", "they are false, not true")
+      expect(prompt).to include("whilst not declining to give the bill a second reading", "they are false, not true",
+                                "the Senate rejects the bill", "this day 6 months")
+    end
+
+    # KI-11: the guide lists the form without saying whether it declines, and
+    # says carrying any reasoned amendment "would likely be regarded as preventing further progress".
+    it "does not class the House's \"disapproves of ... charges\" form as not declining" do
+      expect(prompt).not_to include("disapproves of the inequitable")
     end
 
     it "describes each fact a template names, and the closed list of missing evidence" do

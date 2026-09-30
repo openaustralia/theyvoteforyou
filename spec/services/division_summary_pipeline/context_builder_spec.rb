@@ -146,6 +146,18 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.context_warnings.join).to include("Standing Order 133")
       end
 
+      # House S.O. 133 as at 23 July 2025 has no Tuesday rule: the matter of public importance
+      # window once used here came from the guide, and was a rule about quorum counts (S.O. 55(c)).
+      # 25 August 2026 is a Tuesday.
+      it "does not warn about a Tuesday afternoon, which S.O. 133 no longer defers to" do
+        division_data = { id: 1056, house: "representatives", name: "Closure of Debate", date: "2026-08-25",
+                          number: 1, clock_time: "4:15 PM" }
+
+        packet = described_class.build(division_data, xml_content: parlparse_xml)
+
+        expect(packet.context_warnings.join).not_to include("Standing Order 133")
+      end
+
       it "does not raise that warning for the Senate, which has no such rule" do
         division_data = { id: 1055, house: "senate", name: "Closure of Debate", date: "2026-08-24",
                           number: 1, clock_time: "12:05 PM" }
