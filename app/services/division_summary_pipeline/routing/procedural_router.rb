@@ -461,11 +461,13 @@ module DivisionSummaryPipeline
     # Template 18 is only ever reached this way, from a question about the time limit itself, never
     # from the heading a division happens to sit under.
     #
-    # The House guillotine is two questions, not one (House S.O.s 82-84, Guide pp. 74-75): a
-    # Minister declares the bill urgent, "That the bill be considered urgent" is put immediately
-    # with no debate or amendment, and only then may a motion allotting time be moved. Both are
-    # about how long the chamber spends on the business rather than about the business, so both
-    # belong here; without the first form they fell through to the fallback and were described as
+    # In the House a Minister declares a bill urgent, "That the bill be considered urgent" is put
+    # immediately without amendment or debate, and agreeing to it applies the time limits of House
+    # S.O. 85 (S.O. 82, as at 23 July 2025). The allotment of time the House Guide (2017) describes
+    # went with S.O.s 83 and 84, omitted on 27 July 2022 (KI-47), but an older division, a Senate
+    # order limiting debate or a programming motion moved by suspending standing orders is about
+    # time too. All of them decide how long the chamber spends on the business rather than the
+    # business; without the urgency form they fell through to the fallback and were described as
     # opinion-only motions (KNOWN_ISSUES.md, KI-4). "Matter of urgency" is a different thing
     # entirely, matched by its own rule before this one is reached.
     def guillotine_procedure
@@ -474,7 +476,7 @@ module DivisionSummaryPipeline
                     (says?("guillotine") && !substantive_amendment?)
 
       reason = if urgent
-                 "Question declares the bill urgent, the first of the two questions that impose a House time limit."
+                 "Question declares the bill urgent, which brings the House's time limits for urgent bills into force."
                else
                  "Question is the limitation of debate (time allocation) itself."
                end

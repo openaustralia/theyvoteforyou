@@ -166,19 +166,23 @@ module DivisionSummaryPipeline
 
         7. TEMPLATE 2 (SECOND READING AMENDMENT):
            If template_id is 2, set 'declines_second_reading' to true or false, never null. Decide from the
-           words of the amendment itself, not from its tone. The House of Representatives Guide to
-           Procedures lists the standard forms:
+           words of the amendment itself, not from its tone. The standard forms (House of Representatives
+           Guide to Procedures; House S.O. 146; Senate S.O. 114):
              declines_second_reading = true
                - "the House declines to give the bill a second reading as it is of the opinion that ..."
                - "the bill be withdrawn and redrafted to provide for ..."
                - "the bill be withdrawn and a select committee be appointed to inquire into ..."
                - "the House is of the opinion that the bill should not be proceeded with until ..."
+               - "the Senate rejects the bill ..."
+               - leaving out "now" to insert "not", or "this day 6 months", which finally disposes of the bill
              declines_second_reading = false
                - "whilst not declining to give the bill a second reading, the House is of the opinion that ..."
                - "whilst not opposing the provisions of the bill, the House is of the opinion that ..."
-               - "the House disapproves of the inequitable and disproportionate charges imposed by the bill ..."
+               - in the Senate, "At the end of the motion, add ", but the Senate notes / calls on ..."" when the
+                 words added only express an opinion
            The two "whilst not ..." forms contain "declining to give the bill a second reading" inside a
-           negation, and they are false, not true.
+           negation, and they are false, not true. Words added that refer the bill to a committee or delay
+           it are for you to judge from what they do.
 
         8. FACTS A TEMPLATE NAMES:
            Some templates name one thing the motion concerns. For those, give references.facts.<name> as

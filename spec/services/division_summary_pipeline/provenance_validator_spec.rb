@@ -280,6 +280,51 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
 
       expect(result.errors.join).to include("\"whilst not declining/opposing\" form")
     end
+
+    # KI-11, corrected when checked against the chambers' rules.
+    context "with the forms whose words settle it" do
+      def with_terms(terms, declines:, house: "senate")
+        mover = summary_speech("<p>I move:</p><p class=\"italic\">#{terms}</p>", id: "s1", name: "Morgan Treloar",
+                                                                                 gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+        context = summary_packet(speeches: [mover, other_speech, chair_speech], question: question, routing: routing,
+                                 facts: { house: house, date: "2026-09-17", number: 4, clock_time: "13:31" })
+        validate(extraction(declines: declines, explanation: []), context)
+      end
+
+      it "settles as declining an amendment that rejects the bill, or would finally dispose of it" do
+        ["Omit all words after \"That\", substitute \"the Senate rejects the bill\".",
+         "Leave out \"now\", insert \"this day 6 months\".",
+         "Leave out \"now\", insert \"this day six months\"."].each do |terms|
+          expect(with_terms(terms, declines: false).errors.join).to include("which settles it as true"), terms
+          expect(with_terms(terms, declines: true)).to be_valid, terms
+        end
+        expect(with_terms("That the word \"now\" be omitted with a view to inserting the word \"not\".", declines: false,
+                                                                                                         house: "representatives").errors.join)
+          .to include("would finally dispose of the bill")
+      end
+
+      it "settles as not declining a Senate addition that only expresses an opinion" do
+        terms = "At the end of the motion, add \", but the Senate notes the cost and calls on the Government to publish it\"."
+
+        expect(with_terms(terms, declines: true).errors.join).to include("only adds words expressing an opinion")
+        expect(with_terms(terms, declines: false)).to be_valid
+      end
+
+      # Senate Guide No. 16: added words can also refer the bill to a committee or delay it.
+      it "leaves an addition that refers the bill to a committee to the model" do
+        terms = "At the end of the motion, add \", but the Senate notes the bill should be referred to the Economics Committee\"."
+
+        expect(with_terms(terms, declines: true)).to be_valid
+        expect(with_terms(terms, declines: false)).to be_valid
+      end
+
+      # House S.O. 145(a)(iii) does not allow words to be added to the second reading question.
+      it "warns when a House amendment adds words" do
+        result = with_terms("At the end of the motion, add \", but the House notes the cost\".", declines: false, house: "representatives")
+
+        expect(result.warnings.join).to include("House S.O. 145(a)(iii)")
+      end
+    end
   end
 
   describe "what a reviewer is told" do

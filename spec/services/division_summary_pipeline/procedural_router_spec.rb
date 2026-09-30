@@ -461,8 +461,9 @@ describe DivisionSummaryPipeline::ProceduralRouter do
       end
     end
 
-    # The House guillotine is two questions, not one (S.O.s 82-84). Only the second was
-    # routed, so the first fell to Template 15 and was described as an opinion-only motion.
+    # The House's declaration of urgency (S.O. 82, as at 23 July 2025) once fell to Template 15 and
+    # was described as an opinion-only motion. The allotment of time that used to follow it (S.O.s
+    # 83 and 84, omitted in 2022) is still routed here for older divisions.
     describe "the declaration of urgency that starts a House guillotine" do
       it "routes 'That the bill be considered urgent' to Template 18" do
         decision = described_class.route(

@@ -280,10 +280,13 @@ module DivisionSummaryPipeline
       description.to_s.strip.sub(/\AThat\s+/i, "").sub(/\.\z/, "")
     end
 
-    # House S.O. 94(d) sets escalating periods rather than "the remainder of the sitting", and
-    # the Senate uses a different form of words again (KI-7). Senate S.O. 204 covers the
-    # Senate's periods but the Guides to Senate procedure do not state them, so this says where
-    # to look instead of asserting them.
+    # House S.O. 94(d) (as at 23 July 2025) sets escalating periods rather than "the remainder of
+    # the sitting", and only the second and third leave out the day of the suspension: the first is
+    # "the 24 hour period from the time of suspension". The limits on petitions, notices and matters
+    # of public importance are the House Guide's (2017) account of practice, not a standing order.
+    # The Senate uses a different form of words again (KI-7). Senate S.O. 204 sets the Senate's
+    # periods, but the edition checked here is from 2009 and the Guides to Senate procedure do not
+    # state them, so this says where to look instead of asserting them.
     def suspension_period_sentence
       if senate?
         "The Senate names a senator under standing order 203 and sets the period of suspension under standing " \
@@ -292,9 +295,9 @@ module DivisionSummaryPipeline
         "A member suspended from the service of the House is excluded from the Chamber, all its galleries and any " \
           "room where the Federation Chamber is meeting, and while suspended cannot present petitions, give notices " \
           "or propose a matter of public importance, though they may still serve on a committee. The suspension runs " \
-          "for 24 hours on a first occasion, three consecutive sittings on a second occasion in the same calendar " \
-          "year, and seven consecutive sittings on a third or later occasion, in each case not counting the day of " \
-          "the suspension."
+          "for 24 hours from the time of suspension on a first occasion, for the three consecutive sittings after the " \
+          "day of the suspension on a second occasion in the same calendar year, and for the seven consecutive " \
+          "sittings after that day on a third or later occasion."
       end
     end
 
@@ -419,10 +422,17 @@ module DivisionSummaryPipeline
           "#{chamber} and not just of those voting. #{facts.aye_votes} voted for it. The recorded result and that " \
           "requirement do not agree, so this summary needs checking against the official record before it is relied on.\n"
       else
+        # House S.O. 47 as at 23 July 2025 and House Guide pp. 2-3; Senate S.O. 209 and Senate Guide No. 5.
+        lower = if senate?
+                  "Moved on notice or under a contingent notice"
+                else
+                  "Moved on notice, by leave, or with the agreement of the Leader of the House and the Manager of " \
+                    "Opposition Business"
+                end
         "Notice: a motion to suspend standing orders moved without notice needs an absolute majority, meaning at " \
-          "least #{threshold} of all the members of the #{chamber}. Moved on notice, by leave, or under a contingent " \
-          "notice, a majority of those voting is enough. #{facts.aye_votes} voted for this one, so the result turns " \
-          "on which threshold applied, and the question alone does not record which it was.\n"
+          "least #{threshold} of all the members of the #{chamber}. #{lower}, a majority of those voting is enough. " \
+          "#{facts.aye_votes} voted for this one, so the result turns on which threshold applied, and the question " \
+          "alone does not record which it was.\n"
       end
     end
 

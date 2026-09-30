@@ -60,7 +60,7 @@ module DivisionSummaryPipeline
        "Suspension of Standing Orders"],
       [18, "Limitation of Debate (Guillotine)", "Limitation of Debate", "motion", true, {}, [],
        "Limitation of Debate (Guillotine), including the House question \"That the bill be considered urgent\", " \
-       "which is the first of the two questions that impose a time limit"],
+       "which brings the House's time limits for urgent bills into force"],
       [19, "Rearrangement of Business", "Rearrangement of Business", "motion", true,
        { rearrangement_description: "what the motion does to the business, in its operative words after " \
                                     "\"That\" (\"the debate be adjourned\")" },

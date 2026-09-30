@@ -22,19 +22,24 @@ module DivisionSummaryPipeline
   # who moved the motion, the words they moved it with and its terms. The model's part comes
   # later and is limited to pointing at units of the Transcript this builds.
   class ContextBuilder
-    # House S.O. 133 (Guide p. 58): on Mondays a division called between 10 am and 12 noon is
-    # deferred until after 12 noon, and on Tuesdays one called before 2 pm is deferred until
-    # after the discussion of the matter of public importance. The Chair then puts all the
-    # deferred questions in the order they were deferred, without further debate, so the
-    # speeches beside such a division belong to whatever business the chamber had reached.
+    # House S.O. 133 (as at 23 July 2025): on Mondays a division called between 10 am and 12 noon
+    # is deferred until 12 noon, and on Mondays, Tuesdays and Wednesdays one called from 6.30 pm
+    # until the adjournment is deferred "until the first opportunity the next sitting day". The
+    # Speaker then puts the deferred questions successively, without amendment or further debate,
+    # so the speeches beside such a division belong to whatever business the House had reached.
+    # (This once had a Tuesday window after the matter of public importance, taken from the House
+    # Guide; the current standing order has no such rule, which was S.O. 55(c), on quorum counts.)
     #
-    # The standing order fixes when the deferral window opens but not how long the run of
-    # deferred questions takes, so the hour-long windows below are this code's own conservative
-    # estimate of when they are put, not something either guide states. They only raise a
-    # warning, so an over-wide window costs a reviewer a look rather than publishing anything.
+    # The standing order fixes when a deferral ends but not when the run of questions is put or
+    # how long it takes, so the hour-long window below is this code's own estimate. It only raises
+    # a warning, and not when a motion was moved inside it, so an over-wide window costs a reviewer
+    # a look rather than publishing anything. There is none for S.O. 133(b): "the first
+    # opportunity the next sitting day" fixes no time, and the first hour of a Tuesday sitting,
+    # tried in September 2026, flagged only questions the House had programmed to be put
+    # immediately, never a deferred one. The chair's own words (DEFERRED_STATEMENT, "In accordance
+    # with standing order 133 ...") are the better sign, and are read first.
     DEFERRED_DIVISION_WINDOWS = {
-      1 => ("12:00".."12:59"), # Monday, after the 10 am to 12 noon deferral window
-      2 => ("16:00".."16:59")  # Tuesday, after the matter of public importance
+      1 => ("12:00".."12:59") # Monday, after the 10 am to 12 noon deferral window (S.O. 133(a))
     }.freeze
 
     DEFAULT_LEVEL = :subdebate

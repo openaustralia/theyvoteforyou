@@ -1030,6 +1030,17 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         expect(rendered).to include("the question alone does not record which it was")
       end
 
+      # House S.O. 47(c)(ii) as at 23 July 2025, and "by leave" only of the House (House Guide pp. 2-3).
+      it "gives each chamber's own ways to carry a suspension on a simple majority" do
+        house = compile_suspension(suspension_division.merge(aye_votes: 70, no_votes: 68, date: "2024-06-05"),
+                                   "That so much of the standing orders be suspended as would prevent a motion being moved.")
+        senate = compile_suspension(suspension_division.merge(house: "senate", aye_votes: 30, no_votes: 28, date: "2024-06-05"),
+                                    "That so much of the standing orders be suspended as would prevent a motion being moved.")
+
+        expect(house).to include("by leave, or with the agreement of the Leader of the House and the Manager of Opposition Business")
+        expect(senate).to include("Moved on notice or under a contingent notice, a majority of those voting is enough.")
+      end
+
       it "says nothing about an absolute majority when the ayes clear it anyway" do
         data = suspension_division.merge(aye_votes: 84, no_votes: 54, date: "2024-06-05")
 
@@ -1059,10 +1070,20 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           facts: { target_name: "Fictional Member" }
         )
 
-        expect(rendered).to include("24 hours on a first occasion")
-        expect(rendered).to include("seven consecutive sittings on a third or later occasion")
+        expect(rendered).to include("24 hours from the time of suspension on a first occasion")
+        expect(rendered).to include("seven consecutive sittings after that day on a third or later occasion")
         expect(rendered).to include("be suspended from the service of the House of Representatives")
         expect(rendered).not_to include("excluded for the remainder of the sitting")
+      end
+
+      # House S.O. 94(d) as at 23 July 2025: only the second and third occasions leave out the day.
+      it "does not say the first occasion leaves out the day of the suspension" do
+        rendered = compile_summary(suspension_of_member("representatives"), template_id: 24,
+                                                                            motion_text: "That the member be suspended.",
+                                                                            facts: { target_name: "Fictional Member" })
+
+        expect(rendered).to include("for the three consecutive sittings after the day of the suspension on a second occasion")
+        expect(rendered).not_to include("in each case not counting the day")
       end
 
       it "uses the Senate's form of words and does not assert its suspension periods" do
@@ -1075,7 +1096,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         expect(rendered).to include("be suspended from the sitting of the Senate")
         expect(rendered).to include("standing order 204")
-        expect(rendered).not_to include("24 hours on a first occasion")
+        expect(rendered).not_to include("24 hours from the time of suspension")
       end
     end
 

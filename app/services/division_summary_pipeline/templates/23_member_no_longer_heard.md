@@ -1,4 +1,4 @@
-**Jargon Explainer:** *This motion stops the person who is currently speaking from continuing. It applies only to the speech in progress, and it decides nothing about the matter under debate. It is a House of Representatives procedure; the Senate has no equivalent, and its own guide says there is no ability to gag a senator.*
+**Jargon Explainer:** *This motion stops the person who is currently speaking from continuing. It applies only to the speech in progress, it cannot be moved while the member is moving the terms of a motion, and it decides nothing about the matter under debate. It is a House of Representatives procedure; the Senate has no equivalent, and its own guide says there is no ability to gag a senator.*
 
 ---
 

@@ -39,6 +39,24 @@ module DivisionSummaryPipeline
     NOT_DECLINING_PATTERN = /whil(?:st|e)\s+not\s+(?:declining|opposing)/i
     DECLINING_PATTERN = /declin(?:es|ing)\s+to\s+give\s+the\s+bill\s+a\s+second\s+reading/i
 
+    # The amendments that "finally dispose of the bill" if carried: omitting "now" to insert "not"
+    # (House S.O. 146), and leaving out "now" to insert "this day 6 months" (Senate S.O. 114(2) in the
+    # June 2009 edition; Odgers' Australian Senate Practice, chapter 12, describes the same form).
+    DISPOSING_PATTERN = /["'‘“]now["'’”].{0,80}?(?:["'‘“]not["'’”]|this\s+day\s+(?:6|six)\s+months) |
+                         this\s+day\s+(?:6|six)\s+months/imx
+    # The Senate's usual reasoned form: "Omit all words after "That", substitute "the Senate rejects
+    # the bill ..."".
+    REJECTING_PATTERN = /\b(?:senate|house)\s+rejects\s+the\s+bill\b/i
+    # Words added to the motion that only express an opinion: "At the end of the motion, add ", but
+    # the Senate: (a) notes ... (b) calls on ..."". Added words can also refer the bill to a
+    # committee or delay it (Senate Guide No. 16), so anything that mentions either is left to the
+    # model. The House does not allow words to be added at all (House S.O. 145(a)(iii)).
+    ADDITION_PATTERN = /\bat\s+the\s+end\s+of\s+the\s+motion,?\s+add\b/i
+    OPINION_PATTERN = /\b(?:notes?|calls?\s+on|is\s+of\s+the\s+opinion|condemns|regrets|expresses|acknowledges|
+                          recognises|urges)\b/ix
+    REFERRAL_OR_DELAY = /\brefer|\bcommittee|\bdelay|\bpostpone|\bnot\s+be\s+proceeded|\bthis\s+day|\bwithdraw|
+                         \brejects|\bdeclin/ix
+
     UNIDENTIFIED_SPEAKER = "The mover was not identified by rule, so the explanation's speaker was chosen by the model."
 
     def self.validate(extraction, context_packet)
@@ -292,7 +310,8 @@ module DivisionSummaryPipeline
 
     # Template 2's summary says the opposite thing depending on this flag. Left unanswered
     # there is no safe default, and a flag that contradicts the amendment's own words is the one
-    # place the model can be caught out (KNOWN_ISSUES.md, KI-11).
+    # place the model can be caught out (KNOWN_ISSUES.md, KI-11). Where the words settle it, a
+    # contradicting answer is an error; any other wording is the model's to judge.
     def check_declines_second_reading(evidence)
       return unless template_id == 2
 
@@ -303,13 +322,29 @@ module DivisionSummaryPipeline
       end
 
       motion = evidence.motion_text.presence || packet.speaker_question.to_s
-      not_declining = motion.match?(NOT_DECLINING_PATTERN)
-      if declines && not_declining
-        errors << "'declines_second_reading' is true but the motion uses a \"whilst not declining/opposing\" form, " \
-                  "which does not decline the second reading."
-      elsif !declines && !not_declining && motion.match?(DECLINING_PATTERN)
-        errors << "'declines_second_reading' is false but the motion declines to give the bill a second reading."
+      if !packet.facts.senate? && motion.match?(ADDITION_PATTERN)
+        warnings << "The amendment adds words to the second reading question, which House S.O. 145(a)(iii) does not " \
+                    "allow; check the chamber and the terms."
       end
+      settled, form = declining_by_rule(motion)
+      return if settled.nil? || settled == declines
+
+      errors << "'declines_second_reading' is #{declines} but the amendment #{form}, which settles it as #{settled}."
+    end
+
+    # [value, why] where the amendment's own words settle whether it declines the bill a second
+    # reading (KI-11), or nil when they leave it to the model.
+    def declining_by_rule(motion)
+      return [false, "uses a \"whilst not declining/opposing\" form"] if motion.match?(NOT_DECLINING_PATTERN)
+      return [true, "declines to give the bill a second reading"] if motion.match?(DECLINING_PATTERN)
+      return [true, "would finally dispose of the bill"] if motion.match?(DISPOSING_PATTERN)
+      return [true, "rejects the bill"] if motion.match?(REJECTING_PATTERN)
+
+      added = motion.split(ADDITION_PATTERN, 2)[1]
+      opinion_only = added&.match?(OPINION_PATTERN) && !added.match?(REFERRAL_OR_DELAY)
+      return [false, "only adds words expressing an opinion"] if packet.facts.senate? && opinion_only
+
+      nil
     end
 
     def passage(ids, found_by:)
