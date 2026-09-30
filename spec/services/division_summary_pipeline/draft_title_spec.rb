@@ -39,6 +39,16 @@ describe DivisionSummaryPipeline::DraftTitle do
       expect(described_class.for(heading: heading, template_id: 99)).to eq("Bills - Example Bill 2026")
     end
 
+    # KI-48: the loader title-cases headings for PHP compatibility, which
+    # turns "NDIS" into "Ndis".
+    it "prints a bill's title in the heading as the bills table records it" do
+      heading = "Bills &#8212; Example Scheme Amendment (Securing the Esp for Future Generations) Bill 2026; Second Reading"
+      title = described_class.for(heading: heading, template_id: 29,
+                                  bill_titles: ["Example Scheme Amendment (Securing the ESP for Future Generations) Bill 2026"])
+
+      expect(title).to eq("Bills - Example Scheme Amendment (Securing the ESP for Future Generations) Bill 2026; Second Reading")
+    end
+
     it "uses the fallback when the heading is blank" do
       expect(described_class.for(heading: "", template_id: 15, fallback: "Division 4")).to eq("Division 4; General Motion")
       expect(described_class.for(heading: nil, fallback: "Division 4")).to eq("Division 4")

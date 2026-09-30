@@ -216,6 +216,16 @@ module DivisionSummaryPipeline
       match && match[1].gsub(/\s+/, " ").strip.sub(/\.\z/, "").presence
     end
 
+    # A rearrangement of business stated in one short paragraph ("That the debate be adjourned."),
+    # which says what the motion does without any need to ask the model (ADR 0005's first tier).
+    # A longer motion has no one phrase for it, and is printed whole under Motion Text.
+    REARRANGEMENT_MAXIMUM = 250
+
+    def rearrangement_terms
+      text = motion_text.strip
+      text if text.match?(/\AThat\b/i) && text.exclude?("\n") && text.size <= REARRANGEMENT_MAXIMUM
+    end
+
     # Template 15 is the fallback, so its sentence is printed over every question the router
     # could not place. It says the motion records an opinion and has no legal effect only where
     # the motion's own words are declaratory (KI-4).

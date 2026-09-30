@@ -19,12 +19,17 @@ module DivisionSummaryPipeline
 
     module_function
 
-    def for(heading:, template_id: nil, fallback: nil)
+    # bill_titles: the division's bills as the bills table records them. The heading comes
+    # title-cased (DataLoader::DivisionXml#name, which has to stay PHP-compatible), which turns
+    # "NDIS" into "Ndis", so a bill's title found in it, ignoring case, is printed as the bill
+    # records it (KI-48).
+    def for(heading:, template_id: nil, fallback: nil, bill_titles: [])
       major, minor = TextNormaliser.clean_text(heading).split(HEADING_JOIN, 2)
       subject = minor.to_s.split(";").map(&:strip)
       subject = subject[0...-1] if subject.size > 1
       title = [major, subject.join("; ").presence].compact_blank.join(" - ").gsub(HEADING_JOIN, " - ")
       title = TextNormaliser.clean_text(fallback).gsub(HEADING_JOIN, " - ") if title.blank?
+      Array(bill_titles).compact_blank.each { |bill| title = title.gsub(/#{Regexp.escape(bill)}/i) { bill } }
 
       procedure = TemplateCatalogue[template_id]&.title
       procedure ? [title.presence, procedure].compact.join("; ") : title

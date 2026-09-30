@@ -1,8 +1,8 @@
-**Bill Timeline:** *This vote happens during the main debate on the bill's core principles. A second reading amendment (often called a 'reasoned amendment' in the House of Representatives) does not change the text of the proposed law. It amends the motion instead, and can be used to record an opinion about the bill or about the government's handling of the policy, to reverse the motion so the bill is defeated at this point, to refer the bill to a committee, or to delay further consideration of it. The standing orders do not say what happens when one is carried in the House. It has happened once, in 2016, and standing orders were then suspended so the bill could be restored; the House's own guide puts it no higher than that carriage "would likely be regarded as preventing further progress on the bill".*
+**Bill Timeline:** *This vote happens during the main debate on the bill's core principles. A second reading amendment (often called a 'reasoned amendment' in the House of Representatives) does not change the text of the proposed law. It amends the motion instead, and can be used to record an opinion about the bill or about the government's handling of the policy, to reverse the motion so the bill is defeated at this point, to refer the bill to a committee, or to delay further consideration of it. The standing orders do not say what happens when one is carried in the House. The House's Guide to Procedures (2017) records it happening once, in 2016, when standing orders were then suspended so the bill could be restored, and puts it no higher than that carriage "would likely be regarded as preventing further progress on the bill".*
 
 ---
 
-At 12:39 PM, a large majority voted against a second reading amendment introduced by Independent MP [Priya Nakamura](https://www.theyvoteforyou.org.au/people/representatives/fairview/priya_nakamura) (Independent) to the [Consumer Data Right Amendment (Portability) Bill 2026](https://theyvoteforyou.org.au/bills/consumer-data-right-amendment-portability-bill-2026), which means it was unsuccessful. Because the amendment sought to decline the bill a second reading, a vote for it was in effect a vote against the bill proceeding.
+At 12:39 PM, a large majority voted against a second reading amendment introduced by Independent MP [Priya Nakamura](https://www.theyvoteforyou.org.au/people/representatives/fairview/priya_nakamura) (Independent) to the [Consumer Data Right Amendment (Portability) Bill 2026](https://theyvoteforyou.org.au/bills/consumer-data-right-amendment-portability-bill-2026), which means it was unsuccessful. Because the amendment sought to refuse the bill a second reading, a vote for it was in effect a vote against the bill proceeding.
 
 Nobody voted against their party on this occasion.
 
@@ -13,10 +13,6 @@ Nobody voted against their party on this occasion.
 ### About the Amendment
 
 > No explanatory claims recorded.
-
-### Motion Introduction
-
-> I move:
 
 ### Amendment Text
 

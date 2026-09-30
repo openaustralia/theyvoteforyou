@@ -21,9 +21,12 @@ module DivisionSummaryPipeline
   # - closed_template_id: for a closure, the template the motion it cut short settles on, found by
   #   rule (ContextPacket#closed_template_id), or nil.
   # - proposer: who proposed a matter of urgency someone else moved (ContextPacket#proposer), or nil.
+  # - put_without_mover: the chair put the question with nobody moving it, either a question that is
+  #   the whole motion (ContextPacket#question_states_motion?) or amendments circulated and put, so
+  #   there are no "I move" words, and for the first no separate terms, to record.
   Evidence = Data.define(:introduction, :motion, :question, :explanations, :facts, :mover, :limitation,
-                         :circulation, :closed_template_id, :proposer) do
-    def initialize(circulation: nil, closed_template_id: nil, proposer: nil, **fields)
+                         :circulation, :closed_template_id, :proposer, :put_without_mover) do
+    def initialize(circulation: nil, closed_template_id: nil, proposer: nil, put_without_mover: false, **fields)
       super
     end
   end

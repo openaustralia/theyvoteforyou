@@ -26,8 +26,11 @@ module DivisionSummaryPipeline
       @moved = moved
     end
 
+    # Nothing, so the section is left out, when nobody moved anything: there was never an
+    # explanation to record (KI-55).
     def explanation
       passages = evidence.explanations
+      return "" if passages.empty? && evidence.put_without_mover
       return NO_EXPLANATION if passages.empty?
 
       passages.chunk_while { |a, b| same_speech?(a, b) && a.incorporated == b.incorporated }.map do |group|
@@ -41,14 +44,26 @@ module DivisionSummaryPipeline
       end.join("\n\n")
     end
 
+    # Nothing, so the section is left out, when all the mover said was "I move:": their reasons
+    # are quoted above and the terms below, and the line attributing the terms says who moved them
+    # (KI-48).
     def introduction
-      evidence.introduction ? blockquote(evidence.introduction.text) : NO_INTRODUCTION
+      introduction = evidence.introduction
+      return "" if introduction.nil? && evidence.put_without_mover
+      return NO_INTRODUCTION unless introduction
+      return "" if bare_move?(introduction.text)
+
+      blockquote(introduction.text)
     end
 
     # "Senator Example moved the following amendment:". A motion the model found, rather than
     # Stage 1, is not credited to anyone: the speech it sits in may be the chair reading out
     # someone else's proposal. Amendments the chair put without anyone moving them are never
     # said to have been moved (Circulation).
+    # With nobody moving anything and no separate terms, Motion Text is left out and the Question
+    # Put section says it all: printed, "No motion introduction recorded." and "No separate motion
+    # was recorded" read to the public as gaps in the record where there were none
+    # (KI-55).
     def motion_attribution
       motion = evidence.motion
       return "" unless motion
@@ -59,7 +74,9 @@ module DivisionSummaryPipeline
     end
 
     def motion
-      evidence.motion ? blockquote(evidence.motion.text) : NO_MOTION
+      return blockquote(evidence.motion.text) if evidence.motion
+
+      evidence.put_without_mover ? "" : NO_MOTION
     end
 
     def question
@@ -88,6 +105,10 @@ module DivisionSummaryPipeline
 
     def blockquote(text)
       self.class.blockquote(text)
+    end
+
+    def bare_move?(text)
+      text.to_s.gsub(/[[:punct:][:space:]]/, " ").squish.casecmp?("I move")
     end
 
     # "The following amendments, circulated by the Australian Greens, were put:"

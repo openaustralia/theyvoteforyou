@@ -6,10 +6,6 @@ At 10:15 AM, a majority voted for a procedural motion introduced by Representati
 
 Nobody voted against their party on this occasion.
 
-### Motion Introduction
-
-> I move:
-
 ### Motion Text
 
 Representative Jordan McAllister moved the following motion:

@@ -90,7 +90,7 @@ class DivisionSummarizer
     compiler = DivisionSummaryPipeline::TemplateCompiler.new
     markdown = compiler.compile(packet.facts, extraction.interpretation, validation.evidence, digest_section: nil)
     title = DivisionSummaryPipeline::DraftTitle.for(heading: packet.heading, template_id: extraction.template_id,
-                                                    fallback: packet.facts.name)
+                                                    fallback: packet.facts.name, bill_titles: packet.facts.bill_titles)
     report = DivisionSummaryPipeline::ReviewerReport.render(model_id: model_id, packet: packet, title: title,
                                                             extraction: extraction, validation: validation,
                                                             fallbacks: compiler.fallbacks,
@@ -179,7 +179,8 @@ class DivisionSummarizer
   end
 
   def failure(model_id, packet, raw_response, error)
-    title = DivisionSummaryPipeline::DraftTitle.for(heading: packet.heading, fallback: packet.facts.name)
+    title = DivisionSummaryPipeline::DraftTitle.for(heading: packet.heading, fallback: packet.facts.name,
+                                                    bill_titles: packet.facts.bill_titles)
     report = DivisionSummaryPipeline::ReviewerReport.render(model_id: model_id, packet: packet, title: title)
     Result.new(model: model_id, title: title, description: report, raw: raw_response, error: error)
   end
@@ -188,7 +189,7 @@ class DivisionSummarizer
   # extraction went wrong without rerunning anything.
   def invalid(model_id, packet, raw_response, extraction, validation, widening_failure:)
     title = DivisionSummaryPipeline::DraftTitle.for(heading: packet.heading, template_id: extraction.template_id,
-                                                    fallback: packet.facts.name)
+                                                    fallback: packet.facts.name, bill_titles: packet.facts.bill_titles)
     report = DivisionSummaryPipeline::ReviewerReport.render(model_id: model_id, packet: packet, title: title,
                                                             extraction: extraction, validation: validation,
                                                             widening_failure: widening_failure)
