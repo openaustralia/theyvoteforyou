@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a question that part of the [{{bill_name}}]({{bill_link}}) stand as printed, which means the question was {{successful_text}}. {{stand_as_printed_effect_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a question that part of the [{{bill_name}}]({{bill_link}}) stand as printed, which means the question was {{successful_text}}. {{stand_as_printed_parts_sentence}}{{stand_as_printed_effect_clause}}
 
 {{limitation_of_debate_section}}
 

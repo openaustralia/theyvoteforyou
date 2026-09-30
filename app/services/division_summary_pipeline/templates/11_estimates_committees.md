@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) regarding the consideration of the Budget by Estimates Committees, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion{{mover_clause}} regarding the consideration of the Budget by Estimates Committees, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion

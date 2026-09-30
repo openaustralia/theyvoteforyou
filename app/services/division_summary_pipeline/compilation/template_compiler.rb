@@ -19,7 +19,8 @@ module DivisionSummaryPipeline
     # cosmetic fix applied inside a quotation is a silent edit to the record the summary exists
     # to reproduce (KI-17).
     VERBATIM_PLACEHOLDERS = %w[explanation_section motion_introduction motion_text question_put digest_section
-                               regulation_summary urgency_matter_clause limitation_of_debate_section].freeze
+                               regulation_summary urgency_matter_clause limitation_of_debate_section
+                               stand_as_printed_parts_sentence].freeze
 
     # What the last #compile fell back on, for the reviewer report.
     attr_reader :fallbacks
@@ -41,7 +42,8 @@ module DivisionSummaryPipeline
       facts = division_or_facts.is_a?(DivisionFacts) ? division_or_facts : DivisionFacts.from(division_or_facts)
       outcome = ParliamentaryOutcome.new(facts: facts, template_id: interpretation.template_id,
                                          motion_text: evidence.motion_text, question_text: evidence.question_text,
-                                         declines_second_reading: interpretation.declines_second_reading)
+                                         declines_second_reading: interpretation.declines_second_reading,
+                                         circulation: evidence.circulation)
       template = load_template(interpretation.template_id)
       # A template with an "About the Bill" section is a bill template, which is what decides
       # both whether a digest is looked for and whether a missing bill record is worth flagging.
@@ -123,7 +125,9 @@ module DivisionSummaryPipeline
         "other_chamber" => facts.other_chamber,
         "rebellions_text" => wording.rebellions_text,
         "digest_section" => digest_text,
-        "intro_sentence" => outcome.template_id == 2 ? wording.second_reading_amendment_sentence(mover[:clause].presence || " introduced by a member", bill) : "",
+        "intro_sentence" => outcome.template_id == 2 ? wording.second_reading_amendment_sentence(mover[:clause], bill) : "",
+        "amendment_phrase" => wording.amendment_phrase,
+        "means_clause" => wording.means_clause,
         "explanation_section" => sections.explanation,
         "motion_introduction" => sections.introduction,
         "motion_attribution" => sections.motion_attribution,
@@ -133,6 +137,7 @@ module DivisionSummaryPipeline
         "amendment_effect_clause" => wording.amendment_effect_clause,
         "carried_amendment_note" => wording.carried_amendment_note,
         "stand_as_printed_effect_clause" => wording.stand_as_printed_effect_clause,
+        "stand_as_printed_parts_sentence" => wording.stand_as_printed_parts_sentence,
         "second_reading_clause" => wording.second_reading_clause,
         "passing_stage_clause" => wording.passing_stage_clause,
         "third_reading_clause" => wording.third_reading_clause,
@@ -197,39 +202,58 @@ module DivisionSummaryPipeline
     # evaluation fixtures do), otherwise the member Stage 1 found by rule, otherwise nobody.
     # `clause` is what lets a template leave the mover out altogether rather than naming "a
     # member": at the scheduled time the Speaker proposes the adjournment with nobody moving it
-    # (House S.O. 31), so Template 26 has no mover to name.
+    # (House S.O. 31), and under a limitation of debate the chair puts circulated amendments and
+    # the remaining stages with nobody moving them, when the clause says who circulated them
+    # instead, if Hansard says.
     def mover_details(facts, evidence)
       details = supplied_mover(facts) || found_mover(facts, evidence.mover)
+      return circulated_details(facts, evidence.circulation) if details.nil? && evidence.circulation
+
       unless details
         @fallbacks << :mover_unresolved
-        return { name: "a member", link: "", party: "", title: "", clause: "", label: nil }
+        return { name: "", link: "", party: "", title: "", suffix: "", clause: "", label: nil }
       end
 
-      details.merge(clause: " introduced by #{details[:title]} [#{details[:name]}](#{details[:link]}) (#{details[:party]})",
-                    label: "#{details[:title]} #{details[:name]}")
+      details.merge(clause: " introduced by #{member_phrase(details)}",
+                    label: "#{details[:title]} #{details[:name]}#{details[:suffix]}".strip)
     end
 
+    # "Senator [Name](link) (Party)" or "[Name](link) MP (Party)": the site's own forms
+    # (Member#full_name_no_electorate), with the link round the name alone.
+    def member_phrase(details)
+      title = "#{details[:title]} " if details[:title].present?
+      "#{title}[#{details[:name]}](#{details[:link]})#{details[:suffix]} (#{details[:party]})"
+    end
+
+    # "circulated by the Australian Greens", or by a member the database knows, linked like a mover.
+    def circulated_details(facts, circulation)
+      member = found_mover(facts, circulation.member)
+      by = member ? member_phrase(member) : circulation.by
+      { name: "", link: "", party: "", title: "", suffix: "", clause: by ? " circulated by #{by}" : "", label: nil }
+    end
+
+    # A caller that supplies a title (the evaluation fixtures do) gets it in front of the name.
     def supplied_mover(facts)
       name = facts[:mover_name].presence
       return nil unless name
 
-      { name: name, link: facts[:mover_link].to_s, party: (facts[:mover_party].presence || facts[:party]).to_s,
-        title: facts[:mover_title].presence || facts[:title].presence || default_title(facts) }
+      supplied = facts[:mover_title].presence || facts[:title].presence
+      naming = supplied ? { title: supplied, suffix: "" } : chamber_naming(facts.senate?)
+      party = (facts[:mover_party].presence || facts[:party]).to_s
+      { name: name, link: facts[:mover_link].to_s, party: party }.merge(naming)
     end
 
+    # "Senator Example" or "Example MP", never "Representative Example", which is not Australian
+    # usage (KI-24).
     def found_mover(facts, mover)
       return nil if mover&.name.blank?
 
-      title = if mover.member
-                mover.member.senator? ? "Senator" : "Representative"
-              else
-                default_title(facts)
-              end
-      { name: mover.name, link: mover.link.to_s, party: mover.party.to_s, title: title }
+      senator = mover.member ? mover.member.senator? : facts.senate?
+      { name: mover.name, link: mover.link.to_s, party: mover.party.to_s }.merge(chamber_naming(senator))
     end
 
-    def default_title(facts)
-      facts.senate? ? "Senator" : "Representative"
+    def chamber_naming(senator)
+      senator ? { title: "Senator", suffix: "" } : { title: "", suffix: " MP" }
     end
 
     # Asks the database for the member the motion targets, so party, electorate and the profile

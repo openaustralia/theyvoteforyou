@@ -79,6 +79,37 @@ describe DivisionSummaryPipeline::Transcript do
     end
   end
 
+  # As at Senate 18 August 2026 #16: one statement put the government's amendments, which were
+  # agreed to on the voices, and then the question the division decided.
+  describe "#question_units" do
+    let(:statement) do
+      speech(<<~XML, id: "s2", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "20:16")
+        <p>The question now is that amendments (1) to (4) on sheet XY101 be agreed to.</p>
+        <p class="italic">(1) Clause 2, page 2 (table item 3), omit the item.</p>
+        <p>Question agreed to.</p>
+        <p>I will now deal with the amendments circulated by the Example Party. The first question is that part 3 of schedule 1 stand as printed.</p>
+        <p class="italic">(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed.</p>
+      XML
+    end
+    let(:transcript) do
+      described_class.build(heading: "Bills", speeches: [mover_speech, statement], question_speech_id: "s2")
+    end
+
+    it "is the chair's own words putting the division's question, not an earlier question or the amendments" do
+      expect(transcript.question_units.map(&:text))
+        .to eq(["I will now deal with the amendments circulated by the Example Party. The first question is that " \
+                "part 3 of schedule 1 stand as printed."])
+    end
+
+    # KI-44: nobody moves circulated amendments, so the chair's statement is
+    # the only place Hansard records their terms.
+    it "takes the amendments printed after the division's question as its terms, and other italic as quotation" do
+      expect(transcript.speech(2).units.map(&:kind)).to eq(%i[chair quotation chair chair motion])
+      expect(transcript.question_terms_units.map(&:text))
+        .to eq(["(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed."])
+    end
+  end
+
   describe "#passages" do
     it "quotes consecutive units as the exact run of text they came from" do
       passages = transcript.passages(%w[S1.2 S1.1])

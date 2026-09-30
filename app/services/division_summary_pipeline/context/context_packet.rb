@@ -6,7 +6,8 @@ module DivisionSummaryPipeline
   #
   # - facts: the database facts (DivisionFacts)
   # - heading: the Hansard heading the division sits under, as DataLoader::DivisionXml#name gives it
-  # - speaker_question: the question as Stage 2 routes on it (DataLoader::DivisionXml#operative_question)
+  # - speaker_question: the question as Stage 2 routes on it: the chair's sentence putting it
+  #   (ChairStatement#question), or failing that DataLoader::DivisionXml#operative_question
   # - transcript: the Hansard itself, as units the model can point at (Transcript)
   # - mover: who moved the motion and which speech moved it, found by rule (MoverFinder), or nil
   # - routing: Stage 2's decision (RoutingDecision)
@@ -19,16 +20,24 @@ module DivisionSummaryPipeline
   #   expired, the chair's sentence saying so, found by rule, as a hash of :id (the speech's XML
   #   id), :speaker, :speaker_gid, :time and :text; otherwise nil. It is kept out of the
   #   transcript, since the rest of the chair's statement usually puts a question on another bill.
+  # - circulation: when the chair put amendments that nobody moved in the chamber, a Circulation
+  #   saying who circulated them; otherwise nil
   ContextPacket = Data.define(:facts, :heading, :speaker_question, :transcript, :mover, :routing, :context_level,
-                              :context_warnings, :source, :division_xml_id, :limitation_statement)
+                              :context_warnings, :source, :division_xml_id, :limitation_statement, :circulation) do
+    def initialize(circulation: nil, **fields)
+      super
+    end
+  end
 
   class ContextPacket
     # A question that only points at a motion ("the amendment moved by Senator Example be agreed
     # to", "business of the Senate No. 3 ... be agreed to") rather than stating its terms, so the
-    # terms have to be found elsewhere for the summary to say what was decided.
+    # terms have to be found elsewhere for the summary to say what was decided. Opposition and
+    # crossbench sheets are numbered ("on sheet 3982", "on sheets 3974, 3975"); the government's
+    # carry letters ("on sheet ST128", "IC116 revised", "AD128").
     QUESTION_BY_REFERENCE = /\bmoved\s+by\b|\bin\s+the\s+name\s+of\b|\bbusiness\s+of\s+the\s+senate\s+no\b|
                              \bthe\s+(?:motion|amendments?|proposal|request)\s+(?:moved|as\s+amended|be\s+agreed)\b|
-                             \bon\s+sheet\s+\d/xi
+                             \bon\s+sheets?\s+[a-z]*\d/xi
 
     # Templates the router settles only on a fixed form of words that is the whole of what was
     # decided: first reading, third reading or the bill being passed, closure, the gag, and the
@@ -67,8 +76,12 @@ module DivisionSummaryPipeline
       QUESTION_IS_THE_MOTION.include?(routing.template_id)
     end
 
-    # Whether Stage 1 found the terms moved by rule, in the mover's speech.
+    # Whether Stage 1 found the terms by rule: moved, in the mover's speech, or put, in the chair's.
     def motion_found?
+      terms_moved? || transcript.question_terms_units.any?
+    end
+
+    def terms_moved?
       speech = mover_speech
       speech.present? && transcript.last_move_units(speech, :motion).any?
     end

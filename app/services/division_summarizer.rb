@@ -137,7 +137,7 @@ class DivisionSummarizer
     return false if packet.context_level == :sitting_day
 
     missing = extraction.missing
-    missing -= ["operative_motion"] if packet.question_states_motion?
+    missing -= ["operative_motion"] if packet.question_states_motion? || packet.motion_found?
     missing.any?
   end
 

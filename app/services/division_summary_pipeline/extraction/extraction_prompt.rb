@@ -60,6 +60,8 @@ module DivisionSummaryPipeline
     # What Stage 1 found by rule, so the model knows the motion is settled and which speaker's
     # sentences can be an explanation.
     def motion_note(packet)
+      return circulated_note(packet) if packet.circulation
+
       speech = packet.mover_speech
       name = packet.mover&.member&.name.presence || speech&.label
       return "The terms moved were not found by rule. #{no_motion_instruction(packet)}" unless speech
@@ -74,6 +76,26 @@ module DivisionSummaryPipeline
                  "The terms moved were not found by rule. #{no_motion_instruction(packet)}"
                end
       lines << "An explanation can only be sentences #{name} spoke."
+      lines.join("\n")
+    end
+
+    # Amendments the chair put that nobody moved: a model told only that no move was found went
+    # looking for one, reported the terms and the mover's speech missing, and sent the pipeline to
+    # read the whole sitting day (KI-32, KI-44).
+    def circulated_note(packet)
+      circulation = packet.circulation
+      terms = packet.transcript.question_terms_units.map(&:id)
+      lines = ["Nobody moved these amendments in the chamber: the chair put them, as a limitation of debate " \
+               "provides for amendments circulated beforehand, and the chair's statement prints their terms: " \
+               "#{terms.join(', ')}. The motion is settled; leave references.motion empty, and do not report " \
+               "\"operative_motion\" or \"mover_speech\" as missing."]
+      lines << "They were circulated by #{circulation.by}." if circulation.by
+      speaker = packet.mover&.member&.name.presence || circulation.member&.name
+      lines << if speaker
+                 "An explanation can only be sentences #{speaker} spoke."
+               else
+                 "No member moved them, so there is no mover's explanation: leave references.explanation empty."
+               end
       lines.join("\n")
     end
 

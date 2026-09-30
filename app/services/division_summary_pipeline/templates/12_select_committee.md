@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to establish a Select Committee, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to establish a Select Committee, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion

@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to take note of the matter set out in the motion text below, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to take note of the matter set out in the motion text below, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion

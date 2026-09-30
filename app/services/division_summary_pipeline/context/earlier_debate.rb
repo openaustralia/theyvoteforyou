@@ -100,9 +100,9 @@ module DivisionSummaryPipeline
       heading = DataLoader::DebatesXml.normalise_heading(title)
       speech_nodes.filter_map do |node|
         speech = DataLoader::SpeechText.context_speech(node)
-        next unless relevant?(speech) && @chars < MAX_CHARS
+        next unless relevant?(speech, node) && @chars < MAX_CHARS
 
-        speech = within_budget(speech)
+        speech = within_budget(chair_words(speech))
         other_heading = DataLoader::DebatesXml.normalise_heading(DataLoader::DebatesXml.section_heading(node)&.text) != heading
         @chars += speech[:text].size unless other_heading
         speech.merge(date: day.to_s, other_heading: other_heading)
@@ -134,10 +134,20 @@ module DivisionSummaryPipeline
       speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
     end
 
-    def relevant?(speech)
+    # A chair's statement is kept for what it says about the questions put, not for the amendments
+    # Hansard printed inside it, which are other divisions' terms: one such statement on
+    # 18 August 2026 was 8,409 characters, all but two sentences of it amendments.
+    def chair_words(speech)
+      return speech if speech[:moved_text].present?
+
+      kept = speech[:paragraphs].reject { |paragraph| paragraph[:kind] == :quotation }
+      speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+    end
+
+    def relevant?(speech, node)
       return true if speech[:moved_text].present?
 
-      DataLoader::DivisionXml.chair_statement_text?(speech[:text])
+      DataLoader::DivisionXml.chair_statement?(node)
     end
 
     # A move under another of the bill's headings belongs to a different stage, so finding one

@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) {{message_action_clause}} to the [{{bill_name}}]({{bill_link}}), which means it was {{successful_text}}. {{message_effect_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} {{message_action_clause}} to the [{{bill_name}}]({{bill_link}}), which means it was {{successful_text}}. {{message_effect_clause}}
 
 {{limitation_of_debate_section}}
 

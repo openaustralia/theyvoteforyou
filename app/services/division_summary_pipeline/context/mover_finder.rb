@@ -11,8 +11,15 @@ module DivisionSummaryPipeline
   # Senator Example", "the motion moved by the member for Exampleton"), and that is trusted
   # first. Otherwise the motion being put is the one moved just before the question, so only
   # a move in the last few speeches counts: further back it may be a different motion from
-  # earlier in the debate, such as an amendment moved before a second reading question. A
-  # move found under another of the bill's headings (EarlierDebate's :other_heading) never
+  # earlier in the debate, such as an amendment moved before a second reading question. The
+  # chair putting other questions in between does not count against that, since a run of
+  # questions separates nothing: under a guillotine the second reading question comes after the
+  # chair has put each second reading amendment in turn. Even then the move must be one the
+  # question could be putting: a question on amendments is never decided by "That this bill be
+  # now read a second time" (KI-43, where exactly that credited the
+  # Greens' circulated amendments to the minister who moved the second reading).
+  #
+  # A move found under another of the bill's headings (EarlierDebate's :other_heading) never
   # counts that way, since it belongs to a different stage: under a guillotine the second
   # reading question comes straight after an amendment moved in the second reading debate,
   # and would otherwise be credited to that amendment's mover. Nor does such a move displace a
@@ -33,29 +40,46 @@ module DivisionSummaryPipeline
     end
 
     # How close to the end of the excerpt an unnamed move must be to count as the motion being
-    # put: the move itself, perhaps a seconder, then the chair's question.
-    UNNAMED_MOVE_WINDOW = 4
+    # put, counting members' speeches only: the move itself, perhaps a seconder, and one more.
+    UNNAMED_MOVE_WINDOW = 3
+
+    # A question on amendments, and terms that could be what it puts: an amendment in any of its
+    # forms ("Omit ...", "Leave out ... insert ...", "At the end of the motion, add ...", "That all
+    # words after "That" be omitted with a view to substituting ...", "(1) Schedule 1, item 4,
+    # page 3, omit the item, substitute:", "(2) Schedule 1, item 66, ..., to be opposed."), or a
+    # motion about amendments, such as the House's "That the amendment be agreed to" on a Senate
+    # message. What they rule out is a reading, a suspension or an adjournment.
+    AMENDMENT_QUESTION = /\bamendments?\b|\bsheets?\b|\bitems?\b|\bstand\s+as\s+printed\b/i
+    AMENDMENT_TERMS = /\b(?:omit|omitted|leave\s+out|insert|substitute|substituting|add|to\s+be\s+opposed|
+                          amendments?|requests?)\b/ix
+    READING = /\bread\s+a\s+(first|second|third)\s+time\b/i
 
     ELECTORATE_HINT = /moved\s+by\s+the\s+(?:honourable\s+|hon\.?\s+)?member\s+for\s+([A-Z][\w'’-]*(?:[ -][A-Z][\w'’-]*)*)/
     MOVED_BY_HINT = /moved\s+by\s+(?:Senator|Mr|Mrs|Ms|Miss|Dr)\s+(?:the\s+Hon\.?\s+)?([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)/
     NOTICE_OWNER_HINT = /in\s+the\s+name\s+of\s+(?:Senator|Mr|Mrs|Ms|Miss|Dr)\s+(?:the\s+Hon\.?\s+)?([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)/
 
-    def self.find(question:, speeches:, house: nil, date: nil)
-      new(question: question, speeches: speeches, house: house, date: date).find
+    # question: the sentence putting the question. putting: all the chair's words putting it
+    # (ChairStatement#putting_text), where the chair often names the mover in a sentence of its own.
+    # circulated: the chair says the amendments being put were circulated, so nobody moved them in
+    # the chamber and a recent move is someone else's (Circulation).
+    def self.find(question:, speeches:, house: nil, date: nil, putting: nil, circulated: false)
+      new(question: question, putting: putting, speeches: speeches, house: house, date: date, circulated: circulated).find
     end
 
-    def initialize(question:, speeches:, house:, date:)
+    def initialize(question:, putting:, speeches:, house:, date:, circulated:)
       @question = question.to_s
+      @putting = putting.presence || @question
       @speeches = Array(speeches)
       @house = house
       @date = date
+      @circulated = circulated
     end
 
     def find
       hint = named_mover
       speech = named_move(hint) if hint
       found_by = (hint[:weak] ? :notice_owner : :chair_named) if hint && speech
-      if speech.nil? && (hint.nil? || hint[:weak])
+      if speech.nil? && (hint.nil? || hint[:weak]) && !@circulated
         speech = recent_unnamed_move
         found_by = :recent_move if speech
       end
@@ -67,7 +91,7 @@ module DivisionSummaryPipeline
 
     private
 
-    attr_reader :question, :speeches, :house, :date
+    attr_reader :question, :putting, :speeches, :house, :date
 
     def moves
       speeches.select { |s| s[:moved_text].present? }
@@ -81,15 +105,33 @@ module DivisionSummaryPipeline
     end
 
     def recent_unnamed_move
-      speeches.reject { |s| s[:other_heading] }.last(UNNAMED_MOVE_WINDOW).reverse.find { |s| s[:moved_text].present? }
+      members = speeches.reject { |s| s[:other_heading] || chair_statement?(s) }
+      members.last(UNNAMED_MOVE_WINDOW).reverse.find { |s| s[:moved_text].present? && fits_question?(s[:moved_text]) }
+    end
+
+    def chair_statement?(speech)
+      return false if speech[:moved_text].present?
+
+      paragraphs = speech[:paragraphs]
+      plain = paragraphs ? paragraphs.select { |p| p[:kind] == :prose }.pluck(:text).join("\n\n") : speech[:text]
+      DataLoader::DivisionXml.chair_statement_text?(plain)
+    end
+
+    # Whether these terms could be what the question puts: amendments for a question on
+    # amendments, and the same reading for a reading. Any other question is left open.
+    def fits_question?(moved_text)
+      return moved_text.match?(AMENDMENT_TERMS) if question.match?(AMENDMENT_QUESTION)
+
+      reading = question[READING, 1]
+      reading.nil? || moved_text[READING, 1].to_s.casecmp?(reading)
     end
 
     def named_mover
-      if (match = question.match(ELECTORATE_HINT))
+      if (match = putting.match(ELECTORATE_HINT))
         { electorate: match[1].strip }
-      elsif (match = question.match(MOVED_BY_HINT))
+      elsif (match = putting.match(MOVED_BY_HINT))
         { name: match[1].strip }
-      elsif (match = question.match(NOTICE_OWNER_HINT))
+      elsif (match = putting.match(NOTICE_OWNER_HINT))
         { name: match[1].strip, weak: true }
       end
     end

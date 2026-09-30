@@ -8,10 +8,11 @@ Entries are numbered `KI-n` so they can be cited from commits, issues and code c
 are never reused. A fixed entry is kept as one line in the index below, naming the spec that
 guards the fix, so a citation in the code still resolves. The full write-up of every fixed entry,
 with the procedural sources and the reproduction, is in git history, as the lines removed by the
-commit that condensed it:
+commit that condensed it: the first command below for KI-1 to KI-29, and the second for KI-35.
 
 ```
 git log -p --grep='^Condense the known issues' -- app/services/division_summary_pipeline/KNOWN_ISSUES.md
+git log -p --grep='^Read the chair' -- app/services/division_summary_pipeline/KNOWN_ISSUES.md
 ```
 
 ## Where these findings came from
@@ -52,8 +53,17 @@ September 2026, after three local models all quoted the same passage as the move
 then comparing Stage 1 before and after the fix over the 3,856 speeches in the ParlParse XML for
 Senate 18 to 20 August 2026 and the eight test divisions' sitting days.
 
+KI-40 onwards came from running four local models over ten divisions from 12 to 20 August 2026 on
+30 September 2026, reviewing every draft against Hansard, and checking the proposed changes against
+the chambers' standing orders and guides. That
+check found that some of the pipeline's House procedure had been written from the House Guide
+(2017, amended 2019), which predates changes to the House standing orders in 2020, 2022, 2023 and
+2025: the standing orders "as at 23 July 2025" outrank it. The Senate standing orders consulted were
+the June 2009 edition, so a Senate standing order is cited only where a June 2025 Senate guide says
+the same, or after checking the current text.
+
 This register was compiled with AI assistance (Claude Code: claude-opus-5[1m] for KI-1 to KI-19,
-claude-opus-5-5 for KI-20 to KI-39 and for condensing the fixed entries). The procedural
+claude-opus-5-5 for KI-20 to KI-39 and later, and for condensing the fixed entries). The procedural
 citations should be checked against the guides named above.
 
 ## How findings were verified
@@ -90,7 +100,7 @@ citations should be checked against the guides named above.
 | KI-21 | High | Fixed | A deferred division, or a long debate, left the motion out of the packet | `earlier_debate_spec.rb`, `context_builder_spec.rb`, `division_xml_spec.rb`. |
 | KI-22 | High | Fixed | Almost every division was called a conscience vote | `template_compiler_spec.rb` "facts the drafts from real divisions got wrong". `Whip#free_vote?`'s list stops at 1 December 2022, so a later conscience vote is not called one until someone adds it. |
 | KI-23 | Medium | Fixed | Real question forms routed to the wrong template or too wide a fence | `procedural_router_spec.rb` "routing on the motion as moved" and "questions taken from recent Hansard"; `semantic_extractor_spec.rb`. |
-| KI-24 | Medium | Fixed | The mover was whoever the model credited, or "a member" | `mover_finder_spec.rb`, `template_compiler_spec.rb`, `division_summarizer_spec.rb`. |
+| KI-24 | Medium | Fixed | The mover was whoever the model credited, or "a member" | `mover_finder_spec.rb`, `template_compiler_spec.rb`, `division_summarizer_spec.rb`. The September 2026 local model run found "a motion introduced by a member" still in Template 12's vote sentence, and House members titled "Representative Kate Chaney", which is not Australian usage. Every template now prints the mover through `{{mover_clause}}`, which is empty with no mover, and House members are named in the site's own form, "Kate Chaney MP" (`Member#full_name_no_electorate`), the member in the chair too (`template_compiler_spec.rb` "naming members of the House"). |
 | KI-25 | Medium | Fixed | Stage 4 rejected genuine quotes over formatting, and let weak evidence through | `provenance_validator_spec.rb`, `text_normaliser_spec.rb`. |
 | KI-26 | Low | Fixed | Wording built from verbatim text read badly in Templates 2, 16, 17 and 19 | `template_compiler_spec.rb`. |
 | KI-27 | Medium | Fixed | The context retry leaked one model's note and re-routed the division | `context_builder_spec.rb`, `semantic_extractor_spec.rb`, `division_summarizer_spec.rb`. |
@@ -101,11 +111,17 @@ citations should be checked against the guides named above.
 | KI-32 | Medium | Fixed | A question that is the whole motion sent the pipeline to read the whole sitting day | `extraction_prompt_spec.rb` "tells the model there are no terms to find when the question is the whole motion"; `division_summarizer_spec.rb` "when the question is the whole motion and the model reports its terms missing". The prompt told the model to report the terms missing whatever the question, and the retry read about 70,000 tokens that could not contain them. `ContextPacket::QUESTION_IS_THE_MOTION` lists the templates this applies to. |
 | KI-33 | Medium | Fixed | A failed sitting day retry threw away a first reply that would have compiled | `division_summarizer_spec.rb` "when the retry over the whole sitting day fails"; `reviewer_report_spec.rb`. The draft is now built from the first reply and the Reviewer Only report says why. |
 | KI-34 | Low | Fixed | Template 6 said "a motion introduced by a member" and "third reading" for the remaining stages question the chair puts | `template_compiler_spec.rb` "names every remaining stage, and no mover, when the question takes the remaining stages together". Its Bill Timeline still explains the third reading, which the remaining stages end with. |
-| KI-35 | Medium | Open | A lead-in sentence before the chair's question can decide the route | See the open entry below. |
+| KI-35 | Medium | Fixed | A lead-in sentence before the chair's question could decide the route, and so could the amendments Hansard prints after it, or an earlier question in the same statement | `chair_statement_spec.rb` "#question"; `division_xml_spec.rb` "#operative_question"; `context_builder_spec.rb` "when the chair puts amendments nobody moved in the chamber"; `procedural_router_spec.rb` "routes the chair's question sentence, whatever the rest of the statement said". `ChairStatement` reads the statement once: the division's question is the last question sentence of the chair's own words ("The question is", "now is", "first", "immediate", "next"), after any question closed by "Question agreed to." and the like. Comparing routes over the 121 loaded divisions of May to September 2026 moved 42, every one a correction: seven questions had been settled on words in the chair's lead-in (three as closures because it said "I'll now put the question", one as a guillotine because it said "time allotted") and a dozen statements put and closed one question before putting the division's. MoverFinder reads the paragraphs that put the question, where the chair often names the mover. |
 | KI-36 | Medium | Fixed | A question put once a guillotine's time had expired never said so, so a draft read as an ordinary vote with nobody moving or debating it | `division_xml_spec.rb` "#limitation_of_debate_statement"; `context_builder_spec.rb` "when a guillotine's time has expired"; `template_compiler_spec.rb` "says the question was put under a limitation of debate". Found by rule from the chair's statement, which can be dozens of divisions back under another bill's heading. A senator speaking by leave between the statement and the division stops the search, so the draft then says nothing about it: on 18 August 2026 that left two of the four divisions under the second reading's guillotine unmentioned. |
 | KI-37 | Medium | Fixed | Earlier debate was matched by heading alone, so a question put under "; Limitation of Debate" never found the amendment moved under the same bill's "; Second Reading" | `debates_xml_headings_spec.rb`, `division_xml_spec.rb` "finds the same bill's debate under another heading"; `earlier_debate_spec.rb`, `mover_finder_spec.rb`, `context_builder_spec.rb`. Sections are also matched by the bills listed under their headings. Such a move is only kept when the chair names its mover and nothing under the division's own heading was found: an unnamed one, such as a second reading question straight after the amendment, belongs to a different question. |
 | KI-38 | High | Fixed | Words a member quoted or read out were quoted as the member's own explanation | `speech_text_spec.rb` "labels an italic paragraph that follows no move as a quotation"; `transcript_spec.rb` "keeps a passage the member quoted whole"; `provenance_validator_spec.rb` "when the mover quotes someone else"; `earlier_debate_spec.rb` "keeps the run round the move when the speech also quotes someone far from it". At Senate 20 August 2026 #23 all three models picked a sentence of the Prime Minister's 2003 words that the mover had read out, and the draft printed it under the mover's name. Hansard sets quoted material in italic, so an italic paragraph that is neither a motion nor part of an incorporated speech is now a `:quotation` unit, which the validator never accepts as an explanation. Still open: a short quote inside a member's own sentence ("they say: 'No worries!'") is not set apart, and neither is a quote inside an incorporated speech, so those rest on the model and the reviewer. |
 | KI-39 | Medium | Fixed | An incorporated second reading speech opening with the House's "I move that this Bill be now read a second time." was read as a move, and the whole speech as its terms | `speech_text_spec.rb` "a speech incorporated by leave" and "reads a move made while presenting a report or tabling a document". Three Senate speeches on 19 and 20 August 2026 gave 7,339 to 14,500 characters of speech as the motion moved; none of the sitting days checked has a division on those bills, so none of the drafts checked here used it. Fixing it exposed that "I table ... and move:" was never read as a move either, so one of the three ministers had been found only through the copied line; tabling and presenting forms are now read. |
+| KI-41 | High | Fixed | A chair's statement over 1,200 characters was not taken for the chair's, so a draft said the question was never recorded, and quoted all 45,679 characters when it was | `division_xml_spec.rb` "is the chair's statement however many amendments Hansard prints in it"; `transcript_spec.rb` "#question_units"; `provenance_validator_spec.rb` "quotes only the chair's words putting the division's question"; `earlier_debate_spec.rb` "keeps a long statement of the chair's putting another question". The size limit is applied to the plain paragraphs only: the italic ones are the amendments being put. Question Put quotes the chair's words putting the division's question, and the earlier debate keeps only the chair's words from earlier statements. |
+| KI-42 | High | Fixed | The validator accepted the chair putting a question as the terms of the motion moved | `provenance_validator_spec.rb` "never takes the chair putting or deciding a question as the terms moved". A model motion reference whose text is a chair's question sentence or "Question agreed to." and the like is refused with a warning, whoever the transcript says spoke it: at Senate 18 August 2026 #16 a draft printed "The question now is that amendments ... be agreed to." as the amendment moved. |
+| KI-43 | High | Fixed | Amendments nobody moved were credited to whoever last moved anything: a party's circulated amendments to the minister who had moved the second reading, with the minister's case for the bill offered as the case against it | `mover_finder_spec.rb` "does not credit a move whose terms cannot be what the question puts", "does not guess an unnamed mover for amendments the chair says were circulated"; `chair_statement_spec.rb` "#circulated_by"; `context_builder_spec.rb` "when the chair puts amendments nobody moved in the chamber"; `template_compiler_spec.rb` "amendments the chair put without anyone moving them". An unnamed move counts only when its terms could be what the question puts, and not at all when the chair says the amendments were circulated. Who circulated them is found by rule, from the chair's words or Hansard's heading over them, and the draft says "circulated by the Australian Greens ... were put", never "moved". Every template now prints the mover through `{{mover_clause}}`, so a draft with no mover says nothing rather than "introduced by a member". With no mover, an explanation can only be the circulating member's words. |
+| KI-44 | Medium | Fixed | The terms of amendments the chair put under a limitation of debate were left for the model to find, though the chair's statement prints them | `transcript_spec.rb` "takes the amendments printed after the division's question as its terms"; `context_builder_spec.rb` "takes the amendments the chair put as the terms", "keeps the plain headings Hansard sets among the amendments"; `extraction_prompt_spec.rb` "tells the model when the chair put amendments nobody moved"; `division_summarizer_spec.rb` "does not widen for amendments the chair put". The paragraphs after the question sentence, up to the next record or question, are the terms, found by rule, when the question refers to amendments; in the House, unmoved opposition amendments are sometimes printed only for the record (House Guide p. 75), so nothing else is taken. 26 of the 121 loaded divisions now have their terms found by rule, and none of them sends the model to the sitting day for them. |
+| KI-45 | Medium | Fixed | Template 28 did not say which parts of the bill were to stand as printed, or whose amendments to omit them the vote decided | `template_compiler_spec.rb` "names the parts the question named, and who circulated the amendments to omit them". The parts are the chair's words between "that" and "stand as printed" in the division's question, quoted, and who circulated the amendments comes from `Circulation`. |
+| KI-53 | Medium | Fixed | A divided question was summarised, and its motion printed, as though the whole motion had been put | `chair_statement_spec.rb` ".divided_parts"; `template_compiler_spec.rb` "a divided question". When the chair's question puts a motion "minus" or "except" some of its parts, the draft says the vote was on the motion without them, in the chair's words, and the Reviewer Only report says the question was divided. Senate forms only: the House, where a member may move that a question be divided (House S.O. 119), had none in its Hansard from May to September 2026, so none is assumed. A divided question put on the separated part itself is not recognised. |
 
 ---
 
@@ -222,46 +238,3 @@ Bill 2026 be disagreed to" now reaches the fallback instead of Template 7, becau
 said "amendment". No real question in either form has been seen; both came from comparing the old
 and new routers over generated questions. `procedural_router_spec.rb` "a bill title that contains
 the word amendment" is where a fix would be tested.
-
-### KI-35
-
-**A lead-in sentence before the chair's question can decide the route.**
-Severity: Medium. Status: Open. **Confirmed** by routing Senate 20 August 2026 #17.
-
-`DataLoader::DivisionXml#operative_question` (`app/lib/data_loader/division_xml.rb`) returns the
-whole of the chair's statement before a division, and everything that reads the question reads all
-of it: the router, `ContextPacket#question_by_reference?` and `#question_states_motion?`, and the
-prompt's `<speaker_question>`. So when the chair says something before putting the question, those
-words are treated as part of it. At Senate 20 August 2026 #17 the statement was:
-
-> As that matter was resolved in the affirmative, the consequential amendment on sheet 3791 will
-> not be put. The question now is that the remaining stages of the bill be agreed to and the bill
-> be now passed.
-
-Two things go wrong, both from the first sentence:
-
-- Its "amendment", under a "Limitation of Debate" heading, fences the division to Templates 2 and
-  3 (`GUILLOTINE_TRAP_AVOIDED`), so Stage 4 would refuse Template 6, the template KI-31 now settles
-  this question on. Routed on the second sentence alone, it settles on Template 6
-  (`REMAINING_STAGES_PASSING`).
-- Its "on sheet 3791" matches `QUESTION_BY_REFERENCE`, so the question is taken to refer to a motion
-  it does not need. Stage 1 finds no motion, and the packet is widened to the whole sitting day
-  before the model is asked at all, the long call KI-32 removed for this question.
-
-The likely fix is to route on the last "The question is ..." or "The question now is ..." sentence
-of the statement. The "Question Put" section of a draft quotes the chair from
-`DivisionXml#question_speech`, not from `operative_question`, so it would still quote the whole
-statement. Before settling on a fix:
-
-- A statement can also run on past the question: `division_xml_spec.rb` "keeps the paragraph breaks
-  of the chair's statement when there is no pwmotiontext" expects "Question negatived." after it.
-- A statement can put more than one question in turn, and the division follows the last one put.
-- Check the chair's forms of words in current Hansard before choosing the pattern. Only the two
-  above were seen here.
-- The fix changes the route of every division whose chair statement has a lead-in. How many do is
-  not known, since only this division was checked, so compare routes before and after over the
-  loaded divisions.
-
-A fix would be tested in `division_xml_spec.rb` "#operative_question" (or `context_builder_spec.rb`,
-if it is made there instead) and in `procedural_router_spec.rb` "questions taken from recent
-Hansard".

@@ -81,6 +81,7 @@ module DivisionSummaryPipeline
         ["Earlier debate added", packet.earlier_debate_dates.presence&.join(", ") || "none"],
         ["Limitation of debate", limitation_note],
         ["Question routed on", packet.speaker_question.to_s],
+        ["Question divided", divided_note],
         ["Title", "#{title} (from the heading \"#{TextNormaliser.clean_text(packet.heading)}\" and the template)"]
       ]
       return rows unless widening_failure
@@ -146,6 +147,11 @@ module DivisionSummaryPipeline
         ["Speech", mover.speech ? "#{mover.speech[:speaker]} at #{mover.speech[:time]} (`#{mover.speech[:id]}`)" : "not in the transcript"],
         ["TVFY member", member&.member ? "#{member.name} (#{member.party})" : "not matched to a TVFY member"]
       ]
+    end
+
+    def divided_note
+      parts = ChairStatement.divided_parts(packet.speaker_question)
+      parts ? "yes: without \"#{parts}\"" : "no"
     end
 
     # Where the chair said the time had expired, so a reviewer can find it: it is often many

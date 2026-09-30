@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to disallow the [{{regulation_name}}]({{regulation_link}}), which means it was {{successful_text}}. {{regulation_status_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to disallow the [{{regulation_name}}]({{regulation_link}}), which means it was {{successful_text}}. {{regulation_status_clause}}
 
 {{rebellions_text}}
 ### About the Regulation

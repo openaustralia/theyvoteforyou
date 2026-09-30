@@ -4,7 +4,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion to suspend standing orders introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}){{suspension_purpose_clause}}. The vote was {{successful_text}}. {{suspension_effect_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to suspend standing orders{{suspension_purpose_clause}}. The vote was {{successful_text}}. {{suspension_effect_clause}}
 
 {{rebellions_text}}
 ### About the Motion

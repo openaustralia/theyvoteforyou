@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) that {{target_clause}} be no longer heard, which means it was {{successful_text}}. {{continuation_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion{{mover_clause}} that {{target_clause}} be no longer heard, which means it was {{successful_text}}. {{continuation_clause}}
 
 {{rebellions_text}}
 ### Motion Introduction

@@ -61,10 +61,10 @@ describe DivisionSummarizer do
         expect(result.error).to be_nil
         expect(result.title).to eq("Bills - Example Bill 2026; Consideration in Detail Amendment")
         expect(result.description).to start_with("**Bill Timeline:**")
-        expect(result.description).to include("introduced by Representative Robin Carrow",
-                                              "At 10:00 AM, Representative Robin Carrow said:\n\n> This change protects small business.",
+        expect(result.description).to include("introduced by Robin Carrow MP",
+                                              "At 10:00 AM, Robin Carrow MP said:\n\n> This change protects small business.",
                                               "> That the words \"the Minister\" be omitted.",
-                                              "At 10:05 AM, Representative Casey Whitlow, in the chair, put the following question:")
+                                              "At 10:05 AM, Casey Whitlow MP, in the chair, put the following question:")
         expect(result.description).to include("---\n\n## Reviewer Only")
         expect(result.raw).to eq(reply)
       end
@@ -211,6 +211,24 @@ describe DivisionSummarizer do
                      .summarize_with_all_models
 
       expect(packets.map(&:context_level)).to eq([:subdebate])
+    end
+
+    # KI-44: the terms of amendments the chair puts are in the chair's own
+    # statement, so there is nothing more to look for.
+    it "does not widen for amendments the chair put when their terms are in the chair's statement" do
+      circulated = xml_content.sub("<p>The question is that the amendment be agreed to.</p>",
+                                   "<p>I will now deal with the amendment circulated by the Example Party. The question is that " \
+                                   "the amendment on sheet 9001 be agreed to.</p><p class=\"italic\">Omit \"the Minister\", " \
+                                   "substitute \"the Secretary\".</p>")
+                              .sub(%r{<p>I move:</p><p class="italic">That the words "the Minister" be omitted.</p>}, "")
+      packets = []
+      result = described_class.new(division, models: { "only" => "only.model-v1:0" }, client: stubbed_client,
+                                             xml_content: circulated, extractor: scripted_extractor([reply(explanation: [])], packets))
+                              .summarize_with("only.model-v1:0")
+
+      expect(packets.map(&:context_level)).to eq([:subdebate])
+      expect(result.description).to include("The following amendment, circulated by the Example Party, was put:\n\n" \
+                                            "> Omit \"the Minister\", substitute \"the Secretary\".")
     end
 
     # Structural before semantic: when the question only refers to a motion and Stage 1 cannot

@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to introduce the [{{bill_name}}]({{bill_link}}) and read it for a first time, which means it was {{successful_text}}. The bill will now be debated at a later date.
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to introduce the [{{bill_name}}]({{bill_link}}) and read it for a first time, which means it was {{successful_text}}. The bill will now be debated at a later date.
 
 {{limitation_of_debate_section}}
 

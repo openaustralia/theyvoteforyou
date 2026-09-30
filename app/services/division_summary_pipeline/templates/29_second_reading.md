@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to pass the [{{bill_name}}]({{bill_link}}) through its second reading, which means it was {{successful_text}}. {{second_reading_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to pass the [{{bill_name}}]({{bill_link}}) through its second reading, which means it was {{successful_text}}. {{second_reading_clause}}
 
 {{limitation_of_debate_section}}
 

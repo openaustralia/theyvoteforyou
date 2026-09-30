@@ -67,6 +67,20 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       )
     end
 
+    # As at Senate 18 August 2026 #16, where the statement ran to 45,679 characters and put a
+    # question decided on the voices before the division's own.
+    it "quotes only the chair's words putting the division's question" do
+      statement = summary_speech(<<~XML, id: "s3", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "13:30")
+        <p>The question now is that amendments (1) to (4) on sheet XY101 be agreed to.</p>
+        <p class="italic">(1) Clause 2, page 2 (table item 3), omit the item.</p>
+        <p>Question agreed to.</p>
+        <p>#{question}</p>
+      XML
+
+      expect(validate(extraction, packet(speeches: [mover_speech, other_speech, statement])).evidence.question.text)
+        .to eq(question)
+    end
+
     it "turns the model's sentence IDs into the mover's exact words, joining consecutive ones" do
       result = validate(extraction(explanation: %w[S1.2 S1.1]))
 
@@ -177,6 +191,21 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       result = validate(extraction(explanation: [], motion: %w[S1.2]), context)
 
       expect(result.evidence.motion).to have_attributes(text: "That the Senate notes the scheme.", found_by: :model)
+    end
+
+    # KI-42: a draft printed the chair's question as the amendment moved.
+    it "never takes the chair putting or deciding a question as the terms moved" do
+      record = DivisionSummaryPipeline::Transcript.from_record(
+        heading: "Bills", text: "The question now is that the amendments on sheet 9001 be agreed to.\nQuestion negatived."
+      )
+      context = packet.with(transcript: record, mover: nil)
+
+      %w[S1.1 S1.2].each do |id|
+        result = validate(extraction(explanation: [], motion: [id]), context)
+
+        expect(result.evidence.motion).to be_nil
+        expect(result.warnings.join).to include("#{id} is the chair putting or deciding a question")
+      end
     end
 
     it "prefers Stage 1's motion over the model's, and says so" do
