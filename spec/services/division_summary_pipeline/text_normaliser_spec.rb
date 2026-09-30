@@ -32,13 +32,35 @@ describe DivisionSummaryPipeline::TextNormaliser do
     it "normalises curly quotes, dashes, whitespace and case" do
       input = "“The Minister’s ‘Decision’\u2014Immediate action”"
       normalised = described_class.normalise_for_matching(input)
-      expect(normalised).to eq("\"the minister's 'decision'-immediate action\"")
+      expect(normalised).to eq("\"the minister's'decision'-immediate action\"")
     end
 
     it "decodes HTML entities so entity representations match plain text" do
       input = "Trade &amp; Industry &mdash; &quot;Urgent&#160;Reform&quot;"
       normalised = described_class.normalise_for_matching(input)
-      expect(normalised).to eq("trade & industry - \"urgent reform\"")
+      expect(normalised).to eq("trade&industry-\"urgent reform\"")
+    end
+
+    # Nokogiri used to join Hansard paragraphs with no space ("the Senate:(a) notes"), and
+    # models quote them with one; either way round, the words are the same.
+    it "ignores whether there is a space beside punctuation" do
+      expect(described_class.normalise_for_matching("the Senate:(a) notes:(i) the cost"))
+        .to eq(described_class.normalise_for_matching("the Senate: (a) notes: (i) the cost"))
+    end
+
+    it "keeps the spaces between words, so run-together words do not match" do
+      expect(described_class.normalise_for_matching("the cost burden"))
+        .not_to eq(described_class.normalise_for_matching("the costburden"))
+    end
+
+    it "drops the stray full stop recent Hansard XML sometimes puts at the start of a word" do
+      expect(described_class.normalise_for_matching("Commission is\u00A0\u00A0\u00A0.anti-competitive"))
+        .to eq(described_class.normalise_for_matching("Commission is anti-competitive"))
+    end
+
+    it "drops soft hyphens and zero-width spaces and treats every dash as a hyphen" do
+      expect(described_class.normalise_for_matching("needs\u00ADbased co\u2011operation\u200B"))
+        .to eq("needsbased co-operation")
     end
   end
 end
