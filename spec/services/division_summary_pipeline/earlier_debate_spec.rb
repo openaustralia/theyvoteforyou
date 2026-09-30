@@ -99,6 +99,24 @@ describe DivisionSummaryPipeline::EarlierDebate do
     expect(kept[:paragraphs].pluck(:kind)).not_to include(:quotation)
   end
 
+  # As on 18 August 2026, when one such statement ran to 8,409 characters, all but two sentences
+  # of it the amendments being put, which are other divisions' terms.
+  it "keeps a long statement of the chair's putting another question, without the amendments printed in it" do
+    circulated = "<p class=\"italic\">Omit all words after \"That\", substitute \"the House rejects the bill\".</p>" * 40
+    doc = day_xml(<<~XML)
+      <minor-heading id="h5">#{heading}</minor-heading>
+      <speech id="s5" speakername="Casey Whitlow" time="09:22"><p>The question is that the amendments on sheet 9001 be agreed to.</p>#{circulated}</speech>
+      <division divdate="2026-05-14" divnumber="1" id="d1" time="09:23"><divisioncount ayes="40" noes="95"/></division>
+      <speech id="s6" speakername="Casey Whitlow" time="09:27"><p>The question is that the bill be now read a second time.</p></speech>
+      <division divdate="2026-05-14" divnumber="2" id="d2" time="09:28"><divisioncount ayes="95" noes="40"/></division>
+    XML
+    second = DataLoader::DebatesXml.new(doc, "representatives").divisions.last
+
+    kept = described_class.collect(division_xml: second, house: "representatives", date: "2026-05-14", fetcher: nil).speeches
+
+    expect(kept.pluck(:text)).to eq(["The question is that the amendments on sheet 9001 be agreed to."])
+  end
+
   it "stops at the most recent day with a move" do
     fetched = []
     counting = lambda do |house, date|

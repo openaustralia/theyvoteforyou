@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a disciplinary motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) that {{target_clause}} be suspended from the {{suspension_form}} of the {{chamber}}, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a disciplinary motion{{mover_clause}} that {{target_clause}} be suspended from the {{suspension_form}} of the {{chamber}}, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### Motion Introduction

@@ -276,7 +276,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
         expect(rendered).not_to include("NDIS Bill")
-        expect(rendered).to include("introduced by a member")
+        expect(rendered).to include("a procedural motion to end the debate")
+        expect(rendered).not_to include("introduced by")
         expect(rendered).not_to include("[]()")
         expect(rendered).not_to include("() ()")
       end
@@ -298,7 +299,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         evidence = evidence.with(explanations: [summary_excerpt("Closure is needed.", speaker: "Alex Downey", found_by: :model)])
 
         rendered = described_class.compile(division_data, interpretation, evidence)
-        expect(rendered).to include("introduced by a member")
+        expect(rendered).not_to include("introduced by")
         expect(rendered).not_to include("[Alex Downey]")
       end
 
@@ -323,7 +324,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           motion_text: "That the question be now put.",
           mover: mover
         )
-        expect(rendered).to include("introduced by Representative [Alex Downey](/people/representatives/brightwater/alex_downey) (Liberal)")
+        expect(rendered).to include("introduced by [Alex Downey](/people/representatives/brightwater/alex_downey) MP (Liberal)")
       end
 
       it "cleans up empty markdown links and empty parentheses for unlinked movers" do
@@ -336,7 +337,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }
 
         rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
-        expect(rendered).to include("introduced by Representative Sam Taylor")
+        expect(rendered).to include("introduced by Sam Taylor MP")
         expect(rendered).not_to include("[Sam Taylor]()")
         expect(rendered).not_to include("()")
       end
@@ -542,6 +543,21 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         expect(rendered).not_to include("stand as printed, defeating the question")
       end
+
+      # KI-45: a draft never said which parts the vote kept, or whose
+      # amendments it defeated.
+      it "names the parts the question named, and who circulated the amendments to omit them, in Hansard's words" do
+        question = "I will now deal with the remaining amendments circulated by the Example Party. The first question is " \
+                   "that part 3 of schedule 1; items 7 and 9 in schedule 1; and section 12A in item 4 in schedule 2 stand as printed."
+        circulated = DivisionSummaryPipeline::Circulation.new(by: "the Example Party", member: nil, plural: true)
+        rendered = compile_summary(division_data.merge(result: "passed"), template_id: 28, question_text: question,
+                                                                          motion_text: "(2) Schedule 1, Part 3, to be opposed.",
+                                                                          circulation: circulated)
+
+        expect(rendered).to include("which means the question was successful. The question named \"part 3 of schedule 1; " \
+                                    "items 7 and 9 in schedule 1; and section 12A in item 4 in schedule 2\". The amendments " \
+                                    "to omit them were circulated by the Example Party. Because the question was")
+      end
     end
 
     describe "constitutional and parliamentary procedures" do
@@ -726,7 +742,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         )
         expect(rendered).to start_with("**Jargon Explainer:** *A motion of dissent challenges a formal procedural ruling")
         expect(rendered).to include("to dissent from a ruling of the Chair, which means it was unsuccessful.")
-        expect(rendered).to include("Representative Drew Pemberton said:\n\n> The Minister's answer was not directly relevant.")
+        expect(rendered).to include("Drew Pemberton MP said:\n\n> The Minister's answer was not directly relevant.")
       end
 
       it "compiles Template 26 (Adjournment)" do
@@ -968,7 +984,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       it "prints no purpose clause when the motion does not use the usual form" do
         rendered = compile_suspension(suspension_division, "That standing order 65 be suspended for this sitting.")
 
-        expect(rendered).to include("(Labor). The vote was successful.")
+        expect(rendered).to include("(Labor) to suspend standing orders. The vote was successful.")
         expect(rendered).not_to include("to set aside the rules that would otherwise prevent")
       end
 
@@ -1123,7 +1139,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         rendered = compile_real(senate_data.merge(house: "representatives"), 15, mover: mover)
 
-        expect(rendered).to include("introduced by Representative Jo Rae")
+        expect(rendered).to include("introduced by Jo Rae MP")
       end
 
       it "prefers a mover the division data supplies" do
@@ -1145,9 +1161,9 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         rendered = described_class.compile(senate_data, interpretation, evidence)
 
-        expect(rendered).to include("an amendment introduced by a member to the bill")
+        expect(rendered).to include("voted for an amendment to the bill")
         expect(rendered).not_to include("PRESIDENT")
-        expect(rendered).not_to include("Senator a member")
+        expect(rendered).not_to include("a member")
       end
 
       # There is no model-written topic any more; the check now is that nothing but a bill
@@ -1159,7 +1175,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           declines_second_reading: false
         )
 
-        expect(rendered).to include("second reading amendment introduced by a member to the bill,")
+        expect(rendered).to include("a second reading amendment to the bill,")
         expect(rendered).not_to include("Early childhood wages,")
       end
 
@@ -1212,6 +1228,90 @@ describe DivisionSummaryPipeline::TemplateCompiler do
   # Every quoted part of a summary is Hansard's own text from Evidence, printed whole under a
   # line saying who said it and when (EvidenceSections).
   # KNOWN_ISSUES.md KI-29: the Template 2 explainer described only the House.
+  # KI-43: under a limitation of debate the chair puts circulated amendments
+  # with nobody moving them, and a draft credited a party's amendments to a minister who had not.
+  describe "amendments the chair put without anyone moving them" do
+    let(:greens) { DivisionSummaryPipeline::Circulation.new(by: "the Example Party", member: nil, plural: true) }
+    let(:terms) { "Omit all words after \"That\", substitute \"the Senate rejects the bill\"." }
+
+    it "says who circulated them, never who moved them, and counts them right" do
+      rendered = compile_summary({ time: "12:27 PM", result: "negatived", house: "senate", bill_name: "Example Bill 2026" },
+                                 template_id: 2, declines_second_reading: true, motion_text: terms, circulation: greens)
+
+      expect(rendered).to include("voted against second reading amendments circulated by the Example Party to the " \
+                                  "Example Bill 2026, which means they were unsuccessful.")
+      expect(rendered).to include("Because the amendments sought to decline the bill a second reading, a vote for them")
+      expect(rendered).to include("The following amendments, circulated by the Example Party, were put:\n\n> Omit all words")
+      expect(rendered).not_to include("moved", "introduced by")
+    end
+
+    it "reads the same way in the House, for one amendment and a member the chair names by seat" do
+      member = DivisionSummaryPipeline::Circulation.new(by: "the member for Exampleton", member: nil, plural: false)
+      rendered = compile_summary({ time: "12:27 PM", result: "negatived", house: "representatives" },
+                                 template_id: 4, motion_text: "(1) Clause 2, page 2 (line 4), omit the clause.",
+                                 circulation: member)
+
+      expect(rendered).to include("voted against an amendment circulated by the member for Exampleton to the bill during " \
+                                  "the Consideration in Detail stage, which means it was unsuccessful.")
+      expect(rendered).to include("The following amendment, circulated by the member for Exampleton, was put:")
+    end
+
+    it "says nothing about who when Hansard does not" do
+      unknown = DivisionSummaryPipeline::Circulation.new(by: nil, member: nil, plural: true)
+      rendered = compile_summary({ time: "12:27 PM", result: "passed", house: "senate" },
+                                 template_id: 3, motion_text: "(1) Clause 2, omit the clause.", circulation: unknown)
+
+      expect(rendered).to include("voted for amendments to the bill, which means they were successful.",
+                                  "The following amendments were put:")
+    end
+  end
+
+  # KI-53: the whole motion is printed below, so a reader took every part of
+  # it to have been voted on.
+  describe "a divided question" do
+    it "says the vote was on the motion without the parts put separately, in the chair's words" do
+      rendered = compile_summary({ time: "12:13 PM", result: "passed", house: "senate" }, template_id: 18,
+                                                                                          motion_text: "That—\n\n(1) On Tuesday the hours of meeting be midday till adjournment.",
+                                                                                          question_text: "I'm going to put the rest of the motion, and then I'm going to put 2(a) and (b). " \
+                                                                                                         "The question is that the substantive motion, minus 2(a) and (b), be agreed to.")
+
+      expect(rendered).to include("The question was divided, so this vote was on the motion without \"2(a) and (b)\"; " \
+                                  "those parts were put to the Senate as a separate question.")
+    end
+
+    it "says nothing for a question put whole" do
+      rendered = compile_summary({ time: "12:13 PM", result: "passed", house: "senate" }, template_id: 18,
+                                                                                          motion_text: "That the bill be considered urgent.",
+                                                                                          question_text: "The question is that the motion be agreed to.")
+
+      expect(rendered).not_to include("The question was divided")
+    end
+  end
+
+  describe "naming members of the House" do
+    let(:house_data) { { time: "12:39 PM", result: "negatived", house: "representatives" } }
+
+    it "names the mover, the speaker quoted and the member in the chair as \"Example MP\"" do
+      rendered = compile_summary(house_data, template_id: 2, declines_second_reading: false,
+                                             motion_text: "That all words after \"That\" be omitted.",
+                                             explanations: ["The measure needs review."],
+                                             question_text: "The question is that the amendment be agreed to.",
+                                             mover: DivisionSummaryPipeline::MemberResolver.named("Jo Rae"))
+
+      expect(rendered).to include("a second reading amendment introduced by Jo Rae MP to the bill")
+      expect(rendered).to include("At 1:27 PM, Jo Rae MP said:")
+      expect(rendered).to include("At 1:30 PM, Robin Castellan MP, in the chair, put the following question:")
+      expect(rendered).not_to include("Representative ", "the Speaker")
+    end
+
+    it "keeps \"Senator\" in front of a senator's name" do
+      rendered = compile_summary(house_data.merge(house: "senate"), template_id: 15, motion_text: "That the Senate notes it.",
+                                                                    mover: DivisionSummaryPipeline::MemberResolver.named("Jo Rae"))
+
+      expect(rendered).to include("introduced by Senator Jo Rae")
+    end
+  end
+
   describe "Template 2's explainer in each chamber" do
     it "gives the House's one precedent for a House division, and says nothing borrowed for the Senate" do
       house = compile_summary({ house: "representatives", result: "negatived" }, template_id: 2, declines_second_reading: false,

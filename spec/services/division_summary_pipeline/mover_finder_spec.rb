@@ -84,6 +84,57 @@ describe DivisionSummaryPipeline::MoverFinder do
     expect(result.member.name).to eq("Sam Okafor")
   end
 
+  # KI-43: at Senate 18 August 2026 #4 the Greens' circulated amendments
+  # were credited to the minister who had moved the second reading six days before.
+  it "does not credit a move whose terms cannot be what the question puts" do
+    second_reading = speech("Jo Marlowe", "I move:", moved_text: "That this bill be now read a second time.")
+
+    expect(described_class.find(question: "The question is that the amendments on sheets 9101 and 9102 be agreed to.",
+                                speeches: [second_reading, chair])).to be_nil
+    expect(described_class.find(question: "The question is that the bill be now read a third time.",
+                                speeches: [amendment_by_treloar, chair])).to be_nil
+  end
+
+  it "takes a motion about the amendment for a question on it, as the House moves on a Senate message" do
+    message = speech("Sam Okafor", "I move:", moved_text: "That the amendment be agreed to.")
+
+    expect(described_class.find(question: "The question is that the amendment be agreed to.",
+                                speeches: [message, chair]).member.name).to eq("Sam Okafor")
+  end
+
+  # Under a guillotine the chair puts each second reading amendment in turn before the second
+  # reading itself, which is still the minister's motion.
+  it "does not count the chair putting other questions against the window for an unnamed move" do
+    second_reading = speech("Jo Marlowe", "I move:", moved_text: "That this bill be now read a second time.")
+    run = Array.new(4) { |n| speech("Casey Whitlow", "The question is that the amendment on sheet 910#{n} be agreed to.") }
+
+    result = described_class.find(question: "The question is that the bill now be read a second time.",
+                                  speeches: [second_reading, *run, chair])
+
+    expect(result.member.name).to eq("Jo Marlowe")
+  end
+
+  # Circulated amendments are put with nobody moving them, so a move just before is someone else's.
+  it "does not guess an unnamed mover for amendments the chair says were circulated" do
+    expect(described_class.find(question: "The question is that the amendment on sheet 9001 be agreed to.",
+                                putting: "I will now deal with the amendment circulated by Senator Dunstan. The question is " \
+                                         "that the amendment on sheet 9001 be agreed to.",
+                                speeches: [amendment_by_treloar, chair], circulated: true)).to be_nil
+  end
+
+  # The chair often names the mover in a sentence of their own before putting the question.
+  it "reads the chair's lead-in for the mover's name" do
+    result = described_class.find(
+      question: "The question is that part 4 of schedule 1 stand as printed.",
+      putting: "I'll first deal with the amendments moved by Senator Treloar on sheet 9001. The question is that part 4 of " \
+               "schedule 1 stand as printed.",
+      speeches: [amendment_by_dunstan, amendment_by_treloar, chair]
+    )
+
+    expect(result.member.name).to eq("Morgan Treloar")
+    expect(result.found_by).to eq(:chair_named)
+  end
+
   # Another senator often moves a notice on its owner's behalf.
   it "treats \"standing in the name of\" as a weaker hint than a recent move by someone else" do
     result = described_class.find(

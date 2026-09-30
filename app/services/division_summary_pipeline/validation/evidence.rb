@@ -16,7 +16,14 @@ module DivisionSummaryPipeline
   # - limitation: the chair's sentence saying a limitation of debate's time had expired, when the
   #   question was put because it had, or nil. It is not in the transcript, so its unit_ids are
   #   empty.
-  Evidence = Data.define(:introduction, :motion, :question, :explanations, :facts, :mover, :limitation)
+  # - circulation: the Circulation when the chair put amendments nobody moved, or nil. The motion
+  #   is then their terms, as the chair's statement printed them.
+  Evidence = Data.define(:introduction, :motion, :question, :explanations, :facts, :mover, :limitation,
+                         :circulation) do
+    def initialize(circulation: nil, **fields)
+      super
+    end
+  end
 
   class Evidence
     # found_by: :rule (Stage 1 found it) or :model (a model reference that resolved).

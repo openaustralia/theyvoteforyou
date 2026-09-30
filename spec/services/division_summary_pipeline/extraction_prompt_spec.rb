@@ -52,6 +52,23 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
       expect(prompt).not_to include("If they are not, leave it empty")
     end
 
+    # KI-32 and KI-44: told only that no move was found, models reported the
+    # terms and the mover's speech missing, and the retry read the whole sitting day.
+    it "tells the model when the chair put amendments nobody moved, and that there is nothing more to find" do
+      put = "The question is that the amendments on sheets 9101 and 9102 be agreed to."
+      statement = summary_speech("<p>#{put}</p><p class=\"italic\">Omit all words after \"That\", substitute \"the Senate " \
+                                 "rejects the bill\".</p>", id: "s2", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002",
+                                                            time: "13:30")
+      circulation = DivisionSummaryPipeline::Circulation.new(by: "the Example Party", member: nil, plural: true)
+      prompt = described_class.user_prompt(summary_packet(speeches: [statement], question: put, routing: routing,
+                                                          circulation: circulation))
+
+      expect(prompt).to include("Nobody moved these amendments in the chamber", "terms: S1.2.",
+                                "do not report \"operative_motion\" or \"mover_speech\" as missing",
+                                "They were circulated by the Example Party.", "leave references.explanation empty")
+      expect(prompt).to include("[S1.2 motion] Omit all words after")
+    end
+
     # KNOWN_ISSUES.md KI-23: "MUST choose from the candidates" turned the fallback's default into a fence nothing checks.
     it "says when the allowed templates are only a default, and never softens an enforced fence" do
       advisory = DivisionSummaryPipeline::RoutingDecision.default([15], rule_name: "GENERAL_MOTION_FALLBACK", reason: "test")

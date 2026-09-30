@@ -39,6 +39,8 @@ module DivisionSummaryPipeline
     NOT_DECLINING_PATTERN = /whil(?:st|e)\s+not\s+(?:declining|opposing)/i
     DECLINING_PATTERN = /declin(?:es|ing)\s+to\s+give\s+the\s+bill\s+a\s+second\s+reading/i
 
+    UNIDENTIFIED_SPEAKER = "The mover was not identified by rule, so the explanation's speaker was chosen by the model."
+
     def self.validate(extraction, context_packet)
       new(extraction, context_packet).validate
     end
@@ -59,7 +61,7 @@ module DivisionSummaryPipeline
       check_template
       evidence = Evidence.new(introduction: introduction, motion: check_motion, question: question,
                               explanations: explanations, facts: facts, mover: packet.mover&.member,
-                              limitation: limitation)
+                              limitation: limitation, circulation: packet.circulation)
       check_declines_second_reading(evidence)
       ValidationResult.new(errors: errors, warnings: warnings, evidence: evidence)
     end
@@ -105,13 +107,13 @@ module DivisionSummaryPipeline
     end
 
     def question
-      speech = packet.question_speech
-      unless speech
+      units = transcript.question_units
+      if units.empty?
         warnings << "The chair's statement putting the question was not recorded before the division, so the " \
                     "summary cannot quote it."
         return nil
       end
-      passage(speech.units.map(&:id), found_by: :rule)
+      passage(units.map(&:id), found_by: :rule)
     end
 
     def introduction
@@ -130,14 +132,16 @@ module DivisionSummaryPipeline
                             speaker_gid: statement[:speaker_gid], time: statement[:time], date: nil, found_by: :rule)
     end
 
-    # The terms moved: found by Stage 1 in the mover's speech; failing that, the paragraphs the
-    # model pointed at, if they are one unbroken run of one speech; failing that, nothing, which
-    # is only acceptable when the chair's question states its own terms ("That the House do now
-    # adjourn", proposed by the Speaker with no mover). A question that only refers to a motion
-    # with no motion to quote leaves the summary unable to say what was decided.
+    # The terms moved: found by Stage 1 in the mover's speech, or failing that the amendments the
+    # chair put, as the chair's statement printed them; failing both, the paragraphs the model
+    # pointed at, if they are one unbroken run of one speech; failing that, nothing, which is only
+    # acceptable when the chair's question states its own terms ("That the House do now adjourn",
+    # proposed by the Speaker with no mover). A question that only refers to a motion with no
+    # motion to quote leaves the summary unable to say what was decided.
     def check_motion
       speech = packet.mover_speech
       rule_ids = speech ? transcript.last_move_units(speech, :motion).map(&:id) : []
+      rule_ids = transcript.question_terms_units.map(&:id) if rule_ids.empty?
       if rule_ids.any?
         warnings << "The model's motion references were ignored: Stage 1 found the motion by rule." if extraction.references.motion.any?
         return passage(rule_ids, found_by: :rule)
@@ -158,6 +162,11 @@ module DivisionSummaryPipeline
       return nil if ids.empty?
 
       units = ids.map { |id| transcript.unit(id) }
+      if (putting = units.compact.find { |unit| chair_form?(unit.text) })
+        warnings << "The model's motion reference #{putting.id} is the chair putting or deciding a question, not the " \
+                    "terms moved, so it was not used."
+        return nil
+      end
       if units.any?(&:nil?) || units.any? { |unit| unit.kind == :chair }
         warnings << "The model's motion references #{ids.inspect} do not all point at paragraphs of a speech, so they were not used."
         return nil
@@ -169,6 +178,14 @@ module DivisionSummaryPipeline
         return nil
       end
       Evidence::Excerpt.from_passage(passages.first, found_by: :model)
+    end
+
+    # The chair's own forms of words, which are never the terms of a motion whoever the transcript
+    # says spoke them: the chair's statement is not always recognised as the chair's, and at Senate
+    # 18 August 2026 #16 a draft printed "The question now is that amendments ... be agreed to." as
+    # the amendment moved (KI-42).
+    def chair_form?(text)
+      text.match?(ChairStatement::QUESTION) || text.strip.match?(ChairStatement::DECIDED)
     end
 
     # The mover's own sentences, in the order spoken. A reference to anything else is dropped
@@ -190,7 +207,7 @@ module DivisionSummaryPipeline
                     "#{ExtractionPrompt::MAXIMUM_EXPLANATION_SENTENCES} in the order spoken are quoted."
         kept = kept.sort_by { |id| unit_order(id) }.first(ExtractionPrompt::MAXIMUM_EXPLANATION_SENTENCES)
       end
-      warnings << "The mover was not identified by rule, so the explanation's speaker was chosen by the model." if kept.any? && packet.mover.nil?
+      warnings << UNIDENTIFIED_SPEAKER if kept.any? && packet.mover.nil? && packet.circulation.nil?
       transcript.passages(kept).map { |passage| Evidence::Excerpt.from_passage(passage, found_by: :model) }
     end
 
@@ -204,14 +221,26 @@ module DivisionSummaryPipeline
       problem.nil?
     end
 
+    # With no mover, amendments the chair put are explained only by the member who circulated them,
+    # and a party circulating them is no speaker at all: at Senate 18 August 2026 #4 a model offered
+    # the minister's speech for the bill as the case for the Greens' amendments rejecting it.
     def by_mover?(speech)
       mover = packet.mover
+      return by_circulator?(speech) if mover.nil? && packet.circulation
       return true if mover.nil?
 
       mover_gid = mover.speech&.dig(:speaker_gid).presence || mover.member&.member&.gid
       return speech.speaker_gid == mover_gid if speech.speaker_gid.present? && mover_gid.present?
 
       MemberResolver.same_speaker?(speech.speaker, mover.member&.name.presence || mover.speech&.dig(:speaker))
+    end
+
+    def by_circulator?(speech)
+      member = packet.circulation.member
+      return false unless member&.member
+      return speech.speaker_gid == member.member.gid if speech.speaker_gid.present?
+
+      MemberResolver.same_speaker?(speech.speaker, member.name)
     end
 
     def unit_order(id)

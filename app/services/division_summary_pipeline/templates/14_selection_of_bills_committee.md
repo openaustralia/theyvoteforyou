@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to adopt the report of the Selection of Bills Committee, which decides which legislation requires further scrutiny and public consultation. The vote was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to adopt the report of the Selection of Bills Committee, which decides which legislation requires further scrutiny and public consultation. The vote was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Report

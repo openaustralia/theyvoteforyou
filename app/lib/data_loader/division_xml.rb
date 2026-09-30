@@ -15,7 +15,15 @@ module DataLoader
     CHAIR_STATEMENT = /\bquestion\s+(?:is|now\s+is|we're\s+dealing\s+with)\b|\bdeferred\b/i
     CHAIR_STATEMENT_MAXIMUM_SIZE = 1200
 
-    # Also used by DivisionSummaryPipeline::EarlierDebate, so the two agree on what the chair says.
+    # Whether a speech is the chair's statement, judged on its plain paragraphs only. Hansard sets
+    # the amendments the chair puts in italic inside the chair's own statement, and counted in they
+    # made a statement putting eight circulated amendments 8,550 characters long, which the size
+    # cap took for a member's speech, so the draft said the question was never recorded. Also used
+    # by DivisionSummaryPipeline::EarlierDebate, so the two agree on what the chair says.
+    def self.chair_statement?(speech)
+      chair_statement_text?(SpeechText.plain_text(speech))
+    end
+
     def self.chair_statement_text?(text)
       text = text.to_s.strip
       text.size <= CHAIR_STATEMENT_MAXIMUM_SIZE && text.match?(CHAIR_STATEMENT)
@@ -133,12 +141,21 @@ module DataLoader
     # division: usually the chair's "The question is ...", which is often only a reference
     # such as "the motion moved by the member for Fadden". ContextBuilder therefore also reads
     # the motion as moved (DataLoader::SpeechText#moved_text) rather than relying on this alone.
+    #
+    # Of the chair's statement only the plain paragraphs are returned: the italic ones are the
+    # amendments the chair puts, which Hansard incorporates after the question, and their words
+    # once decided the route (a sheet that mentioned a select committee settled a vote on eight
+    # second reading amendments as establishing one). ContextBuilder then takes the question
+    # sentence itself out of what is left (DivisionSummaryPipeline::ChairStatement).
     def operative_question
       nearest_motion_text = pwmotiontexts.last
       return nearest_motion_text.text.strip if nearest_motion_text.present?
 
       last_speech = previous_speeches.last
-      SpeechText.paragraph_text(last_speech) if last_speech
+      return nil unless last_speech
+
+      plain = SpeechText.plain_text(last_speech) if question_speech
+      plain.presence || SpeechText.paragraph_text(last_speech)
     end
 
     # The chair's statement putting this division's question: the last speech before the
@@ -309,7 +326,7 @@ module DataLoader
     end
 
     def chair_statement?(speech)
-      self.class.chair_statement_text?(speech.text)
+      self.class.chair_statement?(speech)
     end
 
     # Whether #limitation_of_debate_statement can walk back past this element, noting in others

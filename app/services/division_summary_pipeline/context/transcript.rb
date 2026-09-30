@@ -17,7 +17,9 @@ module DivisionSummaryPipeline
   # - :quotation, a paragraph Hansard set apart from the member's own words: something they
   #   quoted or read out, or an editorial note (KNOWN_ISSUES.md KI-38),
   # - :prose, one sentence of what a member said, and
-  # - :chair, a paragraph of the chair putting this division's question.
+  # - :chair, a paragraph of the chair's own words in the statement putting this division's
+  #   question. What Hansard set in italic inside that statement, such as the amendments the chair
+  #   reads out, stays a :quotation: it is not the chair's words (ChairStatement).
   #
   # Only a member's own words are cut into sentences. A motion, a quotation or the chair's
   # question is quoted whole, so they stay whole paragraphs. An "I move" paragraph is cut too,
@@ -30,9 +32,11 @@ module DivisionSummaryPipeline
     Unit = Data.define(:id, :speech_number, :index, :paragraph, :kind, :text, :start, :finish, :move)
 
     # date is set for speeches from an earlier sitting day; earlier marks speeches added from
-    # earlier in the same debate (EarlierDebate); question marks the chair putting the question.
-    Speech = Data.define(:number, :id, :speaker, :speaker_gid, :time, :date, :earlier, :question, :paragraphs,
-                         :units) do
+    # earlier in the same debate (EarlierDebate); question marks the chair putting the question,
+    # and putting lists the paragraphs of it that put this division's question
+    # (ChairStatement#putting_indices).
+    Speech = Data.define(:number, :id, :speaker, :speaker_gid, :time, :date, :earlier, :question, :putting,
+                         :paragraphs, :units) do
       def label
         speaker.presence || "Unnamed speaker"
       end
@@ -57,12 +61,15 @@ module DivisionSummaryPipeline
 
     # speeches and earlier_speeches are DataLoader::SpeechText.context_speech hashes (earlier ones
     # with a :date), earliest first. question_speech_id is the XML id of the chair's statement
-    # putting this division's question, which is always the last speech before the division.
-    def self.build(heading:, speeches:, earlier_speeches: [], question_speech_id: nil)
+    # putting this division's question, which is always the last speech before the division;
+    # chair_statement is that statement already read (ContextBuilder reads it before routing), and
+    # is read here when not given.
+    def self.build(heading:, speeches:, earlier_speeches: [], question_speech_id: nil, chair_statement: nil)
       numbered = earlier_speeches.map { |speech| [speech, true] } + speeches.map { |speech| [speech, false] }
       new(heading: heading, speeches: numbered.each_with_index.map do |(speech, earlier), index|
-        build_speech(speech, number: index + 1, earlier: earlier,
-                             question: question_speech_id.present? && speech[:id] == question_speech_id)
+        question = question_speech_id.present? && speech[:id] == question_speech_id
+        chair = chair_statement || ChairStatement.new(speech[:paragraphs]) if question
+        build_speech(speech, number: index + 1, earlier: earlier, chair: chair)
       end)
     end
 
@@ -71,26 +78,34 @@ module DivisionSummaryPipeline
     def self.from_record(heading:, text:)
       paragraphs = text.to_s.split(/\n+/).map(&:strip).reject(&:empty?).map { |line| { text: line, kind: :prose } }
       speech = { id: nil, speaker: nil, speaker_gid: nil, time: nil, paragraphs: paragraphs }
-      new(heading: heading, speeches: [build_speech(speech, number: 1, earlier: false, question: false)])
+      new(heading: heading, speeches: [build_speech(speech, number: 1, earlier: false, chair: nil)])
     end
 
-    def self.build_speech(speech, number:, earlier:, question:)
+    # chair: the ChairStatement when this speech is the chair putting the division's question.
+    # The amendments it puts, when it prints them, are the terms of this division's question, found
+    # by rule like the terms a member moves (ChairStatement#terms_indices).
+    def self.build_speech(speech, number:, earlier:, chair:)
       paragraphs = Array(speech[:paragraphs])
+      terms = chair ? chair.terms_indices : []
       units = []
       paragraphs.each_with_index do |paragraph, paragraph_index|
-        kind = question ? :chair : paragraph[:kind]
+        kind = if terms.include?(paragraph_index) then :motion
+               elsif chair && paragraph[:kind] == :prose then :chair
+               else paragraph[:kind]
+               end
+        move = terms.include?(paragraph_index) ? 0 : paragraph[:move]
         spans = %i[prose move].include?(kind) ? sentence_spans(paragraph[:text]) : [[0, paragraph[:text].size]]
         spans.each do |start, finish|
           text = paragraph[:text][start...finish]
           unit_kind = kind == :move && !text.match?(DataLoader::SpeechText::MOVE_PATTERN) ? :prose : kind
           units << Unit.new(id: "S#{number}.#{units.size + 1}", speech_number: number, index: units.size,
                             paragraph: paragraph_index, kind: unit_kind, text: text, start: start, finish: finish,
-                            move: unit_kind == :prose ? nil : paragraph[:move])
+                            move: unit_kind == :prose ? nil : move)
         end
       end
       Speech.new(number: number, id: speech[:id], speaker: speech[:speaker], speaker_gid: speech[:speaker_gid],
-                 time: speech[:time], date: speech[:date], earlier: earlier, question: question,
-                 paragraphs: paragraphs.pluck(:text), units: units)
+                 time: speech[:time], date: speech[:date], earlier: earlier, question: chair.present?,
+                 putting: chair ? chair.putting_indices : [], paragraphs: paragraphs.pluck(:text), units: units)
     end
 
     # Offsets of each sentence in text. Conservative on purpose: a missed boundary only makes a
@@ -147,6 +162,23 @@ module DivisionSummaryPipeline
 
     def question_speech
       speeches.find(&:question)
+    end
+
+    # The terms of the amendments the chair put, when the chair's statement prints them
+    # (ChairStatement#terms_indices).
+    def question_terms_units
+      speech = question_speech
+      speech ? speech.units.select { |unit| unit.kind == :motion } : []
+    end
+
+    # The chair's own words putting this division's question, which the Question Put section
+    # quotes: not an earlier question in the same statement, nor the amendments Hansard printed
+    # after it (ChairStatement#putting_indices).
+    def question_units
+      speech = question_speech
+      return [] unless speech
+
+      speech.units.select { |unit| unit.kind == :chair && speech.putting.include?(unit.paragraph) }
     end
 
     def earlier_dates

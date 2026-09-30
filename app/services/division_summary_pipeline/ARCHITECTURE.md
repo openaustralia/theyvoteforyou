@@ -87,7 +87,8 @@ small packet:
 - when the question was put because a limitation of debate's time had expired, the chair's
   sentence saying so, however many divisions back it is;
 - the mover, found by rule (MoverFinder), and so, by rule, the terms moved and the words the mover
-  moved them with.
+  moved them with; or, when the chair put amendments nobody moved, their terms as the chair's
+  statement prints them and who circulated them (Circulation).
 
 ### Step 2: Route the vote (ProceduralRouter)
 
@@ -139,23 +140,26 @@ Every draft has the same shape:
                                guillotine's time had expired: fixed sentences either side of the
                                chair's own words saying so)
 
-<rebellions, notices>
+<notices>                      (a divided question, rebellions, a tie, want of quorum, absolute
+                               majority)
 
 ### About the Bill            (bill templates: the Bills Digest section)
 ### About the Amendment       (or Motion, Report...: "At 1:27 PM, Senator Example said:" + exact
                                sentences, or "No explanatory claims recorded.")
 ### Motion Introduction       (the mover's "I move ..." words, exactly)
-### Amendment Text            (or Motion Text: "Senator Example moved the following amendment:" +
-                               the complete terms moved)
-### Question Put              ("At 1:27 PM, Senator Example, in the chair, put the following
-                               question:" + the chair's statement)
+### Amendment Text            (or Motion Text: "Senator Example moved the following amendment:",
+                               or for amendments the chair put, "The following amendments,
+                               circulated by the Example Party, were put:" + the complete terms)
+### Question Put              ("At 1:27 PM, Example MP, in the chair, put the following question:"
+                               + the chair's words putting this division's question)
 
 ---
 ## Reviewer Only              (how the draft was made; removed before publishing)
 ```
 
-Each quote carries the time of the speech it came from, which is not the division's time.
-Nothing publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
+Each quote carries the time of the speech it came from, which is not the division's time. House
+members are named in the site's own form, "Example MP"; senators, "Senator Example". Nothing
+publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
 
 ## 4. The five stages
 
@@ -197,6 +201,13 @@ Nothing publishes itself: the draft is saved as an `AiDivisionSummary` for human
   under this heading, and ContextBuilder drops it unless it is the move the chair named (with no
   mover found, the validator cannot tell whose words the model quotes as the explanation). So a
   division whose move was found before gets the same packet as before.
+- `ChairStatement` reads the chair's statement putting the division's question, once, for every
+  stage that needs it. The division's question is the last question sentence in the chair's own
+  words, after any question the statement put and closed on the voices ("Question agreed to."),
+  and that sentence is what Stage 2 routes on and the prompt shows as the question. The paragraphs
+  that put it are what Question Put quotes and where MoverFinder looks for the mover's name. What
+  Hansard prints in italic inside the statement, such as the amendments being put, is never read as
+  the chair's words (KI-35, KI-41).
 - `DataLoader::DivisionXml#limitation_of_debate_statement` finds the chair saying a guillotine's
   time had expired ("Pursuant to order ..., the time allotted ... has expired"), walking back
   through divisions, the chair's statements and "; Limitation of Debate" sections, and stopping
@@ -221,8 +232,10 @@ Nothing publishes itself: the draft is saved as an `AiDivisionSummary` for human
   short phrase inside one unit and returns Hansard's own characters for it.
 - `DivisionFacts` is the one reader of a `Division` record or a Hash of division data.
 - `MoverFinder` finds the mover from the chair's "moved by ..." or the latest "I move", and records
-  how (`found_by`); `MemberResolver` resolves members from the database and owns the one name
-  matcher (`same_speaker?`).
+  how (`found_by`). An unnamed move counts only when its terms could be what the question puts
+  (amendments for a question on amendments, the same reading for a reading), and the chair putting
+  other questions in between does not push it out of the window. `MemberResolver` resolves members
+  from the database and owns the one name matcher (`same_speaker?`).
 - Context warnings flag when the speeches beside a division may not be the debate about it:
   successive divisions (House S.O. 131), deferral read from the chair's words or the House's
   deferral windows (S.O. 133), speeches added from earlier in the debate, no speeches at all, or no
@@ -265,9 +278,10 @@ Nothing publishes itself: the draft is saved as an `AiDivisionSummary` for human
   question only refers to one (a question that states its own terms, such as the Speaker's "That
   the House do now adjourn", stands in for a motion when none was moved); a required fact missing
   or not found in the unit named; Template 2's flag missing or contradicting the amendment's words.
-- Dropped with a warning: explanation references to anything but the mover's own sentences, more
-  than six sentences, model motion references when Stage 1 found the motion, and fact references
-  that do not resolve.
+- Dropped with a warning: explanation references to anything but the mover's own sentences (with
+  no mover, the circulating member's, if a member circulated the amendments), more than six
+  sentences, model motion references when Stage 1 found the motion or that point at the chair
+  putting a question, and fact references that do not resolve.
 - What it proves: the quoted words were said, where, when and by whom. What it cannot prove: that
   the model chose the most representative sentences. That is why every draft is reviewed by a person.
 
@@ -401,7 +415,9 @@ and `template_catalogue_spec.rb` checks the two agree.
     number had to be renumbered when the second reading was split from Template 6)
 
 Templates 22, 23, 24 and 26 decide only procedure, so they print no explanation section. Every
-template prints Motion Introduction, the terms moved and Question Put.
+template has Motion Introduction, the terms moved and Question Put, and prints the mover through
+`{{mover_clause}}`, which is empty when nobody moved anything and says "circulated by ..." for
+amendments the chair put.
 
 ## 9. Where everything lives
 
@@ -409,7 +425,7 @@ template prints Motion Introduction, the terms moved and Question Put.
 app/services/division_summary_pipeline/   folders are for people; Zeitwerk collapses them
                                           (config/initializers/division_summary_pipeline.rb)
   context/      context_builder.rb, context_packet.rb, transcript.rb, division_facts.rb,
-                earlier_debate.rb, mover_finder.rb, member_resolver.rb
+                earlier_debate.rb, mover_finder.rb, member_resolver.rb, chair_statement.rb
   routing/      procedural_router.rb, routing_decision.rb
   extraction/   semantic_extractor.rb, extraction_prompt.rb, extraction_payload.rb
   validation/   provenance_validator.rb, evidence.rb

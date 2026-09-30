@@ -21,14 +21,40 @@ module DivisionSummaryPipeline
     HOUSE_ABSOLUTE_MAJORITY = 76
     SENATE_ABSOLUTE_MAJORITY = 39
 
-    attr_reader :facts, :template_id, :motion_text, :question_text, :declines_second_reading
+    attr_reader :facts, :template_id, :motion_text, :question_text, :declines_second_reading, :circulation
 
-    def initialize(facts:, template_id:, motion_text: nil, question_text: nil, declines_second_reading: nil)
+    # circulation: the Circulation when the chair put amendments nobody moved, as Stage 1 found it.
+    def initialize(facts:, template_id:, motion_text: nil, question_text: nil, declines_second_reading: nil,
+                   circulation: nil)
       @facts = facts
       @template_id = template_id
       @motion_text = motion_text.to_s
       @question_text = question_text.to_s
       @declines_second_reading = declines_second_reading
+      @circulation = circulation
+    end
+
+    # What a divided question left out, in the chair's words ("2(a) and (b)"), or nil: the vote was
+    # on the motion without those parts, which a reader looking at the whole motion printed below
+    # would otherwise take to be part of it (KI-53).
+    def divided_parts
+      ChairStatement.divided_parts(question_text)
+    end
+
+    # Whether the question put more than one amendment at once, as the chair does with circulated
+    # amendments.
+    def plural_amendments?
+      circulation&.plural.present?
+    end
+
+    # The parts of the bill a "stand as printed" question names, in the chair's words: "part 8 of
+    # schedule 1; items 29, 30 and 32 in schedule 1" (Senate Guide No. 16). The last such question
+    # in the chair's words, which is the one the division decided.
+    STAND_AS_PRINTED = /#{ChairStatement::QUESTION.source}\s+(.+?)\s+stand\s+as\s+printed\b/im
+
+    def stand_as_printed_parts
+      parts = question_text.scan(STAND_AS_PRINTED).last&.first
+      parts&.gsub(/\s+/, " ")&.strip.presence
     end
 
     # The words that say what was moved: the motion itself where it was recorded, the question

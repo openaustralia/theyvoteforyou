@@ -57,6 +57,10 @@ module DivisionSummaryPipeline
     end
 
     def rebellions_text
+      divided_question_notice + party_votes_text
+    end
+
+    def party_votes_text
       text = if facts.free_vote
                "This was a conscience vote (free vote). #{senate? ? 'Senators' : 'Members'} were not bound by party " \
                  "whips, so no party rebellions are recorded.\n"
@@ -87,6 +91,19 @@ module DivisionSummaryPipeline
       end
     end
 
+    # Which parts the question named, and whose amendments to omit them it decided, both in
+    # Hansard's words: without them a draft never said which parts of the bill the vote kept
+    # (KI-45). Ends with a space, as it sits before the effect clause.
+    def stand_as_printed_parts_sentence
+      return "" unless template_id == 28
+
+      parts = outcome.stand_as_printed_parts
+      by = outcome.circulation&.by
+      named = "The question named \"#{parts}\"." if parts
+      circulated = "The amendments to omit #{parts ? 'them' : 'it'} were circulated by #{by}." if by
+      [named, circulated].compact.map { |sentence| "#{sentence} " }.join
+    end
+
     # What carrying a reasoned amendment does is settled in neither chamber. The House guide
     # records the one time it happened (House Guide pp. 69-70, KI-9); the Senate guide lists what
     # such an amendment may do (Senate Guide No. 16) but not what carrying one does, so a Senate
@@ -102,14 +119,26 @@ module DivisionSummaryPipeline
     # Template 2's vote sentence, which says the opposite thing depending on whether the
     # amendment declined the bill a second reading (KI-11).
     def second_reading_amendment_sentence(mover_clause, bill_reference)
-      sentence = "At #{facts.time}, #{amount_with_article} voted #{result_phrasing} a second reading amendment" \
-                 "#{mover_clause} to the #{bill_reference}, which means it was #{successful_text}."
+      plural = outcome.plural_amendments?
+      noun = plural ? "second reading amendments" : "a second reading amendment"
+      sentence = "At #{facts.time}, #{amount_with_article} voted #{result_phrasing} #{noun}#{mover_clause} to the " \
+                 "#{bill_reference}, #{means_clause} #{successful_text}."
       if outcome.declines_second_reading
-        "#{sentence} Because the amendment sought to decline the bill a second reading, a vote for it was in " \
-          "effect a vote against the bill proceeding."
+        "#{sentence} Because the #{plural ? 'amendments' : 'amendment'} sought to decline the bill a second reading, " \
+          "a vote for #{plural ? 'them' : 'it'} was in effect a vote against the bill proceeding."
       else
         "#{sentence} The text of the bill is unchanged either way."
       end
+    end
+
+    # Templates 3 and 4 name what was put, which under a limitation of debate is often a set of
+    # circulated amendments decided in one question.
+    def amendment_phrase
+      outcome.plural_amendments? ? "amendments" : "an amendment"
+    end
+
+    def means_clause
+      outcome.plural_amendments? ? "which means they were" : "which means it was"
     end
 
     # What a reading decided takes both halves: the template says which reading the chamber was
@@ -306,6 +335,16 @@ module DivisionSummaryPipeline
       else
         "Nobody voted against their party on this occasion.\n"
       end
+    end
+
+    # Said first among the notices after the vote sentence, since it changes what the vote was on.
+    def divided_question_notice
+      parts = outcome.divided_parts
+      return "" unless parts
+
+      put = parts.match?(/\band\b|,/) ? "those parts were" : "that part was"
+      "The question was divided, so this vote was on the motion without \"#{parts}\"; #{put} put to the #{chamber} " \
+        "as a separate question.\n"
     end
 
     # The two chambers resolve an equally divided vote in opposite ways, so this is one of the

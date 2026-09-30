@@ -102,6 +102,13 @@ module DataLoader
       member ? member.name : speech.attr(:speakername)
     end
 
+    # The speech's text without its italic paragraphs: what the speaker said, apart from what
+    # Hansard set apart from it, such as the amendments a chair reads out as the question is put.
+    def plain_text(speech)
+      speech.element_children.reject { |element| italic?(element) }
+            .map { |element| paragraph_text(element) }.reject(&:empty?).join("\n\n")
+    end
+
     # The element's text with one blank line between blocks and single spaces inside them.
     def paragraph_text(node)
       raw_block_text(node).split(BLOCK_BREAKS)

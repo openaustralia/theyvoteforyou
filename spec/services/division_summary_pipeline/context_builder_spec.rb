@@ -340,6 +340,79 @@ describe DivisionSummaryPipeline::ContextBuilder do
           expect(packet.transcript.prompt_text).not_to include("the Senate rejects the bill")
         end
       end
+
+      # As on 18 August 2026, when the second reading's time expired and the chair put the
+      # opposition's amendment, then eight amendments the Greens had circulated, then the second
+      # reading itself, all under the "; Second Reading" heading the minister moved it under.
+      context "when the chair puts amendments nobody moved in the chamber" do
+        let(:chair) { "speakerid=\"uk.org.publicwhip/lord/900102\" speakername=\"Casey Whitlow\"" }
+        let(:circulated_xml) do
+          debates("2026-08-18", <<~XML)
+            <minor-heading id="h2" url="x">Example Bill 2026; Second Reading</minor-heading>
+            <speech id="s1" speakerid="uk.org.publicwhip/lord/900103" speakername="Jo Marlowe" time="11:00:00" url="x"><p>I table a revised explanatory memorandum relating to the bill and move:</p><p class="italic">That this bill be now read a second time.</p><p>This bill makes the scheme fairer.</p></speech>
+            <speech id="s2" #{chair} time="12:18:00" url="x"><p>Pursuant to order, the time allotted for the second reading of this bill has expired. The question is that the opposition amendment on sheet 9100 be agreed to.</p></speech>
+            #{division_element(1, '12:20:00')}
+            <speech id="s3" #{chair} time="12:25:00" url="x"><p>I will now deal with the amendments circulated by the Example Party. The question is that the amendments on sheets 9101 and 9102 be agreed to.</p><p class="italic">Example Party's circulated amendments—</p><p class="italic">Omit all words after "That", substitute "the Senate rejects the bill and calls on the Government to await the report of the Select Committee on Example Services before appropriate alternatives are established".</p><p class="italic">Omit all words after "That", substitute "the Senate rejects the bill and calls on the Government to withdraw it".</p></speech>
+            #{division_element(2, '12:27:00')}
+            <speech id="s4" #{chair} time="12:29:00" url="x"><p>I will now deal with the amendment circulated by Senator Treloar. The question is that the amendment on sheet 9103 be agreed to.</p><p class="italic">At the end of the motion, add ", but the Senate notes the cost".</p></speech>
+            #{division_element(3, '12:30:00')}
+            <speech id="s5" #{chair} time="12:34:00" url="x"><p>The question is that the bill now be read a second time.</p></speech>
+            #{division_element(4, '12:35:00')}
+          XML
+        end
+
+        def circulated(number)
+          described_class.build({ id: number, house: "senate", date: "2026-08-18", number: number, clock_time: "12:27 PM" },
+                                xml_content: circulated_xml)
+        end
+
+        it "routes on the question alone, not the lead-in saying the time allotted has expired" do
+          expect(circulated(1).routing.template_id).to eq(2)
+        end
+
+        it "routes on the question alone, not the amendments printed after it, and credits nobody with moving them" do
+          packet = circulated(2)
+
+          expect(packet.speaker_question).to eq("The question is that the amendments on sheets 9101 and 9102 be agreed to.")
+          expect(packet.routing).to be_deterministic
+          expect(packet.routing.template_id).to eq(2)
+          expect(packet.question_speech.label).to eq("Casey Whitlow")
+          expect(packet.mover).to be_nil
+        end
+
+        # KI-44: nobody moved them, so the chair's statement is the only place
+        # their terms are recorded, and a model asked to find them listed about 140 paragraph IDs.
+        it "takes the amendments the chair put as the terms, found by rule, and says nobody moved them" do
+          packet = circulated(2)
+
+          expect(packet).to be_motion_found
+          expect(packet.transcript.question_terms_units.map(&:text).first).to eq("Example Party's circulated amendments—")
+          expect(packet.transcript.question_terms_units.size).to eq(3)
+          expect(packet.circulation).to have_attributes(by: "the Example Party", member: nil, plural: true)
+        end
+
+        # As at Senate 18 August 2026 #16, where the terms' sheet headings are in plain type.
+        it "keeps the plain headings Hansard sets among the amendments, and stops at the next question decided" do
+          xml = debates("2026-08-18", <<~XML)
+            <minor-heading id="h2" url="x">Example Bill 2026; In Committee</minor-heading>
+            <speech id="s1" #{chair} time="20:16:00" url="x"><p>The question now is that amendments (1) to (4) on sheet XY101 be agreed to.</p><p class="italic">(1) Clause 2, page 2 (table item 3), omit the item.</p><p>Question agreed to.</p><p>I will now deal with the remaining amendments circulated by the Example Party. The first question is that part 3 of schedule 1 stand as printed.</p><p>SHEET 9201</p><p class="italic">(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed.</p><p>SHEET 9202</p><p class="italic">(4) Schedule 1, item 7, page 15 (lines 1 to 6), to be opposed.</p></speech>
+            #{division_element(1, '20:17:00')}
+          XML
+          packet = described_class.build({ id: 1, house: "senate", date: "2026-08-18", number: 1, clock_time: "8:17 PM" },
+                                         xml_content: xml)
+
+          expect(packet.routing.allowed_templates).to eq([28])
+          expect(packet.transcript.question_terms_units.map(&:text))
+            .to eq(["SHEET 9201", "(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed.", "SHEET 9202",
+                    "(4) Schedule 1, item 7, page 15 (lines 1 to 6), to be opposed."])
+        end
+
+        # The chair's run of questions on the amendments does not separate the second reading
+        # question from the move it puts.
+        it "still credits the second reading to the minister who moved it" do
+          expect(circulated(4).mover.speech[:speaker]).to eq("Jo Marlowe")
+        end
+      end
     end
   end
 end

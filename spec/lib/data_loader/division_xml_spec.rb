@@ -236,6 +236,30 @@ describe DataLoader::DivisionXml do
       expect(division.question_speech.attr(:id)).to eq("s1")
     end
 
+    # As at Senate 18 August 2026 #4, where eight circulated amendments made the chair's statement
+    # 8,550 characters and the draft said the question was never recorded.
+    it "is the chair's statement however many amendments Hansard prints in it" do
+      amendments = "<p class=\"italic\">Omit all words after \"That\", substitute \"the Senate rejects the bill\".</p>" * 60
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Casey Whitlow"><p>I will now deal with the amendments circulated by the Example Party. The question is that the amendments on sheets 9001 to 9008 be agreed to.</p>#{amendments}</speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.question_speech.attr(:id)).to eq("s1")
+    end
+
+    it "still is not a member's long speech that happens to say \"the question is\"" do
+      argument = "<p>The question is whether renters can afford this, and I say they cannot.</p>" * 20
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar">#{argument}</speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.question_speech).to be_nil
+    end
+
     # Then the question itself was not recorded, and a member's speech is not it.
     it "is nil when the last speech is a member speaking" do
       division = divisions(<<~XML).first
@@ -257,6 +281,29 @@ describe DataLoader::DivisionXml do
       XML
 
       expect(division.operative_question).to eq("The question is that the amendment be agreed to.\n\nQuestion negatived.")
+    end
+
+    # The italic paragraphs are the amendments being put, and a sheet that mentioned a select
+    # committee once settled a vote on second reading amendments as establishing one.
+    it "leaves out the amendments Hansard prints in italic in the chair's statement" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Casey Whitlow"><p>The question is that the amendments on sheet 9001 be agreed to.</p><p class="italic">Omit all words after "That", substitute "a select committee be established".</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.operative_question).to eq("The question is that the amendments on sheet 9001 be agreed to.")
+    end
+
+    # With no chair's statement the member's move is all there is to route on, terms and all.
+    it "keeps the italic terms when the last speech is a member moving something" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar"><p>I move:</p><p class="italic">That the debate be adjourned.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.operative_question).to eq("I move:\n\nThat the debate be adjourned.")
     end
   end
 

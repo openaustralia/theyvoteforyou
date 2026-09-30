@@ -561,6 +561,20 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.rule_name).to eq("REMAINING_STAGES_PASSING")
       end
 
+      # The question sentences ContextBuilder now takes out of the chair's statements at Senate
+      # 18 August 2026 #3, #4 and #16, which the whole statements had routed to 18, 12 and 28.
+      it "routes the chair's question sentence, whatever the rest of the statement said" do
+        heading = "Bills - Example Bill 2026; Second Reading"
+        on_sheets = described_class.route(speaker_question: "The question is that the amendments on sheets 9101, 9102 " \
+                                                            "and 9103 be agreed to.", chamber: "senate", debate_heading: heading)
+        first = described_class.route(speaker_question: "The first question is that part 8 of schedule 1; items 29 and 30 " \
+                                                        "in schedule 1 stand as printed.", chamber: "senate",
+                                      debate_heading: "Bills - Example Bill 2026; In Committee")
+
+        expect(on_sheets.template_id).to eq(2)
+        expect(first.template_id).to eq(28)
+      end
+
       it "does not treat amending a select committee's resolution of appointment as establishing one" do
         decision = described_class.route(
           speaker_question: "(1) That paragraph (3) of the resolution of appointment of the Joint Select Committee " \

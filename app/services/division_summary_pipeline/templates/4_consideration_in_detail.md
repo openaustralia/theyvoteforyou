@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} an amendment introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to the [{{bill_name}}]({{bill_link}}) during the Consideration in Detail stage, which means it was {{successful_text}}. {{amendment_effect_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} {{amendment_phrase}}{{mover_clause}} to the [{{bill_name}}]({{bill_link}}) during the Consideration in Detail stage, {{means_clause}} {{successful_text}}. {{amendment_effect_clause}}
 
 {{limitation_of_debate_section}}
 

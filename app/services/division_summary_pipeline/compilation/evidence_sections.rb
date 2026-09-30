@@ -43,10 +43,12 @@ module DivisionSummaryPipeline
 
     # "Senator Example moved the following amendment:". A motion the model found, rather than
     # Stage 1, is not credited to anyone: the speech it sits in may be the chair reading out
-    # someone else's proposal.
+    # someone else's proposal. Amendments the chair put without anyone moving them are never
+    # said to have been moved (Circulation).
     def motion_attribution
       motion = evidence.motion
       return "" unless motion
+      return circulated_attribution(evidence.circulation) if evidence.circulation
       return "The following #{moved} was moved:" if mover_label.nil? || motion.found_by != :rule
 
       "#{mover_label} moved the following #{moved}:"
@@ -84,6 +86,13 @@ module DivisionSummaryPipeline
       self.class.blockquote(text)
     end
 
+    # "The following amendments, circulated by the Australian Greens, were put:"
+    def circulated_attribution(circulation)
+      noun, verb = circulation.plural ? %w[amendments were] : %w[amendment was]
+      by = circulation.by ? ", circulated by #{circulation.by}," : ""
+      "The following #{noun}#{by} #{verb} put:"
+    end
+
     def chair_label(excerpt)
       if excerpt.speaker.blank? then "the chair"
       elsif office?(excerpt.speaker) then office_label(excerpt.speaker)
@@ -110,9 +119,10 @@ module DivisionSummaryPipeline
       day || "Before the division"
     end
 
-    # A speaker's name as TVFY records it, with the title the chamber gives them. Only the
-    # member record and the chamber are used: Hansard does not record whether the member in the
-    # chair was the President, a deputy or a temporary chair, so no office is named.
+    # A speaker's name as TVFY records it, in the site's own form ("Senator Example", "Example
+    # MP"; Member#full_name_no_electorate). Only the member record and the chamber are used:
+    # Hansard does not record whether the member in the chair was the Speaker, a deputy or a
+    # temporary chair, so no office is named ("Example MP, in the chair").
     # Older Hansard names a presiding officer by office ("The PRESIDENT", "The DEPUTY SPEAKER"),
     # which is printed as the office, since there is no person's name to give a title to.
     def office?(speaker)
@@ -129,7 +139,8 @@ module DivisionSummaryPipeline
 
       resolved = MemberResolver.resolve(gid: excerpt.speaker_gid) if excerpt.speaker_gid.present?
       senator = resolved&.member ? resolved.member.senator? : facts.senate?
-      "#{senator ? 'Senator' : 'Representative'} #{resolved&.name.presence || excerpt.speaker}"
+      name = resolved&.name.presence || excerpt.speaker
+      senator ? "Senator #{name}" : "#{name} MP"
     end
   end
 end

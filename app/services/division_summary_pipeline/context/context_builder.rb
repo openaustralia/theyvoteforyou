@@ -47,8 +47,10 @@ module DivisionSummaryPipeline
     DEFERRED_STATEMENT = /standing\s+order\s+133|called\s+for\s+and\s+deferred|(?:division|vote)\s+(?:is|was|be|being|has\s+been)\s+deferred|deferred\s+(?:division|vote|question)/i
 
     # Question wording that points at something moved earlier, so its terms should be in the
-    # packet. Used only to decide whether to look for them.
-    REFERS_TO_MOVED_BUSINESS = /\bmoved\b|\bamendments?\b|\bmotion\b|\bread\s+a\s+(?:second|third)\s+time\b/i
+    # packet. Used only to decide whether to look for them. "Stand as printed" decides an
+    # amendment to omit part of a bill, which was moved or circulated earlier.
+    REFERS_TO_MOVED_BUSINESS = /\bmoved\b|\bamendments?\b|\bmotion\b|\bread\s+a\s+(?:second|third)\s+time\b|
+                                \bstand\s+as\s+printed\b/xi
 
     # xml_fetcher: callable (house, date) returning a parsed ParlParse document or nil, used to
     # read earlier sitting days of the same debate (EarlierDebate). Defaults to the loader's own
@@ -125,17 +127,20 @@ module DivisionSummaryPipeline
     end
 
     def build_from_matched_division(division_xml)
-      speaker_question = division_xml.operative_question.presence || DEFAULT_SPEAKER_QUESTION
       heading = division_xml.name.to_s
       speeches = division_xml.context_speeches(context_level)
+      question_speech_id = division_xml.question_speech&.attr(:id)
+      chair = chair_statement(speeches, question_speech_id)
+      speaker_question = chair&.question || division_xml.operative_question.presence || DEFAULT_SPEAKER_QUESTION
       deferred = deferred_by_chair?(division_xml, speeches)
-      earlier = earlier_debate(division_xml, speaker_question, speeches, deferred)
+      earlier = earlier_debate(division_xml, chair&.putting_text.presence || speaker_question, speeches, deferred)
       earlier_speeches = earlier.speeches.reject { |speech| speeches.any? { |s| s[:id] == speech[:id] } }
-      mover = MoverFinder.find(question: speaker_question, speeches: earlier_speeches + speeches,
-                               house: facts.house, date: facts.date)
+      mover = MoverFinder.find(question: speaker_question, putting: chair&.putting_text,
+                               speeches: earlier_speeches + speeches, house: facts.house, date: facts.date,
+                               circulated: chair&.circulated_by.present?)
       earlier_speeches = without_other_stages(earlier_speeches, mover)
       transcript = Transcript.build(heading: heading, speeches: speeches, earlier_speeches: earlier_speeches,
-                                    question_speech_id: division_xml.question_speech&.attr(:id))
+                                    question_speech_id: question_speech_id, chair_statement: chair)
       limitation = limitation_statement(division_xml)
       warnings = context_warnings(division_xml, speeches, earlier_speeches, deferred: deferred, limitation: limitation)
 
@@ -143,8 +148,47 @@ module DivisionSummaryPipeline
         heading: heading, speaker_question: speaker_question, transcript: transcript, mover: mover,
         routing: route(speaker_question, heading, transcript, motion_text: mover&.moved_text),
         context_warnings: warnings, source: :hansard_xml, division_xml_id: division_xml.division_xml.attr(:id),
-        limitation_statement: limitation
+        limitation_statement: limitation, circulation: circulation(chair, transcript, mover)
       )
+    end
+
+    # Amendments the chair put that nobody moved in the chamber: the chair's statement prints their
+    # terms or says who circulated them, and no move of them was found. Under a limitation of debate
+    # that is how circulated amendments are decided (Senate Guide No. 17; House S.O. 85(c)).
+    def circulation(chair, transcript, mover)
+      return nil unless chair
+
+      by = chair.circulated_by
+      return nil unless by || transcript.question_terms_units.any?
+
+      speech = transcript.speech_with_id(mover&.speech&.dig(:id))
+      return nil if speech && transcript.last_move_units(speech, :motion).any?
+
+      Circulation.new(by: by, member: circulating_member(by), plural: chair.plural?)
+    end
+
+    # The member who circulated them, when Hansard names one fully: a surname alone ("Senator
+    # Cadell") does not identify a member reliably, so it is left as Hansard gives it.
+    def circulating_member(by)
+      resolved = if (match = by.to_s.match(/\Athe\s+(?:honourable\s+)?member\s+for\s+(.+)\z/))
+                   MemberResolver.resolve(electorate: match[1], house: facts.house_key, date: facts.date.presence)
+                 elsif (match = by.to_s.match(/\ASenator\s+(\S+(?:\s+\S+)+)\z/)) && by.exclude?(" and ")
+                   MemberResolver.resolve(name: match[1], house: facts.house_key, date: facts.date.presence)
+                 end
+      resolved&.member ? resolved : nil
+    end
+
+    # The chair's statement putting this division's question, which is the last speech before the
+    # division when there is one. The question the division decided is its last question sentence
+    # (ChairStatement#question), and that is what Stage 2 routes on: a lead-in before it once
+    # fenced a remaining stages question as an amendment (KNOWN_ISSUES.md KI-35), and amendments
+    # incorporated after it once settled a route. MoverFinder reads the paragraphs that put the
+    # question, since the chair often names the mover in a sentence of its own.
+    def chair_statement(speeches, question_speech_id)
+      speech = speeches.last
+      return nil unless question_speech_id.present? && speech && speech[:id] == question_speech_id
+
+      ChairStatement.new(speech[:paragraphs])
     end
 
     # A speech EarlierDebate found under another of the bill's headings stays in the packet only
@@ -175,12 +219,14 @@ module DivisionSummaryPipeline
     # beside it (EarlierDebate explains when that happens). Skipped when a speech in front of the
     # division already moves something and the chair is not describing a deferred question, so
     # the common case costs nothing. The sitting-day retry always looks, because the narrower
-    # packet has already proved not to be enough.
-    def earlier_debate(division_xml, speaker_question, speeches, deferred)
+    # packet has already proved not to be enough. putting is the chair's words putting the
+    # question, whose lead-in often says what it refers to ("I'll first deal with the amendments
+    # moved by Senator Example on sheet 3832. The question is that part 4 ... stand as printed.").
+    def earlier_debate(division_xml, putting, speeches, deferred)
       empty = EarlierDebate::Result.new(speeches: [], dates: [])
       moved_here = speeches.any? { |s| s[:moved_text].present? }
       wanted = context_level == :sitting_day || deferred ||
-               (!moved_here && speaker_question.to_s.match?(REFERS_TO_MOVED_BUSINESS))
+               (!moved_here && putting.to_s.match?(REFERS_TO_MOVED_BUSINESS))
       return empty unless wanted
 
       EarlierDebate.collect(division_xml: division_xml, house: facts.house, date: facts.date,
@@ -316,11 +362,11 @@ module DivisionSummaryPipeline
     end
 
     def assemble_packet(heading:, speaker_question:, transcript:, mover:, routing:, context_warnings:, source:,
-                        division_xml_id:, limitation_statement:)
+                        division_xml_id:, limitation_statement:, circulation: nil)
       ContextPacket.new(facts: facts, heading: heading, speaker_question: speaker_question, transcript: transcript,
                         mover: mover, routing: routing, context_level: context_level,
                         context_warnings: context_warnings, source: source, division_xml_id: division_xml_id,
-                        limitation_statement: limitation_statement)
+                        limitation_statement: limitation_statement, circulation: circulation)
     end
   end
 end

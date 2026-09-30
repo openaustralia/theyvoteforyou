@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a [motion]({{motion_link}}) introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}), which means it was {{successful_text}}.{{general_motion_effect_clause}}
+At {{time}}, {{amount_with_article}} voted {{result}} a [motion]({{motion_link}}){{mover_clause}}, which means it was {{successful_text}}.{{general_motion_effect_clause}}
 
 {{rebellions_text}}
 ### About the Motion

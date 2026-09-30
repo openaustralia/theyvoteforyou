@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a censure motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) against {{target_name}}, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a censure motion{{mover_clause}} against {{target_name}}, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion
