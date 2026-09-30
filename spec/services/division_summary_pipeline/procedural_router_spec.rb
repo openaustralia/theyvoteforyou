@@ -174,9 +174,21 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.allowed_templates).to include(2)
       end
 
-      it "fences ambiguous second reading questions between 2 and 29" do
+      # KI-51: the plain form names no amendment, so it is the second reading.
+      it "settles the plain second reading question on Template 29" do
+        ["The question is that this bill be now read a second time.",
+         "The question is that the bill now be read a second time."].each do |question|
+          decision = described_class.route(speaker_question: question)
+
+          expect(decision).to be_deterministic, question
+          expect(decision.template_id).to eq(29), question
+          expect(decision.rule_name).to eq("SECOND_READING_QUESTION"), question
+        end
+      end
+
+      it "fences a second reading question that is not in the plain form between 2 and 29" do
         decision = described_class.route(
-          speaker_question: "The question is that this bill be now read a second time."
+          speaker_question: "The question is that the motion for the second reading be agreed to."
         )
         expect(decision.mode).to eq(:constrained)
         expect(decision.allowed_templates).to contain_exactly(2, 29)
@@ -203,12 +215,20 @@ describe DivisionSummaryPipeline::ProceduralRouter do
 
       it "locks Template 18 out of an ambiguous second reading under a Limitation of Debate heading" do
         decision = described_class.route(
-          speaker_question: "The question is that this bill be now read a second time.",
+          speaker_question: "The question is that the motion for the second reading be agreed to.",
           debate_heading: "Limitation of Debate"
         )
         expect(decision.mode).to eq(:constrained)
         expect(decision.allowed_templates).to contain_exactly(2, 29)
         expect(decision.forbidden_templates).to eq([18])
+      end
+
+      it "still settles the plain second reading on Template 29 under a Limitation of Debate heading" do
+        decision = described_class.route(
+          speaker_question: "The question is that this bill be now read a second time.",
+          debate_heading: "Limitation of Debate"
+        )
+        expect(decision.template_id).to eq(29)
       end
 
       it "locks Template 18 out of the general motion fallback under a Limitation of Debate heading" do
@@ -346,7 +366,7 @@ describe DivisionSummaryPipeline::ProceduralRouter do
           chamber: "House of Representatives"
         )
         expect(decision.template_id).to eq(2)
-        expect(decision.rule_name).to eq("SECOND_READING_AMENDMENT_DIRECT")
+        expect(decision.rule_name).to eq("SECOND_READING_AMENDMENT_FORM")
       end
 
       it "leaves an amendment to withdraw a bill to the amendment stage rules" do
@@ -357,6 +377,42 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         )
         expect(decision.rule_name).not_to eq("WITHDRAWAL_OF_BUSINESS")
         expect(decision.allowed_templates).to eq([2, 4])
+      end
+
+      # KI-49: the House guide's own form (pp. 68-69), read out as the
+      # question, settled as a select committee.
+      it "routes the form proposing a select committee to Template 2, not Template 12" do
+        decision = described_class.route(
+          speaker_question: "The question is that all words after \"That\" be omitted with a view to substituting \"the " \
+                            "bill be withdrawn and a select committee be appointed to inquire into the scheme\".",
+          chamber: "representatives", debate_heading: "Bills - Example Bill 2026; Second Reading"
+        )
+
+        expect(decision).to be_deterministic
+        expect(decision.template_id).to eq(2)
+        expect(decision.rule_name).to eq("SECOND_READING_AMENDMENT_FORM")
+      end
+
+      # KNOWN_ISSUES.md KI-13: on the main appropriation bill such an amendment is cast, by
+      # convention, as a censure of the Budget (House Guide pp. 81-82).
+      it "routes a Budget amendment worded as a censure to Template 2, not Template 10" do
+        decision = described_class.route(
+          speaker_question: "The question is that all words after \"That\" be omitted with a view to substituting \"the " \
+                            "House censures the Government for its Budget\".",
+          chamber: "representatives", debate_heading: "Bills - Appropriation Bill (No. 1) 2026-2027; Second Reading"
+        )
+
+        expect(decision.template_id).to eq(2)
+      end
+
+      it "leaves the same form amending an ordinary motion to the other rules" do
+        decision = described_class.route(
+          speaker_question: "The question is that all words after \"That\" be omitted with a view to substituting \"a " \
+                            "select committee be appointed to inquire into the scheme\".",
+          chamber: "senate", debate_heading: "Motions - Example Scheme"
+        )
+
+        expect(decision.rule_name).not_to eq("SECOND_READING_AMENDMENT_FORM")
       end
 
       it "still routes a genuine withdrawal of business to Template 20" do
@@ -417,6 +473,16 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.template_id).to eq(18)
         expect(decision.rule_name).to eq("GUILLOTINE_PROCEDURE")
         expect(decision.reason).to include("declares the bill urgent")
+      end
+
+      # The Senate's orders say their parts "operate as limitations of debate under standing order 142".
+      it "routes an order whose parts operate as limitations of debate to Template 18" do
+        decision = described_class.route(
+          speaker_question: "(3) Paragraphs 1(b) and 2(c) operate as limitations of debate under standing order 142.",
+          chamber: "senate"
+        )
+
+        expect(decision.template_id).to eq(18)
       end
 
       it "routes an allotment of time to Template 18" do
@@ -598,15 +664,14 @@ describe DivisionSummaryPipeline::ProceduralRouter do
         expect(decision.allowed_templates).to eq([15])
       end
 
-      it "fences a second reading of an amending bill between 2 and 29, like any other second reading" do
+      it "settles a second reading of an amending bill on Template 29, like any other second reading" do
         decision = described_class.route(
           speaker_question: "That the Treasury Laws Amendment (Tax Reform No. 1) Bill 2026 be now read a second time.",
           chamber: "representatives"
         )
 
-        expect(decision.rule_name).to eq("SECOND_READING_NUANCE")
-        expect(decision.mode).to eq(:constrained)
-        expect(decision.allowed_templates).to contain_exactly(2, 29)
+        expect(decision.rule_name).to eq("SECOND_READING_QUESTION")
+        expect(decision.template_id).to eq(29)
       end
 
       it "does not mistake the title for an amendment under a Limitation of Debate heading" do
@@ -616,8 +681,8 @@ describe DivisionSummaryPipeline::ProceduralRouter do
           chamber: "representatives", debate_heading: "Limitation of Debate"
         )
 
-        expect(decision.rule_name).to eq("SECOND_READING_NUANCE")
-        expect(decision.forbidden_templates).to eq([18])
+        expect(decision.rule_name).to eq("SECOND_READING_QUESTION")
+        expect(decision.template_id).to eq(29)
       end
 
       it "still routes an amendment moved to an amending bill as an amendment" do
