@@ -99,6 +99,14 @@ module DivisionSummaryPipeline
 
     IDS = (1..ENTRIES.size)
 
+    # The evidence a template exists for, in ExtractionPayload::MISSING_EVIDENCE's terms. When the
+    # question settled one of these templates and the model then cannot find that evidence, the
+    # route is the likelier fault, and reading the whole sitting day cannot fix it: at Senate
+    # 18 August 2026 #4 a route settled on a select committee, both models said there was no
+    # committee, and the retry found none either (KI-59).
+    DEFINING_EVIDENCE = { 9 => "regulation", 10 => "target", 12 => "committee", 13 => "committee", 23 => "target",
+                          24 => "target" }.freeze
+
     # Every fact any template names, with its description, for the schema the model is given.
     ALL_FACTS = ENTRIES.values.map(&:facts).reduce({}, :merge).freeze
 
@@ -116,6 +124,10 @@ module DivisionSummaryPipeline
 
     def self.entries
       ENTRIES.values
+    end
+
+    def self.defining_evidence(id)
+      DEFINING_EVIDENCE[id.to_i]
     end
   end
 end

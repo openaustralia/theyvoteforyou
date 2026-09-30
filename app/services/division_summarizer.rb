@@ -132,13 +132,29 @@ class DivisionSummarizer
   end
 
   # A question that is the whole motion has no terms to find, so the model reporting them missing
-  # is not a reason to read the whole sitting day (ContextPacket#question_states_motion?).
+  # is not a reason to read the whole sitting day (ContextPacket#question_states_motion?). Nor is
+  # the evidence a template settled by the question exists for: then the route is in doubt, which
+  # the validator tells the reviewer (TemplateCatalogue::DEFINING_EVIDENCE).
+  #
+  # Nor is a mover's speech when nobody moved anything: the chair put the question itself, the
+  # circulated amendments, or under a limitation of debate the remaining questions (Senate Guide
+  # No. 17). Two models reported one missing for such a question, and the retry read 78,535 tokens
+  # to come back with the same answer (KI-32). And terms Stage 1 found by
+  # rule win over the model's, so its reporting them missing cannot be helped by reading more.
   def wider_packet_wanted?(extraction, packet)
     return false if packet.context_level == :sitting_day
 
     missing = extraction.missing
     missing -= ["operative_motion"] if packet.question_states_motion? || packet.motion_found?
+    missing -= ["mover_speech"] if nobody_moved?(packet)
+    routing = packet.routing
+    missing -= [DivisionSummaryPipeline::TemplateCatalogue.defining_evidence(routing.template_id)] if routing&.deterministic?
     missing.any?
+  end
+
+  def nobody_moved?(packet)
+    packet.question_states_motion? || packet.circulation.present? ||
+      (packet.limitation_statement.present? && packet.mover.nil?)
   end
 
   # The retry over the whole sitting day, as [packet, reply, extraction, failure]. The first

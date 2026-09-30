@@ -104,13 +104,18 @@ module DivisionSummaryPipeline
     # looking for terms that do not exist (ContextPacket#question_states_motion?).
     def no_motion_instruction(packet)
       if packet.question_states_motion?
-        return "The <speaker_question> is the whole motion, so there are no separate terms to find: leave " \
-               "references.motion empty and do not report \"operative_motion\" as missing."
+        return "The <speaker_question> is the whole motion, and the chair put it with nobody moving it, so there are " \
+               "no separate terms and no mover's speech to find: leave references.motion empty and do not report " \
+               "\"operative_motion\" or \"mover_speech\" as missing."
       end
 
-      "If the terms of the motion or amendment being decided are in <hansard_context>, list the IDs of the " \
-        "paragraphs that hold them, in order, in references.motion. If they are not, leave it empty and report " \
-        "\"operative_motion\" as missing."
+      instruction = "If the terms of the motion or amendment being decided are in <hansard_context>, list the IDs of " \
+                    "the paragraphs that hold them, in order, in references.motion. If they are not, leave it empty and " \
+                    "report \"operative_motion\" as missing."
+      return instruction unless packet.limitation_statement.present? && packet.mover.nil?
+
+      "#{instruction} Under the limitation of debate the chair put this question with nobody moving it, so do not " \
+        "report \"mover_speech\" as missing."
     end
 
     def system_prompt

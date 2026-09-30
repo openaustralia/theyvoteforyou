@@ -48,7 +48,7 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
       settled = DivisionSummaryPipeline::ProceduralRouter.route(speaker_question: passing, chamber: "senate")
       prompt = described_class.user_prompt(summary_packet(speeches: chair_only, question: passing, routing: settled))
 
-      expect(prompt).to include("is the whole motion", "do not report \"operative_motion\" as missing")
+      expect(prompt).to include("is the whole motion", "do not report \"operative_motion\" or \"mover_speech\" as missing")
       expect(prompt).not_to include("If they are not, leave it empty")
     end
 

@@ -370,6 +370,31 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.mover.member.name).to eq("Robin Carrow")
       end
 
+      # KI-60: as at House 18 August 2026 #3, where the minister's whole second
+      # reading speech was over a third of the prompt for a question on another member's amendment.
+      it "cuts another member's earlier speech to what it moved, once the chair has named the mover" do
+        heading = "<minor-heading id=\"h2\" url=\"x\">Example Bill 2026; Second Reading</minor-heading>"
+        earlier_day = debates("2026-08-12", <<~XML)
+          #{heading}
+          <speech id="s1" speakerid="uk.org.publicwhip/member/900300" speakername="Jo Marlowe" time="09:30:00" url="x"><p>I move:</p><p class="italic">That this bill be now read a second time.</p><p>This bill makes the levy fairer for every household.</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/member/900301" speakername="Robin Carrow" time="12:33:00" url="x"><p>I move:</p><p class="italic">That all words after "That" be omitted with a view to substituting "whilst not declining to give the bill a second reading, the House notes the cost".</p><p>Small businesses cannot absorb these costs.</p></speech>
+        XML
+        today = debates("2026-08-18", <<~XML)
+          #{heading}
+          <speech id="s3" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="12:39:00" url="x"><p>The question is that the amendment moved by the honourable member for Exampleton be agreed to.</p></speech>
+          #{division_element(3, '12:40:00')}
+        XML
+        create(:member, person: create(:person), gid: "uk.org.publicwhip/member/900301", first_name: "Robin",
+                        last_name: "Carrow", constituency: "Exampleton", party: "Example Party", house: "representatives",
+                        entered_house: "2020-01-01", left_house: "9999-12-31")
+        packet = described_class.build({ id: 3, house: "representatives", date: "2026-08-18", number: 3, clock_time: "12:40 PM" },
+                                       xml_content: today, xml_fetcher: ->(_house, date) { Nokogiri::XML(earlier_day) if date == "2026-08-12" })
+
+        expect(packet.mover.member.name).to eq("Robin Carrow")
+        expect(packet.transcript.prompt_text).to include("That this bill be now read a second time.", "Small businesses cannot absorb")
+        expect(packet.transcript.prompt_text).not_to include("fairer for every household")
+      end
+
       # As on 20 August 2026: the amendment is moved in the second reading debate, and once the
       # guillotine's time expires the chair puts it, and then the second reading, under the
       # bill's "; Limitation of Debate" heading.

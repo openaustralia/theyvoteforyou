@@ -286,7 +286,8 @@ publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
   sentences, model motion references when Stage 1 found the motion or that point at the chair
   putting a question, and fact references that do not resolve.
 - Settled by the amendment's own words where they settle it: whether a second reading amendment
-  declines the bill (KI-11).
+  declines the bill (KI-11). And a warning when the model cannot find what a template settled by
+  the question is about, since then the route is in doubt (KI-59).
 - What it proves: the quoted words were said, where, when and by whom. What it cannot prove: that
   the model chose the most representative sentences. That is why every draft is reviewed by a person.
 

@@ -149,7 +149,7 @@ module DivisionSummaryPipeline
       mover = MoverFinder.find(question: speaker_question, putting: chair&.putting_text,
                                speeches: earlier_speeches + speeches, house: facts.house, date: facts.date,
                                circulated: chair&.circulated_by.present?)
-      earlier_speeches = without_other_stages(earlier_speeches, mover)
+      earlier_speeches = moves_only(without_other_stages(earlier_speeches, mover), mover)
       transcript = Transcript.build(heading: heading, speeches: speeches, earlier_speeches: earlier_speeches,
                                     question_speech_id: question_speech_id, chair_statement: chair)
       limitation = limitation_statement(division_xml)
@@ -249,6 +249,28 @@ module DivisionSummaryPipeline
                    MemberResolver.resolve(name: match[1], house: facts.house_key, date: facts.date.presence)
                  end
       resolved&.member ? resolved : nil
+    end
+
+    # Once the mover is known, only their sentences can be quoted as the explanation, so another
+    # member's speech from earlier in the debate is cut to what it moved: its "I move" words and
+    # terms still tell the model what else was moved. Kept whole, a minister's second reading
+    # speech was over a third of everything the model read for a question on an amendment whose
+    # mover the chair had named (KI-60).
+    def moves_only(earlier_speeches, mover)
+      return earlier_speeches unless mover
+
+      mover_gid = mover.speech&.dig(:speaker_gid).presence || mover.member&.member&.gid
+      return earlier_speeches unless mover_gid.present? || mover.member&.name.present?
+
+      earlier_speeches.map do |speech|
+        by_mover = if mover_gid.present? then speech[:speaker_gid] == mover_gid
+                   else MemberResolver.same_speaker?(speech[:speaker], mover.member.name)
+                   end
+        next speech if by_mover || speech[:moved_text].blank?
+
+        kept = speech[:paragraphs].select { |paragraph| %i[move motion].include?(paragraph[:kind]) }
+        speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+      end
     end
 
     # The chair's statement putting this division's question, which is the last speech before the
