@@ -226,6 +226,22 @@ describe DivisionSummaryPipeline::ContextBuilder do
           .to eq(["Pursuant to contingent notice standing in my name, I move:"])
       end
 
+      # KI-50: as at Senate 18 August 2026 #2, the order setting the week's
+      # hours and guillotines, whose first paragraph Hansard sets as "That—" alone.
+      it "routes a motion whose first paragraph is only \"That\" on the paragraphs after it" do
+        xml = debates("2026-08-18", <<~XML)
+          <minor-heading id="h2" url="x">Business; Rearrangement</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/lord/900101" speakername="Morgan Treloar" time="12:13:00" url="x"><p>I move:</p><p class="italic">That—</p><p class="italic">(1) On Tuesday, 18 August 2026:</p><p class="italic">(a) the hours of meeting be midday till adjournment; and</p><p class="italic">(b) the question on the second reading of the Example Bill 2026 be put immediately.</p><p class="italic">(2) Paragraph 1(b) operates as a limitation of debate under standing order 142.</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="12:14:00" url="x"><p>The question is that the motion be agreed to.</p></speech>
+          #{division_element(2, '12:15:00')}
+        XML
+        packet = described_class.build({ id: 1, house: "senate", date: "2026-08-18", number: 2, clock_time: "12:15 PM" },
+                                       xml_content: xml)
+
+        expect(packet.routing.allowed_templates).to eq([18])
+        expect(packet.routing).to be_advisory
+      end
+
       # A Monday division at 12.05 is in the window when deferred divisions are put, but a
       # motion moved at 12.00 was put there and then.
       it "does not warn about the Monday deferral window when the motion was moved inside it" do

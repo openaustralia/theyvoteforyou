@@ -44,6 +44,11 @@ module DivisionSummaryPipeline
       :adjournment_of_chamber,
       :take_note,
       :first_reading,
+
+      # Guardrail: an amendment read out in a second reading debate, before any rule that reads
+      # a subject into its words.
+      :reasoned_amendment_form,
+
       :withdrawal_of_business,
       :parliamentary_zone_works,
       :disallowance_motion,
@@ -72,6 +77,13 @@ module DivisionSummaryPipeline
     ].freeze
 
     FALLBACK = "GENERAL_MOTION_FALLBACK"
+
+    # An amendment's own forms, as the question reads them out with punctuation dropped: "Omit all
+    # words after "That", substitute ...", "That all words after "That" be omitted with a view to
+    # substituting ...", "At the end of the motion, add ...", and the House's older "That the words
+    # proposed to be omitted stand part of the question".
+    AMENDMENT_FORMS = ["omit all words after", "all words after that be omitted", "leave out all words after",
+                       "at the end of the motion add", "words proposed to be omitted"].freeze
 
     # Openings that settle what a motion does however the rest of it reads: a suspension of
     # standing orders, a referral to a committee, an order for the production of documents and
@@ -262,6 +274,21 @@ module DivisionSummaryPipeline
       settle(1, "FIRST_READING", "Question is for the bill to be read a first time.")
     end
 
+    # Template 2, when the question reads out an amendment to the second reading. Its words name
+    # what carrying it would lead to, and the subject rules below would settle on that: the House
+    # guide's own reasoned amendment "the bill be withdrawn and a select committee be appointed to
+    # inquire into ..." (pp. 68-69) as a select committee, and an amendment on the main
+    # appropriation bill cast, by convention, as a censure of the Budget (pp. 81-82; KI-13) as a
+    # censure. Both are votes on the amendment (KI-49). Only in a second
+    # reading debate: the same forms amend ordinary motions too, which this router does not
+    # settle.
+    def reasoned_amendment_form
+      return unless says?(*AMENDMENT_FORMS) && (second_reading? || heading.include?("second reading"))
+
+      settle(2, "SECOND_READING_AMENDMENT_FORM",
+             "Question reads out an amendment to the second reading, whatever subject its words name.")
+    end
+
     # Template 20: withdrawal of business, removing an item from the Notice Paper (the chamber's
     # list of scheduled business) so it is not dealt with.
     #
@@ -443,7 +470,7 @@ module DivisionSummaryPipeline
     # entirely, matched by its own rule before this one is reached.
     def guillotine_procedure
       urgent = says?("be considered urgent", "be considered an urgent bill", "declaration of urgency")
-      return unless urgent || says?("time allotted", "allotment of time", "limitation of debate") ||
+      return unless urgent || says?("time allotted", "allotment of time", "limitation of debate", "limitations of debate") ||
                     (says?("guillotine") && !substantive_amendment?)
 
       reason = if urgent
@@ -484,7 +511,10 @@ module DivisionSummaryPipeline
     # Second reading wording covers two different votes: agreeing to the bill's main idea
     # (Template 29), or an amendment to that motion, which records an opinion without changing the
     # bill's text (Template 2). Only the question's own words separate them, so the amendment is
-    # settled when they name it and the pair is fenced when they do not.
+    # settled when they name it, the second reading when they are its own form and nothing else
+    # ("That the bill be now read a second time", with no amendment and not "as amended"), and the
+    # pair is fenced when they are neither. Fencing the plain form only cost a model decision and a
+    # chance to get it wrong (KI-51).
     def second_reading_amendment
       return unless second_reading? && (names_amendment? || says?("words after", "declining"))
 
@@ -494,6 +524,12 @@ module DivisionSummaryPipeline
 
     def second_reading
       return unless second_reading?
+
+      plain = text.match?(/\b(?:be\s+(?:now\s+)?|now\s+be\s+)read\s+a\s+second\s+time\b/) && !says?("as amended")
+      if plain
+        return settle(29, "SECOND_READING_QUESTION",
+                      "Question is that the bill be read a second time, and names no amendment.")
+      end
 
       fence([2, 29], "SECOND_READING_NUANCE",
             "Second reading question: could be the second reading itself (Template 29) or a second reading " \

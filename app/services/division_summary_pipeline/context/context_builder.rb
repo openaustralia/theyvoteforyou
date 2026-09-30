@@ -357,8 +357,21 @@ module DivisionSummaryPipeline
         chamber: facts.house,
         debate_heading: heading,
         hansard_snippet: transcript.opening_text,
-        motion_text: motion_text.to_s.split(/\n{2,}/).first.to_s
+        motion_text: operative_paragraph(motion_text)
       )
+    end
+
+    # What the router reads of the motion: its first paragraph, unless Hansard set the motion's
+    # "That" as a paragraph of its own ("That—"), when every paragraph after it is operative and
+    # all of them are read. The Senate's orders fixing a week's hours and guillotines are set that
+    # way, and read as the bare "That—" one was left to the general motion fallback, though its own
+    # last paragraph said its parts "operate as limitations of debate under standing order 142"
+    # (KI-50; Senate Guide No. 17 describes this kind of motion).
+    def operative_paragraph(motion_text)
+      paragraphs = motion_text.to_s.split(/\n{2,}/)
+      return paragraphs.first.to_s unless paragraphs.first.to_s.strip.match?(/\AThat[[:space:][:punct:]]*\z/i)
+
+      paragraphs.drop(1).join("\n\n")
     end
 
     def assemble_packet(heading:, speaker_question:, transcript:, mover:, routing:, context_warnings:, source:,
