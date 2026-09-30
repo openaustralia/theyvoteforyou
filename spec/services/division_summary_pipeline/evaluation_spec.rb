@@ -5,85 +5,56 @@ require "json"
 
 # rubocop:disable RSpec/DescribeClass -- exercises the whole pipeline end to end, not one class
 describe "Parliamentary Evaluation Corpus" do
-  # Fictional fixtures (see ARCHITECTURE.md in the pipeline directory's "fictional data" note) exercising
-  # the pipeline end to end against real ParlParse <debates> XML - the shape ContextBuilder
-  # actually parses in production (see DivisionSummaryPipeline::ContextBuilder).
+  # Fictional fixtures (see ARCHITECTURE.md in the pipeline directory's "fictional data" note)
+  # driving stages 1, 2, 4 and 5 against ParlParse <debates> XML, with the model's reply read from
+  # the fixture rather than asked for, so nothing leaves the machine.
   let(:fixtures_root) { File.expand_path("../../fixtures/division_summaries", __dir__) }
 
-  describe "Fixture 1: Template 2 - Second Reading Amendment" do
-    let(:fixture_dir) { File.join(fixtures_root, "test_1") }
-    let(:division_data) { JSON.parse(File.read(File.join(fixture_dir, "division.json"))) }
-    let(:expected_extraction) { JSON.parse(File.read(File.join(fixture_dir, "expected_extraction.json"))) }
-    let(:expected_output) { File.read(File.join(fixture_dir, "expected_output.md")).strip }
-    let(:hansard_xml) do
-      xml_file = File.join(fixture_dir, "hansard_excerpt.xml")
-      File.exist?(xml_file) ? File.read(xml_file) : nil
+  def fixture(name, file)
+    File.read(File.join(fixtures_root, name, file))
+  end
+
+  def run_fixture(name)
+    division_data = JSON.parse(fixture(name, "division.json"))
+    packet = DivisionSummaryPipeline::ContextBuilder.build(division_data, xml_content: fixture(name, "hansard_excerpt.xml"))
+    extraction = DivisionSummaryPipeline::ExtractionPayload.from_json(fixture(name, "expected_extraction.json"))
+    validation = DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, packet)
+    compiled = DivisionSummaryPipeline::TemplateCompiler.compile(division_data, extraction.interpretation, validation.evidence)
+    { packet: packet, validation: validation, compiled: compiled }
+  end
+
+  describe "Fixture 1: Template 2 - Second Reading Amendment moved formally" do
+    # The chair names the mover only by electorate, which takes the member's record to match.
+    before do
+      create(:member, person: create(:person), gid: "au.org.tvfy/member/10", first_name: "Priya", last_name: "Nakamura",
+                      constituency: "Fairview", party: "Independent", house: "representatives",
+                      entered_house: "2020-01-01", left_house: "9999-12-31")
     end
 
-    it "routes and compiles with 100% provenance and exact expected output" do
-      # 1. Context Builder
-      packet = DivisionSummaryPipeline::ContextBuilder.build(
-        division_data,
-        xml_content: hansard_xml
-      )
-      expect(packet.speaker_question).to include("amendment moved by the honourable member for Fairview be agreed to")
+    it "routes, finds the motion by rule, and compiles exactly the expected output" do
+      result = run_fixture("test_1")
 
-      # 2. Procedural Router
-      decision = packet.procedural_decision
-      expect(decision.candidate_templates).to include(2)
-      expect(decision.locked_out_templates).not_to include(2)
+      expect(result[:packet].routing.allowed_templates).to include(2)
+      expect(result[:packet]).to be_motion_found
+      expect(result[:validation]).to be_valid
+      expect(result[:compiled]).to eq(fixture("test_1", "expected_output.md").strip)
+    end
 
-      # 3. Extraction Payload
-      extraction = DivisionSummaryPipeline::ExtractionPayload.from_h(expected_extraction)
-      expect(extraction.template_id).to eq(2)
-      expect(extraction.declines_second_reading).to be(true)
-
-      # 4. Provenance Validator
-      validation = DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, packet)
-      expect(validation.is_valid).to be(true)
-      expect(validation.errors).to be_empty
-
-      # 5. Template Compiler
-      compiled = DivisionSummaryPipeline::TemplateCompiler.compile(division_data, extraction)
-      expect(compiled.strip).to eq(expected_output)
+    # The mover said nothing beyond "I move:" and the amendment, so there is nothing to
+    # quote as an explanation, and the amendment's own clauses must not stand in for one.
+    it "says no explanation was recorded rather than restating the amendment" do
+      expect(run_fixture("test_1")[:compiled]).to include("### About the Amendment\n\n> No explanatory claims recorded.")
     end
   end
 
   describe "Fixture 2: Template 22 - Closure of Debate" do
-    let(:fixture_dir) { File.join(fixtures_root, "test_2") }
-    let(:division_data) { JSON.parse(File.read(File.join(fixture_dir, "division.json"))) }
-    let(:expected_extraction) { JSON.parse(File.read(File.join(fixture_dir, "expected_extraction.json"))) }
-    let(:expected_output) { File.read(File.join(fixture_dir, "expected_output.md")).strip }
-    let(:hansard_xml) do
-      xml_file = File.join(fixture_dir, "hansard_excerpt.xml")
-      File.exist?(xml_file) ? File.read(xml_file) : nil
-    end
+    it "routes, finds the motion by rule, and compiles exactly the expected output" do
+      result = run_fixture("test_2")
 
-    it "routes and compiles with 100% provenance and exact expected output" do
-      # 1. Context Builder
-      packet = DivisionSummaryPipeline::ContextBuilder.build(
-        division_data,
-        xml_content: hansard_xml
-      )
-      expect(packet.speaker_question).to include("question be now put")
-
-      # 2. Procedural Router
-      decision = packet.procedural_decision
-      expect(decision.is_deterministic).to be(true)
-      expect(decision.template_id).to eq(22)
-
-      # 3. Extraction Payload
-      extraction = DivisionSummaryPipeline::ExtractionPayload.from_h(expected_extraction)
-      expect(extraction.template_id).to eq(22)
-
-      # 4. Provenance Validator
-      validation = DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, packet)
-      expect(validation.is_valid).to be(true)
-      expect(validation.errors).to be_empty
-
-      # 5. Template Compiler
-      compiled = DivisionSummaryPipeline::TemplateCompiler.compile(division_data, extraction)
-      expect(compiled.strip).to eq(expected_output)
+      expect(result[:packet].routing).to be_deterministic
+      expect(result[:packet].routing.template_id).to eq(22)
+      expect(result[:validation]).to be_valid
+      expect(result[:compiled]).to eq(fixture("test_2", "expected_output.md").strip)
     end
   end
 end
