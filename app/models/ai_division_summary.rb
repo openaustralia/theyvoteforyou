@@ -17,7 +17,9 @@ class AiDivisionSummary < ApplicationRecord
       title: result.title,
       description: result.description,
       raw_response: result.raw,
-      error: result.error
+      error: result.error,
+      system_prompt: result.system_prompt,
+      user_prompt: result.user_prompt
     )
     summary
   end

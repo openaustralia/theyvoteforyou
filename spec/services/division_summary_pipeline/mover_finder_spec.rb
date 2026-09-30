@@ -1,0 +1,185 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+
+describe DivisionSummaryPipeline::MoverFinder do
+  def speech(speaker, text, moved_text: nil, gid: nil)
+    { speaker: speaker, speaker_gid: gid, time: "11:42", text: text, moved_text: moved_text }
+  end
+
+  let(:amendment_by_treloar) do
+    speech("Morgan Treloar", "I move the second reading amendment on sheet 9001: ...", moved_text: "At the end of the motion, add ...")
+  end
+
+  let(:amendment_by_dunstan) do
+    speech("Priya Dunstan", "I move the opposition's amendment: ...", moved_text: "At the end of the motion, add different words")
+  end
+
+  let(:chair) { speech("Casey Whitlow", "The question is that the amendment be agreed to.") }
+
+  it "takes the mover the chair names, by surname, over a later move by someone else" do
+    result = described_class.find(
+      question: "The question is that the second reading amendment moved by Senator Treloar on sheet 9001 be agreed to.",
+      speeches: [amendment_by_treloar, amendment_by_dunstan, chair]
+    )
+
+    expect(result.member.name).to eq("Morgan Treloar")
+    expect(result.moved_text).to eq("At the end of the motion, add ...")
+    expect(result.found_by).to eq(:chair_named)
+  end
+
+  it "takes the move just before the question when the chair names nobody" do
+    adjourn = speech("Sam Okafor", "I move: That the debate be adjourned.", moved_text: "That the debate be adjourned.")
+
+    result = described_class.find(question: "The question is that the debate be adjourned.", speeches: [adjourn, chair])
+
+    expect(result.member.name).to eq("Sam Okafor")
+    expect(result.found_by).to eq(:recent_move)
+  end
+
+  # Further back it may be a different motion, such as an amendment moved long before a second
+  # reading question is put.
+  it "does not take an unnamed move from well before the question" do
+    speeches = [amendment_by_treloar] + Array.new(5) { speech("Riley Ng", "A long speech about the bill.") } + [chair]
+
+    expect(described_class.find(question: "The question is that the bill be now read a second time.", speeches: speeches)).to be_nil
+  end
+
+  # Under a guillotine the second reading question comes straight after the chair's statements,
+  # and the nearest move is an amendment from the second reading debate, a different question.
+  it "does not take an unnamed move from another stage of the bill as the motion being put" do
+    other_stage = amendment_by_treloar.merge(other_heading: true)
+
+    expect(described_class.find(question: "The question now is that this bill be now read a second time.",
+                                speeches: [other_stage, chair])).to be_nil
+  end
+
+  it "credits a move from another stage of the bill when the chair names its mover" do
+    other_stage = amendment_by_treloar.merge(other_heading: true)
+
+    result = described_class.find(question: "The question is that the second reading amendment moved by Senator Treloar be agreed to.",
+                                  speeches: [other_stage, chair])
+
+    expect(result.member.name).to eq("Morgan Treloar")
+    expect(result.found_by).to eq(:chair_named)
+  end
+
+  # So a move found only through the bill never displaces one that was found before.
+  it "prefers the named member's move under this debate's own heading to a later one under another" do
+    later_other_stage = speech("Morgan Treloar", "I move the amendments on sheet 9004: ...", moved_text: "(1) Schedule 1, item 2, omit the item.")
+                        .merge(other_heading: true)
+
+    result = described_class.find(question: "The question is that the second reading amendment moved by Senator Treloar be agreed to.",
+                                  speeches: [amendment_by_treloar, later_other_stage, chair])
+
+    expect(result.moved_text).to eq("At the end of the motion, add ...")
+  end
+
+  it "keeps another stage's speeches out of the window for an unnamed move" do
+    adjourn = speech("Sam Okafor", "I move: That the debate be adjourned.", moved_text: "That the debate be adjourned.")
+    other_stages = Array.new(4) { speech("Casey Whitlow", "The question is that the amendment be agreed to.").merge(other_heading: true) }
+
+    result = described_class.find(question: "The question is that the debate be adjourned.", speeches: [adjourn, *other_stages, chair])
+
+    expect(result.member.name).to eq("Sam Okafor")
+  end
+
+  # KI-43: at Senate 18 August 2026 #4 the Greens' circulated amendments
+  # were credited to the minister who had moved the second reading six days before.
+  it "does not credit a move whose terms cannot be what the question puts" do
+    second_reading = speech("Jo Marlowe", "I move:", moved_text: "That this bill be now read a second time.")
+
+    expect(described_class.find(question: "The question is that the amendments on sheets 9101 and 9102 be agreed to.",
+                                speeches: [second_reading, chair])).to be_nil
+    expect(described_class.find(question: "The question is that the bill be now read a third time.",
+                                speeches: [amendment_by_treloar, chair])).to be_nil
+  end
+
+  it "takes a motion about the amendment for a question on it, as the House moves on a Senate message" do
+    message = speech("Sam Okafor", "I move:", moved_text: "That the amendment be agreed to.")
+
+    expect(described_class.find(question: "The question is that the amendment be agreed to.",
+                                speeches: [message, chair]).member.name).to eq("Sam Okafor")
+  end
+
+  # Under a guillotine the chair puts each second reading amendment in turn before the second
+  # reading itself, which is still the minister's motion.
+  it "does not count the chair putting other questions against the window for an unnamed move" do
+    second_reading = speech("Jo Marlowe", "I move:", moved_text: "That this bill be now read a second time.")
+    run = Array.new(4) { |n| speech("Casey Whitlow", "The question is that the amendment on sheet 910#{n} be agreed to.") }
+
+    result = described_class.find(question: "The question is that the bill now be read a second time.",
+                                  speeches: [second_reading, *run, chair])
+
+    expect(result.member.name).to eq("Jo Marlowe")
+  end
+
+  # Circulated amendments are put with nobody moving them, so a move just before is someone else's.
+  it "does not guess an unnamed mover for amendments the chair says were circulated" do
+    expect(described_class.find(question: "The question is that the amendment on sheet 9001 be agreed to.",
+                                putting: "I will now deal with the amendment circulated by Senator Dunstan. The question is " \
+                                         "that the amendment on sheet 9001 be agreed to.",
+                                speeches: [amendment_by_treloar, chair], circulated: true)).to be_nil
+  end
+
+  # The chair often names the mover in a sentence of their own before putting the question.
+  it "reads the chair's lead-in for the mover's name" do
+    result = described_class.find(
+      question: "The question is that part 4 of schedule 1 stand as printed.",
+      putting: "I'll first deal with the amendments moved by Senator Treloar on sheet 9001. The question is that part 4 of " \
+               "schedule 1 stand as printed.",
+      speeches: [amendment_by_dunstan, amendment_by_treloar, chair]
+    )
+
+    expect(result.member.name).to eq("Morgan Treloar")
+    expect(result.found_by).to eq(:chair_named)
+  end
+
+  # Another senator often moves a notice on its owner's behalf.
+  it "treats \"standing in the name of\" as a weaker hint than a recent move by someone else" do
+    result = described_class.find(
+      question: "The question is that business of the Senate No. 3 standing in the name of Senator Ashworth as amended be agreed to.",
+      speeches: [amendment_by_dunstan, chair]
+    )
+
+    expect(result.member.name).to eq("Priya Dunstan")
+  end
+
+  it "does not attribute a named mover's motion to someone else when their move is not in the excerpt" do
+    result = described_class.find(
+      question: "The question is that the amendment moved by Senator Treloar be agreed to.",
+      speeches: [amendment_by_dunstan, chair]
+    )
+
+    expect(result).to be_nil
+  end
+
+  context "with member records" do
+    let!(:member) do
+      create(:member, person: create(:person), gid: "uk.org.publicwhip/member/9101", first_name: "Robin", last_name: "Carrow",
+                      constituency: "Wattleford", party: "Liberal Party", house: "representatives",
+                      entered_house: "2022-05-21", left_house: "9999-12-31")
+    end
+
+    it "resolves the moving speech's speaker id to the member, with party and profile link" do
+      suspension = speech("Robin Carrow", "I move: ...", moved_text: "That so much of the standing orders be suspended as would prevent ...",
+                                                         gid: "uk.org.publicwhip/member/9101")
+
+      result = described_class.find(question: "The question is the motion moved by the member for Wattleford be agreed to.",
+                                    speeches: [suspension, chair])
+
+      expect(result.member.member).to eq(member)
+      expect(result.member.party).to eq("Liberal Party")
+      expect(result.member.link).to eq("/people/representatives/wattleford/robin_carrow")
+    end
+
+    # A deferred division: the chair names the mover, whose speech was on an earlier day.
+    it "looks up a named electorate directly when the move is not in the excerpt" do
+      result = described_class.find(question: "The question is whether the amendment moved by the honourable member for Wattleford be agreed to.",
+                                    speeches: [chair], house: "representatives", date: "2026-05-14")
+
+      expect(result.member.member).to eq(member)
+      expect(result.speech).to be_nil
+    end
+  end
+end

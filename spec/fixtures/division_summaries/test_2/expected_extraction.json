@@ -1,9 +1,12 @@
 {
-  "template_id": 22,
-  "topic": "Border Processing Amendment Bill 2026",
-  "motion_text": "That the question be now put.",
-  "mover_claims": [],
-  "declines_second_reading": null,
-  "sufficient_context": true,
-  "missing_context_clue": null
+  "interpretation": {
+    "template_id": 22,
+    "declines_second_reading": null,
+    "missing": []
+  },
+  "references": {
+    "explanation": [],
+    "motion": [],
+    "facts": {}
+  }
 }
