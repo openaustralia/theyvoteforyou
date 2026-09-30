@@ -18,9 +18,12 @@ module DivisionSummaryPipeline
   #   empty.
   # - circulation: the Circulation when the chair put amendments nobody moved, or nil. The motion
   #   is then their terms, as the chair's statement printed them.
+  # - closed_template_id: for a closure, the template the motion it cut short settles on, found by
+  #   rule (ContextPacket#closed_template_id), or nil.
+  # - proposer: who proposed a matter of urgency someone else moved (ContextPacket#proposer), or nil.
   Evidence = Data.define(:introduction, :motion, :question, :explanations, :facts, :mover, :limitation,
-                         :circulation) do
-    def initialize(circulation: nil, **fields)
+                         :circulation, :closed_template_id, :proposer) do
+    def initialize(circulation: nil, closed_template_id: nil, proposer: nil, **fields)
       super
     end
   end

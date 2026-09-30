@@ -61,7 +61,8 @@ module DivisionSummaryPipeline
       check_template
       evidence = Evidence.new(introduction: introduction, motion: check_motion, question: question,
                               explanations: explanations, facts: facts, mover: packet.mover&.member,
-                              limitation: limitation, circulation: packet.circulation)
+                              limitation: limitation, circulation: packet.circulation,
+                              closed_template_id: packet.closed_template_id, proposer: packet.proposer)
       check_declines_second_reading(evidence)
       ValidationResult.new(errors: errors, warnings: warnings, evidence: evidence)
     end

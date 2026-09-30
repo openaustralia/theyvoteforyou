@@ -52,6 +52,17 @@ module DivisionSummaryPipeline
       ResolvedMember.new(member: nil, name: name.presence, party: nil, electorate: nil, link: nil)
     end
 
+    # The member Hansard names by title and surname alone ("Senator McKim"), when exactly one member
+    # of the house on the day has that surname: the Senate has had two Pococks at once, so a
+    # surname is not assumed to be unique.
+    def self.by_surname(surname, house:, date:)
+      scope = Member.where(last_name: surname.to_s.strip)
+      scope = scope.in_house(house) if house.present?
+      scope = scope.current_on(date) if date.present?
+      members = scope.to_a
+      members.one? ? resolve(gid: members.first.gid) : named(surname)
+    end
+
     # gid is the Hansard speaker id ("uk.org.publicwhip/member/123"), which identifies a member
     # stint exactly, so it is tried before any name or electorate.
     def resolve(name: nil, electorate: nil, house: nil, date: nil, gid: nil)

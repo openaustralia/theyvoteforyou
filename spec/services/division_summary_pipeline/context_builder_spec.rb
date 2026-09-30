@@ -242,6 +242,60 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.routing).to be_advisory
       end
 
+      # KI-55: as at Senate 12 August 2026 #4, a matter of urgency one senator
+      # proposed and another moved.
+      it "finds who proposed a matter of urgency someone else moved" do
+        create(:member, person: create(:person), gid: "uk.org.publicwhip/lord/900150", first_name: "Morgan", last_name: "Treloar",
+                        constituency: "Tasmania", party: "Example Party", house: "senate",
+                        entered_house: "2020-01-01", left_house: "9999-12-31")
+        xml = debates("2026-08-12", <<~XML)
+          <minor-heading id="h2" url="x">Matters of Urgency; Example Levy</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="15:30:00" url="x"><p>Senator Treloar has submitted a proposal, under standing order 75, today, which has been circulated:</p><p class="italic">That, in the opinion of the Senate, the following is a matter of urgency: The need for a fairer levy.</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/lord/900103" speakername="Sam Okafor" time="15:31:00" url="x"><p>I move:</p><p class="italic">That, in the opinion of the Senate, the following is a matter of urgency: The need for a fairer levy.</p></speech>
+          <speech id="s3" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="16:29:00" url="x"><p>The question is that Senator Treloar's motion, as moved by Senator Okafor, be agreed to.</p></speech>
+          #{division_element(4, '16:30:00')}
+        XML
+        packet = described_class.build({ id: 4, house: "senate", date: "2026-08-12", number: 4, clock_time: "4:30 PM" },
+                                       xml_content: xml)
+
+        expect(packet.mover.speech[:speaker]).to eq("Sam Okafor")
+        expect(packet.proposer.name).to eq("Morgan Treloar")
+      end
+
+      # KI-54: as at Senate 13 August 2026 #7, a minister's closure of a
+      # suspension debate, followed straight away by the suspension itself.
+      context "with a closure" do
+        let(:closure_xml) do
+          debates("2026-08-13", <<~XML)
+            <minor-heading id="h2" url="x">Business; Consideration of Legislation</minor-heading>
+            <speech id="s1" speakerid="uk.org.publicwhip/lord/900101" speakername="Morgan Treloar" time="12:15:00" url="x"><p>I move:</p><p class="italic">That so much of the standing orders be suspended as would prevent me moving a motion to give precedence to the Example Bill 2026.</p></speech>
+            <speech id="s2" speakerid="uk.org.publicwhip/lord/900103" speakername="Sam Okafor" time="12:20:00" url="x"><p>We oppose this suspension.</p></speech>
+            <speech id="s3" speakerid="uk.org.publicwhip/lord/900104" speakername="Jo Marlowe" time="12:25:00" url="x"><p>I move:</p><p class="italic">That the question be now put.</p></speech>
+            <speech id="s4" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="12:26:00" url="x"><p>The question is that the motion by Minister Marlowe to close this suspension debate be agreed to.</p></speech>
+            #{division_element(7, '12:31:00')}
+            <speech id="s5" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="12:36:00" url="x"><p>The question now is that the suspension motion moved by Senator Treloar be agreed to.</p></speech>
+            #{division_element(8, '12:37:00')}
+          XML
+        end
+
+        it "finds what the closure cut short, and links the division that then put it" do
+          create(:division, house: "senate", date: Date.new(2026, 8, 13), number: 8)
+          packet = described_class.build({ id: 7, house: "senate", date: "2026-08-13", number: 7, clock_time: "12:31 PM" },
+                                         xml_content: closure_xml)
+
+          expect(packet.mover.speech[:speaker]).to eq("Jo Marlowe")
+          expect(packet.closed_template_id).to eq(17)
+          expect(packet.facts[:followup_link]).to eq("/divisions/senate/2026-08-13/8")
+        end
+
+        it "links nothing when the next division is not in the database" do
+          packet = described_class.build({ id: 7, house: "senate", date: "2026-08-13", number: 7, clock_time: "12:31 PM" },
+                                         xml_content: closure_xml)
+
+          expect(packet.facts[:followup_link]).to be_nil
+        end
+      end
+
       # A Monday division at 12.05 is in the window when deferred divisions are put, but a
       # motion moved at 12.00 was put there and then.
       it "does not warn about the Monday deferral window when the motion was moved inside it" do

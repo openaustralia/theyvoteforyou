@@ -22,6 +22,20 @@ module DivisionSummaryPipeline
 
     attr_reader :outcome
 
+    # The sentence before the chair's words saying why the question was put without debate: a
+    # limitation of debate, or in the House a resolution agreed earlier, which is not a guillotine
+    # and is not called one (House Guide p. 75; KI-52).
+    def limitation_lead
+      date = outcome.resolution_agreed_on
+      return LIMITATION_OF_DEBATE_LEAD unless date
+
+      "This question was put without further debate, under an arrangement the #{chamber} agreed on #{date}."
+    end
+
+    def limitation_effect
+      outcome.resolution_agreed_on ? nil : LIMITATION_OF_DEBATE_EFFECT
+    end
+
     delegate :facts, :template_id, to: :outcome
     delegate :chamber, :other_chamber, :senate?, to: :facts
 
@@ -186,12 +200,36 @@ module DivisionSummaryPipeline
       end
     end
 
+    # What the debate a closure ended was about, by the template the motion it cut short settles on
+    # (ContextPacket#closed_template_id). %{bill} is "the [Bill](link)", or "the bill".
+    CLOSED_DEBATES = {
+      17 => "a motion to suspend standing orders",
+      29 => "the second reading of %{bill}",
+      2 => "a second reading amendment to %{bill}",
+      6 => "the third reading of %{bill}",
+      16 => "a matter of urgency",
+      10 => "a censure motion"
+    }.freeze
+
+    # bill_reference is nil when the division has no bill: closures are moved on suspensions,
+    # urgency motions and general business as often as on bills, and every one of those once read
+    # "to end the debate on bill" (KI-46). Where Stage 1 found what the debate
+    # was on, the sentence says so (KI-54).
     def closure_action_clause(bill_reference)
       case outcome.closure_variant
       when :business_of_the_day then "to call on the business of the day and end the discussion"
       when :ballot then "to end the debate and take the ballot immediately"
-      else "to end the debate on #{bill_reference} and put the question immediately"
+      else "to end the debate#{closed_debate_phrase(bill_reference)} and put the question immediately"
       end
+    end
+
+    def closed_debate_phrase(bill_reference)
+      the_bill = bill_reference ? "the #{bill_reference}" : "the bill"
+      closed = CLOSED_DEBATES[outcome.closed_template_id]
+      return " on #{format(closed, bill: the_bill)}" if closed
+      return " on #{the_bill}" if bill_reference
+
+      ""
     end
 
     # The closure template points the reader at the division that put the underlying question

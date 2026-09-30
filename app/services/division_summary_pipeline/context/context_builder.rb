@@ -46,6 +46,11 @@ module DivisionSummaryPipeline
     # on other days, such as at the start of the next sitting day.
     DEFERRED_STATEMENT = /standing\s+order\s+133|called\s+for\s+and\s+deferred|(?:division|vote)\s+(?:is|was|be|being|has\s+been)\s+deferred|deferred\s+(?:division|vote|question)/i
 
+    # The chair reading out a matter of urgency before anyone speaks to it (Senate S.O. 75; Senate
+    # Guide No. 9): "Senator McKim has submitted a proposal, under standing order 75, today". The
+    # proposer is often not the senator who moves it.
+    PROPOSER = /\bSenator\s+([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)\s+has\s+submitted\s+a\s+proposal\b/
+
     # Question wording that points at something moved earlier, so its terms should be in the
     # packet. Used only to decide whether to look for them. "Stand as printed" decides an
     # amendment to omit part of a bill, which was moved or circulated earlier.
@@ -102,6 +107,7 @@ module DivisionSummaryPipeline
       return nil unless doc
 
       division_xmls = DataLoader::DebatesXml.new(doc, facts.house).divisions
+      @division_xmls = division_xmls
       return nil if division_xmls.empty?
 
       time = ClockTime.normalise(facts.clock_time)
@@ -143,13 +149,75 @@ module DivisionSummaryPipeline
                                     question_speech_id: question_speech_id, chair_statement: chair)
       limitation = limitation_statement(division_xml)
       warnings = context_warnings(division_xml, speeches, earlier_speeches, deferred: deferred, limitation: limitation)
+      routing = route(speaker_question, heading, transcript, motion_text: mover&.moved_text)
+      closure = routing.allowed_templates.include?(22)
 
       assemble_packet(
-        heading: heading, speaker_question: speaker_question, transcript: transcript, mover: mover,
-        routing: route(speaker_question, heading, transcript, motion_text: mover&.moved_text),
+        heading: heading, speaker_question: speaker_question, transcript: transcript, mover: mover, routing: routing,
         context_warnings: warnings, source: :hansard_xml, division_xml_id: division_xml.division_xml.attr(:id),
-        limitation_statement: limitation, circulation: circulation(chair, transcript, mover)
+        limitation_statement: limitation, circulation: circulation(chair, transcript, mover),
+        closed_template_id: (closed_template_id(earlier_speeches + speeches, mover, heading) if closure),
+        facts: closure ? with_followup(division_xml) : facts, proposer: proposer(earlier_speeches + speeches, mover)
       )
+    end
+
+    # Who proposed a matter of urgency, when someone else moved it, found by rule in the chair's
+    # words: a draft said only that Senator Hodgins-May moved "Senator McKim's motion"
+    # (KI-55).
+    def proposer(speeches, mover)
+      name = speeches.reverse.lazy.filter_map { |speech| speech[:text].to_s[PROPOSER, 1] }.first
+      mover_name = mover&.member&.name.presence || mover&.speech&.dig(:speaker)
+      return nil if name.nil? || MemberResolver.same_speaker?(mover_name, name)
+
+      resolved = if name.split.size > 1
+                   MemberResolver.resolve(name: name, house: facts.house_key, date: facts.date.presence)
+                 else
+                   MemberResolver.by_surname(name, house: facts.house_key, date: facts.date.presence)
+                 end
+      resolved&.name.present? ? resolved : MemberResolver.named(name)
+    end
+
+    # What a closure cut short: the last move before the closure's own, in the same debate, by
+    # someone else, routed on its first paragraph, and kept only when that settles a template.
+    # A closure's draft once said only that "the debate" ended, though the suspension it ended was
+    # in the packet (KI-54).
+    def closed_template_id(speeches, mover, heading)
+      closing = mover&.speech
+      index = closing && speeches.index { |speech| speech[:id] == closing[:id] }
+      return nil unless index
+
+      closed = speeches[0...index].reverse.find do |speech|
+        speech[:moved_text].present? && !speech[:other_heading] &&
+          !MemberResolver.same_speaker?(speech[:speaker], closing[:speaker])
+      end
+      return nil unless closed
+
+      ProceduralRouter.route(speaker_question: operative_paragraph(closed[:moved_text]), chamber: facts.house,
+                             debate_heading: heading).template_id
+    end
+
+    # The division that put the question a closure cut short, linked for the reader: the next
+    # division that day, in the same debate, unless it is itself a closure (ARCHITECTURE.md section
+    # 15). A lookup, with no model involved.
+    def with_followup(division_xml)
+      following = Array(@division_xmls).find { |other| other.number.to_i == facts.number + 1 }
+      return facts unless following && following.debate_title == division_xml.debate_title
+      return facts if closure_question?(following)
+
+      record = Division.find_by(date: facts.date, house: facts.house_key, number: facts.number + 1)
+      return facts unless record
+
+      link = Rails.application.routes.url_helpers.division_path(record.url_params)
+      facts.with(supplied: facts.supplied.merge(followup_link: link))
+    rescue StandardError
+      facts
+    end
+
+    def closure_question?(division_xml)
+      speech = division_xml.question_speech
+      question = (ChairStatement.new(DataLoader::SpeechText.paragraphs(speech)).question if speech)
+      ProceduralRouter.route(speaker_question: question || division_xml.operative_question.to_s,
+                             chamber: facts.house).template_id == 22
     end
 
     # Amendments the chair put that nobody moved in the chamber: the chair's statement prints their
@@ -203,6 +271,10 @@ module DivisionSummaryPipeline
     # the questions then put without debate (DataLoader::DivisionXml#limitation_of_debate_statement),
     # cut to the sentence that says so: the rest of the statement usually puts the first question,
     # which may be on another bill. The sentence is Hansard's own text, found by rule.
+    #
+    # kind is :order for the Senate's limitation of debate, and :resolution for the House putting
+    # a question immediately under an earlier resolution, which is not a guillotine (House Guide
+    # p. 75) and is worded differently.
     def limitation_statement(division_xml)
       node = division_xml.limitation_of_debate_statement
       return nil unless node
@@ -211,8 +283,10 @@ module DivisionSummaryPipeline
       sentences = speech[:paragraphs].pluck(:text).flat_map do |paragraph|
         Transcript.sentence_spans(paragraph).map { |start, finish| paragraph[start...finish] }
       end
-      sentence = sentences.find { |text| text.match?(DataLoader::DivisionXml::TIME_EXPIRED) }
-      speech.slice(:id, :speaker, :speaker_gid, :time).merge(text: sentence || speech[:text])
+      resolution = sentences.find { |text| text.match?(DataLoader::DivisionXml::PUT_IMMEDIATELY) }
+      sentence = resolution || sentences.find { |text| text.match?(DataLoader::DivisionXml::TIME_EXPIRED) }
+      speech.slice(:id, :speaker, :speaker_gid, :time).merge(text: sentence || speech[:text],
+                                                             kind: resolution ? :resolution : :order)
     end
 
     # The rest of this division's own debate, when the motion it decides is not in the speeches
@@ -256,7 +330,11 @@ module DivisionSummaryPipeline
     def context_warnings(division_xml, speeches, earlier_speeches, deferred:, limitation: nil)
       warnings = []
 
-      if limitation
+      if limitation && limitation[:kind] == :resolution
+        warnings << "The chair put this question immediately, without further debate, under a resolution the House " \
+                    "agreed earlier: at #{ClockTime.display(limitation[:time])} the chair said so. Any debate about " \
+                    "this question took place before that, possibly on an earlier day."
+      elsif limitation
         warnings << "The chair put this question under a limitation of debate (a 'guillotine'): at " \
                     "#{ClockTime.display(limitation[:time])} the chair said the time allotted had expired, and the " \
                     "questions still to be decided were then put one after another without further debate. Any " \
@@ -375,11 +453,13 @@ module DivisionSummaryPipeline
     end
 
     def assemble_packet(heading:, speaker_question:, transcript:, mover:, routing:, context_warnings:, source:,
-                        division_xml_id:, limitation_statement:, circulation: nil)
+                        division_xml_id:, limitation_statement:, circulation: nil, closed_template_id: nil,
+                        facts: self.facts, proposer: nil)
       ContextPacket.new(facts: facts, heading: heading, speaker_question: speaker_question, transcript: transcript,
                         mover: mover, routing: routing, context_level: context_level,
                         context_warnings: context_warnings, source: source, division_xml_id: division_xml_id,
-                        limitation_statement: limitation_statement, circulation: circulation)
+                        limitation_statement: limitation_statement, circulation: circulation,
+                        closed_template_id: closed_template_id, proposer: proposer)
     end
   end
 end

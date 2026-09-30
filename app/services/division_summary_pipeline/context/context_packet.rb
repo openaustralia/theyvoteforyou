@@ -18,13 +18,18 @@ module DivisionSummaryPipeline
   # - division_xml_id: the matched <division> element's id, for the reviewer
   # - limitation_statement: when the question was put because a limitation of debate's time had
   #   expired, the chair's sentence saying so, found by rule, as a hash of :id (the speech's XML
-  #   id), :speaker, :speaker_gid, :time and :text; otherwise nil. It is kept out of the
+  #   id), :speaker, :speaker_gid, :time, :text and :kind (:order, or :resolution for the House
+  #   putting a question immediately under an earlier resolution); otherwise nil. It is kept out of the
   #   transcript, since the rest of the chair's statement usually puts a question on another bill.
   # - circulation: when the chair put amendments that nobody moved in the chamber, a Circulation
   #   saying who circulated them; otherwise nil
+  # - closed_template_id: for a closure, the template the motion it cut short settles on (17 for a
+  #   suspension of standing orders), found by rule; otherwise nil
+  # - proposer: the ResolvedMember who proposed a matter of urgency someone else moved, or nil
   ContextPacket = Data.define(:facts, :heading, :speaker_question, :transcript, :mover, :routing, :context_level,
-                              :context_warnings, :source, :division_xml_id, :limitation_statement, :circulation) do
-    def initialize(circulation: nil, **fields)
+                              :context_warnings, :source, :division_xml_id, :limitation_statement, :circulation,
+                              :closed_template_id, :proposer) do
+    def initialize(circulation: nil, closed_template_id: nil, proposer: nil, **fields)
       super
     end
   end

@@ -43,7 +43,8 @@ module DivisionSummaryPipeline
       outcome = ParliamentaryOutcome.new(facts: facts, template_id: interpretation.template_id,
                                          motion_text: evidence.motion_text, question_text: evidence.question_text,
                                          declines_second_reading: interpretation.declines_second_reading,
-                                         circulation: evidence.circulation)
+                                         circulation: evidence.circulation, limitation_text: evidence.limitation&.text,
+                                         closed_template_id: evidence.closed_template_id)
       template = load_template(interpretation.template_id)
       # A template with an "About the Bill" section is a bill template, which is what decides
       # both whether a digest is looked for and whether a missing bill record is worth flagging.
@@ -119,6 +120,7 @@ module DivisionSummaryPipeline
         "mover_link" => mover[:link],
         "mover_party" => mover[:party],
         "mover_clause" => mover[:clause],
+        "proposer_clause" => proposer_clause(facts, evidence),
         "bill_name" => facts.bill_name.presence || "bill",
         "bill_link" => facts.bill_link,
         "chamber" => facts.chamber,
@@ -133,7 +135,7 @@ module DivisionSummaryPipeline
         "motion_attribution" => sections.motion_attribution,
         "motion_text" => sections.motion,
         "question_put" => sections.question,
-        "limitation_of_debate_section" => limitation_of_debate_section(sections),
+        "limitation_of_debate_section" => limitation_of_debate_section(sections, wording),
         "amendment_effect_clause" => wording.amendment_effect_clause,
         "carried_amendment_note" => wording.carried_amendment_note,
         "stand_as_printed_effect_clause" => wording.stand_as_printed_effect_clause,
@@ -151,7 +153,7 @@ module DivisionSummaryPipeline
         "message_effect_clause" => wording.message_effect_clause,
         "general_motion_effect_clause" => wording.general_motion_effect_clause,
         "closure_explainer" => wording.closure_explainer,
-        "closure_action_clause" => wording.closure_action_clause(bill),
+        "closure_action_clause" => wording.closure_action_clause(facts.bill_name.present? ? bill : nil),
         "followup_clause" => wording.followup_clause,
         "adjournment_effect_clause" => wording.adjournment_effect_clause,
         "regulation_status_clause" => wording.regulation_status_clause,
@@ -168,16 +170,19 @@ module DivisionSummaryPipeline
       }
     end
 
+    # The bill as a link, or the bare word "bill" when the division has none, which reads only
+    # after "the" ("to the bill"): anywhere else pass nil instead (see closure_action_clause).
     def bill_reference(facts)
       facts.bill_name.present? ? "[#{facts.bill_name}](#{facts.bill_link})" : "bill"
     end
 
-    # Empty unless Stage 1 found the chair saying a limitation of debate's time had expired.
-    def limitation_of_debate_section(sections)
+    # Empty unless Stage 1 found the chair saying a limitation of debate's time had expired, or
+    # that the question was put immediately under a resolution agreed earlier.
+    def limitation_of_debate_section(sections, wording)
       statement = sections.limitation
       return "" unless statement
 
-      [SummaryWording::LIMITATION_OF_DEBATE_LEAD, statement, SummaryWording::LIMITATION_OF_DEBATE_EFFECT].join("\n\n")
+      [wording.limitation_lead, statement, wording.limitation_effect].compact.join("\n\n")
     end
 
     # A Bills Digest section, when one is supplied (ARCHITECTURE.md section 15): pre-formatted,
@@ -223,6 +228,15 @@ module DivisionSummaryPipeline
     def member_phrase(details)
       title = "#{details[:title]} " if details[:title].present?
       "#{title}[#{details[:name]}](#{details[:link]})#{details[:suffix]} (#{details[:party]})"
+    end
+
+    # " on behalf of Senator [Name](link) (Party)", for a matter of urgency moved by someone other
+    # than its proposer, when a mover is named at all.
+    def proposer_clause(facts, evidence)
+      return "" unless evidence.proposer && evidence.mover
+
+      details = found_mover(facts, evidence.proposer)
+      details ? " on behalf of #{member_phrase(details)}" : ""
     end
 
     # "circulated by the Australian Greens", or by a member the database knows, linked like a mover.
