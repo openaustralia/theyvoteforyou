@@ -24,6 +24,11 @@ module DivisionSummaryPipeline
       absolute_majority_in_doubt: "The ayes fell short of an absolute majority; the absolute majority notice is printed."
     }.freeze
 
+    # A quoted explanation that speaks to someone ("you") or names another member may be a barb at
+    # an opponent rather than the case for the motion (KI-58). A prompt for
+    # the reviewer only: whether it is the mover's case is a judgement for a person.
+    POINTED = /\b(?i:you(?:r|rs)?)\b|\bSenator\s+[A-Z]|\bmember\s+for\s+[A-Z]|\bPrime\s+Minister\b|\bMinister\s+[A-Z]/
+
     MOVER_FOUND_BY = {
       chair_named: "the chair named the mover, and their move is in the transcript",
       chair_named_only: "the chair named the mover, but their move is not in the transcript",
@@ -60,6 +65,7 @@ module DivisionSummaryPipeline
         section("Model decisions", decision_rows),
         evidence_section,
         section("Mover", mover_rows),
+        list_section("Explanation sentences to look at twice", pointed_explanations),
         list_section("Fallbacks used", fallbacks.map { |name| "`#{name}`: #{FALLBACKS.fetch(name)}" }),
         list_section("Validation errors", validation&.errors || []),
         list_section("Validation warnings", validation&.warnings || [])
@@ -152,6 +158,12 @@ module DivisionSummaryPipeline
     def divided_note
       parts = ChairStatement.divided_parts(packet.speaker_question)
       parts ? "yes: without \"#{parts}\"" : "no"
+    end
+
+    def pointed_explanations
+      Array(validation&.evidence&.explanations).filter_map do |excerpt|
+        "#{unit_range(excerpt.unit_ids)}: #{text_note(excerpt.text)}" if excerpt.text.match?(POINTED)
+      end
     end
 
     # Where the chair said the time had expired, so a reviewer can find it: it is often many
