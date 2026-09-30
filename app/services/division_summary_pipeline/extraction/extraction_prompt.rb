@@ -132,8 +132,10 @@ module DivisionSummaryPipeline
         one sentence per ID ("[S3.4] ..."). Other units are whole paragraphs, marked with their kind:
         "move" is the member saying "I move ...", "motion" is the terms they moved, "quotation" is text
         Hansard set apart from the member's own words (something they quoted or read out, such as
-        another person's statement, a letter or a document, or an editorial note), and "chair" is the
-        chair putting the question for this division.
+        another person's statement, a letter or a document, or an editorial note), "record" is Hansard
+        recording the chamber inside a speech ("Leave granted.", "Senators interjecting", "(Time
+        expired)", "Question agreed to."), and "chair" is the chair putting the question for this
+        division.
 
         1. ANCHOR ON THE SPEAKER'S QUESTION:
            <speaker_question> is what the division decided. Read everything else in light of it.
@@ -152,7 +154,7 @@ module DivisionSummaryPipeline
            references.explanation lists the IDs of up to #{MAXIMUM_EXPLANATION_SENTENCES} sentences in which the
            mover explains what the motion does or why they moved it, in the order they were spoken.
            - Only the mover's own sentences, never another member's, and never a "move", "motion",
-             "quotation" or "chair" unit. The terms of the motion are printed separately; they are not an
+             "quotation", "record" or "chair" unit. The terms of the motion are printed separately; they are not an
              explanation of themselves. Words the mover quoted are someone else's, even in their speech.
            - If the mover gave no explanation (the speech is only the move and its terms, or it was moved
              formally), return an empty list. Do not fill it with anything else.

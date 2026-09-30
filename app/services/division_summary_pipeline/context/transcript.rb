@@ -16,6 +16,8 @@ module DivisionSummaryPipeline
   # - :motion, a paragraph of the terms moved,
   # - :quotation, a paragraph Hansard set apart from the member's own words: something they
   #   quoted or read out, or an editorial note (KNOWN_ISSUES.md KI-38),
+  # - :record, Hansard recording the chamber inside a speech ("Leave granted.", "Opposition
+  #   senators interjecting—", "(Time expired)"), never the speaker's words,
   # - :prose, one sentence of what a member said, and
   # - :chair, a paragraph of the chair's own words in the statement putting this division's
   #   question. What Hansard set in italic inside that statement, such as the amendments the chair
@@ -29,7 +31,8 @@ module DivisionSummaryPipeline
   class Transcript
     # start and finish are offsets into the unit's paragraph, so consecutive units can be
     # quoted as the exact run of text they came from. move counts the moves in the speech.
-    Unit = Data.define(:id, :speech_number, :index, :paragraph, :kind, :text, :start, :finish, :move)
+    # incorporated marks words from a speech incorporated in Hansard by leave, not spoken.
+    Unit = Data.define(:id, :speech_number, :index, :paragraph, :kind, :text, :start, :finish, :move, :incorporated)
 
     # date is set for speeches from an earlier sitting day; earlier marks speeches added from
     # earlier in the same debate (EarlierDebate); question marks the chair putting the question,
@@ -43,8 +46,8 @@ module DivisionSummaryPipeline
     end
 
     # A run of consecutive units from one speech, quoted exactly; paragraph breaks inside the
-    # run are kept as blank lines.
-    Passage = Data.define(:speech, :unit_ids, :text)
+    # run are kept as blank lines. incorporated when every unit of it was incorporated, not spoken.
+    Passage = Data.define(:speech, :unit_ids, :text, :incorporated)
 
     # The exact text an anchored phrase resolved to, or why it did not (see #anchor).
     Anchor = Data.define(:text, :unit, :problem)
@@ -98,9 +101,11 @@ module DivisionSummaryPipeline
         spans.each do |start, finish|
           text = paragraph[:text][start...finish]
           unit_kind = kind == :move && !text.match?(DataLoader::SpeechText::MOVE_PATTERN) ? :prose : kind
+          # Hansard ends a speech cut off by the clock with "(Time expired)" in its last paragraph.
+          unit_kind = :record if unit_kind == :prose && text.match?(DataLoader::SpeechText::RECORD)
           units << Unit.new(id: "S#{number}.#{units.size + 1}", speech_number: number, index: units.size,
                             paragraph: paragraph_index, kind: unit_kind, text: text, start: start, finish: finish,
-                            move: unit_kind == :prose ? nil : move)
+                            move: unit_kind == :prose ? nil : move, incorporated: paragraph[:incorporated] == true)
         end
       end
       Speech.new(number: number, id: speech[:id], speaker: speech[:speaker], speaker_gid: speech[:speaker_gid],
@@ -198,10 +203,13 @@ module DivisionSummaryPipeline
     # IDs are skipped; callers check IDs with #unit first when that matters.
     def passages(ids)
       chosen = ids.filter_map { |id| unit(id) }.uniq.sort_by { |unit| [unit.speech_number, unit.index] }
-      runs = chosen.slice_when { |a, b| a.speech_number != b.speech_number || b.index != a.index + 1 }
+      runs = chosen.slice_when do |a, b|
+        a.speech_number != b.speech_number || b.index != a.index + 1 || a.incorporated != b.incorporated
+      end
       runs.map do |run|
         speech = speech_of(run.first)
-        Passage.new(speech: speech, unit_ids: run.map(&:id), text: run_text(speech, run))
+        Passage.new(speech: speech, unit_ids: run.map(&:id), text: run_text(speech, run),
+                    incorporated: run.first.incorporated)
       end
     end
 

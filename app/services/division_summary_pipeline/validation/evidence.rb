@@ -30,11 +30,16 @@ module DivisionSummaryPipeline
 
   class Evidence
     # found_by: :rule (Stage 1 found it) or :model (a model reference that resolved).
-    Excerpt = Data.define(:text, :unit_ids, :speaker, :speaker_gid, :time, :date, :found_by) do
+    # incorporated: the words were incorporated in Hansard by leave, not spoken in the chamber.
+    Excerpt = Data.define(:text, :unit_ids, :speaker, :speaker_gid, :time, :date, :found_by, :incorporated) do
+      def initialize(incorporated: false, **fields)
+        super
+      end
+
       def self.from_passage(passage, found_by:)
         speech = passage.speech
         new(text: passage.text, unit_ids: passage.unit_ids, speaker: speech.speaker, speaker_gid: speech.speaker_gid,
-            time: speech.time, date: speech.date, found_by: found_by)
+            time: speech.time, date: speech.date, found_by: found_by, incorporated: passage.incorporated)
       end
     end
 

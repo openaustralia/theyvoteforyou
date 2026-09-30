@@ -128,6 +128,20 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       end
     end
 
+    # KI-57.
+    it "drops Hansard's record of the chamber inside the mover's speech" do
+      leave = summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+        <p>I seek leave to move a motion.</p>
+        <p>Leave not granted.</p>
+        <p>I move the second reading amendment on sheet 9001:</p>
+        #{motion_paragraph}
+      XML
+      result = validate(extraction(explanation: %w[S1.2]), packet(speeches: [leave, other_speech, chair_speech]))
+
+      expect(result.evidence.explanations).to be_empty
+      expect(result.warnings.join).to include("S1.2 is record text, not the mover's own words")
+    end
+
     it "drops another member's sentence" do
       result = validate(extraction(explanation: %w[S2.1 S1.1]))
 

@@ -104,10 +104,29 @@ describe DivisionSummaryPipeline::Transcript do
     # KI-44: nobody moves circulated amendments, so the chair's statement is
     # the only place Hansard records their terms.
     it "takes the amendments printed after the division's question as its terms, and other italic as quotation" do
-      expect(transcript.speech(2).units.map(&:kind)).to eq(%i[chair quotation chair chair motion])
+      expect(transcript.speech(2).units.map(&:kind)).to eq(%i[chair quotation record chair motion])
       expect(transcript.question_terms_units.map(&:text))
         .to eq(["(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed."])
     end
+  end
+
+  # KI-57: Hansard puts "(Time expired)" at the end of the last paragraph.
+  it "marks Hansard's record at the end of a paragraph as a record, not the member's sentence" do
+    node = speech("<p>The levy is fair. (Time expired)</p>", id: "s9")
+
+    expect(described_class.build(heading: "Bills", speeches: [node]).speech(1).units.map { |unit| [unit.kind, unit.text] })
+      .to eq([[:prose, "The levy is fair."], [:record, "(Time expired)"]])
+  end
+
+  # KI-55.
+  it "marks the words of a speech incorporated by leave, which were not spoken" do
+    node = speech("<p>I seek leave to incorporate the speech.</p><p class=\"italic\">The speech read as follows&#x2014;</p>" \
+                  "<p class=\"italic\">The levy is fair. It is overdue.</p><p>I commend the bill.</p>", id: "s9")
+    built = described_class.build(heading: "Bills", speeches: [node])
+
+    expect(built.speech(1).units.map { |unit| [unit.text, unit.incorporated] })
+      .to include(["The levy is fair.", true], ["It is overdue.", true], ["I commend the bill.", false])
+    expect(built.passages(%w[S1.3 S1.4 S1.5]).map(&:incorporated)).to eq([true, false])
   end
 
   describe "#passages" do
