@@ -157,6 +157,16 @@ describe DivisionSummarizer do
         expect(packets.map(&:context_level)).to eq([:subdebate])
         expect(result.description).to include("through all its remaining stages")
       end
+
+      # KI-32: nobody moves the remaining stages, so there is no mover's
+      # speech to find, and the retry read 78,535 tokens to say so again.
+      it "does not widen for a mover's speech reported missing either" do
+        extractor = scripted_extractor([reply(template_id: 6, explanation: [], missing: ["mover_speech"])], packets)
+        described_class.new(division, models: models, client: stubbed_client, xml_content: xml_content, extractor: extractor)
+                       .summarize_with(model_id)
+
+        expect(packets.map(&:context_level)).to eq([:subdebate])
+      end
     end
 
     context "when no Hansard XML is available" do
@@ -229,6 +239,23 @@ describe DivisionSummarizer do
       expect(packets.map(&:context_level)).to eq([:subdebate])
       expect(result.description).to include("The following amendment, circulated by the Example Party, was put:\n\n" \
                                             "> Omit \"the Minister\", substitute \"the Secretary\".")
+    end
+
+    # KI-59: at Senate 18 August 2026 #4 the route settled on a select committee,
+    # both models said there was no committee, and the retry could only find none again.
+    it "does not widen when the model cannot find what a settled template is about, and says so" do
+      committee = xml_content.sub("<p>The question is that the amendment be agreed to.</p>",
+                                  "<p>The question is that a select committee be appointed to inquire into the scheme.</p>")
+                             .sub(%r{<p>I move:</p><p class="italic">That the words "the Minister" be omitted.</p>}, "")
+      packets = []
+      result = described_class.new(division, models: { "only" => "only.model-v1:0" }, client: stubbed_client, xml_content: committee,
+                                             extractor: scripted_extractor([reply(template_id: 12, explanation: [],
+                                                                                  missing: ["committee"])], packets))
+                              .summarize_with("only.model-v1:0")
+
+      expect(packets.map(&:context_level)).to eq([:subdebate])
+      expect(result.description).to include("The model could not find the committee a matter is referred to, which Template 12 " \
+                                            "is about, though the question settled that template: check the route (SELECT_COMMITTEE).")
     end
 
     # Structural before semantic: when the question only refers to a motion and Stage 1 cannot

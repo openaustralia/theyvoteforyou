@@ -107,6 +107,18 @@ module DivisionSummaryPipeline
       extraction.missing.each do |kind|
         warnings << "The model reported this evidence missing: #{kind} (#{ExtractionPayload::MISSING_EVIDENCE[kind]})."
       end
+      note_route_doubt
+    end
+
+    # The question settled the template, and the model could not find what that template is about.
+    def note_route_doubt
+      routing = packet.routing
+      defining = TemplateCatalogue.defining_evidence(routing&.template_id)
+      return unless routing&.deterministic? && extraction.missing.include?(defining)
+
+      warnings << "The model could not find #{ExtractionPayload::MISSING_EVIDENCE[defining]}, which Template " \
+                  "#{routing.template_id} is about, though the question settled that template: check the route " \
+                  "(#{routing.rule_name})."
     end
 
     # Re-checks Stage 2's fence, which otherwise reaches the model only as an instruction. A
