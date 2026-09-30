@@ -68,6 +68,14 @@ describe DivisionSummarizer do
         expect(result.description).to include("---\n\n## Reviewer Only")
         expect(result.raw).to eq(reply)
       end
+
+      # A prompt cannot be rebuilt once Hansard or the pipeline has changed, so it is kept with
+      # the reply it produced.
+      it "keeps the prompt the model was sent" do
+        expect(result.system_prompt).to eq(DivisionSummaryPipeline::ExtractionPrompt.system_prompt)
+        expect(result.user_prompt).to include("<speaker_question>\nThe question is that the amendment be agreed to.",
+                                              "[S1.1] This change protects small business.")
+      end
     end
 
     context "when the model picks a template the router does not allow" do
@@ -205,6 +213,14 @@ describe DivisionSummarizer do
 
       it "asks again over the whole sitting day, and gives the later models the wider packet too" do
         expect(packets.map(&:context_level)).to eq(%i[subdebate sitting_day sitting_day])
+      end
+
+      it "keeps the prompt of the reply the draft was built from, which is the wider one" do
+        result = described_class.new(division, models: models, client: stubbed_client, xml_content: xml_content,
+                                               extractor: scripted_extractor([reply(missing: ["mover_speech"]), reply]))
+                                .summarize_with(model_id)
+
+        expect(result.user_prompt).to include("We are in consideration in detail of the other bill.")
       end
 
       # Routed again, the wider packet would be read from the start of the day, which is the

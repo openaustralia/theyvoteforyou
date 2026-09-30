@@ -387,7 +387,8 @@ the context level and any earlier days added, the question routed on, the title 
 from, the routing decision and its reason, the model's decisions and references, every excerpt with
 its units, speaker, time and how it was found, how the mover was found, the fallbacks used, and the
 validation errors and warnings. It contains nothing the model wrote. The model's reply is kept
-untouched on the saved draft's `raw_response`.
+untouched on the saved draft's `raw_response`, and the prompt it answered on `system_prompt` and
+`user_prompt`, since a prompt cannot be rebuilt once Hansard or this code has changed (KI-40).
 
 ## 8. The template catalogue
 

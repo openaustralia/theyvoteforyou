@@ -25,9 +25,11 @@ class DivisionSummarizer
   MODELS = DivisionPolicyClassifier::MODELS.dup.freeze
 
   # `raw` holds the model's untouched reply so a reviewer can judge what it actually said, not
-  # only what the pipeline made of it. Failures arrive here as `error` rather than as exceptions,
-  # so one bad model or division doesn't abandon the rest of a run.
-  Result = Struct.new(:model, :title, :description, :raw, :error, keyword_init: true)
+  # only what the pipeline made of it, and `system_prompt` and `user_prompt` what it was asked,
+  # since a prompt cannot be rebuilt once Hansard or this code has changed. Failures arrive here
+  # as `error` rather than as exceptions, so one bad model or division doesn't abandon the rest
+  # of a run.
+  Result = Struct.new(:model, :title, :description, :raw, :error, :system_prompt, :user_prompt, keyword_init: true)
 
   # client: only for tests, to inject a stubbed Aws::BedrockRuntime::Client
   # xml_content: optional raw or debates XML string for offline tests/fixtures
@@ -95,7 +97,8 @@ class DivisionSummarizer
                                                             extraction: extraction, validation: validation,
                                                             fallbacks: compiler.fallbacks,
                                                             widening_failure: widening_failure)
-    Result.new(model: model_id, title: title, description: "#{markdown}\n\n#{report}", raw: raw_response, error: nil)
+    Result.new(model: model_id, title: title, description: "#{markdown}\n\n#{report}", raw: raw_response, error: nil,
+               **prompts(packet))
   rescue Aws::Errors::ServiceError => e
     Result.new(model: model_id, error: e.message)
   rescue StandardError => e
@@ -173,6 +176,13 @@ class DivisionSummarizer
     [nil, nil, nil, e.message]
   end
 
+  # What the model was asked for the reply the draft keeps: the widened packet's prompt when the
+  # retry's reply was used, the first packet's otherwise.
+  def prompts(packet)
+    { system_prompt: DivisionSummaryPipeline::ExtractionPrompt.system_prompt,
+      user_prompt: DivisionSummaryPipeline::ExtractionPrompt.user_prompt(packet) }
+  end
+
   def build_packet(level, routing: nil)
     DivisionSummaryPipeline::ContextBuilder.build(division, xml_content: @xml_content, xml_fetcher: @xml_fetcher,
                                                             context_level: level, routing: routing)
@@ -182,7 +192,7 @@ class DivisionSummarizer
     title = DivisionSummaryPipeline::DraftTitle.for(heading: packet.heading, fallback: packet.facts.name,
                                                     bill_titles: packet.facts.bill_titles)
     report = DivisionSummaryPipeline::ReviewerReport.render(model_id: model_id, packet: packet, title: title)
-    Result.new(model: model_id, title: title, description: report, raw: raw_response, error: error)
+    Result.new(model: model_id, title: title, description: report, raw: raw_response, error: error, **prompts(packet))
   end
 
   # A failed draft still carries the Reviewer Only report, so a reviewer can see where the
@@ -194,6 +204,6 @@ class DivisionSummarizer
                                                             extraction: extraction, validation: validation,
                                                             widening_failure: widening_failure)
     Result.new(model: model_id, title: title, description: report, raw: raw_response,
-               error: "Validation failed: #{validation.errors.join('; ')}")
+               error: "Validation failed: #{validation.errors.join('; ')}", **prompts(packet))
   end
 end
