@@ -125,9 +125,10 @@ module DivisionSummaryPipeline
     def carried_amendment_note
       return "" if senate?
 
-      " The standing orders do not say what happens when one is carried in the House. It has happened once, in " \
-        "2016, and standing orders were then suspended so the bill could be restored; the House's own guide puts it " \
-        "no higher than that carriage \"would likely be regarded as preventing further progress on the bill\"."
+      " The standing orders do not say what happens when one is carried in the House. The House's Guide to " \
+        "Procedures (2017) records it happening once, in 2016, when standing orders were then suspended so the bill " \
+        "could be restored, and puts it no higher than that carriage \"would likely be regarded as preventing further " \
+        "progress on the bill\"."
     end
 
     # Template 2's vote sentence, which says the opposite thing depending on whether the
@@ -138,7 +139,7 @@ module DivisionSummaryPipeline
       sentence = "At #{facts.time}, #{amount_with_article} voted #{result_phrasing} #{noun}#{mover_clause} to the " \
                  "#{bill_reference}, #{means_clause} #{successful_text}."
       if outcome.declines_second_reading
-        "#{sentence} Because the #{plural ? 'amendments' : 'amendment'} sought to decline the bill a second reading, " \
+        "#{sentence} Because the #{plural ? 'amendments' : 'amendment'} sought to refuse the bill a second reading, " \
           "a vote for #{plural ? 'them' : 'it'} was in effect a vote against the bill proceeding."
       else
         "#{sentence} The text of the bill is unchanged either way."
@@ -160,7 +161,7 @@ module DivisionSummaryPipeline
     # defeated third reading compile to "the bill has now passed" (KI-1).
     def second_reading_clause
       if outcome.successful?
-        "This means they agreed with the main idea of the bill and can now consider it in greater detail."
+        "This means the #{chamber} agreed with the main idea of the bill and can now consider it in greater detail."
       else
         "This means the #{chamber} did not agree to the bill in principle, so it goes no further at this stage."
       end
@@ -170,13 +171,15 @@ module DivisionSummaryPipeline
       outcome.passing_variant == :remaining_stages ? "through all its remaining stages" : "through its third reading"
     end
 
+    # Template 6's sentence already ends "which means it was successful", so this starts afresh
+    # rather than with a second "This means" (KI-48).
     def third_reading_clause
       return constitution_alteration_clause if outcome.constitution_bill?
-      return "This means the bill did not pass the #{chamber}." unless outcome.successful?
+      return "The bill did not pass the #{chamber}." unless outcome.successful?
 
       # Where a bill goes once it passes depends on where it started, which TVFY does not record
       # (KI-1): stated only when a supplied bill_originating_house settles it.
-      passed = "This means the bill has now passed the #{chamber}."
+      passed = "The bill has now passed the #{chamber}."
       return passed unless supplied_chamber(facts[:bill_originating_house]) == chamber
 
       "#{passed} It started in the #{chamber}, so it now goes to the #{other_chamber}."
@@ -255,13 +258,16 @@ module DivisionSummaryPipeline
       end
     end
 
-    # Template 17 quotes the suspension's own purpose, and says nothing when the motion does not
-    # state one: a stock "to debate an urgent matter" was a guess (KI-10).
+    # Template 17 quotes the suspension's own purpose in the standard form's own words, and says
+    # nothing when the motion does not state one: a stock "to debate an urgent matter" was a guess
+    # (KI-10). Quoted, because nearly every suspension is moved in the first person, and spliced into
+    # the sentence unquoted "prevent me from moving a motion" read as They Vote For You speaking
+    # (KI-26).
     def suspension_purpose_clause
       return "" unless template_id == 17
 
       purpose = outcome.suspension_purpose
-      purpose ? " to set aside the rules that would otherwise prevent #{purpose}" : ""
+      purpose ? " \"as would prevent #{purpose}\"" : ""
     end
 
     def suspension_effect_clause
@@ -273,11 +279,14 @@ module DivisionSummaryPipeline
       matter ? "declaring a matter of urgency: \"#{matter}\"" : "declaring a matter of urgency"
     end
 
-    # Template 19 reads "specifically that <description>", so the motion's own "That" and
-    # closing full stop are dropped from the words Hansard gives ("That the debate be
-    # adjourned." reads "specifically that the debate be adjourned").
+    # What the rearrangement does, quoted after "to rearrange the business of the Senate": the
+    # motion's own words when it is one short paragraph, otherwise the phrase the model pointed at,
+    # otherwise nothing. Spliced in unquoted after "specifically that", whatever the model chose had
+    # to be a grammatical clause, and drafts printed "specifically that That" and "specifically
+    # that the substantive motion, minus 2(a) and (b)" (KI-26).
     def rearrangement_clause(description)
-      description.to_s.strip.sub(/\AThat\s+/i, "").sub(/\.\z/, "")
+      text = outcome.rearrangement_terms.presence || description.to_s.strip.presence
+      text ? " (\"#{text}\")" : ""
     end
 
     # House S.O. 94(d) (as at 23 July 2025) sets escalating periods rather than "the remainder of
@@ -372,7 +381,7 @@ module DivisionSummaryPipeline
       if rebellions.is_a?(String) && rebellions.strip.present?
         "#{rebellions.strip}\n"
       elsif rebellions.is_a?(Integer) && rebellions.positive?
-        "#{rebellions} #{senate? ? 'senator(s)' : 'member(s)'} voted against their party.\n"
+        "#{rebellions} #{(senate? ? 'senator' : 'member').pluralize(rebellions)} voted against their party.\n"
       else
         "Nobody voted against their party on this occasion.\n"
       end
@@ -466,7 +475,7 @@ module DivisionSummaryPipeline
                   else
                     "The House always rings the bells for a division at this stage, even when nobody opposes the bill, so that the constitutional majority is on the record."
                   end
-      "This means the bill has now passed the #{chamber} and will go to the #{other_chamber}. #{requirement} #{recording}"
+      "The bill has now passed the #{chamber} and will go to the #{other_chamber}. #{requirement} #{recording}"
     end
 
     def not_insist_effect_clause

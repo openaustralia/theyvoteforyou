@@ -9,9 +9,11 @@ module DivisionSummaryPipeline
   # drive the pipeline without the database. A Hash may also carry `supplied` facts TVFY does
   # not record but a caller knows (a Bills Digest, a bill's originating chamber, a follow-up
   # division link, the mover), which ARCHITECTURE.md section 15 lists as integration seams.
+  # bill_titles is every bill's own title, as the bills table records it; bill_name is the one a
+  # summary names, the first bill's with a count of the others.
   DivisionFacts = Data.define(
     :id, :house, :date, :number, :clock_time, :name, :debate_gid,
-    :aye_votes, :no_votes, :turnout, :rebellions, :bill_name, :bill_link,
+    :aye_votes, :no_votes, :turnout, :rebellions, :bill_name, :bill_link, :bill_titles,
     :amount, :result, :tied, :free_vote, :supplied
   )
 
@@ -37,6 +39,7 @@ module DivisionSummaryPipeline
         name: facts[:name].to_s, debate_gid: facts[:debate_gid].to_s,
         aye_votes: aye_votes, no_votes: no_votes, turnout: turnout, rebellions: facts[:rebellions] || 0,
         bill_name: facts[:bill_name].presence, bill_link: facts[:bill_link].to_s,
+        bill_titles: Array(facts[:bill_titles]).presence || [facts[:bill_name].presence].compact,
         amount: facts[:amount].presence, result: facts[:result].to_s.downcase,
         tied: facts[:tied] || (turnout.positive? && aye_votes == no_votes),
         free_vote: facts[:free_vote] || false,
@@ -55,7 +58,7 @@ module DivisionSummaryPipeline
         id: division.id, house: division.house.to_s, date: division.date.to_s, number: division.number.to_i,
         clock_time: division.clock_time.to_s, name: division.name.to_s, debate_gid: division.debate_gid.to_s,
         aye_votes: aye_votes, no_votes: no_votes, turnout: turnout, rebellions: division.rebellions || 0,
-        bill_name: bill_title(bills), bill_link: bills.first&.url.to_s,
+        bill_name: bill_title(bills), bill_link: bills.first&.url.to_s, bill_titles: bills.map(&:title).compact,
         amount: majority_strength(division.division_info&.majority_fraction),
         result: division.passed? ? "passed" : "negatived", tied: division.tied?,
         free_vote: division.whips.any?(&:free_vote?), supplied: {}

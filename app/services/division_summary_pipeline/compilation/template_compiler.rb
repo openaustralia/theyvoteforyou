@@ -20,7 +20,7 @@ module DivisionSummaryPipeline
     # to reproduce (KI-17).
     VERBATIM_PLACEHOLDERS = %w[explanation_section motion_introduction motion_text question_put digest_section
                                regulation_summary urgency_matter_clause limitation_of_debate_section
-                               stand_as_printed_parts_sentence].freeze
+                               stand_as_printed_parts_sentence suspension_purpose_clause rearrangement_clause].freeze
 
     # What the last #compile fell back on, for the reviewer report.
     attr_reader :fallbacks
@@ -91,6 +91,10 @@ module DivisionSummaryPipeline
       # {{committee_name}}" where Hansard names "the Economics Committee").
       rendered.gsub!(/\b([Tt]he)\s+the\s+/, "\\1 ")
       rendered.gsub!(/[ \t]+$/, "")
+      # A section with nothing left in it is left out, heading and all: EvidenceSections returns
+      # nothing for a section a reader has no use for, such as a Motion Introduction that was
+      # only "I move:".
+      rendered.gsub!(/^### [^\n]*\n\s*(?=^### |^---$|\z)/, "")
       rendered.gsub!(/\n{3,}/, "\n\n")
 
       # Block form, so a backslash in quoted Hansard is never read as a replacement reference.
@@ -164,7 +168,7 @@ module DivisionSummaryPipeline
         "regulation_name" => evidence.fact(:regulation_name).to_s,
         "regulation_link" => facts[:regulation_link].to_s,
         "regulation_summary" => facts[:regulation_summary].to_s,
-        "rearrangement_description" => wording.rearrangement_clause(evidence.fact(:rearrangement_description)),
+        "rearrangement_clause" => wording.rearrangement_clause(evidence.fact(:rearrangement_description)),
         "motion_link" => facts[:motion_link].to_s,
         "on_bill_clause" => facts.bill_name.present? ? " on the #{bill}" : ""
       }
@@ -309,8 +313,8 @@ module DivisionSummaryPipeline
 
     def note_evidence_fallbacks(evidence, entry)
       @fallbacks << :no_explanation if entry.explains && evidence.explanations.empty?
-      @fallbacks << :no_introduction unless evidence.introduction
-      @fallbacks << :no_motion_terms unless evidence.motion
+      @fallbacks << :no_introduction unless evidence.introduction || evidence.put_without_mover
+      @fallbacks << :no_motion_terms unless evidence.motion || evidence.put_without_mover
       @fallbacks << :no_question unless evidence.question
     end
 

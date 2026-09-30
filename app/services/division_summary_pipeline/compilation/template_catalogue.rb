@@ -61,10 +61,12 @@ module DivisionSummaryPipeline
       [18, "Limitation of Debate (Guillotine)", "Limitation of Debate", "motion", true, {}, [],
        "Limitation of Debate (Guillotine), including the House question \"That the bill be considered urgent\", " \
        "which brings the House's time limits for urgent bills into force"],
+      # Optional: a long motion has no one phrase for it, and the motion is printed whole anyway.
       [19, "Rearrangement of Business", "Rearrangement of Business", "motion", true,
        { rearrangement_description: "what the motion does to the business, in its operative words after " \
-                                    "\"That\" (\"the debate be adjourned\")" },
-       [:rearrangement_description],
+                                    "\"That\" (\"the debate be adjourned\"), from the motion itself, never the chair's " \
+                                    "question; leave it out when no short phrase says it" },
+       [],
        "Rearrangement of Business, including adjourning or postponing a debate (\"That the debate be adjourned\") " \
        "and setting when business will be considered (\"That the amendments be considered at the next sitting\")"],
       [20, "Withdrawal of Business", "Withdrawal of Business", "motion", true,

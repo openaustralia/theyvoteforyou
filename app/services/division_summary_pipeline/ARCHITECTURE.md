@@ -162,9 +162,12 @@ Every draft has the same shape:
 ## Reviewer Only              (how the draft was made; removed before publishing)
 ```
 
-Each quote carries the time of the speech it came from, which is not the division's time. House
-members are named in the site's own form, "Example MP"; senators, "Senator Example". Nothing
-publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
+Each quote carries the time of the speech it came from, which is not the division's time. A
+section with nothing left in it is left out, heading and all: a Motion Introduction that was only
+"I move:", and when nobody moved anything (the chair put the question itself), the explanation,
+Motion Introduction and Motion Text. House members are named in the site's own form, "Example MP";
+senators, "Senator Example". Nothing publishes itself: the draft is saved as an `AiDivisionSummary`
+for human review.
 
 ## 4. The five stages
 
@@ -288,7 +291,8 @@ publishes itself: the draft is saved as an `AiDivisionSummary` for human review.
 - Dropped with a warning: explanation references to anything but the mover's own sentences (with
   no mover, the circulating member's, if a member circulated the amendments), more than six
   sentences, model motion references when Stage 1 found the motion or that point at the chair
-  putting a question, and fact references that do not resolve.
+  putting a question, and fact references that do not resolve or are too thin for what the
+  template names.
 - Settled by the amendment's own words where they settle it: whether a second reading amendment
   declines the bill (KI-11). And a warning when the model cannot find what a template settled by
   the question is about, since then the route is in doubt (KI-59).

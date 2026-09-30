@@ -199,6 +199,19 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       expect(result.evidence.motion).to be_nil
     end
 
+    # KI-55: under a guillotine the chair puts the remaining stages with
+    # nobody moving them, so there is nothing to record under Motion Introduction or Motion Text.
+    it "records when the chair put a question that is the whole motion with nobody moving it" do
+      passing = "The question now is that the remaining stages of the bill be agreed to and the bill be now passed."
+      settled = DivisionSummaryPipeline::ProceduralRouter.route(speaker_question: passing, chamber: "senate")
+      chair = summary_speech("<p>#{passing}</p>", id: "s3", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "13:30")
+      result = validate(extraction(template_id: 6, explanation: []), packet(speeches: [no_move, chair], question: passing,
+                                                                            routing: settled))
+
+      expect(result.evidence.put_without_mover).to be(true)
+      expect(validate.evidence.put_without_mover).to be(false)
+    end
+
     it "can come from the model's paragraph IDs when Stage 1 found no move, as one unbroken passage" do
       record = DivisionSummaryPipeline::Transcript.from_record(heading: "Motions", text: "Debate on the scheme.\nThat the Senate notes the scheme.")
       context = packet.with(transcript: record, mover: nil)
@@ -247,6 +260,41 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
 
       expect(result.errors.join).to include("Template 13 requires 'committee_name'")
       expect(result.warnings.join).to include("is not in that unit")
+    end
+
+    # KI-26.
+    context "with a rearrangement of business" do
+      let(:rearrangement) { DivisionSummaryPipeline::RoutingDecision.default([19], rule_name: "TEST", reason: "test") }
+      let(:long_motion) do
+        summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "12:13")
+          <p>I move:</p>
+          <p class="italic">That—</p>
+          <p class="italic">(1) On Tuesday the hours of meeting be midday till adjournment.</p>
+        XML
+      end
+      let(:minus) { "The question is that the substantive motion, minus 1(b), be agreed to." }
+
+      def rearranged(fact, question: self.question)
+        chair = summary_speech("<p>#{question}</p>", id: "s3", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002",
+                                                     time: "12:15")
+        context = packet(speeches: [long_motion, chair], question: question, routing: rearrangement)
+        validate(extraction(template_id: 19, explanation: [], facts: { "rearrangement_description" => fact }), context)
+      end
+
+      it "refuses a fact of \"That\" and nothing else, and needs none" do
+        result = rearranged({ "unit" => "S1.2", "text" => "That—" })
+
+        expect(result).to be_valid
+        expect(result.evidence.fact(:rearrangement_description)).to be_nil
+        expect(result.warnings.join).to include("is too short to be what the template names")
+      end
+
+      it "refuses a rearrangement taken from the chair's question" do
+        result = rearranged({ "unit" => "S2.1", "text" => "the substantive motion, minus 1(b)" }, question: minus)
+
+        expect(result.evidence.fact(:rearrangement_description)).to be_nil
+        expect(result.warnings.join).to include("is the chair's question, which only says which motion was put")
+      end
     end
 
     it "accepts either the name or the electorate where a template needs one of them" do

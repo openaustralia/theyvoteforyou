@@ -11,6 +11,8 @@ At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} t
 
 {{digest_section}}
 
+### About the Motion
+
 {{explanation_section}}
 
 ### Motion Introduction

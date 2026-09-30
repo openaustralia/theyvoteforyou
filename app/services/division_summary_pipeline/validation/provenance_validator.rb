@@ -33,6 +33,14 @@ module DivisionSummaryPipeline
   # This proves the quoted words were said, where and by whom. It cannot prove the model chose the
   # most representative sentences, which is why every draft is still reviewed by a person.
   class ProvenanceValidator
+    # The fewest words, other than STOP_WORDS, each fact can take: an electorate can be one word
+    # ("Dickson"), a committee is never fewer than two. The validator used to check only that a
+    # fact was found where the model said, and "That", the first line of a motion, passed as a
+    # rearrangement of business and was printed (KI-26).
+    FACT_MINIMUM_WORDS = { target_name: 1, target_electorate: 1, committee_name: 2, regulation_name: 2, business_name: 2,
+                           rearrangement_description: 2 }.freeze
+    STOP_WORDS = %w[a an and be is it of that the this to].to_set.freeze
+
     # The two reasoned-amendment forms that say "declining to give the bill a second reading"
     # inside a negation, and therefore mean the opposite of what a substring match suggests
     # (House of Representatives Guide to Procedures, pp. 68-69), and the explicitly declining form.
@@ -80,7 +88,8 @@ module DivisionSummaryPipeline
       evidence = Evidence.new(introduction: introduction, motion: check_motion, question: question,
                               explanations: explanations, facts: facts, mover: packet.mover&.member,
                               limitation: limitation, circulation: packet.circulation,
-                              closed_template_id: packet.closed_template_id, proposer: packet.proposer)
+                              closed_template_id: packet.closed_template_id, proposer: packet.proposer,
+                              put_without_mover: put_without_mover?)
       check_declines_second_reading(evidence)
       ValidationResult.new(errors: errors, warnings: warnings, evidence: evidence)
     end
@@ -211,6 +220,12 @@ module DivisionSummaryPipeline
       Evidence::Excerpt.from_passage(passages.first, found_by: :model)
     end
 
+    # Nobody moved what the chair put: under a guillotine the chair puts the remaining stages and
+    # the circulated amendments with nobody moving them (Senate Guide No. 17).
+    def put_without_mover?
+      packet.mover.nil? && (packet.question_states_motion? || packet.circulation.present?)
+    end
+
     # The chair's own forms of words, which are never the terms of a motion whoever the transcript
     # says spoke them: the chair's statement is not always recognised as the chair's, and at Senate
     # 18 August 2026 #16 a draft printed "The question now is that amendments ... be agreed to." as
@@ -291,8 +306,10 @@ module DivisionSummaryPipeline
         next unless reference
 
         anchor = transcript.anchor(reference.unit, reference.text)
-        if anchor.problem
-          warnings << "Fact '#{name}' (\"#{reference.text.to_s[0, 80]}\" in #{reference.unit}) #{anchor_problem(anchor.problem)}, so it was not used."
+        problem = anchor.problem ? anchor_problem(anchor.problem) : implausible_fact(name, anchor, entry)
+        if problem
+          warnings << "Fact '#{name}' (\"#{reference.text.to_s[0, 80]}\" in #{reference.unit}) #{problem}, so it was " \
+                      "not used."
           next
         end
         speech = transcript.speech_of(anchor.unit)
@@ -302,6 +319,17 @@ module DivisionSummaryPipeline
       end
       check_required_facts(entry, found)
       found
+    end
+
+    # A rearrangement is what the motion does to the business, and the chair's question only says
+    # which motion was put: two models pointed at "the substantive motion, minus 2(a) and (b)" and
+    # the draft said the motion rearranged the business "specifically that" it (KI-26).
+    def implausible_fact(name, anchor, entry)
+      words = TextNormaliser.normalise_for_matching(anchor.text).scan(/[[:alnum:]]+/)
+                            .reject { |word| STOP_WORDS.include?(word) }
+      return "is too short to be what the template names" if words.size < FACT_MINIMUM_WORDS.fetch(name, 1)
+
+      "is the chair's question, which only says which motion was put" if entry.id == 19 && anchor.unit.kind == :chair
     end
 
     def anchor_problem(problem)
