@@ -1,534 +1,273 @@
 # frozen_string_literal: true
 
 require "spec_helper"
-require_relative "../../../app/services/division_summary_pipeline/context_builder"
+require "nokogiri"
 
+# Fictional members, bills and motions in the shape current ParlParse XML has.
 describe DivisionSummaryPipeline::ProvenanceValidator do
-  describe ".validate" do
-    let(:hansard_context) do
-      <<~TEXT
-        DEBATE: Consumer Data Right Reform
-        SPEECH: Priya Nakamura:
-        many small retailers still lack the technical systems needed to comply with the proposed timeframe.
-        consumers should be given a longer transition period before new data-sharing obligations take effect.
-      TEXT
+  let(:motion_paragraph) do
+    "<p class=\"italic\">At the end of the motion, add \", but the Senate calls on the Government to refer the " \
+      "scheme to the Economics References Committee\".</p>"
+  end
+  let(:mover_speech) do
+    summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+      <p>Rural students pay more to study. The Economics References Committee has not looked at it.</p>
+      <p>I move the second reading amendment on sheet 9001:</p>
+      #{motion_paragraph}
+      <p>The Senate should support it.</p>
+    XML
+  end
+  let(:other_speech) do
+    summary_speech("<p>I oppose this amendment. It is poorly drafted.</p>",
+                   id: "s2", name: "Alex Pemberton", gid: "uk.org.publicwhip/lord/900003", time: "13:25")
+  end
+  let(:question) { "The question is that the second reading amendment moved by Senator Treloar on sheet 9001 be agreed to." }
+  let(:chair_speech) do
+    summary_speech("<p>#{question}</p>", id: "s3", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "13:30")
+  end
+  let(:speeches) { [mover_speech, other_speech, chair_speech] }
+  let(:routing) { DivisionSummaryPipeline::RoutingDecision.fenced([2, 29], rule_name: "SECOND_READING_NUANCE", reason: "test") }
+
+  def packet(speeches: self.speeches, question: self.question, routing: self.routing, warnings: [])
+    summary_packet(speeches: speeches, question: question, routing: routing, warnings: warnings)
+  end
+
+  def extraction(template_id: 2, declines: false, explanation: %w[S1.1], motion: [], facts: {}, missing: [])
+    DivisionSummaryPipeline::ExtractionPayload.from_h(
+      "interpretation" => { "template_id" => template_id, "declines_second_reading" => declines, "missing" => missing },
+      "references" => { "explanation" => explanation, "motion" => motion, "facts" => facts }
+    )
+  end
+
+  def validate(payload = extraction, context = packet)
+    described_class.validate(payload, context)
+  end
+
+  describe "the evidence a valid draft quotes" do
+    it "takes the motion, its introduction and the chair's question from Stage 1, each as Hansard recorded it" do
+      evidence = validate.evidence
+
+      expect(evidence.introduction.text).to eq("I move the second reading amendment on sheet 9001:")
+      expect(evidence.motion.text).to start_with("At the end of the motion, add \", but the Senate calls on")
+      expect(evidence.motion.found_by).to eq(:rule)
+      expect(evidence.question).to have_attributes(text: question, speaker: "Robin Castellan", time: "13:30")
+      expect(evidence.limitation).to be_nil
     end
 
-    let(:context_packet) do
-      DivisionSummaryPipeline::ContextPacket.new(
-        division_id: 2788,
-        date: "2026-08-18",
-        house: "representatives",
-        clock_time: "12:39 PM",
-        speaker_question: "The question is that the amendment be agreed to.",
-        hansard_context: hansard_context
+    # Stage 1 finds it outside the transcript, since the rest of the chair's statement usually
+    # puts a question on another bill, so there is nothing for the model to point at.
+    it "takes the chair's sentence saying a limitation of debate's time had expired from Stage 1" do
+      statement = { id: "s0", speaker: "Robin Castellan", speaker_gid: "uk.org.publicwhip/lord/900002", time: "13:15",
+                    text: "Pursuant to order, the time allotted for this bill has expired." }
+      context = summary_packet(speeches: speeches, question: question, routing: routing, limitation_statement: statement)
+
+      expect(validate(extraction, context).evidence.limitation).to have_attributes(
+        text: "Pursuant to order, the time allotted for this bill has expired.", speaker: "Robin Castellan", time: "13:15",
+        unit_ids: [], found_by: :rule
       )
     end
 
-    it "validates successfully when evidence quotes exist verbatim in source text" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: true,
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Small retailers are not yet ready to comply",
-            evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
-            speaker: "Priya Nakamura"
-          )
-        ]
-      )
+    it "turns the model's sentence IDs into the mover's exact words, joining consecutive ones" do
+      result = validate(extraction(explanation: %w[S1.2 S1.1]))
 
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(true)
-      expect(result.errors).to be_empty
+      expect(result).to be_valid
+      expect(result.evidence.explanations.map(&:text))
+        .to eq(["Rural students pay more to study. The Economics References Committee has not looked at it."])
+      expect(result.evidence.explanations.first).to have_attributes(speaker: "Morgan Treloar", time: "13:20", found_by: :model)
     end
 
-    it "rejects claims where evidence is hallucinated and not found in source text" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: true,
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Hallucinated claim about taxation",
-            evidence: "this legislation will introduce a forty percent tax on data brokers",
-            speaker: "Priya Nakamura"
-          )
-        ]
-      )
+    it "keeps separate passages separate" do
+      expect(validate(extraction(explanation: %w[S1.1 S1.5])).evidence.explanations.map(&:text))
+        .to eq(["Rural students pay more to study.", "The Senate should support it."])
+    end
+  end
 
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(false)
-      expect(result.errors.first).to include("Provenance check failed")
-      expect(result.requires_human_review).to be(true)
+  # An explanation is only ever the mover's own words, never the motion restated in them.
+  describe "explanation references that do not hold up" do
+    it "drops a reference to the motion itself, so the draft says no explanation was recorded" do
+      result = validate(extraction(explanation: %w[S1.4]))
+
+      expect(result).to be_valid
+      expect(result.evidence.explanations).to be_empty
+      expect(result.warnings.join).to include("S1.4 is motion text, not the mover's own words")
     end
 
-    it "rejects a long quote with a fabricated middle even when its start and end are genuine" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: true,
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Fabricated middle spliced between two genuine phrases",
-            evidence: "many small retailers still lack the technical systems needed to secretly triple " \
-                      "the levy on regional co-operatives before new data-sharing obligations take effect",
-            speaker: "Priya Nakamura"
-          )
-        ]
-      )
-
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(false)
-      expect(result.errors.first).to include("Provenance check failed")
-    end
-
-    it "rejects a genuine quote attributed to a speaker who did not say it" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: true,
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Small retailers are not yet ready to comply",
-            evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
-            speaker: "Jordan McAllister"
-          )
-        ]
-      )
-
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(false)
-      expect(result.errors.first).to include("Provenance check failed")
-      expect(result.errors.first).to include("attributed to 'Jordan McAllister'")
-    end
-
-    it "still validates evidence with no speaker attribution against the whole context" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: true,
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Small retailers are not yet ready to comply",
-            evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
-            speaker: nil
-          )
-        ]
-      )
-
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(true)
-    end
-
-    context "with more than one speaker in the transcript" do
-      let(:hansard_context) do
-        <<~TEXT
-          DEBATE: Consumer Data Right Reform
-          SPEECH: Priya Nakamura:
-          many small retailers still lack the technical systems needed to comply with the proposed timeframe.
-          SPEECH: Jordan McAllister:
-          the opposition will not stand in the way of stronger privacy protections for consumers.
-        TEXT
+    # KNOWN_ISSUES.md KI-38: every model tried on a real division picked a minister's old words that
+    # a senator had quoted, and the draft printed them as the senator's explanation.
+    context "when the mover quotes someone else" do
+      let(:mover_speech) do
+        summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+          <p>The minister told the Senate:</p>
+          <p class="italic">Rural students pay no more to study.</p>
+          <p>That is wrong.</p>
+          <p>I move the second reading amendment on sheet 9001:</p>
+          #{motion_paragraph}
+        XML
       end
 
-      it "verifies evidence against only the claimed speaker's own lines" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 2,
-          topic: "Consumer Data Right Reform",
-          motion_text: "That all words after 'That' be omitted",
-          declines_second_reading: true,
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "The opposition supports stronger privacy protections",
-              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
-              speaker: "Jordan McAllister"
-            )
-          ]
-        )
+      it "drops the quoted words, so they are never printed as the mover's" do
+        result = validate(extraction(explanation: %w[S1.2 S1.3]))
 
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(true)
-      end
-
-      it "rejects a quote from one speaker credited to the other" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 2,
-          topic: "Consumer Data Right Reform",
-          motion_text: "That all words after 'That' be omitted",
-          declines_second_reading: true,
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "The opposition supports stronger privacy protections",
-              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
-              speaker: "Priya Nakamura"
-            )
-          ]
-        )
-
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(false)
-        expect(result.errors.first).to include("Provenance check failed")
-      end
-
-      it "matches speaker when the extracted attribution includes an honorific like Mr or Senator" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 2,
-          topic: "Consumer Data Right Reform",
-          motion_text: "That all words after 'That' be omitted",
-          declines_second_reading: true,
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "The opposition supports stronger privacy protections",
-              evidence: "the opposition will not stand in the way of stronger privacy protections for consumers",
-              speaker: "Mr McAllister"
-            )
-          ]
-        )
-
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(true)
+        expect(result).to be_valid
+        expect(result.evidence.explanations.map(&:text)).to eq(["That is wrong."])
+        expect(result.warnings.join).to include("S1.2 is quotation text, not the mover's own words")
       end
     end
 
-    context "when hansard_context has no per-speaker SPEECH: tagging (Hansard XML fallback)" do
-      let(:hansard_context) do
-        <<~TEXT
-          DEBATE: Consumer Data Right Reform
+    it "drops another member's sentence" do
+      result = validate(extraction(explanation: %w[S2.1 S1.1]))
 
-          MOTION:
-          many small retailers still lack the technical systems needed to comply with the proposed timeframe.
-        TEXT
-      end
-
-      it "still verifies evidence against the whole context regardless of the claimed speaker" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 2,
-          topic: "Consumer Data Right Reform",
-          motion_text: "That all words after 'That' be omitted",
-          declines_second_reading: true,
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "Small retailers are not yet ready to comply",
-              evidence: "many small retailers still lack the technical systems needed to comply with the proposed timeframe",
-              speaker: "Priya Nakamura"
-            )
-          ]
-        )
-
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(true)
-      end
+      expect(result.evidence.explanations.map(&:text)).to eq(["Rural students pay more to study."])
+      expect(result.warnings.join).to include("S2.1 was spoken by Alex Pemberton, not the mover")
     end
 
-    it "enforces template 2 declines_second_reading boolean requirement" do
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 2,
-        topic: "Consumer Data Right Reform",
-        motion_text: "That all words after 'That' be omitted",
-        declines_second_reading: nil
-      )
+    it "drops the chair's words and IDs that are not in the transcript" do
+      result = validate(extraction(explanation: %w[S3.1 S9.9]))
 
-      result = described_class.validate(extraction, context_packet)
-      expect(result.is_valid).to be(false)
-      expect(result.errors).to include("Template 2 requires 'declines_second_reading' to be explicitly boolean (true or false).")
+      expect(result.evidence.explanations).to be_empty
+      expect(result.warnings.join).to include("S3.1 is chair text", "S9.9 is not in the transcript")
     end
 
-    describe "template-specific extracted fields" do
-      let(:hansard_context) do
-        <<~TEXT
-          DEBATE: Selection of Bills Committee Report
-          SPEECH: Jordan McAllister:
-          I move that the matter be referred to the Selection of Bills Committee for inquiry and report.
-          SPEECH: Jordan McAllister:
-          That the honourable member for Brightwater be no longer heard.
-          SPEECH: Jordan McAllister:
-          That the Customs Regulation 2026 be disallowed.
-          That the nuclear safety business be withdrawn from the Notice Paper.
-          take the bill into consideration in detail at a later hour
-        TEXT
-      end
+    it "quotes at most six sentences, the first ones spoken" do
+      long = summary_speech("<p>#{(1..8).map { |n| "Point number #{n} stands." }.join(' ')}</p><p>I move:</p>#{motion_paragraph}",
+                            id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+      ids = (1..8).map { |n| "S1.#{n}" }.reverse
+      result = validate(extraction(explanation: ids), packet(speeches: [long, other_speech, chair_speech]))
 
-      let(:context_packet) do
-        DivisionSummaryPipeline::ContextPacket.new(
-          division_id: 2788,
-          date: "2026-08-19",
-          house: "representatives",
-          clock_time: "12:39 PM",
-          speaker_question: "The question is that the motion be agreed to.",
-          hansard_context: hansard_context
-        )
-      end
-
-      def extraction_with(fields)
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 13,
-          topic: "budget estimates",
-          motion_text: "That the matter be referred to the Selection of Bills Committee for inquiry and report.", **fields
-        )
-      end
-
-      it "accepts template 13 when the committee name is extracted and verifiable" do
-        result = described_class.validate(extraction_with(committee_name: "Selection of Bills Committee"), context_packet)
-        expect(result.is_valid).to be(true)
-        expect(result.errors).to be_empty
-      end
-
-      it "rejects template 13 when the committee name is missing so a blank is never published" do
-        result = described_class.validate(extraction_with({}), context_packet)
-        expect(result.is_valid).to be(false)
-        expect(result.errors.join).to include("committee_name")
-        expect(result.requires_human_review).to be(true)
-      end
-
-      it "rejects an extracted fact that does not appear in the Hansard source" do
-        result = described_class.validate(extraction_with(committee_name: "Committee for Made-up Affairs"), context_packet)
-        expect(result.errors.join).to include("Provenance check failed")
-      end
-
-      it "requires template 23 to identify the targeted member by name or electorate" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 23,
-          topic: "closure",
-          motion_text: "That the honourable member for Brightwater be no longer heard."
-        )
-
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(false)
-        expect(result.errors.join).to include("target_name")
-      end
-
-      it "accepts template 23 when the electorate is stated verbatim" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 23,
-          topic: "closure",
-          motion_text: "That the honourable member for Brightwater be no longer heard.",
-          target_electorate: "Brightwater"
-        )
-
-        result = described_class.validate(extraction, context_packet)
-        expect(result.is_valid).to be(true)
-      end
-
-      it "requires each other template's specific fact before that template passes validation" do
-        template_9 = described_class.validate(
-          DivisionSummaryPipeline::ExtractionPayload.new(template_id: 9, topic: "customs", motion_text: "That the Customs Regulation 2026 be disallowed."),
-          context_packet
-        )
-        template_10 = described_class.validate(
-          DivisionSummaryPipeline::ExtractionPayload.new(template_id: 10, topic: "conduct", motion_text: "That the minister be censured."),
-          context_packet
-        )
-        template_19 = described_class.validate(
-          DivisionSummaryPipeline::ExtractionPayload.new(template_id: 19, topic: "business", motion_text: "That the bill be considered in detail at a later hour."),
-          context_packet
-        )
-        template_20 = described_class.validate(
-          DivisionSummaryPipeline::ExtractionPayload.new(template_id: 20, topic: "business", motion_text: "That the nuclear safety business be withdrawn from the Notice Paper."),
-          context_packet
-        )
-
-        expect(template_9.errors.join).to include("regulation_name")
-        expect(template_10.errors.join).to include("target_name")
-        expect(template_19.errors.join).to include("rearrangement_description")
-        expect(template_20.errors.join).to include("business_name")
-      end
+      expect(result.evidence.explanations.first.text).to eq((1..6).map { |n| "Point number #{n} stands." }.join(" "))
+      expect(result.warnings.join).to include("only the first 6")
     end
 
-    describe "the procedural router's fence" do
-      def packet_with(decision)
-        DivisionSummaryPipeline::ContextPacket.new(
-          division_id: 2788,
-          date: "2026-08-18",
-          house: "representatives",
-          clock_time: "12:39 PM",
-          speaker_question: "The question is that the amendment be agreed to.",
-          hansard_context: "DEBATE: Housing Affordability Measures Bill",
-          procedural_decision: decision
-        )
-      end
+    it "ignores explanations for a template that prints none" do
+      closure = DivisionSummaryPipeline::RoutingDecision.settled(22, rule_name: "CLOSURE_OF_DEBATE", reason: "test")
+      result = validate(extraction(template_id: 22, explanation: %w[S1.1]), packet(routing: closure))
 
-      def extraction_for(template_id)
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: template_id,
-          topic: "Housing Affordability Measures",
-          motion_text: "That the amendment be agreed to.",
-          declines_second_reading: false
-        )
-      end
+      expect(result.evidence.explanations).to be_empty
+      expect(result.warnings.join).to include("template that prints none")
+    end
+  end
 
-      it "rejects a template the router locked out" do
-        decision = DivisionSummaryPipeline::ProceduralRouter.route(
-          speaker_question: "The question is that the amendment be agreed to.",
-          chamber: "representatives",
-          debate_heading: "Limitation of Debate"
-        )
-        expect(decision.locked_out_templates).to include(18)
-
-        result = described_class.validate(extraction_for(18), packet_with(decision))
-
-        expect(result.is_valid).to be(false)
-        expect(result.errors.join).to include("locked out")
-        expect(result.requires_human_review).to be(true)
-      end
-
-      it "accepts a template from the candidates the router fenced the extractor to" do
-        decision = DivisionSummaryPipeline::ProceduralRouter.route(
-          speaker_question: "The question is that the amendment be agreed to.",
-          chamber: "representatives",
-          debate_heading: "Limitation of Debate"
-        )
-
-        result = described_class.validate(extraction_for(2), packet_with(decision))
-
-        expect(result.errors).to be_empty
-      end
-
-      it "rejects a template outside the candidates the router fenced the extractor to" do
-        decision = DivisionSummaryPipeline::ProceduralRouter.route(
-          speaker_question: "The question is that the bill be read a second time.",
-          chamber: "representatives"
-        )
-        expect(decision.candidate_templates).to contain_exactly(2, 6)
-
-        result = described_class.validate(extraction_for(15), packet_with(decision))
-
-        expect(result.is_valid).to be(false)
-        expect(result.errors.join).to include("outside the candidates")
-      end
-
-      # Reaching the general-motion fallback means no rule matched, so its single candidate
-      # is a default rather than evidence about the question. An extractor that recognises
-      # the motion is better informed than the default and is left to say so.
-      it "allows any template when the router fell through to the general motion fallback" do
-        decision = DivisionSummaryPipeline::ProceduralRouter.route(
-          speaker_question: "The question is that this House notes the report.",
-          chamber: "representatives"
-        )
-        expect(decision.rule_name).to eq("GENERAL_MOTION_FALLBACK")
-
-        result = described_class.validate(extraction_for(17), packet_with(decision))
-
-        expect(result.errors).to be_empty
-      end
-
-      it "skips the check when no routing decision reached the validator" do
-        result = described_class.validate(extraction_for(15), packet_with(nil))
-
-        expect(result.errors).to be_empty
-      end
+  describe "the operative motion" do
+    let(:no_move) do
+      summary_speech("<p>Rural students pay more to study.</p>", id: "s1", name: "Morgan Treloar",
+                                                                 gid: "uk.org.publicwhip/lord/900001", time: "13:20")
     end
 
-    # House Guide pp. 68-69 gives a closed list of reasoned-amendment forms, and two of them
-    # read as declining until the negation is noticed. Template 2 publishes the opposite
-    # sentence depending on the flag, so a flag that disagrees with the motion text the model
-    # itself returned is caught mechanically rather than trusted (KNOWN_ISSUES.md, KI-11).
-    describe "declines_second_reading against the motion text" do
-      def template_2_extraction(motion_text, declines)
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 2,
-          topic: "Example Bill 2026",
-          motion_text: motion_text,
-          declines_second_reading: declines,
-          mover_claims: []
-        )
-      end
+    it "is an error when the question only refers to a motion that is nowhere in the transcript" do
+      result = validate(extraction(explanation: []), packet(speeches: [no_move, other_speech, chair_speech]))
 
-      it "rejects a true flag on a 'whilst not declining' amendment" do
-        extraction = template_2_extraction(
-          "That all words after \"That\" be omitted with a view to substituting: \"whilst not declining to " \
-          "give the bill a second reading, the House is of the opinion that ...\"", true
-        )
-
-        result = described_class.validate(extraction, nil)
-
-        expect(result.errors.join).to include("whilst not declining/opposing")
-        expect(result.is_valid).to be(false)
-      end
-
-      it "rejects a true flag on a 'whilst not opposing' amendment" do
-        extraction = template_2_extraction(
-          "That all words after \"That\" be omitted: \"whilst not opposing the provisions of the bill, the " \
-          "House is of the opinion that ...\"", true
-        )
-
-        result = described_class.validate(extraction, nil)
-
-        expect(result.is_valid).to be(false)
-      end
-
-      it "rejects a false flag on an amendment that declines the second reading" do
-        extraction = template_2_extraction(
-          "That all words after \"That\" be omitted: \"the House declines to give the bill a second reading " \
-          "as it is of the opinion that ...\"", false
-        )
-
-        result = described_class.validate(extraction, nil)
-
-        expect(result.errors.join).to include("declines to give the bill a second reading")
-        expect(result.is_valid).to be(false)
-      end
-
-      it "accepts a true flag on an amendment that does decline the second reading" do
-        extraction = template_2_extraction(
-          "That all words after \"That\" be omitted: \"the House declines to give the bill a second reading\"", true
-        )
-
-        result = described_class.validate(extraction, nil)
-
-        expect(result.errors).to be_empty
-      end
-
-      it "accepts a false flag on a 'whilst not declining' amendment" do
-        extraction = template_2_extraction(
-          "That all words after \"That\" be omitted: \"whilst not declining to give the bill a second reading, " \
-          "the House is of the opinion that ...\"", false
-        )
-
-        result = described_class.validate(extraction, nil)
-
-        expect(result.errors).to be_empty
-      end
+      expect(result).not_to be_valid
+      expect(result.errors.join).to include("The operative motion could not be found in Hansard")
     end
 
-    # Stage 1 can tell when the debate beside a division may not be about it. Carrying those
-    # flags through to the draft is the point; they are invisible to a reviewer otherwise.
-    describe "context warnings from stage 1" do
-      it "records them as warnings and sends the draft to human review" do
-        packet = DivisionSummaryPipeline::ContextPacket.new(
-          hansard_context: "DEBATE: Bills\n\nSPEECH: Fictional Member:\nnothing relevant",
-          context_warnings: ["This division immediately follows another with no debate between them."]
-        )
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22, topic: "Closure", motion_text: "That the question be now put."
-        )
+    it "is not needed when the question states its own terms, as a Speaker's adjournment does" do
+      adjourn = "The question is that the Senate do now adjourn."
+      closure = DivisionSummaryPipeline::RoutingDecision.settled(26, rule_name: "ADJOURNMENT_OF_CHAMBER", reason: "test")
+      chair = summary_speech("<p>#{adjourn}</p>", id: "s3", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "13:30")
+      result = validate(extraction(template_id: 26, explanation: []),
+                        packet(speeches: [no_move, chair], question: adjourn, routing: closure))
 
-        result = described_class.validate(extraction, packet)
+      expect(result).to be_valid
+      expect(result.evidence.motion).to be_nil
+    end
 
-        expect(result.is_valid).to be(true)
-        expect(result.warnings.join).to include("Context warning: This division immediately follows another")
-        expect(result.requires_human_review).to be(true)
-      end
+    it "can come from the model's paragraph IDs when Stage 1 found no move, as one unbroken passage" do
+      record = DivisionSummaryPipeline::Transcript.from_record(heading: "Motions", text: "Debate on the scheme.\nThat the Senate notes the scheme.")
+      context = packet.with(transcript: record, mover: nil)
+      result = validate(extraction(explanation: [], motion: %w[S1.2]), context)
 
-      it "leaves a packet with no warnings alone" do
-        packet = DivisionSummaryPipeline::ContextPacket.new(
-          hansard_context: "DEBATE: Bills\n\nSPEECH: Fictional Member:\nThat the question be now put.",
-          context_warnings: []
-        )
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22, topic: "Closure", motion_text: "That the question be now put."
-        )
+      expect(result.evidence.motion).to have_attributes(text: "That the Senate notes the scheme.", found_by: :model)
+    end
 
-        result = described_class.validate(extraction, packet)
+    it "prefers Stage 1's motion over the model's, and says so" do
+      result = validate(extraction(motion: %w[S1.5]))
 
-        expect(result.requires_human_review).to be(false)
-      end
+      expect(result.evidence.motion.found_by).to eq(:rule)
+      expect(result.warnings.join).to include("Stage 1 found the motion by rule")
+    end
+  end
+
+  describe "facts a template names" do
+    let(:referral) { DivisionSummaryPipeline::RoutingDecision.settled(13, rule_name: "COMMITTEE_REFERRAL", reason: "test") }
+
+    it "resolves to Hansard's own text inside the unit the model named" do
+      facts = { "committee_name" => { "unit" => "S1.4", "text" => "economics references committee" } }
+      result = validate(extraction(template_id: 13, facts: facts), packet(routing: referral))
+
+      expect(result).to be_valid
+      expect(result.evidence.fact(:committee_name)).to eq("Economics References Committee")
+    end
+
+    it "is an error when a required fact is not in the unit named, even if it is elsewhere" do
+      facts = { "committee_name" => { "unit" => "S1.5", "text" => "Economics References Committee" } }
+      result = validate(extraction(template_id: 13, facts: facts), packet(routing: referral))
+
+      expect(result.errors.join).to include("Template 13 requires 'committee_name'")
+      expect(result.warnings.join).to include("is not in that unit")
+    end
+
+    it "accepts either the name or the electorate where a template needs one of them" do
+      suspension = DivisionSummaryPipeline::RoutingDecision.settled(24, rule_name: "SUSPENSION_OF_MEMBER", reason: "test")
+
+      expect(validate(extraction(template_id: 24, explanation: []), packet(routing: suspension)).errors.join)
+        .to include("'target_name' or 'target_electorate'")
+    end
+  end
+
+  describe "the template" do
+    it "is an error outside the router's fence, and for a forbidden template" do
+      guard = DivisionSummaryPipeline::RoutingDecision.fenced([2, 3], rule_name: "GUILLOTINE_TRAP_AVOIDED", reason: "test",
+                                                                      forbidden: [18])
+
+      expect(validate(extraction(template_id: 6), packet(routing: guard)).errors.join).to include("outside the allowed templates")
+      expect(validate(extraction(template_id: 18), packet(routing: guard)).errors.join).to include("is forbidden")
+    end
+
+    it "may leave an advisory shortlist" do
+      fallback = DivisionSummaryPipeline::RoutingDecision.default([15], rule_name: "GENERAL_MOTION_FALLBACK", reason: "test")
+
+      expect(validate(extraction(template_id: 2), packet(routing: fallback))).to be_valid
+    end
+
+    it "is an error when it is not a catalogue template" do
+      unknown = DivisionSummaryPipeline::TemplateCatalogue::IDS.max + 1
+
+      expect(validate(extraction(template_id: unknown)).errors.join).to include("Invalid template_id #{unknown}")
+    end
+  end
+
+  # KNOWN_ISSUES.md KI-11
+  describe "declines_second_reading against the motion text" do
+    it "is required for Template 2" do
+      expect(validate(extraction(declines: nil)).errors.join).to include("requires 'declines_second_reading'")
+    end
+
+    it "cannot be true for a \"whilst not declining\" amendment" do
+      whilst = summary_speech(<<~XML, id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20")
+        <p>I move:</p>
+        <p class="italic">That all words after "That" be omitted with a view to substituting "whilst not declining to give the bill a second reading, the Senate notes the scheme".</p>
+      XML
+      result = validate(extraction(declines: true, explanation: []), packet(speeches: [whilst, other_speech, chair_speech]))
+
+      expect(result.errors.join).to include("\"whilst not declining/opposing\" form")
+    end
+  end
+
+  describe "what a reviewer is told" do
+    it "carries Stage 1's context warnings and the model's missing evidence as warnings" do
+      result = validate(extraction(missing: ["mover_speech"]), packet(warnings: ["No debate speeches were found."]))
+
+      expect(result).to be_valid
+      expect(result).to be_requires_human_review
+      expect(result.warnings).to include("Context warning: No debate speeches were found.")
+      expect(result.warnings.join).to include("mover_speech")
+    end
+
+    it "fails cleanly when the reply could not be read" do
+      result = described_class.validate(nil, packet)
+
+      expect(result).not_to be_valid
+      expect(result.evidence).to eq(DivisionSummaryPipeline::Evidence.empty)
     end
   end
 end

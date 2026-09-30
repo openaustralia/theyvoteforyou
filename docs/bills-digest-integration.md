@@ -34,7 +34,8 @@ scraper and no database column. Every compiled summary currently renders:
 
 Branches 1 and 2 are an unused seam, covered by two specs in
 `spec/services/division_summary_pipeline/template_compiler_spec.rb` that supply the data by hand.
-The wording is fixed by `TEMPLATES.md`, the original template design document.
+The wording comes from `TEMPLATES.md`, the original template design document, which is not in
+this repository; the specs are now what fix it.
 
 ## Why it is not wired up
 
@@ -146,16 +147,16 @@ Points raised about that wording:
   inconsistency already present.
 - Say what to do in both outcomes, including deleting the heading, or orphan "About the Bill"
   headings will accumulate.
-- Do not print a bill name that came from the LLM. `TemplateCompiler` computes
-  `bill_name = raw[:bill_name].presence || extraction.topic`, so when a division has no linked bill
-  it falls back to a model-derived topic. Telling an editor to search APH for a model's guess
-  reintroduces an unverified claim into the output, which is what stages 3 and 4 exist to prevent.
-  Only include the search hint when `raw[:bill_name]` is genuinely present.
+- Do not print a bill name that came from the LLM. Since the pipeline stopped asking the model for
+  a topic (`docs/adr/0005-ai-summaries-select-never-author.md`), a division with no linked bill is
+  written as "the bill" and the Reviewer Only report flags `no_bill_record`. Keep it that way:
+  telling an editor to search APH for a model's guess would reintroduce an unverified claim into
+  the output. Only include the search hint when the division's bill record is genuinely present.
 - Make it visually unmistakable as scaffolding. Nothing in the pipeline can publish itself, but a
   person copies drafts into the WikiMotion form by hand, and a plain sentence is easier to miss
   than a bold bracketed block.
 
-Changing the fallback also means updating `TEMPLATES.md`, the fallback spec in
+Changing the fallback also means updating the fallback spec in
 `template_compiler_spec.rb`, and the golden fixture
 `spec/fixtures/division_summaries/test_1/expected_output.md`. The fixture is the one people forget.
 
@@ -179,7 +180,7 @@ Both are outward-facing and are not developer calls:
 
 - `app/services/division_summarizer.rb`, the stage 5 call, marked PLACEHOLDER in a comment. The
   single point where digest data would be passed in.
-- `app/services/division_summary_pipeline/template_compiler.rb`, step 5, which turns
+- `app/services/division_summary_pipeline/compilation/template_compiler.rb`, step 5, which turns
   `digest_section` / `digest_key_points` / `digest_link` into markdown.
 - `app/services/division_summary_pipeline/ARCHITECTURE.md`, "Placeholders waiting for an
   integration", which describes the same seam from the code's point of view.
