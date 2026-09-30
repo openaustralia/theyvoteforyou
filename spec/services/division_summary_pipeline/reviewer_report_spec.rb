@@ -45,8 +45,25 @@ describe DivisionSummaryPipeline::ReviewerReport do
     headings = report.scan(/^#+ .*/)
 
     expect(headings).to eq(["## Reviewer Only", "### Source", "### Routing", "### Model decisions", "### Evidence quoted",
-                            "### Mover", "### Fallbacks used", "### Validation errors", "### Validation warnings"])
+                            "### Mover", "### Explanation sentences to look at twice", "### Fallbacks used",
+                            "### Validation errors", "### Validation warnings"])
     expect(report).to start_with("---\n\n## Reviewer Only")
+  end
+
+  # KI-58: a barb at an opponent can pass as "a reason".
+  it "flags a quoted explanation that speaks to someone or names another member, for the reviewer only" do
+    pointed = [summary_speech("<p>You have let students down. The scheme costs too much.</p><p>I move:</p>" \
+                              "<p class=\"italic\">At the end of the motion, add \", but the Senate notes the cost\".</p>",
+                              id: "s1", name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:20"), speeches.last]
+    context = summary_packet(speeches: pointed, question: question, routing: routing)
+    reply = DivisionSummaryPipeline::ExtractionPayload.from_h(
+      "interpretation" => { "template_id" => 2, "declines_second_reading" => false, "missing" => [] },
+      "references" => { "explanation" => %w[S1.1 S1.2] }
+    )
+    flagged = report(packet: context, validation: DivisionSummaryPipeline::ProvenanceValidator.validate(reply, context))
+
+    expect(flagged).to include("### Explanation sentences to look at twice\n\n- S1.1-S1.2: You have let students down.")
+    expect(report).to include("### Explanation sentences to look at twice\n\nNone.")
   end
 
   it "records each decision from the pipeline's own data" do

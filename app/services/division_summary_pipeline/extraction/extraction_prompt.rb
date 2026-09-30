@@ -5,9 +5,12 @@ module DivisionSummaryPipeline
   # ContextPacket. Treat the system prompt as source code. Editing a rule changes every future
   # extraction, and several rules are load-bearing: rule 5 is why an explanation is only ever
   # the mover's own sentences (the validator also drops anything else, a quotation included,
-  # KI-38), rule 7 is the closed list KI-11 relies on, rule 9 restates the guillotine trap Stage 2
-  # fences, and rule 8 keeps member details out of the model's hands because MemberResolver looks
-  # them up in the database.
+  # KI-38), and asks for the case rather than the barbs, since small models read an attack on an
+  # opponent as "a reason" (KI-58); its Template 17 line keeps the
+  # explanation to why the rules should be set aside, not the merits, as the team decided in
+  # September 2026; rule 7 is the closed list KI-11 relies on, rule 9 restates the
+  # guillotine trap Stage 2 fences, and rule 8 keeps member details out of the model's hands
+  # because MemberResolver looks them up in the database.
   module ExtractionPrompt
     MAXIMUM_EXPLANATION_SENTENCES = 6
 
@@ -160,10 +163,14 @@ module DivisionSummaryPipeline
              formally), return an empty list. Do not fill it with anything else.
            - Choose the sentences that state the mover's case plainly: what the motion would do and the
              reasons given. Select fairly, not to make the case look stronger or weaker.
+           - Prefer sentences whose subject is the motion, the bill or the policy. Leave out sentences about
+             other members, parties or the government, remarks addressed to them ("you"), and comments on the
+             debate itself: they are not the case for the motion, however pointed.
            - Scope to what the vote itself decides, never the subject it happens to sit under:
              Template 8 (production of documents): why the documents should be produced, not their subject.
              Template 17 (suspension of standing orders): why the rules should be set aside so something can
-             happen now, not the merits of that matter.
+             happen now, never the merits of that matter. Movers seldom say why, so an empty list is the
+             usual and expected answer for Template 17.
              Template 18 (limitation of debate): the time limit and the remaining stages, not the business.
              Template 9 (disallowance): what the regulation does and why it should stop having legal force.
              Templates 22, 23, 24 and 26 print no explanation: return an empty list.

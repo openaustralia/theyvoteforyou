@@ -107,6 +107,12 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
       expect(prompt).not_to include("topic", "Australian English (-ise")
     end
 
+    # KI-58 (the team kept "not the merits" for Template 17).
+    it "asks for the case rather than remarks aimed at others, and says Template 17 usually has none" do
+      expect(prompt).to include("Prefer sentences whose subject is the motion, the bill or the policy",
+                                "remarks addressed to them (\"you\")", "usual and expected answer for Template 17")
+    end
+
     it "says what a quotation unit is, and that words the mover quoted never explain the motion (KNOWN_ISSUES.md, KI-38)" do
       expect(prompt).to include("\"quotation\" is text", "Words the mover quoted are someone else's, even in their speech.")
     end
