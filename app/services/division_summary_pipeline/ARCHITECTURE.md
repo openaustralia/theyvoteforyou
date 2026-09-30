@@ -494,6 +494,18 @@ testing a change without AWS credentials (`lib/tasks/local_llm.rake`). `LLAMA_UR
 overwrites that model's saved draft, and keeps every reply under `tmp/llm_replies/`, with the prompt
 that produced it beside it (`...-prompt.json`).
 
+Three more development tasks in the same file check a change without a model:
+
+```bash
+rake ai:route_snapshot LABEL=before FROM=2026-05-01 TO=2026-09-30   # Stages 1 and 2 for every loaded division
+rake ai:route_snapshot_diff BEFORE=before AFTER=after                # what a change moved
+rake ai:replay_reply FILE=tmp/llm_replies/division-23-....json       # a saved reply through today's code
+```
+
+Run a snapshot before and after any change to what Stage 1 reads or Stage 2 decides, and read the
+diff: a rule that fixes one division can move others no spec covers (KI-35). Each sitting day's XML is
+fetched once and kept under `tmp/hansard_xml/`, so repeated snapshots read the same Hansard.
+
 ## 12. Architectural constraints for future work
 
 1. **No second Hansard pipeline.** Consume `Hansard -> openaustralia-parser -> ParlParse XML ->
