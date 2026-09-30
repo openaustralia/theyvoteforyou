@@ -2,6 +2,9 @@
 
 require "spec_helper"
 
+# Stage 5 compiles from the interpretation and the verified Hansard evidence, never from anything
+# the model wrote. compile_summary (spec/support/division_summary_helpers.rb) builds both from
+# plain strings, so each example states only the evidence it is about.
 describe DivisionSummaryPipeline::TemplateCompiler do
   describe ".compile" do
     it "compiles Template 22 (Closure of Debate) deterministically" do
@@ -18,13 +21,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         house: "representatives"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 22,
-        topic: "Border Processing Amendment Bill 2026",
-        motion_text: "That the question be now put."
-      )
-
-      rendered = described_class.compile(division_data, extraction)
+      rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
       expect(rendered).to start_with("**Jargon Explainer:**")
       expect(rendered).not_to include("### 22.")
       expect(rendered).to include("At 10:15 AM, a majority voted for a procedural motion introduced by Representative [Jordan McAllister]")
@@ -46,29 +43,21 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         house: "representatives"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+      rendered = compile_summary(
+        division_data,
         template_id: 2,
-        topic: "Consumer Data Right Amendment (Portability) Bill 2026",
         declines_second_reading: true,
         motion_text: "That all words after 'whilst' be omitted...",
-        mover_claims: [
-          DivisionSummaryPipeline::ClaimEvidence.new(
-            claim: "Highlighting that small retailers are not yet ready to comply",
-            evidence: "small retailers are not yet ready to comply",
-            speaker: "Priya Nakamura"
-          )
-        ]
+        explanations: ["small retailers are not yet ready to comply"]
       )
-
-      rendered = described_class.compile(division_data, extraction)
       expect(rendered).to start_with("**Bill Timeline:**")
       expect(rendered).not_to include("### 2.")
       expect(rendered).to include("Because the amendment sought to decline the bill a second reading, a vote for it was in effect a vote against the bill proceeding.")
-      expect(rendered).to include("At 12:39 PM, Independent MP Priya Nakamura states that this amendment will:")
-      expect(rendered).to include("> * Highlighting that small retailers are not yet ready to comply.")
+      # The explanation carries the time of the speech it was taken from, not the division's.
+      expect(rendered).to include("At 1:27 PM, Independent MP Priya Nakamura said:\n\n> small retailers are not yet ready to comply")
     end
 
-    it "compiles the digest section with the exact TEMPLATES.md wording when a Bills Digest is found" do
+    it "compiles the digest section with the original design's exact wording when a Bills Digest is found" do
       division_data = {
         time: "12:39 PM",
         amount: "large majority",
@@ -84,14 +73,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         digest_link: "https://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/bd/example"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 6,
-        topic: "Example Bill 2026",
-        motion_text: "That this bill be now read a second time.",
-        declines_second_reading: nil
-      )
-
-      rendered = described_class.compile(division_data, extraction)
+      rendered = compile_summary(division_data, template_id: 29, motion_text: "That this bill be now read a second time.")
       expect(rendered).to include("According to the [Bill Digest](https://www.aph.gov.au/Parliamentary_Business/Bills_Legislation/bd/example):")
       expect(rendered).to include("> * The bill establishes a scheme.")
     end
@@ -110,13 +92,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         house: "senate"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 1,
-        topic: "Example Bill 2026",
-        motion_text: "That this bill be now read a first time."
-      )
-
-      rendered = described_class.compile(division_data, extraction)
+      rendered = compile_summary(division_data, template_id: 1, motion_text: "That this bill be now read a first time.")
       expect(rendered).to include("### About the Bill\n\n> No Bill Digest found.")
     end
 
@@ -135,13 +111,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         followup_link: "https://theyvoteforyou.org.au/divisions/representatives/2026-08-19/3"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 22,
-        topic: "Border Processing Amendment Bill 2026",
-        motion_text: "That the question be now put."
-      )
-
-      rendered = described_class.compile(division_data, extraction)
+      rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
       expect(rendered).to include("The House of Representatives then voted on the question itself, which you can read about [here](https://theyvoteforyou.org.au/divisions/representatives/2026-08-19/3).")
     end
 
@@ -154,23 +124,20 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         mover_name: "Alex Smith",
         mover_link: "https://example.com/alex_smith",
         mover_party: "Labor",
-        committee_name: "the Selection of Bills Committee",
-        topic: "budget estimates",
         house: "senate"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+      rendered = compile_summary(
+        division_data,
         template_id: 13,
-        topic: "budget estimates",
-        motion_text: "That the matter be referred to the committee."
+        motion_text: "That the matter be referred to the committee.",
+        facts: { committee_name: "the Selection of Bills Committee" }
       )
-
-      rendered = described_class.compile(division_data, extraction)
       expect(rendered).to include("to the Selection of Bills Committee for inquiry and report")
       expect(rendered).not_to include("the the")
     end
 
-    it "compiles Template 13 with the committee name the extraction supplies" do
+    it "compiles Template 13 with the committee name Hansard supplies" do
       division_data = {
         time: "10:15 AM",
         amount: "majority",
@@ -183,14 +150,12 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         date: "2026-08-19"
       }
 
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+      rendered = compile_summary(
+        division_data,
         template_id: 13,
-        topic: "budget estimates",
         motion_text: "That the matter be referred to the Selection of Bills Committee for inquiry and report.",
-        committee_name: "Selection of Bills Committee"
+        facts: { committee_name: "Selection of Bills Committee" }
       )
-
-      rendered = described_class.compile(division_data, extraction)
       expect(rendered).to include("to the Selection of Bills Committee for inquiry and report")
       expect(rendered).not_to include("to the  for inquiry")
     end
@@ -221,15 +186,14 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         house: "representatives",
         date: "2026-08-19"
       }
-      extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-        template_id: 10,
-        topic: "ministerial conduct",
-        motion_text: "That the House censure the minister.",
-        target_name: "Alex Downey"
-      )
 
-      rendered = described_class.compile(division_data, extraction)
-      expect(rendered).to include("against Alex Downey regarding ministerial conduct")
+      rendered = compile_summary(
+        division_data,
+        template_id: 10,
+        motion_text: "That the House censure the minister.",
+        facts: { target_name: "Alex Downey" }
+      )
+      expect(rendered).to include("against Alex Downey, which means it was unsuccessful.")
     end
 
     describe "template 23 target resolution" do
@@ -250,14 +214,12 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       def compile_template_23(target_name: nil, target_electorate: nil)
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
+        compile_summary(
+          division_data,
           template_id: 23,
-          topic: "Border Processing Amendment Bill 2026",
           motion_text: "That the honourable member for Brightwater be no longer heard.",
-          target_name: target_name,
-          target_electorate: target_electorate
+          facts: { target_name: target_name, target_electorate: target_electorate }.compact
         )
-        described_class.compile(division_data, extraction)
       end
 
       it "injects the database member's facts for a matched target" do
@@ -276,7 +238,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         )
       end
 
-      it "quotes the extracted motion text in the motion-text blockquote" do
+      it "quotes the motion text in the motion-text blockquote" do
         create_downey_member
 
         expect(compile_template_23(target_name: "Alex Downey")).to include(
@@ -284,7 +246,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         )
       end
 
-      it "degrades to the plain extracted name when the database has no match" do
+      it "degrades to the plain name Hansard gives when the database has no match" do
         rendered = compile_template_23(target_name: "Alex Downey")
 
         expect(rendered).to include("that Alex Downey be no longer heard")
@@ -311,20 +273,19 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           name: "Representative Bills - NDIS Bill 2012; Consideration in Detail",
           house: "representatives"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22,
-          topic: "Closure",
-          motion_text: "That the question be now put."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
         expect(rendered).not_to include("NDIS Bill")
         expect(rendered).to include("introduced by a member")
         expect(rendered).not_to include("[]()")
         expect(rendered).not_to include("() ()")
       end
 
-      it "resolves the mover from speaker claims using MemberResolver when mover_name is not in division data" do
+      # This example used to resolve the mover from the speaker of the model's claims. That path
+      # was removed on purpose: the mover now comes only from the division data or from the
+      # member Stage 1 found by rule (Evidence#mover), so the speaker of an explanation passage
+      # is never promoted to mover, even when it matches a member in the database.
+      it "does not take the mover from the speaker of an explanation passage" do
         create_downey_member
         division_data = {
           time: "10:15 AM",
@@ -333,20 +294,35 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           house: "representatives",
           date: "2026-08-19"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22,
-          topic: "Closure",
-          motion_text: "That the question be now put.",
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "Closure needed",
-              evidence: "closure is needed",
-              speaker: "Alex Downey"
-            )
-          ]
+        interpretation, evidence = summary_inputs(template_id: 22, motion_text: "That the question be now put.")
+        evidence = evidence.with(explanations: [summary_excerpt("Closure is needed.", speaker: "Alex Downey", found_by: :model)])
+
+        rendered = described_class.compile(division_data, interpretation, evidence)
+        expect(rendered).to include("introduced by a member")
+        expect(rendered).not_to include("[Alex Downey]")
+      end
+
+      it "links the mover Stage 1 resolved against the database" do
+        create_downey_member
+        division_data = {
+          time: "10:15 AM",
+          amount: "majority",
+          result: "for",
+          house: "representatives",
+          date: "2026-08-19"
+        }
+        mover = DivisionSummaryPipeline::MemberResolver.resolve(
+          name: "Alex Downey",
+          house: "representatives",
+          date: "2026-08-19"
         )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(
+          division_data,
+          template_id: 22,
+          motion_text: "That the question be now put.",
+          mover: mover
+        )
         expect(rendered).to include("introduced by Representative [Alex Downey](/people/representatives/brightwater/alex_downey) (Liberal)")
       end
 
@@ -358,13 +334,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           mover_name: "Sam Taylor",
           house: "representatives"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22,
-          topic: "Closure",
-          motion_text: "That the question be now put."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 22, motion_text: "That the question be now put.")
         expect(rendered).to include("introduced by Representative Sam Taylor")
         expect(rendered).not_to include("[Sam Taylor]()")
         expect(rendered).not_to include("()")
@@ -388,36 +359,24 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "says the chamber then voted on the question after a closure" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22,
-          topic: "the bill",
-          motion_text: "That the question be now put."
-        )
-
-        rendered = described_class.compile(closure_data, extraction)
+        rendered = compile_summary(closure_data, template_id: 22, motion_text: "That the question be now put.")
 
         expect(rendered).to include("then voted on the question itself")
       end
 
       it "says business moved on when the business of the day was called on" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22,
-          topic: "a matter of public importance",
-          motion_text: "That the business of the day be called on."
-        )
-
-        rendered = described_class.compile(closure_data, extraction)
+        rendered = compile_summary(closure_data, template_id: 22, motion_text: "That the business of the day be called on.")
 
         expect(rendered).to include("There was no question before the Chair to decide")
         expect(rendered).not_to include("then voted on the question itself")
       end
     end
 
-    # The closing sentence of Template 6 used to be chosen by the bill stage alone, so a defeated
+    # The closing sentence of a reading used to be chosen by the bill stage alone, so a defeated
     # division said "the bill has now passed" directly after "which means it was unsuccessful".
-    # Both halves of the answer are needed: the stage says what the chamber was asked, the result
-    # says whether it agreed (KNOWN_ISSUES.md, KI-1).
-    describe "Template 6, reporting the result of the stage and not just the stage" do
+    # Both halves of the answer are needed: the template says which reading the chamber was
+    # asked about, the result says whether it agreed (KNOWN_ISSUES.md, KI-1).
+    describe "Templates 29 and 6, reporting the result of the reading and not just the reading" do
       def bill_division_data(result:, extra: {})
         {
           time: "05:00 PM",
@@ -431,27 +390,61 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }.merge(extra)
       end
 
-      def bill_extraction(motion_text)
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 6,
-          topic: "Example Bill 2026",
-          motion_text: motion_text
-        )
+      def compile_reading(data, reading)
+        compile_summary(data, template_id: { "second" => 29, "third" => 6 }.fetch(reading),
+                              motion_text: "That this bill be now read a #{reading} time.")
       end
 
-      let(:third_reading) { bill_extraction("That this bill be now read a third time.") }
-      let(:second_reading) { bill_extraction("That this bill be now read a second time.") }
+      it "names the reading each template is about in its vote sentence" do
+        expect(compile_reading(bill_division_data(result: "passed"), "second")).to include("through its second reading")
+        expect(compile_reading(bill_division_data(result: "passed"), "third")).to include("through its third reading")
+      end
 
       it "does not say a bill passed when the third reading was defeated" do
-        rendered = described_class.compile(bill_division_data(result: "negatived"), third_reading)
+        rendered = compile_reading(bill_division_data(result: "negatived"), "third")
 
         expect(rendered).to include("which means it was unsuccessful.")
         expect(rendered).to include("This means the bill did not pass the Senate.")
         expect(rendered).not_to include("has now passed")
       end
 
+      # The chair puts this when a guillotine's time runs out, with nobody moving it
+      # (ProceduralRouter#third_reading), so there is no mover to name either.
+      it "names every remaining stage, and no mover, when the question takes the remaining stages together" do
+        question = "The question now is that the remaining stages of the bill be agreed to, and the bill be now passed."
+        data = bill_division_data(result: "passed").except(:mover_name)
+        rendered = compile_summary(data, template_id: 6, question_text: question)
+
+        expect(rendered).to include("a motion to pass the [Example Bill 2026](https://example.com/bills/example-bill-2026) " \
+                                    "through all its remaining stages, which means it was successful.")
+        expect(rendered).not_to include("introduced by")
+      end
+
+      # The guillotine is why nobody moved it and nobody debated it, which a reader cannot see
+      # from the question alone.
+      it "says the question was put under a limitation of debate, in the chair's own words" do
+        question = "The question now is that the remaining stages of the bill be agreed to, and the bill be now passed."
+        expiry = "Pursuant to order agreed on 18 August 2026, the time allotted for consideration of 12 bills has expired."
+        rendered = compile_summary(bill_division_data(result: "passed").except(:mover_name), template_id: 6,
+                                                                                             question_text: question, limitation: expiry)
+
+        expect(rendered).to include("which means it was successful. This means the bill has now passed the Senate.\n\n" \
+                                    "This question was put under a limitation of debate, often called a 'guillotine'.\n\n" \
+                                    "At 1:15 PM, Senator Robin Castellan, in the chair, said:\n\n> #{expiry}\n\n" \
+                                    "Once the time allotted for debate has expired, the chair puts the questions still to " \
+                                    "be decided one after another, without further debate.\n\n")
+      end
+
+      it "says nothing about a limitation of debate, and leaves no gap, when there was none" do
+        question = "The question now is that the remaining stages of the bill be agreed to, and the bill be now passed."
+        rendered = compile_summary(bill_division_data(result: "passed"), template_id: 6, question_text: question)
+
+        expect(rendered).not_to include("limitation of debate")
+        expect(rendered).not_to match(/\n{3,}/)
+      end
+
       it "does not say the chamber agreed with the bill when the second reading was defeated" do
-        rendered = described_class.compile(bill_division_data(result: "negatived"), second_reading)
+        rendered = compile_reading(bill_division_data(result: "negatived"), "second")
 
         expect(rendered).to include("which means it was unsuccessful.")
         expect(rendered).to include("did not agree to the bill in principle, so it goes no further at this stage")
@@ -459,7 +452,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "still reports an agreed second reading as agreeing to the bill in principle" do
-        rendered = described_class.compile(bill_division_data(result: "passed"), second_reading)
+        rendered = compile_reading(bill_division_data(result: "passed"), "second")
 
         expect(rendered).to include("which means it was successful.")
         expect(rendered).to include("agreed with the main idea of the bill and can now consider it in greater detail")
@@ -470,7 +463,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       # for assent, not back across (House Guide to Procedures, pp. 87-88), so an unprompted
       # "will go to the House of Representatives" was wrong for that whole class of division.
       it "says only that the bill passed when the originating chamber is unknown" do
-        rendered = described_class.compile(bill_division_data(result: "passed"), third_reading)
+        rendered = compile_reading(bill_division_data(result: "passed"), "third")
 
         expect(rendered).to include("This means the bill has now passed the Senate.")
         expect(rendered).not_to include("House of Representatives")
@@ -479,7 +472,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       it "names the destination chamber when the bill is known to have started in this one" do
         data = bill_division_data(result: "passed", extra: { bill_originating_house: "senate" })
 
-        rendered = described_class.compile(data, third_reading)
+        rendered = compile_reading(data, "third")
 
         expect(rendered).to include("It started in the Senate, so it now goes to the House of Representatives.")
       end
@@ -487,7 +480,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       it "stays silent on the destination when the bill started in the other chamber" do
         data = bill_division_data(result: "passed", extra: { bill_originating_house: "representatives" })
 
-        rendered = described_class.compile(data, third_reading)
+        rendered = compile_reading(data, "third")
 
         expect(rendered).to include("This means the bill has now passed the Senate.")
         expect(rendered).not_to include("it now goes to")
@@ -499,7 +492,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         data = bill_division_data(result: "negatived",
                                   extra: { bill_name: "Constitution Alteration (Fictional Reform) 2026" })
 
-        rendered = described_class.compile(data, third_reading)
+        rendered = compile_reading(data, "third")
 
         expect(rendered).to include("requires it to pass by an absolute majority")
         expect(rendered).to include("The bill did not pass this stage.")
@@ -521,12 +514,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }
       end
 
-      let(:extraction) do
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 28,
-          topic: "clause 4",
-          motion_text: "That clause 4 stand as printed."
-        )
+      def compile_stand_as_printed(data, template_id: 28)
+        compile_summary(data, template_id: template_id, motion_text: "That clause 4 stand as printed.")
       end
 
       # The Senate puts an amendment to omit part of a bill as "That the [unit] stand as
@@ -534,7 +523,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       # direction has to stay true to the question, because that is what the aye and no
       # counts beside the summary are counts of, and the consequence is stated separately.
       it "reports a defeated question as a vote against it, and says the part was omitted" do
-        rendered = described_class.compile(division_data.merge(result: "negatived"), extraction)
+        rendered = compile_stand_as_printed(division_data.merge(result: "negatived"))
 
         expect(rendered).to include("voted against a question that part of the Migration Amendment Bill 2026 stand as printed")
         expect(rendered).to include("defeating the question is what omitted that part of the bill")
@@ -542,20 +531,14 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "reports a carried question as a vote for it, and says the part was kept" do
-        rendered = described_class.compile(division_data.merge(result: "passed"), extraction)
+        rendered = compile_stand_as_printed(division_data.merge(result: "passed"))
 
         expect(rendered).to include("voted for a question that part of the Migration Amendment Bill 2026 stand as printed")
         expect(rendered).to include("kept that part of the bill unchanged and defeated the amendment to omit it")
       end
 
       it "leaves the effect clause out of every other template" do
-        in_committee = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 3,
-          topic: "Migration Amendment Bill 2026",
-          motion_text: "That clause 4 stand as printed."
-        )
-
-        rendered = described_class.compile(division_data.merge(result: "negatived"), in_committee)
+        rendered = compile_stand_as_printed(division_data.merge(result: "negatived"), template_id: 3)
 
         expect(rendered).not_to include("stand as printed, defeating the question")
       end
@@ -574,12 +557,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }
       end
 
-      let(:quorum_extraction) do
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15,
-          topic: "a scheduling motion",
-          motion_text: "That the House take the next item of business."
-        )
+      def compile_quorum(data)
+        compile_summary(data, template_id: 15, motion_text: "That the House take the next item of business.")
       end
 
       it "explains the absolute majority a Constitution Alteration bill needs at the third reading" do
@@ -591,13 +570,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           house: "representatives",
           mover_name: "Fictional Member"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 6,
-          topic: "Constitution Alteration (Fictional Reform) 2026",
-          motion_text: "That this bill be now read a third time."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 6, motion_text: "That this bill be now read a third time.")
 
         expect(rendered).to include("through its third reading")
         expect(rendered).to include("requires it to pass by an absolute majority, meaning a majority of all the members of the chamber and not just of those who voted")
@@ -615,13 +589,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           house: "senate",
           mover_name: "Fictional Senator"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 6,
-          topic: "Constitution Alteration (Fictional Reform) 2026",
-          motion_text: "That this bill be now read a third time."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 6, motion_text: "That this bill be now read a third time.")
 
         expect(rendered).to include("records the names of senators voting on the third reading of such a bill even when no division is called")
         expect(rendered).not_to include("rings the bells")
@@ -640,13 +609,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           tied: true,
           mover_name: "Fictional Senator"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15,
-          topic: "Energy Policy",
-          motion_text: "That the Senate records its concern."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 15, motion_text: "That the Senate records its concern.")
 
         expect(rendered).to include("an equally divided Senate")
         expect(rendered).to include("the question was lost")
@@ -667,13 +631,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           tied: true,
           mover_name: "Fictional Member"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15,
-          topic: "Energy Policy",
-          motion_text: "That the House records its concern."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 15, motion_text: "That the House records its concern.")
 
         expect(rendered).to include("an equally divided House of Representatives")
         expect(rendered).to include("decided by the casting vote of the occupant of the Chair")
@@ -683,7 +642,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       # House S.O. 58: a division showing fewer than a quorum voting makes no decision. The
       # quorum is one fifth of the House, so it moved from 30 to 31 when the House grew to 151.
       it "flags a want of quorum against the 30-member threshold for a pre-2019 division" do
-        rendered = described_class.compile(quorum_division_data(date: "2015-03-04"), quorum_extraction)
+        rendered = compile_quorum(quorum_division_data(date: "2015-03-04"))
 
         expect(rendered).to include("which means it was not decided, because fewer than a quorum of members voted.")
         expect(rendered).to include("only 24 members voted, fewer than the quorum of 30")
@@ -691,13 +650,13 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "flags a want of quorum against the 31-member threshold once the House grew to 151" do
-        rendered = described_class.compile(quorum_division_data(date: "2021-03-04"), quorum_extraction)
+        rendered = compile_quorum(quorum_division_data(date: "2021-03-04"))
 
         expect(rendered).to include("fewer than the quorum of 31")
       end
 
       it "says nothing about a quorum when the date is unknown" do
-        rendered = described_class.compile(quorum_division_data(date: nil), quorum_extraction)
+        rendered = compile_quorum(quorum_division_data(date: nil))
 
         expect(rendered).not_to include("quorum")
       end
@@ -708,7 +667,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       it "never raises a quorum notice for a Senate division" do
         data = quorum_division_data(date: "2021-03-04").merge(house: "senate")
 
-        expect(described_class.compile(data, quorum_extraction)).not_to include("quorum")
+        expect(compile_quorum(data)).not_to include("quorum")
       end
 
       it "reports a conscience vote when party whips are free" do
@@ -720,13 +679,8 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           free_vote: true,
           mover_name: "Alex Smith"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15,
-          topic: "Marriage Amendment Bill",
-          motion_text: "That this bill be agreed to."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 15, motion_text: "That this bill be agreed to.")
         expect(rendered).to include("This was a conscience vote (free vote). Members were not bound by party whips, so no party rebellions are recorded.")
       end
     end
@@ -738,19 +692,18 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           time: "02:30 PM",
           amount: "majority",
           result: "passed",
-          mover_name: "Tony Burke",
+          mover_name: "Casey Marlowe",
           mover_party: "Labor",
           house: "representatives",
           date: "2026-08-19"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 24,
-          topic: "Disorder",
-          motion_text: "That the member for Brightwater be suspended from the service of the House.",
-          target_electorate: "Brightwater"
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(
+          division_data,
+          template_id: 24,
+          motion_text: "That the member for Brightwater be suspended from the service of the House.",
+          facts: { target_electorate: "Brightwater" }
+        )
         expect(rendered).to start_with("**Jargon Explainer:** *This disciplinary vote suspends a member")
         expect(rendered).to include("that Brightwater MP [Alex Downey](/people/representatives/brightwater/alex_downey) (Liberal) be suspended from the service of the House of Representatives")
       end
@@ -760,26 +713,20 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           time: "11:45 AM",
           amount: "majority",
           result: "negatived",
-          mover_name: "Paul Fletcher",
+          mover_name: "Drew Pemberton",
           mover_party: "Liberal",
           house: "representatives"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 25,
-          topic: "a Speaker's ruling on relevance",
-          motion_text: "That the Speaker's ruling be dissented from.",
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "The Minister's answer was not directly relevant",
-              evidence: "not directly relevant",
-              speaker: "Paul Fletcher"
-            )
-          ]
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(
+          division_data,
+          template_id: 25,
+          motion_text: "That the Speaker's ruling be dissented from.",
+          explanations: ["The Minister's answer was not directly relevant."]
+        )
         expect(rendered).to start_with("**Jargon Explainer:** *A motion of dissent challenges a formal procedural ruling")
-        expect(rendered).to include("to dissent from a ruling of the Chair regarding a Speaker's ruling on relevance, which means it was unsuccessful.")
+        expect(rendered).to include("to dissent from a ruling of the Chair, which means it was unsuccessful.")
+        expect(rendered).to include("Representative Drew Pemberton said:\n\n> The Minister's answer was not directly relevant.")
       end
 
       it "compiles Template 26 (Adjournment)" do
@@ -787,17 +734,12 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           time: "10:30 PM",
           amount: "majority",
           result: "passed",
-          mover_name: "Tony Burke",
+          mover_name: "Casey Marlowe",
           mover_party: "Labor",
           house: "representatives"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 26,
-          topic: "Adjournment",
-          motion_text: "That the House do now adjourn."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 26, motion_text: "That the House do now adjourn.")
         expect(rendered).to start_with("**Jargon Explainer:** *At a set time each sitting day the chair proposes that the chamber do now adjourn.")
         expect(rendered).to include("that the House of Representatives do now adjourn, which means it was successful.")
       end
@@ -807,26 +749,20 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           time: "04:15 PM",
           amount: "majority",
           result: "passed",
-          mover_name: "Penny Wong",
+          mover_name: "Tamsin Hale",
           mover_party: "Labor",
           house: "senate"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 27,
-          topic: "a ministerial statement on foreign affairs",
-          motion_text: "That the Senate take note of the document.",
-          mover_claims: [
-            DivisionSummaryPipeline::ClaimEvidence.new(
-              claim: "Enable debate on foreign affairs",
-              evidence: "enable debate",
-              speaker: "Penny Wong"
-            )
-          ]
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(
+          division_data,
+          template_id: 27,
+          motion_text: "That the Senate take note of the document.",
+          explanations: ["Taking note of the statement will enable a debate on foreign affairs."]
+        )
         expect(rendered).to start_with("**Jargon Explainer:** *A motion to \"take note\" is the device")
-        expect(rendered).to include("to take note of a ministerial statement on foreign affairs, which means it was successful.")
+        expect(rendered).to include("to take note of the matter set out in the motion text below, which means it was successful.")
+        expect(rendered).to include("Senator Tamsin Hale said:\n\n> Taking note of the statement will enable a debate on foreign affairs.")
       end
     end
 
@@ -849,17 +785,14 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }
       end
 
-      def message_extraction(motion_text)
-        DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 7, topic: "Example Bill 2026", motion_text: motion_text
-        )
+      def compile_message(data, motion_text)
+        compile_summary(data, template_id: 7, motion_text: motion_text)
       end
 
       it "says a defeated 'does not insist' is what insists on the amendments" do
-        rendered = described_class.compile(
+        rendered = compile_message(
           message_division(result: "negatived"),
-          message_extraction("That the committee does not insist on its amendments to which the House of " \
-                             "Representatives has disagreed.")
+          "That the committee does not insist on its amendments to which the House of Representatives has disagreed."
         )
 
         expect(rendered).to include("that the Senate not insist on its own amendments")
@@ -868,10 +801,7 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "attributes the amendments to this chamber, not the other one, on an insist question" do
-        rendered = described_class.compile(
-          message_division(result: "passed"),
-          message_extraction("That the committee insists on its amendments.")
-        )
+        rendered = compile_message(message_division(result: "passed"), "That the committee insists on its amendments.")
 
         expect(rendered).to include("that the Senate insist on its own amendments")
         expect(rendered).to include("the Senate kept its own amendments")
@@ -879,43 +809,47 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
       it "flips an equally divided 'does not insist' the other way, as the Senate guide does" do
         data = message_division(result: "negatived").merge(aye_votes: 36, no_votes: 36, tied: true)
-        rendered = described_class.compile(
-          data,
-          message_extraction("That the committee does not insist on its amendments.")
-        )
+        rendered = compile_message(data, "That the committee does not insist on its amendments.")
 
         expect(rendered).to include("the amendments are not insisted on")
         expect(rendered).to include("chair of committees makes a statement")
       end
 
       it "still describes a plain agree question as agreeing to the other chamber's amendments" do
-        rendered = described_class.compile(
-          message_division(result: "passed", house: "representatives"),
-          message_extraction("That the amendments made by the Senate be agreed to.")
-        )
+        rendered = compile_message(message_division(result: "passed", house: "representatives"),
+                                   "That the amendments made by the Senate be agreed to.")
 
         expect(rendered).to include("to agree to the amendments the Senate made")
         expect(rendered).to include("accepted the Senate's changes to the bill")
       end
 
       it "says a carried disagree rejects them and returns the bill with reasons" do
-        rendered = described_class.compile(
-          message_division(result: "passed", house: "representatives"),
-          message_extraction("That the amendments be disagreed to.")
-        )
+        rendered = compile_message(message_division(result: "passed", house: "representatives"),
+                                   "That the amendments be disagreed to.")
 
         expect(rendered).to include("to disagree to the amendments the Senate made")
         expect(rendered).to include("rejected the Senate's changes")
       end
 
       it "explains section 53 when the question is about requests rather than amendments" do
-        rendered = described_class.compile(
-          message_division(result: "passed"),
-          message_extraction("That the requests be made to the House of Representatives.")
-        )
+        rendered = compile_message(message_division(result: "passed"),
+                                   "That the requests be made to the House of Representatives.")
 
         expect(rendered).to include("Section 53 of the Constitution")
         expect(rendered).to include("requests for amendments")
+      end
+
+      # The message form is read from the motion where one was recorded, and from the chair's
+      # question where it was not.
+      it "reads the form from the question put when no motion was recorded" do
+        rendered = compile_summary(
+          message_division(result: "negatived"),
+          template_id: 7,
+          question_text: "The question is that the committee does not insist on its amendments."
+        )
+
+        expect(rendered).to include("that the Senate not insist on its own amendments")
+        expect(rendered).to include("defeating it is what insists on the amendments")
       end
     end
 
@@ -934,11 +868,11 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "does not describe calling on the business of the day as forcing an immediate vote" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22, topic: "cost of living", motion_text: "That the business of the day be called on."
+        rendered = compile_summary(
+          closure_division(result: "passed"),
+          template_id: 22,
+          motion_text: "That the business of the day be called on."
         )
-
-        rendered = described_class.compile(closure_division(result: "passed"), extraction)
 
         expect(rendered).to include("ends a discussion on a matter of public importance")
         expect(rendered).to include("to call on the business of the day and end the discussion")
@@ -948,22 +882,22 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "describes the ballot closure used in the election of a Speaker" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22, topic: "election of the Speaker", motion_text: "That the ballot be taken now."
+        rendered = compile_summary(
+          closure_division(result: "passed"),
+          template_id: 22,
+          motion_text: "That the ballot be taken now."
         )
-
-        rendered = described_class.compile(closure_division(result: "passed"), extraction)
 
         expect(rendered).to include("to end the debate and take the ballot immediately")
         expect(rendered).to include("then proceeded to the ballot")
       end
 
       it "says the debate continued when an ordinary closure was defeated" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 22, topic: "Example Bill 2026", motion_text: "That the question be now put."
+        rendered = compile_summary(
+          closure_division(result: "negatived"),
+          template_id: 22,
+          motion_text: "That the question be now put."
         )
-
-        rendered = described_class.compile(closure_division(result: "negatived"), extraction)
 
         expect(rendered).to include("The debate continued.")
         expect(rendered).not_to include("then voted on the question itself")
@@ -983,23 +917,21 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "says nothing about legal effect when the motion is not a declaratory one" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15, topic: "an agreement",
+        rendered = compile_summary(
+          general_division,
+          template_id: 15,
           motion_text: "That the House approves the form of agreement set out in the schedule."
         )
-
-        rendered = described_class.compile(general_division, extraction)
 
         expect(rendered).not_to include("has no legal effect")
       end
 
       it "still says so when the motion records an opinion" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15, topic: "housing",
+        rendered = compile_summary(
+          general_division,
+          template_id: 15,
           motion_text: "That the House notes the state of housing supply."
         )
-
-        rendered = described_class.compile(general_division, extraction)
 
         expect(rendered).to include("records an opinion of the House of Representatives and has no legal effect")
       end
@@ -1017,55 +949,45 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         }
       end
 
-      it "takes the purpose from the motion's own words" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 17, topic: "an urgent matter",
-          motion_text: "That so much of the standing orders be suspended as would prevent the member for " \
-                       "Fairview moving a motion relating to aged care funding forthwith."
-        )
+      def compile_suspension(data, motion_text)
+        compile_summary(data, template_id: 17, motion_text: motion_text)
+      end
 
-        rendered = described_class.compile(suspension_division, extraction)
+      it "takes the purpose from the motion's own words" do
+        rendered = compile_suspension(suspension_division,
+                                      "That so much of the standing orders be suspended as would prevent the member for " \
+                                      "Fairview moving a motion relating to aged care funding forthwith.")
 
         expect(rendered).to include("prevent the member for Fairview moving a motion relating to aged care funding forthwith")
         expect(rendered).not_to include("urgent matter regarding an urgent matter")
         expect(rendered).not_to include("to allow the House of Representatives to debate an urgent matter")
       end
 
-      it "falls back to the topic when the motion does not use the usual form" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 17, topic: "aged care funding",
-          motion_text: "That standing order 65 be suspended for this sitting."
-        )
+      # There is no model-written topic to fall back on any more, so a motion that does not
+      # state its purpose in the usual form gets no purpose clause at all.
+      it "prints no purpose clause when the motion does not use the usual form" do
+        rendered = compile_suspension(suspension_division, "That standing order 65 be suspended for this sitting.")
 
-        rendered = described_class.compile(suspension_division, extraction)
-
-        expect(rendered).to include("(Labor) regarding aged care funding. The vote was successful.")
+        expect(rendered).to include("(Labor). The vote was successful.")
+        expect(rendered).not_to include("to set aside the rules that would otherwise prevent")
       end
 
       # KI-5: a suspension moved without notice needs an absolute majority, and the question
       # alone does not say how it was moved.
       it "flags a suspension carried on fewer votes than an absolute majority" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 17, topic: "aged care funding",
-          motion_text: "That so much of the standing orders be suspended as would prevent a motion being moved."
-        )
         data = suspension_division.merge(aye_votes: 70, no_votes: 68, date: "2024-06-05")
 
-        rendered = described_class.compile(data, extraction)
+        rendered = compile_suspension(data, "That so much of the standing orders be suspended as would prevent a motion being moved.")
 
-        expect(rendered).to include("needs an absolute majority")
+        expect(rendered).to include("Notice: a motion to suspend standing orders moved without notice needs an absolute majority")
         expect(rendered).to include("at least 76")
         expect(rendered).to include("the question alone does not record which it was")
       end
 
       it "says nothing about an absolute majority when the ayes clear it anyway" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 17, topic: "aged care funding",
-          motion_text: "That so much of the standing orders be suspended as would prevent a motion being moved."
-        )
         data = suspension_division.merge(aye_votes: 84, no_votes: 54, date: "2024-06-05")
 
-        rendered = described_class.compile(data, extraction)
+        rendered = compile_suspension(data, "That so much of the standing orders be suspended as would prevent a motion being moved.")
 
         expect(rendered).not_to include("Notice: a motion to suspend standing orders moved without notice")
       end
@@ -1084,13 +1006,12 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "gives the House's escalating periods rather than the remainder of the sitting" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 24, topic: "Disorder",
+        rendered = compile_summary(
+          suspension_of_member("representatives"),
+          template_id: 24,
           motion_text: "That the member be suspended from the service of the House.",
-          target_name: "Fictional Member"
+          facts: { target_name: "Fictional Member" }
         )
-
-        rendered = described_class.compile(suspension_of_member("representatives"), extraction)
 
         expect(rendered).to include("24 hours on a first occasion")
         expect(rendered).to include("seven consecutive sittings on a third or later occasion")
@@ -1099,13 +1020,12 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
 
       it "uses the Senate's form of words and does not assert its suspension periods" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 24, topic: "Disorder",
+        rendered = compile_summary(
+          suspension_of_member("senate"),
+          template_id: 24,
           motion_text: "That the senator be suspended from the sitting of the Senate.",
-          target_name: "Fictional Senator"
+          facts: { target_name: "Fictional Senator" }
         )
-
-        rendered = described_class.compile(suspension_of_member("senate"), extraction)
 
         expect(rendered).to include("be suspended from the sitting of the Senate")
         expect(rendered).to include("standing order 204")
@@ -1117,13 +1037,10 @@ describe DivisionSummaryPipeline::TemplateCompiler do
     # with nobody moving it, so there is no mover to name (KI-12).
     describe "Template 26, an adjournment with no mover" do
       it "leaves the mover out rather than naming 'a member'" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 26, topic: "Adjournment", motion_text: "That the House do now adjourn."
-        )
-
-        rendered = described_class.compile(
+        rendered = compile_summary(
           { time: "08:00 PM", amount: "majority", result: "negatived", house: "representatives" },
-          extraction
+          template_id: 26,
+          motion_text: "That the House do now adjourn."
         )
 
         expect(rendered).to include("voted against a procedural motion that the House of Representatives do now adjourn")
@@ -1135,31 +1052,25 @@ describe DivisionSummaryPipeline::TemplateCompiler do
     # The cosmetic tidying passes used to run over the whole compiled document, including the
     # blockquoted motion text, so they silently edited quoted Hansard.
     describe "verbatim quoted text" do
-      it "leaves runs of spaces inside the quoted motion alone" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15, topic: "housing",
-          motion_text: "That the House notes:    (a) the first thing; and    (b) the second thing."
-        )
+      let(:division_data) do
+        { time: "03:40 PM", amount: "majority", result: "passed", house: "representatives", mover_name: "Fictional Member" }
+      end
 
-        rendered = described_class.compile(
-          { time: "03:40 PM", amount: "majority", result: "passed", house: "representatives",
-            mover_name: "Fictional Member" },
-          extraction
+      it "leaves runs of spaces inside the quoted motion alone" do
+        rendered = compile_summary(
+          division_data,
+          template_id: 15,
+          motion_text: "That the House notes:    (a) the first thing; and    (b) the second thing."
         )
 
         expect(rendered).to include("> That the House notes:    (a) the first thing; and    (b) the second thing.")
       end
 
       it "does not collapse a doubled 'the' that a member actually said" do
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15, topic: "housing",
+        rendered = compile_summary(
+          division_data,
+          template_id: 15,
           motion_text: "That the House notes the the minister misspoke."
-        )
-
-        rendered = described_class.compile(
-          { time: "03:40 PM", amount: "majority", result: "passed", house: "representatives",
-            mover_name: "Fictional Member" },
-          extraction
         )
 
         expect(rendered).to include("> That the House notes the the minister misspoke.")
@@ -1174,15 +1085,410 @@ describe DivisionSummaryPipeline::TemplateCompiler do
           time: "02:15 PM", house: "representatives", aye_votes: 75, no_votes: 75,
           result: "negatived", tied: true, mover_name: "Fictional Member"
         }
-        extraction = DivisionSummaryPipeline::ExtractionPayload.new(
-          template_id: 15, topic: "Energy Policy", motion_text: "That the House records its concern."
-        )
 
-        rendered = described_class.compile(division_data, extraction)
+        rendered = compile_summary(division_data, template_id: 15, motion_text: "That the House records its concern.")
 
         expect(rendered).to include("an equally divided House of Representatives voted on a")
         expect(rendered).to include("not decided by the division figures, which were equal")
         expect(rendered).to include("do not record which way that casting vote went")
+      end
+    end
+
+    # What the September 2026 test runs got wrong in drafts that otherwise passed.
+    describe "facts the drafts from real divisions got wrong" do
+      let(:senate_data) { { time: "11:00 AM", amount: "majority", result: "passed", house: "senate" } }
+
+      def compile_real(division_data, template_id, motion_text: "That the motion be agreed to.", **inputs)
+        compile_summary(division_data, template_id: template_id, motion_text: motion_text, **inputs)
+      end
+
+      # Whip#free? is true for any whipless party (independents, the presiding officer), which
+      # is nearly every division; Whip#free_vote? is the list of actual conscience votes.
+      it "does not call a division a conscience vote because an independent has no whip" do
+        division = create(:division, house: "senate", date: Date.new(2026, 9, 14), number: 7)
+        create(:whip, division: division, party: "Independent", whip_guess: "none")
+
+        expect(compile_real(division, 15)).not_to include("conscience vote")
+      end
+
+      it "still calls a listed conscience vote one, in the Senate's own words" do
+        division = create(:division, house: "senate", date: Date.new(2022, 11, 24), number: 1)
+        create(:whip, division: division, party: "Australian Labor Party", whip_guess: "none")
+
+        expect(compile_real(division, 15)).to include("Senators were not bound by party whips")
+      end
+
+      it "names the mover Stage 1 found when the division data has none" do
+        mover = DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
+
+        rendered = compile_real(senate_data.merge(house: "representatives"), 15, mover: mover)
+
+        expect(rendered).to include("introduced by Representative Jo Rae")
+      end
+
+      it "prefers a mover the division data supplies" do
+        mover = DivisionSummaryPipeline::MemberResolver.named("Jo Rae")
+
+        rendered = compile_real(senate_data.merge(mover_name: "Sam Taylor"), 15, mover: mover)
+
+        expect(rendered).to include("introduced by Senator Sam Taylor")
+      end
+
+      # T3 once printed the model's unresolved speaker after a hard-coded "Senator". The model
+      # can no longer name anyone, but an explanation passage still carries the speaker name
+      # Hansard printed, which for a presiding officer is the office rather than a person, and is
+      # printed as the office ("the President") with no chamber title in front of it.
+      it "does not print an unresolved speaker as the mover" do
+        interpretation, evidence = summary_inputs(template_id: 3, motion_text: "That the motion be agreed to.")
+        passage = summary_excerpt("The amendment fixes the rail safety rules.", speaker: "The PRESIDENT", found_by: :model)
+        evidence = evidence.with(explanations: [passage])
+
+        rendered = described_class.compile(senate_data, interpretation, evidence)
+
+        expect(rendered).to include("an amendment introduced by a member to the bill")
+        expect(rendered).not_to include("PRESIDENT")
+        expect(rendered).not_to include("Senator a member")
+      end
+
+      # There is no model-written topic any more; the check now is that nothing but a bill
+      # record, not even the debate heading, is printed as the bill's title.
+      it "does not print anything but a bill record as though it were the bill's title" do
+        rendered = compile_real(
+          senate_data.merge(result: "negatived", name: "Early childhood wages"),
+          2,
+          declines_second_reading: false
+        )
+
+        expect(rendered).to include("second reading amendment introduced by a member to the bill,")
+        expect(rendered).not_to include("Early childhood wages,")
+      end
+
+      it "quotes the matter of urgency itself rather than calling the topic urgent" do
+        motion = "That, in the opinion of the Senate, the following is a matter of urgency:\n\n" \
+                 "The need for the Government to publish its housing plan."
+
+        rendered = compile_real(senate_data, 16, motion_text: motion)
+
+        expect(rendered).to include("declaring a matter of urgency: \"The need for the Government to publish its housing plan\"")
+        expect(rendered).not_to include("declaring Housing plan urgency")
+      end
+
+      it "declares a matter of urgency without naming one when the motion does not state it" do
+        rendered = compile_real(senate_data, 16, motion_text: "That the matter be considered urgent.")
+
+        expect(rendered).to include("declaring a matter of urgency, which means it was successful.")
+      end
+
+      it "keeps a long suspension purpose whole, including a bill title with \"No. 3\" in it" do
+        purpose = "the member for Exampleton moving a motion to bring on the Example Measures Amendment Bill 2026 " \
+                  "(No. 3), having earlier been referred to the Federation Chamber, for further consideration in " \
+                  "detail by the House immediately and for the remaining stages to be passed without delay"
+        motion = "That so much of the standing orders be suspended as would prevent #{purpose}."
+
+        rendered = compile_real(senate_data.merge(house: "representatives"), 17, motion_text: motion)
+
+        expect(rendered).to include("otherwise prevent #{purpose}")
+        expect(rendered).not_to include("regarding Example topic")
+      end
+
+      it "reads \"That the debate be adjourned\" as what the rearrangement does" do
+        rendered = compile_real(
+          senate_data.merge(house: "representatives"),
+          19,
+          facts: { rearrangement_description: "That the debate be adjourned." }
+        )
+
+        expect(rendered).to include("specifically that the debate be adjourned, which means")
+      end
+
+      it "names the bill a guillotine limits debate on when the division has one" do
+        rendered = compile_real(senate_data.merge(bill_name: "Example Bill 2026", bill_link: "https://example.com/bill"), 18)
+
+        expect(rendered).to include("to limit debate and force a vote on the [Example Bill 2026](https://example.com/bill), which means")
+      end
+    end
+  end
+
+  # Every quoted part of a summary is Hansard's own text from Evidence, printed whole under a
+  # line saying who said it and when (EvidenceSections).
+  # KNOWN_ISSUES.md KI-29: the Template 2 explainer described only the House.
+  describe "Template 2's explainer in each chamber" do
+    it "gives the House's one precedent for a House division, and says nothing borrowed for the Senate" do
+      house = compile_summary({ house: "representatives", result: "negatived" }, template_id: 2, declines_second_reading: false,
+                                                                                 motion_text: "At the end of the motion, add words.")
+      senate = compile_summary({ house: "senate", result: "negatived" }, template_id: 2, declines_second_reading: false,
+                                                                         motion_text: "At the end of the motion, add words.")
+
+      expect(house).to include("It has happened once, in 2016")
+      expect(senate).not_to include("carried in the House", "2016")
+      expect(senate).to include("or to delay further consideration of it.*")
+    end
+  end
+
+  describe "sections quoting Hansard" do
+    let(:senate_data) { { time: "01:31 PM", amount: "majority", result: "passed", house: "senate" } }
+    let(:treloar) { DivisionSummaryPipeline::MemberResolver.named("Morgan Treloar") }
+
+    def section(rendered, heading)
+      rendered[/^### #{Regexp.escape(heading)}\n\n(.*?)(?=\n\n### |\z)/m, 1]
+    end
+
+    describe "the separator after the explainer" do
+      def required_facts(template_id)
+        {
+          9 => { regulation_name: "Example Instrument 2026" },
+          10 => { target_name: "Fictional Member" },
+          13 => { committee_name: "Economics References Committee" },
+          19 => { rearrangement_description: "That the debate be adjourned." },
+          20 => { business_name: "general business notice of motion no. 12" },
+          23 => { target_name: "Fictional Member" },
+          24 => { target_name: "Fictional Member" }
+        }.fetch(template_id, {})
+      end
+
+      DivisionSummaryPipeline::TemplateCatalogue::IDS.each do |template_id|
+        it "puts a line of --- between the explainer and the vote sentence in Template #{template_id}" do
+          data = { time: "10:15 AM", amount: "majority", result: "passed", house: "representatives",
+                   bill_name: "Example Bill 2026", mover_name: "Fictional Member" }
+          rendered = compile_summary(
+            data,
+            template_id: template_id,
+            declines_second_reading: false,
+            motion_text: "That the motion be agreed to.",
+            question_text: "The question is that the motion be agreed to.",
+            facts: required_facts(template_id)
+          )
+          lines = rendered.lines(chomp: true)
+          separator = lines.index("---")
+
+          expect(lines.count("---")).to eq(1)
+          expect(lines.first).to match(/\A\*\*(?:Bill Timeline|Jargon Explainer):\*\* /)
+          # A blank line either side, or Markdown reads the paragraph above as a heading.
+          expect(lines[separator - 1]).to eq("")
+          expect(lines[separator + 1]).to eq("")
+          expect(lines[separator + 2]).to start_with("At 10:15 AM, ")
+        end
+      end
+    end
+
+    describe "the mover's explanation" do
+      it "quotes each passage under the time of the speech and the mover's name" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          explanations: ["The report sets out the costs plainly."],
+          mover: treloar
+        )
+
+        expect(section(rendered, "About the Motion")).to eq(
+          "At 1:27 PM, Senator Morgan Treloar said:\n\n> The report sets out the costs plainly."
+        )
+      end
+
+      it "says so in a fixed sentence when there is nothing to quote" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          mover: treloar
+        )
+
+        expect(section(rendered, "About the Motion")).to eq("> No explanatory claims recorded.")
+      end
+
+      it "prints one header over two passages from the same speech" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          explanations: ["The report sets out the costs plainly.", "It deserves a response from the Government."],
+          mover: treloar
+        )
+
+        expect(section(rendered, "About the Motion")).to eq(
+          "At 1:27 PM, Senator Morgan Treloar said:\n\n> The report sets out the costs plainly.\n\n" \
+          "> It deserves a response from the Government."
+        )
+        expect(rendered.scan("said:").size).to eq(1)
+      end
+
+      [22, 23, 24, 26].each do |template_id|
+        it "prints no explanation section at all in Template #{template_id}" do
+          rendered = compile_summary(
+            senate_data,
+            template_id: template_id,
+            motion_text: "That the motion be agreed to.",
+            explanations: ["This sentence is never printed."],
+            facts: { target_name: "Fictional Member" },
+            mover: treloar
+          )
+
+          expect(rendered).not_to include("said:")
+          expect(rendered).not_to include("This sentence is never printed.")
+          expect(rendered).not_to include("No explanatory claims recorded.")
+        end
+      end
+    end
+
+    describe "the question put" do
+      it "quotes the chair's question under the time and the chair's name" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          question_text: "The question is that the motion be agreed to."
+        )
+
+        expect(section(rendered, "Question Put")).to eq(
+          "At 1:30 PM, Senator Robin Castellan, in the chair, put the following question:\n\n" \
+          "> The question is that the motion be agreed to."
+        )
+      end
+
+      it "says so in a fixed sentence when no question was recorded" do
+        rendered = compile_summary(senate_data, template_id: 15, motion_text: "That the Senate notes the report.")
+
+        expect(section(rendered, "Question Put")).to eq("> No question was recorded before the division.")
+      end
+    end
+
+    describe "the motion introduction" do
+      it "quotes the mover's own words moving it" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          introduction: "I move the motion standing in my name."
+        )
+
+        expect(section(rendered, "Motion Introduction")).to eq("> I move the motion standing in my name.")
+      end
+
+      it "says so in a fixed sentence when none was recorded" do
+        rendered = compile_summary(senate_data, template_id: 15, motion_text: "That the Senate notes the report.")
+
+        expect(section(rendered, "Motion Introduction")).to eq("> No motion introduction recorded.")
+      end
+    end
+
+    describe "the line attributing the motion" do
+      it "credits the mover with the amendment in Template 2" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 2,
+          declines_second_reading: false,
+          mover: treloar,
+          motion_text: "That all words after \"That\" be omitted."
+        )
+
+        expect(section(rendered, "Amendment Text")).to eq(
+          "Senator Morgan Treloar moved the following amendment:\n\n> That all words after \"That\" be omitted."
+        )
+      end
+
+      it "credits the mover with the motion in Template 15" do
+        rendered = compile_summary(
+          senate_data,
+          template_id: 15,
+          motion_text: "That the Senate notes the report.",
+          mover: treloar
+        )
+
+        expect(section(rendered, "Motion Text")).to eq(
+          "Senator Morgan Treloar moved the following motion:\n\n> That the Senate notes the report."
+        )
+      end
+
+      # The speech a model-found motion sits in may be the chair reading out someone else's
+      # proposal, so it is not credited to the mover.
+      it "credits nobody with a motion the model found rather than Stage 1" do
+        interpretation, evidence = summary_inputs(template_id: 15, mover: treloar)
+        evidence = evidence.with(motion: summary_excerpt("That the Senate notes the report.", found_by: :model))
+
+        rendered = described_class.compile(senate_data, interpretation, evidence)
+
+        expect(section(rendered, "Motion Text")).to eq(
+          "The following motion was moved:\n\n> That the Senate notes the report."
+        )
+      end
+    end
+
+    describe "quotes are printed whole" do
+      it "never trims or tidies a long motion" do
+        paragraphs = ["That the Senate:"] + (1..12).map do |n|
+          "(#{n}) notes  that the the Example Services Review, in its finding number #{n}, recommended that the " \
+            "Government  consult the the peak bodies before changing the scheme, and that the Government has not " \
+            "yet done so;"
+        end
+        motion = "#{paragraphs.join("\n\n")}\n\n(13) calls on the Government to respond before the end of the year."
+        quoted = motion.gsub(/^(?=.)/, "> ").gsub(/^$/, ">")
+
+        rendered = compile_summary(senate_data, template_id: 15, motion_text: motion, mover: treloar)
+
+        expect(motion.length).to be > 2000
+        expect(section(rendered, "Motion Text")).to eq("Senator Morgan Treloar moved the following motion:\n\n#{quoted}")
+      end
+    end
+
+    describe "#fallbacks" do
+      def fallbacks_for(data = senate_data, digest_section: nil, **inputs)
+        compiler = described_class.new
+        compiler.compile(data, *summary_inputs(**inputs), digest_section: digest_section)
+        compiler.fallbacks
+      end
+
+      let(:motion) { "That the motion be agreed to." }
+      let(:third_reading) { "That this bill be now read a third time." }
+
+      it "records no explanation only for a template that quotes one" do
+        expect(fallbacks_for(template_id: 15, motion_text: motion)).to include(:no_explanation)
+        expect(fallbacks_for(template_id: 15, motion_text: motion, explanations: ["Said."])).not_to include(:no_explanation)
+        expect(fallbacks_for(template_id: 22, motion_text: "That the question be now put.")).not_to include(:no_explanation)
+      end
+
+      it "records no question when the chair's question was not recorded" do
+        question = "The question is that the motion be agreed to."
+
+        expect(fallbacks_for(template_id: 15, motion_text: motion)).to include(:no_question)
+        expect(fallbacks_for(template_id: 15, motion_text: motion, question_text: question)).not_to include(:no_question)
+      end
+
+      it "records an unresolved mover only when neither the division data nor Stage 1 names one" do
+        supplied = senate_data.merge(mover_name: "Sam Taylor")
+
+        expect(fallbacks_for(template_id: 15, motion_text: motion)).to include(:mover_unresolved)
+        expect(fallbacks_for(template_id: 15, motion_text: motion, mover: treloar)).not_to include(:mover_unresolved)
+        expect(fallbacks_for(supplied, template_id: 15, motion_text: motion)).not_to include(:mover_unresolved)
+      end
+
+      it "records no digest when a bill template has no Bills Digest to print" do
+        digest = "According to the Bill Digest:\n\n> * It does a thing."
+
+        expect(fallbacks_for(template_id: 6, motion_text: third_reading)).to include(:no_digest)
+        expect(fallbacks_for(template_id: 6, motion_text: third_reading, digest_section: digest)).not_to include(:no_digest)
+      end
+
+      # ReviewerReport tells the reviewer "No Bill Digest found." is printed, which is only
+      # true of the templates with an About the Bill section.
+      it "does not record a missing digest for a template that prints no digest section" do
+        expect(fallbacks_for(template_id: 15, motion_text: motion)).not_to include(:no_digest)
+      end
+
+      # The About the Bill section is what makes a template a bill template, so the reviewer is
+      # told about a missing bill record on every one of them and on nothing else.
+      it "records a missing bill record for every template with an About the Bill section, and only those" do
+        bill_templates = DivisionSummaryPipeline::TemplateCatalogue::IDS.select do |id|
+          File.read(Dir.glob(File.join(described_class::DEFAULT_TEMPLATES_DIR, "#{id}_*.md")).first)
+              .include?("{{digest_section}}")
+        end
+
+        expect(bill_templates).to include(1, 2, 6, 7, 28, 29)
+        expect(fallbacks_for(template_id: 29, motion_text: "That this bill be now read a second time."))
+          .to include(:no_bill_record)
+        expect(fallbacks_for(senate_data.merge(bill_name: "Example Bill 2026"), template_id: 6, motion_text: third_reading))
+          .not_to include(:no_bill_record)
+        expect(fallbacks_for(template_id: 15, motion_text: motion)).not_to include(:no_bill_record)
       end
     end
   end
