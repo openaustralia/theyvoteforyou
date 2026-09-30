@@ -85,10 +85,13 @@ small packet:
   speeches from earlier in the same debate, including earlier sitting days and the same bill's
   other headings;
 - when the question was put because a limitation of debate's time had expired, the chair's
-  sentence saying so, however many divisions back it is;
+  sentence saying so, however many divisions back it is, and in the House, the Speaker putting it
+  immediately under a resolution agreed earlier;
 - the mover, found by rule (MoverFinder), and so, by rule, the terms moved and the words the mover
   moved them with; or, when the chair put amendments nobody moved, their terms as the chair's
-  statement prints them and who circulated them (Circulation).
+  statement prints them and who circulated them (Circulation);
+- for a closure, what the debate it ended was on, and the division that then put that question;
+  for a matter of urgency, who proposed it when someone else moved it.
 
 ### Step 2: Route the vote (ProceduralRouter)
 
@@ -137,8 +140,8 @@ Every draft has the same shape:
 <vote sentence>
 
 <limitation of debate>         (bill templates, only when the chair put the question because a
-                               guillotine's time had expired: fixed sentences either side of the
-                               chair's own words saying so)
+                               guillotine's time had expired, or in the House under an earlier
+                               resolution: a fixed sentence and the chair's own words saying so)
 
 <notices>                      (a divided question, rebellions, a tie, want of quorum, absolute
                                majority)
@@ -500,7 +503,6 @@ never built.
   `DivisionPolicyClassifier::MODELS`, inherited from the classifier spike rather than decided for
   this feature.
 - **Bills Digest / Explanatory Memorandum integration** (section 15).
-- **Template 22's follow-up division link**, a deterministic lookup over same-debate divisions.
 - **Surfacing `AiDivisionSummary` drafts in the admin panel** for review.
 - **Reusing one fetched XML document across a batch of divisions** if this ever runs nightly.
 - **Splitting `template_compiler_spec.rb`**, which tests ParliamentaryOutcome, SummaryWording and
@@ -611,12 +613,11 @@ pipeline, and the offline suites all run with them empty.
    `bill_originating_house` attribute on the division data settles it outright, and otherwise
    stops at "This means the bill has now passed the [Chamber]." Supplying that attribute is all a
    future integration has to do. Nothing populates it yet.
-4. **Template 22's follow-up division link (`followup_link`).** The original design's closure
-   template links to the division that put the underlying question. The compiler renders
-   "The [Chamber] then voted on the question itself, which you can read about [here](...)" when a
-   `followup_link` attribute is supplied, and omits the sentence when it is not. Resolving the
-   follow-up division is a deterministic lookup over divisions of the same debate that nothing does
-   yet.
+4. **Template 22's follow-up division link (`followup_link`).** Built: `ContextBuilder#with_followup`
+   links the next division that day, in the same debate, when it is not itself a closure and is in
+   the database, and the compiler renders "The [Chamber] then voted on the question itself, which you
+   can read about [here](...)". A caller can still supply `followup_link`; with neither, the sentence
+   stops at "voted on the question itself".
 
 ### Deployment notes
 

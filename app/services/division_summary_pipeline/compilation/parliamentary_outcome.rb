@@ -21,17 +21,23 @@ module DivisionSummaryPipeline
     HOUSE_ABSOLUTE_MAJORITY = 76
     SENATE_ABSOLUTE_MAJORITY = 39
 
-    attr_reader :facts, :template_id, :motion_text, :question_text, :declines_second_reading, :circulation
+    attr_reader :facts, :template_id, :motion_text, :question_text, :declines_second_reading, :circulation,
+                :limitation_text, :closed_template_id
 
     # circulation: the Circulation when the chair put amendments nobody moved, as Stage 1 found it.
+    # limitation_text: the chair's sentence saying the question was put under a limitation of
+    # debate, or under a resolution agreed earlier.
+    # closed_template_id: for a closure, the template of the motion it cut short (ContextPacket).
     def initialize(facts:, template_id:, motion_text: nil, question_text: nil, declines_second_reading: nil,
-                   circulation: nil)
+                   circulation: nil, limitation_text: nil, closed_template_id: nil)
+      @closed_template_id = closed_template_id
       @facts = facts
       @template_id = template_id
       @motion_text = motion_text.to_s
       @question_text = question_text.to_s
       @declines_second_reading = declines_second_reading
       @circulation = circulation
+      @limitation_text = limitation_text.to_s
     end
 
     # What a divided question left out, in the chair's words ("2(a) and (b)"), or nil: the vote was
@@ -39,6 +45,14 @@ module DivisionSummaryPipeline
     # would otherwise take to be part of it (KI-53).
     def divided_parts
       ChairStatement.divided_parts(question_text)
+    end
+
+    # The date of the resolution under which the Speaker put the question immediately ("12 August
+    # 2026"), in the Speaker's own words, or nil when the question was not put that way. Such a
+    # resolution is a programming motion moved by suspending standing orders, which the House
+    # Guide (p. 75) says achieves an effect similar to the guillotine, but is not one.
+    def resolution_agreed_on
+      limitation_text[/\bresolution\s+agreed\s+to\s+on\s+(\d{1,2}\s+[A-Z][a-z]+\s+\d{4})\b/, 1]
     end
 
     # Whether the question put more than one amendment at once, as the chair does with circulated

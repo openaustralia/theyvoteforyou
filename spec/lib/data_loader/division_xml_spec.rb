@@ -173,19 +173,51 @@ describe DataLoader::DivisionXml do
       expect(division.limitation_of_debate_statement.attr(:id)).to eq("s1")
     end
 
-    # A senator asking by leave to have their vote recorded stops it too, which only leaves the
-    # guillotine unmentioned in the draft.
     it "is nil when anyone but the chair speaks between the statement and the division" do
       last = divisions(<<~XML).last
         #{heading}
         <speech id="s1" #{chair}><p>Pursuant to order, the time allotted for the second reading of this bill has expired. The question is that the amendments on sheet 9001 be agreed to.</p></speech>
         <division divnumber="1" id="d1"/>
-        <speech id="s2" speakerid="uk.org.publicwhip/lord/900003" speakername="Morgan Treloar"><p>By leave, I ask that my name be recorded as opposing the amendment.</p></speech>
+        <speech id="s2" speakerid="uk.org.publicwhip/lord/900003" speakername="Morgan Treloar"><p>by leave—I table a petition signed by 1,200 residents calling for fairer prices.</p></speech>
         <speech id="s3" #{chair}><p>The question now is that the bill be now read a second time.</p></speech>
         <division divnumber="2" id="d2"/>
       XML
 
       expect(last.limitation_of_debate_statement).to be_nil
+    end
+
+    # KI-36: on 18 August 2026 such a request left the second reading, put
+    # under the guillotine, reading as an ordinary vote. Leave is unanimous consent, and nothing is
+    # debated.
+    it "walks past a senator asking by leave or on indulgence to have their position recorded" do
+      ["by leave—President, under the standing orders I ask that my name be recorded as opposing clause (b) in each of the amendments.",
+       "on indulgence—I ask that the Example Party position in support of the amendment be recorded.",
+       "by leave—Please can I note my opposition to sheet 9001."].each do |request|
+        last = divisions(<<~XML).last
+          #{heading}
+          <speech id="s1" #{chair}><p>Pursuant to order, the time allotted for the second reading of this bill has expired. The question is that the amendments on sheet 9001 be agreed to.</p></speech>
+          <division divnumber="1" id="d1"/>
+          <speech id="s2" speakerid="uk.org.publicwhip/lord/900003" speakername="Morgan Treloar"><p>#{request}</p></speech>
+          <speech id="s3" #{chair}><p>The question now is that the bill be now read a second time.</p></speech>
+          <division divnumber="2" id="d2"/>
+        XML
+
+        expect(last.limitation_of_debate_statement&.attr(:id)).to eq("s1"), request
+      end
+    end
+
+    # KI-52: as on 18 August 2026, when the House had agreed six days before
+    # that the questions would be put immediately, and the Speaker said so before the first.
+    it "finds the Speaker putting the question immediately under a resolution, across the run of divisions" do
+      last = divisions(<<~XML).last
+        #{heading}
+        <speech id="s1" #{chair}><p>The immediate question is that the amendment moved by the honourable member for Exampleton be agreed to. In accordance with the resolution agreed to on 12 August 2026, I will put the question immediately. The question is that the amendment moved by the honourable member for Exampleton be agreed to.</p></speech>
+        <division divnumber="2" id="d2"/>
+        <speech id="s2" #{chair}><p>The question is that the amendment moved by the honourable member for Fairview be agreed to.</p></speech>
+        <division divnumber="3" id="d3"/>
+      XML
+
+      expect(last.limitation_of_debate_statement.attr(:id)).to eq("s1")
     end
 
     it "is nil once the bill has moved on to a stage debated under its own heading" do

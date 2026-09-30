@@ -2,7 +2,7 @@
 
 ---
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} {{urgency_matter_clause}}, which means it was {{successful_text}}.
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}}{{proposer_clause}} {{urgency_matter_clause}}, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion

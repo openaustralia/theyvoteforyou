@@ -873,6 +873,36 @@ describe DivisionSummaryPipeline::TemplateCompiler do
     # discussion on a matter of public importance, and is provided "because there is no
     # question before the Chair during an MPI". Describing it as a closure that forces an
     # immediate vote contradicted the trailing clause in the same paragraph (KI-3).
+    # KI-46: "to end the debate on bill" in every closure not on a bill.
+    describe "Template 22, a closure on a bill and on anything else" do
+      let(:closure) { { time: "12:31 PM", result: "passed", house: "senate" } }
+
+      it "says the debate ended, and names no bill, when the division has none" do
+        rendered = compile_summary(closure, template_id: 22, motion_text: "That the question be put.")
+
+        expect(rendered).to include("a procedural motion to end the debate and put the question immediately")
+        expect(rendered).not_to include("on bill")
+      end
+
+      # KI-54.
+      it "says what the debate it ended was on, when Stage 1 found it" do
+        interpretation, evidence = summary_inputs(template_id: 22, motion_text: "That the question be put.")
+        suspension = described_class.compile(closure, interpretation, evidence.with(closed_template_id: 17))
+        second_reading = described_class.compile(closure.merge(bill_name: "Example Bill 2026", bill_link: "https://example.com/bill"),
+                                                 interpretation, evidence.with(closed_template_id: 29))
+
+        expect(suspension).to include("to end the debate on a motion to suspend standing orders and put the question immediately")
+        expect(second_reading).to include("to end the debate on the second reading of the [Example Bill 2026](https://example.com/bill)")
+      end
+
+      it "names the bill after \"the\" when there is one" do
+        rendered = compile_summary(closure.merge(bill_name: "Example Bill 2026", bill_link: "https://example.com/bill"),
+                                   template_id: 22, motion_text: "That the question be put.")
+
+        expect(rendered).to include("to end the debate on the [Example Bill 2026](https://example.com/bill) and put the question")
+      end
+    end
+
     describe "Template 22, the three questions that arrive as a closure" do
       def closure_division(result:)
         {
@@ -1263,6 +1293,23 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
       expect(rendered).to include("voted for amendments to the bill, which means they were successful.",
                                   "The following amendments were put:")
+    end
+  end
+
+  # KI-24: "Representative Example" is not Australian usage; the site's own
+  # form is "Example MP" (Member#full_name_no_electorate).
+  # KI-52: the House programming a bill by suspending standing orders is not
+  # a guillotine (House Guide p. 75), and the draft said nothing at all.
+  describe "a question the House put immediately under a resolution agreed earlier" do
+    it "says so in words of its own, with the date from the Speaker's words, and does not call it a guillotine" do
+      rendered = compile_summary({ time: "12:39 PM", result: "negatived", house: "representatives" },
+                                 template_id: 2, declines_second_reading: false, motion_text: "That all words after \"That\" be omitted.",
+                                 limitation: "In accordance with the resolution agreed to on 12 August 2026, I will put the question immediately.")
+
+      expect(rendered).to include("This question was put without further debate, under an arrangement the House of " \
+                                  "Representatives agreed on 12 August 2026.\n\nAt 1:15 PM, Robin Castellan MP, in the chair, " \
+                                  "said:\n\n> In accordance with the resolution agreed to on 12 August 2026, I will put the question immediately.")
+      expect(rendered).not_to include("guillotine")
     end
   end
 

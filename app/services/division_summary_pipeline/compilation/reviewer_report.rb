@@ -160,8 +160,12 @@ module DivisionSummaryPipeline
       statement = packet.limitation_statement
       return "none found" unless statement
 
-      "the chair said the time allotted had expired, at #{ClockTime.display(statement[:time])} " \
-        "(`#{statement[:id]}`)"
+      said = if statement[:kind] == :resolution
+               "the chair said the question was put immediately under a resolution agreed earlier"
+             else
+               "the chair said the time allotted had expired"
+             end
+      "#{said}, at #{ClockTime.display(statement[:time])} (`#{statement[:id]}`)"
     end
 
     # The first words, so a reviewer can find the passage; the full text is in the summary above.
