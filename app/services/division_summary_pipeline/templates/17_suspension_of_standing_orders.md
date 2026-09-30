@@ -2,15 +2,25 @@
 
 *This vote decides whether the rules are set aside. It does not decide the underlying issue.*
 
-At {{time}}, {{amount_with_article}} voted {{result}} a motion to suspend standing orders introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}){{suspension_purpose_clause}}. The vote was {{successful_text}}. {{suspension_effect_clause}}
+---
+
+At {{time}}, {{amount_with_article}} voted {{result}} a motion{{mover_clause}} to suspend standing orders{{suspension_purpose_clause}}. The vote was {{successful_text}}. {{suspension_effect_clause}}
 
 {{rebellions_text}}
 ### About the Motion
 
-At {{time}}, {{mover_title}} {{mover_name}} states that suspending standing orders is necessary to:
+{{explanation_section}}
 
-{{introducer_claims}}
+### Motion Introduction
+
+{{motion_introduction}}
 
 ### Motion Text
 
+{{motion_attribution}}
+
 {{motion_text}}
+
+### Question Put
+
+{{question_put}}

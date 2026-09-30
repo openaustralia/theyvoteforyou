@@ -2,15 +2,25 @@
 
 *This vote is about how much time the chamber spends on the business, not about the business itself.*
 
-At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion introduced by {{mover_title}} [{{mover_name}}]({{mover_link}}) ({{mover_party}}) to limit debate and force a vote on {{topic}}, which means it was {{successful_text}}.
+---
+
+At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion{{mover_clause}} to limit debate and force a vote{{on_bill_clause}}, which means it was {{successful_text}}.
 
 {{rebellions_text}}
 ### About the Motion
 
-At {{time}}, {{mover_title}} {{mover_name}} states that this procedural motion will:
+{{explanation_section}}
 
-{{introducer_claims}}
+### Motion Introduction
+
+{{motion_introduction}}
 
 ### Motion Text
 
+{{motion_attribution}}
+
 {{motion_text}}
+
+### Question Put
+
+{{question_put}}
