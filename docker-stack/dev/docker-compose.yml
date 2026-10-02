@@ -1,6 +1,4 @@
 ---
-version: "3.9"
-
 services:
   mysql:
     # Matches production, which is RDS MySQL 8.4 (see infrastructure repo's terraform/database.tf)
@@ -8,13 +6,11 @@ services:
     ports:
       - 3306:3306
     restart: "always"
-    logging:
-      driver: "journald"
     # volumes:
     #   - "/opt/data/mysql:/var/lib/mysql"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: "theyvoteforyou_development"
+      MYSQL_DATABASE: "tvfy-development"
       MYSQL_USER: "theyvoteforyou"
       MYSQL_PASSWORD: "theyvoteforyou"
 
@@ -23,21 +19,19 @@ services:
   #   ports:
   #     - "8888:8080"
   #   restart: "always"
-  #   logging:
-  #     driver: "journald"
   #   environment:
   #     ADMINER_DEFAULT_SERVER: "mysql"
   #   depends_on:
   #     - mysql
 
   elasticsearch:
-    image: "elasticsearch:6.8.23"
+    # Matches production's Elasticsearch 7.17.7. Pulled from docker.elastic.co, which
+    # publishes arm64 builds for Apple Silicon.
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.17.7"
     ports:
       - "9200:9200"
       - "9300:9300"
     restart: "always"
-    logging:
-      driver: "journald"
     environment:
       "discovery.type": "single-node"
       "http.port": "9200"
@@ -45,27 +39,22 @@ services:
       "http.cors.allow-origin": "http://localhost:1358,http://127.0.0.1:1358"
       "http.cors.allow-headers": "X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
       "http.cors.allow-credentials": "true"
-      "bootstrap.memory_lock": "true"
       "ES_JAVA_OPTS": "-Xms512m -Xmx512m"
 
   dejavu:
-    image: "appbaseio/dejavu:latest"
+    image: "appbaseio/dejavu:3.10.0"
     ports:
       - "1358:1358"
     restart: "always"
-    logging:
-      driver: "journald"
     depends_on:
       - elasticsearch
 
   mailpit:
-    image: "axllent/mailpit:latest"
+    image: "axllent/mailpit:v1.31.3"
     ports:
       - "1025:1025" # SMTP
       - "1088:8025" # web UI
     restart: "always"
-    logging:
-      driver: "journald"
 
   # Runs the app itself in Docker, as an alternative to `bundle exec rails s` on
   # the host. Not used for production - see docs/adr/0003-rbenv-replaces-rvm.md.
@@ -81,6 +70,7 @@ services:
       - ../..:/app
       - bundle_cache:/usr/local/bundle
     environment:
+      DB_HOST: mysql
       MYSQL_ROOT_PASSWORD: root
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
       MAILPIT_HOST: mailpit
