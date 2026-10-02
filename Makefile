@@ -1,7 +1,3 @@
-
-init-submodules:
-	git submodule update --init --recursive
-
 install-ruby:
 	rbenv install < .ruby-version
 
