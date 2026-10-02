@@ -56,7 +56,7 @@ gem "meta-tags"
 gem "numbers_and_words"
 
 gem "searchkick"
-# We're using elasticsearch 7.1 on the server. So, matching major version number for the gem
+# We're using elasticsearch 7.17.7 on the server. So, matching major version number for the gem
 # TODO: Upgrade this when we upgrade the server
 gem "elasticsearch", "~> 7"
 
