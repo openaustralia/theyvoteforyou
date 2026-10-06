@@ -84,11 +84,13 @@ the `docker-stack/dev` services (see below), not a separately installed gem.
 
 ```
 make install-ruby        # rbenv install < .ruby-version
+make dependencies        # bundle install
+make aws-check           # checks your AWS login (profile oaf), and starts `aws login` if there is none
 make dev-services-up     # MySQL, Elasticsearch, dejavu and mailpit via docker-stack/dev
 make dev-up              # the same services, plus the app itself, all in Docker
 make test-services-up    # the same services for the test environment
-make deploy-production   # bundle exec cap production deploy
-make deploy-staging      # bundle exec cap staging deploy
+make deploy-production   # make aws-check, then bundle exec cap production deploy
+make deploy-staging      # make aws-check and make dependencies, then bundle exec cap staging deploy
 ```
 
 `make dev-services-up` starts services only, not the app; Ruby and the Rails server run on the host in that case.
@@ -208,6 +210,13 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
 
 - Australia: Capistrano (`make deploy-production` / `make deploy-staging`, or `bundle exec cap production deploy`).
   Config in `Capfile` and `config/deploy/`.
+- Staging also deploys automatically. The `deploy-staging` job in `.github/workflows/rubyonrails.yml` runs after
+  `test` and `lint` pass, on a push to `main` when the repository variable `AUTO_DEPLOY_STAGING` is `true`, or when
+  someone runs the workflow by hand on `main`. The job sends a GitHub OIDC token to the deploy hook on the staging
+  server. The hook is `oaf-deploy-bottle`, in its own repository on GitLab, and its ADRs hold the design. The server
+  then starts the deploy itself, running Capistrano with `DEPLOY_LOCAL=1`. `config/deploy/staging.rb` turns that
+  into SSHKit's local backend: no SSM, no SSH and no git tag push. It counts only when it is exactly `1`, and only
+  for the `deploy` user.
 - Ukraine: Mina (`bundle exec mina ukraine_dev deploy` / `ukraine_production`), config in `Minafile`. Server
   provisioning lives in a separate repo (`OPORA/publicwhip_server`).
 - These, and any rake task run with `RAILS_ENV=production` (see the README's "Loading data" section), are reference
