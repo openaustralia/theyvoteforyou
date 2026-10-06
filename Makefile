@@ -1,9 +1,22 @@
 install-ruby:
 	rbenv install < .ruby-version
+dependencies:
+	bundle install
 
-deploy-production:
+# Deploys reach servers over SSM using the `oaf` profile (see config/deploy.rb), so make sure
+# there's a live login first, starting `aws login` if there isn't.
+aws-check:
+	@command -v aws >/dev/null 2>&1 || { echo "ERROR: aws CLI not found." >&2; exit 1; }
+	@aws sts get-caller-identity --profile oaf >/dev/null 2>&1 \
+	  || { echo "Not logged in to AWS (profile oaf), starting login..."; aws login --profile oaf; }
+	@aws sts get-caller-identity --profile oaf >/dev/null 2>&1 \
+	  || { echo "ERROR: still not logged in to AWS (profile oaf)." >&2; exit 1; }
+	@echo "OK: logged in to AWS (profile oaf)"
+
+deploy-production: aws-check
 	bundle exec cap production deploy
-deploy-staging:
+
+deploy-staging: aws-check dependencies
 	bundle exec cap staging deploy
 
 dev-services-up:
