@@ -51,18 +51,71 @@ Once the people data has been loaded you can start loading votes. These are scra
 Decision Records in [docs/adr/](docs/adr); add a new numbered file when you make one. [CONTEXT.md](CONTEXT.md) holds
 the canonical vocabulary for concepts with more than one plausible name.
 
-In short:
+### Requirements
+
+- Docker, running natively on your machine. On a Mac with Apple Silicon, use the arm64 build of Docker Desktop (or
+  OrbStack). Every image in `docker-stack/` has an arm64 build, so nothing runs under emulation.
+- Ruby at the version in `.ruby-version`, installed with whichever Ruby version manager you prefer.
+- A MySQL client library, to build the `mysql2` gem, and HTML Tidy, which the specs need:
+
+  ```
+  brew install mysql tidy-html5                       # macOS
+  sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
+  ```
+
+  On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
+
+### First-time setup
 
 ```
-make dev-services-up   # mysql, elasticsearch, dejavu, mailpit - always in Docker
+make dev-services-up                                   # mysql, elasticsearch, dejavu, mailpit - always in Docker
 bundle install
+cp config/database.yml.example config/database.yml     # works as it is with the containers above
 bin/rails db:setup
 ```
 
-Then run the app either natively (`bundle exec rails s`) or in Docker (`make dev-up`); either way it's at
-<http://localhost:3000>.
+Then load the data. This needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/).
+Loading members takes about 15 minutes, because it also checks every person's photo. Loading a sitting week of
+divisions takes seconds.
 
+```
+bundle exec rake application:load:members
+bundle exec rake "application:load:divisions[2021-07-01,2021-10-31]"
+bundle exec rake application:cache:all
+bundle exec rake searchkick:reindex:all
+```
+
+`application:cache:all` recalculates people distances, which takes a long time. Use
+`application:cache:all_except_people_distances` if you don't need them.
+
+Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
 Mail sent in development is caught by mailpit at <http://localhost:1088>.
+
+To run the app in Docker instead, run `make dev-up`. It uses the same `config/database.yml`, and you run the setup
+commands inside the container, for example `docker exec theyvoteforyou-dev-app-1 bin/rails db:setup`.
+
+### Running the specs
+
+```
+bundle exec rake
+```
+
+The specs use the `tvfy-test` database in the same MySQL container, which `bin/rails db:setup` creates.
+
+For a separate test stack, run `make test-services-up`, then load the schema into it and run the specs, setting
+`DB_PORT=3307` for those commands only. The variable also moves the development environment.
+
+```
+DB_PORT=3307 RAILS_ENV=test bin/rails db:schema:load
+DB_PORT=3307 bundle exec rake
+```
+
+### How development differs from production
+
+- Production caches with memcached. Development uses an in-memory store.
+- Production serves the app with nginx and Passenger. Development uses the Rails server.
+- Production uses RDS MySQL 8.4 and Elasticsearch 7.17.7. Development runs the same versions in containers, with
+  databases named `tvfy-development` and `tvfy-test` where production uses `tvfy-production` and `tvfy-staging`.
 
 ## Loading data
 
@@ -96,8 +149,8 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 
 ## Search
 
-Search requires [elasticsearch](https://www.elasticsearch.org/). You will need to [download](http://www.elasticsearch.org/download)
-the `.deb` for Linux or on Mac run `brew install elasticsearch`.
+Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make dev-services-up` runs it
+in Docker on port 9200, and the dejavu browser at <http://localhost:1358> lets you look at the index.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.
