@@ -100,4 +100,22 @@ describe Division do
       expect(described_class.next_month("2014-12")).to eq("2015-01-01")
     end
   end
+
+  describe "#previous_division and #next_division" do
+    let!(:first) { create(:division, house: "representatives", date: "2020-01-01", number: 1) }
+    let!(:second) { create(:division, house: "representatives", date: "2020-01-01", number: 2) }
+    let!(:third) { create(:division, house: "representatives", date: "2020-02-01", number: 1) }
+
+    before { create(:division, house: "senate", date: "2020-01-15", number: 1) }
+
+    it "steps through the same house in date then number order" do
+      expect(second.previous_division).to eq(first)
+      expect(second.next_division).to eq(third)
+    end
+
+    it "is nil at either end" do
+      expect(first.previous_division).to be_nil
+      expect(third.next_division).to be_nil
+    end
+  end
 end

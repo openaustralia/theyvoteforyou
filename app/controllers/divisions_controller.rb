@@ -35,6 +35,7 @@ class DivisionsController < ApplicationController
     @divisions = @divisions.in_house(@house) if @house
     @divisions = @divisions.in_date_range(@date_start, @date_end)
     @divisions = @divisions.includes(:division_info, :wiki_motions, :whips)
+    @divisions = @divisions.includes(:ai_division_summaries, :ai_policy_suggestions, :policy_divisions) if policy(PolicyDivision).new?
   end
 
   def index_with_member

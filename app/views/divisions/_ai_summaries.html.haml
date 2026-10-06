@@ -1,0 +1,38 @@
+-# Gated the same way as the AI policy-suggestions panel: on the policy governing the connections
+-# this panel offers to make (editing the division), not on editing itself, so widening who may
+-# edit a division can't publish unreviewed AI drafts.
+- if policy(PolicyDivision).new?
+  - ai = DivisionAiSummaries.new(division)
+  - if ai.any?
+    .panel.panel-default#ai-summary-drafts
+      .panel-heading
+        %h2.panel-title.h5
+          We have AI summary drafts (staff only) -
+          %a.collapsed{href: "#ai-summary-drafts-body", role: "button", data: {toggle: "collapse"}, "aria-expanded" => "false", "aria-controls" => "ai-summary-drafts-body"}
+            %span.when-collapsed ▼ review
+            %span.when-expanded ▲ hide
+      #ai-summary-drafts-body.panel-collapse.collapse
+        .panel-body
+          %p.text-muted
+            Draft summaries from AI models, not yet reviewed by a human. Use
+            = link_to "the edit form", edit_division_path_simple(division)
+            to bring one into the published summary.
+          %ul.nav.nav-tabs{role: "tablist"}
+            - ai.each_with_index do |row, index|
+              %li{class: ("active" if index.zero?), role: "presentation"}
+                %a{href: "##{row.tab_id}", role: "tab", data: {toggle: "tab"}}
+                  = row.label
+                  - if row.error?
+                    %span.label.label-danger.ai-summary-tab-flag ✕
+                  - elsif !row.drafted?
+                    %span.label.label-default.ai-summary-tab-flag …
+          .tab-content
+            - ai.each_with_index do |row, index|
+              .tab-pane{class: ("active" if index.zero?), id: row.tab_id, role: "tabpanel"}
+                - if !row.drafted?
+                  .alert.alert-info Not yet drafted.
+                - elsif row.error?
+                  .alert.alert-danger= row.error
+                - else
+                  %h3.h4= row.title
+                  .ai-summary-draft-description= Division.render_markdown(row.description).html_safe

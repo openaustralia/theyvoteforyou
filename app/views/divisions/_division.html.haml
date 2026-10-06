@@ -24,3 +24,6 @@
         %span.division-attendance.object-data-attendance
           = fraction_to_percentage_display(division.attendance_fraction)
           attendance
+
+      - if local_assigns[:staff_status]
+        = render "divisions/staff_status", division: division

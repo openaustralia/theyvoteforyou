@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<debates>
+ <major-heading id="au.org.tvfy/debate/2026-08-18.1.1" url="https://example.org/hansard/2026-08-18">BILLS</major-heading>
+ <minor-heading id="au.org.tvfy/debate/2026-08-18.1.2" url="https://example.org/hansard/2026-08-18">Consumer Data Right Amendment (Portability) Bill 2026</minor-heading>
+ <speech id="au.org.tvfy/debate/2026-08-18.1.3" speakerid="au.org.tvfy/member/10" speakername="Priya Nakamura" time="12:10:00" url="https://example.org/hansard/2026-08-18">
+<p>I move:</p>
+<p pwmotiontext="moved">That all words after "whilst" be omitted with a view to substituting the following words: "declining to give the bill a second reading, the House also notes that: (1) many small retailers still lack the technical systems needed to comply with the proposed timeframe; (2) consumers should be given a longer transition period before new data-sharing obligations take effect; and (3) the bill, in its current form, would place additional compliance costs on regional businesses without a corresponding support package".</p>
+ </speech>
+ <speech id="au.org.tvfy/debate/2026-08-18.1.4" nospeaker="true" time="12:38:00" url="https://example.org/hansard/2026-08-18">
+<p pwmotiontext="moved">The question now is that the amendment moved by the honourable member for Fairview be agreed to.</p>
+ </speech>
+ <division divdate="2026-08-18" divnumber="2" id="au.org.tvfy/debate/2026-08-18.1.5" nospeaker="true" time="12:39:00" url="https://example.org/hansard/2026-08-18">
+  <divisioncount ayes="12" noes="86" pairs="0" tellerayes="0" tellernoes="0"/>
+  <memberlist vote="aye">
+   <member id="au.org.tvfy/member/10" vote="aye">Priya Nakamura</member>
+  </memberlist>
+  <memberlist vote="no">
+   <member id="au.org.tvfy/member/20" vote="no">Sam Ostrowski</member>
+  </memberlist>
+ </division>
+</debates>

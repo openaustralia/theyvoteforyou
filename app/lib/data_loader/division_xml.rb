@@ -4,6 +4,10 @@ module DataLoader
   class DivisionXml
     MAXIMUM_MOTION_TEXT_SIZE = 15000
 
+    # How many speeches DivisionSummaryPipeline::ContextBuilder asks for at each context
+    # tier when building an LLM prompt (see #context_speeches). Not used by the loader itself.
+    CONTEXT_SPEECH_LIMITS = { immediate: 5, subdebate: 25, sitting_day: 200 }.freeze
+
     attr_accessor :division_xml, :house
 
     def initialize(division_xml, house)
@@ -81,6 +85,50 @@ module DataLoader
       division_xml.search("bills bill").map do |bill|
         { id: bill.attr(:id), url: bill.attr(:url), title: bill.inner_text }
       end
+    end
+
+    # The exact wording of the question being decided at this division: the operative
+    # <p pwmotiontext> paragraph nearest the division - the same source #motion's primary
+    # case reads from - falling back to the nearest preceding speech when no motion-text
+    # paragraph precedes the division (see #motion for why that happens). Used by
+    # DivisionSummaryPipeline::ContextBuilder to anchor procedural routing on the actual
+    # question Hansard records, rather than a second, independent read of this XML.
+    def operative_question
+      nearest_motion_text = pwmotiontexts.last
+      return nearest_motion_text.text.strip if nearest_motion_text.present?
+
+      previous_speeches.last&.text&.strip
+    end
+
+    # Speeches leading up to this division, for building wider prompt context than the
+    # single motion paragraph #motion returns. :subdebate (the default) is the same speech
+    # list #motion falls back to - previous siblings up to the last heading or another
+    # division. :immediate is the tail of that list; :sitting_day widens the search to
+    # every speech anywhere earlier in the day's XML, via Nokogiri's "preceding" axis
+    # rather than a hand-rolled document walk.
+    def context_speeches(level = :subdebate)
+      speeches = level == :sitting_day ? division_xml.xpath("preceding::speech").to_a : previous_speeches
+      limit = CONTEXT_SPEECH_LIMITS.fetch(level, CONTEXT_SPEECH_LIMITS[:subdebate])
+
+      speeches.last(limit).map do |speech|
+        { speaker: speech_speaker(speech), time: speech.attr(:time), text: speech.text.strip }
+      end
+    end
+
+    # True when another <division> sits between this one and the last heading, so no debate
+    # intervened. Where divisions follow one another with no intervening debate the bells are
+    # rung for one minute and the questions are put in a run (House S.O. 131, Guide p. 57; the
+    # Senate equivalent in Senate Guide No. 3), which means only the first of the run has the
+    # debate about it in front of it. DivisionSummaryPipeline::ContextBuilder uses this to warn
+    # that the speeches next to this division may belong to an earlier question.
+    def preceded_by_division?
+      previous_element = division_xml.previous_element
+      while previous_element&.name&.exclude?("heading")
+        return true if previous_element.name == "division"
+
+        previous_element = previous_element.previous_element
+      end
+      false
     end
 
     private

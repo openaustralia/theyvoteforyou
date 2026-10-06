@@ -1,0 +1,23 @@
+{
+  "id": 2788,
+  "house": "representatives",
+  "name": "Bills - Consumer Data Right Amendment (Portability) Bill 2026; Second Reading",
+  "date": "2026-08-18",
+  "number": 2,
+  "clock_time": "12:39 PM",
+  "aye_votes": 12,
+  "no_votes": 86,
+  "possible_turnout": 151,
+  "rebellions": 0,
+  "edited": false,
+  "title": "Independent MP",
+  "mover_title": "Independent MP",
+  "mover_name": "Priya Nakamura",
+  "mover_link": "https://www.theyvoteforyou.org.au/people/representatives/fairview/priya_nakamura",
+  "mover_party": "Independent",
+  "target_electorate": "Fairview",
+  "bill_name": "Consumer Data Right Amendment (Portability) Bill 2026",
+  "bill_link": "https://theyvoteforyou.org.au/bills/consumer-data-right-amendment-portability-bill-2026",
+  "amount": "large majority",
+  "result": "against"
+}

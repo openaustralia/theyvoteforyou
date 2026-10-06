@@ -1,0 +1,16 @@
+-# Previous and next division in the same house, so people can page through them in order.
+- previous_division = division.previous_division
+- next_division = division.next_division
+- if previous_division || next_division
+  %nav{"aria-label" => "Previous and next division"}
+    %ul.pager.division-neighbours
+      - if previous_division
+        %li.previous
+          = link_to division_path_simple(previous_division), title: truncate(previous_division.name, length: 180), rel: "prev" do
+            %span{"aria-hidden" => "true"} &larr;
+            Previous division
+      - if next_division
+        %li.next
+          = link_to division_path_simple(next_division), title: truncate(next_division.name, length: 180), rel: "next" do
+            Next division
+            %span{"aria-hidden" => "true"} &rarr;
