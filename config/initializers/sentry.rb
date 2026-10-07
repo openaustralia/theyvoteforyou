@@ -37,7 +37,22 @@ Sentry.init do |config|
   config.breadcrumbs_logger = %i[active_support_logger http_logger]
   # Release is auto-detected from Capistrano's REVISION file (full git SHA)
   config.traces_sample_rate = 0.1
-  config.data_collection = Sentry::DataCollection.new
+  # The SDK always filters keys like token and password; sentry-rails adds
+  # Rails' filter_parameters.
+  config.data_collection.tap do |data|
+    data.user_info = true
+    data.cookies = true
+    data.http_headers.request = true
+    data.http_headers.response = true
+    data.url_query_params = true
+    data.http_bodies = %i[incoming_request outgoing_request incoming_response outgoing_response]
+    data.database_query_data = true
+    data.queues = true
+    data.graphql.document = true
+    data.graphql.variables = true
+    data.stack_frame_variables = false
+    data.frame_context_lines = 3
+  end
   config.before_send = scrub_breadcrumbs
   config.before_send_transaction = scrub_breadcrumbs
   # Rails logs arrive via sentry-rails' structured logging, on by default
