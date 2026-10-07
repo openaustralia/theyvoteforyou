@@ -18,8 +18,10 @@ scrub_value = lambda do |value|
   end
 end
 
+# BreadcrumbBuffer#buffer is a fixed-size array padded with nils, so iterate the
+# buffer itself (Enumerable, skips the empty slots) rather than #buffer.
 scrub_breadcrumbs = lambda do |event, _hint|
-  event.breadcrumbs&.buffer&.each do |crumb|
+  event.breadcrumbs&.each do |crumb|
     crumb.message = scrub_value.call(crumb.message) if crumb.message
     crumb.data = scrub_value.call(crumb.data) if crumb.data
   end
