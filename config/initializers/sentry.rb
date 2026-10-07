@@ -18,8 +18,6 @@ scrub_value = lambda do |value|
   end
 end
 
-# BreadcrumbBuffer#buffer is a fixed-size array padded with nils, so iterate the
-# buffer itself (Enumerable, skips the empty slots) rather than #buffer.
 scrub_breadcrumbs = lambda do |event, _hint|
   event.breadcrumbs&.each do |crumb|
     crumb.message = scrub_value.call(crumb.message) if crumb.message
@@ -44,8 +42,12 @@ Sentry.init do |config|
   # Include user IPs and request data (cookies, headers, query strings) with
   # events. Secrets that travel in query strings (API keys, Devise tokens) are
   # scrubbed via Rails' filter_parameters - see filter_parameter_logging.rb -
-  # and emails are scrubbed from breadcrumbs above
-  config.send_default_pii = true
+  # and emails are scrubbed from breadcrumbs above. This replaces the
+  # deprecated send_default_pii = true: the other data_collection categories
+  # already default to collected (cookies, headers and query params through
+  # the SDK's sensitive-key deny list), which is what send_default_pii = true
+  # produced.
+  config.data_collection.user_info = true
   config.before_send = scrub_breadcrumbs
   config.before_send_transaction = scrub_breadcrumbs
   # Rails logs arrive via sentry-rails' structured logging, on by default
