@@ -19,7 +19,7 @@ scrub_value = lambda do |value|
 end
 
 scrub_breadcrumbs = lambda do |event, _hint|
-  event.breadcrumbs&.buffer&.each do |crumb|
+  event.breadcrumbs&.each do |crumb|
     crumb.message = scrub_value.call(crumb.message) if crumb.message
     crumb.data = scrub_value.call(crumb.data) if crumb.data
   end
@@ -37,13 +37,22 @@ Sentry.init do |config|
   config.breadcrumbs_logger = %i[active_support_logger http_logger]
   # Release is auto-detected from Capistrano's REVISION file (full git SHA)
   config.traces_sample_rate = 0.1
-  # If the infrastructure repo's otel-sidecar collector lands, traces can route through it
-  # via sentry-opentelemetry + config.otlp.* instead of traces_sample_rate
-  # Include user IPs and request data (cookies, headers, query strings) with
-  # events. Secrets that travel in query strings (API keys, Devise tokens) are
-  # scrubbed via Rails' filter_parameters - see filter_parameter_logging.rb -
-  # and emails are scrubbed from breadcrumbs above
-  config.send_default_pii = true
+  # The SDK always filters keys like token and password; sentry-rails adds
+  # Rails' filter_parameters.
+  config.data_collection.tap do |data|
+    data.user_info = true
+    data.cookies = true
+    data.http_headers.request = true
+    data.http_headers.response = true
+    data.url_query_params = true
+    data.http_bodies = %i[incoming_request outgoing_request incoming_response outgoing_response]
+    data.database_query_data = true
+    data.queues = true
+    data.graphql.document = true
+    data.graphql.variables = true
+    data.stack_frame_variables = false
+    data.frame_context_lines = 3
+  end
   config.before_send = scrub_breadcrumbs
   config.before_send_transaction = scrub_breadcrumbs
   # Rails logs arrive via sentry-rails' structured logging, on by default
