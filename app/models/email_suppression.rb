@@ -36,7 +36,9 @@ class EmailSuppression < ApplicationRecord
     create!(address: address, reason: reason, postal_event: postal_event,
             reply_excerpt: reply&.truncate(REPLY_EXCERPT_LENGTH), suppressed_at: at)
   rescue ActiveRecord::RecordNotUnique
-    active.find_by!(address: address)
+    # The row that collided may have been lifted (confirmation, password reset, staff task) before this lookup. The
+    # bounce still happened, so try the insert again rather than failing the Postal request.
+    active.find_by(address: address) || retry
   end
 
   # Returns how many active suppressions were lifted (0 or 1).

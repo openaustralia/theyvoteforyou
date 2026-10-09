@@ -149,6 +149,24 @@ RSpec.describe "Email suppression guard" do # rubocop:disable RSpec/DescribeClas
       expect(EmailSuppression.active.count).to eq(1)
     end
 
+    # Reproduces another caller lifting the colliding row after the unique index rejected our insert and before we look
+    # it up: the first insert collides, but by the time of the lookup nothing is active.
+    it "make a fresh one when the colliding row is lifted before it can be looked up" do
+      original_create = EmailSuppression.method(:create!)
+      attempts = 0
+      allow(EmailSuppression).to receive(:create!) do |*args, **kwargs|
+        attempts += 1
+        raise ActiveRecord::RecordNotUnique, "duplicate active_address" if attempts == 1
+
+        original_create.call(*args, **kwargs)
+      end
+
+      suppression = suppress("subscriber@example.org")
+
+      expect(suppression).to be_persisted
+      expect(EmailSuppression.active.count).to eq(1)
+    end
+
     it "keep only a short excerpt of the receiving server's reply" do
       suppression = EmailSuppression.suppress!("subscriber@example.org", reason: :hard_bounce, reply: "5.1.1 #{'x' * 1000}")
 
