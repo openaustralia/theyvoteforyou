@@ -64,6 +64,8 @@ module Publicwhip
 
     config.autoload_paths += %W[#{config.root}/lib]
 
+    config.action_mailer.interceptors = ["SuppressedAlertInterceptor"]
+
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
