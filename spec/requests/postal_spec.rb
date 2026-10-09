@@ -34,9 +34,11 @@ RSpec.describe "Postal delivery webhook", type: :request do
     { id: 1, token: "abc", direction: "outgoing", to: to, from: "contact@theyvoteforyou.org.au", tag: tag }
   end
 
-  def status_event(event: "MessageDeliveryFailed", output: "550 5.1.1 No such user", tag: "alert", to: recipient)
-    { event: event, uuid: "0f6f76ec", payload: { status: "HardFail", details: "Hard fail", output: output,
-                                                 message: message(tag: tag, to: to) } }.to_json
+  def status_event(event: "MessageDeliveryFailed", output: "550 5.1.1 No such user", tag: "alert", to: recipient,
+                   timestamp: nil)
+    { event: event, uuid: "0f6f76ec", timestamp: timestamp,
+      payload: { status: "HardFail", details: "Hard fail", output: output, message: message(tag: tag, to: to) } }
+      .compact.to_json
   end
 
   def bounce_event(tag: "alert", to: recipient)
@@ -96,6 +98,32 @@ RSpec.describe "Postal delivery webhook", type: :request do
 
       expect(EmailSuppression.count).to eq(2)
       expect(EmailSuppression.active.count).to eq(1)
+    end
+
+    it "ignores a retry of an event from before a lift, since it says nothing about the address now" do
+      failed_at = 1.hour.ago.to_f
+      post_event(status_event(timestamp: failed_at))
+      EmailSuppression.lift!(recipient)
+      post_event(status_event(timestamp: failed_at))
+
+      expect(response).to have_http_status(:ok)
+      expect(EmailSuppression.count).to eq(1)
+      expect(EmailSuppression.suppressed?(recipient)).to be(false)
+    end
+
+    it "suppresses again for an event from after a lift" do
+      post_event(status_event(timestamp: 1.hour.ago.to_f))
+      EmailSuppression.lift!(recipient)
+      post_event(status_event(timestamp: 1.minute.from_now.to_f))
+
+      expect(EmailSuppression.suppressed?(recipient)).to be(true)
+    end
+
+    it "records when the failure happened, as Postal reports it" do
+      failed_at = Time.zone.local(2026, 10, 1, 9, 30)
+      post_event(status_event(timestamp: failed_at.to_f))
+
+      expect(EmailSuppression.last.suppressed_at).to eq(failed_at)
     end
   end
 
@@ -249,6 +277,53 @@ RSpec.describe "Postal delivery webhook", type: :request do
       3.times { post_event(status_event) }
 
       expect(a_request(:get, jwks_url)).to have_been_made.once
+    end
+
+    describe "when Postal starts signing with a new key" do
+      let(:new_key) { OpenSSL::PKey::RSA.new(2048) }
+
+      before do
+        post_event(status_event(to: "first@example.org"))
+        stub_jwks(jwk(new_key))
+      end
+
+      it "fetches the keys again and accepts the event, rather than dropping it until the cache expires" do
+        post_event(status_event, signature: sign(status_event, key: new_key))
+
+        expect(response).to have_http_status(:ok)
+        expect(EmailSuppression.suppressed?(recipient)).to be(true)
+        expect(a_request(:get, jwks_url)).to have_been_made.twice
+      end
+
+      it "keeps the new keys, so the next event needs no fetch" do
+        2.times { post_event(status_event, signature: sign(status_event, key: new_key)) }
+
+        expect(a_request(:get, jwks_url)).to have_been_made.twice
+      end
+
+      it "fetches at most once a minute for signatures that still don't verify" do
+        3.times { post_event(status_event, signature: sign(status_event, key: OpenSSL::PKey::RSA.new(2048))) }
+
+        expect(a_request(:get, jwks_url)).to have_been_made.twice
+        expect(response).to have_http_status(:service_unavailable)
+      end
+
+      it "refuses a signature that still doesn't verify with the fresh keys" do
+        post_event(status_event, signature: sign(status_event, key: OpenSSL::PKey::RSA.new(2048)))
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "asks Postal to retry, and keeps the keys it has, when the fresh keys can't be fetched" do
+        stub_request(:get, jwks_url).to_timeout
+
+        post_event(status_event, signature: sign(status_event, key: new_key))
+        expect(response).to have_http_status(:service_unavailable)
+
+        stub_jwks(jwk(private_key))
+        post_event(status_event)
+        expect(response).to have_http_status(:ok)
+      end
     end
 
     it "caches a failure too, so an outage isn't one outbound request per webhook" do

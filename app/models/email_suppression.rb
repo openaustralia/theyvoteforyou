@@ -41,6 +41,12 @@ class EmailSuppression < ApplicationRecord
     active.find_by(address: address) || retry
   end
 
+  # Whether the address was lifted at or after the time, so a failure from before then (an old export, or a retry of a
+  # Postal event we had already acted on) says nothing about it now.
+  def self.lifted_since?(address, time)
+    where(address: address).exists?(lifted_at: time..)
+  end
+
   # Returns how many active suppressions were lifted (0 or 1).
   def self.lift!(address)
     active.where(address: address).update_all(lifted_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
