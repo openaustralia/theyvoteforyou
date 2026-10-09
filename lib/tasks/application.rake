@@ -92,6 +92,16 @@ namespace :application do
     end
   end
 
+  namespace :email_suppressions do
+    desc "Suppress addresses that Postal already hard-failed, from a CSV export. Prints counts only"
+    task :import, [:path] => :environment do |_task, args|
+      abort "Usage: rake application:email_suppressions:import[path/to/export.csv]" unless args[:path] && File.exist?(args[:path])
+
+      result = EmailSuppressionImport.call(args[:path])
+      result.to_h.each { |outcome, count| puts "#{outcome.to_s.humanize}: #{count}" }
+    end
+  end
+
   namespace :portraits do
     desc "Download each person's portrait so it is served from this site rather than hot-linked"
     task mirror: :environment do
