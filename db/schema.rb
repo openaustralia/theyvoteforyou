@@ -120,6 +120,8 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
     t.datetime "lifted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.virtual "active_address", type: :string, as: "if((`lifted_at` is null),`address`,NULL)"
+    t.index ["active_address"], name: "index_email_suppressions_on_active_address", unique: true
     t.index ["address", "lifted_at"], name: "index_email_suppressions_on_address_and_lifted_at"
   end
 
