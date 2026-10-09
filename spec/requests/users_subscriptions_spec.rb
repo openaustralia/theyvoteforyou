@@ -73,6 +73,23 @@ RSpec.describe "Subscriptions page", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
+    it "works end to end: open the form from the notice, ask for the email, use its link, and updates resume" do
+      ActionMailer::Base.deliveries.clear
+      get user_subscriptions_path(user)
+      follow_path = response.body[/href="(#{Regexp.escape(new_user_password_path)})"/, 1]
+      get follow_path
+
+      post "/users/password", params: { user: { email: "subscriber@example.org" } }
+      reset_mail = ActionMailer::Base.deliveries.find { |mail| mail.to == ["subscriber@example.org"] }
+      token = (reset_mail.html_part || reset_mail).body.decoded[/reset_password_token=([^"&\s]+)/, 1]
+      put "/users/password",
+          params: { user: { reset_password_token: token, password: "a new password", password_confirmation: "a new password" } }
+
+      expect(EmailSuppression.suppressed?("subscriber@example.org")).to be(false)
+      get user_subscriptions_path(user)
+      expect(response.body).not_to include("email-suppression-notice")
+    end
+
     it "lets the signed-in person complete the reset, which lifts the suppression" do
       token = user.send_reset_password_instructions
 
