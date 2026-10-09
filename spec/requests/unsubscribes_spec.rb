@@ -113,6 +113,15 @@ RSpec.describe "One-click unsubscribe", type: :request do
     end
   end
 
+  describe "the token in the request parameters, which the logs and error reports include" do
+    it "is filtered, like the other secrets in this app's parameters" do
+      filtered = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
+                                               .filter("token" => token, "policy_id" => "3")
+
+      expect(filtered).to eq("token" => "[FILTERED]", "policy_id" => "3")
+    end
+  end
+
   describe "the existing unsubscribe on a policy page" do
     it "still removes just that policy's subscription" do
       sign_in user
