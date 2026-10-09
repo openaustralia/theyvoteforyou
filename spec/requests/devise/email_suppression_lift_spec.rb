@@ -99,5 +99,14 @@ RSpec.describe "Lifting an email suppression", type: :request do
     it "sends the reconfirmation email to the new address" do
       expect(ActionMailer::Base.deliveries.map(&:to)).to eq([["new@example.org"]])
     end
+
+    it "lifts a suppression on the new address when its reconfirmation link is followed, and only that one" do
+      EmailSuppression.suppress!("new@example.org", reason: :hard_bounce)
+
+      get "/users/confirmation", params: { confirmation_token: confirmed.reload.confirmation_token }
+
+      expect(EmailSuppression.suppressed?("new@example.org")).to be(false)
+      expect(EmailSuppression.suppressed?("old@example.org")).to be(true)
+    end
   end
 end
