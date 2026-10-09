@@ -195,7 +195,7 @@ GEM
     diff-lcs (1.6.2)
     diffy (3.4.3)
     docile (1.4.1)
-    domain_name (0.6.20240107)
+    domain_name (0.6.20260921)
     drb (2.2.3)
     ed25519 (1.4.0)
     elasticsearch (7.17.11)
@@ -294,7 +294,7 @@ GEM
     hashdiff (1.2.0)
     hashie (5.0.0)
     htmlentities (4.3.4)
-    http-cookie (1.0.8)
+    http-cookie (1.1.6)
       domain_name (~> 0.5)
     http_parser.rb (0.8.0)
     httparty (0.24.2)
@@ -359,7 +359,7 @@ GEM
     marcel (1.2.1)
     marked-rails (9.1.2.0)
     matrix (0.4.3)
-    mechanize (2.14.0)
+    mechanize (2.14.1)
       addressable (~> 2.8)
       base64
       domain_name (~> 0.5, >= 0.5.20190701)
@@ -378,7 +378,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0527)
+    mime-types-data (3.2026.1006)
     mina (1.2.5)
       rake
     mina-multistage (1.0.4)
@@ -416,7 +416,7 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.5)
-    nkf (0.2.0)
+    nkf (0.3.0)
     nokogiri (1.19.4-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.4-arm64-darwin)
@@ -603,7 +603,7 @@ GEM
     ruby_parser (3.21.1)
       racc (~> 1.5)
       sexp_processor (~> 4.16)
-    rubyntlm (0.6.5)
+    rubyntlm (0.6.8)
       base64
     rubyzip (3.4.0)
     sanitize (7.0.0)
@@ -700,7 +700,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    webrick (1.9.1)
+    webrick (1.9.2)
     webrobots (0.1.2)
     websocket (1.2.11)
     websocket-driver (0.8.2)
