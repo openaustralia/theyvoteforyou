@@ -97,7 +97,11 @@ namespace :application do
     task :import, [:path] => :environment do |_task, args|
       abort "Usage: rake application:email_suppressions:import[path/to/export.csv]" unless args[:path] && File.exist?(args[:path])
 
-      result = EmailSuppressionImport.call(args[:path])
+      begin
+        result = EmailSuppressionImport.call(args[:path])
+      rescue EmailSuppressionImport::MissingColumns => e
+        abort e.message
+      end
       result.to_h.each { |outcome, count| puts "#{outcome.to_s.humanize}: #{count}" }
     end
   end

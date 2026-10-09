@@ -38,6 +38,10 @@ was suppressed and lifted. Don't paste addresses into tickets, chat or logs.
 webhook. It leaves out refusals that blame our server (a reply starting with a 5.7.x status code) and rows with no
 reply from the receiving server.
 
+The export must hold **hard failures only**: outgoing mail to addresses whose most recent delivery outcome was a hard
+fail, one row per address. The import doesn't check the failure type, so a row for mail that was delivered, or that
+only soft-failed, would suppress a working address.
+
 The file needs a header row with columns `address` (or `rcpt_to`) and `output` (or `reply`), and optionally `date` (or
 `timestamp`), the most recent hard fail. It comes from the infrastructure export ticket.
 
@@ -46,6 +50,9 @@ bundle exec rake "application:email_suppressions:import[tmp/postal-export.csv]"
 ```
 
 - It is safe to run twice: addresses that are already suppressed are counted and left alone.
+- It won't suppress an address again if someone has lifted its suppression since the failure in the file (or if the
+  file has no date to compare). Those rows are counted as "skipped failed before a lift".
+- It stops with an error, naming only the columns it expected, if the header row is missing or misspelled.
 - It prints counts only, never an address, so the output can be shared.
 - The file is real personal data. Keep it under `tmp/` (ignored by git) and delete it afterwards. Never commit it, or
   put it in a ticket, chat or an AI conversation.
