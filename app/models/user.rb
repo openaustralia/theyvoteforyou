@@ -56,6 +56,10 @@ class User < ApplicationRecord
     find_signed(token, purpose: :unsubscribe_all)
   end
 
+  def email_suppression
+    EmailSuppression.active.find_by(address: email)
+  end
+
   def watched_policy_ids
     watches.where(watchable_type: "Policy").collect(&:watchable_id)
   end
