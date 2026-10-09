@@ -46,6 +46,16 @@ class User < ApplicationRecord
     end
   end
 
+  # Authorises the one-click unsubscribe address in policy update emails, so no login is needed. The purpose scope means
+  # it can't be used for anything else. https://api.rubyonrails.org/classes/ActiveRecord/SignedId.html
+  def unsubscribe_token
+    signed_id(purpose: :unsubscribe_all)
+  end
+
+  def self.from_unsubscribe_token(token)
+    find_signed(token, purpose: :unsubscribe_all)
+  end
+
   def watched_policy_ids
     watches.where(watchable_type: "Policy").collect(&:watchable_id)
   end

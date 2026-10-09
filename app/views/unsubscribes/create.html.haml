@@ -1,0 +1,10 @@
+- content_for :title, "You have been unsubscribed"
+
+.single-message.thin-page
+  %p.loud
+    You will no longer get emails about the policies and divisions you subscribed to.
+  %p
+    = pluralize(@count, "subscription")
+    removed. Changed your mind? You can subscribe again from any policy's page.
+  %p
+    = link_to "View all policies", policies_path, class: "btn btn-default"

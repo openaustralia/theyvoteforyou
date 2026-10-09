@@ -93,6 +93,9 @@ Rails.application.routes.draw do
 
   post "postal/event" => "postal#event"
 
+  get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
+  post "unsubscribe/:token" => "unsubscribes#create"
+
   get "users/welcome" => "users#welcome", as: :user_welcome
   get "users/confirm" => "users#confirm", as: :user_confirm
   get "users/:id" => "users#show", as: :user
