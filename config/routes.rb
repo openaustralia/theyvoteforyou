@@ -91,6 +91,8 @@ Rails.application.routes.draw do
     end
   end
 
+  post "postal/event" => "postal#event"
+
   get "users/welcome" => "users#welcome", as: :user_welcome
   get "users/confirm" => "users#confirm", as: :user_confirm
   get "users/:id" => "users#show", as: :user
