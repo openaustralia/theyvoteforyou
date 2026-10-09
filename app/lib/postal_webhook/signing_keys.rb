@@ -33,7 +33,8 @@ module PostalWebhook
       response = HTTParty.get(Rails.configuration.x.postal_jwks_url, timeout: HTTP_TIMEOUT)
       return nil unless response.code == 200
 
-      keys = JSON.parse(response.body)["keys"]
+      parsed = JSON.parse(response.body)
+      keys = parsed["keys"] if parsed.is_a?(Hash)
       keys.filter_map { |jwk| signing_pem(jwk) }.presence if keys.is_a?(Array)
     rescue Timeout::Error, SocketError, SystemCallError, EOFError, Net::ProtocolError, Net::HTTPBadResponse,
            Net::HTTPHeaderSyntaxError, JSON::ParserError, TypeError, ArgumentError, OpenSSL::OpenSSLError
