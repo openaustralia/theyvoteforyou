@@ -60,4 +60,26 @@ RSpec.describe "Subscriptions page", type: :request do
 
     expect(response.body).not_to include("email-suppression-notice")
   end
+
+  describe "resuming with a password reset, from the notice" do
+    before do
+      suppress("subscriber@example.org")
+      sign_in user
+    end
+
+    it "lets the signed-in person open the password reset form the notice links to" do
+      get new_user_password_path
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "lets the signed-in person complete the reset, which lifts the suppression" do
+      token = user.send_reset_password_instructions
+
+      put "/users/password",
+          params: { user: { reset_password_token: token, password: "a new password", password_confirmation: "a new password" } }
+
+      expect(EmailSuppression.suppressed?("subscriber@example.org")).to be(false)
+    end
+  end
 end
