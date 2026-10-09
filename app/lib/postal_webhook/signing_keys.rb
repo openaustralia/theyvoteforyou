@@ -21,10 +21,29 @@ module PostalWebhook
     # While one request refreshes an expired entry, others keep getting the stale copy instead of fetching.
     RACE_CONDITION_TTL = 5.seconds
 
+    REFRESH_LIMIT_KEY = "postal_webhook/signing_keys/v1/refreshed"
+
+    # The most often refresh may fetch the keys, whoever is asking.
+    MIN_REFRESH_INTERVAL = 1.minute
+
     # Returns the RSA public keys, or nil if they can't be determined.
     def self.call
       pems = Rails.cache.fetch(CACHE_KEY, expires_in: CACHE_TTL, race_condition_ttl: RACE_CONDITION_TTL) { fetch_pems }
       pems&.map { |pem| OpenSSL::PKey::RSA.new(pem) }
+    end
+
+    # For a signature the cached keys don't verify. Postal may have started signing with a new key, which the cache won't
+    # show for up to CACHE_TTL. Fetches now and replaces the cached keys, but at most once per MIN_REFRESH_INTERVAL, so
+    # signatures that don't verify can't make one outbound request each. Returns the keys, or nil if the refresh was
+    # skipped or the keys can't be determined. The cached keys are kept when the fetch fails.
+    def self.refresh
+      return unless Rails.cache.write(REFRESH_LIMIT_KEY, true, expires_in: MIN_REFRESH_INTERVAL, unless_exist: true)
+
+      pems = fetch_pems
+      return if pems.nil?
+
+      Rails.cache.write(CACHE_KEY, pems, expires_in: CACHE_TTL)
+      pems.map { |pem| OpenSSL::PKey::RSA.new(pem) }
     end
 
     # PEM strings rather than key objects, because the production cache is memcached and what we store has to survive
