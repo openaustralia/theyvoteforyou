@@ -8,5 +8,6 @@
 #
 # This filter also applies to the request data Sentry captures with events
 # (send_default_pii is enabled in sentry.rb). :key is the API key query
-# parameter; the Devise tokens appear in query strings of emailed links.
-Rails.application.config.filter_parameters += %i[password key reset_password_token confirmation_token]
+# parameter; the Devise tokens appear in query strings of emailed links. :payload is the body of Postal's delivery
+# webhooks (PostalController), which names the recipient's address.
+Rails.application.config.filter_parameters += %i[password key reset_password_token confirmation_token payload]

@@ -96,6 +96,8 @@ module Publicwhip
     # Name of project to display throughout the application
     config.project_name = "They Vote For You"
 
+    # Where Postal publishes the public keys its webhooks are signed with
+    config.x.postal_jwks_url = "https://postal.oaf.org.au/.well-known/jwks.json"
     config.contact_email = "contact@theyvoteforyou.org.au"
 
     config.facebook_admins = nil
