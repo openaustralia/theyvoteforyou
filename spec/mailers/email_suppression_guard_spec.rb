@@ -132,6 +132,13 @@ RSpec.describe "Email suppression guard" do # rubocop:disable RSpec/DescribeClas
       expect(EmailSuppression.count).to eq(1)
     end
 
+    it "can't hold two active rows for one address, even if inserted directly" do
+      suppress("subscriber@example.org")
+
+      expect { EmailSuppression.create!(address: "subscriber@example.org", reason: :hard_bounce, suppressed_at: Time.current) }
+        .to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
     it "keep the row when lifted, and make a fresh active one on a later bounce" do
       first = suppress("subscriber@example.org")
       EmailSuppression.lift!("subscriber@example.org")

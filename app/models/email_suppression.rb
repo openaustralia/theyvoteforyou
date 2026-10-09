@@ -31,10 +31,12 @@ class EmailSuppression < ApplicationRecord
   end
 
   # Does nothing if the address already has an active suppression, so repeated or duplicate Postal events are harmless.
-  def self.suppress!(address, reason:, postal_event: nil, reply: nil)
-    active.find_by(address: address) ||
-      create!(address: address, reason: reason, postal_event: postal_event,
-              reply_excerpt: reply&.truncate(REPLY_EXCERPT_LENGTH), suppressed_at: Time.current)
+  # Inserts first and relies on the unique index on active_address, so two events handled at once can't both succeed.
+  def self.suppress!(address, reason:, postal_event: nil, reply: nil, at: Time.current)
+    create!(address: address, reason: reason, postal_event: postal_event,
+            reply_excerpt: reply&.truncate(REPLY_EXCERPT_LENGTH), suppressed_at: at)
+  rescue ActiveRecord::RecordNotUnique
+    active.find_by!(address: address)
   end
 
   # Returns how many active suppressions were lifted (0 or 1).
