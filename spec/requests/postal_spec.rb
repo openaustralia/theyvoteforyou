@@ -211,6 +211,26 @@ RSpec.describe "Postal delivery webhook", type: :request do
       expect(response).to have_http_status(:service_unavailable)
     end
 
+    ["null", "true", "[]", '"keys"', '{"keys": "none"}', '{"keys": null}'].each do |body|
+      it "asks Postal to retry, rather than failing, when the key set is valid JSON but not a key set (#{body})" do
+        stub_request(:get, jwks_url).to_return(status: 200, body: body)
+
+        post_event(status_event)
+
+        expect(response).to have_http_status(:service_unavailable)
+      end
+    end
+
+    it "caches an unusable key set too, so it isn't fetched again for every webhook" do
+      cache = ActiveSupport::Cache::MemoryStore.new
+      allow(Rails).to receive(:cache).and_return(cache)
+      stub_request(:get, jwks_url).to_return(status: 200, body: "null")
+
+      3.times { post_event(status_event) }
+
+      expect(a_request(:get, jwks_url)).to have_been_made.once
+    end
+
     it "asks Postal to retry when the key set has no usable key" do
       stub_jwks({ kty: "RSA", n: 1, e: 2 }, { kty: "oct", k: "c2VjcmV0" })
 
