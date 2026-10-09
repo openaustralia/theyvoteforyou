@@ -9,6 +9,7 @@ class AlertMailer < ApplicationMailer
     @policy = policy
     @version = version
     @user = user
+    headers[MailKind::HEADER] = MailKind::ALERT
 
     mail to: user.email, subject: render_to_string(partial: "policy_updated_subject", locals: { policy: @policy }).strip
   end

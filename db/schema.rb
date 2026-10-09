@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
@@ -109,6 +109,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_05_003244) do
     t.index ["id", "name"], name: "cons_id"
     t.index ["name"], name: "name"
     t.index ["to_date"], name: "to_date"
+  end
+
+  create_table "email_suppressions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "address", null: false
+    t.string "reason", null: false
+    t.string "postal_event"
+    t.string "reply_excerpt"
+    t.datetime "suppressed_at", null: false
+    t.datetime "lifted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address", "lifted_at"], name: "index_email_suppressions_on_address_and_lifted_at"
   end
 
   create_table "flipper_features", charset: "utf8mb3", collation: "utf8mb3_unicode_ci", force: :cascade do |t|

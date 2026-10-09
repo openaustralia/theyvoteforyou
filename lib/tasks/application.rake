@@ -83,6 +83,15 @@ namespace :application do
     end
   end
 
+  namespace :email_suppressions do
+    desc "Lift the active suppression on an email address, so alert emails go to it again"
+    task :lift, [:address] => :environment do |_task, args|
+      abort "Usage: rake application:email_suppressions:lift[address]" if args[:address].blank?
+
+      puts "Lifted #{EmailSuppression.lift!(args[:address])} suppression(s)"
+    end
+  end
+
   namespace :portraits do
     desc "Download each person's portrait so it is served from this site rather than hot-linked"
     task mirror: :environment do
