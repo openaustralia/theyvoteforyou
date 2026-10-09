@@ -92,6 +92,27 @@ RSpec.describe "One-click unsubscribe", type: :request do
     end
   end
 
+  describe "browser tracking, which records the page address and so would record the token" do
+    before { allow(Rails.env).to receive(:production?).and_return(true) }
+
+    it "is on for ordinary pages, so this check can fail" do
+      get policies_path
+
+      expect(response.body).to include("script.outbound-links.js")
+    end
+
+    it "is left off the confirmation page, the result page and the invalid link page" do
+      get "/unsubscribe/#{token}"
+      expect(response.body).not_to include("script.outbound-links.js")
+
+      post "/unsubscribe/#{token}"
+      expect(response.body).not_to include("script.outbound-links.js")
+
+      get "/unsubscribe/nonsense"
+      expect(response.body).not_to include("script.outbound-links.js")
+    end
+  end
+
   describe "the existing unsubscribe on a policy page" do
     it "still removes just that policy's subscription" do
       sign_in user
