@@ -26,6 +26,16 @@ class User < ApplicationRecord
     name != User.system_name
   end
 
+  # Confirming an address and completing a password reset both prove the mailbox receives mail, so they lift a
+  # suppression and the person's subscriptions resume.
+  def after_confirmation
+    EmailSuppression.lift!(email)
+  end
+
+  def reset_password(new_password, new_password_confirmation)
+    super.tap { |saved| EmailSuppression.lift!(email) if saved }
+  end
+
   def api_key
     if self[:api_key]
       self[:api_key]
