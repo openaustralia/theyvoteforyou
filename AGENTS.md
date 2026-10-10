@@ -80,8 +80,8 @@ the `docker-stack/dev` services (see below), not a separately installed gem.
 
 ### Makefile targets
 
-Run `make` (or `make help`) to list the targets. Each target's description sits beside it in the `Makefile` as a
-`## ` comment, so add one when adding a target and the list stays current.
+Run `make` (or `make help`) to list the targets. When adding a target, put a `## ` description on the same line as
+the target name, or `make help` won't list it.
 
 `make dev-services-up` starts services only, not the app; Ruby and the Rails server run on the host in that case.
 `make dev-up` starts everything, including the app, in Docker (see `docker-stack/dev/docker-compose.yml`'s `app`
