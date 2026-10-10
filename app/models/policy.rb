@@ -29,8 +29,36 @@ class Policy < ApplicationRecord
     policy_division&.vote
   end
 
+  # Loads the figures shown on each row of a policy list with a fixed number of grouped queries, rather than several
+  # queries per policy. Returns the policies as an array. Methods below use the batched figures when present and
+  # otherwise query for them, so policies loaded any other way behave as before.
+  def self.with_list_stats(policies)
+    policies = policies.to_a
+    ids = policies.map(&:id)
+    division_counts = Division.joins(:policy_divisions).where(policy_divisions: { policy_id: ids })
+    # Grouped queries leave out policies with a count of zero, so default missing counts to zero
+    stats = {
+      divisions_count: Hash.new(0).merge(division_counts.group("policy_divisions.policy_id").count),
+      unedited_motions_count: Hash.new(0).merge(division_counts.unedited.group("policy_divisions.policy_id").count),
+      last_version_at: PaperTrail::Version.where(policy_id: ids).group(:policy_id).maximum(:created_at),
+      watches_count: Hash.new(0).merge(Watch.where(watchable_type: "Policy", watchable_id: ids)
+                                            .group(:watchable_id).count)
+    }
+    policies.each { |policy| policy.list_stats = stats }
+  end
+
+  attr_writer :list_stats
+
+  def divisions_count
+    list_stat(:divisions_count) || divisions.count
+  end
+
   def unedited_motions_count
-    divisions.unedited.count
+    list_stat(:unedited_motions_count) || divisions.unedited.count
+  end
+
+  def watches_count
+    list_stat(:watches_count) || watches.count
   end
 
   # Note that this includes changes to policy record and policy_division records
@@ -40,7 +68,8 @@ class Policy < ApplicationRecord
 
   # TODO: It would be great if we could just use updated_at instead but this would require some additions of "touch"
   def last_edited_at
-    most_recent_version ? most_recent_version.created_at : updated_at
+    last_version_at = @list_stats ? @list_stats[:last_version_at][id] : most_recent_version&.created_at
+    last_version_at || updated_at
   end
 
   # Returns nil if the user who made this edit has since been deleted. Only a policy's owner is
@@ -76,5 +105,11 @@ class Policy < ApplicationRecord
 
   def alert_watches(version)
     AlertWatchesJob.perform_later(self, version)
+  end
+
+  private
+
+  def list_stat(key)
+    @list_stats&.dig(key, id)
   end
 end
