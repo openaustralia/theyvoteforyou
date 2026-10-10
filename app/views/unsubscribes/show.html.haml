@@ -1,0 +1,10 @@
+- content_for :title, "Stop policy update emails"
+
+.single-message.thin-page
+  %p.loud
+    Stop all emails about the policies and divisions you subscribed to?
+  %p
+    This removes every subscription on your account. You can subscribe again at any time from a policy's page.
+  = button_to "Unsubscribe from all", unsubscribe_path(token: params[:token]), class: "btn btn-primary"
+  %p
+    = link_to "Keep my subscriptions and view all policies", policies_path
