@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     root to: "users#index"
   end
 
-  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
+  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations", passwords: "passwords" }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
   get "mp.php" => "members#show_redirect"

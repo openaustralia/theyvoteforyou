@@ -9,6 +9,16 @@
 
 .row
   .col-md-8
+    - if @email_suppression
+      .alert.alert-warning#email-suppression-notice
+        %p
+          Emails to this address have been returning as undeliverable since #{@email_suppression.suppressed_at.strftime("%-d %B %Y")}, so your policy update emails are paused.
+        %p
+          To resume them, either
+          = link_to "change the email address on your account", edit_user_registration_path
+          and confirm the new one, or
+          = link_to "ask for a password reset", new_user_password_path
+          and complete it. Your subscriptions below are kept.
     - if @user.watched_policies.any?
       %p
         You have subscribed to receive emails whenever the following
