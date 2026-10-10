@@ -1,8 +1,8 @@
 .PHONY: help install-ruby dependencies aws-check deploy-production deploy-staging dev-services-up dev-up test-services-up
 
 help: ## Show this help (the default target)
-	@grep -E '^[a-z][a-zA-Z_-]*:.*## ' $(MAKEFILE_LIST) | \
-	  awk 'BEGIN {FS = ":.*## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}'
+	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | \
+	  awk 'BEGIN {FS = ":.*## "}; {printf "  %-18s %s\n", $$1, $$2}'
 
 install-ruby: ## Install the Ruby version in .ruby-version using rbenv
 	rbenv install < .ruby-version
