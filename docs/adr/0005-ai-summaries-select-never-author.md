@@ -1,4 +1,4 @@
-# AI division summaries: the model selects, it never writes
+# AI division summaries: the AI picks the template and the Hansard quotes, and adds no words of its own
 
 The AI in the division summary pipeline may identify, classify and select. It never supplies publication
 text. Every published character of a draft is human-written template prose, a database fact, or Hansard's own
