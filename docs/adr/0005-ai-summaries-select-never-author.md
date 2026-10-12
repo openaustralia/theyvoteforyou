@@ -1,4 +1,4 @@
-# AI division summaries: the model selects, it never writes
+# AI division summaries: the AI picks the template and the Hansard quotes, and adds no words of its own
 
 The AI in the division summary pipeline may identify, classify and select. It never supplies publication
 text. Every published character of a draft is human-written template prose, a database fact, or Hansard's own
@@ -26,7 +26,5 @@ Consequences:
 - A draft's title is built by rule from the Hansard heading and the template.
 - Every draft ends with a fixed-form Reviewer Only report built from the pipeline's own records, never from
   model prose.
-
-See `app/services/division_summary_pipeline/ARCHITECTURE.md` section 2 for how this shapes each stage.
 
 Decided 2026-09-28, when the pipeline was rebuilt around source references (feature/1716-ai-division-summaries). Drafted with AI assistance (Claude Code, claude-opus-5-5).
