@@ -488,11 +488,22 @@ Nothing is published by this task.
 rake ai:summarize_division_local DIVISION_ID=123
 ```
 
-The same pipeline with a model served by llama.cpp's `llama-server` in place of Bedrock, for
-testing a change without AWS credentials (`lib/tasks/local_llm.rake`). `LLAMA_URL` (default
-`http://127.0.0.1:8080`), `LLAMA_TIMEOUT` and `LLAMA_MAX_TOKENS` configure it. It always re-runs,
-overwrites that model's saved draft, and keeps every reply under `tmp/llm_replies/`, with the prompt
-that produced it beside it (`...-prompt.json`).
+The same pipeline with a model on your own machine in place of Bedrock, for testing a change
+without AWS credentials (`lib/tasks/local_llm.rake`). Any server with an OpenAI-style chat API works
+(llama.cpp's `llama-server`, Ollama, LM Studio, vLLM); `config/local_model.yml`, copied from
+`config/local_model.yml.example`, says where it is (`LocalModelClient`). Drafts are saved under the
+model id `local.<model name>`. It always re-runs, overwrites that model's saved draft, and keeps
+every reply under `tmp/llm_replies/`, with the prompt that produced it beside it (`...-prompt.json`).
+
+```bash
+rake ai:draft_local HOUSE=senate FROM=2026-08-01 TO=2026-09-30
+```
+
+Drafts divisions for upload with the same local model, newest first, one sitting day at a time,
+loading each day's divisions only when it reaches them (`LocalDraftRun`). Each draft is written to
+a file under `local_runs/` named after the division's URL (`LocalDraftFile`; `docs/adr/0006`), not
+saved to the database, and a division that already has a file is skipped so a run can be stopped
+and restarted. `docs/local-ai-drafts.md` is the how-to.
 
 Three more development tasks in the same file check a change without a model:
 

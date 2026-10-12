@@ -1,83 +1,34 @@
 # frozen_string_literal: true
 
-# Runs the AI division summary pipeline against a llama.cpp server on your own machine instead
-# of Bedrock, for testing a change without AWS credentials. Development only: nothing in
-# production calls it.
+# Runs the AI division summary pipeline against a model server on your own machine instead of
+# Bedrock (LocalModelClient, set up in config/local_model.yml). Development only: nothing in
+# production calls these tasks.
 #
-# It uses the seams the pipeline already has rather than changing it:
+# They use the seams the pipeline already has rather than changing it:
 # - SemanticExtractor.new(llm_caller:) swaps the Bedrock `converse` call for any callable
 #   taking (system_prompt, user_prompt) and returning the model's reply text.
 # - DivisionSummarizer.new(models:, extractor:) runs every other stage unchanged.
-#
-# llama-server's OpenAI-compatible endpoint is documented at
-# https://github.com/ggml-org/llama.cpp/tree/master/tools/server
 namespace :ai do
-  desc "LOCAL: run the AI division summary pipeline against llama-server instead of Bedrock. " \
-       "DIVISION_ID=<id> required; LLAMA_URL defaults to http://127.0.0.1:8080."
+  desc "LOCAL: run the AI division summary pipeline for one division against your own model server " \
+       "instead of Bedrock. DIVISION_ID=<id> required; the server is set in config/local_model.yml."
   # Unlike ai:summarize_division this always re-runs and overwrites the saved draft, since the
   # point of a local run is to see the effect of a change.
   task summarize_division_local: :environment do
-    require "net/http"
-
     division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:summarize_division_local DIVISION_ID=123" }
-    base_url = ENV.fetch("LLAMA_URL", "http://127.0.0.1:8080").chomp("/")
-    # A long debate on local hardware can take many minutes just to read the prompt.
-    read_timeout = ENV.fetch("LLAMA_TIMEOUT", "3600").to_i
-    # A small model at temperature 0 can get stuck and never finish: Gemma 4 12B wrote 113,000
-    # tokens for division 122 before the timeout cut it off. The answer itself is a few hundred
-    # tokens of JSON plus any thinking, so a cap turns an hour-long hang into a quick failure.
-    max_tokens = ENV.fetch("LLAMA_MAX_TOKENS", "16000").to_i
-    # Every reply is kept, thinking included, so a failed run can still be read afterwards.
-    replies_dir = Rails.root.join("tmp/llm_replies")
-
-    post_json = lambda do |path, body|
-      uri = URI("#{base_url}#{path}")
-      response = Net::HTTP.start(uri.host, uri.port, read_timeout: read_timeout) do |http|
-        http.post(uri.path, body.to_json, "Content-Type" => "application/json")
-      end
-      raise "llama-server #{response.code}: #{response.body.to_s.truncate(500)}" unless response.is_a?(Net::HTTPSuccess)
-
-      JSON.parse(response.body)
-    end
-
-    # Named after the loaded GGUF so local drafts never share an AiDivisionSummary row with a
-    # Bedrock model's, and the Reviewer Only report says which file wrote it.
-    loaded = begin
-      JSON.parse(Net::HTTP.get(URI("#{base_url}/v1/models"))).dig("data", 0, "id")
-    rescue SystemCallError => e
-      abort "Can't reach llama-server at #{base_url} (#{e.message}). Start it first, or set LLAMA_URL."
-    end
-    model_id = "llamacpp.#{File.basename(loaded.to_s, '.gguf').presence || 'local'}"
-
-    # Temperature 0 to match the Bedrock call. Reasoning models' thinking normally comes back in
-    # reasoning_content; the strip covers a server started with --reasoning-format none.
-    llm_caller = lambda do |system_prompt, user_prompt|
-      reply = post_json.call("/v1/chat/completions",
-                             messages: [{ role: "system", content: system_prompt },
-                                        { role: "user", content: user_prompt }],
-                             temperature: 0, max_tokens: max_tokens)
-      FileUtils.mkdir_p(replies_dir)
-      stamp = "division-#{division_id}-#{Time.current.strftime('%Y%m%d-%H%M%S')}"
-      saved = replies_dir.join("#{stamp}.json")
-      File.write(saved, JSON.pretty_generate(reply))
-      # The draft keeps only the prompt of the reply it used, so a sitting day retry's first
-      # prompt would otherwise be lost.
-      File.write(replies_dir.join("#{stamp}-prompt.json"), JSON.pretty_generate(system: system_prompt, user: user_prompt))
-      puts "Model reply saved to #{saved.relative_path_from(Rails.root)}, and its prompt beside it"
-      if reply.dig("choices", 0, "finish_reason") == "length"
-        raise "model wrote #{max_tokens} tokens without finishing (LLAMA_MAX_TOKENS); " \
-              "see #{saved.relative_path_from(Rails.root)}"
-      end
-
-      reply.dig("choices", 0, "message", "content").to_s.gsub(%r{<think>.*?</think>}m, "").strip
+    client = LocalModelClient.from_config
+    model_id = begin
+      client.model_id
+    rescue LocalModelClient::Unreachable => e
+      abort "#{e.message}. Start it first; config/local_model.yml says where it is."
     end
 
     division = Division.find(division_id)
-    extractor = DivisionSummaryPipeline::SemanticExtractor.new(llm_caller: llm_caller)
+    extractor = DivisionSummaryPipeline::SemanticExtractor.new(llm_caller: client.llm_caller(division))
     summarizer = DivisionSummarizer.new(division, models: { "local" => model_id }, extractor: extractor)
 
     puts "Division ##{division.id}: #{division.name}"
-    puts "Model: #{model_id} at #{base_url}"
+    puts "Model: #{model_id} at #{client.url}"
+    puts "Every reply is saved under tmp/llm_replies/, with its prompt beside it"
     puts
 
     summary = AiDivisionSummary.save_from_result!(division, summarizer.summarize_with(model_id))
@@ -87,6 +38,48 @@ namespace :ai do
       puts "Title: #{summary.title}"
       puts "Description: #{summary.description}"
     end
+  end
+
+  # The way to draft divisions for upload (docs/local-ai-drafts.md): newest first, one file per
+  # division under local_runs/, skipping any already drafted so a run can be stopped and restarted.
+  desc "LOCAL: draft AI division summaries with your own model server, newest first, into local_runs/ " \
+       "for upload. Optional: HOUSE=senate, FROM=2026-08-01, TO=2026-09-30, " \
+       "DIVISION=representatives/2026-09-17/3, FORCE=1, RETRY_FAILED=1."
+  task draft_local: :environment do
+    flag = ->(name) { %w[1 true yes].include?(ENV.fetch(name, "").downcase) }
+    date = lambda do |name, default|
+      value = ENV.fetch(name, nil).presence
+      value ? Date.iso8601(value) : default
+    rescue Date::Error
+      abort "#{name} must be a date like 2026-09-17"
+    end
+    house = ENV.fetch("HOUSE", nil).presence
+    abort "HOUSE must be #{House.australian.join(' or ')}" if house && House.australian.exclude?(house)
+
+    client = LocalModelClient.from_config
+    begin
+      puts "Model: #{client.model_id} at #{client.url}"
+    rescue LocalModelClient::Unreachable => e
+      abort "#{e.message}. Start your model server first; config/local_model.yml says where it is."
+    end
+
+    run = LocalDraftRun.new(client: client, houses: house ? [house] : House.australian,
+                            force: flag.call("FORCE"), retry_failed: flag.call("RETRY_FAILED"))
+    if (division = ENV.fetch("DIVISION", nil).presence)
+      run.run_one(division)
+    else
+      from = date.call("FROM", LocalDraftRun::EARLIEST)
+      to = date.call("TO", Date.current)
+      puts "Drafting #{house || 'both houses'} from #{to} back to #{from}. Ctrl-C stops; the same command carries on."
+      run.run(from: from, to: to)
+    end
+  rescue LocalModelClient::Unreachable => e
+    abort "\n#{e.message}. Nothing was written for the division it was on. " \
+          "Start the server again and run the same command to carry on."
+  rescue LocalDraftRun::UnknownDivision => e
+    abort e.message
+  rescue Interrupt
+    abort "\nStopped. Run the same command to carry on where it left off."
   end
 
   # A change to what Stage 1 reads or Stage 2 decides can move divisions that no spec covers, so
@@ -150,10 +143,8 @@ namespace :ai do
              ENV.fetch("RETRY", nil)].compact
     replies = files.map { |file| JSON.parse(File.read(file)) }
     division_id = ENV.fetch("DIVISION_ID") { File.basename(files.first)[/\Adivision-(\d+)-/, 1] }
-    model_id = "llamacpp.#{File.basename(replies.first['model'].to_s, '.gguf').presence || 'local'}"
-    answers = replies.map do |reply|
-      reply.dig("choices", 0, "message", "content").to_s.gsub(%r{<think>.*?</think>}m, "").strip
-    end
+    model_id = LocalModelClient.model_id_for(replies.first["model"])
+    answers = replies.map { |reply| LocalModelClient.answer_text(reply) }
     llm_caller = lambda do |_system_prompt, _user_prompt|
       answers.shift || raise("no saved reply for this call (pass RETRY=<file> to answer the sitting day retry)")
     end
@@ -170,61 +161,5 @@ namespace :ai do
     puts "Error: #{result.error}" if result.error
     puts "Title: #{result.title}"
     puts "Description: #{result.description}"
-  end
-end
-
-# Sitting days' ParlParse XML for the tasks above, fetched once through the loader's own fetch
-# (ARCHITECTURE.md section 5) and kept under tmp/hansard_xml. EarlierDebate looks back up to 70
-# calendar days for every division, so without this a snapshot takes hours; and because every run
-# then reads the same Hansard, two snapshots taken with no code change between them agree.
-class LocalHansardCache
-  def initialize
-    @dir = Rails.root.join("tmp/hansard_xml")
-    @documents = {}
-    FileUtils.mkdir_p(@dir)
-  end
-
-  # The day's XML as text, or nil for a day with none (a non-sitting day is a 404).
-  def raw(house, date)
-    file = @dir.join("#{house}-#{date}.xml")
-    missing = @dir.join("#{house}-#{date}.missing")
-    return nil if missing.exist?
-    return file.read if file.exist?
-
-    document = DataLoader::Debates.fetch_xml_document(house, date.to_s)
-    unless document
-      FileUtils.touch(missing)
-      return nil
-    end
-
-    file.write(document.to_xml)
-    file.read
-  end
-
-  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once.
-  def fetcher
-    lambda do |house, date|
-      key = "#{house}-#{date}"
-      return @documents[key] if @documents.key?(key)
-
-      text = raw(house, date)
-      @documents[key] = text && Nokogiri::XML(text)
-    end
-  end
-
-  # What a snapshot records for one division: the route, and what Stage 1 found by rule that the
-  # route and the draft depend on.
-  def self.snapshot_row(division, packet)
-    routing = packet.routing
-    {
-      id: division.id, house: division.house, date: division.date.to_s, number: division.number,
-      template_id: routing&.template_id, allowed: routing&.allowed_templates, forbidden: routing&.forbidden_templates,
-      mode: routing&.mode.to_s, rule: routing&.rule_name, source: packet.source.to_s,
-      question: packet.speaker_question.to_s[0, 160], by_reference: packet.question_by_reference?,
-      states_motion: packet.question_states_motion?, mover: packet.mover&.member&.name,
-      mover_found_by: packet.mover&.found_by&.to_s, motion_found: packet.motion_found?,
-      limitation: packet.limitation_statement.present?, warnings: packet.context_warnings.size,
-      circulated_by: packet.circulation&.by, circulator_member: packet.circulation&.member&.name
-    }
   end
 end

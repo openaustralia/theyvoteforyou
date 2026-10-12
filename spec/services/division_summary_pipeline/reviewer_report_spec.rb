@@ -35,6 +35,11 @@ describe DivisionSummaryPipeline::ReviewerReport do
                            extraction: extraction, validation: validation, fallbacks: [:no_digest], **overrides)
   end
 
+  it "links to the division's page on the live site and says when it was drafted" do
+    expect(report).to include("| Division URL | https://theyvoteforyou.org.au/divisions/senate/2026-09-17/4 |",
+                              "| Drafted | #{Date.current} |")
+  end
+
   it "says when the sitting day retry failed, and only then" do
     expect(report(widening_failure: "the model timed out"))
       .to include("| Sitting day retry | failed (the model timed out), so this draft uses the first reply |")

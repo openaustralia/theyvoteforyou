@@ -29,6 +29,10 @@ module DivisionSummaryPipeline
     # the reviewer only: whether it is the mover's case is a judgement for a person.
     POINTED = /\b(?i:you(?:r|rs)?)\b|\bSenator\s+[A-Z]|\bmember\s+for\s+[A-Z]|\bPrime\s+Minister\b|\bMinister\s+[A-Z]/
 
+    # The public site, written in rather than taken from the mailer's host, which is localhost in
+    # development: a draft made on someone's own machine is checked against the live page.
+    SITE = "https://theyvoteforyou.org.au"
+
     MOVER_FOUND_BY = {
       chair_named: "the chair named the mover, and their move is in the transcript",
       chair_named_only: "the chair named the mover, but their move is not in the transcript",
@@ -82,6 +86,8 @@ module DivisionSummaryPipeline
       rows = [
         ["Model", "`#{model_id}`"],
         ["Division", "#{facts.chamber}, #{facts.date}, division #{facts.number}, #{facts.time}"],
+        ["Division URL", "#{SITE}/divisions/#{facts.house_key}/#{facts.date}/#{facts.number}"],
+        ["Drafted", Date.current.to_s],
         ["Hansard", packet.source == :hansard_xml ? "ParlParse division `#{packet.division_xml_id}`" : "No matching XML; built from the Division record"],
         ["Context level", packet.context_level.to_s],
         ["Earlier debate added", packet.earlier_debate_dates.presence&.join(", ") || "none"],
@@ -92,7 +98,8 @@ module DivisionSummaryPipeline
       ]
       return rows unless widening_failure
 
-      rows.insert(4, ["Sitting day retry", "failed (#{widening_failure}), so this draft uses the first reply"])
+      after_context_level = rows.index { |label, _| label == "Context level" } + 1
+      rows.insert(after_context_level, ["Sitting day retry", "failed (#{widening_failure}), so this draft uses the first reply"])
     end
 
     def routing_rows

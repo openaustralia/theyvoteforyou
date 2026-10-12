@@ -34,6 +34,9 @@ config/settings.yml
 config/settings.local.yml
 config/settings/*.local.yml
 
+# Your own model server for the local AI summary tasks (copy config/local_model.yml.example)
+config/local_model.yml
+
 .bundle
 
 # Ignore Byebug command history file.
@@ -73,3 +76,6 @@ vendor
 
 # Mac Finder
 .DS_Store
+
+# Drafts written by rake ai:draft_local (docs/local-ai-drafts.md), handed over rather than committed
+/local_runs/

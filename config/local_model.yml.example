@@ -1,0 +1,21 @@
+# Your model server, for the local AI division summary tasks (rake ai:draft_local and the other
+# ai:*_local tasks in lib/tasks/local_llm.rake). Copy this file to config/local_model.yml, which
+# git ignores, and change it to suit your own machine. docs/local-ai-drafts.md explains the setup.
+#
+# Start the server yourself first: the tasks never start or stop it.
+
+# The server's OpenAI-style address. llama-server's default is http://127.0.0.1:8080; Ollama's is
+# http://127.0.0.1:11434 and LM Studio's http://127.0.0.1:1234.
+url: http://127.0.0.1:8080
+
+# The model to ask for. Drafts are saved as "local." and this name, e.g.
+# local.Qwen3.6-35B-A3B-UD-Q4_K_M. Leave it blank to use the name the server reports, which for
+# llama-server is the GGUF file it loaded. Ollama needs it set.
+model:
+
+# Seconds to wait for one reply. A long debate can take many minutes on local hardware.
+timeout: 3600
+
+# The most tokens a reply may use, thinking included, before it counts as failed. Stops a model
+# that never finishes.
+max_tokens: 16000

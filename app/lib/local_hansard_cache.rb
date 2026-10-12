@@ -1,0 +1,65 @@
+# frozen_string_literal: true
+
+# Sitting days' ParlParse XML for the local AI summary tasks (lib/tasks/local_llm.rake and
+# LocalDraftRun), fetched once through the loader's own fetch (ARCHITECTURE.md section 5) and kept
+# under tmp/hansard_xml. EarlierDebate looks back up to 70 calendar days for every division, so
+# without this a snapshot takes hours; and because every run then reads the same Hansard, two
+# snapshots taken with no code change between them agree.
+class LocalHansardCache
+  def initialize(dir: Rails.root.join("tmp/hansard_xml"))
+    @dir = Pathname(dir)
+    @documents = {}
+    FileUtils.mkdir_p(@dir)
+  end
+
+  # The day's XML as text, or nil for a day with none (a non-sitting day is a 404). A day with none
+  # is remembered, so it isn't asked for again.
+  def raw(house, date)
+    file = @dir.join("#{house}-#{date}.xml")
+    missing = @dir.join("#{house}-#{date}.missing")
+    return nil if missing.exist?
+    return file.read if file.exist?
+
+    document = DataLoader::Debates.fetch_xml_document(house, date.to_s)
+    unless document
+      FileUtils.touch(missing)
+      return nil
+    end
+
+    file.write(document.to_xml)
+    file.read
+  end
+
+  # Whether that house voted that day: its XML holds at least one <division> (not to be confused
+  # with the <divisioncount> inside one).
+  def divisions?(house, date)
+    raw(house, date).to_s.include?("<division ")
+  end
+
+  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once.
+  def fetcher
+    lambda do |house, date|
+      key = "#{house}-#{date}"
+      return @documents[key] if @documents.key?(key)
+
+      text = raw(house, date)
+      @documents[key] = text && Nokogiri::XML(text)
+    end
+  end
+
+  # What a snapshot records for one division: the route, and what Stage 1 found by rule that the
+  # route and the draft depend on.
+  def self.snapshot_row(division, packet)
+    routing = packet.routing
+    {
+      id: division.id, house: division.house, date: division.date.to_s, number: division.number,
+      template_id: routing&.template_id, allowed: routing&.allowed_templates, forbidden: routing&.forbidden_templates,
+      mode: routing&.mode.to_s, rule: routing&.rule_name, source: packet.source.to_s,
+      question: packet.speaker_question.to_s[0, 160], by_reference: packet.question_by_reference?,
+      states_motion: packet.question_states_motion?, mover: packet.mover&.member&.name,
+      mover_found_by: packet.mover&.found_by&.to_s, motion_found: packet.motion_found?,
+      limitation: packet.limitation_statement.present?, warnings: packet.context_warnings.size,
+      circulated_by: packet.circulation&.by, circulator_member: packet.circulation&.member&.name
+    }
+  end
+end
