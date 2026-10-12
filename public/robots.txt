@@ -41,3 +41,7 @@ Disallow: /
 
 User-agent: PiplBot
 Disallow: /
+
+# Ignored the people comparison Disallow above and overloaded the server (#1816)
+User-agent: ShapBot
+Disallow: /
