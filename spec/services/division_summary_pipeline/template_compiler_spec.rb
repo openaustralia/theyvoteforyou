@@ -1718,6 +1718,38 @@ describe DivisionSummaryPipeline::TemplateCompiler do
       end
     end
 
+    # KI-66. The depth rules are in quote_outline_spec.rb.
+    describe "an outlined motion" do
+      it "quotes each list one level further in than the paragraph it belongs to" do
+        motion = [
+          "At the end of the motion, add \", but the Senate:", "(a) notes:", "(i) the first matter,",
+          "(ii) the second matter; and", "(b) calls on the Government to:", "(i) act on the first matter, and",
+          "(ii) act on the second matter\"."
+        ].join("\n\n")
+
+        rendered = compile_summary(senate_data, template_id: 2, declines_second_reading: false, mover: treloar,
+                                                motion_text: motion)
+
+        expect(section(rendered, "Amendment Text")).to eq(<<~MARKDOWN.chomp)
+          Senator Morgan Treloar moved the following amendment:
+
+          > At the end of the motion, add ", but the Senate:
+          >
+          > (a) notes:
+          >
+          >> (i) the first matter,
+          >>
+          >> (ii) the second matter; and
+          >
+          > (b) calls on the Government to:
+          >
+          >> (i) act on the first matter, and
+          >>
+          >> (ii) act on the second matter".
+        MARKDOWN
+      end
+    end
+
     describe "#fallbacks" do
       def fallbacks_for(data = senate_data, digest_section: nil, **inputs)
         compiler = described_class.new
