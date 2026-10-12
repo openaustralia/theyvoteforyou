@@ -10,16 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_05_041210) do
+ActiveRecord::Schema[8.0].define(version: 2026_09_30_080000) do
   create_table "ai_division_summaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.string "model", null: false
     t.string "title"
-    t.text "description"
+    t.text "description", size: :medium
     t.text "raw_response"
     t.text "error"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "system_prompt", size: :medium
+    t.text "user_prompt", size: :medium
     t.index ["division_id", "model"], name: "index_ai_division_summaries_on_division_id_and_model", unique: true
     t.index ["division_id"], name: "index_ai_division_summaries_on_division_id"
   end

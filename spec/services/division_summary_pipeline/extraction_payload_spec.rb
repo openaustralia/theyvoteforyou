@@ -3,157 +3,95 @@
 require "spec_helper"
 
 describe DivisionSummaryPipeline::ExtractionPayload do
+  let(:reply) do
+    {
+      "interpretation" => { "template_id" => 13, "declines_second_reading" => nil, "missing" => [] },
+      "references" => {
+        "explanation" => ["S2.4", "s2.5 "],
+        "motion" => [],
+        "facts" => { "committee_name" => { "unit" => "S2.2", "text" => "Economics References Committee" } }
+      }
+    }
+  end
+
   describe ".from_json" do
-    it "parses valid JSON into an ExtractionPayload instance" do
-      json = <<~JSON
-        {
-          "template_id": 2,
-          "topic": "Consumer Data Right Reform",
-          "motion_text": "That all words after 'That' be omitted",
-          "declines_second_reading": true,
-          "mover_claims": [
-            {
-              "claim": "Small retailers are not yet ready to comply",
-              "evidence": "small retailers are not yet ready to comply",
-              "speaker": "Priya Nakamura"
-            }
-          ]
-        }
-      JSON
+    it "reads the interpretation and the references apart" do
+      payload = described_class.from_json(reply.to_json)
 
-      payload = described_class.from_json(json)
-      expect(payload).to be_present
-      expect(payload.template_id).to eq(2)
-      expect(payload.topic).to eq("Consumer Data Right Reform")
-      expect(payload.declines_second_reading).to be(true)
-      expect(payload.mover_claims.length).to eq(1)
-      expect(payload.mover_claims.first.claim).to include("Small retailers")
+      expect(payload.template_id).to eq(13)
+      expect(payload.missing).to eq([])
+      expect(payload.references.explanation).to eq(%w[S2.4 S2.5])
+      expect(payload.references.facts[:committee_name].to_h).to eq(unit: "S2.2", text: "Economics References Committee")
     end
 
-    it "strips markdown code fences" do
-      json = <<~JSON
-        ```json
-        {
-          "template_id": 22,
-          "topic": "Border Processing Bill",
-          "motion_text": "That the question be now put."
-        }
-        ```
-      JSON
+    it "strips markdown code fences and a line of preamble" do
+      payload = described_class.from_json("Here is the JSON:\n```json\n#{reply.to_json}\n```")
 
-      payload = described_class.from_json(json)
-      expect(payload).to be_present
-      expect(payload.template_id).to eq(22)
-      expect(payload.topic).to eq("Border Processing Bill")
+      expect(payload.template_id).to eq(13)
     end
 
-    it "handles legacy title and description payloads" do
-      json = %({"title": "Motions - Cost of Living", "description": "Debate on cost of living."})
-      payload = described_class.from_json(json)
-      expect(payload).to be_legacy
-      expect(payload.legacy_title).to eq("Motions - Cost of Living")
-      expect(payload.legacy_description).to eq("Debate on cost of living.")
+    it "is nil for a reply that is not JSON, or has no interpretation" do
+      expect(described_class.from_json("I could not find the motion.")).to be_nil
+      expect(described_class.from_json({ "template_id" => 2 }.to_json)).to be_nil
+      expect(described_class.from_json("")).to be_nil
     end
 
-    it "parses template-specific fields, stripping surrounding whitespace" do
-      json = <<~JSON
-        {
-          "template_id": 23,
-          "topic": "Closure",
-          "motion_text": "That the honourable member for Brightwater be no longer heard.",
-          "target_name": " Alex Downey ",
-          "target_electorate": "Brightwater"
-        }
-      JSON
-
-      payload = described_class.from_json(json)
-      expect(payload.target_name).to eq("Alex Downey")
-      expect(payload.target_electorate).to eq("Brightwater")
-      expect(payload.committee_name).to be_nil
+    # The old prompts asked for a title and a description the model wrote itself. That shape is
+    # no longer a recognised reply at all, so it can never be saved as a draft again.
+    it "does not accept a reply in the old title and description shape" do
+      expect(described_class.from_json({ "title" => "Motions", "description" => "A debate about it." }.to_json)).to be_nil
     end
 
-    it "returns nil for invalid JSON" do
-      expect(described_class.from_json("invalid json")).to be_nil
+    it "ignores fields a model adds that the pipeline has no use for, including its own prose" do
+      extra = reply.deep_dup
+      extra["interpretation"]["topic"] = "a subject in the model's words"
+      extra["references"]["facts"]["party"] = { "unit" => "S2.2", "text" => "Example Party" }
+
+      payload = described_class.from_json(extra.to_json)
+
+      expect(payload.to_h[:interpretation].keys).to contain_exactly(:template_id, :declines_second_reading, :missing)
+      expect(payload.references.facts.keys).to eq([:committee_name])
+    end
+
+    it "keeps only missing-evidence kinds from the closed list" do
+      reply["interpretation"]["missing"] = ["Operative_Motion", "the mover's reasons"]
+
+      expect(described_class.from_json(reply.to_json).missing).to eq(["operative_motion"])
+    end
+
+    it "drops a fact reference without a unit or without words to find" do
+      reply["references"]["facts"] = { "committee_name" => { "unit" => "S2.2" }, "business_name" => { "text" => "x" } }
+
+      expect(described_class.from_json(reply.to_json).references.facts).to be_empty
+    end
+
+    it "accepts keys in any case" do
+      shouted = { "INTERPRETATION" => { "Template_ID" => 22, "MISSING" => [] }, "References" => { "Explanation" => [] } }
+
+      expect(described_class.from_json(shouted.to_json).template_id).to eq(22)
     end
   end
 
-  # A false answer and no answer at all are different things here, and the coercion used to
-  # collapse them: `!value.nil?` is true for `false`, so every supplied value became true.
-  # Template 2's summary says the opposite thing depending on declines_second_reading, and a
-  # false sufficient_context is the only trigger for the orchestrator's sitting-day retry.
+  # KNOWN_ISSUES.md KI-15: false once became true, silently inverting Template 2 summaries.
   describe "boolean fields" do
-    def payload_with(json)
-      described_class.from_json(json)
-    end
+    it "keeps false as false, true as true and an unanswered flag as nil" do
+      [[false, false], [true, true], [nil, nil], ["false", false], ["yes", true], ["maybe", nil]].each do |given, read|
+        reply["interpretation"]["declines_second_reading"] = given
 
-    it "keeps a false declines_second_reading false" do
-      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": false}')
-
-      expect(payload.declines_second_reading).to be(false)
-    end
-
-    it "keeps a true declines_second_reading true" do
-      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": true}')
-
-      expect(payload.declines_second_reading).to be(true)
-    end
-
-    it "leaves declines_second_reading nil when the model did not answer" do
-      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y"}')
-
-      expect(payload.declines_second_reading).to be_nil
-    end
-
-    it "keeps a false sufficient_context false, so the orchestrator can widen the context" do
-      payload = payload_with('{"template_id": 6, "topic": "x", "motion_text": "y", "sufficient_context": false}')
-
-      expect(payload.sufficient_context).to be(false)
-    end
-
-    it "defaults sufficient_context to true when the model omitted it" do
-      payload = payload_with('{"template_id": 6, "topic": "x", "motion_text": "y"}')
-
-      expect(payload.sufficient_context).to be(true)
-    end
-
-    it "accepts the string booleans models sometimes return" do
-      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", ' \
-                             '"declines_second_reading": "false", "sufficient_context": "no"}')
-
-      expect(payload.declines_second_reading).to be(false)
-      expect(payload.sufficient_context).to be(false)
-    end
-
-    it "treats an unrecognised value as unanswered rather than as true" do
-      payload = payload_with('{"template_id": 2, "topic": "x", "motion_text": "y", "declines_second_reading": "maybe"}')
-
-      expect(payload.declines_second_reading).to be_nil
-    end
-
-    it "round-trips a false declines_second_reading through the constructor" do
-      payload = described_class.new(template_id: 2, topic: "x", motion_text: "y", declines_second_reading: false)
-
-      expect(payload.declines_second_reading).to be(false)
+        expect(described_class.from_json(reply.to_json).declines_second_reading).to eq(read)
+      end
     end
   end
 
   describe ".json_schema" do
-    it "returns a valid JSON Schema draft-07 specification" do
+    it "offers every template and every fact a template names, and no field for prose" do
       schema = described_class.json_schema
-      expect(schema[:type]).to eq("object")
-      expect(schema[:required]).to include("template_id", "topic", "motion_text", "mover_claims")
-      expect(schema[:properties].keys).to include(
-        :target_name, :target_electorate, :committee_name,
-        :regulation_name, :business_name, :rearrangement_description
-      )
-    end
+      interpretation = schema.dig(:properties, :interpretation, :properties)
+      references = schema.dig(:properties, :references, :properties)
 
-    # The catalogue grew to 28 but the schema still capped template_id at 23, so the document
-    # the model is handed disagreed with the catalogue in the same prompt.
-    it "allows the whole 28-template catalogue" do
-      schema = described_class.json_schema
-
-      expect(schema[:properties][:template_id][:maximum]).to eq(28)
+      expect(interpretation[:template_id]).to include(minimum: 1, maximum: DivisionSummaryPipeline::TemplateCatalogue::IDS.max)
+      expect(references[:facts][:properties].keys).to match_array(DivisionSummaryPipeline::TemplateCatalogue::ALL_FACTS.keys)
+      expect(schema.to_json).not_to include("topic", "claim", "motion_text")
     end
   end
 end

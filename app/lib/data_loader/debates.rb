@@ -73,7 +73,7 @@ module DataLoader
     # weekends and other non-sitting days, not a failure.
     #
     # Also used by DivisionSummaryPipeline::ContextBuilder (app/services/division_summary_
-    # pipeline/context_builder.rb) to fetch wider debate context for the AI division summary
+    # pipeline/context/context_builder.rb) to fetch wider debate context for the AI division summary
     # feature, so this stays the one place that knows the source URL and fetch mechanics -
     # see app/services/division_summary_pipeline/ARCHITECTURE.md for why that matters.
     def self.fetch_xml_document(house, date)
