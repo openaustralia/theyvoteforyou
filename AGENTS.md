@@ -80,16 +80,8 @@ the `docker-stack/dev` services (see below), not a separately installed gem.
 
 ### Makefile targets
 
-`make` has no `help` target. The complete list is:
-
-```
-make install-ruby        # rbenv install < .ruby-version
-make dev-services-up     # MySQL, Elasticsearch, dejavu and mailpit via docker-stack/dev
-make dev-up              # the same services, plus the app itself, all in Docker
-make test-services-up    # the same services for the test environment
-make deploy-production   # bundle exec cap production deploy
-make deploy-staging      # bundle exec cap staging deploy
-```
+Run `make` (or `make help`) to list the targets. When adding a target, put a `## ` description on the same line as
+the target name, or `make help` won't list it.
 
 `make dev-services-up` starts services only, not the app; Ruby and the Rails server run on the host in that case.
 `make dev-up` starts everything, including the app, in Docker (see `docker-stack/dev/docker-compose.yml`'s `app`
