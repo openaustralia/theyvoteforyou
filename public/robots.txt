@@ -12,6 +12,23 @@
 User-agent: *
 Disallow: /people/*/*/*/compare/
 Disallow: /search
+Disallow: /admin
+Disallow: /users
+Disallow: /unsubscribe/
+Disallow: /api/
+Disallow: /feeds/
+Disallow: /help/style-guide
+Disallow: /divisions/*/*/*/edit
+Disallow: /divisions/*/*/*/history
+Disallow: /divisions/*/*/*/policies
+Disallow: /policies/new
+Disallow: /policies/drafts
+Disallow: /policies/*/edit
+Disallow: /policies/*/history
+Disallow: /404
+Disallow: /500
+Disallow: /*?*sort=
+Disallow: /*?*query=
 
 # PetalBot is being overly aggressive so just banning it for the time being
 User-agent: PetalBot
