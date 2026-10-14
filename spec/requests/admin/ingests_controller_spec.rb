@@ -4,6 +4,7 @@ require "spec_helper"
 
 describe Admin::IngestsController, type: :request do
   include Devise::Test::IntegrationHelpers
+  include PathHelper
 
   let(:admin) { create(:confirmed_user, admin: true) }
   let!(:division) { create(:division, house: "senate", date: Date.new(2026, 9, 17), number: 5) }
@@ -86,6 +87,27 @@ describe Admin::IngestsController, type: :request do
       it "offers the button on the upload's page" do
         get admin_ingest_path(ingest)
         expect(response.body).to include("Delete 1 draft from this upload")
+      end
+
+      it "lists the drafts the upload created, each linked to its division and to its edit form" do
+        get admin_ingest_path(ingest)
+
+        expect(response.body).to include("Drafts from this upload (1)")
+        rows = response.parsed_body.css("table tbody tr")
+        expect(rows.size).to eq(1)
+        expect(rows.first.text).to include("senate", "2026-09-17", "#5", "T")
+        expect(rows.first.css("a").pluck(:href))
+          .to eq([admin_division_path(division), edit_division_path_simple(division)])
+      end
+
+      it "doesn't list the drafts that came from other uploads" do
+        get admin_ingest_path(ingest)
+        expect(response.parsed_body.css("table tbody tr td:nth-child(2)").map(&:text)).to eq(["a"])
+      end
+
+      it "says so when an upload has no drafts" do
+        get admin_ingest_path(Ingest.create!(kind: "division-summary", user: admin, status: "failed"))
+        expect(response.body).to include("This upload has no drafts saved.")
       end
 
       it "deletes only the drafts that came from that upload, and keeps the upload" do

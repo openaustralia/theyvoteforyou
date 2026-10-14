@@ -3,6 +3,9 @@
 module Admin
   # Where admins upload files for the background ingest queue (Ingest) and see how they went.
   class IngestsController < Admin::ApplicationController
+    # For the links from the list of drafts to each division's edit form.
+    helper PathHelper
+
     # The list and detail pages are Administrate's. New and create are our own upload form, and
     # an ingest is never edited or deleted from here.
     def valid_action?(name, resource = resource_class)
