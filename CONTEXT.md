@@ -17,6 +17,26 @@ The 1200x628 image generated nightly for a policy, person, or comparison, and po
 tags so social media previews show it. A card contains portraits; it is not itself a portrait.
 _Avoid_: OG image, social image, share image, screenshot
 
+### Email delivery
+
+**Hard bounce**:
+A permanent delivery failure reported for an email: the receiving server refused it, or the address no longer exists.
+A refusal that blames our sending server or reputation (an enhanced status code starting 5.7) is not a hard bounce,
+because it says nothing about the person's address.
+_Avoid_: Bounce (when the kind matters), failure
+
+**Suppression**:
+The state of an email address that alert emails are no longer sent to, because of a hard bounce. It belongs to the
+address, not to an account or an alert, never expires, and ends only by a deliberate action: the person changes their
+address or signs up again and confirms, or staff clear it. It stops alert emails but not mail the person has just
+asked for, such as a sign-up confirmation or a password reset.
+_Avoid_: Blacklist, blocklist, unsubscribe (an unsubscribe is the person's choice, a suppression is not)
+
+**Complaint**:
+A person marking an alert email as spam. Postal reports none, so the only complaint signal we receive is the person
+using one-click unsubscribe, which removes every alert subscription at that address.
+_Avoid_: Spam report
+
 ### Server migration
 
 **Cutover**:
