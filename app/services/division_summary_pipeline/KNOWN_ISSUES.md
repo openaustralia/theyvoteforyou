@@ -66,7 +66,7 @@ KI-62 to KI-65 came from the first run of `rake ai:draft_local`, with Qwen3.6-35
 through llama.cpp, over the 13 divisions of 17 September 2026 on 12 October 2026, comparing each
 draft's mover and motion with the day's ParlParse XML.
 
-KI-66 and KI-67 came from the same task's run over 16 September 2026 on 13 October 2026: the draft
+KI-67 and KI-79 came from the same task's run over 16 September 2026 on 13 October 2026: the draft
 for House 16 September 2026 #6, and the prompt and reply saved for its sitting-day retry.
 
 KI-68 to KI-78, and the changes to KI-4, KI-5, KI-6, KI-7, KI-13, KI-44, KI-47, KI-50, KI-52 and
@@ -164,7 +164,6 @@ Every entry has one kind, so every issue has one place, and the open entries are
 | KI-63 | Pipeline | High | Open | A motion moved in an earlier section of the same debate was not found, so a suspension of standing orders was routed as a censure | See the open entry below. |
 | KI-64 | Pipeline | Medium | Open | The model rarely pointed at the mover's reasons, leaving "About the Motion" empty | See the open entry below. |
 | KI-65 | Pipeline | Low | Open | A motion moved at another senator's request is described as the mover's own | See the open entry below. |
-| KI-66 | Pipeline | High | Open | A draft said an amendment was agreed to when no amendment was moved or found, and passed validation | See the open entry below. |
 | KI-67 | Pipeline | Medium | Open | The sitting-day retry has no limit on its size | See the open entry below. |
 | KI-68 | Rules | High | Open | Six question forms are routed as their opposites, so a draft would report the reverse of the vote | See the open entry below. |
 | KI-69 | Rules | High | Open | A Senate division without a quorum is reported as decided | See the open entry below. |
@@ -177,6 +176,7 @@ Every entry has one kind, so every issue has one place, and the open entries are
 | KI-76 | Pipeline | Low | Open | The Reviewer Only section leaves out things a reviewer needs | See the open entry below. |
 | KI-77 | Pipeline | Low | Open | The local model tools lose or misreport a reply that does not finish | See the open entry below. |
 | KI-78 | Rules | Low | Open | Choices the pipeline made are not marked as choices, so they could be defended as rules or "fixed" as errors | See the open entry below. |
+| KI-79 | Pipeline | High | Open | A draft said an amendment was agreed to when no amendment was moved or found, and passed validation | See the open entry below. |
 
 ---
 
@@ -212,7 +212,7 @@ What a missing template costs was **confirmed** at House 16 September 2026 #6, w
 only offer Template 15 as advice, and Qwen3.6-35B-A3B (UD-Q4_K_M) chose Template 4 instead, from the
 label the prompt gives it, "Consideration in Detail (House of Representatives)", which does not say
 that Template 4 is for amendments. The draft then said an amendment had been agreed to and passed
-validation (KI-66). With no settled route, `ContextPacket#question_states_motion?` was false, so the
+validation (KI-79). With no settled route, `ContextPacket#question_states_motion?` was false, so the
 prompt told the model to report the terms missing if it could not find them, it did, and the
 pipeline read the whole sitting day looking for terms this question does not have (KI-67). A
 template for this form would have settled the route and avoided both.
@@ -733,26 +733,6 @@ put names the senator whose business it was in both, so the information is in th
 `MoverFinder` already reads "in the name of" for its weaker `notice_owner` sign, which is where a
 fix would start.
 
-### KI-66
-
-**A draft said an amendment was agreed to when no amendment was moved or found, and passed
-validation.** Severity: High. Status: Open. **Confirmed** from the draft.
-
-At House 16 September 2026 #6 the question was "The question is the bill be agreed to.", the final
-question of consideration in detail (KI-4). The model chose Template 4, an amendment template,
-though Stage 1 found no mover and no terms, and the model gave no motion references and reported
-"operative_motion" missing. The draft's title ended "Consideration in Detail Amendment", and it said
-"a small majority voted for an amendment to the [bill] during the Consideration in Detail stage,
-which means it was successful. The text of the bill has been changed accordingly." The last
-sentence is `SummaryWording#amendment_effect_clause`, which Templates 3 and 4 print when the vote
-succeeds. `ProvenanceValidator` recorded no errors, only the warning that the model had reported the
-terms missing, so an editor would see a plausible draft saying this vote amended the bill.
-
-Nothing compares the kind of template chosen with the evidence found. An amendment template with no
-terms, no amendments circulated and no mover is the case to catch. A fix belongs in
-`ProvenanceValidator` and would be tested in `provenance_validator_spec.rb`. Whether it fails the
-draft or only warns the reviewer is a decision to agree first.
-
 ### KI-67
 
 **The sitting-day retry has no limit on its size.** Severity: Medium. Status: Open. **Confirmed**
@@ -829,3 +809,23 @@ would fix it. Separately, a reply cut off for length is always reported as "mode
 16 September 2026 #6 the model wrote 7,681 tokens and ran out of the server's context instead
 (KI-67), so the message points at the wrong setting. It should give the number of tokens actually
 written and say whether `max_tokens` or the server's context ran out.
+
+### KI-79
+
+**A draft said an amendment was agreed to when no amendment was moved or found, and passed
+validation.** Severity: High. Status: Open. **Confirmed** from the draft.
+
+At House 16 September 2026 #6 the question was "The question is the bill be agreed to.", the final
+question of consideration in detail (KI-4). The model chose Template 4, an amendment template,
+though Stage 1 found no mover and no terms, and the model gave no motion references and reported
+"operative_motion" missing. The draft's title ended "Consideration in Detail Amendment", and it said
+"a small majority voted for an amendment to the [bill] during the Consideration in Detail stage,
+which means it was successful. The text of the bill has been changed accordingly." The last
+sentence is `SummaryWording#amendment_effect_clause`, which Templates 3 and 4 print when the vote
+succeeds. `ProvenanceValidator` recorded no errors, only the warning that the model had reported the
+terms missing, so an editor would see a plausible draft saying this vote amended the bill.
+
+Nothing compares the kind of template chosen with the evidence found. An amendment template with no
+terms, no amendments circulated and no mover is the case to catch. A fix belongs in
+`ProvenanceValidator` and would be tested in `provenance_validator_spec.rb`. Whether it fails the
+draft or only warns the reviewer is a decision to agree first.
