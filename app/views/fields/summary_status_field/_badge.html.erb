@@ -1,0 +1,10 @@
+<%# Shared by the list and detail pages. Colours are not the only signal: the wording differs too. %>
+<% unsummarised = !field.summarised? %>
+<span style="display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.85em; font-weight: 600; white-space: nowrap; <%= unsummarised ? 'background: #fdf1d6; color: #7a4b00; border: 1px solid #e6b94d;' : 'background: #e3f4e8; color: #1d5a32; border: 1px solid #8fcfa4;' %>">
+  <%= field.label %>
+</span>
+<% if field.drafts_label %>
+  <span style="display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.85em; font-weight: 600; white-space: nowrap; background: #e6eefb; color: #1b3f7a; border: 1px solid #9db8e6;">
+    <%= field.drafts_label %>
+  </span>
+<% end %>

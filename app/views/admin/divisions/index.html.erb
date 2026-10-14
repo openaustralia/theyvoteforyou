@@ -1,0 +1,38 @@
+<%# Administrate's own index page, with rows of links above the list to narrow it by house and by
+    summary. Each link is a search filter from DivisionDashboard (a word like "senate:"), so they also
+    work typed into the search box. Choosing one keeps the other row's choice. %>
+<%
+  groups = {
+    "House" => [["All", nil], ["Representatives", "representatives:"], ["Senate", "senate:"]],
+    "Summary" => [["All", nil], ["Summarised", "summarised:"], ["Not summarised yet", "unsummarised:"],
+                  ["Not summarised, with an AI draft waiting", "drafts_waiting:"]]
+  }
+  words = search_term.to_s.split
+  chosen = groups.transform_values { |options| options.filter_map(&:last).find { |filter| words.include?(filter) } }
+%>
+<% content_for(:before_main) do %>
+  <style>
+    .filter-bar { display: grid; gap: 0.6rem; padding: 0.9rem 1.5rem; margin: 0 0 1rem; background: #f6f8fa; border: 1px solid #e1e5ea; border-radius: 6px; }
+    .filter-bar__group { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; }
+    .filter-bar__label { min-width: 5.5rem; font-size: 0.8em; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #5b6571; }
+    .filter-bar__option { padding: 0.25rem 0.8rem; font-size: 0.9em; text-decoration: none; color: #1a4f8f; background: #fff; border: 1px solid #c4ccd6; border-radius: 999px; }
+    .filter-bar__option:hover, .filter-bar__option:focus-visible { background: #e8f0fb; border-color: #1a4f8f; }
+    .filter-bar__option[aria-current="page"] { font-weight: 600; color: #fff; background: #1a4f8f; border-color: #1a4f8f; }
+  </style>
+  <div class="filter-bar">
+    <% groups.each do |group, options| %>
+      <nav class="filter-bar__group" aria-label="Filter by <%= group.downcase %>">
+        <span class="filter-bar__label"><%= group %></span>
+        <% options.each do |label, filter| %>
+          <% current = chosen[group] == filter %>
+          <% search = chosen.merge(group => filter).values.compact.join(" ").presence %>
+          <%= link_to label, admin_divisions_path(search: search), class: "filter-bar__option", "aria-current": (current ? "page" : nil) %>
+        <% end %>
+      </nav>
+    <% end %>
+  </div>
+<% end %>
+
+<%= render template: "administrate/application/index",
+           locals: { page: page, resources: resources, search_term: search_term,
+                     show_search_bar: show_search_bar, filters: filters } %>

@@ -1,0 +1,23 @@
+<%#
+Administrate's navigation, split in two: the site's own records, then the parliamentary data that
+the data loader brings in (divisions and members). See
+administrate/application/_navigation.html.erb in the gem for the original.
+%>
+
+<% data_resources = %w[divisions members] %>
+<% resources = Administrate::Namespace.new(namespace).resources_with_index_route.select { |resource| accessible_action?(model_from_resource(resource), :index) } %>
+
+<nav class="navigation">
+  <%= link_to(t("administrate.navigation.back_to_app"), root_url, class: "button button--alt button--nav") if defined?(root_url) %>
+
+  <% resources.partition { |resource| data_resources.exclude?(resource.to_s) }.each_with_index do |group, index| %>
+    <%= tag.hr(class: "navigation__divider") if index.positive? %>
+    <% group.each do |resource| %>
+      <%= link_to(
+        display_resource_name(resource),
+        resource_index_route(resource),
+        class: "navigation__link navigation__link--#{nav_link_state(resource)}"
+      ) %>
+    <% end %>
+  <% end %>
+</nav>
