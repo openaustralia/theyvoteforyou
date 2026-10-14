@@ -8,7 +8,9 @@ require "zip"
 #
 #   [model-name]/[house]/[yyyy-mm-dd]/[house]_[yyyy-mm-dd]_[n].md
 #
-# - The first folder is the model, which is who the draft is attributed to.
+# - The model folder is who the draft is attributed to. It is the folder holding the house and date
+#   folders, so a zip made by compressing a parent folder (a "local_runs" holding several model
+#   folders, say) still reads correctly.
 # - The file name alone says which division it is. The house and date folders are only for
 #   people browsing the zip, so they are not read.
 # - Line 1 of a file is the draft's title, as a Markdown heading. The rest is the description.
@@ -66,11 +68,10 @@ class DivisionSummaryIngest
   end
 
   def draft_from(entry)
-    parts = entry.name.split("/")
-    return error(entry, "is not inside a model folder") if parts.size < 2
-
-    model = parts.first
-    file_name = parts.last
+    folders = entry.name.split("/")
+    file_name = folders.pop
+    model = model_folder(folders)
+    return error(entry, "is not inside a model folder") if model.nil?
     return error(entry, "has a model folder name with characters other than letters, digits, . _ -") unless MODEL_NAME.match?(model)
 
     match = FILE_NAME.match(file_name) or return error(entry, "is not named [house]_[yyyy-mm-dd]_[n].md")
@@ -82,6 +83,15 @@ class DivisionSummaryIngest
     return error(entry, "has no description after its title") if description.blank?
 
     Draft.new(division, model, title, description)
+  end
+
+  # The folder holding the house and date folders, which are optional. Anything above it, such as a
+  # folder the whole zip was made from, is ignored.
+  def model_folder(folders)
+    folders = folders.dup
+    folders.pop if folders.last&.match?(/\A\d{4}-\d{2}-\d{2}\z/)
+    folders.pop if House.australian.include?(folders.last)
+    folders.last
   end
 
   def find_division(match)

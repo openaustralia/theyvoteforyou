@@ -34,6 +34,25 @@ describe DivisionSummaryIngest do
     expect(result.saved).to eq(1)
   end
 
+  it "finds the model when the zip was made from a folder that holds the model folders" do
+    result = ingest_for("local_runs/#{model}/representatives/2026-09-17/representatives_2026-09-17_3.md" => draft,
+                        "local_runs/other.model/representatives/2026-09-17/representatives_2026-09-17_3.md" => draft)
+
+    expect(result.errors).to be_empty
+    expect(division.ai_division_summaries.pluck(:model)).to contain_exactly(model, "other.model")
+  end
+
+  it "keeps a title longer than 255 characters, as real Hansard headings can be" do
+    long_title = "Regulations and Determinations - #{'A very long instrument name ' * 10}".strip
+    ingest_for(path => "# #{long_title}\n\nA description.")
+    expect(division.ai_division_summaries.sole.title).to eq(long_title)
+  end
+
+  it "finds the model when there are no house and date folders" do
+    ingest_for("#{model}/representatives_2026-09-17_3.md" => draft)
+    expect(division.ai_division_summaries.sole.model).to eq(model)
+  end
+
   it "replaces an earlier draft from the same model" do
     ingest_for(path => draft)
     ingest_for(path => "# A newer title\n\nA newer description.")
@@ -74,8 +93,8 @@ describe DivisionSummaryIngest do
       expect(result.errors.sole).to include("has no description")
     end
 
-    it "rejects two files for the same model and division" do
-      result = ingest_for(path => draft, "#{model}/other/representatives_2026-09-17_3.md" => draft)
+    it "rejects two files for the same model and division, such as two runs of one model in a zip" do
+      result = ingest_for("run1/#{path}" => draft, "run2/#{path}" => draft)
       expect(result.errors.sole).to include("more than one draft")
     end
 

@@ -29,8 +29,10 @@ ADR 0005, and is tracked in #1815. How the zip is laid out was settled in
 [model-name]/[house]/[yyyy-mm-dd]/[house]_[yyyy-mm-dd]_[n].md
 ```
 
-- The first folder is the model the draft is credited to. A `local.` prefix marks drafts that didn't come
-  from Bedrock.
+- The model folder is who the draft is credited to. It is the folder that holds the house and date folders,
+  so a zip made by compressing a parent folder (a researcher's `local_runs/` holding several model folders)
+  still reads correctly. The first version took the first folder as the model, and read a whole zip of
+  several models as one. A `local.` prefix marks drafts that didn't come from Bedrock.
 - The file name alone says which division it is. Swapping `_` for `/` gives its public address. The house
   and date folders are for people browsing the zip and are not read, so one zip can hold both houses and
   the form doesn't ask for one.
