@@ -26,6 +26,12 @@ describe Admin::IngestsController, type: :request do
     it "shows the upload form" do
       get new_admin_ingest_path(kind: "division-summary")
       expect(response.body).to include("Upload AI summary drafts", "type=\"file\"")
+
+      # Dropping a file needs JavaScript, which request specs don't run, so this only checks the zone is there
+      # and that the plain file input inside it still works without the script.
+      zone = response.parsed_body.at_css("#ingest-dropzone")
+      expect(zone.text).to include("Drop a zip file here")
+      expect(zone.at_css("input[type=file][name=file][accept='.zip,application/zip']")).to be_present
     end
 
     it "stores the zip, runs the job and saves the drafts against the division" do

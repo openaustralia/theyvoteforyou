@@ -21,10 +21,59 @@
 
   <%= form_with url: admin_ingests_path, multipart: true, local: true do |form| %>
     <%= hidden_field_tag :kind, @kind %>
-    <div class="field-unit">
-      <div class="field-unit__label"><%= label_tag :file, "Zip file" %></div>
-      <div class="field-unit__field"><%= file_field_tag :file, accept: ".zip,application/zip", required: true %></div>
+
+    <%# A drop zone around the ordinary file input. The input still works on its own, so choosing a
+        file keeps working without JavaScript. The script below only adds dropping a file on it. %>
+    <div id="ingest-dropzone" style="padding: 2rem 1.5rem; margin: 0 0 1rem; text-align: center; background: #f6f8fa; border: 2px dashed #9aa5b1; border-radius: 8px;">
+      <p style="margin: 0 0 0.75rem; font-size: 1.1em;"><strong>Drop a zip file here</strong>, or choose one:</p>
+      <%= file_field_tag :file, accept: ".zip,application/zip", required: true, "aria-describedby": "ingest-dropzone-status" %>
+      <p id="ingest-dropzone-status" role="status" style="margin: 0.75rem 0 0; min-height: 1.4em;"></p>
     </div>
+
     <div class="form-actions"><%= submit_tag "Upload", class: "button" %></div>
   <% end %>
+
+  <script>
+    (function () {
+      var zone = document.getElementById("ingest-dropzone");
+      var input = document.getElementById("file");
+      var status = document.getElementById("ingest-dropzone-status");
+      if (!zone || !input || !window.DataTransfer) { return; }
+
+      var idle = { background: "#f6f8fa", borderColor: "#9aa5b1" };
+      var active = { background: "#e8f0fb", borderColor: "#1a4f8f" };
+      function paint(colours) { zone.style.background = colours.background; zone.style.borderColor = colours.borderColor; }
+
+      function describe() {
+        var file = input.files && input.files[0];
+        status.style.color = "";
+        status.textContent = file ? "Ready to upload: " + file.name + " (" + Math.max(1, Math.round(file.size / 1024)) + " KB)" : "";
+      }
+
+      // A file dropped outside the zone would make the browser open it and leave this page.
+      ["dragover", "drop"].forEach(function (name) {
+        window.addEventListener(name, function (event) { event.preventDefault(); });
+      });
+
+      zone.addEventListener("dragenter", function () { paint(active); });
+      zone.addEventListener("dragover", function (event) { event.preventDefault(); paint(active); });
+      zone.addEventListener("dragleave", function (event) { if (!zone.contains(event.relatedTarget)) { paint(idle); } });
+
+      zone.addEventListener("drop", function (event) {
+        event.preventDefault();
+        paint(idle);
+        var files = event.dataTransfer && event.dataTransfer.files;
+        if (!files || files.length === 0) { return; }
+        if (files.length > 1 || !/\.zip$/i.test(files[0].name)) {
+          status.style.color = "#a61b1b";
+          status.textContent = "Drop a single .zip file.";
+          return;
+        }
+        input.files = files;
+        describe();
+      });
+
+      input.addEventListener("change", describe);
+    })();
+  </script>
 </section>
