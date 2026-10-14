@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_09_30_080000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
   create_table "ai_division_summaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.string "model", null: false
@@ -26,7 +26,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_09_30_080000) do
     t.index ["division_id"], name: "index_ai_division_summaries_on_division_id"
   end
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
