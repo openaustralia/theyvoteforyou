@@ -1,0 +1,15 @@
+<%# Administrate's own show page, with a button to delete every draft that came from this upload %>
+<% drafts = page.resource.ai_division_summaries.count %>
+<% content_for(:header_last) do %>
+  <% if drafts.positive? %>
+    <%= button_to "Delete #{pluralize(drafts, 'draft')} from this upload",
+                  delete_summaries_admin_ingest_path(page.resource),
+                  method: :delete,
+                  class: "button button--danger",
+                  data: { turbo_confirm: "Delete all #{pluralize(drafts, 'draft')} that came from this upload? This can't be undone." } %>
+  <% else %>
+    <p>No drafts from this upload are left.</p>
+  <% end %>
+<% end %>
+
+<%= render template: "administrate/application/show", locals: { page: page } %>

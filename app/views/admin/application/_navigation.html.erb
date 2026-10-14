@@ -4,7 +4,7 @@ the data loader brings in (divisions and members). See
 administrate/application/_navigation.html.erb in the gem for the original.
 %>
 
-<% data_resources = %w[divisions members] %>
+<% data_resources = %w[divisions members ingests] %>
 <% resources = Administrate::Namespace.new(namespace).resources_with_index_route.select { |resource| accessible_action?(model_from_resource(resource), :index) } %>
 
 <nav class="navigation">

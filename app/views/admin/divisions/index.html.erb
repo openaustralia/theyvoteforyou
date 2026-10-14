@@ -10,6 +10,10 @@
   words = search_term.to_s.split
   chosen = groups.transform_values { |options| options.filter_map(&:last).find { |filter| words.include?(filter) } }
 %>
+<% content_for(:header_last) do %>
+  <%= link_to "Upload summaries", new_admin_ingest_path(kind: "division-summary"), class: "button" %>
+<% end %>
+
 <% content_for(:before_main) do %>
   <style>
     .filter-bar { display: grid; gap: 0.6rem; padding: 0.9rem 1.5rem; margin: 0 0 1rem; background: #f6f8fa; border: 1px solid #e1e5ea; border-radius: 6px; }

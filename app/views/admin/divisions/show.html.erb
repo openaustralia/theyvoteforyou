@@ -1,7 +1,9 @@
-<%# Administrate's own show page, with links to the division on the public site and to its edit form %>
+<%# Administrate's own show page, with links to the division on the public site, and to the upload
+    page for AI summary drafts %>
 <% content_for(:header_last) do %>
   <p><%= link_to "View on the public site", division_path_simple(page.resource) %></p>
   <p><%= link_to "Edit the summary, starting from an AI draft", edit_division_path_simple(page.resource) %></p>
+  <p><%= link_to "Upload AI summary drafts", new_admin_ingest_path(kind: "division-summary") %></p>
 <% end %>
 
 <%= render template: "administrate/application/show", locals: { page: page } %>

@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     resources :users
     resources :divisions, except: %i[new create]
     resources :members, only: %i[index show]
+    resources :ingests, only: %i[index show new create] do
+      member { delete :delete_summaries }
+    end
     resources :policies
     resources :watches
 

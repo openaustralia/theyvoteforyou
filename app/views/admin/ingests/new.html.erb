@@ -1,0 +1,30 @@
+<% content_for(:title) { "Upload AI summary drafts" } %>
+
+<header class="main-content__header">
+  <h1 class="main-content__page-title"><%= content_for(:title) %></h1>
+</header>
+
+<section class="main-content__body">
+  <p>
+    Upload a zip of draft division summaries. It is queued and read in the background, and each
+    draft is saved against its division for an editor to review. Nothing is published.
+  </p>
+
+  <p>Inside the zip, each draft is one file:</p>
+  <pre>[model-name]/[house]/[yyyy-mm-dd]/[house]_[yyyy-mm-dd]_[n].md</pre>
+  <ul>
+    <li>The first folder is the model, which the draft is credited to. For example <code>local.Qwen3.6-35B-A3B-UD-Q4_K_M</code>.</li>
+    <li>The file name says which division it is: <code>representatives_2026-09-17_3.md</code> is the division at <code>/divisions/representatives/2026-09-17/3</code>. The house and date folders are only for browsing.</li>
+    <li>The first line is the draft's title, as a heading. The rest is the description.</li>
+    <li>If any file is for a division we don't have, or is badly named, the whole upload fails and nothing is saved. Uploading again from the same model replaces its earlier draft for a division.</li>
+  </ul>
+
+  <%= form_with url: admin_ingests_path, multipart: true, local: true do |form| %>
+    <%= hidden_field_tag :kind, @kind %>
+    <div class="field-unit">
+      <div class="field-unit__label"><%= label_tag :file, "Zip file" %></div>
+      <div class="field-unit__field"><%= file_field_tag :file, accept: ".zip,application/zip", required: true %></div>
+    </div>
+    <div class="form-actions"><%= submit_tag "Upload", class: "button" %></div>
+  <% end %>
+</section>
