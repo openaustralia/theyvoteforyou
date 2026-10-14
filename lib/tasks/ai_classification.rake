@@ -34,10 +34,12 @@ namespace :ai do
     puts
 
     DivisionPolicyClassifier::MODELS.each do |label, model_id|
-      suggestion = AiPolicySuggestion.find_by(division: division, model: model_id)
-      if suggestion && suggestion.error.blank?
+      suggestion = AiPolicySuggestion.find_by(division: division, model: model_id, error: nil)
+      if suggestion
         puts "== #{label} (already classified, skipping) =="
       else
+        puts "Calling #{label} (#{model_id})..."
+        $stdout.flush
         result = classifier.classify_with(model_id)
         suggestion = AiPolicySuggestion.save_from_result!(division, result)
         puts "== #{label} =="
@@ -47,6 +49,44 @@ namespace :ai do
       puts "  Policy: #{suggestion.policy.name} - #{suggestion.policy.description}" if suggestion.match == "existing" && suggestion.policy
       puts "  Proposed: #{suggestion.proposed_policy_name} - #{suggestion.proposed_policy_description}" if suggestion.match == "new"
       puts "  Reasoning: #{suggestion.reasoning}" if suggestion.reasoning
+      puts
+    end
+  end
+
+  desc "Run the 5-stage AI division summary pipeline (Hansard context, procedural routing, " \
+       "semantic extraction, provenance validation, template compilation) for a Division with " \
+       "several Bedrock models, saving each as an AiDivisionSummary - skips any model already " \
+       "saved for this Division (openaustralia/theyvoteforyou#1716). DIVISION_ID=<id> required."
+  # The pipeline's only entry point: no cron job, no feature flag, nothing automatic. Models
+  # with an error-free summary already saved are skipped, so re-running retries only what
+  # failed. Needs Bedrock credentials; see ARCHITECTURE.md section 15.
+  task summarize_division: :environment do
+    division_id = ENV.fetch("DIVISION_ID") { abort "Usage: rake ai:summarize_division DIVISION_ID=123" }
+    division = Division.find(division_id)
+    summarizer = DivisionSummarizer.new(division)
+
+    puts "Division ##{division.id}: #{division.name}"
+    puts division.motion.to_s.truncate(200)
+    puts
+
+    DivisionSummarizer::MODELS.each do |label, model_id|
+      summary = AiDivisionSummary.find_by(division: division, model: model_id)
+      if summary && summary.error.blank?
+        puts "== #{label} (already summarised, skipping) =="
+      else
+        puts "Calling #{label} (#{model_id})..."
+        $stdout.flush
+        result = summarizer.summarize_with(model_id)
+        summary = AiDivisionSummary.save_from_result!(division, result)
+        puts "== #{label} =="
+      end
+
+      if summary.error
+        puts "Error: #{summary.error}"
+      else
+        puts "Title: #{summary.title}"
+        puts "Description: #{summary.description}"
+      end
       puts
     end
   end

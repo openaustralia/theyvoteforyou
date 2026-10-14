@@ -6,18 +6,22 @@ require "aws-sdk-bedrockruntime"
 # Policies, or propose a new Policy if none fit (spike for openaustralia/theyvoteforyou#1716). It's
 # read-only: nothing here writes to the database, and every result is a draft for a human to look at.
 class DivisionPolicyClassifier
-  # OAF prefers Australian-hosted infrastructure, so all three models run from ap-southeast-2
-  # instead of the US regions Bedrock more commonly documents. A direct check against `aws bedrock
-  # list-foundation-models`/`list-inference-profiles` for ap-southeast-2 confirmed:
-  # - Kimi K2.5 and DeepSeek V3.2 are ON_DEMAND foundation models there (AWS added them in its
-  #   Feb 2026 Sydney open-weight rollout).
-  # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in this region: Sydney doesn't host it directly,
+  # OAF prefers Australian-hosted infrastructure, so most models run from ap-southeast-2 instead of
+  # the US regions Bedrock more commonly documents. A direct check against `aws bedrock
+  # list-foundation-models`/`list-inference-profiles` confirmed:
+  # - Kimi K2.5, DeepSeek V3.2, Qwen3 235B, GLM 5, Mistral Large 3 and Gemma 3 27B are ON_DEMAND
+  #   foundation models in ap-southeast-2.
+  # - Claude Haiku 4.5 is INFERENCE_PROFILE-only in that region: Sydney doesn't host it directly,
   #   so it runs via the Australia-pinned cross-region inference profile
   #   au.anthropic.claude-haiku-4-5-20251001-v1:0 instead of a plain model id.
   MODELS = {
     "kimi-k2.5" => "moonshotai.kimi-k2.5",
     "deepseek-v3.2" => "deepseek.v3.2",
-    "claude-haiku-4.5" => "au.anthropic.claude-haiku-4-5-20251001-v1:0"
+    "claude-haiku-4.5" => "au.anthropic.claude-haiku-4-5-20251001-v1:0",
+    "qwen3-235b" => "qwen.qwen3-235b-a22b-2507-v1:0",
+    "glm-5" => "zai.glm-5",
+    "mistral-large-3" => "mistral.mistral-large-3-675b-instruct",
+    "gemma-3-27b" => "google.gemma-3-27b-it"
   }.freeze
 
   # Human-readable names for display, keyed by model id (what AiPolicySuggestion#model stores)
@@ -25,7 +29,11 @@ class DivisionPolicyClassifier
   MODEL_LABELS = {
     "moonshotai.kimi-k2.5" => "Kimi K2.5",
     "deepseek.v3.2" => "DeepSeek V3.2",
-    "au.anthropic.claude-haiku-4-5-20251001-v1:0" => "Claude Haiku 4.5"
+    "au.anthropic.claude-haiku-4-5-20251001-v1:0" => "Claude Haiku 4.5",
+    "qwen.qwen3-235b-a22b-2507-v1:0" => "Qwen3 235B",
+    "zai.glm-5" => "GLM 5",
+    "mistral.mistral-large-3-675b-instruct" => "Mistral Large 3",
+    "google.gemma-3-27b-it" => "Gemma 3 27B"
   }.freeze
 
   REGION = "ap-southeast-2"

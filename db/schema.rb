@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_14_020000) do
+  create_table "ai_division_summaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "division_id", null: false
+    t.string "model", null: false
+    t.text "title"
+    t.text "description", size: :medium
+    t.text "raw_response"
+    t.text "error"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "system_prompt", size: :medium
+    t.text "user_prompt", size: :medium
+    t.integer "ingest_id"
+    t.index ["division_id", "model"], name: "index_ai_division_summaries_on_division_id_and_model", unique: true
+    t.index ["division_id"], name: "index_ai_division_summaries_on_division_id"
+    t.index ["ingest_id"], name: "index_ai_division_summaries_on_ingest_id"
+  end
+
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
@@ -139,6 +156,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
+  end
+
+  create_table "ingests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "kind", null: false
+    t.string "status", default: "queued", null: false
+    t.integer "user_id"
+    t.string "original_filename"
+    t.string "file_path"
+    t.integer "records_saved", default: 0, null: false
+    t.text "error"
+    t.datetime "processed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kind", "status"], name: "index_ingests_on_kind_and_status"
+    t.index ["user_id"], name: "index_ingests_on_user_id"
   end
 
   create_table "member_infos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
