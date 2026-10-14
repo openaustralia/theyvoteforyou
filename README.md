@@ -54,7 +54,7 @@ the canonical vocabulary for concepts with more than one plausible name.
 ### Requirements
 
 - Docker, running natively on your machine. On a Mac with Apple Silicon, use the arm64 build of Docker Desktop (or
-  OrbStack). Every image in `docker-stack/` has an arm64 build, so nothing runs under emulation.
+  OrbStack). Every image in `.devcontainer/compose.yaml` has an arm64 build, so nothing runs under emulation.
 - Ruby at the version in `.ruby-version`, installed with whichever Ruby version manager you prefer.
 - A MySQL client library, to build the `mysql2` gem, and HTML Tidy, which the specs need:
 
@@ -65,10 +65,13 @@ the canonical vocabulary for concepts with more than one plausible name.
 
   On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
 
+If a port the containers need is already in use, or you run more than one worktree at once, see
+[Port clashes](AGENTS.md#port-clashes) in AGENTS.md for the variables that move each one.
+
 ### First-time setup
 
 ```
-make dev-services-up                                   # mysql, elasticsearch, dejavu, mailpit - always in Docker
+make services-up                                       # mysql, elasticsearch, dejavu, mailpit - always in Docker
 bundle install
 cp config/database.yml.example config/database.yml     # works as it is with the containers above
 bin/rails db:setup
@@ -91,8 +94,32 @@ bundle exec rake searchkick:reindex:all
 Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
 Mail sent in development is caught by mailpit at <http://localhost:1088>.
 
-To run the app in Docker instead, run `make dev-up`. It uses the same `config/database.yml`, and you run the setup
-commands inside the container, for example `docker exec theyvoteforyou-dev-app-1 bin/rails db:setup`.
+To run the app in Docker instead, run `make up`, or open the repo as a dev container. The app container installs gems
+and sets up the database itself, and `make shell` gives you a shell in it for the data loading commands above.
+
+`make down` stops either setup and keeps the data. `make clean` also removes what was built (images, gems), so the
+next start rebuilds from scratch, still keeping the data. `make clobber` removes the data too, then prunes stopped
+containers, unused images and build cache for every project on the machine, which is worth doing after switching
+branches or changing dependencies. Other projects only have to download or rebuild again; their data is untouched.
+`make status` shows what's running and on which ports. Run `make` to list all the targets.
+
+As a last resort, `docker system prune --all --volumes --force` also deletes unused volumes, which can include the
+databases of every stopped Docker project on the machine, not just this one.
+
+### If the app won't start
+
+Startup fails loudly on purpose, so a broken setup gets noticed instead of hiding behind a container that looks fine.
+If setup fails, or takes longer than `START_LIMIT` (5 minutes here, set in `.devcontainer/compose.yaml`), the `app`
+container stops, `make up` reports the failure, and the dev container shows an error instead of opening.
+
+To fix it:
+
+1. `make status` shows which container stopped, and `make logs SERVICE=app` shows why.
+2. `make shell` opens a shell in a fresh `app` container even when it has stopped, so you can rerun the setup by hand
+   and fix the problem.
+3. `make up`, or reopen the dev container, to start again.
+
+On a slow machine, a longer limit can go in `.env`, for example `START_LIMIT=20m`.
 
 ### Running the specs
 
@@ -101,14 +128,6 @@ bundle exec rake
 ```
 
 The specs use the `tvfy-test` database in the same MySQL container, which `bin/rails db:setup` creates.
-
-For a separate test stack, run `make test-services-up`, then load the schema into it and run the specs, setting
-`DB_PORT=3307` for those commands only. The variable also moves the development environment.
-
-```
-DB_PORT=3307 RAILS_ENV=test bin/rails db:schema:load
-DB_PORT=3307 bundle exec rake
-```
 
 ### How development differs from production
 
@@ -149,7 +168,7 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 
 ## Search
 
-Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make dev-services-up` runs it
+Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make services-up` runs it
 in Docker on port 9200, and the dejavu browser at <http://localhost:1358> lets you look at the index.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
