@@ -23,14 +23,31 @@ class DivisionAiSummaries
     DivisionPolicyClassifier::MODEL_LABELS
   end
 
+  def all_summaries
+    @all_summaries ||= division.ai_division_summaries.includes(ingest: :user).index_by(&:model)
+  end
+
   # Only models the panel can label: a summary left over from a model id since retired from
   # MODEL_LABELS shouldn't appear as a mystery row.
   def summaries
-    @summaries ||= division.ai_division_summaries.index_by(&:model).slice(*known_models.keys)
+    all_summaries.slice(*known_models.keys)
+  end
+
+  # Drafts an admin uploaded (Ingest) come from models that aren't in MODEL_LABELS, such as one
+  # running on a volunteer's computer. They're labelled by the model's own name and who uploaded
+  # them, so an editor can see where each came from.
+  def uploaded_summaries
+    all_summaries.values.select { |summary| summary.ingest && known_models.exclude?(summary.model) }
   end
 
   def rows
-    @rows ||= known_models.map { |model_id, label| Row.new(label, summaries[model_id]) }
+    @rows ||= known_models.map { |model_id, label| Row.new(label, summaries[model_id]) } +
+              uploaded_summaries.map { |summary| Row.new(uploaded_label(summary), summary) }
+  end
+
+  def uploaded_label(summary)
+    uploader = summary.ingest.user&.name
+    uploader ? "#{summary.model} (uploaded by #{uploader})" : "#{summary.model} (uploaded)"
   end
 
   # One model's row: its label, and what it drafted (if anything).
