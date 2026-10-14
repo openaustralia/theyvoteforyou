@@ -96,16 +96,20 @@ module DivisionSummaryPipeline
       "#{moment(statement)}, #{chair_label(statement)} said:\n\n#{blockquote(statement.text)}"
     end
 
-    def self.blockquote(text)
-      text.to_s.strip.split("\n").map { |line| line.strip.empty? ? ">" : "> #{line.strip}" }.join("\n")
+    # outline: quote each line at its depth in the motion's outline (QuoteOutline), one ">" per
+    # level, rather than every line at the outer level.
+    def self.blockquote(text, outline: false)
+      lines = text.to_s.strip.split("\n").map(&:strip)
+      levels = outline ? QuoteOutline.depths(lines) : Array.new(lines.size, 1)
+      lines.zip(levels).map { |line, level| [">" * level, line].reject(&:empty?).join(" ") }.join("\n")
     end
 
     private
 
     attr_reader :evidence, :facts, :mover_label, :moved
 
-    def blockquote(text)
-      self.class.blockquote(text)
+    def blockquote(text, outline: false)
+      self.class.blockquote(text, outline:)
     end
 
     def bare_move?(text)
