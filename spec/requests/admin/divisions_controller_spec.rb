@@ -201,6 +201,19 @@ describe Admin::DivisionsController, type: :request do
       end
     end
 
+    it "lists Divisions, Policies, Members and Uploaded ingests together, after the divider" do
+      get admin_division_path(division)
+      items = response.parsed_body.css("nav.navigation a:not(.navigation__site-name), nav.navigation hr")
+      names = items.map { |node| node.name == "hr" ? "---" : node.text.strip }
+      expect(names).to eq(["Back to app", "Users", "Watches", "---", "Divisions", "Policies", "Members", "Uploaded ingests"])
+    end
+
+    it "says which site this is, in the menu and the browser tab" do
+      get admin_division_path(division)
+      expect(response.parsed_body.at_css("nav.navigation .navigation__site-name").text).to include("They Vote For You")
+      expect(response.parsed_body.at_css("title").text).to include("They Vote For You admin")
+    end
+
     it "separates the parliamentary data from the site's own records in the navigation" do
       get admin_division_path(division)
       expect(response.body).to include("navigation__divider")
