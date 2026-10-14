@@ -32,7 +32,7 @@ gem "ranker"
 # config.otlp.* exporter defaults to false). Deploys install from
 # Gemfile.lock in deployment mode so they can't drift, but without a
 # constraint the next `bundle update` would take a new major silently.
-gem "sentry-ruby", "~> 7.0"
+gem "sentry-ruby", "~> 7.1"
 gem "sentry-rails", "~> 7.0"
 gem "sentry-delayed_job", "~> 7.0"
 # Sampling profiler used by Sentry profiling
@@ -56,7 +56,7 @@ gem "meta-tags"
 gem "numbers_and_words"
 
 gem "searchkick"
-# We're using elasticsearch 7.1 on the server. So, matching major version number for the gem
+# We're using elasticsearch 7.17.7 on the server. So, matching major version number for the gem
 # TODO: Upgrade this when we upgrade the server
 gem "elasticsearch", "~> 7"
 
@@ -149,6 +149,7 @@ group :development do
   gem "capistrano", require: false
   gem "capistrano-aws", require: false
   gem "capistrano-rails", require: false
+  gem "capistrano-rbenv", require: false
   gem "capistrano-rvm", require: false
   gem "capistrano-tagging3", "~> 2.0", require: false
   gem "capistrano-maintenance", require: false
@@ -181,7 +182,7 @@ group :doc do
   gem "sdoc", require: false
 end
 # Fix Unresolved or ambiguous specs
-gem "psych", "~> 5.2.6"
+gem "psych", "~> 5.5.0"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
