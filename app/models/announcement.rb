@@ -12,9 +12,10 @@ class Announcement < ApplicationRecord
       .where("ends_at IS NULL OR ends_at > ?", at)
   }
 
-  # Only one announcement shows at a time: the newest live one
+  # Only one announcement shows at a time: the one that started most recently. An announcement with no start counts
+  # from when it was created, and editing one does not change that.
   def self.current
-    live.order(created_at: :desc, id: :desc).first
+    live.order(Arel.sql("COALESCE(starts_at, created_at) DESC"), id: :desc).first
   end
 
   private
