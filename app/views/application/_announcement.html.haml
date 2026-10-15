@@ -1,0 +1,4 @@
+- announcement = current_announcement
+- if announcement
+  .site-announcement(role="region" aria-label="Announcement")
+    = sanitize announcement.body, tags: %w[a strong em b i br p], attributes: %w[href]

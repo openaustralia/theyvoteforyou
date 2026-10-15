@@ -245,6 +245,10 @@ irb> User.find_by(email: "matthew@oaf.org.au").update(admin: true)
 
 Obviously substitute the email address in the command above.
 
+### Announcements
+
+Admins can publish a bar across the top of every page at `/admin/announcements`. The body is HTML, and only links, bold, italic, line breaks and paragraphs are kept. An announcement shows when it is published and the current time is between its optional start and end. If more than one is live, only the newest (by creation time) shows.
+
 ## Feature flags
 
 Some features that are still in development are enabled via "feature flags". The features can optionally switched on for certain users, block of users or everyone. These flags are administered at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3000/admin/flipper/features when in development.
