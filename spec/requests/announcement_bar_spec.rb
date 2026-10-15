@@ -50,9 +50,16 @@ describe "Announcement bar", type: :request do
     expect(response.body).not_to include("Future notice")
   end
 
-  it "still renders the page when the announcement cannot be loaded" do
-    allow(Announcement).to receive(:current).and_raise(ActiveRecord::ConnectionNotEstablished)
-    get about_path
+  # Renaming a table is DDL, which MySQL commits straight away, so it is put back even if the example fails
+  it "still renders the page when the announcements table cannot be read" do
+    connection = ActiveRecord::Base.connection
+    connection.rename_table(:announcements, :announcements_unavailable)
+    begin
+      get about_path
+    ensure
+      connection.rename_table(:announcements_unavailable, :announcements)
+    end
+
     expect(response).to have_http_status(:ok)
     expect(response.body).not_to include("site-announcement")
   end
