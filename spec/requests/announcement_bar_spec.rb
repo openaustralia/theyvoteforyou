@@ -75,4 +75,23 @@ describe "Announcement bar", type: :request do
       expect(response.body[dismissal_key_pattern, 1]).not_to eq original
     end
   end
+
+  describe "layouts" do
+    let(:policy) { create(:policy) }
+
+    before { create(:announcement, body: "Layout check notice") }
+
+    it "shows on an ordinary page" do
+      get policy_path(policy)
+      expect(response.body).to include("Layout check notice")
+    end
+
+    # These pages are screenshotted into the images people share on social media, so a bar would end up in every image
+    it "does not show on the social media card pages" do
+      get policy_path(policy, card: 1)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("social_media_cards")
+      expect(response.body).not_to include("Layout check notice")
+    end
+  end
 end
