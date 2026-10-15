@@ -75,4 +75,13 @@ describe "Announcement bar", type: :request do
       expect(response.body[dismissal_key_pattern, 1]).not_to eq original
     end
   end
+
+  # The bar is part of the page HTML. If a shared cache such as Cloudflare stored pages, an unpublished or ended
+  # announcement would keep showing until the cache expired. Pages go out as private today, and Cloudflare reports
+  # them as DYNAMIC, so nothing stores them. Change this deliberately, and purge the cache on publish if you do.
+  it "sends pages as private, so shared caches do not keep an old announcement" do
+    create(:announcement)
+    get about_path
+    expect(response.headers["Cache-Control"]).to include("private")
+  end
 end

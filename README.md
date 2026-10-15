@@ -247,7 +247,7 @@ Obviously substitute the email address in the command above.
 
 ### Announcements
 
-Admins can publish a bar across the top of every page at `/admin/announcements`. The body is HTML, and only links, bold, italic, line breaks and paragraphs are kept. An announcement shows when it is published and the current time is between its optional start and end. If more than one is live, only the newest (by creation time) shows.
+Admins can publish a bar across the top of every page at `/admin/announcements`. The body is HTML, and only links, bold, italic, line breaks and paragraphs are kept. An announcement shows when it is published and the current time is between its optional start and end. If more than one is live, only the one that started most recently shows, and one with no start counts from when it was created. Times are in Sydney time. The announcement is part of the page HTML, so it relies on pages not being cached by a shared cache such as Cloudflare. They are sent as private today, and a spec fails if that changes.
 
 ## Feature flags
 
