@@ -3,6 +3,10 @@
 require "spec_helper"
 
 describe "Announcement bar", type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
+  let(:dismissal_key_pattern) { /data-dismissal-key=["']([^"']+)["']/ }
+
   it "shows the current announcement to a logged-out visitor" do
     create(:announcement, body: "We are updating the voting data tonight.")
     get about_path
@@ -51,5 +55,24 @@ describe "Announcement bar", type: :request do
     get about_path
     expect(response).to have_http_status(:ok)
     expect(response.body).not_to include("site-announcement")
+  end
+
+  describe "dismissing" do
+    it "gives the bar a key and a close button that scripts reveal" do
+      announcement = create(:announcement)
+      get about_path
+      expect(response.body[dismissal_key_pattern, 1]).to eq announcement.dismissal_key
+      expect(response.body).to include("site-announcement-close")
+    end
+
+    it "gives the bar a new key after the announcement is edited" do
+      announcement = create(:announcement)
+      get about_path
+      original = response.body[dismissal_key_pattern, 1]
+      travel 1.minute
+      announcement.update!(body: "Edited")
+      get about_path
+      expect(response.body[dismissal_key_pattern, 1]).not_to eq original
+    end
   end
 end

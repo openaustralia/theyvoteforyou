@@ -17,6 +17,12 @@ class Announcement < ApplicationRecord
     live.order(created_at: :desc, id: :desc).first
   end
 
+  # Remembered in a cookie when someone dismisses the bar. It changes when the announcement is edited, so an edited
+  # announcement shows again to people who dismissed the old text.
+  def dismissal_key
+    "#{id}-#{updated_at.strftime('%s%6N')}"
+  end
+
   private
 
   def ends_after_it_starts

@@ -1,10 +1,15 @@
 .site-announcement {
+  position: relative;
   background-color: #101c37;
   color: white;
-  padding: 10px 15px;
+  padding: 10px 45px 10px 15px;
   text-align: center;
   font-size: 16px;
   line-height: 22px;
+
+  &[hidden] {
+    display: none;
+  }
 
   a {
     color: inherit;
@@ -13,5 +18,32 @@
 
   p {
     margin: 0;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    padding-left: 45px;
+  }
+
+  .site-announcement-close {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    color: white;
+    opacity: 0.8;
+
+    &:hover,
+    &:focus {
+      color: white;
+      opacity: 1;
+    }
+
+    &:focus {
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
   }
 }
