@@ -70,6 +70,25 @@ describe Announcement do
     end
   end
 
+  describe "#dismissal_key" do
+    it "stays the same until the announcement changes" do
+      announcement = create(:announcement)
+      expect(announcement.dismissal_key).to eq announcement.reload.dismissal_key
+    end
+
+    it "changes when the announcement is edited" do
+      announcement = create(:announcement)
+      original = announcement.dismissal_key
+      travel 1.minute
+      announcement.update!(body: "Different text")
+      expect(announcement.dismissal_key).not_to eq original
+    end
+
+    it "differs between announcements" do
+      expect(create(:announcement).dismissal_key).not_to eq create(:announcement).dismissal_key
+    end
+  end
+
   describe ".current ordering by start" do
     it "prefers the announcement that started most recently" do
       create(:announcement, body: "Open-ended, made a week ago", created_at: 7.days.ago)
