@@ -1,0 +1,17 @@
+.site-announcement {
+  background-color: #101c37;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  p {
+    margin: 0;
+  }
+}
