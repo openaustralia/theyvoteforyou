@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :policies
     resources :watches
     resources :announcements
+    resources :api_usages, only: :index
 
     root to: "users#index"
   end

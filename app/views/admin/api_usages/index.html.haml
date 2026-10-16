@@ -1,0 +1,29 @@
+%header.main-content__header
+  %h1.main-content__page-title
+    Top #{@top_users.size} API users over the last #{pluralize(@period, "day")}
+
+%section.main-content__body
+  %p
+    Days run from midnight to midnight UTC, so "1 day" is today so far.
+  %p
+    - Admin::ApiUsagesController::PERIODS.each do |period|
+      = link_to "Last #{pluralize(period, 'day')}", { period: period }, class: "button"
+
+  %table
+    %thead
+      %tr
+        %th Name
+        %th Email
+        %th Total
+        %th Average daily
+        %th Min daily
+        %th Max daily
+    %tbody
+      - @top_users.each do |row|
+        %tr
+          %td= link_to row.user.name, admin_user_path(row.user)
+          %td= link_to row.user.email, admin_user_path(row.user)
+          %td= number_with_delimiter(row.total)
+          %td= number_with_delimiter(row.mean.round)
+          %td= number_with_delimiter(row.min)
+          %td= number_with_delimiter(row.max)
