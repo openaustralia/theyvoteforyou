@@ -47,23 +47,28 @@ there is no CLA file in `openaustralia/.github` to cite.
 
 ## Development environment
 
-Ruby version is pinned in `.ruby-version`. MySQL and HTMLTidy are the system dependencies.
+Ruby version is pinned in `.ruby-version`. The services (MySQL 8.4, Elasticsearch 7.17.7, dejavu, mailpit) always run
+in Docker, with native arm64 images on Apple Silicon. The host needs Docker, a MySQL client library to build `mysql2`,
+and HTMLTidy:
 
 ```
-brew install tidy-html5 mysql rbenv ruby-build   # macOS
-sudo apt-get install tidy mysql-server mysql-client libmysqlclient-dev   # Debian/Ubuntu
+brew install mysql tidy-html5                       # macOS (don't start the mysql server, the container uses 3306)
+sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
 ```
 
 Then, per the README:
 
 ```
+make dev-services-up
 bundle install
-cp config/database.yml.example config/database.yml   # then edit credentials
-bundle exec rake application:config:dev              # writes remaining dev config
+cp config/database.yml.example config/database.yml   # works as it is, no edits needed
 bundle exec rake db:setup                            # schema plus seed data
 bundle exec rake                                     # full spec suite
 bundle exec rails server                             # http://localhost:3000
 ```
+
+`bundle exec rake application:config:dev` does the `cp` step for you (it copies `config/database.yml.example` and never
+overwrites an existing file).
 
 `bin/setup` does a shorter version of the same thing (`bundle check || bundle install`, `bin/rails db:prepare`, clear
 logs and tmp) and then execs `bin/dev`, which is just `bin/rails server`. Pass `--skip-server` to stop before that.
@@ -78,7 +83,6 @@ the `docker-stack/dev` services (see below), not a separately installed gem.
 `make` has no `help` target. The complete list is:
 
 ```
-make init-submodules     # git submodule update --init --recursive
 make install-ruby        # rbenv install < .ruby-version
 make dev-services-up     # MySQL, Elasticsearch, dejavu and mailpit via docker-stack/dev
 make dev-up              # the same services, plus the app itself, all in Docker
@@ -117,7 +121,7 @@ bundle exec ruby-audit                     # Ruby security advisories
 bundle exec bundle-audit                   # gem security advisories
 ```
 
-CI (`.github/workflows/rubyonrails.yml`) runs two jobs on every push and pull request: `test` (MySQL 5.7 service,
+CI (`.github/workflows/rubyonrails.yml`) runs two jobs on every push and pull request: `test` (MySQL 8.4 service,
 `apt install tidy`, `bin/rails db:schema:load`, then `bin/rake`) and `lint` (`bin/rubocop --parallel`). Brakeman is
 commented out pending a Rails upgrade, so `bin/brakeman` exists but isn't a gate.
 
@@ -127,14 +131,15 @@ Specs use RSpec with Capybara (features), FactoryBot, VCR/WebMock for external H
 ### Test gotchas worth knowing before you debug
 
 - **HTMLTidy must be on `PATH`.** `spec/html_compare_helper.rb` shells out to the `tidy` binary to normalise HTML before
-  comparing it. Without it, view and feature specs fail in ways that look nothing like a missing system package. On
-  macOS it prefers `/usr/local/bin/tidy` (Homebrew) over any other copy.
+  comparing it. Without it, view and feature specs fail in ways that look nothing like a missing system package. It
+  uses `/usr/local/bin/tidy` if that exists (Intel Homebrew) and otherwise whatever `tidy` is on `PATH`, which is where
+  Apple Silicon Homebrew (`/opt/homebrew/bin`) puts it.
 - **`FactoryBot.lint` runs in `before(:suite)`.** One broken factory fails the whole run before a single example
   executes, so a confusing "nothing ran" failure usually means a factory, not the spec you just wrote.
 - **Searchkick callbacks are disabled in tests** (`Searchkick.disable_callbacks`). Code that reindexes must guard on
   `Searchkick.callbacks?`, as `WikiMotion` does, or it will blow up under test.
 - **Delayed Job runs inline in tests** (`Delayed::Worker.delay_jobs = false`), so queued work executes synchronously.
-- Elasticsearch versions differ between places: `docker-stack/dev` pins `elasticsearch:6.8.23` while the Gemfile has
+- `docker-stack/dev` and `docker-stack/test` run Elasticsearch 7.17.7, matching production, and the Gemfile has
   `elasticsearch, "~> 7"`. Check what's actually running before attributing a failure to either.
 
 ## Architecture

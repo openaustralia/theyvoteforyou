@@ -1,0 +1,33 @@
+<%# A three dots menu on each row holding Edit and Delete, in place of Administrate's two columns of
+    links. A resource can add its own items above them with an admin/<resources>/_row_menu_items
+    partial (see admin/divisions). A <details> element opens and closes it without JavaScript. The click is stopped from
+    reaching the row, which would otherwise open the record. %>
+<% can_edit = existing_action?(collection_presenter.resource_name, :edit) && accessible_action?(resource, :edit) %>
+<% can_destroy = existing_action?(collection_presenter.resource_name, :destroy) && accessible_action?(resource, :destroy) %>
+
+<% extra_items = "admin/#{resource.class.model_name.plural}/row_menu_items" %>
+<% has_extra_items = lookup_context.exists?(extra_items, [], true) %>
+
+<% if has_extra_items || existing_action?(collection_presenter.resource_name, :edit) || existing_action?(collection_presenter.resource_name, :destroy) %>
+  <td class="cell-label--action-button" onclick="event.stopPropagation()" style="position: relative; text-align: right;">
+    <% if has_extra_items || can_edit || can_destroy %>
+      <details class="row-menu" style="display: inline-block; position: relative;">
+        <summary aria-label="Row actions" style="list-style: none; cursor: pointer; padding: 2px 10px; font-size: 1.3em; line-height: 1; border-radius: 4px;">&#8943;</summary>
+        <div role="menu" style="position: absolute; right: 0; z-index: 10; min-width: 8em; padding: 4px 0; text-align: left; background: #fff; border: 1px solid #d5d9dd; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);">
+          <%= render extra_items, resource: resource if has_extra_items %>
+          <% if can_edit %>
+            <%= link_to "Edit", [:edit, namespace, resource], role: "menuitem", class: "action-edit", style: "display: block; padding: 6px 14px;" %>
+          <% end %>
+          <% if can_destroy %>
+            <%= button_to "Delete", [namespace, resource],
+                          method: :delete,
+                          role: "menuitem",
+                          class: "link link--danger",
+                          style: "display: block; width: 100%; padding: 6px 14px; text-align: left;",
+                          data: { turbo_confirm: t("administrate.actions.confirm") } %>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </td>
+<% end %>

@@ -146,6 +146,7 @@ citations should be checked against the guides named above.
 | KI-63 | High | Open | A motion moved in an earlier section of the same debate was not found, so a suspension of standing orders was routed as a censure | See the open entry below. |
 | KI-64 | Medium | Open | The model rarely pointed at the mover's reasons, leaving "About the Motion" empty | See the open entry below. |
 | KI-65 | Low | Open | A motion moved at another senator's request is described as the mover's own | See the open entry below. |
+| KI-66 | Low | Fixed | A motion's lettered and numbered paragraphs were all quoted at one level, so "(i)" under "(a)" read as though it sat beside it | `quote_outline_spec.rb`; `template_compiler_spec.rb` "an outlined motion". Hansard's XML gives every paragraph as a flat `<p>`, so the depth comes from the labels: each new label style is one level further in, and going back to a style already open goes back to its level. "(i)", "(v)" and "(x)" are read as letters or numerals by what they continue. A paragraph without a label stays at the outer level. Only Motion Text is outlined, not the mover's quoted sentences. Checked on Senate 17 September 2026 #8, #9 and #10. |
 
 ---
 

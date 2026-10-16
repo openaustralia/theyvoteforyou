@@ -10,6 +10,11 @@ module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_admin
 
+    # The browser tab title. Administrate's own is the Rails module name, "Theyvoteforyou".
+    helper_method def application_title
+      "#{Rails.configuration.project_name} admin"
+    end
+
     def authenticate_admin
       authenticate_user!
       render plain: "Not authorised", status: :forbidden unless current_user.admin?

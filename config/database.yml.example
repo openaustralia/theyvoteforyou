@@ -1,16 +1,24 @@
-# Copy this to database.yml and edit
+# Copy this to database.yml. The defaults match the MySQL container started by
+# `make dev-services-up`, so no edits are needed for a normal setup.
+#
+# The test stack from `make test-services-up` listens on port 3307. To run the
+# specs against it, set DB_PORT=3307 for that command only, as DB_PORT also
+# moves the development environment.
+
+default: &default
+  adapter: mysql2
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
+  username: root
+  password: <%= ENV.fetch("MYSQL_ROOT_PASSWORD", "root") %>
 
 development:
-  adapter: mysql2
-  database: pw
-  username: pw
-  password:
+  <<: *default
+  database: tvfy-development
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  adapter: mysql2
-  database: pw_test
-  username: pw_test
-  password:
+  <<: *default
+  database: tvfy-test

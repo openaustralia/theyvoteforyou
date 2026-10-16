@@ -5,6 +5,8 @@
 # DivisionSummarizer, WikiMotion).
 class AiDivisionSummary < ApplicationRecord
   belongs_to :division
+  # The upload this draft arrived in, when it was written elsewhere rather than by the pipeline here.
+  belongs_to :ingest, optional: true
 
   validates :model, presence: true
 
