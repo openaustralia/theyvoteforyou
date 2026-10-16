@@ -6,7 +6,7 @@ model's folder and hand it to someone at They Vote For You to upload (#1815). No
 until an editor has reviewed it in the division edit form.
 
 How the pipeline itself works is in `app/services/division_summary_pipeline/ARCHITECTURE.md`. Why the files are named
-the way they are is in `docs/adr/0006-local-drafts-named-after-division-url.md`.
+the way they are is in `docs/adr/0007-local-drafts-named-after-division-url.md`.
 
 ## Before you start
 
