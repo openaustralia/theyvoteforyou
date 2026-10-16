@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_11_060242) do
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
     t.integer "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["created_at"], name: "index_api_statistics_on_created_at"
   end
 
   create_table "bills", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
