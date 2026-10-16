@@ -1,0 +1,6 @@
+<%# One narrow column for the row menu (see _collection_item_actions), where Administrate has one
+    column each for Edit and Destroy. %>
+<% if lookup_context.exists?("admin/#{collection_presenter.resource_name.to_s.pluralize}/row_menu_items", [], true) ||
+      existing_action?(collection_presenter.resource_name, :edit) || existing_action?(collection_presenter.resource_name, :destroy) %>
+  <th scope="col" class="cell-label--action-button"><span class="visually-hidden">Actions</span></th>
+<% end %>

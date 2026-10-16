@@ -6,13 +6,18 @@ Rails.application.routes.draw do
     end
 
     resources :users
+    resources :divisions, except: %i[new create]
+    resources :members, only: %i[index show]
+    resources :ingests, only: %i[index show new create] do
+      member { delete :delete_summaries }
+    end
     resources :policies
     resources :watches
 
     root to: "users#index"
   end
 
-  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
+  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations", passwords: "passwords" }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
   get "mp.php" => "members#show_redirect"
@@ -90,6 +95,11 @@ Rails.application.routes.draw do
       post "watch"
     end
   end
+
+  post "postal/event" => "postal#event"
+
+  get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
+  post "unsubscribe/:token" => "unsubscribes#create"
 
   get "users/welcome" => "users#welcome", as: :user_welcome
   get "users/confirm" => "users#confirm", as: :user_confirm

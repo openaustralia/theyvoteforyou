@@ -2,7 +2,7 @@
 
 # Where a locally drafted division summary is written, and what the file holds. This is the only
 # code that knows the output format, which has to match what the upload in #1815 reads, so a change
-# to that format changes only this class. LocalDraftRun writes these files; docs/adr/0006 records
+# to that format changes only this class. LocalDraftRun writes these files; docs/adr/0007 records
 # why they are named this way.
 #
 #   local_runs/<model id>/<house>/<yyyy-mm-dd>/<house>_<yyyy-mm-dd>_<n>.md

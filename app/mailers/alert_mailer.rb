@@ -9,6 +9,10 @@ class AlertMailer < ApplicationMailer
     @policy = policy
     @version = version
     @user = user
+    headers[MailKind::HEADER] = MailKind::ALERT
+    # One-click unsubscribe (RFC 8058), so people can stop the mail from their inbox instead of reporting it as spam.
+    headers["List-Unsubscribe"] = "<#{unsubscribe_url(token: user.unsubscribe_token)}>"
+    headers["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click"
 
     mail to: user.email, subject: render_to_string(partial: "policy_updated_subject", locals: { policy: @policy }).strip
   end

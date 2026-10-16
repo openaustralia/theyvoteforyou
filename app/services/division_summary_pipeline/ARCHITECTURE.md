@@ -308,7 +308,9 @@ for human review.
   matter. It reads the motion Stage 1 found, falling back to the question.
 - `SummaryWording` holds the human-authored sentences each outcome chooses.
 - `EvidenceSections` renders the quoting sections in the layout in section 3. A section with
-  nothing to quote prints a fixed sentence ("No explanatory claims recorded.").
+  nothing to quote prints a fixed sentence ("No explanatory claims recorded."). `QuoteOutline`
+  works out how deeply each paragraph of the motion sits from its label, so "(i)" under "(a)" is
+  quoted one level further in (KI-66).
 - `TemplateCompiler` loads the template, fills its placeholders, and keeps its tidying passes off
   every placeholder that quotes Hansard (KI-17). It records each fallback it used.
 - `DraftTitle` builds the title by rule: `<major heading> - <minor heading without its last "; ..."
@@ -450,7 +452,8 @@ app/services/division_summary_pipeline/   folders are for people; Zeitwerk colla
   extraction/   semantic_extractor.rb, extraction_prompt.rb, extraction_payload.rb
   validation/   provenance_validator.rb, evidence.rb
   compilation/  template_catalogue.rb, parliamentary_outcome.rb, summary_wording.rb,
-                evidence_sections.rb, template_compiler.rb, draft_title.rb, reviewer_report.rb
+                evidence_sections.rb, quote_outline.rb, template_compiler.rb, draft_title.rb,
+                reviewer_report.rb
   clock_time.rb, text_normaliser.rb       shared by several stages
   templates/                              the Markdown templates, one per procedure
   ARCHITECTURE.md, KNOWN_ISSUES.md
@@ -506,7 +509,7 @@ rake ai:draft_local HOUSE=senate FROM=2026-08-01 TO=2026-09-30
 
 Drafts divisions for upload with the same local model, newest first, one sitting day at a time,
 loading each day's divisions only when it reaches them (`LocalDraftRun`). Each draft is written to
-a file under `local_runs/` named after the division's URL (`LocalDraftFile`; `docs/adr/0006`), not
+a file under `local_runs/` named after the division's URL (`LocalDraftFile`; `docs/adr/0007`), not
 saved to the database, and a division that already has a file is skipped so a run can be stopped
 and restarted. `docs/local-ai-drafts.md` is the how-to.
 
