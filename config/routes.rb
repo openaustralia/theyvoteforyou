@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :users
     resources :policies
     resources :watches
+    resources :api_usages, only: :index
 
     root to: "users#index"
   end

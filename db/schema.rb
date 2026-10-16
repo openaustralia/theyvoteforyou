@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_11_060242) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_16_100000) do
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
@@ -50,6 +50,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_11_060242) do
   create_table "bills_divisions", id: false, charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "bill_id", null: false
+  end
+
+  create_table "daily_api_usages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.date "date", null: false
+    t.integer "count", default: 0, null: false
+    t.index ["date"], name: "index_daily_api_usages_on_date"
+    t.index ["user_id", "date"], name: "index_daily_api_usages_on_user_id_and_date", unique: true
   end
 
   create_table "delayed_jobs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

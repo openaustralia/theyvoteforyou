@@ -3,9 +3,9 @@
 class ApiStatistic < ApplicationRecord
   belongs_to :user
 
-  def self.log(request)
+  def self.log(request, user:)
     create!(
-      user: User.find_by(api_key: request.query_parameters["key"]),
+      user: user,
       ip_address: request.remote_ip,
       query: request.fullpath,
       user_agent: request.headers["User-Agent"]
