@@ -15,6 +15,7 @@ class User < ApplicationRecord
   has_many :wiki_motions, dependent: :restrict_with_exception
   has_many :policies, dependent: :restrict_with_exception
   has_many :watches, dependent: :destroy
+  has_many :daily_api_usages, dependent: :delete_all
 
   validates :name, presence: true
 
