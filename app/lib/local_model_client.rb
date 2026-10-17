@@ -19,6 +19,12 @@ class LocalModelClient
   # JSON plus any thinking, so the cap turns an hour-long hang into a quick failure.
   DEFAULTS = { "url" => "http://127.0.0.1:8080", "model" => nil, "timeout" => 3600, "max_tokens" => 16_000 }.freeze
 
+  # Answers that mean the server isn't serving a model at all, so every division would fail the
+  # same way and the run should stop: llama-server answers 503 while it is still loading a model,
+  # and Ollama answers 404 when it has no model of that name. A 500 is the server failing on this
+  # one call, which stays the division's own failure.
+  NOT_SERVING = %w[404 502 503].freeze
+
   # Seconds to wait for the server to accept a connection. It's on this machine or the local
   # network, so a server that takes longer than this isn't running.
   OPEN_TIMEOUT = 10
@@ -113,17 +119,26 @@ class LocalModelClient
   end
 
   # A slow reply (Net::ReadTimeout) belongs to the division being drafted, so it fails only that
-  # draft; a server that refuses or never accepts the connection is Unreachable.
+  # draft; a server that refuses or never accepts the connection is Unreachable, as is one that
+  # dies part way through a reply.
   def request(path)
     uri = URI("#{url}#{path}")
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: OPEN_TIMEOUT,
                                                    read_timeout: timeout) do |http|
       yield http, uri
     end
-    raise "model server #{response.code}: #{response.body.to_s.truncate(500)}" unless response.is_a?(Net::HTTPSuccess)
+    unless response.is_a?(Net::HTTPSuccess)
+      message = "model server #{response.code}: #{response.body.to_s.truncate(500)}"
+      if NOT_SERVING.include?(response.code)
+        @unreachable = message
+        raise Unreachable, message
+      end
+
+      raise message
+    end
 
     JSON.parse(response.body)
-  rescue SystemCallError, SocketError, Net::OpenTimeout => e
+  rescue SystemCallError, SocketError, IOError, Net::OpenTimeout => e
     @unreachable = "Can't reach the model server at #{url} (#{e.message})"
     raise Unreachable, @unreachable
   end

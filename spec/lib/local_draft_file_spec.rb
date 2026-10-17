@@ -41,6 +41,14 @@ describe LocalDraftFile do
 
       expect(Dir.children(file.path.dirname)).to eq ["senate_2026-09-17_8.md"]
     end
+
+    it "names its half-written file with a leading dot, so the upload ignores it" do
+      FileUtils.mkdir_p(file.path.dirname)
+      Dir.mkdir(file.path)
+
+      expect { file.write(result) }.to raise_error(Errno::EISDIR)
+      expect(Dir.children(file.path.dirname)).to include ".senate_2026-09-17_8.md.partial"
+    end
   end
 
   describe "#write_failed" do

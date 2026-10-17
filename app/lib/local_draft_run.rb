@@ -27,6 +27,9 @@ class LocalDraftRun
   # DIVISION= named no division, or one Hansard doesn't have.
   class UnknownDivision < StandardError; end
 
+  # FROM= was after TO=, so there is nothing between them to go back over.
+  class EmptyRange < StandardError; end
+
   attr_reader :counts
 
   # loader: loads a sitting day's divisions into the database; a spec passes its own.
@@ -45,6 +48,8 @@ class LocalDraftRun
 
   # Every division from `to` back to `from`, newest first.
   def run(from: EARLIEST, to: Date.current)
+    raise EmptyRange, "FROM #{from} is after TO #{to}; the run goes back from TO to FROM" if from > to
+
     to.downto(from) { |date| draft_day(date) }
     report_totals
   end
@@ -78,13 +83,17 @@ class LocalDraftRun
     end
   end
 
-  # Whether the house has divisions that day in the local database, loading the day first when
-  # Hansard has divisions the database doesn't. Loading saves through Searchkick's callbacks, which
-  # would need Elasticsearch running; drafting doesn't use the search index, so they're off. A day
-  # that can't be loaded is skipped and tried again on the next run.
+  # Whether the house's divisions for that day are all in the local database, loading the day
+  # first when they aren't. A day already in the database may be only part of what Hansard holds
+  # (a run stopped in the middle of loading it), so the day's own count in the cached XML says
+  # whether anything is still missing. Loading saves through Searchkick's callbacks, which would
+  # need Elasticsearch running; drafting doesn't use the search index, so they're off. A day that
+  # can't be loaded is skipped and tried again on the next run.
   def ensure_loaded(house, date)
-    return true if Division.exists?(house: house, date: date)
-    return false unless cache.divisions?(house, date)
+    loaded = Division.where(house: house, date: date).count
+    expected = cache.division_count(house, date)
+    return true if loaded.positive? && loaded >= expected
+    return false if expected.zero?
 
     Searchkick.callbacks(false) { loader.call(date) }
     Division.exists?(house: house, date: date)

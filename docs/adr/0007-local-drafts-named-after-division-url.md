@@ -38,8 +38,10 @@ has to say which division it belongs to without depending on anything else.
 ## Consequences
 
 - Only `LocalDraftFile` knows this format, so a change agreed with the upload side changes that class and its spec.
-- The house and date folders are only for browsing. The upload (ADR 0006) takes the model from the folder that holds
-  them, so a zip of `local_runs/` itself also reads correctly, and the division from the file name.
+- The house and date folders are only for browsing. The upload (ADR 0006) takes the division from the file name and
+  the model from the folder that holds the house and date folders. In `local_runs/failed/<model id>/` that folder is a
+  model id too, so a zip of the whole of `local_runs/` would upload failed drafts as if they were finished. Zip the
+  model's folder on its own.
 - Failed drafts are written to `local_runs/failed/<model id>/`, outside the folder that is zipped and handed over.
 - A run skips divisions whose file already exists, so files left in an older layout would be drafted again after a
   format change unless moved.

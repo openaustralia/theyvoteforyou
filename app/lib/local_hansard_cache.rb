@@ -6,43 +6,66 @@
 # without this a snapshot takes hours; and because every run then reads the same Hansard, two
 # snapshots taken with no code change between them agree.
 class LocalHansardCache
+  # A day with no XML is remembered so it isn't asked for again, but only for a day old enough to
+  # have been published: the XML for a day that sat this week can appear later, and a marker would
+  # hide it from every later run. Fourteen days is a margin chosen to cover a late Hansard, not a
+  # measured publishing delay.
+  RECENT_DAYS = 14
+
+  # How many parsed days #fetcher keeps: as far back as EarlierDebate looks, for each house. A
+  # parsed sitting day takes about 2.5 MB of memory (measured on days from 2026), so keeping every
+  # one would hold gigabytes by the end of a run back to 2006.
+  PARSED_DAYS_KEPT = DivisionSummaryPipeline::EarlierDebate::LOOKBACK_CALENDAR_DAYS * House.australian.size
+
   def initialize(dir: Rails.root.join("tmp/hansard_xml"))
     @dir = Pathname(dir)
     @documents = {}
     FileUtils.mkdir_p(@dir)
   end
 
-  # The day's XML as text, or nil for a day with none (a non-sitting day is a 404). A day with none
-  # is remembered, so it isn't asked for again.
+  # The day's XML as text, or nil for a day with none (a non-sitting day is a 404).
   def raw(house, date)
     file = @dir.join("#{house}-#{date}.xml")
     missing = @dir.join("#{house}-#{date}.missing")
-    return nil if missing.exist?
+    return nil if missing.exist? && !recent?(date)
     return file.read if file.exist?
 
     document = DataLoader::Debates.fetch_xml_document(house, date.to_s)
     unless document
-      FileUtils.touch(missing)
+      FileUtils.touch(missing) unless recent?(date)
       return nil
     end
 
-    file.write(document.to_xml)
+    # Written through a name of its own and renamed, so a run stopped mid-fetch leaves no part of a
+    # day behind that a later run would read as the whole day.
+    partial = file.sub_ext(".xml.partial")
+    File.write(partial, document.to_xml)
+    File.rename(partial, file)
     file.read
   end
 
-  # Whether that house voted that day: its XML holds at least one <division> (not to be confused
-  # with the <divisioncount> inside one).
-  def divisions?(house, date)
-    raw(house, date).to_s.include?("<division ")
+  # How many divisions the day's XML holds. Counts "<division " so the <divisioncount> element
+  # inside one isn't counted as another division.
+  def division_count(house, date)
+    raw(house, date).to_s.scan("<division ").size
   end
 
-  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once.
+  # Whether that house voted that day: its XML holds at least one division.
+  def divisions?(house, date)
+    division_count(house, date).positive?
+  end
+
+  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once while it's
+  # in reach. A run moves through the dates in one direction, so the day read longest ago is the
+  # one least likely to be asked for again, and is the one let go; a day asked for after that is
+  # read again from the folder.
   def fetcher
     lambda do |house, date|
       key = "#{house}-#{date}"
       return @documents[key] if @documents.key?(key)
 
       text = raw(house, date)
+      @documents.shift if @documents.size >= PARSED_DAYS_KEPT
       @documents[key] = text && Nokogiri::XML(text)
     end
   end
@@ -62,4 +85,9 @@ class LocalHansardCache
       circulated_by: packet.circulation&.by, circulator_member: packet.circulation&.member&.name
     }
   end
+
+  private
+
+  # Whether a day is recent enough that its Hansard could still be published.
+  def recent?(date) = date >= Date.current - RECENT_DAYS
 end
