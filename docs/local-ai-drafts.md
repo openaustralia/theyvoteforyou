@@ -85,8 +85,8 @@ bin/rake ai:draft_local DIVISION=representatives/2026-09-17/3
 | Option | What it does |
 |--------|--------------|
 | `HOUSE=representatives` or `senate` | One house only |
-| `FROM=2026-08-01` | Start from this date, going back. The default is 7 February 2006, the first sitting day in the Hansard data |
-| `TO=2026-09-30` | Finish at this date. The default is today |
+| `FROM=2026-08-01` | Go back to this date, the earliest one drafted. The default is 7 February 2006, the first sitting day in the Hansard data |
+| `TO=2026-09-30` | Start at this date and go back from it. The default is today |
 | `DIVISION=representatives/2026-09-17/3` | One division. Its full URL works too |
 | `FORCE=1` | Draft divisions again even if they already have a file |
 | `RETRY_FAILED=1` | Try divisions that failed before |
@@ -100,8 +100,8 @@ Press Ctrl-C at any time, then run the same command again later. Divisions that 
 it carries on where it stopped. A draft is only written once it's finished, so stopping never leaves a half-written
 file.
 
-If the model server stops answering, the task stops too, without writing anything for the division it was on. Start
-the server again and run the same command.
+If the model server stops answering, or answers that it has no model ready, the task stops too, without writing
+anything for the division it was on. Start the server again, let it load its model, and run the same command.
 
 ## What you get
 
@@ -143,6 +143,9 @@ Send the zip to the person at They Vote For You who uploads drafts. Leave out `f
 | Message | What to do |
 |---------|------------|
 | Can't reach the model server | Start the server, and check `url` in `config/local_model.yml` |
+| model server 503 | The server is still loading its model. Wait until it has finished, then run the same command |
+| model server 404 | The server has no model by the name in `model` in `config/local_model.yml` (Ollama answers this way), or `url` ends in `/v1`, which the task adds itself |
+| FROM ... is after TO ... | FROM is the earliest date and TO the latest, since the run goes back from TO |
 | couldn't load this day's divisions | Usually the members aren't loaded: run `bundle exec rake application:load:members`, then run the task again. The day is tried again next time |
 | model wrote 16000 tokens without finishing | The model got stuck on that division. It's in `failed/`; `RETRY_FAILED=1` tries again |
 

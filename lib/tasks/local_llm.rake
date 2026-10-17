@@ -19,7 +19,7 @@ namespace :ai do
     model_id = begin
       client.model_id
     rescue LocalModelClient::Unreachable => e
-      abort "#{e.message}. Start it first; config/local_model.yml says where it is."
+      abort "#{e.message}. Start it and let it finish loading its model; config/local_model.yml says where it is."
     end
 
     division = Division.find(division_id)
@@ -60,7 +60,8 @@ namespace :ai do
     begin
       puts "Model: #{client.model_id} at #{client.url}"
     rescue LocalModelClient::Unreachable => e
-      abort "#{e.message}. Start your model server first; config/local_model.yml says where it is."
+      abort "#{e.message}. Start your model server and let it finish loading its model; " \
+            "config/local_model.yml says where it is."
     end
 
     run = LocalDraftRun.new(client: client, houses: house ? [house] : House.australian,
@@ -75,8 +76,8 @@ namespace :ai do
     end
   rescue LocalModelClient::Unreachable => e
     abort "\n#{e.message}. Nothing was written for the division it was on. " \
-          "Start the server again and run the same command to carry on."
-  rescue LocalDraftRun::UnknownDivision => e
+          "Once the server is running with its model loaded, run the same command to carry on."
+  rescue LocalDraftRun::EmptyRange, LocalDraftRun::UnknownDivision => e
     abort e.message
   rescue Interrupt
     abort "\nStopped. Run the same command to carry on where it left off."

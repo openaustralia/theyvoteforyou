@@ -61,10 +61,11 @@ class LocalDraftFile
   private
 
   # Written beside the final name and then renamed, so stopping a run mid-write never leaves a
-  # half-written draft that a later run would take as done.
+  # half-written draft that a later run would take as done. The name starts with a dot, which the
+  # upload ignores, so a draft left half-written by a crash can't be taken for a finished one.
   def write_atomically(target, text)
     FileUtils.mkdir_p(target.dirname)
-    partial = target.sub_ext(".md.partial")
+    partial = target.dirname.join(".#{target.basename}.partial")
     File.write(partial, text)
     File.rename(partial, target)
   end

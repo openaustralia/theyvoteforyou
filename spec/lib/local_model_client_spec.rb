@@ -101,6 +101,26 @@ describe LocalModelClient do
       expect(client.unreachable).to be_nil
     end
 
+    it "stops the run when the server answers it isn't serving a model (503 while loading)" do
+      stub_request(:post, completions).to_return(status: 503, body: "loading model, try again")
+
+      expect { answer }.to raise_error(described_class::Unreachable, /503/)
+      expect(client.unreachable).to include "model server 503"
+    end
+
+    it "stops the run when the server has no model of that name (Ollama answers 404)" do
+      stub_request(:post, completions).to_return(status: 404, body: "model not found")
+
+      expect { answer }.to raise_error(described_class::Unreachable, /404/)
+    end
+
+    it "treats a server that dies part way through a reply as unreachable" do
+      stub_request(:post, completions).to_raise(EOFError)
+
+      expect { answer }.to raise_error(described_class::Unreachable)
+      expect(client.unreachable).to include "model.test:8080"
+    end
+
     it "remembers that the server stopped answering, since every later division would fail the same way" do
       stub_request(:post, completions).to_raise(Errno::ECONNREFUSED)
 

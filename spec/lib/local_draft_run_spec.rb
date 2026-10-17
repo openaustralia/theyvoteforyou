@@ -113,6 +113,10 @@ describe LocalDraftRun do
       expect { run_with.run(from: day, to: day) }.to raise_error(LocalModelClient::Unreachable)
       expect(Dir.exist?(root)).to be false
     end
+
+    it "refuses a range whose start is after its end, rather than quietly drafting nothing" do
+      expect { run_with.run(from: day + 1, to: day) }.to raise_error(described_class::EmptyRange, /FROM/)
+    end
   end
 
   describe "loading sitting days" do
@@ -133,6 +137,31 @@ describe LocalDraftRun do
 
       expect(out.string).to include "representatives/2026-08-19: couldn't load this day's divisions"
       expect(run.counts[:days_not_loaded]).to eq 1
+    end
+
+    it "loads the rest of a day a stopped run left half-loaded, and drafts the divisions left over" do
+      two_divisions = <<~XML
+        <debates>
+          <major-heading id="h1" url="x">BILLS</major-heading>
+          <minor-heading id="h3" url="x">Example Bill 2026</minor-heading>
+          <speech id="s1" speakername="Robin Carrow" time="10:00:00" url="x"><p>This change protects small business.</p><p>I move:</p><p class="italic">That the words "the Minister" be omitted.</p></speech>
+          <speech id="s2" speakername="Casey Whitlow" time="10:05:00" url="x"><p>The question is that the amendment be agreed to.</p></speech>
+          <division divdate="2026-08-19" divnumber="1" id="d1" time="10:06:00" url="x"><divisioncount ayes="40" noes="30" pairs="0" tellerayes="0" tellernoes="0"/></division>
+          <division divdate="2026-08-19" divnumber="2" id="d2" time="10:07:00" url="x"><divisioncount ayes="40" noes="30" pairs="0" tellerayes="0" tellernoes="0"/></division>
+        </debates>
+      XML
+      File.write(hansard_dir.join("representatives-2026-08-19.xml"), two_divisions)
+      create(:division, house: "representatives", date: day, number: 1)
+      loader = lambda do |date|
+        create(:division, house: "representatives", date: date, number: 2)
+      end
+
+      run = run_with(loader: loader)
+      run.run(from: day, to: day)
+
+      expect(a_request(:post, completions)).to have_been_made.twice
+      expect(run.counts[:drafted] + run.counts[:failed]).to eq 2
+      expect(run.counts[:skipped]).to be_zero
     end
   end
 
