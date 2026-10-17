@@ -12,6 +12,11 @@ class LocalHansardCache
   # measured publishing delay.
   RECENT_DAYS = 14
 
+  # How many parsed days #fetcher keeps: as far back as EarlierDebate looks, for each house. A
+  # parsed sitting day takes about 2.5 MB of memory (measured on days from 2026), so keeping every
+  # one would hold gigabytes by the end of a run back to 2006.
+  PARSED_DAYS_KEPT = DivisionSummaryPipeline::EarlierDebate::LOOKBACK_CALENDAR_DAYS * House.australian.size
+
   def initialize(dir: Rails.root.join("tmp/hansard_xml"))
     @dir = Pathname(dir)
     @documents = {}
@@ -50,13 +55,17 @@ class LocalHansardCache
     division_count(house, date).positive?
   end
 
-  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once.
+  # The xml_fetcher ContextBuilder takes for earlier sitting days, parsing each day once while it's
+  # in reach. A run moves through the dates in one direction, so the day read longest ago is the
+  # one least likely to be asked for again, and is the one let go; a day asked for after that is
+  # read again from the folder.
   def fetcher
     lambda do |house, date|
       key = "#{house}-#{date}"
       return @documents[key] if @documents.key?(key)
 
       text = raw(house, date)
+      @documents.shift if @documents.size >= PARSED_DAYS_KEPT
       @documents[key] = text && Nokogiri::XML(text)
     end
   end

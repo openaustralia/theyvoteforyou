@@ -71,6 +71,25 @@ describe LocalHansardCache do
     end
   end
 
+  describe "#fetcher" do
+    let(:fetch) { cache.fetcher }
+
+    before { stub_request(:get, scrapedxml).to_return(body: xml) }
+
+    it "parses each day once" do
+      expect(fetch.call("representatives", sitting)).to equal fetch.call("representatives", sitting)
+    end
+
+    it "lets go of the day it read longest ago once it holds as many days as the earlier-debate lookup reaches" do
+      first = fetch.call("representatives", sitting)
+      described_class::PARSED_DAYS_KEPT.times { |offset| fetch.call("representatives", sitting - offset - 1) }
+
+      again = fetch.call("representatives", sitting)
+      expect(again).not_to equal first
+      expect(again.to_xml).to eq first.to_xml
+    end
+  end
+
   describe "#divisions?" do
     it "says a house voted when its XML holds a division" do
       stub_request(:get, scrapedxml).to_return(body: xml)
