@@ -3,7 +3,17 @@
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
-set :rvm_ruby_version, File.read(File.join(__dir__, "..", ".ruby-version")).strip
+ruby_version = File.read(File.join(__dir__, "..", ".ruby-version")).strip
+case RUBY_MANAGER # see the Capfile
+when :rvm
+  set :rvm_ruby_version, ruby_version
+when :rbenv
+  set :rbenv_type, :user
+  set :rbenv_ruby, ruby_version
+end
+
+# Deploy to the server with this EC2 Application tag (see the Capfile)
+set :aws_ec2_application, DEPLOY_APPLICATION
 
 # The deploy target is found dynamically by its EC2 tags (Application and Roles, set by
 # Terraform in the openaustralia/infrastructure repo) and reached via AWS SSM Session
@@ -71,12 +81,19 @@ namespace :foreman do
         # bakes it into the exported units from this per-stage env file, so
         # staging's worker runs as staging rather than production
         execute :echo, "RAILS_ENV=#{fetch(:rails_env)}", ">", "#{shared_path}/foreman.env"
-        # sudo doesn't inherit the deploy user's RVM-selected ruby, so this bypasses
-        # capistrano-rvm's bin-mapping (which only rewrites calls starting with :bundle,
-        # not :sudo) and would otherwise run against root's own default ruby. "." (not the
-        # actual version) matches the sudoers NOPASSWD rule the infrastructure repo grants,
-        # and rvm resolves it from current_path's own .ruby-version anyway.
-        execute :sudo, "/usr/local/rvm/bin/rvm", ".", "do", :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
+        # sudo doesn't inherit the deploy user's selected ruby, so this bypasses the RVM or rbenv plugin's
+        # bin-mapping (which only rewrites calls starting with :bundle, not :sudo) and would otherwise run
+        # against root's own default ruby. Each path has to match a sudoers NOPASSWD rule the infrastructure
+        # repo grants.
+        foreman_runner = {
+          # "." (not the actual version) matches the rule, and rvm resolves it from current_path's own .ruby-version
+          rvm: ["/usr/local/rvm/bin/rvm", ".", "do", :bundle, :exec, :foreman],
+          # The rbenv shim sets RBENV_ROOT itself and takes the version from current_path's .ruby-version
+          rbenv: ["/home/deploy/.rbenv/shims/bundle", :exec, :foreman]
+        }.fetch(RUBY_MANAGER)
+        # The worker line differs: RVM needs `rvm . do`, but rbenv is already on PATH in the login shell foreman runs
+        procfile = RUBY_MANAGER == :rbenv ? "Procfile.production.rbenv" : "Procfile.production"
+        execute :sudo, *foreman_runner, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f #{procfile} -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
       end
     end
   end

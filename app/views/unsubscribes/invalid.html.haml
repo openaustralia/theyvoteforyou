@@ -1,0 +1,9 @@
+- content_for :title, "This link doesn't work"
+
+.single-message.thin-page
+  %p.loud
+    This unsubscribe link isn't valid.
+  %p
+    You can manage your subscriptions by signing in and visiting your subscriptions page.
+  %p
+    = link_to "View all policies", policies_path, class: "btn btn-default"

@@ -1,14 +1,14 @@
 - unless distances.empty?
-  .policy-comparision-block.row{class: "position-#{label}"}
-    %h3.policy-comparision-position.col-xs-12{:id => label}
+  .policy-comparison-block.row{class: "position-#{label}"}
+    %h3.policy-comparison-position.col-xs-12{:id => label}
       %a.anchor{:href => "##{label}"}
         %span.fi-link
       = title
       = policy.name
-    %ul.policy-comparision-list.list-unstyled.col-xs-12
+    %ul.policy-comparison-list.list-unstyled.col-xs-12
       - distances.sort_by { |distance| [distance.person.latest_member.last_name, distance.person.latest_member.first_name] }.each do |distance|
-        %li.policy-comparision-member.member-item
-          = link_to member_policy_path_simple(distance.person.latest_member, policy), class: 'policy-comparision-member member-link has-tooltip', title: distance.person.latest_member.name do
+        %li.policy-comparison-member.member-item
+          = link_to member_policy_path_simple(distance.person.latest_member, policy), class: 'policy-comparison-member member-link has-tooltip', title: distance.person.latest_member.name do
             - if distance.person.latest_member.show_large_image?
               = image_tag("", :data => {original: "#{distance.person.latest_member.large_image_url}"}, alt: "Photo of #{distance.person.latest_member.name}", class: 'lazy member-photo', width: 85, height: 114)
               %noscript
