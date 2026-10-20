@@ -2,7 +2,7 @@
 // All this logic will automatically be available in application.js.
 
 $(function() {
-  $(".policy-name, .policy-comparision-position").widowFix({
+  $(".policy-name, .policy-comparison-position").widowFix({
     letterLimit: 10,
     prevLimit: 11
   });
