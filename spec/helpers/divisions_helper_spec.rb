@@ -91,5 +91,60 @@ describe DivisionsHelper, type: :helper do
         expect(helper.divisions_period(:day, Date.parse("2014-06-01"))).to eq "1st Jun 2014"
       end
     end
+
+    context "with an unknown period" do
+      it "raises an error" do
+        expect { helper.divisions_period(:decade, Date.parse("2014-06-01")) }.to raise_error(ArgumentError, "Not valid date")
+      end
+    end
+  end
+
+  describe "#vote_display" do
+    {
+      "aye" => "Yes",
+      "no" => "No",
+      "aye3" => "Yes (strong)",
+      "no3" => "No (strong)",
+      "both" => "Abstain",
+      "absent" => "absent"
+    }.each do |vote, words|
+      context "with #{vote}" do
+        it "returns #{words}" do
+          expect(helper.vote_display(vote)).to eq words
+        end
+      end
+    end
+
+    context "with any other vote" do
+      it "capitalises it" do
+        expect(helper.vote_display("abstention")).to eq "Abstention"
+      end
+    end
+  end
+
+  describe "#no_vote_class" do
+    context "when nobody voted no" do
+      it "returns normal" do
+        expect(helper.no_vote_class(build(:whip, no_votes: 0, whip_guess: "aye"))).to eq "normal"
+      end
+    end
+
+    context "when the party whip was no" do
+      it "returns whip" do
+        expect(helper.no_vote_class(build(:whip, no_votes: 5, whip_guess: "no"))).to eq "whip"
+      end
+    end
+
+    context "when the party had a free vote" do
+      it "returns whip" do
+        expect(helper.no_vote_class(build(:whip, no_votes: 5, whip_guess: "none"))).to eq "whip"
+      end
+    end
+
+    context "when some voted no against the whip" do
+      it "returns rebel" do
+        expect(helper.no_vote_class(build(:whip, no_votes: 5, whip_guess: "aye"))).to eq "rebel"
+      end
+    end
   end
 end
