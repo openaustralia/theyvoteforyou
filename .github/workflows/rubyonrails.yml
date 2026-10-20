@@ -9,6 +9,8 @@ on:
   push:
     branches: [main]
   pull_request:
+  # "Run workflow" in the Actions tab. On main it runs the tests and then deploys main to staging.
+  workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -108,3 +110,45 @@ jobs:
       #   run: bin/brakeman -q -w2
       - name: Lint Ruby files
         run: bin/rubocop --parallel
+
+  # Asks the staging server to deploy main. The job sends the server a token that GitHub signs for this run. The
+  # deploy hook on the server (oaf-deploy-bottle, in its own repository on GitLab) checks the token, and then the
+  # server starts the deploy itself. So this job holds no secret and has no access to the server.
+  #
+  # It runs for a push to main only when the repository variable AUTO_DEPLOY_STAGING is "true", so merging this
+  # workflow does nothing until the server side is ready. Someone running the workflow by hand on main always
+  # deploys. The tests and lint must pass first, either way.
+  deploy-staging:
+    name: Ask staging to deploy
+    needs: [test, lint]
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && vars.AUTO_DEPLOY_STAGING == 'true'))
+    runs-on: ubuntu-latest
+    # The hook only accepts tokens from a job in this environment, so the environment must exist
+    environment: staging
+    permissions:
+      id-token: write
+    # One deploy request at a time. A request that arrives while another waits replaces the waiting one, which
+    # is fine, because every deploy is of whatever main is by then.
+    concurrency:
+      group: deploy-staging
+      cancel-in-progress: false
+    env:
+      # The audience of the token is the hook's own URL. It must equal "audience" in the hook's config on the server.
+      DEPLOY_HOOK_URL: https://test.theyvoteforyou.org.au/deploy-hook
+    steps:
+      - name: Get a token from GitHub and send it to the deploy hook
+        run: |
+          set -euo pipefail
+          audience=$(jq -rn --arg url "$DEPLOY_HOOK_URL" '$url | @uri')
+          token=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=$audience" | jq -r .value)
+          if [ -z "$token" ] || [ "$token" = "null" ]; then
+            echo "GitHub did not return a token. Does the job have id-token: write?" >&2
+            exit 1
+          fi
+          echo "::add-mask::$token"
+          curl -sS --fail-with-body --retry 3 --retry-delay 5 -X POST \
+            -H "Authorization: Bearer $token" "$DEPLOY_HOOK_URL"
