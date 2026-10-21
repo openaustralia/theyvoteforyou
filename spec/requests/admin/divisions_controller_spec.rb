@@ -205,7 +205,7 @@ describe Admin::DivisionsController, type: :request do
       get admin_division_path(division)
       items = response.parsed_body.css("nav.navigation a:not(.navigation__site-name), nav.navigation hr")
       names = items.map { |node| node.name == "hr" ? "---" : node.text.strip }
-      expect(names).to eq(["Back to app", "Users", "Watches", "---", "Divisions", "Policies", "Members", "Uploaded ingests"])
+      expect(names).to eq(["Back to app", "Users", "Watches", "Announcements", "---", "Divisions", "Policies", "Members", "Uploaded ingests"])
     end
 
     it "says which site this is, in the menu and the browser tab" do
