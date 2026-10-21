@@ -5,6 +5,15 @@ module ApplicationHelper
     "Discover how your MP votes on the issues that matter to you."
   end
 
+  # The bar must never stop a page rendering. That includes the error pages, which use this layout and are most likely
+  # to be shown when the database is struggling.
+  def current_announcement
+    Announcement.current
+  rescue ActiveRecord::ActiveRecordError => e
+    Rails.logger.error("Announcement bar skipped: #{e.class}: #{e.message}")
+    nil
+  end
+
   def nav_link(name, path, title, current)
     content_tag(:li, class: ("active" if current)) do
       link_to name, path, title: title

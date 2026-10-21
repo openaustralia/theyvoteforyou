@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_15_100000) do
   create_table "ai_policy_suggestions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.integer "policy_id"
@@ -27,6 +27,15 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_09_010000) do
     t.index ["division_id", "model"], name: "index_ai_policy_suggestions_on_division_id_and_model", unique: true
     t.index ["division_id"], name: "index_ai_policy_suggestions_on_division_id"
     t.index ["policy_id"], name: "index_ai_policy_suggestions_on_policy_id"
+  end
+
+  create_table "announcements", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.text "body", null: false
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.boolean "published", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "api_statistics", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
