@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     end
     resources :policies
     resources :watches
+    resources :announcements
 
     root to: "users#index"
   end
