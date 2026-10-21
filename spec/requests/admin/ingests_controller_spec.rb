@@ -146,14 +146,14 @@ describe Admin::IngestsController, type: :request do
         expect(response.body).not_to include("Queue again")
       end
 
-      it "won't queue an upload that hasn't failed" do
+      it "refuses to queue an upload that hasn't failed" do
         ingest.update!(status: :processing)
         post requeue_admin_ingest_path(ingest)
         expect(ingest.reload.status).to eq("processing")
         expect(flash[:alert]).to include("Only a failed upload")
       end
 
-      it "won't queue an upload whose file has gone" do
+      it "refuses to queue an upload whose file has gone" do
         FileUtils.rm_f(ingest.file_path)
         post requeue_admin_ingest_path(ingest)
         expect(ingest.reload.status).to eq("failed")
