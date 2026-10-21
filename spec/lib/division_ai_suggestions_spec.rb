@@ -46,18 +46,20 @@ describe DivisionAiSuggestions do
   describe "agreement" do
     it "counts models that matched the same policy in the same direction" do
       model_ids.first(2).each { |id| suggest(id, policy: policy, direction: "for") }
-      suggest(model_ids.last, policy: policy, direction: "against")
+      suggest(model_ids[2], policy: policy, direction: "against")
 
-      expect(rows.map(&:agree_count)).to eq [2, 2, 1]
-      expect(rows.first).to be_agreement
-      expect(rows.last).not_to be_agreement
+      # Only the models that have run have anything to agree about
+      classified = rows.reject(&:unclassified?)
+      expect(classified.map(&:agree_count)).to eq [2, 2, 1]
+      expect(classified.first).to be_agreement
+      expect(classified.last).not_to be_agreement
     end
 
     it "doesn't treat suggestions naming no policy as agreeing with each other" do
       model_ids.each { |id| suggest(id, policy: policy, direction: "for") }
       policy.destroy!
 
-      expect(rows.map(&:agree_count)).to eq [0, 0, 0]
+      expect(rows.map(&:agree_count)).to eq Array.new(model_ids.size, 0)
     end
   end
 
@@ -125,13 +127,12 @@ describe DivisionAiSuggestions do
     it "names the outcome, or says the model hasn't run" do
       suggest(model_ids.first, policy: policy, match: "existing")
       suggest(model_ids[1], policy: nil, match: "new")
-      suggest(model_ids.last, policy: policy, match: nil, direction: nil)
+      suggest(model_ids[2], policy: policy, match: nil, direction: nil)
 
-      expect(rows.map(&:css_class)).to eq %w[
-        ai-policy-suggestion-existing
-        ai-policy-suggestion-new
-        ai-policy-suggestion-error
-      ]
+      expect(rows.map(&:css_class)).to eq(
+        %w[ai-policy-suggestion-existing ai-policy-suggestion-new ai-policy-suggestion-error] +
+        (["ai-policy-suggestion-unclassified"] * (model_ids.size - 3))
+      )
     end
 
     it "says unclassified for a model that hasn't run" do

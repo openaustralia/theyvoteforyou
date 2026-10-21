@@ -41,6 +41,7 @@ gem "delayed_job_active_record"
 gem "bootstrap-sass", "~> 3.3"
 gem "autoprefixer-rails"
 gem "mechanize" # Used to download debates
+gem "rubyzip", "~> 3.0" # Reads the zips of draft summaries admins upload (DivisionSummaryIngest)
 gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when testing division loader
 gem "seed_dump"
 gem "redcarpet"
