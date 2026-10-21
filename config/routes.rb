@@ -9,7 +9,10 @@ Rails.application.routes.draw do
     resources :divisions, except: %i[new create]
     resources :members, only: %i[index show]
     resources :ingests, only: %i[index show new create] do
-      member { delete :delete_summaries }
+      member do
+        delete :delete_summaries
+        post :requeue
+      end
     end
     resources :policies
     resources :watches

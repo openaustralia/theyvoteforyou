@@ -26,6 +26,18 @@ module Admin
       redirect_to admin_ingest_path(ingest), notice: "Uploaded. It is queued and will be read shortly."
     end
 
+    # Runs a failed upload again from the file already on disk. Only failed uploads, so one that is
+    # queued or processing can't be run twice at once.
+    def requeue
+      ingest = requested_resource
+      if ingest.retryable?
+        ingest.requeue!
+        redirect_to admin_ingest_path(ingest), notice: "Queued again. It will be read shortly."
+      else
+        redirect_to admin_ingest_path(ingest), alert: "Only a failed upload whose file is still stored can be queued again."
+      end
+    end
+
     # Removes every draft that arrived in this upload, for when a zip turns out to be bad. The
     # upload's own row stays, as a record that it happened.
     def delete_summaries

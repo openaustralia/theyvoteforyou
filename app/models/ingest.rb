@@ -29,6 +29,18 @@ class Ingest < ApplicationRecord
     ingest
   end
 
+  # A failed ingest can be run again from the file kept on disk, for when the cause was outside the
+  # zip, for example a division it names hadn't been loaded yet. A zip that is itself wrong needs
+  # uploading again instead.
+  def retryable?
+    failed? && file_path.present? && File.exist?(file_path)
+  end
+
+  def requeue!
+    update!(status: :queued, error: nil, processed_at: nil)
+    ProcessIngestJob.perform_later(self)
+  end
+
   def store!(upload)
     folder = Rails.configuration.x.ingest_root.join(id.to_s)
     FileUtils.mkdir_p(folder)

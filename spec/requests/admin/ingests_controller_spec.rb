@@ -118,6 +118,49 @@ describe Admin::IngestsController, type: :request do
       end
     end
 
+    describe "queueing a failed upload again" do
+      # Names a division we don't have yet, the usual reason an upload fails for a cause outside the zip
+      let(:missing_division_zip) { uploaded_zip("local.Example/senate/2026-09-18/senate_2026-09-18_7.md" => "# T\n\nD") }
+      let(:ingest) do
+        post admin_ingests_path, params: { kind: "division-summary", file: missing_division_zip }
+        Ingest.last
+      end
+
+      it "reads the stored file again, and saves the drafts once the cause is fixed" do
+        expect(ingest).to have_attributes(status: "failed", error: /senate_2026-09-18_7.md/)
+        create(:division, house: "senate", date: Date.new(2026, 9, 18), number: 7)
+
+        post requeue_admin_ingest_path(ingest)
+
+        expect(response).to redirect_to(admin_ingest_path(ingest))
+        expect(ingest.reload).to have_attributes(status: "done", records_saved: 1, error: nil)
+        expect(ingest.ai_division_summaries.count).to eq(1)
+      end
+
+      it "offers the button only on a failed upload" do
+        get admin_ingest_path(ingest)
+        expect(response.body).to include("Queue again")
+
+        ingest.update!(status: :done)
+        get admin_ingest_path(ingest)
+        expect(response.body).not_to include("Queue again")
+      end
+
+      it "won't queue an upload that hasn't failed" do
+        ingest.update!(status: :processing)
+        post requeue_admin_ingest_path(ingest)
+        expect(ingest.reload.status).to eq("processing")
+        expect(flash[:alert]).to include("Only a failed upload")
+      end
+
+      it "won't queue an upload whose file has gone" do
+        FileUtils.rm_f(ingest.file_path)
+        post requeue_admin_ingest_path(ingest)
+        expect(ingest.reload.status).to eq("failed")
+        expect(flash[:alert]).to include("file is still stored")
+      end
+    end
+
     it "has an Upload summaries button on the list of divisions" do
       get admin_divisions_path
       button = response.parsed_body.at_css("a.button[href='#{new_admin_ingest_path(kind: 'division-summary')}']")
