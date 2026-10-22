@@ -27,7 +27,17 @@ ENV PATH=/usr/local/bundle/bin:$PATH
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
       default-libmysqlclient-dev \
       libyaml-dev \
+      tidy \
     && rm -rf /var/lib/apt/lists/*
+
+# Google Chrome for the :js feature specs, as CI has (Ubuntu's chromium package is a snap, which can't run here).
+# Google publishes no Linux ARM build, so on ARM those specs are skipped instead (see spec/support/capybara.rb).
+ARG TARGETARCH
+RUN if [ "$TARGETARCH" = amd64 ]; then \
+      curl -fsSL -o /tmp/chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+      && apt-get update -qq && apt-get install -y --no-install-recommends /tmp/chrome.deb \
+      && rm -rf /tmp/chrome.deb /var/lib/apt/lists/*; \
+    fi
 
 # Run as a non-root "deploy" user, so files the app writes into the bind-mounted checkout (config/database.yml, log,
 # tmp) belong to you rather than root. On Linux, set UID and GID in .env if your own ids (`id -u`, `id -g`) aren't
