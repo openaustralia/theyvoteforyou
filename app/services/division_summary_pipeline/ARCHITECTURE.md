@@ -399,37 +399,42 @@ of each file is only publishable content. `TemplateCatalogue` holds everything e
 (names, the title label, what the mover moved, whether it prints an explanation, the facts it names)
 and `template_catalogue_spec.rb` checks the two agree.
 
-1. `1_first_reading.md` - First Reading
-2. `2_second_reading_amendment.md` - Second Reading Amendment
-3. `3_in_committee_amendment_senate.md` - In Committee Amendment (Senate)
-4. `4_consideration_in_detail.md` - Consideration in Detail (House of Representatives)
-5. `5_federation_chamber_report.md` - Federation Chamber Report
-6. `6_third_reading.md` - Third Reading
-7. `7_agreeing_to_amendments_message.md` - Consideration of a Message
-8. `8_production_of_documents.md` - Order for the Production of Documents
-9. `9_disallowance_motion.md` - Disallowance Motion
-10. `10_censure_motion.md` - Censure Motion
-11. `11_estimates_committees.md` - Budget Estimates Committees
-12. `12_select_committee.md` - Establishing a Select Committee
-13. `13_committee_referral.md` - Committee Referral
-14. `14_selection_of_bills_committee.md` - Selection of Bills Committee Report
-15. `15_general_motion.md` - General Motion
-16. `16_matter_of_urgency.md` - Matter of Urgency (Senate)
-17. `17_suspension_of_standing_orders.md` - Suspension of Standing Orders
-18. `18_guillotine_motion.md` - Limitation of Debate (Guillotine)
-19. `19_rearrangement_of_business.md` - Rearrangement of Business
-20. `20_withdrawal_of_business.md` - Withdrawal of Business
-21. `21_parliamentary_zone_works.md` - Parliamentary Zone Capital Works
-22. `22_closure_of_debate.md` - Closure of Debate ("Question be now put")
-23. `23_member_no_longer_heard.md` - Member Be No Longer Heard (House of Representatives)
-24. `24_suspension_of_member.md` - Suspension of a Member (House S.O. 94 / Senate S.O. 203)
-25. `25_dissent_from_ruling.md` - Dissent from Ruling of the Chair
-26. `26_adjournment.md` - Adjournment of the Chamber (House S.O. 29 and S.O. 31)
-27. `27_taking_note.md` - Taking Note
-28. `28_stand_as_printed.md` - Question That a Clause or Part Stand As Printed (inverted: defeating
-    the question is what omits the part)
-29. `29_second_reading.md` - Second Reading (numbered last so that no template already cited by
-    number had to be renumbered when the second reading was split from Template 6)
+A template file can hold nothing but publishable text, so the rules each one's procedure rests on
+are recorded here instead: check a change to a template's wording against them. Standing orders are
+the House's as at 23 July 2025 and the Senate's of July 2025; guide pages are printed pages. "None
+checked" means no rule has been checked against that template yet.
+
+| # | File | Procedure | Rules behind it |
+|---|---|---|---|
+| 1 | `1_first_reading.md` | First Reading | House S.O. 141(a); Senate S.O. 112; Senate Guide No. 16 p. 45 |
+| 2 | `2_second_reading_amendment.md` | Second Reading Amendment | Senate S.O. 114(2) and (3); Senate Guide No. 16 p. 47; House S.O. 145, 146; House Guide pp. 68 to 70 |
+| 3 | `3_in_committee_amendment_senate.md` | In Committee Amendment (Senate) | Senate S.O. 115(1); Senate Guide No. 16 p. 48 |
+| 4 | `4_consideration_in_detail.md` | Consideration in Detail (House of Representatives) | House S.O. 148 to 150; House Guide pp. 71 to 72 |
+| 5 | `5_federation_chamber_report.md` | Federation Chamber Report | House S.O. 153, 188 |
+| 6 | `6_third_reading.md` | Third Reading | House S.O. 155, 173; Senate S.O. 122, 135; Senate Guide No. 17 pp. 51 to 52 for the remaining stages |
+| 7 | `7_agreeing_to_amendments_message.md` | Consideration of a Message | Senate S.O. 126; Senate Guide No. 18 pp. 54 to 56; House S.O. 161, 162, 169; for section 53 of the Constitution, Senate Guide No. 16 pp. 48 to 49 and House Guide pp. 88 to 89 |
+| 8 | `8_production_of_documents.md` | Order for the Production of Documents | Senate S.O. 164; Senate Guide No. 12 p. 30 |
+| 9 | `9_disallowance_motion.md` | Disallowance Motion | Senate Guide No. 19 pp. 57 to 58; House Guide p. 93 |
+| 10 | `10_censure_motion.md` | Censure Motion | House S.O. 48; House Guide p. 53 |
+| 11 | `11_estimates_committees.md` | Budget Estimates Committees | None checked |
+| 12 | `12_select_committee.md` | Establishing a Select Committee | None checked |
+| 13 | `13_committee_referral.md` | Committee Referral | None checked |
+| 14 | `14_selection_of_bills_committee.md` | Selection of Bills Committee Report | Senate S.O. 24A; Senate Guide No. 13 p. 34 |
+| 15 | `15_general_motion.md` | General Motion | None: the fallback |
+| 16 | `16_matter_of_urgency.md` | Matter of Urgency (Senate) | Senate S.O. 75; Senate Guide No. 9 p. 22 |
+| 17 | `17_suspension_of_standing_orders.md` | Suspension of Standing Orders | Senate S.O. 209, 210; Senate Guide No. 5 pp. 12 to 13; House S.O. 47; House Guide p. 2 |
+| 18 | `18_guillotine_motion.md` | Limitation of Debate (Guillotine) | Senate S.O. 142; Senate Guide No. 17 pp. 51 to 52; House S.O. 82, 85 |
+| 19 | `19_rearrangement_of_business.md` | Rearrangement of Business | Senate S.O. 201 for adjourning a debate |
+| 20 | `20_withdrawal_of_business.md` | Withdrawal of Business | Senate S.O. 83(3), 97(4) |
+| 21 | `21_parliamentary_zone_works.md` | Parliamentary Zone Capital Works | Parliament Act 1974, not yet checked |
+| 22 | `22_closure_of_debate.md` | Closure of Debate ("Question be now put") | House S.O. 81; Senate S.O. 199; no closure under a time limit, Senate S.O. 142(5) and House S.O. 85(d) |
+| 23 | `23_member_no_longer_heard.md` | Member Be No Longer Heard (House of Representatives) | House S.O. 80; Senate Guide No. 2 p. 6 |
+| 24 | `24_suspension_of_member.md` | Suspension of a Member | House S.O. 94; Senate S.O. 203, 204 |
+| 25 | `25_dissent_from_ruling.md` | Dissent from Ruling of the Chair | House S.O. 87; House Guide p. 42; Senate S.O. 198 |
+| 26 | `26_adjournment.md` | Adjournment of the Chamber | House S.O. 29, 31, 32; Senate S.O. 53, 54 |
+| 27 | `27_taking_note.md` | Taking Note | Senate S.O. 72(4) |
+| 28 | `28_stand_as_printed.md` | Question That a Clause or Part Stand As Printed (inverted: defeating the question is what omits the part) | Senate S.O. 116; Senate Guide No. 16 p. 48; Senate Guide No. 18 p. 55 |
+| 29 | `29_second_reading.md` | Second Reading (numbered last so that no template already cited by number had to be renumbered when the second reading was split from Template 6) | Senate S.O. 114(1); House S.O. 142(a); Senate Guide No. 16 p. 45 |
 
 Templates 22, 23, 24 and 26 decide only procedure, so they print no explanation section. Every
 template has Motion Introduction, the terms moved and Question Put, and prints the mover through
