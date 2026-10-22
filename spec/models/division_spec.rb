@@ -95,6 +95,35 @@ describe Division do
     it { expect(division.attendance_fraction).to eq(0.5) }
   end
 
+  describe "#vote_for_person" do
+    let(:person) { create(:person) }
+    let(:division) { create(:division, date: Date.new(2014, 1, 1)) }
+
+    context "when the person voted" do
+      before { create(:vote, member: create(:member, person: person), division: division, vote: "aye") }
+
+      it "returns their vote" do
+        expect(division.vote_for_person(person)).to eq "aye"
+      end
+    end
+
+    context "when the person was a member but did not vote" do
+      before { create(:member, person: person) }
+
+      it "returns absent" do
+        expect(division.vote_for_person(person)).to eq "absent"
+      end
+    end
+
+    context "when the person was not in parliament" do
+      before { create(:member, person: person, entered_house: "2015-01-01") }
+
+      it "returns a dash" do
+        expect(division.vote_for_person(person)).to eq "-"
+      end
+    end
+  end
+
   describe "::next_month" do
     it "returns the next month" do
       expect(described_class.next_month("2014-12")).to eq("2015-01-01")
