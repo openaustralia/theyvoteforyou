@@ -55,7 +55,7 @@ the canonical vocabulary for concepts with more than one plausible name.
 
 - Docker, running natively on your machine. On a Mac with Apple Silicon, use the arm64 build of Docker Desktop (or
   OrbStack). Every image in `.devcontainer/compose.yaml` has an arm64 build, so nothing runs under emulation.
-- Ruby at the version in `.ruby-version`, installed with whichever Ruby version manager you prefer.
+- [mise](https://mise.jdx.dev) (preferred) or rbenv, which `make setup` uses to install the Ruby in `.ruby-version`.
 - A MySQL client library, to build the `mysql2` gem, and HTML Tidy, which the specs need:
 
   ```
@@ -71,11 +71,12 @@ If a port the containers need is already in use, or you run more than one worktr
 ### First-time setup
 
 ```
-make services-up                                       # mysql, elasticsearch, dejavu, mailpit - always in Docker
-bundle install
-cp config/database.yml.example config/database.yml     # works as it is with the containers above
-bin/rails db:setup
+make setup
 ```
+
+This starts MySQL, Elasticsearch, dejavu and mailpit in Docker, installs Ruby and the gems, copies
+`config/database.yml` from its example (which works as it is), and creates the database with seed data. It's safe to
+rerun, for example after pulling changes.
 
 Then load the data. This needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/).
 Loading members takes about 15 minutes, because it also checks every person's photo. Loading a sitting week of
@@ -127,7 +128,9 @@ On a slow machine, a longer limit can go in `.env`, for example `START_LIMIT=20m
 bundle exec rake
 ```
 
-The specs use the `tvfy-test` database in the same MySQL container, which `bin/rails db:setup` creates.
+Or `make test` to run them in Docker, as CI does (`ARGS=spec/models/division_spec.rb` runs just one file).
+
+The specs use the `tvfy-test` database in the same MySQL container, which `make setup` creates.
 
 ### How development differs from production
 
@@ -275,6 +278,8 @@ To enable a feature for a particular user: Go to the feature on the flipper admi
 ## To run style and coding checks
 
     bundle exec rubocop
+
+Or `make lint` to run them in Docker.
 
 ## To check for security updates
 

@@ -1,13 +1,15 @@
-.PHONY: help install-ruby dependencies aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell
+.PHONY: help setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console
 
 help: ## Show this help (the default target)
 	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | \
 	  awk 'BEGIN {FS = ":.*## "}; {printf "  %-18s %s\n", $$1, $$2}'
 
-install-ruby: ## Install the Ruby version in .ruby-version using rbenv
-	rbenv install < .ruby-version
-dependencies: ## Install gems with bundle install
-	bundle install
+# For running Rails on the host. mise is preferred, rbenv works too; both read .ruby-version (mise via mise.toml).
+# bin/setup can't install Ruby itself, as it needs Ruby to run.
+setup: services-up ## Install Ruby (with mise or rbenv), gems and config, and prepare the database, to run Rails on the host
+	@if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
+	elif command -v rbenv >/dev/null; then rbenv install --skip-existing && rbenv exec ruby bin/setup --skip-server; \
+	else echo "Install mise (https://mise.jdx.dev) or rbenv first" >&2; exit 1; fi
 
 # Deploys reach servers over SSM using the `oaf` profile (see config/deploy.rb), so make sure
 # there's a live login first, starting `aws login` if there isn't.
@@ -22,12 +24,15 @@ aws-check: ## Check for an AWS login (profile oaf), starting one if needed
 deploy-production: aws-check ## Deploy to production with Capistrano
 	bundle exec cap production deploy
 
-deploy-staging: aws-check dependencies ## Deploy to staging with Capistrano
+deploy-staging: aws-check ## Deploy to staging with Capistrano
+	bundle install
 	bundle exec cap staging deploy
 
 # The stack is defined in .devcontainer/compose.yaml (see "Development environment" in AGENTS.md).
 # --wait returns once every service passes its healthcheck, so the next command can use them straight away.
 COMPOSE := RUBY_VERSION=$$(cat .ruby-version) docker compose
+# Runs a command in the app container, or in a fresh one if it has stopped
+in_app = if [ -n "$$(docker compose ps -q --status running app)" ]; then docker compose exec app $(1); else $(COMPOSE) run --rm app $(1); fi
 
 up: ## Start everything, including the app at http://localhost:3000, once it's ready
 	$(COMPOSE) up --build --wait -d
@@ -56,4 +61,11 @@ status: ## Show each container's health and the host ports it's published on
 logs: ## Follow the logs of every container (or SERVICE=app for one)
 	$(COMPOSE) logs -f $(SERVICE)
 shell: ## Open a shell in the app container, or in a fresh one if it has stopped (e.g. after a failed start)
-	@if [ -n "$$(docker compose ps -q --status running app)" ]; then docker compose exec app bash; else docker compose run --rm app bash; fi
+	@$(call in_app,bash)
+# The same checks as CI, in the app container; see "Tests and linting" in AGENTS.md
+test: ## Run the specs as CI does, after resetting the test database (ARGS=spec/models/x_spec.rb:42 to narrow)
+	@$(call in_app,bash -c 'bin/rails db:test:prepare && RAILS_ENV=test bin/rspec $(ARGS)')
+lint: ## Run RuboCop as CI does (ARGS=<paths> to narrow)
+	@$(call in_app,bin/rubocop --parallel $(ARGS))
+console: ## Open a Rails console in the app container
+	@$(call in_app,bin/rails console)

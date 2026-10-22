@@ -59,20 +59,16 @@ sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
 Then, per the README:
 
 ```
-make services-up
-bundle install
-cp config/database.yml.example config/database.yml   # works as it is, no edits needed
-bundle exec rake db:setup                            # schema plus seed data
-bundle exec rake                                     # full spec suite
-bundle exec rails server                             # http://localhost:3000
+make setup                  # Ruby, gems, config/database.yml, and the database with seed data
+bundle exec rake            # full spec suite
+bundle exec rails server    # http://localhost:3000
 ```
 
-`bundle exec rake application:config:dev` does the `cp` step for you (it copies `config/database.yml.example` and never
-overwrites an existing file).
-
-`bin/setup` does a shorter version of the same thing (`bundle check || bundle install`, copy `database.yml` if it's
-missing, `bin/rails db:prepare`, clear logs and tmp) and then execs `bin/dev`, which is just `bin/rails server`. Pass
-`--skip-server` to stop before that.
+`make setup` starts the Docker services, installs the Ruby in `.ruby-version` with mise (preferred, which reads it
+through `mise.toml`) or rbenv, then runs `bin/setup --skip-server`: `bundle check || bundle install`, copy
+`database.yml` if it's missing, `bin/rails db:prepare`, clear logs and tmp. It's safe to rerun. Without
+`--skip-server`, `bin/setup` ends by starting Rails. The app container runs `bin/setup` too, so it mustn't depend on
+mise or rbenv.
 
 Confirmation emails in development are caught by mailpit (web UI at <http://localhost:1088>), which runs as one of
 the Docker services, not a separately installed gem.
@@ -94,6 +90,9 @@ make services-up  # MySQL, Elasticsearch, dejavu and mailpit, for running Rails 
 make status       # each container's health and host ports
 make logs         # follow the logs (SERVICE=<name> for one container)
 make shell        # a shell in the app container, or a fresh one if it has stopped
+make test         # the specs, as CI runs them (ARGS=spec/models/division_spec.rb:42 to narrow)
+make lint         # RuboCop, as CI runs it
+make console      # a Rails console
 make down         # stop and remove the containers, keeping the data
 make clean        # also remove built images and gems, so the next start rebuilds; keeps the data
 make clobber      # also remove the data, and prune unused Docker images and cache machine-wide
@@ -138,6 +137,9 @@ bundle exec rake searchkick:reindex:all
 `application:cache:all_except_people_distances` exists for when you don't need them.
 
 ## Tests and linting
+
+`make test` and `make lint` run the commands below in the app container, so they need nothing but Docker on the
+host. `make test` also resets the test database first, as CI does. On the host:
 
 ```
 bin/rake                                   # default task: full spec suite (this is what CI runs)
