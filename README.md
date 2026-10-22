@@ -78,19 +78,21 @@ This starts MySQL, Elasticsearch, dejavu and mailpit in Docker, installs Ruby an
 `config/database.yml` from its example (which works as it is), and creates the database with seed data. It's safe to
 rerun, for example after pulling changes.
 
-Then load the data. This needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/).
-Loading members takes about 15 minutes, because it also checks every person's photo. Loading a sitting week of
-divisions takes seconds.
+The seed data is only a few records. For real data, run `make seed` (or `make seed FROM=2024-02-01 TO=2024-03-31` for
+other dates). It needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/), and is
+slow: about 4 minutes on a fast connection, mostly loading members, as it checks every person's photo. It runs
+these, which you can also run on the host:
 
 ```
 bundle exec rake application:load:members
 bundle exec rake "application:load:divisions[2021-07-01,2021-10-31]"
-bundle exec rake application:cache:all
+bundle exec rake application:cache:all_except_people_distances
 bundle exec rake searchkick:reindex:all
 ```
 
-`application:cache:all` recalculates people distances, which takes a long time. Use
-`application:cache:all_except_people_distances` if you don't need them.
+`make seed` skips people distances, how similarly each pair of people votes, which the "friends" pages show. They
+take a long time to calculate, so `make seed` uses `application:cache:all_except_people_distances`. Run
+`application:cache:all` when you need them.
 
 Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
 Mail sent in development is caught by mailpit at <http://localhost:1088>.

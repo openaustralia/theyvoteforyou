@@ -1,4 +1,4 @@
-.PHONY: help setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console
+.PHONY: help setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console seed
 
 help: ## Show this help (the default target)
 	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | \
@@ -69,3 +69,12 @@ lint: ## Run RuboCop as CI does (ARGS=<paths> to narrow)
 	@$(call in_app,bin/rubocop --parallel $(ARGS))
 console: ## Open a Rails console in the app container
 	@$(call in_app,bin/rails console)
+# Real data from data.openaustralia.org.au, for a site that looks like production. About 4 minutes on a fast connection,
+# mostly loading members, as every photo is checked. Skips people distances (the "friends" pages), which are slower.
+FROM ?= 2021-07-01
+TO ?= 2021-10-31
+SEED_DIVISIONS := application:load:divisions[$(FROM),$(TO)]
+seed: ## (SLOW) Load real members and divisions from FROM to TO, then rebuild caches and search, in the app container
+	@$(call in_app,bin/rake application:load:members "$(SEED_DIVISIONS)" application:cache:all_except_people_distances searchkick:reindex:all)
+	@echo 'Done. For links to the MPs who vote most like each person (the "friends" pages), also run (SLOW):'
+	@echo "  make shell, then: bin/rake application:cache:people_distances"

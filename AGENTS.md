@@ -93,6 +93,7 @@ make shell        # a shell in the app container, or a fresh one if it has stopp
 make test         # the specs, as CI runs them (ARGS=spec/models/division_spec.rb:42 to narrow)
 make lint         # RuboCop, as CI runs it
 make console      # a Rails console
+make seed         # (SLOW) real members and divisions (FROM=2021-07-01 TO=2021-10-31), caches and search
 make down         # stop and remove the containers, keeping the data
 make clean        # also remove built images and gems, so the next start rebuilds; keeps the data
 make clobber      # also remove the data, and prune unused Docker images and cache machine-wide
@@ -126,15 +127,18 @@ server installed on the host is the usual culprit.
 
 ### First-time data load
 
+`make seed` does this in the app container, skipping people distances (`FROM` and `TO` set the dates):
+
 ```
 bundle exec rake application:load:members
 bundle exec rake application:load:divisions[2021-07-01,2021-10-31]
-bundle exec rake application:cache:all
+bundle exec rake application:cache:all_except_people_distances
 bundle exec rake searchkick:reindex:all
 ```
 
-`application:cache:all` recalculates people distances, which takes a long time.
-`application:cache:all_except_people_distances` exists for when you don't need them.
+`application:cache:all` recalculates people distances (how similarly each pair of people votes, shown on the
+"friends" pages), which takes a long time. `application:cache:all_except_people_distances` exists for when you don't need
+them.
 
 ## Tests and linting
 
@@ -161,7 +165,7 @@ Specs use RSpec with Capybara (features), FactoryBot, VCR/WebMock for external H
 ### Test gotchas worth knowing before you debug
 
 - **HTMLTidy must be on `PATH`.** `spec/html_compare_helper.rb` shells out to the `tidy` binary to normalise HTML before
-  comparing it. Without it, view and feature specs fail in ways that look nothing like a missing system package. It
+  comparing it, and fails with a clear error if it's missing. The dev image includes it. It
   uses `/usr/local/bin/tidy` if that exists (Intel Homebrew) and otherwise whatever `tidy` is on `PATH`, which is where
   Apple Silicon Homebrew (`/opt/homebrew/bin`) puts it.
 - **`FactoryBot.lint` runs in `before(:suite)`.** One broken factory fails the whole run before a single example
