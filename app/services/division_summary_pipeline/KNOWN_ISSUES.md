@@ -55,12 +55,12 @@ Senate 18 to 20 August 2026 and the eight test divisions' sitting days.
 
 KI-40 onwards came from running four local models over ten divisions from 12 to 20 August 2026 on
 30 September 2026, reviewing every draft against Hansard, and checking the proposed changes against
-the chambers' standing orders and guides. That
-check found that some of the pipeline's House procedure had been written from the House Guide
-(2017, amended 2019), which predates changes to the House standing orders in 2020, 2022, 2023 and
-2025: the standing orders "as at 23 July 2025" outrank it. The Senate standing orders consulted were
-the June 2009 edition, so a Senate standing order is cited only where a June 2025 Senate guide says
-the same, or after checking the current text.
+the chambers' standing orders and guides. That check found that some of the pipeline's House
+procedure had been written from the House Guide (2017, amended June 2019), which predates every
+change to the House standing orders from 4 July 2019 to 23 July 2025: the standing orders "as at 23
+July 2025" outrank it. The Senate standing orders consulted then were the June 2009 edition. The
+July 2025 edition replaced them on 1 October 2026, and every Senate standing order the pipeline
+cites kept its number and substance.
 
 This register was compiled with AI assistance (Claude Code: claude-opus-5[1m] for KI-1 to KI-19,
 claude-opus-5-5 for KI-20 to KI-39 and later, and for condensing the fixed entries). The procedural
