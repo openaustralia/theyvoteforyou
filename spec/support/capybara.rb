@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 Capybara.javascript_driver = :selenium_chrome_headless
+
+# In a Docker container (`make test`), Chrome's sandbox lacks the kernel features it needs and /dev/shm is too small,
+# so Chrome exits on start. Elsewhere, including CI, the sandbox stays on.
+if File.exist?("/.dockerenv")
+  Capybara.register_driver :selenium_chrome_headless do |app|
+    options = Selenium::WebDriver::Chrome::Options.new(args: %w[--headless=new --no-sandbox --disable-dev-shm-usage])
+    Capybara::Selenium::Driver.new(app, browser: :chrome, options:)
+  end
+end
 Capybara.server = :webrick
 
 # Selenium talks to the browser over local HTTP, so these must not be blocked

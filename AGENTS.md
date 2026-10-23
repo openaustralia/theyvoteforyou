@@ -59,49 +59,91 @@ sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
 Then, per the README:
 
 ```
-make dev-services-up
-bundle install
-cp config/database.yml.example config/database.yml   # works as it is, no edits needed
-bundle exec rake db:setup                            # schema plus seed data
-bundle exec rake                                     # full spec suite
-bundle exec rails server                             # http://localhost:3000
+make setup                  # Ruby, gems, config/database.yml, and the database with seed data
+bundle exec rake            # full spec suite
+bundle exec rails server    # http://localhost:3000
 ```
 
-`bundle exec rake application:config:dev` does the `cp` step for you (it copies `config/database.yml.example` and never
-overwrites an existing file).
-
-`bin/setup` does a shorter version of the same thing (`bundle check || bundle install`, `bin/rails db:prepare`, clear
-logs and tmp) and then execs `bin/dev`, which is just `bin/rails server`. Pass `--skip-server` to stop before that.
-
-The app can also run entirely in Docker instead of on the host: `make dev-up` (see Makefile targets below).
+`make setup` starts the Docker services, installs the Ruby in `.ruby-version` with mise (preferred, which reads it
+through `mise.toml`) or rbenv, then runs `bin/setup --skip-server`: `bundle check || bundle install`, copy
+`database.yml` if it's missing, `bin/rails db:prepare`, clear logs and tmp. It's safe to rerun. Without
+`--skip-server`, `bin/setup` ends by starting Rails. The app container runs `bin/setup` too, so it mustn't depend on
+mise or rbenv.
 
 Confirmation emails in development are caught by mailpit (web UI at <http://localhost:1088>), which runs as one of
-the `docker-stack/dev` services (see below), not a separately installed gem.
+the Docker services, not a separately installed gem.
 
 ### Makefile targets
 
 Run `make` (or `make help`) to list the targets. When adding a target, put a `## ` description on the same line as
 the target name, or `make help` won't list it.
 
-`make dev-services-up` starts services only, not the app; Ruby and the Rails server run on the host in that case.
-`make dev-up` starts everything, including the app, in Docker (see `docker-stack/dev/docker-compose.yml`'s `app`
-service) - an alternative to `bundle exec rails s`, not a replacement for it. The compose file exposes MySQL on 3306,
-Elasticsearch on 9200/9300, the dejavu Elasticsearch browser on <http://localhost:1358>, and mailpit on 1025 (SMTP)
-and <http://localhost:1088> (web UI).
+### Docker development environment
+
+One stack, defined in `.devcontainer/compose.yaml`, serves every way of working: `make`, plain `docker compose`
+(through the root `compose.yaml`), and the dev container in VS Code, RubyMine, Codespaces or
+`devcontainer up --workspace-folder .`. They all share the same containers and data.
+
+```
+make up           # everything, including the app at http://localhost:3000, once it's ready
+make services-up  # MySQL, Elasticsearch, dejavu and mailpit, for running Rails on the host
+make status       # each container's health and host ports
+make logs         # follow the logs (SERVICE=<name> for one container)
+make shell        # a shell in the app container, or a fresh one if it has stopped
+make test         # the specs, as CI runs them (ARGS=spec/models/division_spec.rb:42 to narrow)
+make lint         # RuboCop, as CI runs it
+make console      # a Rails console
+make seed         # (SLOW) real members and divisions (FROM=2021-07-01 TO=2021-10-31), caches and search
+make down         # stop and remove the containers, keeping the data
+make clean        # also remove built images and gems, so the next start rebuilds; keeps the data
+make clobber      # also remove the data, and prune unused Docker images and cache machine-wide
+```
+
+`make up` and `make services-up` return once every service passes its healthcheck. Run `make` for the full list.
+A start that takes longer than `START_LIMIT` (in `.devcontainer/compose.yaml`) counts as failed, and stops loudly on purpose;
+see "If the app won't start" in the README.
+
+Running Rails on the host with `make services-up` is the usual choice, as specs, debuggers and IDE integrations work
+as normal. In the container, `bin/setup` installs gems and prepares the database before Rails starts.
+
+#### Port clashes
+
+| Variable             | Default | Publishes                                                   |
+|----------------------|---------|-------------------------------------------------------------|
+| `WEB_PORT`           | 3000    | the app                                                     |
+| `DB_PORT`            | 3306    | MySQL. Rails reads it too, via `config/database.yml`        |
+| `ELASTICSEARCH_PORT` | 9200    | Elasticsearch. Rails builds `ELASTICSEARCH_URL` from it     |
+| `DEJAVU_PORT`        | 1358    | dejavu Elasticsearch browser                                |
+| `MAILPIT_SMTP_PORT`  | 1025    | mailpit SMTP. Rails reads it too, in `development.rb`       |
+| `MAILPIT_WEB_PORT`   | 1088    | mailpit web UI                                              |
+
+Put overrides in `.env` at the repo root, which is gitignored, with different values in each worktree. Compose reads
+it however you start the stack. Containers and data are named `theyvoteforyou` (`name:` in `compose.yaml`), so a second checkout of
+this repo, such as a worktree, shares them unless its `.env` also sets its own `COMPOSE_PROJECT_NAME`. For
+host-side commands to see the same values, put `dotenv` in a gitignored `.envrc` if you use direnv, or
+run `set -a; . ./.env; set +a`. Services you rarely need from the host get a random port, which `make status` shows.
+To see what holds a port, use `ss -ltnp | grep 3306` (Linux) or `lsof -iTCP:3306 -sTCP:LISTEN` (macOS); a database
+server installed on the host is the usual culprit.
 
 ### First-time data load
+
+`make seed` does this in the app container, skipping people distances (`FROM` and `TO` set the dates):
 
 ```
 bundle exec rake application:load:members
 bundle exec rake application:load:divisions[2021-07-01,2021-10-31]
-bundle exec rake application:cache:all
+bundle exec rake application:cache:all_except_people_distances
 bundle exec rake searchkick:reindex:all
 ```
 
-`application:cache:all` recalculates people distances, which takes a long time.
-`application:cache:all_except_people_distances` exists for when you don't need them.
+`application:cache:all` recalculates people distances (how similarly each pair of people votes, shown on the
+"friends" pages), which takes a long time. `application:cache:all_except_people_distances` exists for when you don't need
+them.
 
 ## Tests and linting
+
+`make test` and `make lint` run the commands below in the app container, so they need nothing but Docker on the
+host. `make test` also resets the test database first, as CI does. On the host:
 
 ```
 bin/rake                                   # default task: full spec suite (this is what CI runs)
@@ -123,7 +165,7 @@ Specs use RSpec with Capybara (features), FactoryBot, VCR/WebMock for external H
 ### Test gotchas worth knowing before you debug
 
 - **HTMLTidy must be on `PATH`.** `spec/html_compare_helper.rb` shells out to the `tidy` binary to normalise HTML before
-  comparing it. Without it, view and feature specs fail in ways that look nothing like a missing system package. It
+  comparing it, and fails with a clear error if it's missing. The dev image includes it. It
   uses `/usr/local/bin/tidy` if that exists (Intel Homebrew) and otherwise whatever `tidy` is on `PATH`, which is where
   Apple Silicon Homebrew (`/opt/homebrew/bin`) puts it.
 - **`FactoryBot.lint` runs in `before(:suite)`.** One broken factory fails the whole run before a single example
@@ -131,8 +173,8 @@ Specs use RSpec with Capybara (features), FactoryBot, VCR/WebMock for external H
 - **Searchkick callbacks are disabled in tests** (`Searchkick.disable_callbacks`). Code that reindexes must guard on
   `Searchkick.callbacks?`, as `WikiMotion` does, or it will blow up under test.
 - **Delayed Job runs inline in tests** (`Delayed::Worker.delay_jobs = false`), so queued work executes synchronously.
-- `docker-stack/dev` and `docker-stack/test` run Elasticsearch 7.17.7, matching production, and the Gemfile has
-  `elasticsearch, "~> 7"`. Check what's actually running before attributing a failure to either.
+- The Docker stack runs Elasticsearch 7.17.7, matching production, and the Gemfile has
+  `elasticsearch, "~> 7"`. Check what's actually running before blaming a version mismatch.
 
 ## Architecture
 

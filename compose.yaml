@@ -1,0 +1,7 @@
+# The development stack lives in .devcontainer/compose.yaml; this lets `docker compose` work from the repo root.
+# Named after the repo, not the directory, as worktrees in different repos can share a directory name.
+# A second checkout of this repo shares these containers and data unless its .env sets COMPOSE_PROJECT_NAME.
+name: theyvoteforyou
+
+include:
+  - .devcontainer/compose.yaml

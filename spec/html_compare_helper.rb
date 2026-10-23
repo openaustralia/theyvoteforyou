@@ -68,11 +68,14 @@ module HTMLCompareHelper
     # Note the version installed with OS X by default is a version that's too old
     # Install on OS X with "brew install tidy"
     command = "#{tidy_path}#{' -xml' if format == :xml} --show-warnings no --sort-attributes alpha --drop-empty-elements no -utf8 -q -m temp"
-    system(command)
+    ran = system(command)
 
     r = File.read("temp")
-    # Make sure that comments of the form <!-- comment --> are followed by a new line
     File.delete("temp")
+    # Without tidy, pages would be compared as raw HTML, failing on harmless whitespace and overwriting the fixtures
+    raise "HTML Tidy (the tidy command) isn't installed, and the page comparison specs need it" if ran.nil?
+
+    # Make sure that comments of the form <!-- comment --> are followed by a new line
     r.gsub("--><", "-->\n<")
   end
 

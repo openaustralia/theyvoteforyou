@@ -1,9 +1,6 @@
 # Copy this to database.yml. The defaults match the MySQL container started by
-# `make dev-services-up`, so no edits are needed for a normal setup.
-#
-# The test stack from `make test-services-up` listens on port 3307. To run the
-# specs against it, set DB_PORT=3307 for that command only, as DB_PORT also
-# moves the development environment.
+# `make services-up`, so no edits are needed for a normal setup. DB_PORT moves
+# it (see "Port clashes" in AGENTS.md).
 
 default: &default
   adapter: mysql2
