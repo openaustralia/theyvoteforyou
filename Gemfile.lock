@@ -194,7 +194,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.6.2)
-    diffy (3.4.3)
+    diffy (3.4.4)
     docile (1.4.1)
     domain_name (0.6.20260921)
     drb (2.2.3)
