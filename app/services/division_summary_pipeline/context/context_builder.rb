@@ -96,7 +96,7 @@ module DivisionSummaryPipeline
 
     def xml_fetcher
       return @xml_fetcher if @xml_fetcher
-      return nil if xml_content.present? || !defined?(DataLoader::Debates)
+      return nil if xml_content.present?
 
       ->(house, date) { DataLoader::Debates.fetch_xml_document(house, date) }
     end
@@ -119,22 +119,19 @@ module DivisionSummaryPipeline
       division_xmls.find { |d| facts.number.positive? && d.number.to_i == facts.number } ||
         division_xmls.find { |d| time.present? && ClockTime.normalise(d.clock_time) == time } ||
         division_xmls.find { |d| facts.debate_gid.present? && d.debate_gid == facts.debate_gid }
+    # Fetch and parse failures end up here, logged and turned into nil, so #build degrades to
+    # the Division-record fallback. A summariser run that dies because Hansard was briefly
+    # unreachable would be worse than one that produces a thinner draft and says so.
     rescue StandardError => e
-      Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not parse Hansard XML for #{facts.house} #{facts.date}: #{e.message}" if defined?(Rails)
+      Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not parse Hansard XML for #{facts.house} #{facts.date}: #{e.message}"
       nil
     end
 
-    # Swallows fetch and parse failures into nil so #build degrades to the Division-record
-    # fallback. A summariser run that dies because Hansard was briefly unreachable would be
-    # worse than one that produces a thinner draft and says so.
     def parse_document
       return Nokogiri::XML(xml_content) if xml_content.present?
       return nil if facts.house.blank? || facts.date.blank?
-      return nil unless defined?(DataLoader::Debates)
 
       DataLoader::Debates.fetch_xml_document(facts.house, facts.date)
-    rescue StandardError
-      nil
     end
 
     def build_from_matched_division(division_xml)
@@ -214,8 +211,6 @@ module DivisionSummaryPipeline
 
       link = Rails.application.routes.url_helpers.division_path(record.url_params)
       facts.with(supplied: facts.supplied.merge(followup_link: link))
-    rescue StandardError
-      facts
     end
 
     def closure_question?(division_xml)
@@ -333,7 +328,7 @@ module DivisionSummaryPipeline
       EarlierDebate.collect(division_xml: division_xml, house: facts.house, date: facts.date,
                             fetcher: xml_fetcher, exhaustive: context_level == :sitting_day)
     rescue StandardError => e
-      Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not gather earlier debate: #{e.message}" if defined?(Rails)
+      Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not gather earlier debate: #{e.message}"
       empty
     end
 
