@@ -110,6 +110,23 @@ DB_PORT=3307 RAILS_ENV=test bin/rails db:schema:load
 DB_PORT=3307 bundle exec rake
 ```
 
+The test stack is also the way to run the specs when another project's MySQL already holds port 3306, because
+`make dev-services-up` can't start its MySQL then. To start only the test database, without Elasticsearch or dejavu
+(the specs don't need them, since Searchkick callbacks are disabled in tests):
+
+```
+COMPOSE_PROJECT_NAME=theyvoteforyou-test docker compose -f docker-stack/test/docker-compose.yml up -d mysql
+```
+
+`config/database.yml` reads `DB_HOST`, `DB_PORT`, `MYSQL_USER` and `MYSQL_PASSWORD` from the environment. If your shell
+already sets them for another project, you get `Access denied for user 'root'`. The test container's root password is
+`root` (see `docker-stack/test/docker-compose.yml`), so override all of them for the command:
+
+```
+DB_PORT=3307 MYSQL_USER=root MYSQL_PASSWORD=root RAILS_ENV=test bin/rails db:schema:load
+DB_PORT=3307 MYSQL_USER=root MYSQL_PASSWORD=root bundle exec rake
+```
+
 ### How development differs from production
 
 - Production caches with memcached. Development uses an in-memory store.

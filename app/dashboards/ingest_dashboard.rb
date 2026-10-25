@@ -3,8 +3,8 @@
 require "administrate/base_dashboard"
 
 # Lists what admins have uploaded and how processing went. Read only: uploads are made on the
-# upload page (Admin::IngestsController#new), and an upload that failed is fixed by uploading a
-# corrected file, not by editing the row.
+# upload page (Admin::IngestsController#new). An upload that failed is fixed by uploading a
+# corrected file, or queued again as it is (Admin::IngestsController#requeue), not by editing the row.
 class IngestDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,

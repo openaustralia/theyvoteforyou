@@ -4,6 +4,9 @@
 <% drafts = page.resource.ai_division_summaries.count %>
 <% summaries = page.resource.ai_division_summaries.includes(:division).order(:division_id, :model).limit(shown_limit) %>
 <% content_for(:header_last) do %>
+  <% if page.resource.retryable? %>
+    <%= button_to "Queue again", requeue_admin_ingest_path(page.resource), method: :post, class: "button" %>
+  <% end %>
   <% if drafts.positive? %>
     <%= button_to "Delete #{pluralize(drafts, 'draft')} from this upload",
                   delete_summaries_admin_ingest_path(page.resource),
