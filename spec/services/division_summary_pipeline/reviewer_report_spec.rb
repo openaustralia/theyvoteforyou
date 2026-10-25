@@ -92,6 +92,25 @@ describe DivisionSummaryPipeline::ReviewerReport do
     expect(report).to include("| Limitation of debate | none found |")
   end
 
+  it "says when the chair put the question immediately under a resolution agreed earlier" do
+    statement = { id: "uk.org.publicwhip/lords/2026-08-20.54.2", speaker: "Robin Castellan", speaker_gid: nil, time: "13:15",
+                  text: "In accordance with the resolution agreed to on 12 August 2026, I will put the question immediately.",
+                  kind: :resolution }
+    immediate = summary_packet(speeches: speeches, question: question, routing: routing, limitation_statement: statement)
+    rendered = report(packet: immediate, validation: DivisionSummaryPipeline::ProvenanceValidator.validate(extraction, immediate))
+
+    expect(rendered).to include("the chair said the question was put immediately under a resolution agreed earlier, at 1:15 PM")
+  end
+
+  it "lists each fact the model pointed at, by name and paragraph" do
+    reply = DivisionSummaryPipeline::ExtractionPayload.from_h(
+      "interpretation" => { "template_id" => 2, "declines_second_reading" => false, "missing" => [] },
+      "references" => { "explanation" => [], "facts" => { "committee_name" => { "unit" => "S1.1", "text" => "Rural students pay more" } } }
+    )
+
+    expect(report(extraction: reply)).to include("| Fact references | committee_name: S1.1 |")
+  end
+
   it "lists the fallbacks, the warnings and how the mover was found" do
     expect(report).to include("`no_digest`: No Bills Digest was supplied", "S1.3 is motion text",
                               "Context warning: No debate speeches were found.",

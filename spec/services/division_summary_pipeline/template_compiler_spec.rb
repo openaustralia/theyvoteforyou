@@ -612,6 +612,31 @@ describe DivisionSummaryPipeline::TemplateCompiler do
         expect(rendered).not_to include("rings the bells")
       end
 
+      # KI-5: the recorded result says carried, but fewer ayes than an absolute majority is
+      # a contradiction the summary must not resolve in either direction.
+      context "when the bill is recorded as carried on fewer ayes than an absolute majority" do
+        subject(:rendered) do
+          compile_summary(division_data, template_id: 6, motion_text: "That this bill be now read a third time.")
+        end
+
+        let(:division_data) do
+          {
+            time: "05:00 PM", amount: "majority", result: "passed", house: "representatives",
+            bill_name: "Constitution Alteration (Fictional Reform) 2026", mover_name: "Fictional Member",
+            aye_votes: 60, no_votes: 0
+          }
+        end
+
+        it "says the result and the requirement do not agree, so it needs checking" do
+          expect(rendered).to include("Notice: this question needed an absolute majority")
+          expect(rendered).to include("needs checking against the official record before it is relied on")
+        end
+
+        it "says the division figures alone do not show whether the bill passed" do
+          expect(rendered).to include("Fewer members voted for the bill than that majority requires")
+        end
+      end
+
       # Section 23's own words are "shall pass in the negative", which reads to anyone outside
       # parliament as though the question passed. The Senate's own guide says "the question is
       # lost", and that is what a reader needs.
@@ -845,6 +870,26 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
         expect(rendered).to include("to disagree to the amendments the Senate made")
         expect(rendered).to include("rejected the Senate's changes")
+      end
+
+      it "says a defeated disagree leaves the other chamber's changes standing at this point" do
+        rendered = compile_message(message_division(result: "negatived", house: "representatives"),
+                                   "That the amendments be disagreed to.")
+
+        expect(rendered).to include("the Senate's changes were not rejected at this point")
+      end
+
+      it "says a defeated insist drops this chamber's own amendments" do
+        rendered = compile_message(message_division(result: "negatived"), "That the committee insists on its amendments.")
+
+        expect(rendered).to include("the Senate did not insist on its own amendments, so the bill proceeds without them")
+      end
+
+      it "says a carried 'does not insist' drops this chamber's own amendments" do
+        rendered = compile_message(message_division(result: "passed"),
+                                   "That the committee does not insist on its amendments.")
+
+        expect(rendered).to include("the Senate dropped its own amendments, so the bill proceeds without them")
       end
 
       it "explains section 53 when the question is about requests rather than amendments" do
@@ -1468,6 +1513,13 @@ describe DivisionSummaryPipeline::TemplateCompiler do
 
       expect(one).to include("1 senator voted against their party.")
       expect(two).to include("2 members voted against their party.")
+    end
+
+    it "uses a count already written out as a sentence as it is given" do
+      rendered = compile_summary(senate_data.merge(rebellions: "Two senators voted against their party. "),
+                                 template_id: 15, motion_text: "That the Senate notes it.")
+
+      expect(rendered).to include("Two senators voted against their party.")
     end
 
     it "leaves out a Motion Introduction that was only \"I move:\"" do

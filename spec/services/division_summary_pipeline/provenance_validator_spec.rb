@@ -241,6 +241,76 @@ describe DivisionSummaryPipeline::ProvenanceValidator do
       expect(result.evidence.motion.found_by).to eq(:rule)
       expect(result.warnings.join).to include("Stage 1 found the motion by rule")
     end
+
+    context "when the model's motion references cannot be used" do
+      let(:record) do
+        DivisionSummaryPipeline::Transcript.from_record(
+          heading: "Motions",
+          text: "Debate on the scheme.\nThat the Senate notes the scheme.\nIt asks for a report.\nThat the Senate thanks the committee."
+        )
+      end
+      let(:context) { packet.with(transcript: record, mover: nil) }
+
+      it "ignores a reference to a paragraph the transcript does not hold" do
+        result = validate(extraction(explanation: [], motion: %w[S1.2 S9.9]), context)
+
+        expect(result.evidence.motion).to be_nil
+        expect(result.warnings.join).to include("do not all point at paragraphs of a speech")
+      end
+
+      it "ignores references that are not one unbroken passage" do
+        result = validate(extraction(explanation: [], motion: %w[S1.2 S1.4]), context)
+
+        expect(result.evidence.motion).to be_nil
+        expect(result.warnings.join).to include("are not one unbroken passage")
+      end
+    end
+  end
+
+  # Under a limitation of debate the chair puts amendments nobody moved, and only the member who
+  # circulated them can have explained them.
+  describe "explanations when the chair put amendments nobody moved" do
+    let(:circulator) do
+      DivisionSummaryPipeline::MemberResolver.named("Morgan Treloar").tap do |resolved|
+        resolved.member = create(:member, gid: "uk.org.publicwhip/lord/900001")
+      end
+    end
+    let(:circulation) { DivisionSummaryPipeline::Circulation.new(by: "Senator Treloar", member: circulator, plural: true) }
+    let(:context) { packet.with(mover: nil, circulation: circulation) }
+
+    it "keeps an explanation spoken by the member who circulated them" do
+      result = validate(extraction(explanation: %w[S1.1]), context)
+
+      expect(result.evidence.explanations.map(&:text)).to eq(["Rural students pay more to study."])
+    end
+
+    it "drops an explanation spoken by anyone else" do
+      result = validate(extraction(explanation: %w[S2.1]), context)
+
+      expect(result.evidence.explanations).to be_empty
+    end
+
+    context "when a party circulated them, so no member is named" do
+      let(:circulation) { DivisionSummaryPipeline::Circulation.new(by: "the Example Party", member: nil, plural: true) }
+
+      it "drops every explanation" do
+        result = validate(extraction(explanation: %w[S1.1]), context)
+
+        expect(result.evidence.explanations).to be_empty
+      end
+    end
+
+    context "when Hansard gives the speech no member ID" do
+      let(:mover_speech) do
+        summary_speech("<p>Rural students pay more to study.</p>", id: "s1", name: "Morgan Treloar", gid: "", time: "13:20")
+      end
+
+      it "matches the speaker to the circulator by name" do
+        result = validate(extraction(explanation: %w[S1.1]), context)
+
+        expect(result.evidence.explanations.map(&:text)).to eq(["Rural students pay more to study."])
+      end
+    end
   end
 
   describe "facts a template names" do

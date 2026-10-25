@@ -118,6 +118,18 @@ describe DivisionSummarizer do
       end
     end
 
+    context "when a stage of the pipeline raises" do
+      let(:summarizer) do
+        described_class.new(division, models: models, xml_content: xml_content,
+                                      extractor: scripted_extractor([-> { raise "stage failed" }]))
+      end
+
+      it "records the error rather than raising, so one bad division does not abandon the run" do
+        expect(result.error).to eq("Pipeline error: stage failed")
+        expect(result.model).to eq model_id
+      end
+    end
+
     # The retry reads far more than the first call, so it is the one likelier to time out, and
     # the first reply was already a complete answer.
     context "when the retry over the whole sitting day fails" do

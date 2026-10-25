@@ -39,6 +39,16 @@ describe DivisionSummaryPipeline::ExtractionPrompt do
       expect(prompt_for(speeches: [silent, chair])).to include("The terms moved were not found by rule.", "\"operative_motion\" as missing")
     end
 
+    # With no mover under a limitation of debate, there is no speech to find a mover's words in.
+    it "does not ask the model to report the mover's speech missing when the chair put the question under a guillotine" do
+      statement = { id: "uk.org.publicwhip/lords/2026-08-20.54.2", speaker: "Robin Castellan", speaker_gid: nil, time: "13:15",
+                    text: "Pursuant to order, the time allotted for this bill has expired." }
+      packet = summary_packet(speeches: [chair], question: question, routing: routing, limitation_statement: statement)
+
+      expect(described_class.user_prompt(packet)).to include("Under the limitation of debate the chair put this question with nobody moving it",
+                                                             "do not report \"mover_speech\" as missing")
+    end
+
     # Told to report the terms missing, a model did so for a question that is the whole motion,
     # and the orchestrator read the whole sitting day looking for terms that do not exist.
     it "tells the model there are no terms to find when the question is the whole motion" do
