@@ -169,8 +169,6 @@ module DivisionSummaryPipeline
       return nil if gid.blank?
 
       Member.find_by(gid: gid)
-    rescue StandardError
-      nil
     end
   end
 end

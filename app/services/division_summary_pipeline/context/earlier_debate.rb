@@ -162,7 +162,7 @@ module DivisionSummaryPipeline
       document = fetcher.call(house, day.to_s)
       document&.at(:debates) ? document : nil
     rescue StandardError => e
-      Rails.logger.warn "DivisionSummaryPipeline::EarlierDebate could not fetch #{house} #{day}: #{e.message}" if defined?(Rails)
+      Rails.logger.warn "DivisionSummaryPipeline::EarlierDebate could not fetch #{house} #{day}: #{e.message}"
       nil
     end
 

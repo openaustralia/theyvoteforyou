@@ -120,8 +120,6 @@ module DivisionSummaryPipeline
 
       count = Member.in_house(house_key).current_on(date).count
       count.positive? ? count : nil
-    rescue StandardError
-      nil
     end
 
     def [](key)
