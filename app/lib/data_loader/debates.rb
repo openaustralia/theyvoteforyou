@@ -7,9 +7,11 @@ module DataLoader
     # from_date - Date to parse from (just specify this date if you only want one )
     # to_date - A single date
     def self.load!(from_date, to_date = nil)
+      agent = Mechanize.new
+
       (from_date..(to_date || from_date)).each do |date|
         House.australian.each do |house|
-          xml_document = fetch_xml_document(house, date)
+          xml_document = fetch_xml_document(house, date, agent: agent)
           next unless xml_document
 
           existing_divisions = Division.where(date: date, house: house)
@@ -76,8 +78,10 @@ module DataLoader
     # pipeline/context/context_builder.rb) to fetch wider debate context for the AI division summary
     # feature, so this stays the one place that knows the source URL and fetch mechanics -
     # see app/services/division_summary_pipeline/ARCHITECTURE.md for why that matters.
-    def self.fetch_xml_document(house, date)
-      agent = Mechanize.new
+    #
+    # agent - A Mechanize agent to reuse, so a run of many fetches (see .load!) shares its
+    #   connections. A one-off fetch can leave it out.
+    def self.fetch_xml_document(house, date, agent: Mechanize.new)
       url = xml_url(house, date)
       Sentry.with_child_span(op: "http.client", description: "Fetch #{house} debates XML for #{date}") do |span|
         span&.set_data("http.url", url)
