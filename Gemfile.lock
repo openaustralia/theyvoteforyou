@@ -673,7 +673,7 @@ GEM
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
       ostruct
-    stackprof (0.2.27)
+    stackprof (0.2.28)
     stringio (3.2.0)
     temple (0.10.3)
     terminal-table (3.0.2)
