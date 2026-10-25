@@ -177,22 +177,24 @@ describe DivisionsController, type: :request do
       expect(response.body).not_to include(%(href="#{policy_path(policy1)}"))
     end
 
-    it "offers staff a quick link to the policy when all three models agree" do
+    it "offers staff a quick link to the policy when every model agrees" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "for")
+      DivisionPolicyClassifier::MODEL_LABELS.each_key do |model|
+        create(:ai_policy_suggestion, division: division, policy: policy1, model: model, direction: "for")
+      end
 
       get "/divisions/representatives/2006-12-06/3"
 
       expect(response.body).to include("Link this division to marriage equality")
     end
 
-    it "doesn't offer a quick link when only two of the three models agree" do
+    it "doesn't offer a quick link when one model disagrees" do
       login_as(user)
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: kimi, direction: "for")
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: deepseek, direction: "for")
-      create(:ai_policy_suggestion, division: division, policy: policy1, model: claude, direction: "against")
+      *agreeing, dissenting = DivisionPolicyClassifier::MODEL_LABELS.keys
+      agreeing.each do |model|
+        create(:ai_policy_suggestion, division: division, policy: policy1, model: model, direction: "for")
+      end
+      create(:ai_policy_suggestion, division: division, policy: policy1, model: dissenting, direction: "against")
 
       get "/divisions/representatives/2006-12-06/3"
 

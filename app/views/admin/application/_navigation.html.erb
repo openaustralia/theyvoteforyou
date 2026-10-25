@@ -1,0 +1,27 @@
+<%#
+Administrate's navigation, split in two: the site's own records, then the data about divisions
+(divisions, the policies they are linked to, members and uploads), in the order listed below. See
+administrate/application/_navigation.html.erb in the gem for the original.
+%>
+
+<% data_resources = %w[divisions policies members ingests] %>
+<% resources = Administrate::Namespace.new(namespace).resources_with_index_route.select { |resource| accessible_action?(model_from_resource(resource), :index) } %>
+
+<nav class="navigation">
+  <%= link_to admin_root_path, class: "navigation__site-name", style: "display: block; margin: 0 0 1.25rem; text-decoration: none; color: inherit; line-height: 1.2;" do %>
+    <strong style="display: block; font-size: 1.15em;"><%= Rails.configuration.project_name %></strong>
+    <span style="font-size: 0.8em; letter-spacing: 0.06em; text-transform: uppercase; color: #5b6571;">Admin</span>
+  <% end %>
+  <%= link_to(t("administrate.navigation.back_to_app"), root_url, class: "button button--alt button--nav") if defined?(root_url) %>
+
+  <% resources.partition { |resource| data_resources.exclude?(resource.to_s) }.each_with_index do |group, index| %>
+    <%= tag.hr(class: "navigation__divider") if index.positive? %>
+    <% group.sort_by.with_index { |resource, position| [data_resources.index(resource.to_s) || 0, position] }.each do |resource| %>
+      <%= link_to(
+        display_resource_name(resource),
+        resource_index_route(resource),
+        class: "navigation__link navigation__link--#{nav_link_state(resource)}"
+      ) %>
+    <% end %>
+  <% end %>
+</nav>

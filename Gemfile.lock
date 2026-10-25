@@ -801,6 +801,7 @@ DEPENDENCIES
   ruby-progressbar
   ruby_audit
   ruby_parser
+  rubyzip (~> 3.0)
   sass-rails
   sdoc
   searchkick

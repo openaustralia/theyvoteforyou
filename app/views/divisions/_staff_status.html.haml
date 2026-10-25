@@ -1,0 +1,11 @@
+-# Staff-only at-a-glance state of a division for the list pages: is there a published summary, are
+-# there AI summary drafts, is a policy linked, are there AI policy suggestions. The caller gates it
+-# on policy(PolicyDivision).new? (the same gate as the AI panels on the division page) and
+-# preloads the associations used by DivisionStaffStatus.
+- status = DivisionStaffStatus.new(division)
+%ul.division-staff-status.list-inline{title: "Staff only"}
+  - status.each do |item|
+    %li
+      %span.label{class: item.done? ? "label-success" : "label-default", title: item.title}
+        %span.glyphicon{class: item.done? ? "glyphicon-ok" : "glyphicon-minus", "aria-hidden" => "true"}
+        = item.label

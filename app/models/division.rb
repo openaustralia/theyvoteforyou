@@ -13,6 +13,7 @@ class Division < ApplicationRecord
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
   has_many :ai_policy_suggestions, dependent: :destroy
+  has_many :ai_division_summaries, dependent: :destroy
   has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
@@ -27,6 +28,20 @@ class Division < ApplicationRecord
 
   def self.date_earliest_division
     Division.order(:date).first.date
+  end
+
+  # The neighbouring divisions in the same house, in the order they were held (date, then the
+  # division number within that day), for paging through divisions one at a time.
+  def previous_division
+    same_house = Division.in_house(house)
+    same_house.where("date < :date OR (date = :date AND number < :number)", date: date, number: number)
+              .order(date: :desc, number: :desc).first
+  end
+
+  def next_division
+    same_house = Division.in_house(house)
+    same_house.where("date > :date OR (date = :date AND number > :number)", date: date, number: number)
+              .order(:date, :number).first
   end
 
   def url_params
