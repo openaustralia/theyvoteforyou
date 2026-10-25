@@ -244,6 +244,16 @@ describe DataLoader::DivisionXml do
 
       expect(division.limitation_of_debate_statement).to be_nil
     end
+
+    it "is nil when the run of questions reaches the start of the day without an expiry statement" do
+      last = divisions(<<~XML).last
+        <minor-heading id="h2">Fair Pricing Bill 2026; Limitation of Debate</minor-heading>
+        <division divnumber="1" id="d1"/>
+        <division divnumber="2" id="d2"/>
+      XML
+
+      expect(last.limitation_of_debate_statement).to be_nil
+    end
   end
 
   describe "#question_speech" do
