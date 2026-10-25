@@ -33,6 +33,45 @@ describe DivisionSummaryPipeline::DivisionFacts do
     end
   end
 
+  describe "#member_count" do
+    let(:date) { Date.new(2026, 9, 17) }
+
+    context "when the caller supplies the chamber size" do
+      it "uses the supplied size" do
+        facts = described_class.from(house: "senate", date: date.to_s, chamber_size: 76)
+
+        expect(facts.member_count).to eq(76)
+      end
+    end
+
+    context "when TVFY holds members who sat on the day" do
+      before do
+        create(:member, gid: "uk.org.publicwhip/lord/900001", house: "senate", entered_house: "2025-07-01", left_house: "9999-12-31")
+        create(:member, gid: "uk.org.publicwhip/lord/900002", house: "senate", entered_house: "2025-07-01", left_house: "2026-01-01")
+      end
+
+      it "counts only the members current on that date in that house" do
+        facts = described_class.from(house: "senate", date: date.to_s)
+
+        expect(facts.member_count).to eq(1)
+      end
+    end
+
+    context "when TVFY holds no members for the day" do
+      it "is nil, so callers fall back to the guides' figures" do
+        facts = described_class.from(house: "senate", date: date.to_s)
+
+        expect(facts.member_count).to be_nil
+      end
+    end
+
+    context "without a house or a date" do
+      it "is nil" do
+        expect(described_class.from(aye_votes: 3, no_votes: 2).member_count).to be_nil
+      end
+    end
+  end
+
   # KNOWN_ISSUES.md KI-29: the draft called any majority over half the turnout "large", while
   # the division page beside it used different thresholds.
   describe ".majority_strength" do
