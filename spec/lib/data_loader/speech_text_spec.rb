@@ -181,6 +181,41 @@ describe DataLoader::SpeechText do
       end
     end
 
+    # Hansard introduces a motion's terms in the last sentence of the paragraph, ending with a colon
+    # ("I move the second reading amendment on sheet 9001:"). Every one of the 1,461 moves introduced
+    # by a paragraph of their own in 66 sitting days from 1 May to 22 October 2026 did, so a paragraph
+    # that only contains the words earlier on is not a move.
+    context "with a long paragraph that ends by introducing the motion" do
+      let(:node) do
+        speech(<<~XML)
+          <p>The scheme is a good start. That is why I move the amendment circulated in my name. I move:</p>
+          <p class="italic">At the end of the motion, add ", but the Senate notes the cost".</p>
+        XML
+      end
+
+      it "still reads the paragraph as the move" do
+        expect(described_class.paragraphs(node).pluck(:kind)).to eq(%i[move motion])
+      end
+    end
+
+    context "with a sentence that contains \"I move\" in front of an italic quotation" do
+      let(:node) do
+        speech(<<~XML)
+          <p>I move on to my next point, which is the cost of the scheme. The minister said:</p>
+          <p class="italic">Rural students pay no more to study.</p>
+          <p>That is wrong.</p>
+        XML
+      end
+
+      it "reads the sentence as prose and the quoted words as a quotation" do
+        expect(described_class.paragraphs(node).pluck(:kind)).to eq(%i[prose quotation prose])
+      end
+
+      it "reports no motion moved, so the quoted words are never taken as the terms" do
+        expect(described_class.moved_text(node)).to be_nil
+      end
+    end
+
     # KI-57: in plain type inside the member's speech, these read as the
     # member's own sentences.
     it "labels Hansard's records of the chamber as records, never the member's words" do
