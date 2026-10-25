@@ -172,7 +172,8 @@ module DataLoader
       end
       moves = 0
       elements.each_with_index do |element, index|
-        next if roles[index][:kind] != :prose || set_apart.include?(index) || !element.text.match?(MOVE_PATTERN)
+        # An italic paragraph is words Hansard sets apart as quoted, so its "I move" is not the member's.
+        next if roles[index][:kind] != :prose || set_apart.include?(index) || italic?(element) || !element.text.match?(MOVE_PATTERN)
 
         motion = motion_indices_after(elements, index, set_apart)
         if motion.any?

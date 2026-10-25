@@ -218,10 +218,11 @@ module DataLoader
     end
 
     # The title of the debate this division sits in: the nearest preceding minor heading
-    # ("Example Bill 2026; Second Reading"), or the major heading when there is none. Raw
-    # Hansard text, unlike #name, so it can be compared with the same heading elsewhere.
+    # ("Example Bill 2026; Second Reading"), or the major heading when there is none or it is
+    # empty (see DebatesXml.section_heading). Raw Hansard text, unlike #name, so it can be
+    # compared with the same heading elsewhere.
     def debate_title
-      heading = division_xml.at_xpath("preceding::minor-heading[1]") || division_xml.at_xpath("preceding::major-heading[1]")
+      heading = DebatesXml.section_heading(division_xml)
       heading&.text.to_s.gsub(/[[:space:]]+/, " ").strip
     end
 

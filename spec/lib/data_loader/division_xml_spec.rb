@@ -81,6 +81,14 @@ describe DataLoader::DivisionXml do
 
       expect(division.debate_title).to eq("Fair Pricing Bill 2026; Second Reading")
     end
+
+    # As in 2007-09-11.xml, where a section heading ("NUCLEAR ENERGY AND HEALTH") sits above an
+    # empty minor heading.
+    it "is the major heading when the nearest minor heading is empty" do
+      division = divisions("<major-heading id=\"h1\">NUCLEAR ENERGY AND HEALTH</major-heading><minor-heading id=\"h2\"/><division divnumber=\"1\" id=\"d1\"/>").first
+
+      expect(division.debate_title).to eq("NUCLEAR ENERGY AND HEALTH")
+    end
   end
 
   describe "#earlier_same_debate_speeches" do

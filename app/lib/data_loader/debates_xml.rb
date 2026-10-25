@@ -48,9 +48,11 @@ module DataLoader
     end
 
     # The heading of the section a speech or division sits in: its nearest preceding minor
-    # heading, or the major heading when there is none.
+    # heading, or the major heading when there is none or the minor heading is empty (as in
+    # 2007-09-11.xml, where "NUCLEAR ENERGY AND HEALTH" sits above an empty one).
     def self.section_heading(node)
-      node.at_xpath("preceding::minor-heading[1]") || node.at_xpath("preceding::major-heading[1]")
+      minor = node.at_xpath("preceding::minor-heading[1]")
+      minor&.text.present? ? minor : node.at_xpath("preceding::major-heading[1]")
     end
 
     # The ParlParse ids ("r7339") of the bills a section is about. Current ParlParse XML lists
