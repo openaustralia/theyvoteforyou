@@ -161,6 +161,26 @@ describe DataLoader::SpeechText do
       expect(described_class.moved_text(node)).to eq("That the Senate notes the minister's statement.")
     end
 
+    # Italic is how Hansard sets apart words a member quotes, so an italic "I move" is the
+    # quoted person's move, not the member's.
+    context "with an italic quotation that says \"I move\"" do
+      let(:node) do
+        speech(<<~XML)
+          <p>The previous government said this in 2019:</p>
+          <p class="italic">I move that the debate be adjourned.</p>
+          <p class="italic">That the Senate adjourn.</p>
+        XML
+      end
+
+      it "reads the quotation as quotation, not as a move" do
+        expect(described_class.paragraphs(node).pluck(:kind)).to eq(%i[prose quotation quotation])
+      end
+
+      it "reports no motion moved" do
+        expect(described_class.moved_text(node)).to be_nil
+      end
+    end
+
     # KI-57: in plain type inside the member's speech, these read as the
     # member's own sentences.
     it "labels Hansard's records of the chamber as records, never the member's words" do
