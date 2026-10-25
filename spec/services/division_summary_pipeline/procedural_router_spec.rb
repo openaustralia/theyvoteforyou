@@ -142,6 +142,40 @@ describe DivisionSummaryPipeline::ProceduralRouter do
       end
     end
 
+    context "with questions that name a committee or place" do
+      def route(question)
+        described_class.route(speaker_question: question)
+      end
+
+      it "routes capital works in the Parliamentary Zone (Template 21)" do
+        decision = route("The question is that the proposed works in the Parliamentary Zone be approved.")
+        expect(decision).to be_deterministic
+        expect(decision.template_id).to eq(21)
+        expect(decision.rule_name).to eq("PARLIAMENTARY_ZONE_WORKS")
+      end
+
+      it "routes Budget considerations by Estimates committees (Template 11)" do
+        decision = route("The question is that the Budget estimates be considered by the Estimates committees.")
+        expect(decision).to be_deterministic
+        expect(decision.template_id).to eq(11)
+        expect(decision.rule_name).to eq("ESTIMATES_COMMITTEES")
+      end
+
+      it "routes a report of the Selection of Bills Committee (Template 14)" do
+        decision = route("The question is that the report of the Selection of Bills Committee be adopted.")
+        expect(decision).to be_deterministic
+        expect(decision.template_id).to eq(14)
+        expect(decision.rule_name).to eq("SELECTION_OF_BILLS")
+      end
+
+      it "routes a referral to a standing committee (Template 13)" do
+        decision = route("The question is that the matter be referred to the Standing Committee on Procedure.")
+        expect(decision).to be_deterministic
+        expect(decision.template_id).to eq(13)
+        expect(decision.rule_name).to eq("COMMITTEE_REFERRAL")
+      end
+    end
+
     context "with guillotine trap avoidance" do
       it "locks out Template 18 when an amendment occurs under a Limitation of Debate heading" do
         decision = described_class.route(
