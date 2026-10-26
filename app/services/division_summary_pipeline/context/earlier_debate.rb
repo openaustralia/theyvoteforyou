@@ -130,8 +130,7 @@ module DivisionSummaryPipeline
         used += paragraphs[grown][:text].size
         grown < low ? low = grown : high = grown
       end
-      kept = paragraphs[low..high]
-      speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+      DataLoader::SpeechText.keep_paragraphs(speech, paragraphs[low..high])
     end
 
     # A chair's statement is kept for what it says about the questions put, not for the amendments
@@ -141,7 +140,7 @@ module DivisionSummaryPipeline
       return speech if speech[:moved_text].present?
 
       kept = speech[:paragraphs].reject { |paragraph| paragraph[:kind] == :quotation }
-      speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+      DataLoader::SpeechText.keep_paragraphs(speech, kept)
     end
 
     def relevant?(speech, node)

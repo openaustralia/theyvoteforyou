@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 module DivisionSummaryPipeline
-  # ResolvedMember carries the TVFY database facts for a politician a template wants to
-  # name: their canonical name, party, electorate and profile path. Every attribute other
-  # than member is nil when the database has no match, so callers can fall back to plain
-  # text rather than publishing broken links or guessed details.
-  ResolvedMember = Struct.new(:member, :name, :party, :electorate, :link, keyword_init: true)
-
   # MemberResolver turns a name or electorate extracted from Hansard into authoritative
   # TVFY member facts, for the templates that must name a second person (who a censure
   # motion targets, which member was ruled no longer heard).
@@ -46,8 +40,7 @@ module DivisionSummaryPipeline
     end
 
     # A member known only by the name Hansard printed, with no database record behind it, so no
-    # party, electorate or link can be given. Built here so callers need not reach for
-    # ResolvedMember directly, which lives in this file and so cannot be autoloaded on its own.
+    # party, electorate or link can be given.
     def self.named(name)
       ResolvedMember.new(member: nil, name: name.presence, party: nil, electorate: nil, link: nil)
     end
@@ -56,11 +49,14 @@ module DivisionSummaryPipeline
     # of the house on the day has that surname: the Senate has had two Pococks at once, so a
     # surname is not assumed to be unique.
     def self.by_surname(surname, house:, date:)
-      scope = Member.where(last_name: surname.to_s.strip)
-      scope = scope.in_house(house) if house.present?
-      scope = scope.current_on(date) if date.present?
-      members = scope.to_a
+      members = sitting(Member.where(last_name: surname.to_s.strip), house: house, date: date).to_a
       members.one? ? resolve(gid: members.first.gid) : named(surname)
+    end
+
+    # Narrows members to those who sat in the house on the day, by whichever of the two is known.
+    def self.sitting(scope, house:, date:)
+      scope = scope.in_house(house) if house.present?
+      date.present? ? scope.current_on(date) : scope
     end
 
     # gid is the Hansard speaker id ("uk.org.publicwhip/member/123"), which identifies a member
@@ -84,9 +80,7 @@ module DivisionSummaryPipeline
     # Name before electorate, since Hansard states a name less ambiguously than a seat, and
     # the most recent matching stint when a person held several.
     def find_member(name:, electorate:, house:, date:)
-      scope = Member.all
-      scope = scope.in_house(house) if house.present?
-      scope = scope.current_on(date) if date.present?
+      scope = self.class.sitting(Member.all, house: house, date: date)
       if name.present?
         scope.with_name(name).order(entered_house: :desc).first
       elsif electorate.present?
