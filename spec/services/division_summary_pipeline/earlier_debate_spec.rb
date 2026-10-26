@@ -143,7 +143,10 @@ describe DivisionSummaryPipeline::EarlierDebate do
 
   it "does not look at earlier days when the division's date cannot be read" do
     fetched = []
-    counting = ->(house, date) { fetched << date && fetcher.call(house, date) }
+    counting = lambda do |house, date|
+      fetched << date
+      fetcher.call(house, date)
+    end
 
     described_class.collect(division_xml: third_day_division, house: "representatives", date: "not a date", fetcher: counting)
 
