@@ -66,7 +66,7 @@ module DivisionSummaryPipeline
     CLOSURE_TERMS = /\bquestion\s+be\s+(?:now\s+)?put\b/i
     CLOSURE_QUESTION = /\bquestion\s+be\s+(?:now\s+)?put\b|\bclos(?:e|ure)\b/i
     BROUGHT_ON_BY_CLOSURE = /\b(?:first|second|third)\s+reading\b|\bread\s+a\s+(?:first|second|third)\s+time\b|
-                             \bsuspen(?:d|sion)\b/ix
+                             \bsuspen(?:d|ded|sion)\b/ix
 
     ELECTORATE_HINT = /moved\s+by\s+the\s+(?:honourable\s+|hon\.?\s+)?member\s+for\s+([A-Z][\w'’-]*(?:[ -][A-Z][\w'’-]*)*)/
     MOVED_BY_HINT = /moved\s+by\s+(?:Senator|Mr|Mrs|Ms|Miss|Dr)\s+(?:the\s+Hon\.?\s+)?([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)/

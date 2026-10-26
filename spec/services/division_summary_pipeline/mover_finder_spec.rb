@@ -108,6 +108,9 @@ describe DivisionSummaryPipeline::MoverFinder do
                                   speeches: [closure, chair])).to be_nil
       expect(described_class.find(question: "The question is the motion to suspend standing orders be agreed to.",
                                   speeches: [suspension, closure, chair]).member.name).to eq("Priya Dunstan")
+      # As at Senate 12 February 2025 #2, where the chair recited the suspension's terms.
+      expect(described_class.find(question: "The question is that standing orders be suspended.",
+                                  speeches: [suspension, closure, chair]).member.name).to eq("Priya Dunstan")
     end
 
     # The last two: a question that names nothing, which is also what the pipeline assumes when no
