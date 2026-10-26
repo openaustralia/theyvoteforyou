@@ -176,6 +176,23 @@ describe DivisionSummaryPipeline::ProceduralRouter do
       end
     end
 
+    context "with an amendment and no stage named in the question" do
+      let(:question) { "The question is that the amendment moved by Senator Treloar be agreed to." }
+
+      it "narrows to committee when the debate beside it is in committee" do
+        decision = described_class.route(speaker_question: question, chamber: "senate", hansard_snippet: "The Senate is now in committee.")
+
+        expect(decision.allowed_templates).to eq([3])
+      end
+
+      it "narrows to consideration in detail when the debate beside it is in detail" do
+        decision = described_class.route(speaker_question: question, chamber: "representatives",
+                                         hansard_snippet: "The House is now in consideration in detail.")
+
+        expect(decision.allowed_templates).to eq([4])
+      end
+    end
+
     context "with guillotine trap avoidance" do
       it "locks out Template 18 when an amendment occurs under a Limitation of Debate heading" do
         decision = described_class.route(
