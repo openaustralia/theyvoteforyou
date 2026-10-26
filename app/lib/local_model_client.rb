@@ -118,7 +118,7 @@ class LocalModelClient
   end
 
   # A slow reply (Net::ReadTimeout) belongs to the division being drafted, so it fails only that
-  # draft; a server that refuses or never accepts the connection is Unreachable.
+  # draft; a server that refuses, never accepts or drops the connection is Unreachable.
   def request(path)
     uri = URI("#{url}#{path}")
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https", open_timeout: OPEN_TIMEOUT,
@@ -128,7 +128,7 @@ class LocalModelClient
     raise "model server #{response.code}: #{response.body.to_s.truncate(500)}" unless response.is_a?(Net::HTTPSuccess)
 
     JSON.parse(response.body)
-  rescue SystemCallError, SocketError, Net::OpenTimeout => e
+  rescue SystemCallError, SocketError, Net::OpenTimeout, EOFError => e
     @unreachable = "Can't reach the model server at #{url} (#{e.message})"
     raise Unreachable, @unreachable
   end

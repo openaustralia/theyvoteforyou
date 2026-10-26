@@ -107,5 +107,11 @@ describe LocalModelClient do
       expect { answer }.to raise_error(described_class::Unreachable)
       expect(client.unreachable).to include "model.test:8080"
     end
+
+    it "treats a server that drops the connection mid-reply as unreachable" do
+      stub_request(:post, completions).to_raise(EOFError)
+
+      expect { answer }.to raise_error(described_class::Unreachable)
+    end
   end
 end
