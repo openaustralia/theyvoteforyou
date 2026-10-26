@@ -22,7 +22,7 @@ module DivisionSummaryPipeline
     # "now is" (26), "The first question is" (4), "The immediate question is" (1) and "The next
     # question is" (1). "Second" and "third" follow "first". Members also say "the real question
     # is", which this does not match.
-    QUESTION = /\bthe\s+(?:(?:first|second|third|next|immediate)\s+)?question\s+(?:now\s+)?is\s+that\b/i
+    QUESTION = /\bthe\s+(?:(?:first|second|third|next|immediate)\s+)?question\s+(?:before\s+the\s+(?:house|chair)\s+)?(?:now\s+)?is\s+that\b/i
 
     # Hansard recording a question decided on the voices, which closes it: a later question in the
     # same statement is a different one. The forms found in those statements: "Question agreed to.",
