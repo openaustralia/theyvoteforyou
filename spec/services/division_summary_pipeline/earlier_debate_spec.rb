@@ -141,6 +141,15 @@ describe DivisionSummaryPipeline::EarlierDebate do
     expect(result.speeches.pluck(:speaker)).to eq(["Robin Carrow"])
   end
 
+  it "does not look at earlier days when the division's date cannot be read" do
+    fetched = []
+    counting = ->(house, date) { fetched << date && fetcher.call(house, date) }
+
+    described_class.collect(division_xml: third_day_division, house: "representatives", date: "not a date", fetcher: counting)
+
+    expect(fetched).to be_empty
+  end
+
   it "looks only at the division's own document when there is no fetcher" do
     result = described_class.collect(division_xml: third_day_division, house: "representatives", date: "2026-05-14", fetcher: nil)
 
