@@ -51,6 +51,13 @@ describe DivisionSummaryPipeline::ChairStatement do
       expect(statement("<p>That the question be now put.</p>").question).to be_nil
     end
 
+    it "reads the question before the House, and before the chair, as the chair putting it" do
+      expect(statement("<p>The question before the House is that the amendment be agreed to.</p>").question)
+        .to eq("The question before the House is that the amendment be agreed to.")
+      expect(statement("<p>The question before the chair now is that the bills may proceed without formalities.</p>").question)
+        .to eq("The question before the chair now is that the bills may proceed without formalities.")
+    end
+
     it "does not take a member's \"the real question is\" for the chair putting one" do
       expect(statement("<p>The real question is that this bill hurts renters.</p>").question).to be_nil
     end

@@ -333,9 +333,16 @@ module DivisionSummaryPipeline
 
     # Whether the chair says this division was deferred, in the speeches beside it or anywhere
     # in the run of divisions it belongs to: only the first question of a deferred run says so
-    # (DataLoader::DivisionXml#run_statements).
+    # (DataLoader::DivisionXml#run_statements). Only speeches short enough to be the chair's are
+    # read, so a member citing standing order 133 does not count.
     def deferred_by_chair?(division_xml, speeches)
-      (speeches.map { |s| s[:text].to_s } + division_xml.run_statements).any? { |text| text.match?(DEFERRED_STATEMENT) }
+      chair_words = speeches.map { |speech| plain_text(speech) }
+                            .select { |text| text.size <= DataLoader::DivisionXml::CHAIR_STATEMENT_MAXIMUM_SIZE }
+      (chair_words + division_xml.run_statements).any? { |text| text.match?(DEFERRED_STATEMENT) }
+    end
+
+    def plain_text(speech)
+      speech[:paragraphs].reject { |paragraph| paragraph[:kind] == :quotation }.pluck(:text).join("\n\n")
     end
 
     # Stage 1 takes the speeches immediately before the <division> element, which assumes the

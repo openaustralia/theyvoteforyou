@@ -325,6 +325,22 @@ describe DivisionSummaryPipeline::ContextBuilder do
         expect(packet.routing.template_id).to eq(19)
       end
 
+      # A member citing the standing order is not the chair deferring a division.
+      it "does not take a member's mention of the standing order for a deferral" do
+        debate = "Standing order 133 lets the House put questions without debate, and I think it should not. " * 20
+        xml = debates("2026-08-20", <<~XML)
+          <minor-heading id="h2" url="x">Example Bill 2026; Second Reading</minor-heading>
+          <speech id="s1" speakerid="uk.org.publicwhip/member/900101" speakername="Morgan Treloar" time="09:10:00" url="x"><p>#{debate}</p></speech>
+          <speech id="s2" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="09:20:00" url="x"><p>The question is that the amendment be agreed to.</p></speech>
+          #{division_element(1, '09:21:00')}
+        XML
+
+        packet = described_class.build({ id: 1, house: "representatives", date: "2026-08-20", number: 1, clock_time: "9:21 AM" },
+                                       xml_content: xml)
+
+        expect(packet.context_warnings.join).not_to include("division was deferred")
+      end
+
       # Only the first question of a deferred run says it was deferred.
       it "carries the chair's deferral along a run of divisions" do
         xml = debates("2026-08-20", <<~XML)
