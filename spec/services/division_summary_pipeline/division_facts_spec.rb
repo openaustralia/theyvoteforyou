@@ -18,6 +18,14 @@ describe DivisionSummaryPipeline::DivisionFacts do
     it "counts an equal vote as tied" do
       expect(described_class.from(aye_votes: 30, no_votes: 30)).to have_attributes(tied: true)
     end
+
+    it "uses the recorded turnout when there is one" do
+      expect(described_class.from(aye_votes: 30, no_votes: 20, turnout: 55).turnout).to eq(55)
+    end
+
+    it "adds the ayes and noes when no turnout is recorded" do
+      expect(described_class.from(aye_votes: 30, no_votes: 20).turnout).to eq(50)
+    end
   end
 
   describe ".from a Division" do

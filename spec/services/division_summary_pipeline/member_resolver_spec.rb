@@ -116,4 +116,30 @@ describe DivisionSummaryPipeline::MemberResolver do
       expect(resolved.link).to be_nil
     end
   end
+
+  describe ".sitting" do
+    let!(:senator) { create(:member, house: "senate", entered_house: "2020-01-01", left_house: "2026-01-01") }
+    let!(:current_senator) { create(:member, house: "senate", entered_house: "2025-01-01", left_house: "9999-12-31") }
+    let!(:representative) { create(:member, house: "representatives", entered_house: "2020-01-01", left_house: "9999-12-31") }
+
+    def sitting(house: nil, date: nil)
+      described_class.sitting(Member.all, house: house, date: date).to_a
+    end
+
+    it "narrows to the house when only the house is known" do
+      expect(sitting(house: "senate")).to contain_exactly(senator, current_senator)
+    end
+
+    it "narrows to the members current on the date when only the date is known" do
+      expect(sitting(date: "2026-06-01")).to contain_exactly(current_senator, representative)
+    end
+
+    it "narrows by both when both are known" do
+      expect(sitting(house: "senate", date: "2026-06-01")).to contain_exactly(current_senator)
+    end
+
+    it "keeps every member when neither is known" do
+      expect(sitting).to contain_exactly(senator, current_senator, representative)
+    end
+  end
 end
