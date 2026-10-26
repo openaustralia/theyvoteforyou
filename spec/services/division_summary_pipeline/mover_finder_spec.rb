@@ -95,6 +95,36 @@ describe DivisionSummaryPipeline::MoverFinder do
                                 speeches: [amendment_by_treloar, chair])).to be_nil
   end
 
+  # KNOWN_ISSUES.md KI-62: at Senate 17 September 2026 #1 a closure agreed on the voices was
+  # followed straight away by the second reading question, whose motion was moved on an earlier day.
+  context "with a closure moved just before the question" do
+    let(:suspension) do
+      speech("Priya Dunstan", "I move:", moved_text: "That so much of the standing orders be suspended as would prevent me moving a motion.")
+    end
+    let(:closure) { speech("Jo Marlowe", "I move:", moved_text: "That the question be now put.") }
+
+    it "does not take the closure as the motion of the reading or suspension it brought on" do
+      expect(described_class.find(question: "The question is that the second reading be agreed to.",
+                                  speeches: [closure, chair])).to be_nil
+      expect(described_class.find(question: "The question is the motion to suspend standing orders be agreed to.",
+                                  speeches: [suspension, closure, chair]).member.name).to eq("Priya Dunstan")
+    end
+
+    # The last two: a question that names nothing, which is also what the pipeline assumes when no
+    # question is found, and a chair's remark taken for the question, as at Senate 29 June 2026 #1.
+    it "still takes the closure for its own question, however the chair puts it" do
+      ["The question is that the question be now put.",
+       "The question is that the question be put on the third reading.",
+       "The question is that the closure motion be agreed to.",
+       "The question is that the motion to close this suspension debate be agreed to.",
+       "The question is that the motion be agreed to.",
+       "Those are the standing orders. Respect and order."].each do |question|
+        expect(described_class.find(question: question, speeches: [suspension, closure, chair]).member.name)
+          .to eq("Jo Marlowe"), question
+      end
+    end
+  end
+
   it "takes a motion about the amendment for a question on it, as the House moves on a Senate message" do
     message = speech("Sam Okafor", "I move:", moved_text: "That the amendment be agreed to.")
 
