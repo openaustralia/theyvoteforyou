@@ -106,6 +106,7 @@ module DataLoader
     # :move and :motion blocks carry `move:`, counting the moves in the speech from 0, since a
     # speech can move more than one thing. An inline "I move: That the question be now put." is
     # split into "I move:" and "That the question be now put.", both exact text of the paragraph.
+    # An inline motion ends with its sentence (see #inline_move_blocks).
     def paragraphs(speech)
       elements = speech.element_children.to_a
       roles = move_roles(elements)
@@ -114,7 +115,7 @@ module DataLoader
         role = roles[index]
         text = paragraph_text(element)
         next [] if text.empty?
-        next split_inline_move(text, role[:move]) if role[:kind] == :inline_move
+        next role[:blocks] if role[:kind] == :inline_move
 
         text.split("\n\n").map do |block|
           role[:kind] == :prose && block.match?(RECORD) ? { text: block, kind: :record } : { text: block }.merge(role)
@@ -182,12 +183,11 @@ module DataLoader
         if motion.any? && introduces_motion?(element)
           roles[index] = { kind: :move, move: moves }
           motion.each { |i| roles[i] = { kind: :motion, move: moves } }
-        elsif inline_motion_start(paragraph_text(element))
-          roles[index] = { kind: :inline_move, move: moves }
-        else
-          next
+          moves += 1
+        elsif (blocks = inline_move_blocks(paragraph_text(element), moves))
+          roles[index] = { kind: :inline_move, blocks: blocks }
+          moves += blocks.count { |block| block[:kind] == :motion }
         end
-        moves += 1
       end
       elements.each_index do |i|
         roles[i] = { kind: :quotation } if roles[i][:kind] == :prose && incorporated.exclude?(i) && italic?(elements[i])
@@ -245,10 +245,24 @@ module DataLoader
       gap && (move.end(0) + gap[0].size)
     end
 
-    def split_inline_move(text, move)
-      start = inline_motion_start(text)
-      [{ text: text[0...start].rstrip, kind: :move, move: move }, { text: text[start..], kind: :motion, move: move }]
-        .reject { |block| block[:text].empty? }
+    # The blocks of an "I move" paragraph that carries its motions inline, or nil if it carries
+    # none. Each motion ends with its sentence: what follows is the member's own words, or
+    # another inline move, as in "I move that ... immediately. I move that the question be now
+    # put." on 30 March 2026, so moves are counted on from first_move.
+    def inline_move_blocks(text, first_move)
+      blocks = []
+      move = first_move
+      rest = text
+      while (start = inline_motion_start(rest))
+        motion, after = rest[start..].split(SENTENCE_BREAK, 2)
+        blocks << { text: rest[0...start].rstrip, kind: :move, move: move } << { text: motion, kind: :motion, move: move }
+        move += 1
+        rest = after.to_s
+      end
+      return nil if blocks.empty?
+
+      blocks << { text: rest, kind: :prose }
+      blocks.reject { |block| block[:text].empty? }
     end
 
     def motion_element?(element)
