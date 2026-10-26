@@ -54,6 +54,20 @@ module DivisionSummaryPipeline
                           amendments?|requests?)\b/ix
     READING = /\bread\s+a\s+(first|second|third)\s+time\b/i
 
+    # A closure's terms ("That the question be now put"), the questions that can be putting the
+    # closure itself, and the questions that name the business a closure brings on. Once a closure
+    # is agreed, on the voices or in a division, that business is put next with nobody moving
+    # anything, so the closure is the latest move (KNOWN_ISSUES.md KI-62). The chair puts the
+    # closure itself in many words ("the closure motion", "the motion ... to close this suspension
+    # debate", "that the question be put on the third reading"), so it is passed over only for a
+    # question naming a reading or a suspension, the business closures brought on in 2026. "That
+    # the motion be agreed to" is left open, since it is also what the pipeline assumes when no
+    # question was found.
+    CLOSURE_TERMS = /\bquestion\s+be\s+(?:now\s+)?put\b/i
+    CLOSURE_QUESTION = /\bquestion\s+be\s+(?:now\s+)?put\b|\bclos(?:e|ure)\b/i
+    BROUGHT_ON_BY_CLOSURE = /\b(?:first|second|third)\s+reading\b|\bread\s+a\s+(?:first|second|third)\s+time\b|
+                             \bsuspen(?:d|sion)\b/ix
+
     ELECTORATE_HINT = /moved\s+by\s+the\s+(?:honourable\s+|hon\.?\s+)?member\s+for\s+([A-Z][\w'’-]*(?:[ -][A-Z][\w'’-]*)*)/
     MOVED_BY_HINT = /moved\s+by\s+(?:Senator|Mr|Mrs|Ms|Miss|Dr)\s+(?:the\s+Hon\.?\s+)?([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)/
     NOTICE_OWNER_HINT = /in\s+the\s+name\s+of\s+(?:Senator|Mr|Mrs|Ms|Miss|Dr)\s+(?:the\s+Hon\.?\s+)?([A-Z][\w'’-]*(?:\s+[A-Z][\w'’-]*)*)/
@@ -118,12 +132,18 @@ module DivisionSummaryPipeline
     end
 
     # Whether these terms could be what the question puts: amendments for a question on
-    # amendments, and the same reading for a reading. Any other question is left open.
+    # amendments, the same reading for a reading, and a closure for anything but the business it
+    # brought on. Any other question is left open.
     def fits_question?(moved_text)
       return moved_text.match?(AMENDMENT_TERMS) if question.match?(AMENDMENT_QUESTION)
+      return closure_fits? if moved_text.match?(CLOSURE_TERMS)
 
       reading = question[READING, 1]
       reading.nil? || moved_text[READING, 1].to_s.casecmp?(reading)
+    end
+
+    def closure_fits?
+      question.match?(CLOSURE_QUESTION) || !question.match?(BROUGHT_ON_BY_CLOSURE)
     end
 
     def named_mover

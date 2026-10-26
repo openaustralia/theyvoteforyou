@@ -306,6 +306,22 @@ describe DivisionSummaryPipeline::ContextBuilder do
 
           expect(packet.facts[:followup_link]).to be_nil
         end
+
+        # KNOWN_ISSUES.md KI-62: as at Senate 17 September 2026 #1, a closure agreed on the voices,
+        # then the second reading of a bill whose second reading was moved on an earlier day.
+        it "does not take the closure's mover for the mover of the question it brought on" do
+          xml = debates("2026-09-17", <<~XML)
+            <minor-heading id="h2" url="x">Example Bill 2026; Second Reading</minor-heading>
+            <speech id="s1" speakerid="uk.org.publicwhip/lord/900103" speakername="Sam Okafor" time="09:48:00" url="x"><p>I rise to support this bill.</p></speech>
+            <speech id="s2" speakerid="uk.org.publicwhip/lord/900104" speakername="Jo Marlowe" time="09:54:00" url="x"><p>I move:</p><p class="italic">That the question be now put.</p></speech>
+            <speech id="s3" speakerid="uk.org.publicwhip/lord/900102" speakername="Casey Whitlow" time="09:54:00" url="x"><p>The question is that the second reading be agreed to.</p></speech>
+            #{division_element(1, '09:59:00')}
+          XML
+          packet = described_class.build({ id: 1, house: "senate", date: "2026-09-17", number: 1, clock_time: "9:59 AM" },
+                                         xml_content: xml)
+
+          expect(packet.mover).to be_nil
+        end
       end
 
       # A Monday division at 12.05 is in the window when deferred divisions are put, but a

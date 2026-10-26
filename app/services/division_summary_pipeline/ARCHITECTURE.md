@@ -243,7 +243,8 @@ for human review.
 - `DivisionFacts` is the one reader of a `Division` record or a Hash of division data.
 - `MoverFinder` finds the mover from the chair's "moved by ..." or the latest "I move", and records
   how (`found_by`). An unnamed move counts only when its terms could be what the question puts
-  (amendments for a question on amendments, the same reading for a reading), and the chair putting
+  (amendments for a question on amendments, the same reading for a reading, and a closure for
+  anything but the reading or suspension it brought on, KI-62), and the chair putting
   other questions in between does not push it out of the window. `MemberResolver` resolves members
   from the database and owns the one name matcher (`same_speaker?`).
 - Context warnings flag when the speeches beside a division may not be the debate about it:
