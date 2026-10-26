@@ -40,9 +40,9 @@ module DataLoader
     # Senate forms: "I, and also on behalf of Senator Example, move:", and presenting or tabling
     # something first, as in "I present the bill and move:", "I present the report of the Example
     # Committee, together with accompanying documents and move:" and "I table a revised
-    # explanatory memorandum relating to the bill and move:". A match is only a candidate:
-    # #moved_text also needs motion paragraphs after it, or "that ..." in the same sentence, so
-    # "I move on to my next point" moves nothing.
+    # explanatory memorandum relating to the bill and move:". A match is only a candidate: the
+    # paragraph must also end by introducing motion paragraphs after it (#introduces_motion?), or
+    # carry "That ..." inline, so "I move on to my next point" moves nothing.
     MOVE_PATTERN = /\bI(?:,\s*and\s+also\s+on\s+behalf\s+of\s+[^,]+,)?\s+(?:(?:present|table)\s+[^.:;]{1,200}?\s+and\s+)?(?:now\s+|formally\s+|therefore\s+|also\s+|accordingly\s+)?move\b/i
 
     # Between two sentences. Needs a capital after the full stop, so "Bill No. 2:" is not split.
