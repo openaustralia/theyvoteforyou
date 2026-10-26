@@ -125,6 +125,30 @@ describe DataLoader::SpeechText do
       )
     end
 
+    # As in Senate Hansard on 11 August 2026, where the argument after an inline motion was read as
+    # the terms moved.
+    it "ends an inline motion with its sentence, and reads what follows as the member's own words" do
+      node = speech("<p>Thank you. I move that the motion relating to fair pricing may be moved immediately. " \
+                    "There is no more urgent matter before the Senate.</p>")
+
+      expect(described_class.paragraphs(node)).to eq(
+        [{ text: "Thank you. I move", kind: :move, move: 0 },
+         { text: "that the motion relating to fair pricing may be moved immediately.", kind: :motion, move: 0 },
+         { text: "There is no more urgent matter before the Senate.", kind: :prose }]
+      )
+    end
+
+    # As in Senate Hansard on 30 March 2026, where the division that followed was on the closure,
+    # the second motion in the paragraph.
+    it "reads a second inline move in the same paragraph as a move of its own" do
+      node = speech("<p>I move that a motion relating to fair pricing may be moved immediately. " \
+                    "I move that the question be now put.</p>")
+
+      kinds = described_class.paragraphs(node).map { |block| [block[:kind], block[:move]] }
+      expect(kinds).to eq([[:move, 0], [:motion, 0], [:move, 1], [:motion, 1]])
+      expect(described_class.moved_text(node)).to eq("that the question be now put.")
+    end
+
     it "labels every move in a speech, so an earlier motion is never read as prose" do
       node = speech(<<~XML)
         <p>I move:</p>
