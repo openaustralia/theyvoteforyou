@@ -119,9 +119,8 @@ module DivisionSummaryPipeline
       division_xmls.find { |d| facts.number.positive? && d.number.to_i == facts.number } ||
         division_xmls.find { |d| time.present? && ClockTime.normalise(d.clock_time) == time } ||
         division_xmls.find { |d| facts.debate_gid.present? && d.debate_gid == facts.debate_gid }
-    # Fetch and parse failures end up here, logged and turned into nil, so #build degrades to
-    # the Division-record fallback. A summariser run that dies because Hansard was briefly
-    # unreachable would be worse than one that produces a thinner draft and says so.
+    # A failed fetch or parse is logged, and #build falls back to the Division record, so the
+    # draft is thinner but still made.
     rescue StandardError => e
       Rails.logger.warn "DivisionSummaryPipeline::ContextBuilder could not parse Hansard XML for #{facts.house} #{facts.date}: #{e.message}"
       nil
@@ -264,7 +263,7 @@ module DivisionSummaryPipeline
         next speech if by_mover || speech[:moved_text].blank?
 
         kept = speech[:paragraphs].select { |paragraph| %i[move motion].include?(paragraph[:kind]) }
-        speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+        DataLoader::SpeechText.keep_paragraphs(speech, kept)
       end
     end
 

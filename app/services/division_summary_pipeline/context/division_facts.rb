@@ -29,8 +29,7 @@ module DivisionSummaryPipeline
       facts = data.to_h.transform_keys(&:to_sym)
       aye_votes = facts[:aye_votes].to_i
       no_votes = facts[:no_votes].to_i
-      turnout = facts[:turnout].to_i
-      turnout = aye_votes + no_votes if turnout.zero?
+      turnout = recorded_or_counted(facts[:turnout], aye_votes, no_votes)
       known = members.map(&:to_sym) - %i[supplied]
 
       new(
@@ -51,8 +50,7 @@ module DivisionSummaryPipeline
       bills = division.bills.to_a
       aye_votes = division.aye_votes_including_tells.to_i
       no_votes = division.no_votes_including_tells.to_i
-      turnout = division.division_info&.turnout.to_i
-      turnout = aye_votes + no_votes if turnout.zero?
+      turnout = recorded_or_counted(division.division_info&.turnout, aye_votes, no_votes)
 
       new(
         id: division.id, house: division.house.to_s, date: division.date.to_s, number: division.number.to_i,
@@ -63,6 +61,11 @@ module DivisionSummaryPipeline
         result: division.passed? ? "passed" : "negatived", tied: division.tied?,
         free_vote: division.whips.any?(&:free_vote?), supplied: {}
       )
+    end
+
+    # Uses the recorded turnout, or ayes plus noes when none is recorded.
+    def self.recorded_or_counted(recorded, aye_votes, no_votes)
+      recorded.to_i.zero? ? aye_votes + no_votes : recorded.to_i
     end
 
     def self.bill_title(bills)
