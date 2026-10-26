@@ -356,8 +356,9 @@ module DataLoader
     end
 
     # Whether #limitation_of_debate_statement can walk back past this element, noting in others
-    # each speech that is not plainly the chair's. Those have to turn out to be the chair's too,
-    # so a second speaker among them ends the walk.
+    # each speech that is not plainly the chair's, a request to record a position
+    # (#position_statement?), or part of a "; Limitation of Debate" section. Those have to turn
+    # out to be the chair's too, so a second speaker among them ends the walk.
     def limitation_run_continues?(element, others)
       case element.name
       when "minor-heading" then limitation_heading?(element)
