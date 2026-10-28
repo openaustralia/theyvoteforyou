@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     end
 
     resources :users
+    resources :ingests, only: %i[index show new create]
     resources :policies
     resources :watches
     resources :announcements
