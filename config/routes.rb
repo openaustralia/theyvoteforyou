@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     end
 
     resources :users
-    resources :ingests, only: %i[index show new create]
+    resources :ingests, only: %i[index show new create] do
+      member { delete :delete_summaries }
+    end
     resources :policies
     resources :watches
     resources :announcements

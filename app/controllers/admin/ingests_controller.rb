@@ -3,6 +3,9 @@
 module Admin
   # Where admins upload files for the background ingest queue (Ingest) and see how they went.
   class IngestsController < Admin::ApplicationController
+    # For the links from the list of drafts to each division's edit form.
+    helper PathHelper
+
     def new
       @kind = kind_param
     end
@@ -15,6 +18,13 @@ module Admin
 
       ingest = Ingest.queue!(kind: @kind, user: current_user, upload: upload)
       redirect_to admin_ingest_path(ingest), notice: "Uploaded. It is queued and will be read shortly."
+    end
+
+    # Removes every draft that arrived in this upload, for when a zip turns out to be bad. The
+    # upload's own row stays, as a record that it happened.
+    def delete_summaries
+      deleted = requested_resource.ai_division_summaries.destroy_all.size
+      redirect_to admin_ingest_path(requested_resource), notice: "Deleted #{deleted} #{'draft'.pluralize(deleted)} from this upload."
     end
 
     private
