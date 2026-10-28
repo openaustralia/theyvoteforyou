@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    models:
+      # Named for what an admin sees in the admin panel's menu and page title: the files they uploaded.
+      ingest:
+        one: "Ingest"
+        other: "Uploaded ingests"

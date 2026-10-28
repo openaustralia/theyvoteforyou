@@ -61,7 +61,7 @@ set :ssh_options, {
 set :linked_files, -> { %W[config/database.yml config/settings.yml config/credentials/#{fetch(:rails_env)}.key config/skylight.yml] }
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []) + %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/cards]
+set :linked_dirs, fetch(:linked_dirs, []) + %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/cards storage]
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
