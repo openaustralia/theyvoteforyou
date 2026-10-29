@@ -43,7 +43,8 @@ describe Admin::IngestsController, type: :request do
 
       ingest = Ingest.last
       expect(ingest).to have_attributes(status: "done", records_saved: 1, user: admin, original_filename: /\.zip\z/)
-      expect(File).to exist(ingest.file_path)
+      expect(ingest.file_path).to be_nil
+      expect(Rails.configuration.x.ingest_root.join(ingest.id.to_s)).not_to exist
       expect(division.ai_division_summaries.sole).to have_attributes(title: "A title", ingest: ingest)
     end
 
@@ -53,6 +54,7 @@ describe Admin::IngestsController, type: :request do
 
       expect(Ingest.last).to have_attributes(status: "failed", error: /senate_2026-09-17_99.md/)
       expect(AiDivisionSummary.count).to eq(0)
+      expect(File).to exist(Ingest.last.file_path)
     end
 
     it "creates the upload folders without world write access, even under Passenger's 0000 umask" do

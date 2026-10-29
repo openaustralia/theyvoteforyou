@@ -14,6 +14,7 @@ class ProcessIngestJob < ApplicationJob
     result = PROCESSORS.fetch(ingest.kind).new(ingest).process
     ingest.update!(status: result.errors.empty? ? :done : :failed, records_saved: result.saved,
                    error: error_text(result.errors), processed_at: Time.current)
+    ingest.discard_upload! if ingest.done?
   rescue StandardError => e
     Sentry.capture_exception(e)
     ingest.update!(status: :failed, error: "#{e.class}: #{e.message}", processed_at: Time.current)
