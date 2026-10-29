@@ -31,7 +31,7 @@ class Ingest < ApplicationRecord
 
   def store!(upload)
     folder = Rails.configuration.x.ingest_root.join(id.to_s)
-    FileUtils.mkdir_p(folder)
+    FileUtils.mkdir_p(folder, mode: 0o775)
     path = folder.join("upload.zip")
     FileUtils.cp(upload.tempfile.path, path)
     update!(file_path: path.to_s)
