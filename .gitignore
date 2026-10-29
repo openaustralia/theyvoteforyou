@@ -73,3 +73,6 @@ vendor
 
 # Mac Finder
 .DS_Store
+
+# Files uploaded through the admin ingest page (Ingest)
+/storage/*
