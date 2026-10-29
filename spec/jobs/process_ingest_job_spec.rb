@@ -5,6 +5,10 @@ require "spec_helper"
 describe ProcessIngestJob do
   let(:ingest) { Ingest.create!(kind: "division-summary", original_filename: "drafts.zip", file_path: "unused.zip") }
 
+  it "has a processor for every kind of ingest" do
+    expect(described_class::PROCESSORS.keys).to match_array(Ingest::KINDS)
+  end
+
   context "when the processor raises something unexpected" do
     let(:bug) { RuntimeError.new("something we didn't expect") }
 

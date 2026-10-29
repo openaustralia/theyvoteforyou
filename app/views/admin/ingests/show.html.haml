@@ -2,7 +2,7 @@
   every one of them
 - shown_limit = 500
 - drafts = page.resource.ai_division_summaries.count
-- summaries = page.resource.ai_division_summaries.includes(:division).order(:division_id, :model).limit(shown_limit)
+- summaries = page.resource.ai_division_summaries.includes(:division).order(:division_id, :model).limit(shown_limit).load
 - content_for(:header_last) do
   - if drafts.positive?
     = button_to "Delete #{pluralize(drafts, 'draft')} from this upload",

@@ -21,4 +21,7 @@ module ZipHelpers
   end
 end
 
-RSpec.configure { |config| config.include ZipHelpers }
+RSpec.configure do |config|
+  config.include ZipHelpers
+  config.after { FileUtils.rm_rf(Rails.root.join("tmp/test_zips")) }
+end
