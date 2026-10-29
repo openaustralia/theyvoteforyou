@@ -17,6 +17,26 @@ describe CardScreenshotter::Utils do
     allow(driver).to receive(:quit)
   end
 
+  describe "#open_headless_driver!" do
+    it "leaves the browser and driver to Selenium by default" do
+      screenshotter
+
+      expect(Selenium::WebDriver).to have_received(:for).with(:chrome, hash_including(service: nil))
+    end
+
+    it "uses the browser and driver named by CHROME_BIN and CHROMEDRIVER_PATH" do
+      stub_const("ENV", ENV.to_h.merge("CHROME_BIN" => "/usr/bin/chromium", "CHROMEDRIVER_PATH" => "/usr/bin/chromedriver"))
+      service = instance_double(Selenium::WebDriver::Service)
+      allow(Selenium::WebDriver::Service).to receive(:chrome).with(path: "/usr/bin/chromedriver").and_return(service)
+
+      screenshotter
+
+      expect(Selenium::WebDriver).to have_received(:for).with(
+        :chrome, options: have_attributes(binary: "/usr/bin/chromium"), service: service
+      )
+    end
+  end
+
   describe "#screenshot" do
     it "wraps errors in ScreenshotError, keeping the url in the message and the original error as the cause" do
       allow(driver).to receive(:get).and_raise(Net::ReadTimeout)

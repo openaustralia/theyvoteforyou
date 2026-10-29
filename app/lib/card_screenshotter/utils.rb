@@ -33,8 +33,16 @@ module CardScreenshotter
           "--window-size=#{CARD_WIDTH},#{CARD_HEIGHT}"
         ]
       )
-      @driver = Selenium::WebDriver.for :chrome, options: options
+      options.binary = ENV["CHROME_BIN"] if ENV["CHROME_BIN"].present?
+      @driver = Selenium::WebDriver.for :chrome, options: options, service: driver_service
       adjust_window_for_viewport!
+    end
+
+    # Selenium Manager can't fetch a driver for Linux ARM, so CHROMEDRIVER_PATH points at an installed one
+    def driver_service
+      return if ENV["CHROMEDRIVER_PATH"].blank?
+
+      Selenium::WebDriver::Service.chrome(path: ENV.fetch("CHROMEDRIVER_PATH"))
     end
 
     def close_driver!
