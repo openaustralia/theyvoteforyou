@@ -8,6 +8,8 @@ describe Admin::IngestsController, type: :request do
   let(:admin) { create(:confirmed_user, admin: true) }
   let(:zip_file) { Rack::Test::UploadedFile.new(StringIO.new("not read yet"), "application/zip", original_filename: "drafts.zip") }
 
+  after { FileUtils.rm_rf(Rails.configuration.x.ingest_root) }
+
   context "when signed in as a user who is not an admin" do
     before { sign_in create(:confirmed_user) }
 
