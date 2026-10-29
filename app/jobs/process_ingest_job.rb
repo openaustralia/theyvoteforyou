@@ -10,11 +10,8 @@ class ProcessIngestJob < ApplicationJob
   def perform(ingest)
     ingest.processing!
     result = PROCESSORS.fetch(ingest.kind).new(ingest).process
-    if result.errors.empty?
-      ingest.update!(status: :done, records_saved: result.saved, error: nil, processed_at: Time.current)
-    else
-      ingest.update!(status: :failed, records_saved: 0, error: result.errors.join("\n"), processed_at: Time.current)
-    end
+    ingest.update!(status: result.errors.empty? ? :done : :failed, records_saved: result.saved,
+                   error: result.errors.join("\n").presence, processed_at: Time.current)
   rescue StandardError => e
     Sentry.capture_exception(e)
     ingest.update!(status: :failed, error: "#{e.class}: #{e.message}", processed_at: Time.current)
