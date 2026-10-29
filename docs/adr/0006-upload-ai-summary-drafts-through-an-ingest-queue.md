@@ -60,8 +60,9 @@ ADR 0005, and is tracked in #1815. How the zip is laid out was settled in
 
 ## Open
 
-- **Deploys.** `storage` is added to Capistrano's `linked_dirs` so uploads survive a deploy. This hasn't
-  been deployed or tried on staging, and the server needs the folder to be writable.
+- **Deploys.** `storage` is added to Capistrano's `linked_dirs` so uploads survive a deploy. On staging,
+  `current/storage` links to `shared/storage`. Passenger runs with a `0000` umask, so the upload folders
+  are created with mode 775 instead of the world-writable default.
 - **Cleaning up.** Uploaded zips are kept after processing, so they can be examined later. There is no
   limit on how many are kept.
 - **Upload size.** There is no limit on the zip's size beyond the web server's own.

@@ -75,10 +75,12 @@ class DivisionSummaryIngest
     return error(entry, "has a model folder name with characters other than letters, digits, . _ -") unless MODEL_NAME.match?(model)
 
     match = FILE_NAME.match(file_name) or return error(entry, "is not named [house]_[yyyy-mm-dd]_[n].md")
-    return error(entry, "is larger than #{MAX_FILE_BYTES} bytes") if entry.size > MAX_FILE_BYTES
+
+    # The size in a zip's header can be wrong, so cap what is read rather than trust it.
+    text = entry.get_input_stream.read(MAX_FILE_BYTES + 1).to_s.dup.force_encoding(Encoding::UTF_8)
+    return error(entry, "is larger than #{MAX_FILE_BYTES} bytes") if text.bytesize > MAX_FILE_BYTES
 
     division = find_division(match) or return error(entry, "is for a division we don't have")
-    text = entry.get_input_stream.read.to_s.dup.force_encoding(Encoding::UTF_8)
     return error(entry, "is not valid UTF-8 text") unless text.valid_encoding?
 
     title, description = split(text)

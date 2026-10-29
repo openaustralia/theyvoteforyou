@@ -93,6 +93,21 @@ describe DivisionSummaryIngest do
       expect(result.errors.sole).to include("has no description")
     end
 
+    it "rejects a file over the size limit" do
+      result = ingest_for(path => "# A title\n\n#{'a' * described_class::MAX_FILE_BYTES}")
+      expect(result.errors.sole).to include("#{path} is larger than #{described_class::MAX_FILE_BYTES} bytes")
+    end
+
+    it "rejects a file over the size limit even when the zip's header says it is small" do
+      zip = build_zip(path => "# A title\n\n#{'a' * described_class::MAX_FILE_BYTES}")
+      bytes = File.binread(zip)
+      [bytes.index("PK\x03\x04".b) + 22, bytes.rindex("PK\x01\x02".b) + 24].each { |at| bytes[at, 4] = [10].pack("V") }
+      File.binwrite(zip, bytes)
+
+      result = described_class.new(Ingest.create!(kind: "division-summary", user: user, file_path: zip.to_s)).process
+      expect(result.errors.sole).to include("#{path} is larger than")
+    end
+
     it "rejects a file that is not UTF-8 text, naming the file" do
       result = ingest_for(path => "# A title\n\nA caf\xE9 description".b)
       expect(result.errors.sole).to include("#{path} is not valid UTF-8 text")
