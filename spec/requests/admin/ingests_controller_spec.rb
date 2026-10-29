@@ -44,10 +44,14 @@ describe Admin::IngestsController, type: :request do
     it "refuses a file that is not a zip" do
       file = Rack::Test::UploadedFile.new(StringIO.new("hello"), "text/plain", original_filename: "notes.txt")
       expect { post admin_ingests_path, params: { kind: "division-summary", file: file } }.not_to change(Ingest, :count)
+      expect(response).to redirect_to(new_admin_ingest_path(kind: "division-summary"))
+      expect(flash[:alert]).to eq("The file must be a .zip")
     end
 
     it "refuses an upload with no file" do
       expect { post admin_ingests_path, params: { kind: "division-summary" } }.not_to change(Ingest, :count)
+      expect(response).to redirect_to(new_admin_ingest_path(kind: "division-summary"))
+      expect(flash[:alert]).to eq("Choose a zip file to upload")
     end
 
     it "is called Uploaded ingests in the menu and on its page" do
