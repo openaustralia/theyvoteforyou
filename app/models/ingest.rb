@@ -22,9 +22,11 @@ class Ingest < ApplicationRecord
   # Saves the uploaded file against a new row, which stays queued until something reads it. The
   # file is written after the row so its folder can be named by the row's id.
   def self.queue!(kind:, user:, upload:)
-    ingest = create!(kind: kind, user: user, original_filename: File.basename(upload.original_filename))
-    ingest.store!(upload)
-    ingest
+    transaction do
+      ingest = create!(kind: kind, user: user, original_filename: File.basename(upload.original_filename))
+      ingest.store!(upload)
+      ingest
+    end
   end
 
   def store!(upload)
