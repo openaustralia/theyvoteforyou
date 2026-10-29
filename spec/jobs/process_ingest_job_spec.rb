@@ -35,6 +35,12 @@ describe ProcessIngestJob do
       expect(ingest.reload).to have_attributes(status: "failed", error: "RuntimeError: something we didn't expect")
     end
 
+    it "keeps the uploaded zip so it can be retried" do
+      ingest.store!(Rack::Test::UploadedFile.new(build_zip("a/b.md" => "x"), "application/zip"))
+      described_class.perform_now(ingest)
+      expect(File).to exist(ingest.reload.file_path)
+    end
+
     it "reports it to Sentry, which the admin page alone would never do" do
       allow(Sentry).to receive(:capture_exception)
       described_class.perform_now(ingest)

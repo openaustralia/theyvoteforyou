@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 # A file an admin has uploaded for us to process in the background, so a large file doesn't hold up
-# the request. The file is kept on disk under Rails.configuration.x.ingest_root, one folder per
-# row, and ProcessIngestJob does the reading. Nothing is published: an ingest only creates drafts
-# for a human to review.
+# the request. The file waits on disk under Rails.configuration.x.ingest_root, one folder per
+# row, until ProcessIngestJob has read it and saved its drafts. Nothing is published: an ingest only
+# creates drafts for a human to review.
 #
 # `kind` says what the file holds. Only "division-summary" exists so far (DivisionSummaryIngest);
 # the column is there so other kinds can be added later.
@@ -33,10 +33,22 @@ class Ingest < ApplicationRecord
   end
 
   def store!(upload)
-    folder = Rails.configuration.x.ingest_root.join(id.to_s)
     FileUtils.mkdir_p(folder, mode: 0o775)
     path = folder.join("upload.zip")
     FileUtils.cp(upload.tempfile.path, path)
     update!(file_path: path.to_s)
+  end
+
+  # Removes the uploaded zip once its drafts are saved, so uploads don't pile up on disk. A zip that
+  # failed is kept so it can be retried. The row stays as the record of what happened.
+  def discard_upload!
+    FileUtils.rm_rf(folder)
+    update!(file_path: nil)
+  end
+
+  private
+
+  def folder
+    Rails.configuration.x.ingest_root.join(id.to_s)
   end
 end
