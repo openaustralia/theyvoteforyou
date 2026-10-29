@@ -16,6 +16,7 @@ class ProcessIngestJob < ApplicationJob
       ingest.update!(status: :failed, records_saved: 0, error: result.errors.join("\n"), processed_at: Time.current)
     end
   rescue StandardError => e
+    Sentry.capture_exception(e)
     ingest.update!(status: :failed, error: "#{e.class}: #{e.message}", processed_at: Time.current)
   end
 end
