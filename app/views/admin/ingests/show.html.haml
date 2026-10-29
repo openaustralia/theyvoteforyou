@@ -1,0 +1,41 @@
+-# Administrate's own show page, with a list of the drafts this upload created and a button to delete
+  every one of them
+- shown_limit = 500
+- drafts = page.resource.ai_division_summaries.count
+- summaries = page.resource.ai_division_summaries.includes(:division).order(:division_id, :model).limit(shown_limit)
+- content_for(:header_last) do
+  - if drafts.positive?
+    = button_to "Delete #{pluralize(drafts, 'draft')} from this upload",
+      delete_summaries_admin_ingest_path(page.resource),
+      method: :delete,
+      class: "button button--danger",
+      data: { turbo_confirm: "Delete all #{pluralize(drafts, 'draft')} that came from this upload? This can't be undone." }
+  - else
+    %p No drafts from this upload are left.
+
+- content_for(:after_main) do
+  %section.main-content__body{ style: "margin-top: 1.5rem;" }
+    %h2{ style: "margin: 0 0 0.75rem; font-size: 1.15em;" } Drafts from this upload (#{drafts})
+    - if summaries.empty?
+      %p This upload has no drafts#{" saved" if page.resource.failed?}.
+    - else
+      %table{ "aria-labelledby": "page-title" }
+        %thead
+          %tr
+            %th{ scope: "col" } Division
+            %th{ scope: "col" } Model
+            %th{ scope: "col" } Draft title
+            %th{ scope: "col" }
+              %span.visually-hidden Review
+        %tbody
+          - summaries.each do |summary|
+            - division = summary.division
+            %tr
+              %td= "#{division.house} #{division.date} ##{division.number}"
+              %td= summary.model
+              %td= summary.title.to_s.truncate(120)
+              %td= link_to "Review", edit_division_path_simple(division)
+      - if drafts > shown_limit
+        %p Showing the first #{shown_limit} of #{drafts}.
+
+= render template: "administrate/application/show", locals: { page: page }
