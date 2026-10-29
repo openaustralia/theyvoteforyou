@@ -93,6 +93,11 @@ describe DivisionSummaryIngest do
       expect(result.errors.sole).to include("has no description")
     end
 
+    it "rejects a file that is not UTF-8 text, naming the file" do
+      result = ingest_for(path => "# A title\n\nA caf\xE9 description".b)
+      expect(result.errors.sole).to include("#{path} is not valid UTF-8 text")
+    end
+
     it "rejects two files for the same model and division, such as two runs of one model in a zip" do
       result = ingest_for("run1/#{path}" => draft, "run2/#{path}" => draft)
       expect(result.errors.sole).to include("more than one draft")

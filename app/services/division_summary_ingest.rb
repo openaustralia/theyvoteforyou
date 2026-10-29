@@ -78,7 +78,10 @@ class DivisionSummaryIngest
     return error(entry, "is larger than #{MAX_FILE_BYTES} bytes") if entry.size > MAX_FILE_BYTES
 
     division = find_division(match) or return error(entry, "is for a division we don't have")
-    title, description = split(entry.get_input_stream.read.to_s.dup.force_encoding(Encoding::UTF_8))
+    text = entry.get_input_stream.read.to_s.dup.force_encoding(Encoding::UTF_8)
+    return error(entry, "is not valid UTF-8 text") unless text.valid_encoding?
+
+    title, description = split(text)
     return error(entry, "has no title on its first line") if title.blank?
     return error(entry, "has no description after its title") if description.blank?
 
