@@ -9,6 +9,22 @@ describe ProcessIngestJob do
     expect(described_class::PROCESSORS.keys).to match_array(Ingest::KINDS)
   end
 
+  context "when the upload has more problems than the error column can hold" do
+    let(:errors) { Array.new(2_000) { |n| "model/senate_2026-09-17_#{n}.md is not a file we can read #{'x' * 100}" } }
+
+    before do
+      processor = instance_double(DivisionSummaryIngest, process: DivisionSummaryIngest::Result.new(saved: 0, errors: errors))
+      allow(DivisionSummaryIngest).to receive(:new).and_return(processor)
+    end
+
+    it "lists the first few and says how many more there were" do
+      described_class.perform_now(ingest)
+
+      expect(ingest.reload).to have_attributes(status: "failed", error: include(errors.first, "and 1950 more"))
+      expect(ingest.error).not_to include(errors.last)
+    end
+  end
+
   context "when the processor raises something unexpected" do
     let(:bug) { RuntimeError.new("something we didn't expect") }
 

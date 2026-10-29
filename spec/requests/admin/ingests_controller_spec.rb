@@ -56,14 +56,15 @@ describe Admin::IngestsController, type: :request do
     end
 
     it "creates the upload folders without world write access, even under Passenger's 0000 umask" do
+      ingest = Ingest.create!(kind: "division-summary")
       original_umask = File.umask(0)
       begin
-        post admin_ingests_path, params: { kind: "division-summary", file: zip_file }
+        ingest.store!(uploaded_zip(zip_files))
       ensure
         File.umask(original_umask)
       end
 
-      folder = Rails.configuration.x.ingest_root.join(Ingest.last.id.to_s)
+      folder = Rails.configuration.x.ingest_root.join(ingest.id.to_s)
       expect([folder, folder.parent].map { |dir| dir.stat.mode & 0o777 }).to eq([0o775, 0o775])
     end
 
