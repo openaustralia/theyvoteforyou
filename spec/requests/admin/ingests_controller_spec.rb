@@ -43,6 +43,18 @@ describe Admin::IngestsController, type: :request do
       expect(response).to redirect_to(admin_ingest_path(ingest))
     end
 
+    it "creates the upload folders without world write access, even under Passenger's 0000 umask" do
+      original_umask = File.umask(0)
+      begin
+        post admin_ingests_path, params: { kind: "division-summary", file: zip_file }
+      ensure
+        File.umask(original_umask)
+      end
+
+      folder = Rails.configuration.x.ingest_root.join(Ingest.last.id.to_s)
+      expect([folder, folder.parent].map { |dir| dir.stat.mode & 0o777 }).to eq([0o775, 0o775])
+    end
+
     it "refuses a file that is not a zip" do
       file = Rack::Test::UploadedFile.new(StringIO.new("hello"), "text/plain", original_filename: "notes.txt")
       expect { post admin_ingests_path, params: { kind: "division-summary", file: file } }.not_to change(Ingest, :count)
