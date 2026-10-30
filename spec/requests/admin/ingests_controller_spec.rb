@@ -118,6 +118,11 @@ describe Admin::IngestsController, type: :request do
         expect(rows.first.css("a").pluck(:href)).to eq([edit_division_path_simple(division)])
       end
 
+      it "labels the saved count as taken when the upload was processed, since deleting drafts leaves it unchanged" do
+        get admin_ingest_path(ingest)
+        expect(response.body).to include("Records saved when processed")
+      end
+
       it "doesn't list the drafts that came from other uploads" do
         get admin_ingest_path(ingest)
         expect(response.parsed_body.css("table tbody tr td:nth-child(2)").map(&:text)).to eq(["a"])
