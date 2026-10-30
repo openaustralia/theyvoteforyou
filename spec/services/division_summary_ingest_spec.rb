@@ -160,6 +160,16 @@ describe DivisionSummaryIngest do
     expect(result.saved).to eq(0)
   end
 
+  it "refuses a zip with more files than the limit, and saves nothing" do
+    stub_const("DivisionSummaryIngest::MAX_ENTRIES", 1)
+
+    result = ingest_for(path => draft, "#{model}/representatives_2026-09-17_4.md" => draft)
+
+    expect(result.errors.sole).to eq("The zip holds more than 1 files")
+    expect(result.saved).to eq(0)
+    expect(division.ai_division_summaries).to be_empty
+  end
+
   it "reports a file that is not a zip" do
     file = Rails.root.join("tmp/test_zips/not_a_zip.zip")
     FileUtils.mkdir_p(file.dirname)
