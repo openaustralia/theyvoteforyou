@@ -76,8 +76,7 @@ class DivisionSummaryIngest
 
     match = FILE_NAME.match(file_name) or return error(entry, "is not named [house]_[yyyy-mm-dd]_[n].md")
 
-    # The size in a zip's header can be wrong, so cap what is read rather than trust it.
-    text = entry.get_input_stream.read(MAX_FILE_BYTES + 1).to_s.dup.force_encoding(Encoding::UTF_8)
+    text = read_text(entry) or return nil
     return error(entry, "is larger than #{MAX_FILE_BYTES} bytes") if text.bytesize > MAX_FILE_BYTES
 
     division = find_division(match) or return error(entry, "is for a division we don't have")
@@ -88,6 +87,14 @@ class DivisionSummaryIngest
     return error(entry, "has no description after its title") if description.blank?
 
     Draft.new(division, model, title, description)
+  end
+
+  # The size in a zip's header can be wrong, so cap what is read rather than trust it. An entry that
+  # can't be read (encrypted, an unsupported compression method, a corrupt stream) is reported by name.
+  def read_text(entry)
+    entry.get_input_stream.read(MAX_FILE_BYTES + 1).to_s.dup.force_encoding(Encoding::UTF_8)
+  rescue Zip::Error => e
+    error(entry, "could not be read: #{e.message}")
   end
 
   # The folder holding the house and date folders, which are optional. Anything above it, such as a

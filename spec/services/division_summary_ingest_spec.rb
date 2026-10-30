@@ -108,6 +108,16 @@ describe DivisionSummaryIngest do
       expect(result.errors.sole).to include("#{path} is larger than")
     end
 
+    it "names a file that can't be read and still reports the other problems" do
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(Zip::Entry).to receive(:get_input_stream).and_raise(Zip::Error, "unsupported method")
+      # rubocop:enable RSpec/AnyInstance
+      result = ingest_for(path => draft, "#{model}/not-a-draft.txt" => "x")
+
+      expect(result.errors).to contain_exactly("#{path} could not be read: unsupported method",
+                                               "#{model}/not-a-draft.txt is not named [house]_[yyyy-mm-dd]_[n].md")
+    end
+
     it "rejects a file that is not UTF-8 text, naming the file" do
       result = ingest_for(path => "# A title\n\nA caf\xE9 description".b)
       expect(result.errors.sole).to include("#{path} is not valid UTF-8 text")
