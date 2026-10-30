@@ -72,7 +72,7 @@ class DivisionSummaryIngest
     file_name = folders.pop
     model = model_folder(folders)
     return error(entry, "is not inside a model folder") if model.nil?
-    return error(entry, "has a model folder name with characters other than letters, digits, . _ -") unless MODEL_NAME.match?(model)
+    return error(entry, "has a model folder name outside letters, digits, . _ -") unless MODEL_NAME.match?(model)
 
     match = FILE_NAME.match(file_name) or return error(entry, "is not named [house]_[yyyy-mm-dd]_[n].md")
 
