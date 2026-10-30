@@ -15,11 +15,11 @@
 
 - content_for(:after_main) do
   %section.main-content__body{ style: "margin-top: 1.5rem;" }
-    %h2{ style: "margin: 0 0 0.75rem; font-size: 1.15em;" } Drafts from this upload (#{drafts})
+    %h2#drafts-heading{ style: "margin: 0 0 0.75rem; font-size: 1.15em;" } Drafts from this upload (#{drafts})
     - if summaries.empty?
       %p This upload has no drafts#{" saved" if page.resource.failed?}.
     - else
-      %table{ "aria-labelledby": "page-title" }
+      %table{ "aria-labelledby": "drafts-heading" }
         %thead
           %tr
             %th{ scope: "col" } Division
