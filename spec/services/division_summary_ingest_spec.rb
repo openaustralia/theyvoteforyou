@@ -23,6 +23,11 @@ describe DivisionSummaryIngest do
                                        description: "The House voted on the Example Bill.")
   end
 
+  it "ignores the byte order mark some Windows editors add to the start of a file" do
+    ingest_for(path => "\uFEFF#{draft}")
+    expect(division.ai_division_summaries.sole.title).to eq("Bills - Example Bill 2026; First Reading")
+  end
+
   it "links the draft back to the upload it arrived in" do
     ingest = Ingest.create!(kind: "division-summary", user: user, file_path: build_zip(path => draft).to_s)
     described_class.new(ingest).process

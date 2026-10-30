@@ -112,7 +112,7 @@ class DivisionSummaryIngest
 
   # Line 1 is the title, usually as a Markdown heading ("# Title"), and the rest is the description.
   def split(text)
-    first, rest = text.strip.split("\n", 2)
+    first, rest = text.delete_prefix("\uFEFF").strip.split("\n", 2)
     [first.to_s.sub(/\A\s*#+\s*/, "").strip, rest.to_s.strip]
   end
 
