@@ -108,8 +108,6 @@ class DivisionSummaryIngest
 
   def find_division(match)
     Division.find_by(house: match[:house], date: match[:date], number: match[:number])
-  rescue Date::Error
-    nil
   end
 
   # Line 1 is the title, usually as a Markdown heading ("# Title"), and the rest is the description.
