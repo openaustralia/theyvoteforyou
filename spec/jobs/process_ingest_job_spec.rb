@@ -25,6 +25,27 @@ describe ProcessIngestJob do
     end
   end
 
+  context "when the drafts are saved but the zip can't be removed" do
+    before do
+      processor = instance_double(DivisionSummaryIngest, process: DivisionSummaryIngest::Result.new(saved: 2, errors: []))
+      allow(DivisionSummaryIngest).to receive(:new).and_return(processor)
+      allow(ingest).to receive(:discard_upload!).and_raise(Errno::EACCES)
+    end
+
+    it "keeps the upload done, and lets the error reach the queue's retry" do
+      expect { described_class.perform_now(ingest) }.to raise_error(Errno::EACCES)
+
+      expect(ingest.reload).to have_attributes(status: "done", records_saved: 2, error: nil)
+    end
+
+    it "does not read the zip again on the retry" do
+      expect { described_class.perform_now(ingest) }.to raise_error(Errno::EACCES)
+      described_class.perform_now(ingest)
+
+      expect(DivisionSummaryIngest).to have_received(:new).once
+    end
+  end
+
   context "when the upload has more problems than the error column can hold" do
     let(:errors) { Array.new(2_000) { |n| "model/senate_2026-09-17_#{n}.md is not a file we can read #{'x' * 100}" } }
 
