@@ -155,7 +155,9 @@ describe DivisionSummaryIngest do
   end
 
   it "reports an empty zip" do
-    expect(ingest_for("readme.txt" => "x").errors.sole).to include("not inside a model folder").or include("not named")
+    result = ingest_for({})
+    expect(result.errors.sole).to eq("The zip holds no draft summaries (.md files)")
+    expect(result.saved).to eq(0)
   end
 
   it "reports a file that is not a zip" do
