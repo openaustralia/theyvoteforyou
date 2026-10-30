@@ -50,8 +50,8 @@ ADR 0005, and is tracked in #1815. How the zip is laid out was settled in
 - **The zip is read in memory and never unpacked to disk,** so a hostile path inside it can't write
   anywhere. A zip may hold up to 5,000 files, each up to 1 MB.
 - **The zip is deleted once its drafts are saved.** Nothing offers it for download again, so keeping it
-  would only fill the disk. A zip that failed is kept so it can be retried, and the `Ingest` row keeps
-  the file name and the result either way.
+  would only fill the disk. A zip that failed is kept, and nothing removes it yet. The `Ingest` row
+  keeps the file name and the result either way.
 - **Deleting an upload's drafts** is one button on the upload's page. It removes the drafts and keeps the
   `Ingest` row as a record that the upload happened.
 - **`kind`, not `type`.** Rails reserves `type` for single table inheritance. The column is `kind` so other
@@ -66,6 +66,7 @@ ADR 0005, and is tracked in #1815. How the zip is laid out was settled in
 - **Deploys.** `storage` is added to Capistrano's `linked_dirs` so uploads survive a deploy. On staging,
   `current/storage` links to `shared/storage`. Passenger runs with a `0000` umask, so the upload folders
   are created with mode 775 instead of the world-writable default.
+- **Cleaning up.** A zip that failed is kept, and nothing removes it. There is no limit on how many are kept.
 - **Upload size.** There is no limit on the zip's size beyond the web server's own.
 - **Is it worth keeping?** If volunteer-run local models don't produce drafts editors use, this should be
   removed rather than maintained.
