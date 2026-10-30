@@ -10,7 +10,7 @@ class ProcessIngestJob < ApplicationJob
   MAX_REPORTED_ERRORS = 50
 
   def perform(ingest)
-    return if ingest.done?
+    return discard_leftover_upload(ingest) if ingest.done?
 
     ingest.processing!
     result = PROCESSORS.fetch(ingest.kind).new(ingest).process
@@ -25,6 +25,11 @@ class ProcessIngestJob < ApplicationJob
   end
 
   private
+
+  # A retry after the drafts were saved only finishes removing the zip, and does not read it again.
+  def discard_leftover_upload(ingest)
+    ingest.discard_upload! if ingest.file_path
+  end
 
   def error_text(errors)
     lines = errors.first(MAX_REPORTED_ERRORS)

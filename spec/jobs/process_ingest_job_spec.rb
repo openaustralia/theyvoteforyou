@@ -38,11 +38,16 @@ describe ProcessIngestJob do
       expect(ingest.reload).to have_attributes(status: "done", records_saved: 2, error: nil)
     end
 
-    it "does not read the zip again on the retry" do
+    it "does not read the zip again on the retry, and removes it" do
+      ingest.store!(Rack::Test::UploadedFile.new(build_zip("a/b.md" => "x"), "application/zip"))
+      zip = ingest.file_path
       expect { described_class.perform_now(ingest) }.to raise_error(Errno::EACCES)
+      allow(ingest).to receive(:discard_upload!).and_call_original
       described_class.perform_now(ingest)
 
       expect(DivisionSummaryIngest).to have_received(:new).once
+      expect(File).not_to exist(zip)
+      expect(ingest.reload.file_path).to be_nil
     end
   end
 
