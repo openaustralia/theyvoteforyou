@@ -30,7 +30,7 @@ deploy-staging: aws-check ## Deploy to staging with Capistrano
 
 # The stack is defined in .devcontainer/compose.yaml (see "Development environment" in AGENTS.md).
 # --wait returns once every service passes its healthcheck, so the next command can use them straight away.
-COMPOSE := RUBY_VERSION=$$(cat .ruby-version) docker compose
+COMPOSE := docker compose
 # Runs a command in the app container, or in a fresh one if it has stopped
 in_app = if [ -n "$$(docker compose ps -q --status running app)" ]; then docker compose exec app $(1); else $(COMPOSE) run --rm app $(1); fi
 
@@ -56,8 +56,12 @@ clobber: clean ## Also remove the databases, then all stopped containers, unused
 	$(COMPOSE) down --volumes
 	@echo "Pruning stopped containers, unused images and build cache from ALL projects (volumes are kept)"
 	docker system prune --all --force
-status: ## Show each container's health and the host ports it's published on
+status: ## Show each container's health, the host ports it's published on, and where to browse
 	@$(COMPOSE) ps -a --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'
+	@echo; port() { $(COMPOSE) port $$1 $$2 2>/dev/null | sed 's/.*://'; }; \
+	p=$$(port app 3000); [ -z "$$p" ] || echo "Web:     http://theyvoteforyou.localhost:$$p/ (user: brenda@oaf.org.au, password: foofoofoo, and more in db/seeds.rb)"; \
+	p=$$(port mailpit 8025); [ -z "$$p" ] || echo "Mailpit: http://mailpit.localhost:$$p/"; \
+	p=$$(port dejavu 1358); [ -z "$$p" ] || echo "Dejavu:  http://dejavu.localhost:$$p/ (connect it to http://localhost:$$(port elasticsearch 9200))"
 logs: ## Follow the logs of every container (or SERVICE=app for one)
 	$(COMPOSE) logs -f $(SERVICE)
 shell: ## Open a shell in the app container, or in a fresh one if it has stopped (e.g. after a failed start)

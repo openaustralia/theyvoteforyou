@@ -104,7 +104,7 @@ and sets up the database itself, and `make shell` gives you a shell in it for th
 next start rebuilds from scratch, still keeping the data. `make clobber` removes the data too, then prunes stopped
 containers, unused images and build cache for every project on the machine, which is worth doing after switching
 branches or changing dependencies. Other projects only have to download or rebuild again; their data is untouched.
-`make status` shows what's running and on which ports. Run `make` to list all the targets.
+`make status` shows what's running, on which ports, and the addresses to browse with a sign-in. Run `make` to list all the targets.
 
 As a last resort, `docker system prune --all --volumes --force` also deletes unused volumes, which can include the
 databases of every stopped Docker project on the machine, not just this one.

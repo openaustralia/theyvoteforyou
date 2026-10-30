@@ -6,7 +6,7 @@
 # Usage: wait-for-app.sh <service> <what> <command that succeeds once it's ready...>
 service=$1 what=$2
 shift 2
-limit=${START_LIMIT:-10m}
+limit=${START_LIMIT:-5m}
 case $limit in
   *m) seconds=$((${limit%m} * 60)) ;;
   *s) seconds=${limit%s} ;;

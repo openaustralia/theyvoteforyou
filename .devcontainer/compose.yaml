@@ -14,8 +14,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: "tvfy-development"
-      MYSQL_USER: "theyvoteforyou"
-      MYSQL_PASSWORD: "theyvoteforyou"
     # Over TCP, so it only passes once first-run setup has finished and the real server is listening.
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
@@ -44,7 +42,7 @@ services:
       "discovery.type": "single-node"
       "http.port": "9200"
       "http.cors.enabled": "true"
-      "http.cors.allow-origin": "http://localhost:${DEJAVU_PORT:-1358},http://127.0.0.1:${DEJAVU_PORT:-1358}"
+      "http.cors.allow-origin": "http://dejavu.localhost:${DEJAVU_PORT:-1358},http://localhost:${DEJAVU_PORT:-1358},http://127.0.0.1:${DEJAVU_PORT:-1358}"
       "http.cors.allow-headers": "X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
       "http.cors.allow-credentials": "true"
       "ES_JAVA_OPTS": "-Xms512m -Xmx512m"
@@ -81,7 +79,6 @@ services:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        RUBY_VERSION: ${RUBY_VERSION:-3.4.10}
         UID: ${UID:-1000}
         GID: ${GID:-1000}
     command: bash -c "bin/setup --skip-server && bin/rails server -b 0.0.0.0"
@@ -97,6 +94,7 @@ services:
       ELASTICSEARCH_URL: "http://elasticsearch:9200"
       MAILPIT_HOST: mailpit
       RAILS_ENV: development
+      WEB_PORT: ${WEB_PORT:-3000} # for links in emails
     depends_on:
       mysql:
         condition: service_healthy
@@ -105,7 +103,7 @@ services:
       mailpit:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "ruby", "-rnet/http", "-e", "Net::HTTP.get(URI('http://localhost:3000/'))"]
+      test: ["CMD", "ruby", "-rnet/http", "-e", "exit Net::HTTP.get_response(URI('http://localhost:3000/')).is_a?(Net::HTTPSuccess)"]
       interval: 5s
       start_period: *start_limit
 

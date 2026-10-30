@@ -3,21 +3,21 @@
 # Production doesn't use this - Capistrano builds Ruby from source on the
 # server instead, see docs/adr/0003-rbenv-replaces-rvm.md.
 #
-# It matches the current production server: Ubuntu 20.04 (focal) with Ruby built from source, at the version in the
-# infrastructure repo's group_vars/theyvoteforyou.yml. buildpack-deps is the base the official Ruby images use, so it
+# It matches the current production server: Ubuntu 20.04 (focal) with Ruby built from source, at the version in
+# .ruby-version (the same as the infrastructure repo's group_vars/theyvoteforyou.yml). buildpack-deps is the base the official Ruby images use, so it
 # brings the same development libraries for building gems.
 #
 # When the theyvoteforyou2026 server (Ubuntu 26.04 on ARM, host_vars/theyvoteforyou2026.yml) takes over production:
 # - change FROM to the buildpack-deps tag for Ubuntu 26.04
-# - set RUBY_VERSION to that server's ruby_versions, if it differs
+# - set .ruby-version to that server's ruby_versions, if it differs
 # - nothing else is architecture specific: Docker builds for the machine it runs on, so Apple Silicon will then run
 #   natively, like production
 FROM buildpack-deps:focal
 
-ARG RUBY_VERSION=3.4.10
+COPY .ruby-version /tmp/
 RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git /tmp/ruby-build \
-    && /tmp/ruby-build/bin/ruby-build "$RUBY_VERSION" /usr/local \
-    && rm -rf /tmp/ruby-build
+    && /tmp/ruby-build/bin/ruby-build "$(cat /tmp/.ruby-version)" /usr/local \
+    && rm -rf /tmp/ruby-build /tmp/.ruby-version
 
 # UTF-8 like production, and gems in /usr/local/bundle (compose.yaml's bundle_cache volume), as the official Ruby
 # images set them
@@ -56,7 +56,5 @@ WORKDIR /app
 COPY --chown=deploy:deploy Gemfile Gemfile.lock .ruby-version ./
 RUN bundle install
 
-COPY --chown=deploy:deploy . .
-
+# The checkout isn't copied in, as compose.yaml mounts it at /app and says how to start the app
 EXPOSE 3000
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]

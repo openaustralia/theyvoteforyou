@@ -87,7 +87,7 @@ One stack, defined in `.devcontainer/compose.yaml`, serves every way of working:
 ```
 make up           # everything, including the app at http://localhost:3000, once it's ready
 make services-up  # MySQL, Elasticsearch, dejavu and mailpit, for running Rails on the host
-make status       # each container's health and host ports
+make status       # each container's health and host ports, and where to browse
 make logs         # follow the logs (SERVICE=<name> for one container)
 make shell        # a shell in the app container, or a fresh one if it has stopped
 make test         # the specs, as CI runs them (ARGS=spec/models/division_spec.rb:42 to narrow)
