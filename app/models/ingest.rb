@@ -42,7 +42,7 @@ class Ingest < ApplicationRecord
   # Removes the uploaded zip once its drafts are saved, so uploads don't pile up on disk. The row stays
   # as the record of what happened.
   def discard_upload!
-    FileUtils.rm_r(folder)
+    FileUtils.rm_rf(folder)
     update!(file_path: nil)
   end
 
