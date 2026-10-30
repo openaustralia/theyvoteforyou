@@ -92,7 +92,7 @@ class DivisionSummaryIngest
   # The size in a zip's header can be wrong, so cap what is read rather than trust it. An entry that
   # can't be read (encrypted, an unsupported compression method, a corrupt stream) is reported by name.
   def read_text(entry)
-    entry.get_input_stream.read(MAX_FILE_BYTES + 1).to_s.dup.force_encoding(Encoding::UTF_8)
+    entry.get_input_stream { |stream| stream.read(MAX_FILE_BYTES + 1) }.to_s.dup.force_encoding(Encoding::UTF_8)
   rescue Zip::Error => e
     error(entry, "could not be read: #{e.message}")
   end
