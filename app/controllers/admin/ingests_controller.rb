@@ -24,7 +24,8 @@ module Admin
     # upload's own row stays, as a record that it happened.
     def delete_summaries
       deleted = requested_resource.ai_division_summaries.destroy_all.size
-      redirect_to admin_ingest_path(requested_resource), notice: "Deleted #{deleted} #{'draft'.pluralize(deleted)} from this upload."
+      redirect_to admin_ingest_path(requested_resource),
+                  notice: "Deleted #{deleted} #{'draft'.pluralize(deleted)} from this upload."
     end
 
     private

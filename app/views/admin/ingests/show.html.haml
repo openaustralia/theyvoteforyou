@@ -1,15 +1,17 @@
 -# Administrate's own show page, with a list of the drafts this upload created and a button to delete
   every one of them
 - shown_limit = 500
-- drafts = page.resource.ai_division_summaries.count
-- summaries = page.resource.ai_division_summaries.includes(:division).order(:division_id, :model).limit(shown_limit).load
+- saved_drafts = page.resource.ai_division_summaries
+- drafts = saved_drafts.count
+- drafts_label = pluralize(drafts, "draft")
+- summaries = saved_drafts.includes(:division).order(:division_id, :model).limit(shown_limit).load
 - content_for(:header_last) do
   - if drafts.positive?
-    = button_to "Delete #{pluralize(drafts, 'draft')} from this upload",
+    = button_to "Delete #{drafts_label} from this upload",
       delete_summaries_admin_ingest_path(page.resource),
       method: :delete,
       class: "button button--danger",
-      data: { turbo_confirm: "Delete all #{pluralize(drafts, 'draft')} that came from this upload? This can't be undone." }
+      data: { turbo_confirm: "Delete all #{drafts_label} that came from this upload? This can't be undone." }
   - else
     %p No drafts from this upload are left.
 
