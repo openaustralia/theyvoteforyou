@@ -123,6 +123,13 @@ describe Admin::IngestsController, type: :request do
         expect(response.body).to include("Records saved when processed")
       end
 
+      it "names the table by the heading above it" do
+        get admin_ingest_path(ingest)
+
+        labelled_by = response.parsed_body.at_css("table")["aria-labelledby"]
+        expect(response.parsed_body.at_css("##{labelled_by}").text).to include("Drafts from this upload")
+      end
+
       it "doesn't list the drafts that came from other uploads" do
         get admin_ingest_path(ingest)
         expect(response.parsed_body.css("table tbody tr td:nth-child(2)").map(&:text)).to eq(["a"])
