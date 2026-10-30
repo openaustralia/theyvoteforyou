@@ -5,8 +5,24 @@ require "spec_helper"
 describe ProcessIngestJob do
   let(:ingest) { Ingest.create!(kind: "division-summary", original_filename: "drafts.zip", file_path: "unused.zip") }
 
+  after { FileUtils.rm_rf(Rails.configuration.x.ingest_root) }
+
   it "has a processor for every kind of ingest" do
     expect(described_class::PROCESSORS.keys).to match_array(Ingest::KINDS)
+  end
+
+  context "when the job runs again after the upload is done and its zip is gone" do
+    let(:ingest) do
+      Ingest.create!(kind: "division-summary", original_filename: "drafts.zip", status: "done", records_saved: 3)
+    end
+
+    it "leaves the upload as it was" do
+      allow(DivisionSummaryIngest).to receive(:new)
+      described_class.perform_now(ingest)
+
+      expect(DivisionSummaryIngest).not_to have_received(:new)
+      expect(ingest.reload).to have_attributes(status: "done", records_saved: 3, error: nil)
+    end
   end
 
   context "when the upload has more problems than the error column can hold" do
@@ -35,7 +51,7 @@ describe ProcessIngestJob do
       expect(ingest.reload).to have_attributes(status: "failed", error: "RuntimeError: something we didn't expect")
     end
 
-    it "keeps the uploaded zip so it can be retried" do
+    it "keeps the uploaded zip" do
       ingest.store!(Rack::Test::UploadedFile.new(build_zip("a/b.md" => "x"), "application/zip"))
       described_class.perform_now(ingest)
       expect(File).to exist(ingest.reload.file_path)
