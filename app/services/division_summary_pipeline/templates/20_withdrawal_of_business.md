@@ -1,0 +1,24 @@
+**Jargon Explainer:** *This is a procedural vote on removing an item from the Notice Paper, the chamber's list of scheduled business. Who can do that depends on how far the item has got. A member may withdraw their own notice before it has been moved, but once the chamber has ordered something to be considered it becomes an order of the day, which is the property of the chamber and cannot be withdrawn without its permission. That is the point at which a vote like this one is needed.*
+
+---
+
+At {{time}}, {{amount_with_article}} voted {{result}} a procedural motion{{mover_clause}} to allow the withdrawal of {{business_name}} from the Notice Paper. The vote was {{successful_text}}.
+
+{{rebellions_text}}
+### About the Motion
+
+{{explanation_section}}
+
+### Motion Introduction
+
+{{motion_introduction}}
+
+### Motion Text
+
+{{motion_attribution}}
+
+{{motion_text}}
+
+### Question Put
+
+{{question_put}}
