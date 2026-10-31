@@ -31,17 +31,20 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Send mail via mailpit (see `make dev-services-up`) and raise an error if there is a problem
+  # Send mail via mailpit (see `make services-up`) and raise an error if there is a problem
   config.action_mailer.raise_delivery_errors = true
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
-  # MAILPIT_HOST is only set inside the docker app container (see docker-stack/dev/docker-compose.yml),
+  config.action_mailer.default_url_options = { host: "localhost", port: ENV.fetch("WEB_PORT", 3000) }
+  # MAILPIT_HOST is only set inside the docker app container (see .devcontainer/compose.yaml),
   # where mailpit is reached by its service name rather than localhost.
-  config.action_mailer.smtp_settings = { address: ENV.fetch("MAILPIT_HOST", "localhost"), port: 1025 }
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch("MAILPIT_HOST", "localhost"),
+    port: ENV.fetch("MAILPIT_SMTP_PORT", 1025)
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

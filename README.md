@@ -54,8 +54,8 @@ the canonical vocabulary for concepts with more than one plausible name.
 ### Requirements
 
 - Docker, running natively on your machine. On a Mac with Apple Silicon, use the arm64 build of Docker Desktop (or
-  OrbStack). Every image in `docker-stack/` has an arm64 build, so nothing runs under emulation.
-- Ruby at the version in `.ruby-version`, installed with whichever Ruby version manager you prefer.
+  OrbStack). Every image in `.devcontainer/compose.yaml` has an arm64 build, so nothing runs under emulation.
+- [mise](https://mise.jdx.dev) (preferred) or rbenv, which `make setup` uses to install the Ruby in `.ruby-version`.
 - A MySQL client library, to build the `mysql2` gem, and HTML Tidy, which the specs need:
 
   ```
@@ -65,34 +65,64 @@ the canonical vocabulary for concepts with more than one plausible name.
 
   On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
 
+If a port the containers need is already in use, or you run more than one worktree at once, see
+[Port clashes](AGENTS.md#port-clashes) in AGENTS.md for the variables that move each one.
+
 ### First-time setup
 
 ```
-make dev-services-up                                   # mysql, elasticsearch, dejavu, mailpit - always in Docker
-bundle install
-cp config/database.yml.example config/database.yml     # works as it is with the containers above
-bin/rails db:setup
+make setup
 ```
 
-Then load the data. This needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/).
-Loading members takes about 15 minutes, because it also checks every person's photo. Loading a sitting week of
-divisions takes seconds.
+This starts MySQL, Elasticsearch, dejavu and mailpit in Docker, installs Ruby and the gems, copies
+`config/database.yml` from its example (which works as it is), and creates the database with seed data. It's safe to
+rerun, for example after pulling changes.
+
+The seed data is only a few records. For real data, run `make seed` (or `make seed FROM=2024-02-01 TO=2024-03-31` for
+other dates). It needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/), and is
+slow: about 4 minutes on a fast connection, mostly loading members, as it checks every person's photo. It runs
+these, which you can also run on the host:
 
 ```
 bundle exec rake application:load:members
 bundle exec rake "application:load:divisions[2021-07-01,2021-10-31]"
-bundle exec rake application:cache:all
+bundle exec rake application:cache:all_except_people_distances
 bundle exec rake searchkick:reindex:all
 ```
 
-`application:cache:all` recalculates people distances, which takes a long time. Use
-`application:cache:all_except_people_distances` if you don't need them.
+`make seed` skips people distances, how similarly each pair of people votes, which the "friends" pages show. They
+take a long time to calculate, so `make seed` uses `application:cache:all_except_people_distances`. Run
+`application:cache:all` when you need them.
 
 Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
 Mail sent in development is caught by mailpit at <http://localhost:1088>.
 
-To run the app in Docker instead, run `make dev-up`. It uses the same `config/database.yml`, and you run the setup
-commands inside the container, for example `docker exec theyvoteforyou-dev-app-1 bin/rails db:setup`.
+To run the app in Docker instead, run `make up`, or open the repo as a dev container. The app container installs gems
+and sets up the database itself, and `make shell` gives you a shell in it for the data loading commands above.
+
+`make down` stops either setup and keeps the data. `make clean` also removes what was built (images, gems), so the
+next start rebuilds from scratch, still keeping the data. `make clobber` removes the data too, then prunes stopped
+containers, unused images and build cache for every project on the machine, which is worth doing after switching
+branches or changing dependencies. Other projects only have to download or rebuild again; their data is untouched.
+`make status` shows what's running, on which ports, and the addresses to browse with a sign-in. Run `make` to list all the targets.
+
+As a last resort, `docker system prune --all --volumes --force` also deletes unused volumes, which can include the
+databases of every stopped Docker project on the machine, not just this one.
+
+### If the app won't start
+
+Startup fails loudly on purpose, so a broken setup gets noticed instead of hiding behind a container that looks fine.
+If setup fails, or takes longer than `START_LIMIT` (5 minutes here, set in `.devcontainer/compose.yaml`), the `app`
+container stops, `make up` reports the failure, and the dev container shows an error instead of opening.
+
+To fix it:
+
+1. `make status` shows which container stopped, and `make logs SERVICE=app` shows why.
+2. `make shell` opens a shell in a fresh `app` container even when it has stopped, so you can rerun the setup by hand
+   and fix the problem.
+3. `make up`, or reopen the dev container, to start again.
+
+On a slow machine, a longer limit can go in `.env`, for example `START_LIMIT=20m`.
 
 ### Running the specs
 
@@ -100,15 +130,9 @@ commands inside the container, for example `docker exec theyvoteforyou-dev-app-1
 bundle exec rake
 ```
 
-The specs use the `tvfy-test` database in the same MySQL container, which `bin/rails db:setup` creates.
+Or `make test` to run them in Docker, as CI does (`ARGS=spec/models/division_spec.rb` runs just one file).
 
-For a separate test stack, run `make test-services-up`, then load the schema into it and run the specs, setting
-`DB_PORT=3307` for those commands only. The variable also moves the development environment.
-
-```
-DB_PORT=3307 RAILS_ENV=test bin/rails db:schema:load
-DB_PORT=3307 bundle exec rake
-```
+The specs use the `tvfy-test` database in the same MySQL container, which `make setup` creates.
 
 ### How development differs from production
 
@@ -149,7 +173,7 @@ Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only n
 
 ## Search
 
-Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make dev-services-up` runs it
+Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make services-up` runs it
 in Docker on port 9200, and the dejavu browser at <http://localhost:1358> lets you look at the index.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
@@ -260,6 +284,8 @@ To enable a feature for a particular user: Go to the feature on the flipper admi
 ## To run style and coding checks
 
     bundle exec rubocop
+
+Or `make lint` to run them in Docker.
 
 ## To check for security updates
 
