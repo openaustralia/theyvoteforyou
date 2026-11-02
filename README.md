@@ -48,7 +48,7 @@ Once the people data has been loaded you can start loading votes. These are scra
 
 [AGENTS.md](AGENTS.md#development-environment) carries the working knowledge of the codebase for AI coding agents
 (and is a useful orientation for humans too). Cross-cutting engineering decisions are recorded as Architecture
-Decision Records in [docs/adr/](docs/adr); add a new numbered file when you make one. [CONTEXT.md](CONTEXT.md) holds
+Decision Records in [docs/adr/](docs/adr); add a new numbered file when you make one. [GLOSSARY.md](GLOSSARY.md) holds
 the canonical vocabulary for concepts with more than one plausible name.
 
 ### Requirements

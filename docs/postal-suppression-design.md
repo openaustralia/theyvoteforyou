@@ -4,7 +4,7 @@ Shared design for They Vote for You (this repo, Rails) and OpenAustralia.org.au 
 Both send mail through Postal (postal.oaf.org.au) and neither stops sending to addresses that hard-bounce.
 Planning Alerts is the reference: it already has a signed webhook, bounce handling and one-click unsubscribe.
 
-Status: agreed in a design session on 2026-10-09. Terms (hard bounce, suppression, complaint) are in `CONTEXT.md`.
+Status: agreed in a design session on 2026-10-09. Terms (hard bounce, suppression, complaint) are in `GLOSSARY.md`.
 
 ## Facts this design rests on
 

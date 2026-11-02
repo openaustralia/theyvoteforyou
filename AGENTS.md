@@ -257,7 +257,7 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
 - If a request doesn't narrow the implementation down to one reasonable choice, ask which behaviour is wanted before
   writing code. Don't guess, and don't build for every interpretation. Give a terse list of your top suggestions with
   pros and cons to assist the decision.
-- Check `docs/adr/` for past cross-cutting decisions, and `CONTEXT.md` for canonical vocabulary, before assuming in an
+- Check `docs/adr/` for past cross-cutting decisions, and `GLOSSARY.md` for canonical vocabulary, before assuming in an
   unfamiliar area of the codebase. When a decision spans multiple files, record it as a new ADR (numbered sequentially,
   one short file per decision) rather than repeating the same comment in several files.
 - Stage commits, don't make them. `git add` the files, then write the proposed message (including the `Assisted-by:`
@@ -297,5 +297,5 @@ The five canonical triage roles use their default label strings: `needs-triage`,
 
 ### Domain docs
 
-Single-context. `design_docs/` is the domain documentation today; `CONTEXT.md` and `docs/adr/` get created lazily by
-`/domain-modeling` if and when they're needed. See `docs/agents/domain.md`.
+Single-context. `GLOSSARY.md` holds the domain glossary and `docs/adr/` the decisions, alongside `design_docs/`. See
+`docs/agents/domain.md`.
