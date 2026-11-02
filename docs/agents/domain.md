@@ -2,39 +2,29 @@
 
 How the engineering skills should consume this repo's domain documentation when exploring the codebase.
 
-This is a **single-context** repo: when domain docs exist, they are one `GLOSSARY.md` and one `docs/adr/` at the root.
-Neither exists yet - `design_docs/` is the only domain documentation here today.
+This is a **single-context** repo: one `GLOSSARY.md` and one `docs/adr/` at the root, alongside `design_docs/`.
 
 ## Before exploring, read these
 
-- **`GLOSSARY.md`** at the repo root, if it exists - the glossary of domain terms.
-- **`docs/adr/`**, if it exists - read ADRs that touch the area you're about to work in.
+- **`GLOSSARY.md`** at the repo root - the glossary of domain terms.
+- **`docs/adr/`** - read ADRs that touch the area you're about to work in.
 - **`design_docs/principles.md`**, **`design_docs/design_persona.md`** and **`design_docs/user-questions.md`** - who
   the site is for and how it should behave. Read them before changing anything user-facing.
 
-If `GLOSSARY.md` or `docs/adr/` don't exist, **proceed silently**. Don't flag their absence; don't suggest creating them
-upfront. The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) creates them
-lazily when terms or decisions actually get resolved.
+The `/domain-modeling` skill (reached via `/grill-with-docs` and `/improve-codebase-architecture`) adds to the glossary
+and ADRs as terms and decisions get resolved.
 
 ## File structure
 
-What exists today:
-
 ```
 /
+├── GLOSSARY.md         ← glossary
+├── docs/adr/           ← one file per decision
 ├── design_docs/
 │   ├── principles.md
 │   ├── design_persona.md
 │   └── user-questions.md
 └── app/
-```
-
-What `/domain-modeling` adds, lazily, as terms and decisions get resolved:
-
-```
-/
-├── GLOSSARY.md         ← glossary
-└── docs/adr/           ← one file per decision
 ```
 
 If this repo ever grows into separate bounded contexts, the multi-context layout is a root `GLOSSARY-MAP.md` pointing at
