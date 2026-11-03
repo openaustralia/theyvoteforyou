@@ -165,10 +165,14 @@ namespace :application do
       Member.find_each { |member| member.destroy unless members.include?(member) }
       Rake::Task["application:cache:all"].invoke
       # TODO: This doesn't yet create policy information nor edited motion text
-      File.write(
-        "db/seeds.rb",
-        "PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n"
-      )
+      # Keep these users in step with the top of db/seeds.rb
+      File.write("db/seeds.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        brenda = User.create!(email: "brenda@oaf.org.au", name: "Brenda Wallace", password: "foofoofoo", confirmed_at: Time.zone.now)
+        User.create!(email: "ian@oaf.org.au", name: "Ian", password: "foofoofoo", confirmed_at: Time.zone.now)
+        PaperTrail.request.whodunnit = brenda.id
+      RUBY
       [Division, DivisionInfo, Electorate, Member, PeopleDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
         SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: %i[created_at updated_at])
       end

@@ -1,3 +1,4 @@
-# Keep this in sync with .ruby-version.
-[tools]
-ruby = "3.4.10"
+# Has mise read Ruby's version from .ruby-version, which rbenv and the Docker image use too, so it's set in one place.
+# mise asks you to trust this file once per checkout, which `make setup` does.
+[settings]
+idiomatic_version_file_enable_tools = ["ruby"]

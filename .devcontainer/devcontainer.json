@@ -1,0 +1,16 @@
+// Dev container for VS Code, RubyMine, Codespaces and the devcontainer CLI. It opens the `app` container of the
+// same stack `make up` starts. See "Development environment" in AGENTS.md.
+{
+  "name": "They Vote For You",
+  "dockerComposeFile": "../compose.yaml",
+  "service": "app",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  // Waits for the app to finish starting, so the first command you run works. Gives up after START_LIMIT (compose.yaml).
+  "postStartCommand": ["sh", ".devcontainer/wait-for-app.sh", "app", "bin/setup and Rails", "curl", "-fs", "-o", "/dev/null", "http://localhost:3000/"],
+  "customizations": {
+    "vscode": {
+      "extensions": ["shopify.ruby-lsp", "karunamurti.haml"]
+    }
+  }
+}
