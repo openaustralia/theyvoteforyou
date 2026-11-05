@@ -22,6 +22,13 @@ describe WikiMotion do
       it { is_expected.to be_valid }
     end
 
+    context "when the model name is too long" do
+      let(:ai_assisted) { true }
+      let(:ai_model) { "x" * 101 }
+
+      it { is_expected.not_to be_valid }
+    end
+
     context "when AI wasn't used and no model is given" do
       let(:ai_assisted) { false }
       let(:ai_model) { nil }

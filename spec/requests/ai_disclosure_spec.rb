@@ -61,6 +61,13 @@ describe "AI disclosure", type: :request do
       it("ignores the AI fields") { expect(saved_summary.ai_assisted).to be_nil }
     end
 
+    context "when the title is blank" do
+      let(:params) { { newtitle: "", newdescription: "A summary" } }
+
+      it { expect(response).to have_http_status(:unprocessable_content) }
+      it("keeps what the editor typed") { expect(response.body).to include("A summary") }
+    end
+
     context "with the flag on" do
       let(:flag_on) { true }
 
@@ -82,6 +89,20 @@ describe "AI disclosure", type: :request do
         it("explains what's missing") { expect(response.body).to include("Enter the model you used") }
         it("keeps what the editor typed") { expect(response.body).to include("A summary") }
         it("saves nothing") { expect(division.reload.wiki_motion).to be_nil }
+        it("still treats the division as unsummarised") { expect(response.body).to include("Write a") }
+      end
+
+      context "when the model is too long" do
+        let(:ai_params) { { ai_assisted: "1", ai_model: "x" * 101 } }
+
+        it { expect(response).to have_http_status(:unprocessable_content) }
+      end
+
+      context "when the title is blank as well as the model" do
+        let(:params) { { newtitle: "", newdescription: "A summary", ai_assisted: "1", ai_model: "" } }
+
+        it("explains the title problem") { expect(response.body).to include("Title can&#39;t be blank") }
+        it("explains the model problem") { expect(response.body).to include("Ai model can&#39;t be blank") }
       end
     end
   end
@@ -138,8 +159,10 @@ describe "AI disclosure", type: :request do
   describe "GET /api/v1/divisions" do
     subject(:ids) { response.parsed_body.pluck("id") }
 
+    let(:flag_on) { true }
     let(:api_key) { create(:confirmed_user).api_key }
     let(:filter) { {} }
+    let(:entry) { response.parsed_body.find { |d| d["id"] == with_ai.id } }
     let!(:unedited) { create(:division, house: "senate", date: Date.new(2014, 1, 1), number: 2) }
     let!(:with_ai) { create(:division, house: "senate", date: Date.new(2014, 1, 1), number: 3) }
     let!(:without_ai) { create(:division, house: "senate", date: Date.new(2014, 1, 1), number: 4) }
@@ -152,9 +175,20 @@ describe "AI disclosure", type: :request do
       get "/api/v1/divisions.json", params: { key: api_key, house: "senate" }.merge(filter)
     end
 
-    context "without a filter" do
-      let(:entry) { response.parsed_body.find { |d| d["id"] == with_ai.id } }
+    context "with the flag off" do
+      let(:flag_on) { false }
 
+      it { expect(entry).not_to include("ai_assisted") }
+      it { expect(entry).not_to include("ai_model") }
+
+      context "with ai_assisted=true" do
+        let(:filter) { { ai_assisted: "true" } }
+
+        it("ignores the filter") { is_expected.to include(with_ai.id, without_ai.id, unedited.id, unknown.id) }
+      end
+    end
+
+    context "without a filter" do
       it { expect(entry).to include("ai_assisted" => true) }
       it { expect(entry).to include("ai_model" => model_name) }
     end
@@ -177,6 +211,19 @@ describe "AI disclosure", type: :request do
       it("includes divisions with no summary") { is_expected.to contain_exactly(unedited.id, unknown.id) }
     end
 
+    context "with an unrecognised ai_assisted value" do
+      let(:filter) { { ai_assisted: "ture" } }
+
+      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(response.parsed_body).to include("error" => "ai_assisted must be true, false or null") }
+    end
+
+    context "with an empty ai_assisted value" do
+      let(:filter) { { ai_assisted: "" } }
+
+      it { expect(response).to have_http_status(:bad_request) }
+    end
+
     context "when a later summary replaces an AI assisted one" do
       let(:filter) { { ai_assisted: "true" } }
       let(:later_summary) { create(:wiki_motion, division: with_ai, ai_assisted: false, created_at: Time.zone.local(2015, 1, 1)) }
@@ -186,6 +233,20 @@ describe "AI disclosure", type: :request do
         get "/api/v1/divisions.json", params: { key: api_key, house: "senate" }.merge(filter)
         expect(response.parsed_body.pluck("id")).to be_empty
       end
+    end
+  end
+
+  describe "GET /help/data" do
+    before { get "/help/data" }
+
+    context "with the flag off" do
+      it { expect(response.body).not_to include("ai_assisted") }
+    end
+
+    context "with the flag on" do
+      let(:flag_on) { true }
+
+      it { expect(response.body).to include("ai_assisted") }
     end
   end
 end

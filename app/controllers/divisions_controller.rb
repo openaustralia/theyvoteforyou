@@ -110,12 +110,11 @@ class DivisionsController < ApplicationController
 
     if @wiki_motion.save
       redirect_to view_context.division_path_simple(@division), notice: "Division updated"
-    elsif @wiki_motion.errors.include?(:ai_model)
-      # Show the form again with what was typed, so the editor only has to add the model
-      flash.now[:alert] = "Could not update division"
-      render :edit, status: :unprocessable_content
     else
-      redirect_to view_context.edit_division_path_simple(@division), alert: "Could not update division"
+      # The failed build left an unsaved summary on the division, which would make it look already edited
+      @division.wiki_motions.reset
+      # Show the form again with what was typed, so the editor only has to fix what's wrong
+      render :edit, status: :unprocessable_content
     end
   end
 

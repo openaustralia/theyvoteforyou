@@ -14,7 +14,7 @@ class Division < ApplicationRecord
   has_many :policies, through: :policy_divisions
   has_many :ai_policy_suggestions, dependent: :destroy
   has_many :ai_division_summaries, dependent: :destroy
-  has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
+  has_many :wiki_motions, -> { order(created_at: :desc, id: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info, allow_nil: true
@@ -244,12 +244,11 @@ class Division < ApplicationRecord
     wiki_motion&.ai_model
   end
 
-  # Filters on the current (latest) summary. A nil value also matches divisions that have no summary yet.
+  # Filters on the current (latest) summary, in the same order as #wiki_motion. A nil value also matches divisions
+  # that have no summary yet. "<=>" is MySQL's null-safe equals, so nil and booleans share one expression.
   def self.with_ai_assisted(value)
-    latest_id = "SELECT id FROM wiki_motions latest WHERE latest.division_id = divisions.id " \
-                "ORDER BY latest.created_at DESC, latest.id DESC LIMIT 1"
-    joins("LEFT JOIN wiki_motions current_motions ON current_motions.id = (#{latest_id})")
-      .where(current_motions: { ai_assisted: value })
+    where("(SELECT latest.ai_assisted FROM wiki_motions latest WHERE latest.division_id = divisions.id " \
+          "ORDER BY latest.created_at DESC, latest.id DESC LIMIT 1) <=> ?", value)
   end
 
   # rubocop:disable Rails/OutputSafety

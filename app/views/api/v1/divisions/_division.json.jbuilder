@@ -11,5 +11,8 @@ json.no_votes division.no_votes
 json.possible_turnout division.division_info&.possible_turnout
 json.rebellions division.division_info&.rebellions
 json.edited division.edited?
-json.ai_assisted division.ai_assisted
-json.ai_model division.ai_model
+# Only while the ai_disclosure flag is on (issue #1854)
+if ai_disclosure_public?
+  json.ai_assisted division.ai_assisted
+  json.ai_model division.ai_model
+end
