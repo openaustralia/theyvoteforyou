@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_15_100000) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_05_100000) do
   create_table "ai_division_summaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.string "model", null: false
@@ -376,6 +376,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_15_100000) do
     t.integer "division_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "ai_assisted"
+    t.string "ai_model"
+    t.index ["ai_model"], name: "index_wiki_motions_on_ai_model"
     t.index ["division_id"], name: "index_wiki_motions_on_division_id"
   end
 end

@@ -4,6 +4,8 @@ Flipper::UI.configure do |config|
   config.descriptions_source = lambda do |_keys|
     # This should be a complete list of all features being currently used in the codebase
     {
+      ai_disclosure: "Shows the \"Drafted with AI assistance\" fields on the division summary form and the AI note " \
+                     "on the division page. See issue #1854."
     }
   end
 
