@@ -27,10 +27,15 @@
 .row
   .col-md-8
     = form_for @division, url: division_path_simple(@division), method: :post do |f|
+      - if @wiki_motion&.errors&.include?(:ai_model)
+        .alert.alert-danger
+          %strong We couldn’t save your summary.
+          = link_to "Add the model you used", "#ai_model", class: "alert-link"
+          then save again.
       .form-group
         -# TODO Add for to labels
         %label Division title:
-        %input.form-control{maxlength: "250", name: "newtitle", size: "50", type: "text", value: @division.name}/
+        %input.form-control{maxlength: "250", name: "newtitle", size: "50", type: "text", value: @wiki_motion&.title || @division.name}/
       .form-group
         %label Division summary:
         %ul.nav.nav-tabs(role="tablist")
@@ -39,8 +44,14 @@
         .tab-content
           .tab-pane.active#edit
             %textarea.form-control{cols: "45", name: "newdescription", rows: "25"}
-              = preserve(h(@division.motion)) if @division.edited?
+              - if @wiki_motion
+                = preserve(h(@wiki_motion.description))
+              - elsif @division.edited?
+                = preserve(h(@division.motion))
           .tab-pane#preview
+
+      - if ai_disclosure_enabled?
+        = render "ai_disclosure_fields", wiki_motion: @wiki_motion || @division.wiki_motion, show_errors: @wiki_motion.present?
 
       %input.submit-division-edit.btn.btn-primary{accesskey: "S", name: "submit", type: "submit", value: "Save"}/
       = link_to "Cancel", :back, class: "btn btn-default"

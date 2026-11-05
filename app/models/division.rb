@@ -227,10 +227,29 @@ class Division < ApplicationRecord
     policy_divisions.find_by!(policy_id: policy.id)
   end
 
-  def build_wiki_motion(title, description, user)
+  def build_wiki_motion(title, description, user, ai_assisted: nil, ai_model: nil)
     wiki_motions.new(title: title,
                      description: description,
-                     user: user)
+                     user: user,
+                     ai_assisted: ai_assisted,
+                     ai_model: ai_model)
+  end
+
+  # Whether the current summary was drafted with AI. nil when unknown, including for divisions with no summary.
+  def ai_assisted
+    wiki_motion&.ai_assisted
+  end
+
+  def ai_model
+    wiki_motion&.ai_model
+  end
+
+  # Filters on the current (latest) summary. A nil value also matches divisions that have no summary yet.
+  def self.with_ai_assisted(value)
+    latest_id = "SELECT id FROM wiki_motions latest WHERE latest.division_id = divisions.id " \
+                "ORDER BY latest.created_at DESC, latest.id DESC LIMIT 1"
+    joins("LEFT JOIN wiki_motions current_motions ON current_motions.id = (#{latest_id})")
+      .where(current_motions: { ai_assisted: value })
   end
 
   # rubocop:disable Rails/OutputSafety

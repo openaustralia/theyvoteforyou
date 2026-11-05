@@ -5,6 +5,10 @@ class WikiMotion < ApplicationRecord
   belongs_to :division
 
   validates :title, :description, presence: true
+  # ai_assisted is nullable on purpose: nil means "not recorded", which is not the same as "no AI used".
+  validates :ai_model, presence: true, if: :ai_assisted?
+
+  before_validation :tidy_ai_model
 
   attr_writer :title, :description
 
@@ -13,6 +17,11 @@ class WikiMotion < ApplicationRecord
     alert_policy_watches
     # Don't reindex in tests when searchkick callbacks are disabled
     division.reindex if Searchkick.callbacks?
+  end
+
+  # Model names used on earlier summaries, for the form's autocomplete.
+  def self.ai_models
+    where.not(ai_model: nil).distinct.order(:ai_model).pluck(:ai_model)
   end
 
   def previous_edit
@@ -44,6 +53,11 @@ class WikiMotion < ApplicationRecord
   end
 
   private
+
+  # A model name only makes sense when AI was used, and stray spaces would split one model into two suggestions.
+  def tidy_ai_model
+    self.ai_model = ai_assisted? ? ai_model.to_s.squish.presence : nil
+  end
 
   def set_text_body
     self.text_body = <<~RECORD

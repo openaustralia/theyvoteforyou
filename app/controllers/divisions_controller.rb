@@ -106,10 +106,14 @@ class DivisionsController < ApplicationController
     @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
     authorize @division
 
-    wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
+    @wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user, **ai_disclosure_params)
 
-    if wiki_motion.save
+    if @wiki_motion.save
       redirect_to view_context.division_path_simple(@division), notice: "Division updated"
+    elsif @wiki_motion.errors.include?(:ai_model)
+      # Show the form again with what was typed, so the editor only has to add the model
+      flash.now[:alert] = "Could not update division"
+      render :edit, status: :unprocessable_content
     else
       redirect_to view_context.edit_division_path_simple(@division), alert: "Could not update division"
     end
@@ -164,6 +168,13 @@ class DivisionsController < ApplicationController
   end
 
   private
+
+  # Left nil (unknown) unless the ai_disclosure feature is on, so the form fields can't be used before launch.
+  def ai_disclosure_params
+    return {} unless ai_disclosure_enabled?
+
+    { ai_assisted: ActiveModel::Type::Boolean.new.cast(params[:ai_assisted]), ai_model: params[:ai_model] }
+  end
 
   def policy_division_params
     params.expect(policy_division: %i[policy_id vote])

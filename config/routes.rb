@@ -113,6 +113,7 @@ Rails.application.routes.draw do
     get "data"
     get "research"
     get "licencing"
+    get "ai"
     get "style-guide", action: :style_guide
   end
 
