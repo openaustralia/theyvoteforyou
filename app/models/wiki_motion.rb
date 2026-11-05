@@ -7,6 +7,7 @@ class WikiMotion < ApplicationRecord
   validates :title, :description, presence: true
   # ai_assisted is nullable on purpose: nil means "not recorded", which is not the same as "no AI used".
   validates :ai_model, presence: true, if: :ai_assisted?
+  validates :ai_model, length: { maximum: 100 }
 
   before_validation :tidy_ai_model
 

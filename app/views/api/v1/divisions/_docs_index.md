@@ -19,10 +19,14 @@ Parameter          | Description
 `possible_turnout` | The number of people who could potentially have voted based on the current number of members
 `rebellions`       | The number of votes that went against the majority vote of their party
 `edited`           | `true` if the summary of the division has been edited
+<% if ai_disclosure_public? %>
 `ai_assisted`      | `true` if the summary was drafted with AI assistance, `false` if not, or `null` if we don't know (for example the summary was written before we started recording this, or there is no summary yet)
 `ai_model`         | The model and version the editor named, for example "Claude Sonnet 5.5". `null` unless `ai_assisted` is `true`
+<% end %>
 
+<% if ai_disclosure_public? %>
 To only get divisions whose current summary was (or wasn't) drafted with AI assistance, add `ai_assisted=true`, `ai_assisted=false` or `ai_assisted=null`. `null` matches divisions where we don't know, including those with no summary yet.
+<% end %>
 
 To get more results or divisions within a particular date range you can do
 
