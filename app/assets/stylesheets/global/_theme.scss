@@ -81,22 +81,27 @@ $theme-tokens: (
   "dropdown-link-hover-bg": ($dropdown-link-hover-bg, #2e343d),
   "dropdown-divider": ($dropdown-divider-bg, #2e343d),
   "close": ($close-color, #fff),
+  // Keyboard focus outlines, from bootstrap-accessibility.css. Its black would be invisible on the dark background.
+  "focus-ring": (#000, #e8eaee),
 
-  // Alerts: Bootstrap's state colours, with dark backgrounds and light text in the dark theme
+  // Alerts: Bootstrap's state colours, except where bootstrap-accessibility.css darkens them for contrast (the
+  // hard-coded light values). The dark theme has dark backgrounds and light text.
   "alert-success-bg": ($state-success-bg, #1d3519),
-  "alert-success-text": ($state-success-text, #a8d8a0),
+  "alert-success-text": (#2d4821, #a8d8a0),
   "alert-success-border": ($state-success-border, #2e4f28),
   "alert-success-link": (darken($state-success-text, 10%), var(--tvfy-alert-success-text)),
   "alert-info-bg": ($state-info-bg, #12303f),
-  "alert-info-text": ($state-info-text, #9fd0ea),
+  "alert-info-text": (#214c62, #9fd0ea),
   "alert-info-border": ($state-info-border, #1d4659),
   "alert-info-link": (darken($state-info-text, 10%), var(--tvfy-alert-info-text)),
-  "alert-warning-bg": ($state-warning-bg, #3a3112),
-  "alert-warning-text": ($state-warning-text, #e8d29a),
+  "alert-warning-bg": (#f9f1c6, #3a3112),
+  "alert-warning-text": (#6c4a00, #e8d29a),
   "alert-warning-border": ($state-warning-border, #54461d),
   "alert-warning-link": (darken($state-warning-text, 10%), var(--tvfy-alert-warning-text)),
   "alert-danger-bg": ($state-danger-bg, #3d1c1c),
-  "alert-danger-text": ($state-danger-text, #f0a9a7),
+  "alert-danger-text": (#d2322d, #f0a9a7),
+  "alert-danger-hover-text": (#a82824, #f0a9a7),
+  "text-danger": ($state-danger-text, #f0a9a7),
   "alert-danger-border": ($state-danger-border, #5a2a2e),
   "alert-danger-link": (darken($state-danger-text, 10%), var(--tvfy-alert-danger-text)),
 

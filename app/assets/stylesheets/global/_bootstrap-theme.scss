@@ -20,6 +20,18 @@ a {
   }
 }
 
+// bootstrap-accessibility.css draws these focus outlines in black. Only the colour changes here; their style and
+// width stay as that file sets them.
+.btn:focus,
+div.active:focus,
+a:focus,
+.close:hover,
+.close:focus,
+.nav > li > a:hover,
+.nav > li > a:focus {
+  outline-color: theme("focus-ring");
+}
+
 .text-muted {
   color: theme("text-subtle");
 }
@@ -235,8 +247,14 @@ pre {
       color: theme("alert-#{$state}-link");
     }
   }
+}
 
-  .text-#{$state} {
-    color: theme("alert-#{$state}-text");
-  }
+// bootstrap-accessibility.css darkens this on hover, which would vanish on the dark background
+.alert-danger:hover {
+  color: theme("alert-danger-hover-text");
+}
+
+// The only text state colour the site uses
+.text-danger {
+  color: theme("text-danger");
 }

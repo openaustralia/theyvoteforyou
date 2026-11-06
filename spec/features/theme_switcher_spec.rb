@@ -60,6 +60,28 @@ describe "Choosing a light or dark theme", :js, type: :feature do
     expect(page).to have_css(".theme-nav [data-theme-choice='dark'][aria-checked='true']", visible: :all)
   end
 
+  it "draws keyboard focus outlines in a light colour on the dark theme" do
+    visit about_path
+    choose_theme "Dark"
+    page.execute_script("document.querySelector('.navbar-brand').focus()")
+    expect(page.evaluate_script("getComputedStyle(document.activeElement).outlineColor")).to eq "rgb(232, 234, 238)"
+  end
+
+  it "keeps danger alert text light on hover in the dark theme" do
+    visit about_path
+    choose_theme "Dark"
+    # No page shows a danger alert without setting up data for it, and only the stylesheet is under test here
+    page.execute_script(<<~JS)
+      var alert = document.createElement("div");
+      alert.className = "alert alert-danger";
+      alert.id = "test-alert";
+      alert.textContent = "Test alert";
+      document.querySelector(".main-content").prepend(alert);
+    JS
+    find_by_id("test-alert").hover
+    expect(page.evaluate_script("getComputedStyle(document.getElementById('test-alert')).color")).to eq "rgb(240, 169, 167)"
+  end
+
   it "keeps the light theme when the system is dark, if light was chosen" do
     visit about_path
     emulate_system_theme("dark")
