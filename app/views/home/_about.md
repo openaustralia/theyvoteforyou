@@ -1,5 +1,5 @@
 ### A Parliamentary Democracy for Everybody
-In Australia, every 3 years or so, we all head to polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/members) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
+In Australia, every 3 years or so, we all head to polling places across the country to elect individuals to represent us in Federal Parliament. They become Australia’s [Members of Parliament](/people) (MPs), and they’re there to advocate for the interests of the people who live in their electorate (whether we voted for them or not), vote on our behalf, and pass legislation to create a society which works for us.
 
 ### They vote for you
 Between elections, how do you know that the individual speaking for you, in your electorate, votes in your interest? Have they ever voted against their party on an issue people like you in your electorate care about? Do they even turn up?
@@ -11,7 +11,7 @@ This library peels back the layers of stuffy jargon, arcane procedures and langu
 <% end %>
 
 ### Find your MP
-It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/members/representatives) and  [Senators](/members/senate).
+It’s easy to [get started by searching](/search) or head to the full list of [Representatives](/people/representatives) and  [Senators](/people/senate).
 
 ### Thanks for making this
 
