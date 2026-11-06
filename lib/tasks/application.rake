@@ -52,6 +52,19 @@ namespace :application do
       end
     end
 
+    desc "Rebuild daily API usage counts from api_statistics, a month at a time (FROM=2026-01 limits the start)"
+    task daily_api_usage: :environment do
+      first = ENV["FROM"] ? Date.parse("#{ENV.fetch('FROM')}-01") : ApiStatistic.minimum(:created_at)&.utc&.to_date
+      next puts "No API requests logged" if first.nil?
+
+      month = first.beginning_of_month
+      while month <= Time.current.utc.to_date
+        puts "Rebuilding daily API usage for #{month.strftime('%Y-%m')}..."
+        DailyApiUsage.rebuild_month(month)
+        month = month.next_month
+      end
+    end
+
     # See https://github.com/openaustralia/theyvoteforyou/issues/1478 for an explanation of how
     # an incorrect member can be attached to a vote, the effect it has and how this fixes it.
     desc "Fix member attached to votes"
