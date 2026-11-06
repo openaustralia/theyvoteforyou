@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get "mp.php" => "members#show_redirect"
 
   # Redirects
-  get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
   get "/members" => redirect { |_p, r|
     if r.query_parameters["sort"]
       "/people?sort=#{r.query_parameters['sort']}"
@@ -40,6 +39,7 @@ Rails.application.routes.draw do
   get "/members/:house/:mpc" => redirect("/people/%{house}/%{mpc}")
   get "/members/:house/:mpc/:mpn" => redirect("/people/%{house}/%{mpc}/%{mpn}")
   get "/members/:house/:mpc/:mpn/policies/:id" => redirect("/people/%{house}/%{mpc}/%{mpn}/policies/%{id}")
+  get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/people/%{house}/%{mpc}/%{mpn}/policies/%{id}")
   get "/members/:house/:mpc/:mpn/friends" => redirect("/people/%{house}/%{mpc}/%{mpn}/friends")
   get "/members/:house/:mpc/:mpn/divisions" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions")
   get "/members/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}")
