@@ -15,16 +15,16 @@
 .social-share-heading {
   margin: 0 10px 0 0;
   display: inline-block;
-  color: #aaa;
+  color: theme("text-faint");
 }
 
 .share-link {
   margin-left: 2px;
-  color: #888;
+  color: theme("share-link");
 
   i {
     @extend %inline-icon;
-    color: #aaa;
+    color: theme("text-faint");
 
     &.fi-social-facebook {
       padding: 0 0 2px 0;

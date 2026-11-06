@@ -1,5 +1,5 @@
 .site-introduction {
-  background-color: $color-orange;
+  background-color: theme("banner-bg");
   padding-bottom: 45px;
   margin-bottom: 0;
   padding-left: 15px;
@@ -51,7 +51,7 @@
 .front-panels-block {
   padding-top: 15px;
   padding-bottom: 30px;
-  background: lighten($gray-lighter, 2%);
+  background: theme("front-panels-bg");
 
   @media (min-width: $screen-sm-min) {
     padding-top: 30px;
@@ -120,7 +120,7 @@
   }
 
   a {
-    color: $text-color;
+    color: theme("text");
   }
 
   .quote-avatar-container {
@@ -142,7 +142,7 @@
 .front-explanation {
   padding-top: 36px;
   padding-bottom: 8px;
-  background-color: $color-lemon-light;
+  background-color: theme("highlight-bg");
 
   @media (min-width: $screen-sm-min) {
     padding-top: 90px;
@@ -189,6 +189,11 @@
     img {
       max-width: 100%;
       height: auto;
+      // Most of the logos are dark artwork on a transparent background. In the dark theme they sit on a light plate,
+      // drawn as a shadow so it adds no space to the layout. In the light theme the plate is transparent.
+      border-radius: 2px;
+      box-shadow: 0 0 0 6px theme("logo-plate");
+      background-color: theme("logo-plate");
     }
   }
 }

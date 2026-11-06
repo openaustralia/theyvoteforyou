@@ -1,17 +1,17 @@
 .policy-comparison-block {
   &.compare-always-same {
-    border-top-color: $color-for3;
-    color: $color-for3;
+    border-top-color: theme("for3");
+    color: theme("for3");
   }
 
   &.compare-mixture {
-    border-top-color: $color-mixed-position;
-    color: $color-mixed-position;
+    border-top-color: theme("mixed-position");
+    color: theme("mixed-position");
   }
 
   &.compare-always-different {
-    border-top-color: $color-against3;
-    color: $color-against3;
+    border-top-color: theme("against3");
+    color: theme("against3");
   }
 }
 

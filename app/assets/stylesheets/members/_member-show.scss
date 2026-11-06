@@ -8,7 +8,7 @@
     text-transform: capitalize;
     // font-weight: normal;
     font-size: 18px;
-    color: $gray;
+    color: theme("text-muted");
 
     @media (min-width: $screen-md-min) {
       display: inline-block;

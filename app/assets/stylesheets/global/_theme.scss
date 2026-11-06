@@ -1,0 +1,158 @@
+// Light and dark colour themes, as CSS custom properties. See docs/adr/0007-colour-themes-as-css-custom-properties.md
+//
+// Every colour that changes between themes is a token in $theme-tokens, holding its (light, dark) pair side by side
+// so the two can't drift apart. Use one in a stylesheet with theme(name), never var(--tvfy-...) by hand: theme()
+// fails the build on a misspelt name, where a bad var() silently falls back to the browser default.
+//
+// Which theme applies:
+// - <html data-theme="light"> or "dark" is the visitor's own choice, set by theme-switcher.js from localStorage
+// - with no data-theme, the operating system's prefers-color-scheme decides
+// Dark is screen-only, so printing a page always gives dark text on white.
+//
+// Sass colour functions (darken, mix and so on) can't take a var(), so they run on the Sass values in here, and
+// Bootstrap's own variables stay plain colours. global/_bootstrap-theme.scss then overrides the Bootstrap components
+// the site uses.
+
+$theme-dark-bg: #16191e;
+$theme-dark-surface: #1f232a;
+
+// The policy position scale needs lighter steps on a dark background to stay readable. Each "for" step is kept at the
+// same lightness as its matching "against" step, so neither end of the scale stands out more than the other.
+$theme-tokens: (
+  // Page
+  "body-bg": (#fff, $theme-dark-bg),
+  "surface": (#fff, $theme-dark-surface),
+  "surface-raised": (#f5f5f5, #262b33),
+  "surface-muted": ($gray-lighter, #2a3039),
+  "front-panels-bg": (lighten($gray-lighter, 2%), #1b1f25),
+  "logo-plate": (transparent, #f4f4f4),
+
+  // Text, from most to least prominent
+  "text-strong": ($gray-dark, #eceef1),
+  "text": ($text-color, #dcdfe4),
+  "text-muted": ($gray, #b4bac3),
+  "text-subtle": ($gray-light, #9aa2ad),
+  "help-text": (lighten($text-color, 25%), #9aa2ad),
+  "share-link": (#888, #9aa2ad),
+  "text-faint": (#aaa, #858d98),
+  "text-faintest": (lighten($gray-light, 25%), #6f7782),
+
+  // Lines
+  "border": ($gray-lighter, #2e343d),
+  "border-rule": (#e7e7e7, #2e343d),
+  "border-table": (#ddd, #39404a),
+  "border-strong": (#ccc, #4a525e),
+  "border-dropdown": (rgba(0, 0, 0, .15), rgba(255, 255, 255, .15)),
+  "border-legend": ($legend-border-color, #2e343d),
+
+  // Links
+  "link": ($link-color, #82b4e6),
+  "link-hover": ($link-hover-color, #b0cff0),
+  "panel-link-hover-bg": (lighten($brand-primary, 45%), mix($brand-primary, $theme-dark-surface, 20%)),
+
+  // Site header: the lemon spot colour that identifies navigation, toned down so it doesn't glare against dark
+  "header-bg": ($color-lemon, #3b3419),
+  "header-bg-active": ($color-lemon-light, #2a2513),
+  "header-text": (#333, #fff2b8),
+  "header-text-hover": (#111, #fff),
+  "header-text-muted": ($gray, #d8cd9c),
+  "header-text-muted-hover": ($text-color, #fff2b8),
+  "header-icon": (darken($color-lemon, 50%), #fff2b8),
+  "header-toggle-hover-bg": ($gray, #5a5130),
+  "header-toggle-hover-icon": ($color-lemon-light, #fff),
+  "header-search-bg": (lighten($color-lemon-light, 5%), #2a2513),
+  "header-search-focus-bg": (#fff, $theme-dark-surface),
+
+  // Lemon-tinted highlight sections, and the orange banner on the home page
+  "highlight-bg": ($color-lemon-light, #262214),
+  "banner-bg": ($color-orange, #6e4b0e),
+
+  // Forms and buttons
+  "input-bg": ($input-bg, #12151a),
+  "input-color": ($input-color, #dcdfe4),
+  "input-placeholder": ($input-color-placeholder, #858d98),
+  "btn-default-bg": ($btn-default-bg, #262b33),
+  "btn-default-color": ($btn-default-color, #dcdfe4),
+  "btn-default-border": ($btn-default-border, #4a525e),
+  "btn-default-hover-bg": (darken($btn-default-bg, 10%), #313742),
+  "btn-default-hover-border": (darken($btn-default-border, 12%), #5d6672),
+  "dropdown-link": ($dropdown-link-color, #dcdfe4),
+  "dropdown-link-hover": ($dropdown-link-hover-color, #fff),
+  "dropdown-link-hover-bg": ($dropdown-link-hover-bg, #2e343d),
+  "dropdown-divider": ($dropdown-divider-bg, #2e343d),
+  "close": ($close-color, #fff),
+
+  // Alerts: Bootstrap's state colours, with dark backgrounds and light text in the dark theme
+  "alert-success-bg": ($state-success-bg, #1d3519),
+  "alert-success-text": ($state-success-text, #a8d8a0),
+  "alert-success-border": ($state-success-border, #2e4f28),
+  "alert-success-link": (darken($state-success-text, 10%), var(--tvfy-alert-success-text)),
+  "alert-info-bg": ($state-info-bg, #12303f),
+  "alert-info-text": ($state-info-text, #9fd0ea),
+  "alert-info-border": ($state-info-border, #1d4659),
+  "alert-info-link": (darken($state-info-text, 10%), var(--tvfy-alert-info-text)),
+  "alert-warning-bg": ($state-warning-bg, #3a3112),
+  "alert-warning-text": ($state-warning-text, #e8d29a),
+  "alert-warning-border": ($state-warning-border, #54461d),
+  "alert-warning-link": (darken($state-warning-text, 10%), var(--tvfy-alert-warning-text)),
+  "alert-danger-bg": ($state-danger-bg, #3d1c1c),
+  "alert-danger-text": ($state-danger-text, #f0a9a7),
+  "alert-danger-border": ($state-danger-border, #5a2a2e),
+  "alert-danger-link": (darken($state-danger-text, 10%), var(--tvfy-alert-danger-text)),
+
+  // Code in Markdown content
+  "code-bg": ($code-bg, #3a2530),
+  "code-color": ($code-color, #f08aa8),
+
+  // Callouts on the division page's AI policy suggestions
+  "suggestion-existing-bg": (mix($color-blue, #fff, 5%), mix($color-blue, $theme-dark-surface, 15%)),
+  "suggestion-new-bg": (mix($color-orange, #fff, 12%), mix($color-orange, $theme-dark-surface, 15%)),
+
+  // Policy position scale, and votes. These carry meaning, so check contrast against body-bg when changing them.
+  "for3": ($color-for3, #5dbd53),
+  "for2": ($color-for2, #7cb076),
+  "for1": ($color-for1, #8fa68c),
+  "mixed-position": ($color-mixed-position, #a0a0a0),
+  "against1": ($color-against1, #b39d98),
+  "against2": ($color-against2, #d79484),
+  "against3": ($color-against3, #f08e78),
+  // Aliases, following _variables.scss, so a vote's colour always matches the end of the scale it belongs to
+  "vote-for": (var(--tvfy-for3), var(--tvfy-for3)),
+  "vote-against": (var(--tvfy-against3), var(--tvfy-against3)),
+  "rebel": (var(--tvfy-against3), var(--tvfy-against3)),
+);
+
+@function theme($name) {
+  @if not map-has-key($theme-tokens, $name) {
+    @error "Unknown theme token `#{$name}`. Add it to $theme-tokens in global/_theme.scss.";
+  }
+  @return unquote("var(--tvfy-#{$name})");
+}
+
+// $index is 1 for the light value, 2 for the dark one
+@mixin theme-properties($index) {
+  @each $name, $values in $theme-tokens {
+    --tvfy-#{$name}: #{nth($values, $index)};
+  }
+}
+
+:root {
+  color-scheme: light;
+  @include theme-properties(1);
+}
+
+// The dark values are written out twice, once for each way of asking for them. Custom properties can't be shared
+// between a media query and a selector any other way.
+@media screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    @include theme-properties(2);
+  }
+}
+
+@media screen {
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    @include theme-properties(2);
+  }
+}
