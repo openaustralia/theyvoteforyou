@@ -82,6 +82,18 @@ describe "Choosing a light or dark theme", :js, type: :feature do
     expect(page.evaluate_script("getComputedStyle(document.getElementById('test-alert')).color")).to eq "rgb(240, 169, 167)"
   end
 
+  it "highlights only the chosen theme in the menu, including under the pointer" do
+    visit about_path
+    choose_theme "Dark"
+    find_by_id("theme-nav-toggle").click
+    expect(page).to have_css(".theme-nav li.theme-nav-selected", count: 1)
+    expect(page).to have_css(".theme-nav li.theme-nav-selected [data-theme-choice='dark']")
+
+    selected = find(".theme-nav [data-theme-choice='dark']")
+    selected.hover
+    expect(page.evaluate_script("getComputedStyle(arguments[0]).backgroundColor", selected)).to eq "rgb(86, 74, 34)"
+  end
+
   it "keeps the light theme when the system is dark, if light was chosen" do
     visit about_path
     emulate_system_theme("dark")

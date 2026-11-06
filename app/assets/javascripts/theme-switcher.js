@@ -38,8 +38,9 @@ $(function() {
 
   function showTheme(theme) {
     var $choices = $menu.find("[data-theme-choice]");
-    $choices.attr("aria-checked", "false");
+    $choices.attr("aria-checked", "false").parent().removeClass("theme-nav-selected");
     var $chosen = $choices.filter("[data-theme-choice='" + theme + "']").attr("aria-checked", "true");
+    $chosen.parent().addClass("theme-nav-selected");
 
     $menu.find(".theme-nav-current").text($.trim($chosen.text()));
     $menu.find(".dropdown-toggle .theme-nav-icon")

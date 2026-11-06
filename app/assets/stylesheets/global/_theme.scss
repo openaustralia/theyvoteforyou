@@ -62,6 +62,7 @@ $theme-tokens: (
   "header-toggle-hover-icon": ($color-lemon-light, #fff),
   "header-search-bg": (lighten($color-lemon-light, 5%), #2a2513),
   "header-search-focus-bg": (#fff, $theme-dark-surface),
+  "header-menu-selected-bg": ($color-lemon, #564a22),
 
   // Lemon-tinted highlight sections, and the orange banner on the home page
   "highlight-bg": ($color-lemon-light, #262214),

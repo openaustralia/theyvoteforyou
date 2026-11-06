@@ -42,4 +42,10 @@
   [aria-checked="true"] {
     font-weight: bold;
   }
+
+  // The highlight is on the list item, not the link, because .site-header resets a hovered link's background to
+  // inherit. The link then picks this up, so the selected theme stays highlighted under the pointer.
+  .theme-nav-selected {
+    background-color: theme("header-menu-selected-bg");
+  }
 }
