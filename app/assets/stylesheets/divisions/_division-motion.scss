@@ -7,16 +7,16 @@
 }
 
 .motion-source-info {
-  border-top: 1px solid #E7E7E7;
+  border-top: 1px solid theme("border-rule");
 }
 
 .division-outcome-summary {
   &.division-outcome-passed {
-    color: $color-vote-for;
+    color: theme("vote-for");
   }
 
   &.division-outcome-not-passed {
-    color: $color-vote-against;
+    color: theme("vote-against");
   }
 }
 

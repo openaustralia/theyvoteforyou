@@ -1,0 +1,51 @@
+// The light/dark/system menu in the site header. See theme-switcher.js
+.theme-nav {
+
+  // Without JavaScript the menu can't do anything, so it starts hidden and the script reveals it
+  &[hidden] {
+    display: none;
+  }
+
+  .theme-nav-icon {
+    width: 1.25em;
+    text-align: center;
+  }
+
+  // Next to the other icons the word is clutter on a wide screen, but the collapsed mobile menu needs it
+  .theme-nav-label {
+
+    // Bootstrap 3's .sr-only, which it has no mixin for, and which can't be @extended inside a media query
+    @media (min-width: $grid-float-breakpoint) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+
+  a.dropdown-toggle {
+
+    &:hover,
+    &:focus {
+      text-decoration: none !important;
+    }
+  }
+
+  .dropdown-menu .theme-nav-icon {
+    margin-right: .5em;
+  }
+
+  [aria-checked="true"] {
+    font-weight: bold;
+  }
+
+  // The highlight is on the list item, not the link, because .site-header resets a hovered link's background to
+  // inherit. The link then picks this up, so the selected theme stays highlighted under the pointer.
+  .theme-nav-selected {
+    background-color: theme("header-menu-selected-bg");
+  }
+}

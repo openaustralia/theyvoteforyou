@@ -7,6 +7,11 @@
 @import "foundation-icons";
 @import "font-awesome";
 
+// After Bootstrap, as the tokens are built from its variables and the overrides need to follow its rules
+@import "global/theme";
+@import "global/bootstrap-theme";
+@import "global/theme-switcher";
+
 @import "global/utilities";
 @import "global/typography";
 @import "global/banners";

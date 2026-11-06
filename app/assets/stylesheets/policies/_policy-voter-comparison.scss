@@ -1,5 +1,5 @@
 .policy-comparison-block {
-  border-top: 7px solid #ccc;
+  border-top: 7px solid theme("border-strong");
   padding-bottom: 1em;
   float: none;
   clear: both;
@@ -23,38 +23,38 @@
   }
 
   &.position-for3 {
-    border-top-color: $color-for3;
-    color: $color-for3;
+    border-top-color: theme("for3");
+    color: theme("for3");
   }
 
   &.position-for2 {
-    border-top-color: $color-for2;
-    color: $color-for2;
+    border-top-color: theme("for2");
+    color: theme("for2");
   }
 
   &.position-for1 {
-    border-top-color: $color-for1;
-    color: $color-for1;
+    border-top-color: theme("for1");
+    color: theme("for1");
   }
 
   &.position-mixture {
-    border-top-color: $color-mixed-position;
-    color: $color-mixed-position;
+    border-top-color: theme("mixed-position");
+    color: theme("mixed-position");
   }
 
   &.position-against1 {
-    border-top-color: $color-against1;
-    color: $color-against1;
+    border-top-color: theme("against1");
+    color: theme("against1");
   }
 
   &.position-against2 {
-    border-top-color: $color-against2;
-    color: $color-against2;
+    border-top-color: theme("against2");
+    color: theme("against2");
   }
 
   &.position-against3 {
-    border-top-color: $color-against3;
-    color: $color-against3;
+    border-top-color: theme("against3");
+    color: theme("against3");
   }
 
   h2 + & {
@@ -102,7 +102,7 @@
   padding: 10px 0;
   display: inline-block;
   float: right;
-  color: lighten($gray-light, 25%);
+  color: theme("text-faintest");
 
   @media (min-width: $screen-sm-min) {
     position: absolute;
@@ -119,11 +119,11 @@
 .anchor {
   position: absolute;
   margin-left: -24px;
-  color: $text-color;
+  color: theme("text");
   display: none;
 
   :hover {
-    color: $text-color;
+    color: theme("text");
   }
 }
 
