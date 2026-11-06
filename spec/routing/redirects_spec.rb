@@ -55,7 +55,7 @@ describe "routing redirects", type: :request do
 
   it do
     get "/members/representatives/lilley/wayne_swan/policies/3/full"
-    expect(response).to redirect_to "/members/representatives/lilley/wayne_swan/policies/3"
+    expect(response).to redirect_to "/people/representatives/lilley/wayne_swan/policies/3"
   end
 
   it do
