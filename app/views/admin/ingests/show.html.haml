@@ -6,6 +6,8 @@
 - drafts_label = pluralize(drafts, "draft")
 - summaries = saved_drafts.includes(:division).order(:division_id, :model).limit(shown_limit).load
 - content_for(:header_last) do
+  - if page.resource.retryable?
+    = button_to "Queue again", requeue_admin_ingest_path(page.resource), method: :post, class: "button"
   - if drafts.positive?
     = button_to "Delete #{drafts_label} from this upload",
       delete_summaries_admin_ingest_path(page.resource),
