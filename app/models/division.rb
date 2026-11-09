@@ -14,7 +14,7 @@ class Division < ApplicationRecord
   has_many :policies, through: :policy_divisions
   has_many :ai_policy_suggestions, dependent: :destroy
   has_many :ai_division_summaries, dependent: :destroy
-  has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
+  has_many :wiki_motions, -> { order(created_at: :desc, id: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
   delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info, allow_nil: true
@@ -227,10 +227,28 @@ class Division < ApplicationRecord
     policy_divisions.find_by!(policy_id: policy.id)
   end
 
-  def build_wiki_motion(title, description, user)
+  def build_wiki_motion(title, description, user, ai_assisted: nil, ai_model: nil)
     wiki_motions.new(title: title,
                      description: description,
-                     user: user)
+                     user: user,
+                     ai_assisted: ai_assisted,
+                     ai_model: ai_model)
+  end
+
+  # Whether the current summary was drafted with AI. nil when unknown, including for divisions with no summary.
+  def ai_assisted
+    wiki_motion&.ai_assisted
+  end
+
+  def ai_model
+    wiki_motion&.ai_model
+  end
+
+  # Filters on the current (latest) summary, in the same order as #wiki_motion. A nil value also matches divisions
+  # that have no summary yet. "<=>" is MySQL's null-safe equals, so nil and booleans share one expression.
+  def self.with_ai_assisted(value)
+    where("(SELECT latest.ai_assisted FROM wiki_motions latest WHERE latest.division_id = divisions.id " \
+          "ORDER BY latest.created_at DESC, latest.id DESC LIMIT 1) <=> ?", value)
   end
 
   # rubocop:disable Rails/OutputSafety
