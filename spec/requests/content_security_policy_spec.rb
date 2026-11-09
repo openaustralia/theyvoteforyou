@@ -84,6 +84,29 @@ describe "Content Security Policy", type: :request do
     end
   end
 
+  # A report from the next page includes its referrer, which would be the address with the token
+  context "when a page's address holds a token" do
+    it "sends no referrer from the unsubscribe page" do
+      get unsubscribe_path(create(:confirmed_user).unsubscribe_token)
+      expect(response.headers["Referrer-Policy"]).to eq "no-referrer"
+    end
+
+    it "sends no referrer from the password reset page" do
+      get edit_user_password_path(reset_password_token: "not-a-real-token")
+      expect(response.headers["Referrer-Policy"]).to eq "no-referrer"
+    end
+
+    it "sends no referrer from a confirmation page" do
+      get user_confirmation_path(confirmation_token: "not-a-real-token")
+      expect(response.headers["Referrer-Policy"]).to eq "no-referrer"
+    end
+
+    it "leaves the browser's default referrer policy on ordinary pages" do
+      get about_path
+      expect(response.headers["Referrer-Policy"]).not_to eq "no-referrer"
+    end
+  end
+
   context "when a card page is rendered" do
     let(:policy) { create(:policy) }
 
