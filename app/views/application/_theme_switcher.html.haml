@@ -9,7 +9,7 @@
       %span.caret
     %ul.dropdown-menu(role="menu" aria-labelledby="theme-nav-toggle")
       - [["system", "System", "fa-circle-half-stroke"], ["light", "Light", "fa-sun"], ["dark", "Dark", "fa-moon"]].each do |value, label, icon|
-        %li
+        %li(role="none")
           %a(href="#" role="menuitemradio" aria-checked="false" data-theme-choice=value data-theme-icon=icon)
             %span.theme-nav-icon.fa-solid{class: icon, "aria-hidden": "true"}
             = label
