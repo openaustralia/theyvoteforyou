@@ -70,5 +70,64 @@ describe DataLoader::Debates do
       load_divisions
       expect { described_class.load!(date) }.not_to change(DivisionInfo, :count)
     end
+
+    # One agent for the whole run lets Mechanize reuse its connections between requests.
+    it "fetches every house's XML with one Mechanize agent" do
+      allow(Mechanize).to receive(:new).and_call_original
+      load_divisions
+      expect(Mechanize).to have_received(:new).once
+    end
+  end
+
+  describe ".xml_url" do
+    it "names the house's debates file for the day under the data source" do
+      expect(described_class.xml_url("senate", Date.new(2009, 11, 25)))
+        .to eq("#{Rails.configuration.xml_data_base_url}scrapedxml/senate_debates/2009-11-25.xml")
+    end
+  end
+
+  describe ".fetch_xml_document" do
+    subject(:fetch) { described_class.fetch_xml_document("senate", date) }
+
+    let(:date) { Date.new(2009, 11, 25) }
+    let(:url) { described_class.xml_url("senate", date) }
+
+    context "when the source has the day's XML" do
+      before { stub_request(:get, url).to_return(body: "<debates><speech/></debates>") }
+
+      it "returns the parsed document" do
+        expect(fetch.search("speech").size).to eq(1)
+      end
+    end
+
+    context "when the source has no XML for the day" do
+      before { stub_request(:get, url).to_return(status: 404) }
+
+      it "returns nil" do
+        expect(fetch).to be_nil
+      end
+    end
+
+    context "when the source fails for any other reason" do
+      before { stub_request(:get, url).to_return(status: 500) }
+
+      it "raises the error rather than reading it as a missing day" do
+        expect { fetch }.to raise_error(Mechanize::ResponseCodeError)
+      end
+    end
+
+    context "with an agent passed in" do
+      let(:agent) { Mechanize.new }
+
+      before do
+        stub_request(:get, url).to_return(body: "<debates/>")
+        allow(agent).to receive(:get).and_call_original
+      end
+
+      it "makes the request with that agent" do
+        described_class.fetch_xml_document("senate", date, agent: agent)
+        expect(agent).to have_received(:get).with(url)
+      end
+    end
   end
 end

@@ -31,3 +31,13 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    models:
+      # Named for what an admin sees in the admin panel's menu and page title: the files they uploaded.
+      ingest:
+        one: "Ingest"
+        other: "Uploaded ingests"
+    attributes:
+      ingest:
+        # A count taken when the upload was processed, which stays the same after its drafts are deleted.
+        records_saved: "Records saved when processed"

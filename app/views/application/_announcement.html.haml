@@ -1,0 +1,27 @@
+- announcement = current_announcement
+- if announcement
+  .site-announcement#site-announcement(role="region" aria-label="Announcement" data-dismissal-key="#{announcement.dismissal_key}")
+    .site-announcement-body= sanitize announcement.body, tags: %w[a strong em b i br p], attributes: %w[href]
+    %button.close.site-announcement-close(type="button" aria-label="Dismiss announcement" hidden)
+      %span(aria-hidden="true") ×
+  -# Runs straight after the bar so a dismissed bar never flashes on screen. Without JavaScript the bar stays and has no close button.
+  :javascript
+    (function () {
+      var bar = document.getElementById("site-announcement");
+      var key = bar.getAttribute("data-dismissal-key");
+      var cookie = "tvfy_announcement";
+      if (document.cookie.split("; ").indexOf(cookie + "=" + key) !== -1) {
+        bar.setAttribute("hidden", "");
+        return;
+      }
+      var button = bar.querySelector(".site-announcement-close");
+      button.removeAttribute("hidden");
+      button.addEventListener("click", function (event) {
+        var secure = location.protocol === "https:" ? "; Secure" : "";
+        document.cookie = cookie + "=" + key + "; Max-Age=86400; Path=/; SameSite=Lax" + secure;
+        bar.setAttribute("hidden", "");
+        // A keyboard click comes with detail 0. The focused button has just gone, so keep focus where the tab order carries on
+        var next = document.querySelector(".navbar-brand");
+        if (event.detail === 0 && next) next.focus();
+      });
+    })();

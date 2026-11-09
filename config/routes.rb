@@ -6,19 +6,22 @@ Rails.application.routes.draw do
     end
 
     resources :users
+    resources :ingests, only: %i[index show new create] do
+      member { delete :delete_summaries }
+    end
     resources :policies
     resources :watches
+    resources :announcements
 
     root to: "users#index"
   end
 
-  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations" }
+  devise_for :users, controllers: { registrations: "registrations", confirmations: "confirmations", passwords: "passwords" }
 
   # These ancient php redirects are still needed to support links from openaustralia.org.au
   get "mp.php" => "members#show_redirect"
 
   # Redirects
-  get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/members/%{house}/%{mpc}/%{mpn}/policies/%{id}")
   get "/members" => redirect { |_p, r|
     if r.query_parameters["sort"]
       "/people?sort=#{r.query_parameters['sort']}"
@@ -36,6 +39,7 @@ Rails.application.routes.draw do
   get "/members/:house/:mpc" => redirect("/people/%{house}/%{mpc}")
   get "/members/:house/:mpc/:mpn" => redirect("/people/%{house}/%{mpc}/%{mpn}")
   get "/members/:house/:mpc/:mpn/policies/:id" => redirect("/people/%{house}/%{mpc}/%{mpn}/policies/%{id}")
+  get "/members/:house/:mpc/:mpn/policies/:id/full" => redirect("/people/%{house}/%{mpc}/%{mpn}/policies/%{id}")
   get "/members/:house/:mpc/:mpn/friends" => redirect("/people/%{house}/%{mpc}/%{mpn}/friends")
   get "/members/:house/:mpc/:mpn/divisions" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions")
   get "/members/:house/:mpc/:mpn/divisions/:date/:number" => redirect("/people/%{house}/%{mpc}/%{mpn}/divisions/%{date}/%{number}")
@@ -91,6 +95,11 @@ Rails.application.routes.draw do
     end
   end
 
+  post "postal/event" => "postal#event"
+
+  get "unsubscribe/:token" => "unsubscribes#show", as: :unsubscribe
+  post "unsubscribe/:token" => "unsubscribes#create"
+
   get "users/welcome" => "users#welcome", as: :user_welcome
   get "users/confirm" => "users#confirm", as: :user_confirm
   get "users/:id" => "users#show", as: :user
@@ -104,6 +113,7 @@ Rails.application.routes.draw do
     get "data"
     get "research"
     get "licencing"
+    get "ai"
     get "style-guide", action: :style_guide
   end
 

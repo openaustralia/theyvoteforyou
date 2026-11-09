@@ -32,7 +32,7 @@ gem "ranker"
 # config.otlp.* exporter defaults to false). Deploys install from
 # Gemfile.lock in deployment mode so they can't drift, but without a
 # constraint the next `bundle update` would take a new major silently.
-gem "sentry-ruby", "~> 7.0"
+gem "sentry-ruby", "~> 7.1"
 gem "sentry-rails", "~> 7.0"
 gem "sentry-delayed_job", "~> 7.0"
 # Sampling profiler used by Sentry profiling
@@ -41,6 +41,7 @@ gem "delayed_job_active_record"
 gem "bootstrap-sass", "~> 3.3"
 gem "autoprefixer-rails"
 gem "mechanize" # Used to download debates
+gem "rubyzip", "~> 3.0" # Reads the zips of draft summaries admins upload (DivisionSummaryIngest)
 gem "nokogiri", ">= 1.6.7.2" # Explicitly included as it's used directly when testing division loader
 gem "seed_dump"
 gem "redcarpet"

@@ -64,6 +64,8 @@ module Publicwhip
 
     config.autoload_paths += %W[#{config.root}/lib]
 
+    config.action_mailer.interceptors = ["SuppressedAlertInterceptor"]
+
     config.to_prepare do
       Devise::Mailer.layout "email" # email.haml or email.erb
     end
@@ -94,6 +96,12 @@ module Publicwhip
     # Name of project to display throughout the application
     config.project_name = "They Vote For You"
 
+    # Where Postal publishes the public keys its webhooks are signed with
+    config.x.postal_jwks_url = "https://postal.oaf.org.au/.well-known/jwks.json"
+    # Where uploaded files wait for ProcessIngestJob (Ingest). Outside public/, so nothing uploaded
+    # can be fetched over the web. Production needs this folder to survive a deploy: see
+    # linked_dirs in config/deploy.rb.
+    config.x.ingest_root = Rails.root.join("storage/ingests")
     config.contact_email = "contact@theyvoteforyou.org.au"
 
     config.facebook_admins = nil

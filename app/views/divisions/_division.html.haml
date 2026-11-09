@@ -12,9 +12,11 @@
         = truncate(division.name, length: 180)
 
       - members.each do |member|
-        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(division.vote_for(member)).downcase}"}
+        -# votes is keyed by [member_id, division_id] (see votes_by_member_and_division). Without it, look each one up.
+        - vote = local_assigns[:votes] ? local_assigns[:votes][[member.id, division.id]] : member.division_vote(division)
+        %p.division-member-vote.object-primary{class: "member-voted-#{vote_display(vote ? vote.vote : 'absent').downcase}"}
           = member.name
-          = vote_words(member.division_vote(division))
+          = vote_words(vote)
 
       %p.division-outcome.object-primary= division_outcome_with_majority_strength(division)
 

@@ -14,7 +14,7 @@ step. We decided to build a fresh 26.04 instance from a new AMI and cut each env
 
 ## Consequences
 
-- Staging moves to the new instance first and acts as the rehearsal (see `CONTEXT.md`); production follows only once
+- Staging moves to the new instance first and acts as the rehearsal (see `GLOSSARY.md`); production follows only once
   the worker, cron, mail, card screenshots and search have been verified there. No separate throwaway box.
 - The server build itself lives in `openaustralia/infrastructure`, so this repository's changes must land together
   with a matching epic there.

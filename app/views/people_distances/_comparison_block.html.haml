@@ -1,9 +1,9 @@
 - unless policies.empty?
-  .policy-comparision-block.col-md-7{class: "compare-#{label}"}
+  .policy-comparison-block.col-md-7{class: "compare-#{label}"}
     .row
-      %h3.policy-comparision-position.col-xs-9= title
+      %h3.policy-comparison-position.col-xs-9= title
     .row
-      %ul.policy-comparision-list.object-list-compact.list-unstyled.col-xs-12
+      %ul.policy-comparison-list.object-list-compact.list-unstyled.col-xs-12
         - policies.each do |policy|
-          %li.policy-comparision-policy.object-item
+          %li.policy-comparison-policy.object-item
             = link_to capitalise_initial_character(policy.name), compare_member_policy_path_simple(person_distance, policy), class: "policy-title"

@@ -13,7 +13,7 @@ describe Policy do
   end
 
   it "is not valid with a name longer than 100 characters" do
-    policy = build(:policy, name: "a-name-bigger-than-one-hundred-characters-is-such-a-long-name-for-a-policy-is-it-really-necessay? We’ll find out soon.")
+    policy = build(:policy, name: "a-name-bigger-than-one-hundred-characters-is-such-a-long-name-for-a-policy-is-it-really-necessary? We’ll find out soon.")
 
     expect(policy).not_to be_valid
     expect(policy.errors[:name]).to include("is too long (maximum is 100 characters)")

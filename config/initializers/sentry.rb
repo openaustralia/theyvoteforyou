@@ -26,6 +26,12 @@ scrub_breadcrumbs = lambda do |event, _hint|
   event
 end
 
+scrub_log = lambda do |log|
+  log.body = scrub_value.call(log.body)
+  log.attributes = scrub_value.call(log.attributes)
+  log
+end
+
 Sentry.init do |config|
   # With no DSN (local development and test) the SDK is disabled - that is
   # the off switch
@@ -55,9 +61,13 @@ Sentry.init do |config|
   end
   config.before_send = scrub_breadcrumbs
   config.before_send_transaction = scrub_breadcrumbs
-  # Rails logs arrive via sentry-rails' structured logging, on by default
-  # since 7.0; the logger patch additionally forwards non-Rails stdlib
-  # logging (e.g. the delayed_job worker's)
+  config.before_send_log = scrub_log
+  # Rails logs arrive via sentry-rails' structured logging. It is on by
+  # default in 7.0 but off in 7.1, so set it explicitly. The logger patch
+  # additionally forwards stdlib logging (e.g. the delayed_job worker's),
+  # limited to warnings and above so request lines don't flood Sentry.
+  config.rails.structured_logging.enabled = true
+  config.std_lib_logger_filter = ->(_logger, _message, level) { %i[warn error fatal].include?(level) }
   config.enabled_patches << :logger
   # Profile the same fraction of transactions that we trace, using vernier
   config.profiles_sample_rate = 0.1

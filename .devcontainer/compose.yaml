@@ -1,0 +1,113 @@
+---
+# The development stack, shared by `make`, plain `docker compose` (via ../compose.yaml) and the dev container.
+# See "Development environment" in AGENTS.md.
+services:
+  mysql:
+    # Matches production, which is RDS MySQL 8.4.9 (see infrastructure repo's terraform/database.tf)
+    image: "mysql:8.4.9"
+    # Host ports are overridable to avoid clashes, see "Port clashes" in AGENTS.md.
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    restart: "always"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: "tvfy-development"
+    # Over TCP, so it only passes once first-run setup has finished and the real server is listening.
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot"]
+      interval: 2s
+      retries: 60
+
+  # adminer:
+  #   image: "adminer:latest"
+  #   ports:
+  #     - "8888:8080"
+  #   restart: "always"
+  #   environment:
+  #     ADMINER_DEFAULT_SERVER: "mysql"
+  #   depends_on:
+  #     - mysql
+
+  elasticsearch:
+    # Matches production's Elasticsearch 7.17.7. Pulled from docker.elastic.co, which
+    # publishes arm64 builds for Apple Silicon.
+    image: "docker.elastic.co/elasticsearch/elasticsearch:7.17.7"
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+      - "9300" # node transport, rarely needed from the host: a random port, see `make status`
+    restart: "always"
+    environment:
+      "discovery.type": "single-node"
+      "http.port": "9200"
+      "http.cors.enabled": "true"
+      "http.cors.allow-origin": "http://dejavu.localhost:${DEJAVU_PORT:-1358},http://localhost:${DEJAVU_PORT:-1358},http://127.0.0.1:${DEJAVU_PORT:-1358}"
+      "http.cors.allow-headers": "X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization"
+      "http.cors.allow-credentials": "true"
+      "ES_JAVA_OPTS": "-Xms512m -Xmx512m"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs 'http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=1s'"]
+      interval: 2s
+      retries: 60
+
+  dejavu:
+    image: "appbaseio/dejavu:3.10.0"
+    ports:
+      - "${DEJAVU_PORT:-1358}:1358"
+    restart: "always"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:1358/"]
+      interval: 2s
+      retries: 30
+    depends_on:
+      - elasticsearch
+
+  mailpit:
+    image: "axllent/mailpit:v1.31.3"
+    ports:
+      - "${MAILPIT_SMTP_PORT:-1025}:1025"
+      - "${MAILPIT_WEB_PORT:-1088}:8025" # web UI
+    restart: "always"
+
+  # The app itself, and the dev container's workspace. Not used for production - see
+  # docs/adr/0003-rbenv-replaces-rvm.md. bin/setup installs gems and prepares the database first.
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    command: bash -c "bin/setup --skip-server && bin/rails server -b 0.0.0.0"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    volumes:
+      - ..:/app
+      - bundle_cache:/usr/local/bundle
+    environment:
+      START_LIMIT: &start_limit ${START_LIMIT:-5m} # how long startup may take before it counts as failed; see "If the app won't start" in the README
+      DB_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+      ELASTICSEARCH_URL: "http://elasticsearch:9200"
+      MAILPIT_HOST: mailpit
+      RAILS_ENV: development
+      WEB_PORT: ${WEB_PORT:-3000} # for links in emails
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      mailpit:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "ruby", "-rnet/http", "-e", "exit Net::HTTP.get_response(URI('http://localhost:3000/')).is_a?(Net::HTTPSuccess)"]
+      interval: 5s
+      start_period: *start_limit
+
+volumes:
+  bundle_cache:
+  mysql_data:
+  elasticsearch_data:

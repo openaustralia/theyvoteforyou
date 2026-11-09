@@ -14,6 +14,8 @@ class ApplicationController < ActionController::Base
 
   include Pundit::Authorization
 
+  helper_method :ai_disclosure_enabled?, :ai_disclosure_public?
+
   protected
 
   def configure_permitted_parameters
@@ -22,6 +24,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Gates everything for issue #1854 (disclosing AI use in division summaries) until the wording is agreed.
+  def ai_disclosure_enabled?
+    Flipper.enabled?(:ai_disclosure, current_user)
+  end
+
+  # For the public API and its docs, which have no signed-in user, so it's all or nothing rather than per person.
+  def ai_disclosure_public?
+    Flipper.enabled?(:ai_disclosure)
+  end
 
   # Attach the signed-in user to Sentry events so errors show who was affected.
   # Sentry's Rack middleware resets the scope every request, so this can't leak
