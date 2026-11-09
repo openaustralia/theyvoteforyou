@@ -49,6 +49,41 @@ describe "Content Security Policy", type: :request do
     end
   end
 
+  # The test environment has no Sentry DSN, so give the policy a report address for these examples
+  context "when violation reports are sent to Sentry" do
+    around do |example|
+      policy = Rails.application.config.content_security_policy
+      policy.report_uri "https://sentry.example/api/1/security/?sentry_key=abc"
+      example.run
+    ensure
+      policy.directives.delete("report-uri")
+    end
+
+    it "asks browsers to send reports from ordinary pages" do
+      get about_path
+      expect(report_only).to include("report-uri https://sentry.example/")
+    end
+
+    it "does not ask for reports from the unsubscribe page, whose address holds a token" do
+      get unsubscribe_path(create(:confirmed_user).unsubscribe_token)
+      expect(report_only).to be_present
+      expect(report_only).not_to include("report-uri")
+    end
+
+    it "does not ask for reports from the password reset page, whose address holds a token" do
+      get edit_user_password_path(reset_password_token: "not-a-real-token")
+      expect(response).to have_http_status(:ok)
+      expect(report_only).to be_present
+      expect(report_only).not_to include("report-uri")
+    end
+
+    it "does not ask for reports from a confirmation page, whose address holds a token" do
+      get user_confirmation_path(confirmation_token: "not-a-real-token")
+      expect(report_only).to be_present
+      expect(report_only).not_to include("report-uri")
+    end
+  end
+
   context "when a card page is rendered" do
     let(:policy) { create(:policy) }
 
