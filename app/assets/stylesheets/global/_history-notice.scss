@@ -1,7 +1,7 @@
 .history-notice {
     padding: .2em 0;
-    color: $gray;
-    background-color: $gray-lighter;
+    color: theme("text-muted");
+    background-color: theme("surface-muted");
     font-size: $font-size-supporting;
 
     @media (min-width: $screen-sm-min) {
@@ -14,6 +14,6 @@
     }
 
     a {
-      color: $gray;
+      color: theme("text-muted");
     }
 }

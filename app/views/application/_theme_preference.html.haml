@@ -1,0 +1,11 @@
+-# Applies the visitor's saved light/dark choice before the page is drawn, so it doesn't flash in the other theme
+-# first. With nothing saved, or no JavaScript, the stylesheet follows the operating system's setting.
+-# theme-switcher.js saves the choice, under the same localStorage key.
+-# The try/catch is for storage being blocked, e.g. in some private browsing modes, when the system setting applies.
+:javascript
+  (function () {
+    try {
+      var theme = localStorage.getItem("tvfy-theme");
+      if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();

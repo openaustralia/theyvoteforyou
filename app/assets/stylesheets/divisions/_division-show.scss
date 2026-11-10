@@ -8,7 +8,7 @@
   .ai-policy-suggestion {
     margin-bottom: 1.5em;
     padding: 0.5em 0.75em;
-    border-left: 4px solid $color-mixed-position;
+    border-left: 4px solid theme("mixed-position");
 
     h3 {
       margin-bottom: 0.25em;
@@ -21,16 +21,16 @@
 
   .ai-policy-suggestion-existing {
     border-left-color: $color-blue;
-    background-color: mix($color-blue, #fff, 5%);
+    background-color: theme("suggestion-existing-bg");
   }
 
   .ai-policy-suggestion-new {
     border-left-color: $color-orange;
-    background-color: mix($color-orange, #fff, 12%);
+    background-color: theme("suggestion-new-bg");
   }
 
   .ai-policy-suggestion-error {
-    border-left-color: $color-vote-against;
+    border-left-color: theme("vote-against");
   }
 
   // Dashed rather than solid: this model hasn't run, as opposed to having run and landed somewhere.

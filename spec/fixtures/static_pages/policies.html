@@ -4,6 +4,16 @@
 <meta charset='utf-8'>
 <meta content='IE=edge' http-equiv='X-UA-Compatible'>
 <meta content='width=device-width, initial-scale=1' name='viewport'>
+<meta content='light dark' name='color-scheme'>
+<script>
+  (function () {
+    try {
+      var theme = localStorage.getItem("tvfy-theme");
+      if (theme === "light" || theme === "dark") document.documentElement.setAttribute("data-theme", theme);
+    } catch (e) {}
+  })();
+</script>
+
 <title>
 Policies
 — They Vote For You
@@ -20,6 +30,7 @@ Policies
 
 </head>
 <body class='policies'>
+
 <nav class='site-header navbar' role='navigation'>
 <div class='navbar-header'>
 <button class='navbar-toggle' data-target='#bs-example-navbar-collapse-1' data-toggle='collapse' type='button'>
@@ -37,6 +48,39 @@ Policies
 <li><a class="navlink-divisions" title="List of all votes in Parliament" href="/divisions">Divisions</a></li>
 <li><a class="navlink-about" title="Information about this website" href="/about">About</a></li>
 </ul>
+<ul class='theme-nav nav navbar-nav navbar-right' hidden>
+<li class='dropdown'>
+<a aria-expanded='false' aria-haspopup='true' class='dropdown-toggle' data-toggle='dropdown' href='#' id='theme-nav-toggle' role='button' title='Choose a light or dark theme'>
+<span aria-hidden='true' class='theme-nav-icon fa-solid fa-circle-half-stroke'></span>
+<span class='theme-nav-label'>
+Theme:
+<span class='theme-nav-current'>System</span>
+</span>
+<span class='caret'></span>
+</a>
+<ul aria-labelledby='theme-nav-toggle' class='dropdown-menu' role='menu'>
+<li role='none'>
+<a aria-checked='false' data-theme-choice='system' data-theme-icon='fa-circle-half-stroke' href='#' role='menuitemradio'>
+<span aria-hidden='true' class='theme-nav-icon fa-solid fa-circle-half-stroke'></span>
+System
+</a>
+</li>
+<li role='none'>
+<a aria-checked='false' data-theme-choice='light' data-theme-icon='fa-sun' href='#' role='menuitemradio'>
+<span aria-hidden='true' class='theme-nav-icon fa-solid fa-sun'></span>
+Light
+</a>
+</li>
+<li role='none'>
+<a aria-checked='false' data-theme-choice='dark' data-theme-icon='fa-moon' href='#' role='menuitemradio'>
+<span aria-hidden='true' class='theme-nav-icon fa-solid fa-moon'></span>
+Dark
+</a>
+</li>
+</ul>
+</li>
+</ul>
+
 <form name="pw" role="search" class="site-header-search navbar-form navbar-right" action="/search" accept-charset="UTF-8" method="get"><div class='input-group'>
 <label class="sr-only" for="query">Search They Vote For You</label>
 <input type="search" name="query" id="query" maxlength="256" placeholder="Search" class="form-control input-sm" />

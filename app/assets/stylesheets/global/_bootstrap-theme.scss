@@ -1,0 +1,285 @@
+// Points the Bootstrap 3 components this site uses at the theme tokens in global/_theme.scss.
+//
+// Bootstrap 3 compiles its colours in, and runs them through Sass colour functions that can't take a var(), so its
+// variables can't simply be set to tokens. Instead these rules repeat its colour declarations with tokens, after
+// Bootstrap has been imported. In the light theme each token holds Bootstrap's own value, so almost nothing changes
+// there (see .btn-default).
+// A component that isn't listed here keeps its light colours in the dark theme: add it when the site starts using it.
+
+body {
+  background-color: theme("body-bg");
+  color: theme("text");
+}
+
+a {
+  color: theme("link");
+
+  &:hover,
+  &:focus {
+    color: theme("link-hover");
+  }
+}
+
+// bootstrap-accessibility.css draws these focus outlines in black. Only the colour changes here; their style and
+// width stay as that file sets them.
+.btn:focus,
+div.active:focus,
+a:focus,
+.close:hover,
+.close:focus,
+.nav > li > a:hover,
+.nav > li > a:focus {
+  outline-color: theme("focus-ring");
+}
+
+.text-muted {
+  color: theme("text-subtle");
+}
+
+hr,
+.page-header {
+  border-color: theme("border");
+}
+
+legend {
+  color: theme("text-strong");
+  border-color: theme("border-legend");
+}
+
+blockquote {
+  border-color: theme("border");
+
+  footer,
+  small,
+  .small {
+    color: theme("text-subtle");
+  }
+}
+
+code {
+  background-color: theme("code-bg");
+  color: theme("code-color");
+}
+
+pre {
+  background-color: theme("surface-raised");
+  border-color: theme("border-strong");
+  color: theme("text-strong");
+}
+
+.help-block {
+  color: theme("help-text");
+}
+
+.close {
+  &,
+  &:hover,
+  &:focus {
+    color: theme("close");
+  }
+}
+
+// Tables
+
+.table {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr > th,
+    > tr > td {
+      border-color: theme("border-table");
+    }
+  }
+}
+
+// Panels
+
+.panel {
+  background-color: theme("surface");
+}
+
+.panel-default {
+  border-color: theme("border-table");
+}
+
+.panel-footer {
+  background-color: theme("surface-raised");
+  border-color: theme("border-table");
+}
+
+// Forms
+
+.form-control {
+  background-color: theme("input-bg");
+  border-color: theme("border-strong");
+  color: theme("input-color");
+
+  &::placeholder {
+    color: theme("input-placeholder");
+  }
+
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: theme("surface-muted");
+  }
+}
+
+// Buttons. Coloured buttons such as .btn-primary keep white text on a mid-tone, which reads on either theme.
+
+.btn-default {
+  background-color: theme("btn-default-bg");
+  border-color: theme("btn-default-border");
+  color: theme("btn-default-color");
+
+  // Bootstrap darkens a pressed or focused button a step further than a hovered one. Both themes use one step here.
+  &:hover,
+  &:focus,
+  &:active,
+  &.active,
+  &:active:hover,
+  &:active:focus,
+  &.active:hover,
+  &.active:focus,
+  .open > &.dropdown-toggle,
+  .open > &.dropdown-toggle:hover,
+  .open > &.dropdown-toggle:focus {
+    background-color: theme("btn-default-hover-bg");
+    border-color: theme("btn-default-hover-border");
+    color: theme("btn-default-color");
+  }
+}
+
+.btn-link {
+  color: theme("link");
+
+  &:hover,
+  &:focus {
+    color: theme("link-hover");
+  }
+}
+
+// Dropdowns, including bootstrap-select's
+
+.dropdown-menu {
+  background-color: theme("surface");
+  border-color: theme("border-dropdown");
+
+  > li > a {
+    color: theme("dropdown-link");
+
+    &:hover,
+    &:focus {
+      background-color: theme("dropdown-link-hover-bg");
+      color: theme("dropdown-link-hover");
+    }
+  }
+
+  .divider {
+    background-color: theme("dropdown-divider");
+  }
+}
+
+// The "No results matched" row in a bootstrap-select live search
+.bootstrap-select .no-results {
+  background-color: theme("surface-raised");
+}
+
+// Navs and pagination
+
+.nav > li > a {
+  &:hover,
+  &:focus {
+    background-color: theme("surface-muted");
+  }
+}
+
+.nav-tabs {
+  border-color: theme("border-table");
+
+  > li > a:hover {
+    border-color: theme("border") theme("border") theme("border-table");
+  }
+
+  > li.active > a {
+    &,
+    &:hover,
+    &:focus {
+      background-color: theme("body-bg");
+      border-color: theme("border-table");
+      border-bottom-color: transparent;
+      color: theme("text-muted");
+    }
+  }
+}
+
+.pagination {
+  > li > a,
+  > li > span {
+    background-color: theme("surface");
+    border-color: theme("border-table");
+    color: theme("link");
+
+    &:hover,
+    &:focus {
+      background-color: theme("surface-muted");
+      border-color: theme("border-table");
+      color: theme("link-hover");
+    }
+  }
+
+  > .disabled > a,
+  > .disabled > span {
+    &,
+    &:hover,
+    &:focus {
+      background-color: theme("surface");
+      border-color: theme("border-table");
+      color: theme("text-subtle");
+    }
+  }
+}
+
+// Wells, such as the AI disclosure note on a division
+
+.well {
+  background-color: theme("surface-raised");
+  border-color: theme("border-well");
+}
+
+// Thumbnails, which frame the contributor avatars on the About page
+
+.thumbnail {
+  background-color: theme("body-bg");
+  border-color: theme("border-table");
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: theme("link");
+}
+
+// Alerts
+
+@each $state in success, info, warning, danger {
+  .alert-#{$state} {
+    background-color: theme("alert-#{$state}-bg");
+    border-color: theme("alert-#{$state}-border");
+    color: theme("alert-#{$state}-text");
+
+    .alert-link {
+      color: theme("alert-#{$state}-link");
+    }
+  }
+}
+
+// bootstrap-accessibility.css darkens this on hover, which would vanish on the dark background
+.alert-danger:hover {
+  color: theme("alert-danger-hover-text");
+}
+
+// The only text state colour the site uses
+.text-danger {
+  color: theme("text-danger");
+}
