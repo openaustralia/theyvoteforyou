@@ -44,6 +44,7 @@ $theme-tokens: (
   "border-strong": (#ccc, #4a525e),
   "border-dropdown": (rgba(0, 0, 0, .15), rgba(255, 255, 255, .15)),
   "border-legend": ($legend-border-color, #2e343d),
+  "border-well": ($well-border, #39404a),
 
   // Links
   "link": ($link-color, #82b4e6),

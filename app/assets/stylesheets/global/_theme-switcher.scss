@@ -64,5 +64,12 @@
   // inherit. The link then picks this up, so the selected theme stays highlighted under the pointer.
   .theme-nav-selected {
     background-color: theme("header-menu-selected-bg");
+
+    // In the collapsed mobile menu Bootstrap makes the open dropdown transparent, so the row sits on the header's
+    // own background, which header-menu-selected-bg matches in the light theme. Use the colour the current section's
+    // link has in the same menu instead.
+    @media (max-width: $grid-float-breakpoint-max) {
+      background-color: theme("header-bg-active");
+    }
   }
 }

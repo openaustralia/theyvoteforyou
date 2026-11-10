@@ -180,6 +180,11 @@ pre {
   }
 }
 
+// The "No results matched" row in a bootstrap-select live search
+.bootstrap-select .no-results {
+  background-color: theme("surface-raised");
+}
+
 // Navs and pagination
 
 .nav > li > a {
@@ -233,6 +238,26 @@ pre {
       color: theme("text-subtle");
     }
   }
+}
+
+// Wells, such as the AI disclosure note on a division
+
+.well {
+  background-color: theme("surface-raised");
+  border-color: theme("border-well");
+}
+
+// Thumbnails, which frame the contributor avatars on the About page
+
+.thumbnail {
+  background-color: theme("body-bg");
+  border-color: theme("border-table");
+}
+
+a.thumbnail:hover,
+a.thumbnail:focus,
+a.thumbnail.active {
+  border-color: theme("link");
 }
 
 // Alerts
