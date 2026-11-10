@@ -41,6 +41,23 @@
 
   [aria-checked="true"] {
     font-weight: bold;
+
+    // In forced-colors mode (e.g. Windows High Contrast) the selected row's background is flattened to match the
+    // menu's, so a glyph is the cue that survives any colour setting. Screen readers already announce aria-checked,
+    // so the "/ ''" alternative text keeps them from also reading the icon; the line before is for browsers
+    // without that syntax.
+    // A float here wrapped to a new line in the shrink-to-fit menu, so the link is a flex row instead
+    display: flex;
+    align-items: baseline;
+
+    &::after {
+      margin-left: auto;
+      padding-left: 1em;
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      content: "\f00c"; // $fa-var-check, which Sass would double-escape if interpolated
+      content: "\f00c" / "";
+    }
   }
 
   // The highlight is on the list item, not the link, because .site-header resets a hovered link's background to
