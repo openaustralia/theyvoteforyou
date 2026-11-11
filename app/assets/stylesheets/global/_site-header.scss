@@ -1,5 +1,5 @@
 .site-header {
-  background-color: $color-lemon;
+  background-color: theme("header-bg");
   border-radius: 0;
   margin-bottom: 0;
   border: 0;
@@ -16,24 +16,24 @@
 
   .navbar-toggle,
   a {
-    color: #333;
+    color: theme("header-text");
   }
 
   .navbar-toggle {
     border-color: rgba(255,255,255,.6);
 
     .icon-bar {
-      background-color: darken($color-lemon, 50%);
+      background-color: theme("header-icon");
     }
 
     &:hover,
     &:focus {
-      color: #111;
-      background-color: $gray;
-      border-color: darken($color-lemon, 50%);
+      color: theme("header-text-hover");
+      background-color: theme("header-toggle-hover-bg");
+      border-color: theme("header-icon");
 
       .icon-bar {
-        background-color: $color-lemon-light;
+        background-color: theme("header-toggle-hover-icon");
       }
     }
   }
@@ -41,7 +41,7 @@
   a {
     &:hover,
     &:focus {
-      color: #111;
+      color: theme("header-text-hover");
       background-color: inherit !important;
       text-decoration: underline !important;
     }
@@ -51,13 +51,13 @@
     li + li {
       a {
         @media ( min-width: $grid-float-breakpoint) {
-          color: $gray;
+          color: theme("header-text-muted");
         }
 
         &:hover,
         &:focus {
           @media ( min-width: $grid-float-breakpoint) {
-            color: $text-color;
+            color: theme("header-text-muted-hover");
           }
         }
       }
@@ -83,23 +83,23 @@
   }
 
   .open .dropdown-toggle {
-    background: $color-lemon;
+    background: theme("header-bg");
   }
 }
 
 .site-header-search {
   input[type="search"] {
-    background-color: lighten($color-lemon-light, 5%);
+    background-color: theme("header-search-bg");
     box-shadow: none;
-    border-color: lighten($color-lemon-light, 5%);
+    border-color: theme("header-search-bg");
 
     & + .input-group-btn button {
-      background-color: lighten($color-lemon-light, 5%);
+      background-color: theme("header-search-bg");
       border: 0;
     }
 
     &:focus {
-      background-color: white;
+      background-color: theme("header-search-focus-bg");
     }
   }
 }
@@ -108,10 +108,10 @@
 .divisions .navlink-divisions,
 .policies .navlink-policies,
 .about .navlink-about {
-  background-color: $color-lemon-light;
+  background-color: theme("header-bg-active");
 
   &:hover,
   &:focus {
-    background-color: $color-lemon-light !important;
+    background-color: theme("header-bg-active") !important;
   }
 }

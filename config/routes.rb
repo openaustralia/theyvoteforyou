@@ -7,7 +7,10 @@ Rails.application.routes.draw do
 
     resources :users
     resources :ingests, only: %i[index show new create] do
-      member { delete :delete_summaries }
+      member do
+        delete :delete_summaries
+        post :requeue
+      end
     end
     resources :policies
     resources :watches
