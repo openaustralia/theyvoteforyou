@@ -3,7 +3,7 @@
 .section-header {
   margin-bottom: 36px;
   padding-bottom: 36px;
-  background-color: $color-lemon-light;
+  background-color: theme("highlight-bg");
 
   @media (min-width: $screen-md-min) {
     margin-bottom: 48px;

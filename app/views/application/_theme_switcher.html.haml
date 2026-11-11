@@ -1,0 +1,15 @@
+-# A light/dark/system choice in the site header. theme-switcher.js reveals it and makes it work.
+%ul.theme-nav.nav.navbar-nav.navbar-right(hidden)
+  %li.dropdown
+    %a.dropdown-toggle#theme-nav-toggle(href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" title="Choose a light or dark theme")
+      %span.theme-nav-icon.fa-solid.fa-circle-half-stroke(aria-hidden="true")
+      %span.theme-nav-label
+        Theme:
+        %span.theme-nav-current System
+      %span.caret
+    %ul.dropdown-menu(role="menu" aria-labelledby="theme-nav-toggle")
+      - [["system", "System", "fa-circle-half-stroke"], ["light", "Light", "fa-sun"], ["dark", "Dark", "fa-moon"]].each do |value, label, icon|
+        %li(role="none")
+          %a(href="#" role="menuitemradio" aria-checked="false" data-theme-choice=value data-theme-icon=icon)
+            %span.theme-nav-icon.fa-solid{class: icon, "aria-hidden": "true"}
+            = label

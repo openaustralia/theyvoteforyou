@@ -62,3 +62,13 @@ blockquote {
     font-size: 1.5em;
   }
 }
+
+// Underline links in running text/body copy to improve visibility and accessibility
+// since we can't hit the required minimum contrast ratios with colour alone.
+// Rule attempts to target only links within running text elements, not buttons or navigation lists.
+:where(p,
+  .alert,
+  ul:not(.list-unstyled, .list-inline, .nav, .dropdown-menu, .pagination, .grid-list) > li,
+  ol:not(.list-unstyled) > li) a:where(:not(.btn)) {
+  text-decoration: underline;
+}
