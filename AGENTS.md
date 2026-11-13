@@ -97,6 +97,9 @@ make seed         # (SLOW) real members and divisions (FROM=2021-07-01 TO=2021-1
 make down         # stop and remove the containers, keeping the data
 make clean        # also remove built images and gems, so the next start rebuilds; keeps the data
 make clobber      # also remove the data, and prune unused Docker images and cache machine-wide
+make aws-check           # checks your AWS login (profile oaf), and starts `aws login` if there is none
+make deploy-production   # make aws-check, then bundle exec cap production deploy
+make deploy-staging      # make aws-check and bundle install, then bundle exec cap staging deploy
 ```
 
 `make up` and `make services-up` return once every service passes its healthcheck. Run `make` for the full list.
@@ -242,6 +245,13 @@ its `Division`. Reindex with `bundle exec rake searchkick:reindex:all` after bul
 
 - Australia: Capistrano (`make deploy-production` / `make deploy-staging`, or `bundle exec cap production deploy`).
   Config in `Capfile` and `config/deploy/`.
+- Staging also deploys automatically. The `deploy-staging` job in `.github/workflows/rubyonrails.yml` runs after
+  `test` and `lint` pass, on a push to `main` when the repository variable `AUTO_DEPLOY_STAGING` is `true`, or when
+  someone runs the workflow by hand on `main`. The job sends a GitHub OIDC token to the deploy hook on the staging
+  server. The hook is `oaf-deploy-bottle`, in its own repository on GitLab, and its ADRs hold the design. The server
+  then starts the deploy itself, running Capistrano with `DEPLOY_LOCAL=1`. `config/deploy/staging.rb` turns that
+  into SSHKit's local backend: no SSM, no SSH and no git tag push. It counts only when it is exactly `1`, and only
+  for the `deploy` user.
 - Ukraine: Mina (`bundle exec mina ukraine_dev deploy` / `ukraine_production`), config in `Minafile`. Server
   provisioning lives in a separate repo (`OPORA/publicwhip_server`).
 - These, and any rake task run with `RAILS_ENV=production` (see the README's "Loading data" section), are reference
