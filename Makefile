@@ -5,7 +5,7 @@ help: ## Show this help (the default target)
 	  awk 'BEGIN {FS = ":.*## "}; {printf "  %-18s %s\n", $$1, $$2}'
 
 # For a fresh Ubuntu, Debian or macOS machine; see bin/setup-host for what it installs.
-host-setup: ## Install Docker, the libraries the gems need, mise and the devcontainer CLI, then run `make setup`
+host-setup: ## Install Docker, the libraries the gems need and mise, then run `make setup`
 	bin/setup-host
 
 # For running Rails on the host. mise is preferred, rbenv works too; both read .ruby-version (mise via mise.toml).

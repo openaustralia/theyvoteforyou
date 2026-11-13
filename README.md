@@ -65,7 +65,7 @@ the canonical vocabulary for concepts with more than one plausible name.
 
   On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
 
-On a fresh machine, `make host-setup` installs all of these (plus the devcontainer CLI), then runs `make setup`.
+On a fresh machine, `make host-setup` installs all of these, then runs `make setup`.
 It supports:
 
 - Ubuntu 22.04, 24.04 and 26.04 LTS

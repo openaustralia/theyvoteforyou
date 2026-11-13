@@ -74,7 +74,7 @@ jobs:
       - name: Verify the tools make setup needs
         run: |
           docker exec setup-host-test su - tester -c \
-            "docker --version && docker compose version && mise --version && tidy -v && devcontainer --version"
+            "docker --version && docker compose version && mise --version && tidy -v"
 
       - name: Clean up container
         if: always()

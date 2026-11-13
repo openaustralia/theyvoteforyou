@@ -2,16 +2,12 @@
 # Takes a fresh Ubuntu/Debian or macOS host to a working app (run it via
 # `make host-setup`). It installs what `make setup` expects to find - Docker
 # and Compose, the libraries the gems and Ruby build need, HTML Tidy and mise
-# - plus the devcontainer CLI, then runs `make setup`. Safe to rerun: each
-# step is skipped when its tool is already there.
+# - then runs `make setup`. Safe to rerun: each step is skipped when its tool
+# is already there.
 set -euo pipefail
 
 docker_ready() {
   command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
-}
-
-devcontainer_ready() {
-  command -v devcontainer >/dev/null 2>&1
 }
 
 is_wsl() {
@@ -48,7 +44,7 @@ install_docker_linux() {
   # VERSION_CODENAME (e.g. Mint's "vanessa"), which Docker's repo doesn't
   # publish for. UBUNTU_CODENAME, when present, points at the underlying
   # Ubuntu release Docker actually has packages for.
-  docker_codename="${UBUNTU_CODENAME:-$VERSION_CODENAME}"
+  docker_codename="${UBUNTU_CODENAME:-${VERSION_CODENAME:-}}"
 
   if [ "$derivative" = true ]; then
     echo "-----------------------------------------------------------------"
@@ -73,6 +69,17 @@ install_docker_linux() {
   # guaranteed present on a minimal install. Nor is make, which runs every
   # dev workflow step.
   sudo apt-get install -y ca-certificates curl procps make
+
+  # Check Docker publishes this release before adding its repo, as a source
+  # for a release it doesn't have (e.g. Kali's "kali-rolling") breaks every
+  # later apt-get update on this host.
+  if [ -z "$docker_codename" ] || \
+     ! curl -fsI "https://download.docker.com/linux/$docker_distro/dists/$docker_codename/Release" >/dev/null; then
+    echo "ERROR: Docker has no $docker_distro packages for ${PRETTY_NAME:-this release} (codename: ${docker_codename:-none})." >&2
+    echo "       Install Docker by following https://docs.docker.com/engine/install/ then re-run this script." >&2
+    exit 1
+  fi
+
   sudo install -m 0755 -d /etc/apt/keyrings
   sudo curl -fsSL "https://download.docker.com/linux/$docker_distro/gpg" -o /etc/apt/keyrings/docker.asc
   sudo chmod a+r /etc/apt/keyrings/docker.asc
@@ -171,36 +178,6 @@ install_mise_linux() {
   sudo apt-get install -y mise
 }
 
-install_node_linux() {
-  echo "Installing Node.js (needed for the devcontainer CLI)..."
-  # Ubuntu/Debian's own repos can lag behind what @devcontainers/cli needs,
-  # so use NodeSource's setup script to get a current LTS regardless of
-  # which release this is.
-  curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-  sudo apt-get install -y nodejs
-}
-
-install_node_macos() {
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
-    exit 1
-  fi
-  echo "Installing Node.js (needed for the devcontainer CLI)..."
-  brew install node
-}
-
-install_devcontainer_cli() {
-  if ! command -v npm >/dev/null 2>&1; then
-    case "$(uname -s)" in
-      Linux)  install_node_linux ;;
-      Darwin) install_node_macos ;;
-    esac
-  fi
-
-  echo "Installing @devcontainers/cli..."
-  sudo npm install -g @devcontainers/cli
-}
-
 main() {
   if docker_ready; then
     echo "OK: Docker + Compose plugin already installed"
@@ -227,18 +204,10 @@ main() {
       ;;
   esac
 
-  if devcontainer_ready; then
-    echo "OK: devcontainer CLI already installed"
-  else
-    install_devcontainer_cli
-  fi
-
   echo ""
   echo "== Versions =="
   docker --version
   docker compose version
-  echo -n "Devcontainer: "
-  devcontainer --version
 
   # Just being added to the docker group only counts from the next login
   if ! docker info >/dev/null 2>&1; then
