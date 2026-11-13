@@ -3,7 +3,12 @@
 
 $(function() {
   $("form.edit_division a#preview_link").on("shown.bs.tab", function(e) {
-    return $("#preview").html(marked($("#edit textarea").val()));
+    return $("#preview").html(marked.parse($("#edit textarea").val()));
+  });
+  $("input[data-toggle-target]").on("change", function() {
+    var group = $($(this).data("toggle-target"));
+    group.toggleClass("hidden", !this.checked);
+    group.find("input[type=text]").prop("required", this.checked);
   });
   $(".division-title").widowFix({
     letterLimit: 10,

@@ -8,22 +8,20 @@ module DataLoader
       @member_to_person ||= load_people
     end
 
+    # Directory on openaustralia.org.au for each portrait size
+    SOURCE_DIRECTORIES = { small: "mps", large: "mpsL", extra_large: "mpsXL" }.freeze
+
     # Try to load any people images that are currently missing
     def self.load_missing_images!
-      Person.where(small_image_url: nil).find_each do |person|
-        Rails.logger.info "Checking small photo for person #{person.id}..."
-        url = "https://www.openaustralia.org.au/images/mps/#{person.id}.jpg"
-        person.update(small_image_url: url) if CheckResourceExists.call(url)
-      end
-      Person.where(large_image_url: nil).find_each do |person|
-        Rails.logger.info "Checking large photo for person #{person.id}..."
-        url = "https://www.openaustralia.org.au/images/mpsL/#{person.id}.jpg"
-        person.update(large_image_url: url) if CheckResourceExists.call(url)
-      end
-      Person.where(extra_large_image_url: nil).find_each do |person|
-        Rails.logger.info "Checking extra large photo for person #{person.id}..."
-        url = "https://www.openaustralia.org.au/images/mpsXL/#{person.id}.jpg"
-        person.update(extra_large_image_url: url) if CheckResourceExists.call(url)
+      SOURCE_DIRECTORIES.each do |size, directory|
+        Person.where("#{size}_image_url": nil).find_each do |person|
+          Rails.logger.info "Checking #{size} photo for person #{person.id}..."
+          url = "https://www.openaustralia.org.au/images/#{directory}/#{person.id}.jpg"
+          next unless CheckResourceExists.call(url)
+
+          person.update("#{size}_image_url": url)
+          PortraitMirror.mirror(person)
+        end
       end
     end
 

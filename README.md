@@ -1,241 +1,229 @@
 # They Vote For You
-
 [![Build Status](https://github.com/openaustralia/theyvoteforyou/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/openaustralia/theyvoteforyou/actions/workflows/rubyonrails.yml) [![View performance data on Skylight](https://badges.skylight.io/status/WaEcq22vbGmE.svg?token=vUJxZEeaJsAHAZwuG7jUg1kAynbWf1OKnhhXosl9ibc)](https://www.skylight.io/app/applications/WaEcq22vbGmE)
 
 ## Introduction
 
-In our democracy the definitive exercise of the power we give our politicians when we vote them into office is how they
-vote in our parliaments on our behalf. Yet you probably don't know how your MP votes. This isn't your fault.
+In our democracy the definitive exercise of the power we give our politicians
+when we vote them into office is how they vote in our parliaments on our behalf.
+Yet you probably don't know how your MP votes. This isn't your fault.
 
-Parliamentary voting information is notoriously difficult to find and analyse. This project changes that by making it
-understandable and easy to use.
+Parliamentary voting information is notoriously difficult to find and analyse.
+This project changes that by making it understandable and easy to use.
 
-Over 10 years ago the pioneering [Public Whip](http://www.publicwhip.org.uk/) project was created in the UK. This is an
-evolution of that original PHP application into a modern Rails application.
+Over 10 years ago the pioneering [Public Whip](http://www.publicwhip.org.uk/) project was created in the UK. This is an evolution of that original PHP application into a modern Rails application.
 
 ### Process overview
 
 #### Australia
 
 The [OpenAustralia.org](https://www.openaustralia.org.au) project
-[parses](https://github.com/openaustralia/openaustralia-parser) the Australian Federal Hansard
-into [ParlParse](http://parser.theyworkforyou.com/) format (this due to it's history of being a fork of the UK
+[parses](https://github.com/openaustralia/openaustralia-parser) the Australian
+Federal Hansard into [ParlParse](http://parser.theyworkforyou.com/) format (this
+due to it's history of being a fork of the UK
 [TheyWorkForYou](http://www.theyworkforyou.com/) project). The debates XML files the parser creates, also available on
-[data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data and we load this into a Rails
-application.
+[data.openaustralia.org](http://data.openaustralia.org.au/), contain voting data
+and we load this into a Rails application.
 
 #### UK
 
-The UK Public Whip site still operates from the original PHP codebase however it's very possible for it to be upgraded
-to Rails in the future. During the development of [They Vote For You](https://theyvoteforyou.org.au/), the OpenAustralia
-Foundation was careful to ensure there is an upgrade path.
+The UK Public Whip site still operates from the original PHP codebase however it's very possible for it to be upgraded to Rails in the future. During the development of [They Vote For You](https://theyvoteforyou.org.au/), the OpenAustralia Foundation was careful to ensure there is an upgrade path.
 
-To upgrade, checkout the `php-compatibility` branch and point the Rails application at a copy of the UK production
-database. Test the site out and fix any bugs - there are likely to be some UK-specific additions needed to the Rails
-application.
+To upgrade, checkout the `php-compatibility` branch and point the Rails application at a copy of the UK production database. Test the site out and fix any bugs - there are likely to be some UK-specific additions needed to the Rails application.
 
-Once the site is working you can then checkout a more recent version of the codebase and run `rake db:migrate` to
-upgrade the database schema. This also is likely to need some UK-specific changes.
+Once the site is working you can then checkout a more recent version of the codebase and run `rake db:migrate` to upgrade the database schema. This also is likely to need some UK-specific changes.
 
-The final step is to customise the site language and interface. The best way to achieve this would be to develop some
-sort of theming system.
+The final step is to customise the site language and interface. The best way to achieve this would be to develop some sort of theming system.
 
 #### Ukraine
 
-People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed
-into [EveryPolitician](http://everypolitician.org/ukraine/). This
-produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
+People data is collected by a [morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_deputies) and fed into [EveryPolitician](https://everypolitician.org/territories/ua/national/). This produces [Popolo formatted](http://www.popoloproject.com/) data that is then loaded into TVFY using a Rake task, e.g.:
 
     bundle exec rake application:load:popolo[https://raw.githubusercontent.com/everypolitician/everypolitician-data/master/data/Ukraine/Verkhovna_Rada/ep-popolo-v1.0.json]
 
-Once the people data has been loaded you can start loading votes. These are scraped
-by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat
-format that can easily be converted to Popolo. The conversion is handled by
-a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another
-Rake task, e.g.:
+Once the people data has been loaded you can start loading votes. These are scraped by [another morph.io scraper](https://morph.io/openaustralia/ukraine_verkhovna_rada_votes), that saves data in a flat format that can easily be converted to Popolo. The conversion is handled by a [small proxy application](https://github.com/openaustralia/morph_popolo) and the results are imported using another Rake task, e.g.:
 
     bundle exec rake application:load:popolo[https://arcane-mountain-8284.herokuapp.com/vote_events/2015-07-14]
 
 ## Development
 
-Development uses a [dev container](https://containers.dev/) - a Docker-based environment with Ruby, MySQL, Elasticsearch
-and Mailpit already wired together with the rails-app container, so there's nothing to install locally beyond Docker and
-your favourite IDE. Open the project in VS Code or RubyMine and either will offer to reopen it in the container
-automatically. If you prefer vi or other text editor then install make, and use `make setup` to install the devcontainer
-CLI directly. See below for various make targets to assist in development.
+[AGENTS.md](AGENTS.md#development-environment) carries the working knowledge of the codebase for AI coding agents
+(and is a useful orientation for humans too). Cross-cutting engineering decisions are recorded as Architecture
+Decision Records in [docs/adr/](docs/adr); add a new numbered file when you make one. [GLOSSARY.md](GLOSSARY.md) holds
+the canonical vocabulary for concepts with more than one plausible name.
 
-Everything here is also available via `make [help]`, which prints a one-line description of each target - the fastest
-way to check what's available without re-reading this section.
+### Requirements
 
-### Host platforms
+- Docker, running natively on your machine. On a Mac with Apple Silicon, use the arm64 build of Docker Desktop (or
+  OrbStack). Every image in `.devcontainer/compose.yaml` has an arm64 build, so nothing runs under emulation.
+- [mise](https://mise.jdx.dev) (preferred) or rbenv, which `make setup` uses to install the Ruby in `.ruby-version`.
+- A MySQL client library, to build the `mysql2` gem, and HTML Tidy, which the specs need:
 
-Your development system needs to be able to run docker compose and devcontainers. We provide `make setup` as a
-convenience to set up the following systems we personally use or can test using the `setup-host-test` manual GitHub
-action:
+  ```
+  brew install mysql tidy-html5                       # macOS
+  sudo apt-get install default-libmysqlclient-dev tidy  # Debian/Ubuntu
+  ```
 
-* Ubuntu 22.04 LTS (Jammy Jellyfish), 24.04 LTS (Noble Numbat) and 26.04 LTS (Resolute Raccoon)
-* Debian 12 (bookworm) and 13 (trixie)
-* macOS recent enough to run Docker Desktop (usually the current macOS major release plus the two previous releases)
+  On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
 
-We have made a best-effort to support the following less used distros, and welcome PRs that will add support for what
-you personally use and can test for us:
+On a fresh machine, `make host-setup` installs all of these (plus the devcontainer CLI), then runs `make setup`.
+It supports:
 
-* WSL2 (Windows Subsystem for Linux) running Ubuntu or Debian - using standard Linux not windows packages
-* Other Ubuntu/Debian-derived distros (Mint, Pop!_OS, Zorin, elementary, etc.) may work. They get a clear warning
+- Ubuntu 22.04, 24.04 and 26.04 LTS
+- Debian 12 (bookworm) and 13 (trixie)
+- macOS recent enough to run Docker Desktop, with [Homebrew](https://brew.sh)
 
-We are not attempting to support native Microsoft Windows outside WSL2, nor releases that are EOL. Cloud based
-development platforms are outside the scope of this document, but we aim to facilitate their use by standardising on the
-use of devcontainers.
+It also makes a best effort on WSL2 running Ubuntu or Debian, and on other Ubuntu or Debian derivatives such as Mint
+or Pop!_OS, with a warning. Native Windows, outside WSL2, isn't supported. The `setup-host-test` workflow, run by hand
+from GitHub Actions, tests it on each Linux release above.
 
-#### Memory requirements
+If a port the containers need is already in use, or you run more than one worktree at once, see
+[Port clashes](AGENTS.md#port-clashes) in AGENTS.md for the variables that move each one.
 
-**We suggest** you add enough swap that the system noticeably slows down before the OOM killer starts killing processes,
-giving you a chance to close things yourself: half your RAM size on a hard disk, a full RAM size on an SSD (SSDs need
-more swap usage before it's noticeable). If you want to hibernate, swap needs to be at least equal to RAM.
+### First-time setup
 
-What to expect, by system RAM (see [#1649](https://github.com/openaustralia/theyvoteforyou/issues/1649) for the full
-design rationale):
+```
+make setup
+```
 
-| System RAM | Expected experience                                                                                                                        |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| 8 GB       | Fine for a lightweight editor (e.g. vim), not a full IDE[^ide] like VS code and RubyMine                                                   |
-| 16 GB      | Comfortable for one project at a time alongside a full IDE[^ide], including via the full devcontainer. This is the baseline we design for. |
-| 32 GB      | Comfortable multitasking between two projects, or running the container stack alongside heavier tooling without adjustment.                |
+This starts MySQL, Elasticsearch, dejavu and mailpit in Docker, installs Ruby and the gems, copies
+`config/database.yml` from its example (which works as it is), and creates the database with seed data. It's safe to
+rerun, for example after pulling changes.
 
-[^ide] full IDE: tested with VS code and RubyMine - which run a client in the devcontainer as well as on the host. The
-`ruby-app` container has a 8GB memory limit at RubyMine's recommendation. VS code needs less. IDEs use less memory in
-hybrid mode, but you need to set up ruby on your host (eg using mise). Unfortunately even in hybrid mode VS code isn't
-viable on an 8GB host.
+The seed data is only a few records. For real data, run `make seed` (or `make seed FROM=2024-02-01 TO=2024-03-31` for
+other dates). It needs network access to [data.openaustralia.org.au](http://data.openaustralia.org.au/), and is
+slow: about 4 minutes on a fast connection, mostly loading members, as it checks every person's photo. It runs
+these, which you can also run on the host:
 
-Plain `devcontainer` CLI usage with no IDE attached uses far less memory, so none of this headroom costs anything for
-non-IDE users, `mem_limit` is a ceiling, not a reservation.
+```
+bundle exec rake application:load:members
+bundle exec rake "application:load:divisions[2021-07-01,2021-10-31]"
+bundle exec rake application:cache:all_except_people_distances
+bundle exec rake searchkick:reindex:all
+```
 
-#### Supported Bundler platforms
+`make seed` skips people distances, how similarly each pair of people votes, which the "friends" pages show. They
+take a long time to calculate, so `make seed` uses `application:cache:all_except_people_distances`. Run
+`application:cache:all` when you need them.
 
-The following platforms are specified in Gemfile.lock so the lock file shouldn't change when you do a `bundle install`
-on a supported platform. To re-establish run the following command. We have removed specific version numbers so updating
-your Operating System release shouldn't cause issues.
+Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
+Mail sent in development is caught by mailpit at <http://localhost:1088>, and
+<http://localhost:3000/rails/mailers> previews the app's emails without sending them.
 
-```bash
+To run the app in Docker instead, run `make up`, or open the repo as a dev container. The app container installs gems
+and sets up the database itself, and `make shell` gives you a shell in it for the data loading commands above.
+
+`make down` stops either setup and keeps the data. `make clean` also removes what was built (images, gems), so the
+next start rebuilds from scratch, still keeping the data. `make clobber` removes the data too, then prunes stopped
+containers, unused images and build cache for every project on the machine, which is worth doing after switching
+branches or changing dependencies. Other projects only have to download or rebuild again; their data is untouched.
+`make status` shows what's running, on which ports, and the addresses to browse with a sign-in. Run `make` to list all the targets.
+
+As a last resort, `docker system prune --all --volumes --force` also deletes unused volumes, which can include the
+databases of every stopped Docker project on the machine, not just this one.
+
+### If the app won't start
+
+Startup fails loudly on purpose, so a broken setup gets noticed instead of hiding behind a container that looks fine.
+If setup fails, or takes longer than `START_LIMIT` (5 minutes here, set in `.devcontainer/compose.yaml`), the `app`
+container stops, `make up` reports the failure, and the dev container shows an error instead of opening.
+
+To fix it:
+
+1. `make status` shows which container stopped, and `make logs SERVICE=app` shows why.
+2. `make shell` opens a shell in a fresh `app` container even when it has stopped, so you can rerun the setup by hand
+   and fix the problem.
+3. `make up`, or reopen the dev container, to start again.
+
+On a slow machine, a longer limit can go in `.env`, for example `START_LIMIT=20m`.
+
+### Running the specs
+
+```
+bundle exec rake
+```
+
+Or `make test` to run them in Docker, as CI does (`ARGS=spec/models/division_spec.rb` runs just one file).
+
+The specs use the `tvfy-test` database in the same MySQL container, which `make setup` creates.
+
+### How development differs from production
+
+- Production caches with memcached. Development uses an in-memory store.
+- Production serves the app with nginx and Passenger. Development uses the Rails server.
+- Production uses RDS MySQL 8.4 and Elasticsearch 7.17.7. Development runs the same versions in containers, with
+  databases named `tvfy-development` and `tvfy-test` where production uses `tvfy-production` and `tvfy-staging`.
+
+### Memory requirements
+
+Add enough swap that the machine noticeably slows down before the out-of-memory killer starts closing programs, so
+you get the chance to close things yourself: half your RAM on a hard disk, or as much as your RAM on an SSD. To
+hibernate, swap must be at least as big as RAM.
+
+| RAM   | What to expect                                                                                            |
+|-------|-----------------------------------------------------------------------------------------------------------|
+| 8 GB  | Fine with a light editor such as vim, but not a full IDE such as VS Code or RubyMine                      |
+| 16 GB | Comfortable for one project at a time with a full IDE, including in the dev container. We design for this |
+| 32 GB | Comfortable switching between two projects, or running heavier tools alongside                            |
+
+VS Code and RubyMine each run part of themselves inside the dev container, so the `app` container's limit is 8 GB, as
+RubyMine recommends. Running Rails on the host with `make services-up` uses less. The limits in
+`.devcontainer/compose.yaml` are ceilings, not reservations, so they cost nothing when unused. See
+[#1649](https://github.com/openaustralia/theyvoteforyou/issues/1649) for the reasoning.
+
+### Bundler platforms
+
+`Gemfile.lock` lists these platforms, so `bundle install` on any of them leaves it unchanged:
+
+| Platform        | Covers                                                                        |
+|-----------------|-------------------------------------------------------------------------------|
+| `aarch64-linux` | Docker on Apple Silicon (containers run `linux/arm64`), and ARM Linux or WSL2 |
+| `x86_64-linux`  | Docker on Intel, and x86_64 Linux or WSL2                                     |
+| `arm64-darwin`  | Running Ruby directly on an Apple Silicon Mac                                 |
+| `x86_64-darwin` | Running Ruby directly on an Intel Mac                                         |
+
+The macOS platforms have no version number, so a macOS upgrade doesn't add another. To restore them:
+
+```
 bundle lock --add-platform aarch64-linux arm64-darwin x86_64-darwin x86_64-linux
 ```
 
-Note: We don't add the generic ruby platform: several native extension gems here (eg ffi, nokogiri, libv8-node) only
-ship precompiled binaries for the platforms above, and ruby makes Bundler try to compile them from source instead.
-
-| Platform        | Covers                                                                                                                                                                        |
-|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `aarch64-linux` | Devcontainer/Docker on an Apple Silicon Mac (the container runs `linux/arm64` regardless of host OS), plus native ARM Linux (Ubuntu/Debian on ARM) and WSL2 on Windows-on-ARM |
-| `x86_64-linux`  | Devcontainer/Docker on an Intel Mac or x86_64 host, native x86_64 Ubuntu/Debian, and standard WSL2                                                                            |
-| `arm64-darwin`  | Non-container fallback, running `bundle install` directly on an Apple Silicon Mac                                                                                             |
-| `x86_64-darwin` | Non-container fallback, running `bundle install` directly on an Intel Mac                                                                                                     |
-
-### Getting started
-
-```
-make setup     # Install Docker, Compose, and the devcontainer CLI
-make dev-up    # Build and start the dev container - leave this running
-```
-
-In another terminal:
-
-```
-make dev-exec # bash shell running in the rails-app container
-make dev-exec COMMAND="bin/setup --skip-server" # already run via postCreateCommand; safe to rerun any time
-make dev-server # runs the rails web server (bound to address 0.0.0.0 as needed for port forwarding)
-```
-
-### Everyday commands
-
-* `make dev-status` - container status, resource usage, and clickable service URLs
-* `make dev-console` - `bin/rails console` inside the container
-* `make dev-dbconsole` - `bin/rails dbconsole` inside the container
-* `make dev-rake ARGS="db:test:prepare"` - run a rake task inside the container
-* `make dev-exec COMMAND="..."` - run any other command inside the container (default: `bash`)
-
-When you are finished, run:
-
-* `make dev-down` - stops containers, but retains data, or
-* `make dev-clobber` - full reset: removes containers, images and volumes
-
-### Setting up development data
-
-First run only - loads MPs, divisions, and builds the search index:
-
-```
-make dev-exec COMMAND="bin/rake application:load:members"
-make dev-exec COMMAND="bin/rake application:load:divisions[2021-07-01,2021-10-31]"
-make dev-exec COMMAND="bin/rake application:cache:all"
-make dev-exec COMMAND="bin/rake searchkick:reindex:all"
-```
-
-### Once it's running
-
-* The app itself: http://localhost:3088 - needs the Rails server actually running and bound to `0.0.0.0` (see
-  "Getting started" above)
-* Elasticsearch: http://localhost:9288/ gives basic version/cluster info as a quick "is it alive" check. Two other
-  useful ones:
-    * http://localhost:9288/_cluster/health gives cluster status - should be `"status":"green"` (indices are configured
-      with no replicas in development/test, so a single dev/test node has nothing left unassigned)
-    * http://localhost:9288/_cat/indices?v lists indices with document counts - useful for confirming a reindex worked
-    * See `Rails.application.credentials.elasticsearch.url` on production for its base url
-* Mailpit: http://localhost:8088/ - any email the app sends in development lands here instead of a real inbox
-* MySQL: connect a client (e.g. MySQL Workbench) to `localhost:3388`, user `root`, password `password`
-
-## Using just the other services
-
-If you want to run rails locally, but use the mysql, elasticsearch and mailpit services, then run:
-
-```bash
-make dev-up
-```
-
-Then add these to your `.envrc` file (used by `direnv` to set environment):
-
-```
-export MAILPIT_HOST=127.0.0.1
-export MAILPIT_PORT=1088
-export DB_HOST=127.0.0.1
-export DB_PORT=3388
-export MYSQL_USER=root
-export MYSQL_PASSWORD=password
-export ELASTICSEARCH_URL=http://localhost:9288
-```
-
-Known issue with RubyMine: mise works via the devcontainer CLI but not when RubyMine connects to the `rails-app`
-container directly, see #1667.
+The generic `ruby` platform is left out on purpose: several gems here (such as ffi, nokogiri and libv8-node) only ship
+precompiled builds for the platforms above, and `ruby` makes Bundler compile them from source instead.
 
 ## Loading data
 
 ### Australia
 
-These rake tasks are the ones you're most likely to need to run. You can run them as the `deploy` user in
-`/srv/www/production/current`, for instance:
+These rake tasks are the ones you're most likely to need to run. You
+can run them as the `deploy` user in `/srv/www/production/current`, for instance:
 
 ```
 deploy@ip-172-31-37-36:/srv/www/production/current$ RAILS_ENV=production bundle exec rake application:load:divisions[2018-10-18]
 ```
 
-* `application:load:members` loads members, offices and electorates. You always need this to run the site. Strictly
-  speaking it only needs to run when details need updating but can be run as often as you like as it only updates data.
-* `application:load:divisions[from_date,to_date]` load division[s]. `to_date` is optional and if omitted, allows you to
-  load a single date.
-* `application:cache` this namespace contains cache updating tasks that are necessary for the site to run. They should
-  be self-explanatory.
+* `application:load:members` loads members, offices and electorates. You always
+need this to run the site. Strictly speaking it only needs to run when details
+need updating but can be run as often as you like as it only updates data.
+* `application:load:divisions[from_date,to_date]` load division[s]. `to_date` is
+optional and if omitted, allows you to load a single date.
+* `application:cache` this namespace contains cache updating tasks that are
+necessary for the site to run. They should be self-explanatory.
+* `application:portraits:mirror` downloads MP portraits into `public/system/portraits/`
+so the site serves them itself. Run it once after first setting up, then the nightly
+cron keeps it current.
 
-Daily updates are carried out by the `application:load:daily` Rake task, which is run daily at 09:15 by cron.
+Daily updates are carried out by the `application:load:daily` Rake task,
+which is run daily at 09:15 by cron. Portraits and social media cards are refreshed
+by `application:cron:nightly`, run at 02:05.
 
 ### Popolo
 
-Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the
-`application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
+Countries that use [Popolo](http://www.popoloproject.com/), e.g. Ukraine, only need to know about the `application:load:popolo` Rake task. It will load people or country data, depending on what it finds in the file.
 
 ## Search
 
-Search requires [elasticsearch](https://www.elasticsearch.org/); the devcontainer (or the hybrid setup above) already
-provides it, so you only need to install it separately if you're running fully on the host without either. Homebrew no
-longer carries elasticsearch (removed after Elastic's licence change); see the
-[download page](http://www.elasticsearch.org/download) for the Linux `.deb` and other options instead.
+Search requires [Elasticsearch](https://www.elastic.co/elasticsearch). In development, `make services-up` runs it
+in Docker on port 9200, and the dejavu browser at <http://localhost:1358> lets you look at the index.
 
 Add data to your index the first time with `bundle exec rake searchkick:reindex:all` and
 [Searchkick](https://github.com/ankane/searchkick) should take care of updates from there.
@@ -254,12 +242,44 @@ The code is deployed using Capistrano. To deploy to production run:
 
     bundle exec cap production deploy
 
+##### Sentry release tracking
+
+Each deploy notifies [Sentry](https://oaf-org-au.sentry.io/) of the new
+release so that errors can be linked back to the commits that introduced them.
+This runs on your machine as part of the deploy and needs a one-off setup:
+
+1. Install the [Sentry CLI](https://cli.sentry.dev/getting-started/) (v4,
+   the `sentry` binary): `brew install getsentry/tools/sentry` on a Mac, or
+   on Linux `curl https://cli.sentry.dev/install -fsS | bash`. The older v3
+   `sentry-cli` binary is also still supported if you have it installed.
+2. Authenticate. The easiest way is the browser-based login (v4 only):
+
+   ```
+   sentry auth login
+   ```
+
+   Alternatively (and for v3), create a personal auth token at
+   https://oaf-org-au.sentry.io under Settings → Auth Tokens → Create New
+   Token, with only the `project:releases` scope, and put it in
+   `~/.sentryclirc`:
+
+   ```
+   [auth]
+   token=your-token-here
+   ```
+
+   or set the `SENTRY_AUTH_TOKEN` environment variable. The org, project and
+   URL are picked up automatically from this repository's `.sentryclirc`.
+3. Check it works with `sentry auth status` (v4) or `sentry-cli info` (v3).
+
+If you haven't done this setup, deploys still work as normal; the release
+tracking step is skipped with a warning.
+
 ### Ukraine
 
 #### Server provisioning
 
-Ukraine's server has its configuration management in [another repository](https://github.com/OPORA/publicwhip_server/).
-Once you've run the server provisioning tasks you can follow the instructions below to deploy the application.
+Ukraine's server has its configuration management in [another repository](https://github.com/OPORA/publicwhip_server/). Once you've run the server provisioning tasks you can follow the instructions below to deploy the application.
 
 #### Deployment
 
@@ -286,11 +306,7 @@ To deploy to the **production** server, replace `ukraine_dev` with `ukraine_prod
 
 ## Accessing the admin panel
 
-The administration panel, which currently doesn't do a whole lot, can be accessed in development
-at http://localhost:3088/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be
-able to access that page. Any user that is an admin can make another user and admin too using the admin panel. The first
-admin user must be created via the rails console:
-
+The administration panel, which currently doesn't do a whole lot, can be accessed in development at http://localhost:3000/admin/ and in production at https://theyvoteforyou.org.au/admin. You must be an admin to be able to access that page. Any user that is an admin can make another user and admin too using the admin panel. The first admin user must be created via the rails console:
 ```
 deploy@hostname:/srv/www/production/current$ RAILS_ENV=production bundle exec rails c
 Loading production environment (Rails 8.0.2)
@@ -302,22 +318,23 @@ irb> User.find_by(email: "matthew@oaf.org.au").update(admin: true)
 
 Obviously substitute the email address in the command above.
 
+### Announcements
+
+Admins can publish a bar across the top of every page at `/admin/announcements`. The body is HTML, and only links, bold, italic, line breaks and paragraphs are kept. An announcement shows when it is published and the current time is between its optional start and end. If more than one is live, only the one that started most recently shows, and one with no start counts from when it was created. Times are in Sydney time. The announcement is part of the page HTML, so it relies on pages not being cached by a shared cache such as Cloudflare. They are sent as private today, and a spec fails if that changes.
+
 ## Feature flags
 
-Some features that are still in development are enabled via "feature flags". The features can optionally switched on for
-certain users, block of users or everyone. These flags are administered
-at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3088/admin/flipper/features
-when in development.
+Some features that are still in development are enabled via "feature flags". The features can optionally switched on for certain users, block of users or everyone. These flags are administered at https://theyvoteforyou.org.au/admin/flipper/features in production or http://localhost:3000/admin/flipper/features when in development.
 
 The names of the features added in the admin panel need to match those in the code at `config/initializers/flipper.rb`.
 
-To enable a feature for a particular user: Go to the feature on the flipper admin panel. Then click the button "Add an
-actor". Then add the `flipper_id` which for a user will be of the form `User;<user id>`. So for example it could be
-`User;3`.
+To enable a feature for a particular user: Go to the feature on the flipper admin panel. Then click the button "Add an actor". Then add the `flipper_id` which for a user will be of the form `User;<user id>`. So for example it could be `User;3`.
 
 ## To run style and coding checks
 
     bundle exec rubocop
+
+Or `make lint` to run them in Docker.
 
 ## To check for security updates
 
@@ -332,10 +349,10 @@ for the main branch, taking note of when the last check was run, **or** run manu
 This project uses some icons from the noun project under creative commons licenses:
 
 * Check icon by useiconic.com from The Noun Project
-  http://thenounproject.com/term/check/45904/
+http://thenounproject.com/term/check/45904/
 * Delete icon by useiconic.com from The Noun Project
-  http://thenounproject.com/term/delete/45301/
+http://thenounproject.com/term/delete/45301/
 * Speech Icon by Lissette Arias from the Noun Project
-  http://thenounproject.com/term/lecturer/8076/
+http://thenounproject.com/term/lecturer/8076/
 * User Icon by Universal Icons from the Noun Project
-  https://thenounproject.com/icon/user-3692903/
+https://thenounproject.com/icon/user-3692903/

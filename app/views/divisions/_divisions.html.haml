@@ -7,6 +7,7 @@
     %p No votes listed
 
 - else
+  - votes = votes_by_member_and_division(members, divisions)
   %ol.divisions-list.list-unstyled{class: active_house_for_list_class(house)}
     - divisions.each do |division|
-      = render partial: 'divisions/division', locals: {members: members, house: house, division: division}
+      = render partial: 'divisions/division', locals: {members: members, house: house, division: division, votes: votes}

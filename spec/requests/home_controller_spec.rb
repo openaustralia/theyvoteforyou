@@ -41,6 +41,16 @@ describe HomeController, type: :request do
     compare_static("/help/faq")
   end
 
+  describe "#about" do
+    it "says which version of the site is running, linked to the commit on GitHub" do
+      get("/about")
+
+      sha = AppVersion.short_sha
+      expect(response.body).to include("You are using version")
+      expect(response.body).to include("https://github.com/openaustralia/theyvoteforyou/commit/#{sha}")
+    end
+  end
+
   describe "#search" do
     it { compare_static("/search") }
 

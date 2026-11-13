@@ -74,4 +74,20 @@ describe MembersHelper, type: :helper do
       end
     end
   end
+
+  describe "#card_member_image" do
+    it "shows the portrait when there is one" do
+      member = build_stubbed(:member, person: build_stubbed(:person, large_image_url: "https://example.com/l.jpg"))
+
+      expect(helper.card_member_image(member, :large)).to include("/system/portraits/large/#{member.person.id}.jpg")
+    end
+
+    it "falls back to a placeholder at the same size rather than leaving a hole" do
+      member = build_stubbed(:member, person: build_stubbed(:person, large_image_url: nil, small_image_url: nil))
+
+      html = helper.card_member_image(member, :large)
+      expect(html).to include("generic-person")
+      expect(html).to include('width="88" height="118"')
+    end
+  end
 end

@@ -1,0 +1,45 @@
+-# Gated on the policy governing the connections this panel offers to make, not on editing the
+-# division, so widening who may edit a division can't publish unreviewed AI drafts.
+- if policy(PolicyDivision).new?
+  - ai = DivisionAiSuggestions.new(division)
+  - if ai.any?
+    %section.page-section#ai-policy-suggestions
+      %h2.h5
+        We have AI suggestions (staff only) -
+        %a.collapsed{href: "#ai-policy-suggestions-body", role: "button", data: {toggle: "collapse"}, "aria-expanded" => "false", "aria-controls" => "ai-policy-suggestions-body"}
+          %span.when-collapsed ▼ review
+          %span.when-expanded ▲ hide
+      #ai-policy-suggestions-body.collapse
+        %p.text-muted
+          Draft proposals from AI models classifying this division against existing policies, not yet reviewed by a human.
+        - ai.each do |row|
+          .ai-policy-suggestion{class: row.css_class}
+            %h3.h3= row.label
+            - if row.unclassified?
+              %p.text-muted Not yet classified.
+            - elsif row.error?
+              %p.text-danger= row.summary
+            - else
+              %p
+                This vote is
+                %span.division-policy-statement-vote{class: row.vote_class}= row.direction
+                - if row.new_policy?
+                  a new policy:
+                  %strong= row.proposed_policy_name
+                - elsif row.policy
+                  an existing policy:
+                  = link_to row.policy.name, row.policy
+                - else
+                  = AiPolicySuggestion::POLICY_NOT_FOUND
+
+                - if row.agreement?
+                  %span.label.label-info= "#{row.agree_count} models agree"
+                - if row.linked_same_way?
+                  %span.label.label-success Already linked
+                - elsif row.linked_other_way?
+                  %span.label.label-warning Linked the other way
+              - if row.new_policy? && row.proposed_policy_description.present?
+                %p= row.proposed_policy_description
+              - if row.reasoning.present?
+                %p.ai-policy-suggestion-reasoning.text-muted.small= row.reasoning
+        = render "ai_unanimous_suggestion", division: division, ai: ai if ai.unanimous

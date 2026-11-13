@@ -5,9 +5,9 @@
     .col-sm-12
       .socialmedia-card-two-image-card
         .socialmedia-card-member-image
-          = member_image(@person_distance.person1.latest_member, :extra_large)
+          = card_member_image(@person_distance.person1.latest_member, :extra_large)
         .socialmedia-card-member2-image
-          = member_image(@person_distance.person2.latest_member, :extra_large)
+          = card_member_image(@person_distance.person2.latest_member, :extra_large)
         %div.fitin
           .socialmedia-card-heading-text
             %strong= @person_distance.person1.name

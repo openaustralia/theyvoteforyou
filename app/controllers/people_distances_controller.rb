@@ -69,7 +69,13 @@ class PeopleDistancesController < ApplicationController
       return
     end
     # TODO: Preload some associations to speed up queries
-    @person_distance = PeopleDistance.find_by(person1: member1.person, person2: member2.person)
+    # If these two people were never in the same house at the same time then there's
+    # nothing to compare so return a 404
+    @person_distance = PeopleDistance.find_by!(person1: member1.person, person2: member2.person)
+    # If either person has no distance for this policy, for instance because they weren't
+    # in parliament for any of its votes, then return a 404
+    @policy_person_distance1 = PolicyPersonDistance.find_by!(policy: @policy, person: @person_distance.person1)
+    @policy_person_distance2 = PolicyPersonDistance.find_by!(policy: @policy, person: @person_distance.person2)
     # TODO: Probably don't need both @person_distance and people. Refactor to get rid of one
     @people = Person.includes(:members).find([member1.person_id, member2.person_id])
   end

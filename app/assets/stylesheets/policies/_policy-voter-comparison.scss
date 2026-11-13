@@ -1,0 +1,136 @@
+.policy-comparison-block {
+  border-top: 7px solid theme("border-strong");
+  padding-bottom: 1em;
+  float: none;
+  clear: both;
+  position: relative;
+
+  .members & {
+    margin: 0 -15px;
+
+    .policy-comparison-list {
+      margin: 0 -15px;
+    }
+
+  }
+
+  @media (min-width: $screen-sm-min) {
+    padding-bottom: 2em;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    padding-bottom: 3em;
+  }
+
+  &.position-for3 {
+    border-top-color: theme("for3");
+    color: theme("for3");
+  }
+
+  &.position-for2 {
+    border-top-color: theme("for2");
+    color: theme("for2");
+  }
+
+  &.position-for1 {
+    border-top-color: theme("for1");
+    color: theme("for1");
+  }
+
+  &.position-mixture {
+    border-top-color: theme("mixed-position");
+    color: theme("mixed-position");
+  }
+
+  &.position-against1 {
+    border-top-color: theme("against1");
+    color: theme("against1");
+  }
+
+  &.position-against2 {
+    border-top-color: theme("against2");
+    color: theme("against2");
+  }
+
+  &.position-against3 {
+    border-top-color: theme("against3");
+    color: theme("against3");
+  }
+
+  h2 + & {
+    margin-top: 1em;
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: 2em;
+    }
+  }
+}
+
+.policy-comparison-position {
+  margin-top: 0;
+  padding-top: .5em;
+  padding-bottom: .25em;
+  font-size: 24px;
+  font-weight: normal;
+
+  .policies & {
+    width: 100%;
+
+    @media (min-width: $screen-sm-min) {
+      padding-right: 170px;
+    }
+  }
+}
+
+.policy-comparison-member {
+  margin-right: 3px;
+  margin-bottom: 6px;
+  padding: 0 !important;
+  display: inline-block;
+
+  @media (max-width: 20em) {
+    width: 30%;
+  }
+
+  &:focus {
+    outline: 0;
+    opacity: .8;
+  }
+}
+
+.policy-correction-notice {
+  padding: 10px 0;
+  display: inline-block;
+  float: right;
+  color: theme("text-faintest");
+
+  @media (min-width: $screen-sm-min) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    float: none;
+  }
+
+  .policies & {
+    padding: 14px  15px 0 0;
+  }
+}
+
+.anchor {
+  position: absolute;
+  margin-left: -24px;
+  color: theme("text");
+  display: none;
+
+  :hover {
+    color: theme("text");
+  }
+}
+
+*:hover > .anchor {
+  display: block;
+}
+
+.remove-padding {
+  padding: 0px 0px;
+}

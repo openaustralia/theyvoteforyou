@@ -2,6 +2,10 @@
 
 require Rails.root.join("app/helpers/path_helper")
 
+# Cron schedules are defined in the OAF infrastructure repo (ansible role
+# roles/internal/theyvoteforyou) - that's the source of truth. The same
+# Ansible role wraps the cron entries in `sentry monitor run`, which reports
+# the check-ins to Sentry's cron monitors, so nothing in here needs to.
 namespace :application do
   namespace :cache do
     desc "Update all the caches"
@@ -72,9 +76,40 @@ namespace :application do
   end
 
   namespace :cron do
-    desc "Run this every night. Generates screenshots"
+    desc "Run this every night. Mirrors portraits and generates screenshots"
     task nightly: :environment do
+      task("application:portraits:mirror").invoke
       task("application:cards:all").invoke
+    end
+  end
+
+  namespace :email_suppressions do
+    desc "Lift the active suppression on an email address, so alert emails go to it again"
+    task :lift, [:address] => :environment do |_task, args|
+      abort "Usage: rake application:email_suppressions:lift[address]" if args[:address].blank?
+
+      puts "Lifted #{EmailSuppression.lift!(args[:address])} suppression(s)"
+    end
+  end
+
+  namespace :email_suppressions do
+    desc "Suppress addresses that Postal already hard-failed, from a CSV export. Prints counts only"
+    task :import, [:path] => :environment do |_task, args|
+      abort "Usage: rake application:email_suppressions:import[path/to/export.csv]" unless args[:path] && File.exist?(args[:path])
+
+      begin
+        result = EmailSuppressionImport.call(args[:path])
+      rescue EmailSuppressionImport::MissingColumns => e
+        abort e.message
+      end
+      result.to_h.each { |outcome, count| puts "#{outcome.to_s.humanize}: #{count}" }
+    end
+  end
+
+  namespace :portraits do
+    desc "Download each person's portrait so it is served from this site rather than hot-linked"
+    task mirror: :environment do
+      PortraitMirror.run
     end
   end
 
@@ -130,10 +165,14 @@ namespace :application do
       Member.find_each { |member| member.destroy unless members.include?(member) }
       Rake::Task["application:cache:all"].invoke
       # TODO: This doesn't yet create policy information nor edited motion text
-      File.write(
-        "db/seeds.rb",
-        "PaperTrail.whodunnit = User.create!(email:'matthew@oaf.org.au', name: 'Matthew Landauer', password: 'foofoofoo', confirmed_at: Time.now)\n"
-      )
+      # Keep these users in step with the top of db/seeds.rb
+      File.write("db/seeds.rb", <<~RUBY)
+        # frozen_string_literal: true
+
+        brenda = User.create!(email: "brenda@oaf.org.au", name: "Brenda Wallace", password: "foofoofoo", confirmed_at: Time.zone.now)
+        User.create!(email: "ian@oaf.org.au", name: "Ian", password: "foofoofoo", confirmed_at: Time.zone.now)
+        PaperTrail.request.whodunnit = brenda.id
+      RUBY
       [Division, DivisionInfo, Electorate, Member, PeopleDistance, MemberInfo, Office, Person, Policy, PolicyDivision, PolicyPersonDistance, Vote, Whip].each do |records|
         SeedDump.dump(records.all, file: "db/seeds.rb", append: true, exclude: %i[created_at updated_at])
       end

@@ -3,9 +3,9 @@
 # privacy policy, and support documentation.
 #
 # Exercises bin/setup-host end-to-end against several Linux distros, inside
-# disposable systemd-enabled containers (Docker-in-Docker), then checks
-# `docker --version && docker compose version` and the devcontainer CLI
-# both work afterwards - the same things make dev-up relies on.
+# disposable systemd-enabled containers (Docker-in-Docker), then checks the
+# tools `make setup` relies on work afterwards. It stops before `make setup`
+# itself, as the new docker group membership needs a fresh login.
 #
 # Manually triggered only (workflow_dispatch) - no schedule, no push/PR
 # trigger. It's slow, spins up nested Docker daemons, and mainly exists to
@@ -71,10 +71,10 @@ jobs:
             su - tester -c "/home/tester/setup-host"
           '
 
-      - name: Verify docker_ready() equivalent
+      - name: Verify the tools make setup needs
         run: |
           docker exec setup-host-test su - tester -c \
-            "docker --version && docker compose version"
+            "docker --version && docker compose version && mise --version && tidy -v && devcontainer --version"
 
       - name: Clean up container
         if: always()

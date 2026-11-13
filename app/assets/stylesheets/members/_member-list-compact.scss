@@ -4,8 +4,8 @@
   }
 
   .member-link {
-    .policy-comparision-block & {
-      color: $text-color;
+    .policy-comparison-block & {
+      color: theme("text");
     }
   }
 

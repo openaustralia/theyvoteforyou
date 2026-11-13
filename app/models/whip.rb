@@ -4,8 +4,16 @@ class Whip < ApplicationRecord
   belongs_to :division
 
   def self.update_all!
-    all_possible_votes = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house").group("divisions.id", :party).count
-    all_votes = calc_all_votes_per_party2
+    update_divisions!(nil)
+  end
+
+  # Rebuild the whip cache for just these divisions. Pass nil to rebuild them all.
+  def self.update_divisions!(division_ids)
+    division_ids = Array(division_ids) if division_ids
+    return if division_ids && division_ids.empty?
+
+    all_possible_votes = possible_votes_per_party(division_ids)
+    all_votes = calc_all_votes_per_party2(division_ids)
 
     all_possible_votes.each_key do |division_id, party|
       votes = all_votes[[division_id, party]]
@@ -55,13 +63,21 @@ class Whip < ApplicationRecord
     end
   end
 
-  def self.calc_all_votes_per_party
-    Division.joins(votes: :member).group("divisions.id", :party, :vote, :teller).count
+  def self.possible_votes_per_party(division_ids = nil)
+    scope = Division.joins("LEFT JOIN members ON divisions.house = members.house AND members.entered_house <= divisions.date AND divisions.date < members.left_house")
+    scope = scope.where(divisions: { id: division_ids }) if division_ids
+    scope.group("divisions.id", :party).count
   end
 
-  def self.calc_all_votes_per_party2
+  def self.calc_all_votes_per_party(division_ids = nil)
+    scope = Division.joins(votes: :member)
+    scope = scope.where(divisions: { id: division_ids }) if division_ids
+    scope.group("divisions.id", :party, :vote, :teller).count
+  end
+
+  def self.calc_all_votes_per_party2(division_ids = nil)
     r = {}
-    calc_all_votes_per_party.each do |k, count|
+    calc_all_votes_per_party(division_ids).each do |k, count|
       division_id, party, vote, teller = k
       votes = r[[division_id, party]] || {}
       votes[[vote, teller]] = count

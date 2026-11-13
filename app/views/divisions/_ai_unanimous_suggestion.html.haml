@@ -1,0 +1,14 @@
+-# Shown only when every model matched the same existing policy in the same direction and nothing
+-# links the division to it yet - see DivisionAiSuggestions#unanimous. Posts to the same endpoint,
+-# with the same authorization, as the manual "connect a policy" form on the policies page.
+- unanimous = ai.unanimous
+.ai-policy-suggestions-unanimous.alert.alert-info
+  %p
+    All #{ai.model_count.to_words} models agree this division is
+    = unanimous.direction
+    = link_to unanimous.policy.name, unanimous.policy
+  - create_url = create_policy_division_path(division.url_params)
+  = simple_form_for :policy_division, url: create_url, html: {class: "form-inline"} do |f|
+    = f.hidden_field :policy_id, value: unanimous.policy.id
+    = f.hidden_field :vote, value: unanimous.vote
+    = f.submit "Link this division to #{unanimous.policy.name}", class: "btn btn-primary btn-sm"

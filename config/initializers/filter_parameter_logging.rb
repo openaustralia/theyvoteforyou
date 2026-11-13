@@ -1,6 +1,14 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Configure parameters to be partially matched (e.g. passw matches password) and filtered from the log file.
 # Use this to limit dissemination of sensitive information.
 # See the ActiveSupport::ParameterFilter documentation for supported notations and behaviors.
-Rails.application.config.filter_parameters += [:password]
+#
+# This filter also applies to the request data Sentry captures with events
+# (send_default_pii is enabled in sentry.rb). :key is the API key query
+# parameter; the Devise tokens appear in query strings of emailed links. :payload is the body of Postal's delivery
+# webhooks (PostalController), which names the recipient's address. :token is the signed token in a one-click
+# unsubscribe address (UnsubscribesController), which anyone who sees it can use to unsubscribe the person.
+Rails.application.config.filter_parameters += %i[password key reset_password_token confirmation_token payload token]

@@ -3,8 +3,12 @@
     %h2 Divisions in which they voted the same
     = render "summary_vote_numbers", person_distance: @person_distance
     %ol.divisions-list.list-unstyled{class: active_house_for_list_class(nil)}
-      - person_distance.divisions_same.order(date: :desc, clock_time: :desc, name: :asc).each do |division|
+      - divisions = person_distance.divisions_same.order(date: :desc, clock_time: :desc, name: :asc).preload(:division_info, :wiki_motions, :whips).to_a
+      - members1 = person_distance.person1.members.to_a
+      - members2 = person_distance.person2.members.to_a
+      - votes = votes_by_member_and_division(members1 + members2, divisions)
+      - divisions.each do |division|
         -# Doing this terrible hack because some divisions (e.g. representatives/2018-12-04/1) have votes for Julia Bank attached to the wrong member. The votes are attached to the member before she changed party and became independent.
-        - member1 = person_distance.person1.members.find {|m| !m.division_vote(division).nil? }
-        - member2 = person_distance.person2.members.find {|m| !m.division_vote(division).nil? }
-        = render 'divisions/division', members: [member1, member2], house: nil, division: division
+        - member1 = members1.find {|m| votes.key?([m.id, division.id]) }
+        - member2 = members2.find {|m| votes.key?([m.id, division.id]) }
+        = render 'divisions/division', members: [member1, member2], house: nil, division: division, votes: votes

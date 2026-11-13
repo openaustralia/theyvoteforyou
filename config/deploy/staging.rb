@@ -5,6 +5,4 @@ set :deploy_to, "/srv/www/staging"
 
 set :rails_env, "staging"
 
-role :app, %w[deploy@srv.theyvoteforyou.org.au]
-role :web, %w[deploy@srv.theyvoteforyou.org.au]
-role :db,  %w[deploy@srv.theyvoteforyou.org.au]
+aws_ec2_register(user: "deploy")

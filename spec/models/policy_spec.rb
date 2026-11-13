@@ -13,7 +13,7 @@ describe Policy do
   end
 
   it "is not valid with a name longer than 100 characters" do
-    policy = build(:policy, name: "a-name-bigger-than-one-hundred-characters-is-such-a-long-name-for-a-policy-is-it-really-necessay? We’ll find out soon.")
+    policy = build(:policy, name: "a-name-bigger-than-one-hundred-characters-is-such-a-long-name-for-a-policy-is-it-really-necessary? We’ll find out soon.")
 
     expect(policy).not_to be_valid
     expect(policy.errors[:name]).to include("is too long (maximum is 100 characters)")
@@ -45,6 +45,25 @@ describe Policy do
     it "private is 0" do
       policy.private = 0
       expect(policy.provisional?).to be false
+    end
+  end
+
+  describe "#last_edited_by" do
+    it "returns the user who made the most recent edit" do
+      editor = create(:confirmed_user)
+      PaperTrail.request.whodunnit = editor.id
+      policy.update!(description: "an updated description")
+
+      expect(policy.last_edited_by).to eq(editor)
+    end
+
+    it "returns nil when that user has since been deleted, rather than raising" do
+      editor = create(:confirmed_user)
+      PaperTrail.request.whodunnit = editor.id
+      policy.update!(description: "an updated description")
+      editor.destroy!
+
+      expect(policy.last_edited_by).to be_nil
     end
   end
 

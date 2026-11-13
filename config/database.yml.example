@@ -1,35 +1,13 @@
-# Copy this to database.yml
-#
-# host/port default to the "mysql" service name/port from `.devcontainer/compose.yml`
-# for Rails running inside the "rails-app" container.
-#
-# If you're running Rails on the host and only using docker-compose for the
-# database, override these in .envrc (for direnv) or manually, e.g.:
-#   export DB_HOST=localhost
-#   export DB_PORT=3388
-#
-# Database follow the same convention as production (tvfy-production / tvfy-production)
-# but the devcontainer authenticates with root user and $MYSQL_ROOT_PASSWORD
-# rather than the production/staging convention
-
-# Be sure to use the caching_sha2_password plugin, the default for mysql 8.4:
-#   https://aws.amazon.com/blogs/database/amazon-rds-for-mysql-lts-version-8-4-is-now-generally-available/
+# Copy this to database.yml. The defaults match the MySQL container started by
+# `make services-up`, so no edits are needed for a normal setup. DB_PORT moves
+# it (see "Port clashes" in AGENTS.md).
 
 default: &default
   adapter: mysql2
-  # FIXME: Update production databases to this encoding
-  # encoding: utf8mb4
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-<% socket_path = File.socket?("/var/run/mysqld/mysqld.sock") ? "/var/run/mysqld/mysqld.sock" : (File.socket?("/tmp/mysql.sock") && "/tmp/mysql.sock") %>
-<% if ENV["DB_HOST"] || ENV["DB_PORT"] || !socket_path %>
-  host: <%= ENV.fetch("DB_HOST") { "mysql" } %>
-  port: <%= ENV.fetch("DB_PORT") { "3306" } %>
-<% else %>
-  # Most secure on localhost
-  socket: <%= socket_path %>
-<% end %>
-  username: <%= ENV.fetch("MYSQL_USER") { "root" } %>
-  password: <%= ENV.fetch("MYSQL_PASSWORD") { ENV.fetch("MYSQL_ROOT_PASSWORD") { "password" } } %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
+  username: root
+  password: <%= ENV.fetch("MYSQL_ROOT_PASSWORD", "root") %>
 
 development:
   <<: *default
@@ -41,4 +19,3 @@ development:
 test:
   <<: *default
   database: tvfy-test
-

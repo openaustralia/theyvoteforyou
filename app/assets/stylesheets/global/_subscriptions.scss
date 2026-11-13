@@ -31,7 +31,7 @@
     &:hover,
     &:focus,
     &:active {
-      color: $color-against3;
+      color: theme("against3");
       background-image: url(image-path("cross-red.svg"));
       padding-right: .95em;
       text-decoration: none;
@@ -53,12 +53,12 @@
   }
 
   .btn-unsubscribe {
-    color: $gray-light;
+    color: theme("text-subtle");
     float: right;
 
     &:hover,
     &:focus {
-      color: $color-against3;
+      color: theme("against3");
     }
 
     i.fi-x {
@@ -84,5 +84,5 @@
 
 .subscriber-count {
   margin-left: 10px;
-  color: #aaa;
+  color: theme("text-faint");
 }

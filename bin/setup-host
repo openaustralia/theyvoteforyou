@@ -1,13 +1,9 @@
 #!/usr/bin/env bash
-# Installs Docker, Compose, and the devcontainer CLI on this host (Ubuntu/
-# Debian or macOS), so `make dev-up` / `make dev-exec` / etc. work.
-#
-# This is separate from bin/setup, which does app-level setup (bundle
-# install, db:prepare) and only makes sense run *inside* the dev container -
-# devcontainer.json already calls it via postCreateCommand.
-#
-# Only handles host tooling - deploy-production/deploy-staging still
-# assume `bundle` and Capistrano are available on this host directly.
+# Takes a fresh Ubuntu/Debian or macOS host to a working app (run it via
+# `make host-setup`). It installs what `make setup` expects to find - Docker
+# and Compose, the libraries the gems and Ruby build need, HTML Tidy and mise
+# - plus the devcontainer CLI, then runs `make setup`. Safe to rerun: each
+# step is skipped when its tool is already there.
 set -euo pipefail
 
 docker_ready() {
@@ -74,9 +70,8 @@ install_docker_linux() {
   echo "Installing Docker Engine + Compose plugin ($docker_distro)..."
   sudo apt-get update -qq
   # procps provides sysctl, used below for the vm.max_map_count check - not
-  # guaranteed present on a minimal install. make is needed for the
-  # Makefile-driven dev workflow (make dev-up etc.) and isn't a given on a
-  # freshly installed host either.
+  # guaranteed present on a minimal install. Nor is make, which runs every
+  # dev workflow step.
   sudo apt-get install -y ca-certificates curl procps make
   sudo install -m 0755 -d /etc/apt/keyrings
   sudo curl -fsSL "https://download.docker.com/linux/$docker_distro/gpg" -o /etc/apt/keyrings/docker.asc
@@ -94,7 +89,10 @@ install_docker_linux() {
     sudo usermod -aG docker "$USER"
     echo "Added $USER to the docker group - log out/in (or run 'newgrp docker') for this to take effect"
   fi
+}
 
+# Run on every Linux host, not just when Docker was installed above.
+ensure_max_map_count_linux() {
   # Elasticsearch's single-node container refuses to start at all if this
   # is too low - a common cause of "connection refused"-style errors from
   # anything that talks to ES (e.g. Searchkick during db:seed). Docker
@@ -142,6 +140,37 @@ install_docker_macos() {
   fi
 }
 
+# The mysql2 gem needs a MySQL client library, the specs need HTML Tidy, and
+# mise builds Ruby from source, which needs a compiler and the libraries in
+# ruby-build's suggested build environment.
+install_host_libs_linux() {
+  echo "Installing build tools, MySQL client library and HTML Tidy..."
+  sudo apt-get update -qq
+  sudo apt-get install -y build-essential autoconf libssl-dev libyaml-dev libreadline-dev zlib1g-dev \
+    libgmp-dev libffi-dev default-libmysqlclient-dev tidy
+}
+
+install_host_libs_macos() {
+  echo "Installing MySQL client library, HTML Tidy and Ruby build libraries..."
+  # The mysql formula includes a server; don't start it, the container uses 3306
+  brew install mysql tidy-html5 libyaml openssl@3 gmp
+}
+
+ruby_manager_ready() {
+  command -v mise >/dev/null 2>&1 || command -v rbenv >/dev/null 2>&1
+}
+
+# From mise's own signed apt repo, the same way Docker is installed above
+install_mise_linux() {
+  echo "Installing mise..."
+  sudo install -dm 755 /etc/apt/keyrings
+  curl -fsSL https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc > /dev/null
+  echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" \
+    | sudo tee /etc/apt/sources.list.d/mise.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y mise
+}
+
 install_node_linux() {
   echo "Installing Node.js (needed for the devcontainer CLI)..."
   # Ubuntu/Debian's own repos can lag behind what @devcontainers/cli needs,
@@ -186,6 +215,18 @@ main() {
     esac
   fi
 
+  case "$(uname -s)" in
+    Linux)
+      ensure_max_map_count_linux
+      install_host_libs_linux
+      ruby_manager_ready || install_mise_linux
+      ;;
+    Darwin)
+      install_host_libs_macos
+      ruby_manager_ready || brew install mise
+      ;;
+  esac
+
   if devcontainer_ready; then
     echo "OK: devcontainer CLI already installed"
   else
@@ -199,8 +240,16 @@ main() {
   echo -n "Devcontainer: "
   devcontainer --version
 
+  # Just being added to the docker group only counts from the next login
+  if ! docker info >/dev/null 2>&1; then
+    echo ""
+    echo "Docker isn't usable from this shell yet. Log out and back in (or run 'newgrp docker'), then run 'make setup'."
+    exit 0
+  fi
+
   echo ""
-  echo "Done. Run 'make dev-up' to start the dev container."
+  echo "== make setup =="
+  make setup
 }
 
 main "$@"

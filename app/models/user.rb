@@ -26,6 +26,16 @@ class User < ApplicationRecord
     name != User.system_name
   end
 
+  # Confirming an address and completing a password reset both prove the mailbox receives mail, so they lift a
+  # suppression and the person's subscriptions resume.
+  def after_confirmation
+    EmailSuppression.lift!(email)
+  end
+
+  def reset_password(new_password, new_password_confirmation)
+    super.tap { |saved| EmailSuppression.lift!(email) if saved }
+  end
+
   def api_key
     if self[:api_key]
       self[:api_key]
@@ -34,6 +44,20 @@ class User < ApplicationRecord
       update(api_key: api_key)
       api_key
     end
+  end
+
+  # Authorises the one-click unsubscribe address in policy update emails, so no login is needed. The purpose scope means
+  # it can't be used for anything else. https://api.rubyonrails.org/classes/ActiveRecord/SignedId.html
+  def unsubscribe_token
+    signed_id(purpose: :unsubscribe_all)
+  end
+
+  def self.from_unsubscribe_token(token)
+    find_signed(token, purpose: :unsubscribe_all)
+  end
+
+  def email_suppression
+    EmailSuppression.active.find_by(address: email)
   end
 
   def watched_policy_ids

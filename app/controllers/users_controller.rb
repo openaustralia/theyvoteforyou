@@ -11,6 +11,8 @@ class UsersController < ApplicationController
 
   def subscriptions
     @user = User.find(params[:id])
+    # Only on a person's own page, so nobody learns whether someone else's email bounced
+    @email_suppression = @user.email_suppression if @user == current_user
   end
 
   def confirm

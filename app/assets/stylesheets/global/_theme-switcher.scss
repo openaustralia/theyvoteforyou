@@ -1,0 +1,75 @@
+// The light/dark/system menu in the site header. See theme-switcher.js
+.theme-nav {
+
+  // Without JavaScript the menu can't do anything, so it starts hidden and the script reveals it
+  &[hidden] {
+    display: none;
+  }
+
+  .theme-nav-icon {
+    width: 1.25em;
+    text-align: center;
+  }
+
+  // Next to the other icons the word is clutter on a wide screen, but the collapsed mobile menu needs it
+  .theme-nav-label {
+
+    // Bootstrap 3's .sr-only, which it has no mixin for, and which can't be @extended inside a media query
+    @media (min-width: $grid-float-breakpoint) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+  }
+
+  a.dropdown-toggle {
+
+    &:hover,
+    &:focus {
+      text-decoration: none !important;
+    }
+  }
+
+  .dropdown-menu .theme-nav-icon {
+    margin-right: .5em;
+  }
+
+  [aria-checked="true"] {
+    font-weight: bold;
+
+    // In forced-colors mode (e.g. Windows High Contrast) the selected row's background is flattened to match the
+    // menu's, so a glyph is the cue that survives any colour setting. Screen readers already announce aria-checked,
+    // so the "/ ''" alternative text keeps them from also reading the icon; the line before is for browsers
+    // without that syntax.
+    // A float here wrapped to a new line in the shrink-to-fit menu, so the link is a flex row instead
+    display: flex;
+    align-items: baseline;
+
+    &::after {
+      margin-left: auto;
+      padding-left: 1em;
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      content: "\f00c"; // $fa-var-check, which Sass would double-escape if interpolated
+      content: "\f00c" / "";
+    }
+  }
+
+  // The highlight is on the list item, not the link, because .site-header resets a hovered link's background to
+  // inherit. The link then picks this up, so the selected theme stays highlighted under the pointer.
+  .theme-nav-selected {
+    background-color: theme("header-menu-selected-bg");
+
+    // In the collapsed mobile menu Bootstrap makes the open dropdown transparent, so the row sits on the header's
+    // own background, which header-menu-selected-bg matches in the light theme. Use the colour the current section's
+    // link has in the same menu instead.
+    @media (max-width: $grid-float-breakpoint-max) {
+      background-color: theme("header-bg-active");
+    }
+  }
+}

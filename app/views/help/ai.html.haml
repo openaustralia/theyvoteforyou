@@ -1,0 +1,14 @@
+- content_for :title, "How we use AI"
+
+- content_for :header do
+  .section-header.clearfix
+    .page-header.container
+      %h1= yield :title
+
+.row
+  .col-md-8
+    %section.page-section
+      -# Placeholder: the final wording is still to be agreed (issue #1854)
+      %p
+        Some division summaries are drafted with the help of AI tools. When one is, the division page says so and
+        names the model.

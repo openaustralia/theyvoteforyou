@@ -1,0 +1,26 @@
+-# Shown only while the ai_disclosure flag is on (issue #1854). For a new summary the editor states AI use afresh,
+-# so the box starts from what was just submitted, never from the previous summary.
+- ai_assisted = show_errors ? wiki_motion.ai_assisted? : false
+- model_error = show_errors && wiki_motion.errors[:ai_model].first
+.panel.panel-default.ai-disclosure
+  .panel-body
+    .checkbox
+      = hidden_field_tag :ai_assisted, "0", id: nil
+      %label
+        = check_box_tag :ai_assisted, "1", ai_assisted, data: { toggle_target: "#ai-model-group" }
+        %strong 🤖 Drafted with AI assistance
+      %p.help-block Tick this if you used an AI tool to draft or rewrite any part of this summary.
+    #ai-model-group{class: ("hidden" unless ai_assisted)}
+      .form-group{class: ("has-error" if model_error)}
+        %label.control-label{for: "ai_model"}
+          Model
+          %span.text-muted (required)
+        %p.help-block Give the model name and its version, for example Claude Sonnet 5.5.
+        - if model_error
+          %p.help-block.text-danger
+            %strong Enter the model you used.
+        = text_field_tag :ai_model, show_errors ? wiki_motion.ai_model : nil, class: "form-control", list: "ai-models", maxlength: 100, autocomplete: "off", required: ai_assisted
+        %datalist#ai-models
+          - WikiMotion.ai_models.each do |name|
+            %option{value: name}
+        %p.help-block The list shows models used on earlier summaries. Type a new name to add one.

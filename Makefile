@@ -1,127 +1,92 @@
-.PHONY: help setup deploy-production deploy-staging dev-up dev-hybrid dev-down dev-exec dev-console dev-dbconsole dev-server dev-rake dev-clobber dev-status
+.PHONY: help host-setup setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console dbconsole seed
 
-SHELL := /bin/bash
+help: ## Show this help (the default target)
+	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | \
+	  awk 'BEGIN {FS = ":.*## "}; {printf "  %-18s %s\n", $$1, $$2}'
 
-help:
-	@echo "Available targets"
-	@echo "  help                 Output this help text (default target)"
-	@echo ""
-	@echo "  deploy-production    Deploy to production via Capistrano"
-	@echo "  deploy-staging       Deploy to staging via Capistrano"
-	@echo ""
-	@echo "  dev-up               Start the dev container and associated services, refreshing build if needed (required for the following targets)"
-	@echo "  dev-hybrid           Start mysql/elasticsearch/mailpit only, no rails-app, for running Ruby on the host"
-	@echo "  dev-status           Show container status, resource usage, and clickable service URLs"
-	@echo "  dev-console          Run bin/rails console inside the running dev container"
-	@echo "  dev-dbconsole        Run bin/rails dbconsole -p inside the running dev container"
-	@echo "  dev-exec             Run COMMAND inside the running dev container (default: bash)"
-	@echo "  dev-rake             Run bin/rake ARGS inside the running dev container (default: spec)"
-	@echo "  dev-server           Run rails web server inside the running dev container"
-	@echo "  dev-down             Stop the dev container"
-	@echo ""
-	@echo "  dev-clobber          Remove dev container images, volumes and orphans - full reset"
-	@echo "  setup                Install devcontainer and docker on this host"
-	@echo ""
-	@echo "Extra vars:"
-	@echo "  COMMAND            Command for dev-exec to run, e.g. COMMAND=\"bin/rails routes\" (default: bash)"
-	@echo "  ARGS               Args for dev-rake, e.g. ARGS=\"db:test:prepare\""
-
-
-# Installs Docker and devcontainer - see that file for details.
-setup:
+# For a fresh Ubuntu, Debian or macOS machine; see bin/setup-host for what it installs.
+host-setup: ## Install Docker, the libraries the gems need, mise and the devcontainer CLI, then run `make setup`
 	bin/setup-host
 
-deploy-production:
+# For running Rails on the host. mise is preferred, rbenv works too; both read .ruby-version (mise via mise.toml).
+# bin/setup can't install Ruby itself, as it needs Ruby to run.
+setup: services-up ## Install Ruby (with mise or rbenv), gems and config, and prepare the database, to run Rails on the host
+	@if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
+	elif command -v rbenv >/dev/null; then rbenv install --skip-existing && rbenv exec ruby bin/setup --skip-server; \
+	else echo "Install mise (https://mise.jdx.dev) or rbenv first" >&2; exit 1; fi
+
+# Deploys reach servers over SSM using the `oaf` profile (see config/deploy.rb), so make sure
+# there's a live login first, starting `aws login` if there isn't.
+aws-check: ## Check for an AWS login (profile oaf), starting one if needed
+	@command -v aws >/dev/null 2>&1 || { echo "ERROR: aws CLI not found." >&2; exit 1; }
+	@aws sts get-caller-identity --profile oaf >/dev/null 2>&1 \
+	  || { echo "Not logged in to AWS (profile oaf), starting login..."; aws login --profile oaf; }
+	@aws sts get-caller-identity --profile oaf >/dev/null 2>&1 \
+	  || { echo "ERROR: still not logged in to AWS (profile oaf)." >&2; exit 1; }
+	@echo "OK: logged in to AWS (profile oaf)"
+
+deploy-production: aws-check ## Deploy to production with Capistrano
 	bundle exec cap production deploy
 
-deploy-staging:
+deploy-staging: aws-check ## Deploy to staging with Capistrano
+	bundle install
 	bundle exec cap staging deploy
 
-DEVCONTAINER_STAMP := .make/dev-down.stamp
-DEVCONTAINER_SOURCES := .devcontainer/compose.yaml .devcontainer/devcontainer.json .devcontainer/Dockerfile
-SETUP_STAMP := .make/setup.stamp
+# The stack is defined in .devcontainer/compose.yaml (see "Development environment" in AGENTS.md).
+# --wait returns once every service passes its healthcheck, so the next command can use them straight away.
+COMPOSE := docker compose
+# Runs a command in the app container, or in a fresh one if it has stopped
+in_app = if [ -n "$$(docker compose ps -q --status running app)" ]; then docker compose exec app $(1); else $(COMPOSE) run --rm app $(1); fi
 
-.make:
-	mkdir -p .make
-
-LOCKFILE := .devcontainer/devcontainer-lock.json
-
-# Keeps the committed lockfile in sync with devcontainer.json (see finding 11
-# on #1656). `devcontainer upgrade` is a dedicated subcommand present in every
-# CLI version checked so far (identical output confirmed on both 0.72.0 and
-# 0.83.3), so this works regardless of whether a given install auto-generates
-# a lockfile from `up`/`build` by default.
-$(LOCKFILE): .devcontainer/devcontainer.json
-	devcontainer upgrade --workspace-folder .
-
-dev-up: $(DEVCONTAINER_STAMP) $(LOCKFILE)
-	devcontainer up --workspace-folder .
-
-# Trigger a dev-down if the container is stale so the next dev-up will rebuild
-$(DEVCONTAINER_STAMP): $(DEVCONTAINER_SOURCES) | .make
-	echo Stop the devcontainer so it will be rebuilt with changed sources ...
-	$(MAKE) dev-down
-
-dev-down: | .make
-	docker compose -f .devcontainer/compose.yaml down
-	touch $(DEVCONTAINER_STAMP)
-
-# Just the supporting services, no rails-app, for the hybrid workflow (Ruby on the host, see
-# README's "Using just the other services") and for measuring an IDE's own memory use without
-# a devcontainer backend process competing for the same container's mem_limit.
-dev-hybrid:
-	docker compose -f .devcontainer/compose.yaml up -d mysql elasticsearch mailpit
-
-dev-status:
-	@docker compose -f .devcontainer/compose.yaml ps
-	@echo ""
-	@ids=$$(docker compose -f .devcontainer/compose.yaml ps -q); \
-	if [ -n "$$ids" ]; then \
-		docker stats --no-stream $$ids; \
-		echo ""; \
-		echo "  App:           http://localhost:3088  http://localhost:3088/rails/info/properties  http://localhost:3088/rails/info/routes"; \
-		echo "                                        http://localhost:3088/rails/mailers  http://localhost:3088/rails/health"; \
-		echo "  Elasticsearch: http://localhost:9288  http://localhost:9288/_cluster/health  http://localhost:9288/_cat/indices?v"; \
-		echo "  Mailpit:       http://localhost:8088"; \
-		echo "  MySQL:         mysql --host=127.0.0.1 --port=3388 --user=root --password=password"; \
-	else \
-		echo "(no containers running)"; \
-	fi
-
-# Defaults to bash - e.g. make dev-exec COMMAND="bin/rails routes"
-COMMAND ?= bash
-
-dev-exec:
-	devcontainer exec --workspace-folder . $(COMMAND)
-
-# Gems (and the rest of bin/setup) live inside the container, not in
-# anything DEVCONTAINER_STAMP can see, so this is tracked separately.
-# Depends on Gemfile/Gemfile.lock/bin/setup/config/database.yml.example -
-# editing any of them forces a recheck - and is cleared by dev-clobber's
-# `rm -rf .make` (a fresh bundler-cache volume wipes gems without touching
-# any of those files). If bin/setup fails - e.g. a freshly (re)created
-# volume defaults /bundle to root ownership - fix that and retry once
-# before giving up.
-$(SETUP_STAMP): Gemfile Gemfile.lock bin/setup config/database.yml.example | .make
-	devcontainer exec --workspace-folder . bin/setup --skip-server
-	touch $(SETUP_STAMP)
-
-dev-console: $(SETUP_STAMP)
-	devcontainer exec --workspace-folder . bin/rails console
-
-dev-dbconsole: $(SETUP_STAMP)
-	devcontainer exec --workspace-folder . bin/rails dbconsole -p
-
-dev-server: $(SETUP_STAMP)
-	devcontainer exec --workspace-folder . bin/dev -b 0.0.0.0
-
-# e.g. make dev-rake ARGS="db:test:prepare"
-ARGS ?= spec
-
-dev-rake: $(SETUP_STAMP)
-	devcontainer exec --workspace-folder . bin/rake $(ARGS)
-
-dev-clobber:
-	docker compose -f .devcontainer/compose.yaml down --rmi all --volumes --remove-orphans
-	rm -rf .make
-
+up: ## Start everything, including the app at http://localhost:3000, once it's ready
+	$(COMPOSE) up --build --wait -d
+services-up: ## Start MySQL, Elasticsearch, dejavu and mailpit only, for running the app on the host
+	$(COMPOSE) up --build --wait -d mysql elasticsearch dejavu mailpit
+down: ## Stop and remove the containers, keeping the databases
+	$(COMPOSE) down --remove-orphans
+# Everything this checkout built, so the next `make up` rebuilds from scratch. The databases are kept.
+# VS Code's dev container builds its own images on top of compose's. Only this project's containers say which
+# they are, so they're noted before `down` removes them.
+clean: ## Remove containers, built images (VS Code's too), installed gems, logs, tmp and coverage, keeping the databases
+	p=$$($(COMPOSE) config | sed -n 's/^name: //p'); \
+	vsc=$$(docker ps -a --filter "label=com.docker.compose.project=$$p" --format '{{.Image}}' | grep '^vsc-' | sort -u); \
+	$(COMPOSE) down --remove-orphans --rmi local && \
+	docker volume rm --force "$${p}_bundle_cache" && \
+	{ [ -z "$$vsc" ] || docker rmi --force $$vsc; }
+	git clean -fdX -- log tmp coverage # gitignored files only, so tracked placeholders stay
+# Reaches past this checkout, for after switching branches or changing dependencies. Other projects lose only
+# download and build time, as volumes (where their databases live) are never pruned.
+clobber: clean ## Also remove the databases, then all stopped containers, unused images and build cache machine-wide
+	$(COMPOSE) down --volumes
+	@echo "Pruning stopped containers, unused images and build cache from ALL projects (volumes are kept)"
+	docker system prune --all --force
+status: ## Show each container's health, host ports, memory and CPU use, and where to browse
+	@$(COMPOSE) ps -a --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'
+	@ids=$$($(COMPOSE) ps -q); [ -z "$$ids" ] || { echo; docker stats --no-stream $$ids; }
+	@echo; port() { $(COMPOSE) port $$1 $$2 2>/dev/null | sed 's/.*://'; }; \
+	p=$$(port app 3000); [ -z "$$p" ] || echo "Web:     http://theyvoteforyou.localhost:$$p/ (user: brenda@oaf.org.au, password: foofoofoo, and more in db/seeds.rb)"; \
+	[ -z "$$p" ] || echo "         http://theyvoteforyou.localhost:$$p/rails/mailers (mail previews)"; \
+	p=$$(port mailpit 8025); [ -z "$$p" ] || echo "Mailpit: http://mailpit.localhost:$$p/"; \
+	p=$$(port dejavu 1358); [ -z "$$p" ] || echo "Dejavu:  http://dejavu.localhost:$$p/ (connect it to http://localhost:$$(port elasticsearch 9200))"
+logs: ## Follow the logs of every container (or SERVICE=app for one)
+	$(COMPOSE) logs -f $(SERVICE)
+shell: ## Open a shell in the app container, or in a fresh one if it has stopped (e.g. after a failed start)
+	@$(call in_app,bash)
+# The same checks as CI, in the app container; see "Tests and linting" in AGENTS.md
+test: ## Run the specs as CI does, after resetting the test database (ARGS=spec/models/x_spec.rb:42 to narrow)
+	@$(call in_app,bash -c 'bin/rails db:test:prepare && RAILS_ENV=test bin/rspec $(ARGS)')
+lint: ## Run RuboCop as CI does (ARGS=<paths> to narrow)
+	@$(call in_app,bin/rubocop --parallel $(ARGS))
+console: ## Open a Rails console in the app container
+	@$(call in_app,bin/rails console)
+dbconsole: ## Open a MySQL prompt on the development database, in the app container
+	@$(call in_app,bin/rails dbconsole -p)
+# Real data from data.openaustralia.org.au, for a site that looks like production. About 4 minutes on a fast connection,
+# mostly loading members, as every photo is checked. Skips people distances (the "friends" pages), which are slower.
+FROM ?= 2021-07-01
+TO ?= 2021-10-31
+SEED_DIVISIONS := application:load:divisions[$(FROM),$(TO)]
+seed: ## (SLOW) Load real members and divisions from FROM to TO, then rebuild caches and search, in the app container
+	@$(call in_app,bin/rake application:load:members "$(SEED_DIVISIONS)" application:cache:all_except_people_distances searchkick:reindex:all)
+	@echo 'Done. For links to the MPs who vote most like each person (the "friends" pages), also run (SLOW):'
+	@echo "  make shell, then: bin/rake application:cache:people_distances"

@@ -76,7 +76,7 @@ class DivisionsController < ApplicationController
     if @division.nil?
       render "home/error404", status: :not_found
     else
-      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.positive?
+      @rebellions = @division.votes.rebellious.order("members.last_name", "members.first_name") if @division.rebellions.to_i.positive?
       @whips = @division.whips.order(:party)
       @votes = @division.votes.joins(:member).includes(:member).order("members.party", "vote", "members.last_name", "members.first_name")
 
@@ -106,12 +106,15 @@ class DivisionsController < ApplicationController
     @division = Division.in_house(params[:house] || "representatives").find_by!(date: params[:date], number: params[:number])
     authorize @division
 
-    wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user)
+    @wiki_motion = @division.build_wiki_motion(params[:newtitle], params[:newdescription], current_user, **ai_disclosure_params)
 
-    if wiki_motion.save
+    if @wiki_motion.save
       redirect_to view_context.division_path_simple(@division), notice: "Division updated"
     else
-      redirect_to view_context.edit_division_path_simple(@division), alert: "Could not update division"
+      # The failed build left an unsaved summary on the division, which would make it look already edited
+      @division.wiki_motions.reset
+      # Show the form again with what was typed, so the editor only has to fix what's wrong
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -134,10 +137,10 @@ class DivisionsController < ApplicationController
   # TODO: Move this to a policy_division controller
   def update_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
-    authorize policy_division, :update?
+    @policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize @policy_division, :update?
 
-    if policy_division.update(policy_division_params)
+    if @policy_division.update(policy_division_params)
       flash[:notice] = "Updated policy connection"
     else
       flash[:error] = "Could not update policy connection"
@@ -150,10 +153,10 @@ class DivisionsController < ApplicationController
   # TODO: Move this to a policy_division controller
   def destroy_policy_division
     division = Division.in_house(params[:house]).find_by!(date: params[:date], number: params[:number])
-    policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
-    authorize policy_division, :destroy?
+    @policy_division = PolicyDivision.find_by!(division: division, policy: params[:policy_id])
+    authorize @policy_division, :destroy?
 
-    if policy_division.destroy
+    if @policy_division.destroy
       flash[:notice] = "Removed policy connection"
     else
       flash[:error] = "Could not remove policy connection"
@@ -164,6 +167,13 @@ class DivisionsController < ApplicationController
   end
 
   private
+
+  # Left nil (unknown) unless the ai_disclosure feature is on, so the form fields can't be used before launch.
+  def ai_disclosure_params
+    return {} unless ai_disclosure_enabled?
+
+    { ai_assisted: ActiveModel::Type::Boolean.new.cast(params[:ai_assisted]), ai_model: params[:ai_model] }
+  end
 
   def policy_division_params
     params.expect(policy_division: %i[policy_id vote])
@@ -180,7 +190,9 @@ class DivisionsController < ApplicationController
             .find_by(date: date, number: number)
   end
 
+  # `policy` here isn't a local variable, it's Pundit's own policy(record) helper - calling it with
+  # no arguments raised ArgumentError, crashing every create/update/destroy of a policy connection.
   def calculate_policy_person_distances
-    CalculatePolicyPersonDistancesJob.perform_later(policy)
+    CalculatePolicyPersonDistancesJob.perform_later(@policy_division.policy) if @policy_division&.policy
   end
 end

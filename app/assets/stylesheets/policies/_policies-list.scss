@@ -16,7 +16,7 @@
   .policy-edit-notice, .object-secondary .policy-subscriber-count {
     &:before {
       content: "\00a0\25CF\00a0";
-      color: #aaa;
+      color: theme("text-faint");
     }
   }
 }

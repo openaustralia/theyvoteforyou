@@ -4,6 +4,8 @@
     %meta(charset="utf-8")
     %meta(http-equiv="X-UA-Compatible" content="IE=edge")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
+    %meta(name="color-scheme" content="light dark")
+    = render "theme_preference"
     - if Rails.configuration.facebook_admins
       - Rails.configuration.facebook_admins.each do |admin_id|
         %meta(property="fb:admins" content="#{admin_id}")
@@ -23,13 +25,16 @@
     <![endif]-->
     = csrf_meta_tag
     = display_meta_tags
-    = render "honeybadger_javascript"
-    = render "plausible_analytics"
+    -# Pages whose address is a secret (@private_url) stay out of browser tracking, which records the page address
+    - unless @private_url
+      = render "sentry_javascript"
+      = render "plausible_analytics"
   %body{class: "#{body_class}"}
     -# This adds a dismissable banner across the top of the page advertising a TVFY t shirt
     -# We sold this around the time of the 2025 federal elections. Just commenting it out rather
     -# than removing it in case it's useful again during another election.
     -# = render "swag"
+    = render "announcement"
     %nav.site-header.navbar(role="navigation")
       - # Brand and toggle get grouped for better mobile display
       .navbar-header
@@ -47,6 +52,8 @@
           %li= link_to "Policies", policies_path, class: 'navlink-policies', title: "Help to analyse MP's votes"
           %li= link_to "Divisions", divisions_path, class: 'navlink-divisions', title: "List of all votes in Parliament"
           %li= link_to "About", about_path, class: 'navlink-about', title: "Information about this website"
+
+        = render "theme_switcher"
 
         = form_tag search_path, method: "get", name: "pw", role: "search", class: "site-header-search navbar-form navbar-right" do
           .input-group

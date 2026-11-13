@@ -29,7 +29,7 @@
               first
 
   %section.page-section#members
-    .policy-comparisions
+    .policy-comparisons
       - distances = @policy.policy_person_distances.currently_in_parliament.includes(:person, person: :members)
       - @categories.each do |c|
         = render 'policy_comparisons_block', policy: @policy, title: category_words_sentence(c).capitalize, label: c.to_s, distances: distances.select{ |d| d.category == c }

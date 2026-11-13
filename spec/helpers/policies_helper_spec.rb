@@ -24,6 +24,14 @@ describe PoliciesHelper, type: :helper do
       it { expect(helper.version_sentence(version)).to be_html_safe }
     end
 
+    context "with create policy where the changeset was not recorded" do
+      let(:version) { instance_double(PaperTrail::Version, item_type: "Policy", event: "create", changeset: {}) }
+
+      it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Created policy.</p>' }
+      it { expect(helper.version_sentence_text(version)).to eq "Created policy." }
+      it { expect(helper.version_sentence(version)).to be_html_safe }
+    end
+
     context "with change name on policy" do
       let(:version) { instance_double(PaperTrail::Version, item_type: "Policy", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: { "name" => ["Version A", "Version B"] }, reify: mock_model(Policy, id: 3, name: "Version A")) }
 
@@ -85,6 +93,22 @@ describe PoliciesHelper, type: :helper do
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
 
+      context "with create vote on policy where the changeset was not recorded" do
+        let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {}, division_id: 5, policy_id: 3) }
+
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Added division <em><a href="http://test.host/divisions/representatives/2001-01-01/2">blah</a></em>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Added division blah.\nhttp://test.host/divisions/representatives/2001-01-01/2" }
+        it { expect(helper.version_sentence(version)).to be_html_safe }
+      end
+
+      context "with create vote on policy where neither the changeset nor the division id were recorded" do
+        let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "create", whodunnit: 1, created_at: 1.hour.ago, changeset: {}, division_id: nil, policy_id: 3) }
+
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Added division <em>unknown</em>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Added division unknown." }
+        it { expect(helper.version_sentence(version)).to be_html_safe }
+      end
+
       context "with change vote on policy" do
         let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: { "vote" => %w[no aye] }, reify: instance_double(PolicyDivision, division_id: 5), policy_id: 3) }
 
@@ -92,6 +116,50 @@ describe PoliciesHelper, type: :helper do
         it { expect(helper.version_sentence_text(version)).to eq "Changed vote from No to Yes on division blah.\nhttp://test.host/divisions/representatives/2001-01-01/2" }
         it { expect(helper.version_sentence(version)).to be_html_safe }
       end
+
+      context "with update to policy division that did not change the vote" do
+        let(:version) { instance_double(PaperTrail::Version, item_type: "PolicyDivision", event: "update", whodunnit: 1, created_at: 1.hour.ago, changeset: {}, reify: instance_double(PolicyDivision, division_id: 5), policy_id: 3) }
+
+        it { expect(helper.version_sentence(version)).to eq '<p class="change-action">Changed division <em><a href="http://test.host/divisions/representatives/2001-01-01/2">blah</a></em>.</p>' }
+        it { expect(helper.version_sentence_text(version)).to eq "Changed division blah.\nhttp://test.host/divisions/representatives/2001-01-01/2" }
+        it { expect(helper.version_sentence(version)).to be_html_safe }
+      end
+    end
+  end
+
+  describe "#version_author" do
+    it "returns the user who made the edit" do
+      user = create(:confirmed_user)
+      version = instance_double(PaperTrail::Version, whodunnit: user.id.to_s)
+
+      expect(helper.version_author(version)).to eq user
+    end
+
+    it "returns the WikiMotion's own user without touching whodunnit" do
+      wiki_motion = build(:wiki_motion, user: build(:confirmed_user))
+
+      expect(helper.version_author(wiki_motion)).to eq wiki_motion.user
+    end
+
+    it "returns nil when that user has since been deleted, rather than raising" do
+      version = instance_double(PaperTrail::Version, whodunnit: "0")
+
+      expect(helper.version_author(version)).to be_nil
+    end
+  end
+
+  describe "#version_attribution_text" do
+    it "names the user and when they made the edit" do
+      user = create(:confirmed_user, name: "Henare Degan")
+      version = instance_double(PaperTrail::Version, whodunnit: user.id.to_s, created_at: Time.zone.local(2026, 1, 2, 3, 4))
+
+      expect(helper.version_attribution_text(version)).to eq "By Henare Degan at 03:04AM - 02 Jan 2026\nhttp://test.host/users/#{user.id}"
+    end
+
+    it "says the user is unknown when they've since been deleted, rather than raising" do
+      version = instance_double(PaperTrail::Version, whodunnit: "0", created_at: Time.zone.local(2026, 1, 2, 3, 4))
+
+      expect(helper.version_attribution_text(version)).to eq "By an unknown user at 03:04AM - 02 Jan 2026"
     end
   end
 end

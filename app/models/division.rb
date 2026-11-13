@@ -12,10 +12,12 @@ class Division < ApplicationRecord
   has_many :votes, dependent: :destroy
   has_many :policy_divisions, dependent: :destroy
   has_many :policies, through: :policy_divisions
-  has_many :wiki_motions, -> { order(created_at: :desc) }, inverse_of: :division, dependent: :destroy
+  has_many :ai_policy_suggestions, dependent: :destroy
+  has_many :ai_division_summaries, dependent: :destroy
+  has_many :wiki_motions, -> { order(created_at: :desc, id: :desc) }, inverse_of: :division, dependent: :destroy
   has_and_belongs_to_many :bills
 
-  delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info
+  delegate :turnout, :aye_majority, :rebellions, :majority, :majority_fraction, to: :division_info, allow_nil: true
 
   scope :in_date_range, ->(date_start, date_end) { where(date: date_start...date_end) }
   scope :in_house, ->(house) { where(house: house) }
@@ -77,19 +79,33 @@ class Division < ApplicationRecord
     end
   end
 
+  # These three fall back to false when the division_info cache hasn't been built
+  # yet, so a missing cache degrades instead of raising. False therefore means
+  # "no, or we don't know yet" - check outcome_known? before displaying it.
   def passed?
+    return false if aye_majority.nil?
+
     tied? ? false : aye_majority >= 1
   end
 
   # Equal number of votes for the ayes and noes
   def tied?
+    return false if aye_majority.nil?
+
     aye_majority.zero?
   end
 
   # Did everyone vote the same way?
   # TODO: Move this to division_info and delegate
   def unanimous?
+    return false if turnout.nil?
+
     turnout.positive? && majority == turnout
+  end
+
+  # Has the division_info cache been built for this division yet?
+  def outcome_known?
+    !division_info.nil?
   end
 
   # Using whips cache to calculate this. Is this the best way?
@@ -111,7 +127,7 @@ class Division < ApplicationRecord
   end
 
   def total_votes
-    division_info.turnout
+    division_info&.turnout
   end
 
   def aye_votes_including_tells
@@ -123,12 +139,12 @@ class Division < ApplicationRecord
   end
 
   def possible_votes
-    division_info.possible_turnout
+    division_info&.possible_turnout
   end
 
   # Returns nil if otherwise we would get divide by zero
   def attendance_fraction
-    total_votes.to_f / possible_votes if possible_votes.positive?
+    total_votes.to_f / possible_votes if possible_votes.to_i.positive?
   end
 
   def edited?
@@ -211,10 +227,28 @@ class Division < ApplicationRecord
     policy_divisions.find_by!(policy_id: policy.id)
   end
 
-  def build_wiki_motion(title, description, user)
+  def build_wiki_motion(title, description, user, ai_assisted: nil, ai_model: nil)
     wiki_motions.new(title: title,
                      description: description,
-                     user: user)
+                     user: user,
+                     ai_assisted: ai_assisted,
+                     ai_model: ai_model)
+  end
+
+  # Whether the current summary was drafted with AI. nil when unknown, including for divisions with no summary.
+  def ai_assisted
+    wiki_motion&.ai_assisted
+  end
+
+  def ai_model
+    wiki_motion&.ai_model
+  end
+
+  # Filters on the current (latest) summary, in the same order as #wiki_motion. A nil value also matches divisions
+  # that have no summary yet. "<=>" is MySQL's null-safe equals, so nil and booleans share one expression.
+  def self.with_ai_assisted(value)
+    where("(SELECT latest.ai_assisted FROM wiki_motions latest WHERE latest.division_id = divisions.id " \
+          "ORDER BY latest.created_at DESC, latest.id DESC LIMIT 1) <=> ?", value)
   end
 
   # rubocop:disable Rails/OutputSafety

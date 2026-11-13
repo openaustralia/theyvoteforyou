@@ -5,15 +5,17 @@
 # This workflow will install a prebuilt Ruby version, install dependencies, and
 # run tests and linters.
 name: "Ruby on Rails CI"
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
 jobs:
   test:
     runs-on: ubuntu-latest
     services:
-      # We're using mysql 5.7 in production currently
-      # TODO: We need to upgrade this in production because it's costing us extra AWS "support" dollars
+      # Matches production, which is RDS MySQL 8.4 (see infrastructure repo's terraform/database.tf)
       mysql:
-        image: mysql:5.7
+        image: mysql:8.4
         ports:
           - "3306:3306"
         env:
@@ -37,7 +39,51 @@ jobs:
         uses: actions/checkout@v7
       # Add or replace dependency steps here
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1.321.0
+        uses: ruby/setup-ruby@v1.338.0
+        with:
+          bundler-cache: true
+      # Add or replace database setup steps here
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+      # Add or replace test runners here
+      - name: Run tests
+        run: bin/rake
+
+  # The new server runs Ubuntu 26.04 on ARM (#1702), so run the specs there too. That builds the native gems on ARM
+  # (#1710) before a deploy does. It does not block merging while it is new, so a problem with the runner image cannot
+  # stop a change that passes everywhere else. Make it required once it has been green for a while. It is a separate
+  # job, not a matrix on `test`, so `test` keeps its name for any required status check.
+  test-arm:
+    runs-on: ubuntu-26.04-arm
+    continue-on-error: true
+    services:
+      # Matches production, which is RDS MySQL 8.4 (see infrastructure repo's terraform/database.tf)
+      mysql:
+        image: mysql:8.4
+        ports:
+          - "3306:3306"
+        env:
+          MYSQL_DATABASE: rails_test
+          MYSQL_USER: rails
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: rootpassword
+        # Set health checks to wait until mysql has started
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "mysql2://rails:password@127.0.0.1:3306/rails_test"
+    steps:
+      - name: Install tidy
+        run: sudo apt install -y tidy
+      - name: Checkout code
+        uses: actions/checkout@v7
+      # Add or replace dependency steps here
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1.338.0
         with:
           bundler-cache: true
       # Add or replace database setup steps here
@@ -54,7 +100,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@v1.321.0
+        uses: ruby/setup-ruby@v1.338.0
         with:
           bundler-cache: true
       # TODO: Reinstate brakeman as soon as we have upgraded rails

@@ -10,8 +10,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   after_action :store_location
   before_action :set_paper_trail_whodunnit
+  before_action :set_sentry_user
 
   include Pundit::Authorization
+
+  helper_method :ai_disclosure_enabled?, :ai_disclosure_public?
 
   protected
 
@@ -21,6 +24,26 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  # Gates everything for issue #1854 (disclosing AI use in division summaries) until the wording is agreed.
+  def ai_disclosure_enabled?
+    Flipper.enabled?(:ai_disclosure, current_user)
+  end
+
+  # For the public API and its docs, which have no signed-in user, so it's all or nothing rather than per person.
+  def ai_disclosure_public?
+    Flipper.enabled?(:ai_disclosure)
+  end
+
+  # Attach the signed-in user to Sentry events so errors show who was affected.
+  # Sentry's Rack middleware resets the scope every request, so this can't leak
+  # between requests. The id only, never email or name - look the id up in the
+  # admin backend if you need to contact someone about an error (Australian
+  # Privacy Principles, and the canonical configuration in the infrastructure
+  # repo's docs/monitoring.md).
+  def set_sentry_user
+    Sentry.set_user(id: current_user.id) if user_signed_in?
+  end
 
   def store_location
     # store last url as long as it isn't a /users path

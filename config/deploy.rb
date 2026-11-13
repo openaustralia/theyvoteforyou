@@ -3,7 +3,41 @@
 set :application, "theyvoteforyou.org.au"
 set :repo_url, "https://github.com/openaustralia/theyvoteforyou.git"
 
-set :rvm_ruby_version, "3.4.4"
+ruby_version = File.read(File.join(__dir__, "..", ".ruby-version")).strip
+case RUBY_MANAGER # see the Capfile
+when :rvm
+  set :rvm_ruby_version, ruby_version
+when :rbenv
+  set :rbenv_type, :user
+  set :rbenv_ruby, ruby_version
+end
+
+# Deploy to the server with this EC2 Application tag (see the Capfile)
+set :aws_ec2_application, DEPLOY_APPLICATION
+
+# The deploy target is found dynamically by its EC2 tags (Application and Roles, set by
+# Terraform in the openaustralia/infrastructure repo) and reached via AWS SSM Session
+# Manager rather than public SSH. See https://github.com/fernandocarletti/capistrano-aws
+set :aws_ec2_regions, ["ap-southeast-2"]
+
+# Use the instance ID as the contact point - that's what SSM needs as a target
+set :aws_ec2_contact_point, :id
+
+# One instance serves both production and staging, so it has no Stage tag - override the
+# gem's default filters, which would otherwise also match on Stage
+set :aws_ec2_default_filters, proc {
+  [
+    { name: "tag:#{fetch(:aws_ec2_application_tag)}", values: [fetch(:aws_ec2_application)] },
+    { name: "instance-state-name", values: ["running"] }
+  ]
+}
+
+set :ssh_options, {
+  proxy: Net::SSH::Proxy::Command.new(
+    "aws ssm start-session --profile oaf --target %h " \
+    "--document-name AWS-StartSSHSession --parameters portNumber=%p"
+  )
+}
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -27,7 +61,7 @@ set :rvm_ruby_version, "3.4.4"
 set :linked_files, -> { %W[config/database.yml config/settings.yml config/credentials/#{fetch(:rails_env)}.key config/skylight.yml] }
 
 # Default value for linked_dirs is []
-set :linked_dirs, fetch(:linked_dirs, []) + %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/cards]
+set :linked_dirs, fetch(:linked_dirs, []) + %w[log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/cards storage]
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -43,7 +77,23 @@ namespace :foreman do
   task :export do
     on roles(:app) do
       within current_path do
-        execute :sudo, :bundle, :exec, :foreman, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f Procfile.production -l #{shared_path}/log --root #{current_path}"
+        # Procfile.production deliberately doesn't hardcode RAILS_ENV; foreman
+        # bakes it into the exported units from this per-stage env file, so
+        # staging's worker runs as staging rather than production
+        execute :echo, "RAILS_ENV=#{fetch(:rails_env)}", ">", "#{shared_path}/foreman.env"
+        # sudo doesn't inherit the deploy user's selected ruby, so this bypasses the RVM or rbenv plugin's
+        # bin-mapping (which only rewrites calls starting with :bundle, not :sudo) and would otherwise run
+        # against root's own default ruby. Each path has to match a sudoers NOPASSWD rule the infrastructure
+        # repo grants.
+        foreman_runner = {
+          # "." (not the actual version) matches the rule, and rvm resolves it from current_path's own .ruby-version
+          rvm: ["/usr/local/rvm/bin/rvm", ".", "do", :bundle, :exec, :foreman],
+          # The rbenv shim sets RBENV_ROOT itself and takes the version from current_path's .ruby-version
+          rbenv: ["/home/deploy/.rbenv/shims/bundle", :exec, :foreman]
+        }.fetch(RUBY_MANAGER)
+        # The worker line differs: RVM needs `rvm . do`, but rbenv is already on PATH in the login shell foreman runs
+        procfile = RUBY_MANAGER == :rbenv ? "Procfile.production.rbenv" : "Procfile.production"
+        execute :sudo, *foreman_runner, :export, :systemd, "/etc/systemd/system -u deploy -a theyvoteforyou-#{fetch(:stage)} -f #{procfile} -l #{shared_path}/log --root #{current_path} -e #{shared_path}/foreman.env"
       end
     end
   end

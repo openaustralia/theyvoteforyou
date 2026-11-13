@@ -2,6 +2,8 @@
 
 module UsersHelper
   def name_with_badge(user)
+    return "Unknown user" unless user
+
     out = []
     out << link_to_unless_current(user.name, user)
     if user.staff

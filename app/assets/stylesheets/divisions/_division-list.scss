@@ -5,17 +5,17 @@
 
 .panel-link {
   display: block;
-  color: $text-color;
+  color: theme("text");
 
   &:hover,
   &:focus {
-    border-color: $brand-primary;
-    background-color: lighten($brand-primary, 45%);
+    border-color: theme("link");
+    background-color: theme("panel-link-hover-bg");
     text-decoration: none;
   }
 
   .panel-link-title {
-    color: $brand-primary;
+    color: theme("link");
   }
 }
 
@@ -27,7 +27,7 @@
   .division-datetime,
   .division-house,
   .division-data {
-    color: $text-color;
+    color: theme("text");
   }
 
   .division-datetime {
@@ -63,14 +63,14 @@
   .division-member-vote {
     &:before {
       content: "\00a0\25CF\00a0";
-      color: #aaa;
+      color: theme("text-faint");
     }
   }
 
   .division-member-vote.member-voted-yes:before,
   &.division-outcome-passed .division-outcome:before {
     content: "\00a0\2192\00a0";
-    color: $text-color;
+    color: theme("text");
     font-weight: bold;
   }
 
@@ -78,7 +78,7 @@
   .division-member-vote.member-voted-no:before,
    &.division-outcome-not-passed .division-outcome:before {
     content: "\00a0\2190\00a0";
-    color: $text-color;
+    color: theme("text");
     font-weight: bold;
   }
 }

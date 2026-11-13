@@ -47,7 +47,9 @@ module DataLoader
                       source_gid: "")
           end
         end
-        Rails.logger.info "Loaded #{Member.count} members"
+        total = Member.count
+        Rails.logger.info "Loaded #{total} members"
+        Sentry::Metrics.gauge("data_load.members.total", total)
       end
     end
   end

@@ -1,6 +1,7 @@
 
 !!! 5
-%html.no-js(lang="en")
+-# Always light: these pages are screenshotted into the images people share on social media
+%html.no-js(lang="en" data-theme="light")
   %head
     %meta(charset="utf-8")
     %meta(name="viewport" content="width=device-width, initial-scale=1")
@@ -17,5 +18,6 @@
 
     = csrf_meta_tag
     = display_meta_tags
+  -# No announcement bar here on purpose: these pages are screenshotted into the images people share on social media
   %body{class: "social_media_cards"}
     = yield 

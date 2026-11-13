@@ -206,4 +206,62 @@ describe Whip do
       end
     end
   end
+
+  # The loader builds whips one division at a time inside its transaction, and
+  # DivisionInfo's rebellion counts depend on them existing first.
+  # See https://github.com/openaustralia/theyvoteforyou/issues/1641
+  describe ".update_divisions!" do
+    let(:personx) { create(:person) }
+    let(:memberx) do
+      Member.create!(title: "", first_name: "Member", last_name: "X", party: "A",
+                     house: "commons", gid: "", source_gid: "", constituency: "A",
+                     entered_house: Date.new(1999, 1, 1), left_house: Date.new(2001, 1, 1),
+                     person: personx)
+    end
+    let(:divisionx) do
+      Division.create!(date: Date.new(2000, 1, 1), number: 10, house: "commons", name: "X",
+                       source_url: "", debate_url: "", motion: "", debate_gid: "")
+    end
+    let(:divisiony) do
+      Division.create!(date: Date.new(2000, 1, 1), number: 11, house: "commons", name: "Y",
+                       source_url: "", debate_url: "", motion: "", debate_gid: "")
+    end
+
+    before do
+      Vote.create!(division: divisionx, member: memberx, vote: "aye")
+      Vote.create!(division: divisiony, member: memberx, vote: "no")
+    end
+
+    it "builds the whip rows for the division it's given" do
+      described_class.update_divisions!(divisionx.id)
+      expect(divisionx.reload.whips.map(&:party)).to eq(["A"])
+    end
+
+    it "leaves other divisions alone" do
+      described_class.update_divisions!(divisionx.id)
+      expect(divisiony.reload.whips).to be_empty
+    end
+
+    it "guesses the whip from the votes in that division" do
+      described_class.update_divisions!(divisionx.id)
+      expect(divisionx.reload.whips.first).to have_attributes(aye_votes: 1, no_votes: 0, whip_guess: "aye")
+    end
+
+    it "does nothing when given no divisions" do
+      expect { described_class.update_divisions!([]) }.not_to change(described_class, :count)
+    end
+
+    it "is idempotent" do
+      described_class.update_divisions!(divisionx.id)
+      expect { described_class.update_divisions!(divisionx.id) }.not_to change(described_class, :count)
+    end
+
+    it "produces the same result as a full rebuild" do
+      described_class.update_divisions!([divisionx.id, divisiony.id])
+      scoped = described_class.order(:division_id, :party).pluck(:division_id, :party, :aye_votes, :no_votes, :whip_guess)
+      described_class.delete_all
+      described_class.update_all!
+      expect(described_class.order(:division_id, :party).pluck(:division_id, :party, :aye_votes, :no_votes, :whip_guess)).to eq(scoped)
+    end
+  end
 end

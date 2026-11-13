@@ -16,10 +16,11 @@ class PoliciesController < ApplicationController
       @policies = @policies.left_joins(:watches).group(:id).order(Arel.sql("COUNT(watches.id) DESC"))
       @sort = nil
     end
+    @policies = Policy.with_list_stats(@policies)
   end
 
   def drafts
-    @policies = Policy.provisional.order(:name)
+    @policies = Policy.with_list_stats(Policy.provisional.order(:name))
   end
 
   def show

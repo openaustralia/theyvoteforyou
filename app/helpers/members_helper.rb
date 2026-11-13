@@ -101,6 +101,13 @@ module MembersHelper
     end
   end
 
+  # On a card a missing portrait leaves a visible hole, so show a placeholder
+  # at the same size instead of nothing
+  def card_member_image(member, size)
+    member_image(member, size) ||
+      image_tag("generic-person.svg", alt: "Generic person illustration", size: member.public_send(:"#{size}_image_size"))
+  end
+
   def policies_under_category(member, category)
     distances = member.person.policy_person_distances.published
     policies = []

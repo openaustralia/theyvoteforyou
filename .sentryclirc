@@ -1,0 +1,4 @@
+[defaults]
+url=https://de.sentry.io
+org=oaf-org-au
+project=they-vote-for-you

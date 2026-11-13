@@ -5,6 +5,15 @@ module ApplicationHelper
     "Discover how your MP votes on the issues that matter to you."
   end
 
+  # The bar must never stop a page rendering. That includes the error pages, which use this layout and are most likely
+  # to be shown when the database is struggling.
+  def current_announcement
+    Announcement.current
+  rescue ActiveRecord::ActiveRecordError => e
+    Rails.logger.error("Announcement bar skipped: #{e.class}: #{e.message}")
+    nil
+  end
+
   def nav_link(name, path, title, current)
     content_tag(:li, class: ("active" if current)) do
       link_to name, path, title: title
@@ -172,5 +181,18 @@ module ApplicationHelper
     else
       pluralize(number, "time")
     end
+  end
+
+  # Crawlers and link previewers run our JavaScript, so they trip over loading
+  # errors that we can do nothing about, and they vastly outnumber real
+  # people. Don't load the Sentry browser SDK for them. Deliberately narrow:
+  # facebookexternalhit is the crawler, while the Facebook in-app browser is a
+  # real person and its errors are worth seeing.
+  CRAWLER_USER_AGENT = /bot\b|crawler|spider|facebookexternalhit|slurp|archiver|inspectiontool/i
+
+  def crawler?(user_agent)
+    return false if user_agent.blank?
+
+    CRAWLER_USER_AGENT.match?(user_agent)
   end
 end

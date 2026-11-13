@@ -53,6 +53,17 @@ class Person < ApplicationRecord
     votes_attended.to_f / votes_possible if votes_possible.positive?
   end
 
+  # The *_image_url columns hold the URL a portrait is downloaded from (see
+  # DataLoader::People and PortraitMirror). The *_image_url methods return the
+  # path the site serves it at, so views never hot-link the source.
+  PortraitMirror::SIZES.each do |size|
+    define_method(:"#{size}_image_source_url") { self[:"#{size}_image_url"] }
+
+    define_method(:"#{size}_image_url") do
+      "/system/portraits/#{size}/#{id}.jpg" if self[:"#{size}_image_url"]
+    end
+  end
+
   def show_extra_large_image?
     !!extra_large_image_url
   end
