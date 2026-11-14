@@ -14,45 +14,46 @@
   - sentry_user_js = user_signed_in? ? "Sentry.setUser({ id: '#{j current_user.id.to_s}' });" : ""
   -# window.sentryOnLoad must be defined before the Loader Script tag so the
   -# lazy-loaded SDK picks up our configuration when it initialises
-  :javascript
-    window.sentryOnLoad = function () {
-      Sentry.init({
-        environment: '#{j Sentry.configuration.environment}'#{", release: '#{j release}'" if release},
-        // Sample 10% of pageloads/navigations for browser tracing
-        tracesSampleRate: 0.1,
-        // Only record session replays when an error occurs, with default
-        // privacy masking (maskAllText/blockAllMedia) left enabled
-        replaysSessionSampleRate: 0,
-        replaysOnErrorSampleRate: 1.0,
-        // Send user IP with events, matching the backend's send_default_pii
-        sendDefaultPii: true,
-        // Errors thrown by browser extensions, in-app webview bridges and email
-        // link scanners rather than by our own code. We cannot fix any of these
-        // and they drown out real problems. Anything our own JavaScript causes
-        // belongs in a fix, not in this list.
-        ignoreErrors: [
-          // Microsoft Outlook and Office scanning links in our alert emails
-          'Object Not Found Matching Id',
-          // Android webview tearing down its JavaScript bridge mid-page
-          'Error invoking postMessage: Java object is gone',
-          // Cryptocurrency wallet extensions
-          'Failed to connect to MetaMask',
-          // Accessibility and screen reader extensions reading their own state
-          'isHighContrast',
-          // iOS in-app browsers and extensions expecting their native bridge
-          'window.webkit.messageHandlers',
-          // In-app browsers' autofill bridge (e.g. the Facebook/Instagram iOS
-          // autofill bridge) - see theyvoteforyou#1690
-          '_AutofillCallbackHandler'
-        ],
-        denyUrls: [
-          /^chrome-extension:\/\//i,
-          /^moz-extension:\/\//i,
-          /^safari-(web-)?extension:\/\//i
-        ]
-      });
-      #{sentry_user_js}
-    };
+  %script{nonce: content_security_policy_nonce}
+    :plain
+      window.sentryOnLoad = function () {
+        Sentry.init({
+          environment: '#{j Sentry.configuration.environment}'#{", release: '#{j release}'" if release},
+          // Sample 10% of pageloads/navigations for browser tracing
+          tracesSampleRate: 0.1,
+          // Only record session replays when an error occurs, with default
+          // privacy masking (maskAllText/blockAllMedia) left enabled
+          replaysSessionSampleRate: 0,
+          replaysOnErrorSampleRate: 1.0,
+          // Send user IP with events, matching the backend's send_default_pii
+          sendDefaultPii: true,
+          // Errors thrown by browser extensions, in-app webview bridges and email
+          // link scanners rather than by our own code. We cannot fix any of these
+          // and they drown out real problems. Anything our own JavaScript causes
+          // belongs in a fix, not in this list.
+          ignoreErrors: [
+            // Microsoft Outlook and Office scanning links in our alert emails
+            'Object Not Found Matching Id',
+            // Android webview tearing down its JavaScript bridge mid-page
+            'Error invoking postMessage: Java object is gone',
+            // Cryptocurrency wallet extensions
+            'Failed to connect to MetaMask',
+            // Accessibility and screen reader extensions reading their own state
+            'isHighContrast',
+            // iOS in-app browsers and extensions expecting their native bridge
+            'window.webkit.messageHandlers',
+            // In-app browsers' autofill bridge (e.g. the Facebook/Instagram iOS
+            // autofill bridge) - see theyvoteforyou#1690
+            '_AutofillCallbackHandler'
+          ],
+          denyUrls: [
+            /^chrome-extension:\/\//i,
+            /^moz-extension:\/\//i,
+            /^safari-(web-)?extension:\/\//i
+          ]
+        });
+        #{sentry_user_js}
+      };
   -# The Loader Script key is the public key from the DSN. The host is
   -# region-specific and our org is in Sentry's EU region: the US host
   -# (js.sentry-cdn.com) answers 200 with a no-op stub, which would leave

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ConfirmationsController < Devise::ConfirmationsController
+  # The confirmation link holds the token in its address
+  include KeepOutOfCspReports
+
   # Override Devise to automatically sign in the user
   # GET /resource/confirmation?confirmation_token=abcdef
   def show
