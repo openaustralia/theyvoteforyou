@@ -22,15 +22,15 @@ require "capistrano/deploy"
 require "capistrano/rails"
 
 # The server to deploy to is chosen by its EC2 Application tag, with the DEPLOY_APPLICATION environment variable.
-# It defaults to the current server. The current server manages Ruby with RVM and the new theyvoteforyou2026 server
-# with rbenv (ADR 0003), so each needs its own Capistrano plugin until the cutover (#1702). This is decided here
-# because config/deploy.rb is only loaded after the Capfile.
+# It defaults to the current server, which manages Ruby with rbenv (ADR 0003). The previous server, tagged
+# theyvoteforyou2020 and kept for a rollback, manages Ruby with RVM, so each needs its own Capistrano plugin.
+# This is decided here because config/deploy.rb is only loaded after the Capfile.
 DEPLOY_APPLICATION = ENV.fetch("DEPLOY_APPLICATION", "theyvoteforyou.org.au")
 RUBY_MANAGER = {
-  "theyvoteforyou.org.au" => :rvm,
-  "theyvoteforyou2026" => :rbenv
+  "theyvoteforyou.org.au" => :rbenv,
+  "theyvoteforyou2020" => :rvm
 }.fetch(DEPLOY_APPLICATION) do
-  abort "DEPLOY_APPLICATION=#{DEPLOY_APPLICATION} is not one of: theyvoteforyou.org.au, theyvoteforyou2026"
+  abort "DEPLOY_APPLICATION=#{DEPLOY_APPLICATION} is not one of: theyvoteforyou.org.au, theyvoteforyou2020"
 end
 require "capistrano/rvm" if RUBY_MANAGER == :rvm
 require "capistrano/rbenv" if RUBY_MANAGER == :rbenv
