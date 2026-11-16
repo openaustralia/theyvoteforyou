@@ -17,6 +17,9 @@ module Api
       def log_api_request
         ApiStatistic.log(request, user: @api_user)
         DailyApiUsage.increment(user: @api_user)
+      rescue ActiveRecord::ActiveRecordError => e
+        # The response is already rendered, so a failed count (e.g. a deadlock) shouldn't turn it into an error
+        Sentry.capture_exception(e)
       end
     end
   end

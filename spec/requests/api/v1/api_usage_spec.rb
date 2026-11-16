@@ -15,6 +15,12 @@ describe "API usage counting", type: :request do
     expect(ApiStatistic.last.user).to eq user
   end
 
+  it "still answers the request if counting it fails" do
+    allow(DailyApiUsage).to receive(:increment).and_raise(ActiveRecord::Deadlocked)
+    get "/api/v1/people.json", params: { key: user.api_key }
+    expect(response).to have_http_status(:ok)
+  end
+
   it "doesn't count a request with an invalid key" do
     get "/api/v1/people.json", params: { key: "not-a-key" }
     expect(DailyApiUsage.count).to eq 0
