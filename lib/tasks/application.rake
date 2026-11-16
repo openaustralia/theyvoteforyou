@@ -54,7 +54,7 @@ namespace :application do
 
     desc "Rebuild daily API usage counts from api_statistics, a month at a time (FROM=2026-01 limits the start)"
     task daily_api_usage: :environment do
-      first = ENV["FROM"] ? Date.parse("#{ENV.fetch('FROM')}-01") : ApiStatistic.minimum(:created_at)&.utc&.to_date
+      first = ENV["FROM"] ? Date.strptime(ENV.fetch("FROM"), "%Y-%m") : ApiStatistic.minimum(:created_at)&.utc&.to_date
       next puts "No API requests logged" if first.nil?
 
       month = first.beginning_of_month
