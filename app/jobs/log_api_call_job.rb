@@ -8,6 +8,12 @@
 class LogApiCallJob < ApplicationJob
   queue_as :default
 
+  # Rides out a few hours of Elasticsearch being unavailable, then gives up. Delayed Job's own default of 25 tries
+  # would keep every call of an outage in the queue for weeks.
+  retry_on StandardError, attempts: 10, wait: :polynomially_longer do |_job, error|
+    Sentry.capture_exception(error)
+  end
+
   def self.log(request, user:)
     return unless Rails.configuration.x.log_api_calls_to_elasticsearch
 
@@ -29,7 +35,8 @@ class LogApiCallJob < ApplicationJob
   # Values are logged as text, so an array or hash sent where others sent a string can't clash with the field's type
   # in the index and stop the document being stored
   def self.logged_params(request)
-    request.path_parameters.merge(request.query_parameters).stringify_keys.slice(*LOGGED_PARAMS)
+    # Path parameters win, as they do in Rails' params, so a query string's id can't misreport which record was served
+    request.query_parameters.merge(request.path_parameters).stringify_keys.slice(*LOGGED_PARAMS)
            .transform_values { |value| value.is_a?(String) ? value : value.to_json }
   end
   private_class_method :logged_params
@@ -37,6 +44,8 @@ class LogApiCallJob < ApplicationJob
   def perform(user_id:, endpoint:, query:, params:, ip_address:, user_agent:, time:)
     Searchkick.client.index(
       index: "tvfy-api-#{Rails.env}-#{time.utc.strftime('%Y.%m')}",
+      # A retry after a timeout that Elasticsearch had in fact stored overwrites it, rather than counting the call twice
+      id: job_id,
       body: {
         site: "theyvoteforyou", user: { id: user_id }, endpoint: endpoint, query: query, params: params,
         ip_address: ip_address, user_agent: user_agent, query_time: time.utc
