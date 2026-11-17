@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCreatedAtIndexToApiStatistics < ActiveRecord::Migration[8.1]
+class AddCreatedAtIndexToApiStatistics < ActiveRecord::Migration[8.0]
   def change
     # The index briefly needs the table to itself at the start and end. Give up after 30 seconds rather than wait
     # behind a long query (such as one from Metabase), which would hold up every API request queued behind it.
