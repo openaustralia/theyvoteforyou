@@ -21,6 +21,17 @@ describe "API usage counting", type: :request do
     expect(response).to have_http_status(:ok)
   end
 
+  it "still counts the request if logging it fails" do
+    allow(ApiStatistic).to receive(:log).and_raise(ActiveRecord::Deadlocked)
+    get "/api/v1/people.json", params: { key: user.api_key }
+    expect(DailyApiUsage.find_by(user: user).count).to eq 1
+  end
+
+  it "rejects a key sent as an array" do
+    get "/api/v1/people.json", params: { key: [user.api_key] }
+    expect(response).to have_http_status(:unauthorized)
+  end
+
   it "doesn't count a request with an invalid key" do
     get "/api/v1/people.json", params: { key: "not-a-key" }
     expect(DailyApiUsage.count).to eq 0
