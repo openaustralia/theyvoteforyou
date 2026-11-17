@@ -41,9 +41,24 @@ class LogApiCallJob < ApplicationJob
   end
   private_class_method :logged_params
 
+  # Fixed field types for every index. Left to itself, Elasticsearch guesses each field's type from a month's first
+  # call, so a field such as start_date could be a date one month and text the next. Kibana then can't chart it across
+  # months, and merging months into one index rejects the calls that don't match (as with Planning Alerts' pa-api-*).
+  # See https://www.elastic.co/guide/en/elasticsearch/reference/7.17/dynamic-templates.html
+  MAPPINGS = {
+    date_detection: false,
+    dynamic_templates: [
+      { strings_as_keywords: { match_mapping_type: "string", mapping: { type: "keyword", ignore_above: 1024 } } }
+    ],
+    properties: { query_time: { type: "date" }, user: { properties: { id: { type: "long" } } } }
+  }.freeze
+
   def perform(user_id:, endpoint:, query:, params:, ip_address:, user_agent:, time:)
+    # Underscores, unlike Planning Alerts' pa-api-*, so the theyvoteforyou Elasticsearch role's tvfy_* covers it
+    index = "tvfy_api_#{Rails.env}_#{time.utc.strftime('%Y.%m')}"
+    create_index(index)
     Searchkick.client.index(
-      index: "tvfy-api-#{Rails.env}-#{time.utc.strftime('%Y.%m')}",
+      index: index,
       # A retry after a timeout that Elasticsearch had in fact stored overwrites it, rather than counting the call twice
       id: job_id,
       body: {
@@ -51,5 +66,19 @@ class LogApiCallJob < ApplicationJob
         ip_address: ip_address, user_agent: user_agent, query_time: time.utc
       }
     )
+  end
+
+  private
+
+  # Remembered in the cache so it's tried once a month rather than on every call
+  def create_index(index)
+    Rails.cache.fetch("log_api_call_job/created/#{index}", expires_in: 1.day) do
+      Searchkick.client.indices.create(index: index, body: { mappings: MAPPINGS })
+      true
+    rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
+      raise unless e.message.include?("resource_already_exists_exception")
+
+      true
+    end
   end
 end
