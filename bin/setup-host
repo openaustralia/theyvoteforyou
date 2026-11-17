@@ -128,7 +128,7 @@ install_docker_macos() {
   fi
 
   echo "Installing Docker Desktop via Homebrew..."
-  brew install --cask docker
+  brew install --cask docker-desktop
 
   echo "Starting Docker Desktop..."
   open -a Docker
