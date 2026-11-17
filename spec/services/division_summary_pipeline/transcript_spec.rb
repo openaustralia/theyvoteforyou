@@ -1,0 +1,188 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+require "nokogiri"
+
+# Fictional members and motions in the shape current ParlParse XML has.
+describe DivisionSummaryPipeline::Transcript do
+  def speech(inner_xml, id:, name: "Morgan Treloar", gid: "uk.org.publicwhip/lord/900001", time: "13:27")
+    node = Nokogiri::XML("<speech id=\"#{id}\" speakername=\"#{name}\" speakerid=\"#{gid}\" time=\"#{time}\">" \
+                         "#{inner_xml}</speech>").root
+    DataLoader::SpeechText.context_speech(node)
+  end
+
+  let(:mover_speech) do
+    speech(<<~XML, id: "s1")
+      <p>Rural students pay more to study. Mr Example said so in No. 3 of his reports.</p>
+      <p>I move the second reading amendment on sheet 9001:</p>
+      <p class="italic">At the end of the motion, add ", but the Senate calls on the Government to fund the Example (Regional Access) Scheme".</p>
+      <p>The Senate should support it.</p>
+    XML
+  end
+  let(:chair_speech) do
+    speech("<p>The question is that the amendment moved by Senator Treloar be agreed to.</p>",
+           id: "s2", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "13:30")
+  end
+  let(:transcript) do
+    described_class.build(heading: "Bills &#8212; Example Bill 2026; Second Reading",
+                          speeches: [mover_speech, chair_speech], question_speech_id: "s2")
+  end
+
+  describe "units" do
+    it "cuts a member's own words into sentences, without breaking at titles or \"No. 3\"" do
+      prose = transcript.speech(1).units.select { |unit| unit.kind == :prose }.map(&:text)
+
+      expect(prose).to eq(["Rural students pay more to study.", "Mr Example said so in No. 3 of his reports.",
+                           "The Senate should support it."])
+    end
+
+    it "keeps the move, the motion and the chair's question whole, and says which is which" do
+      kinds = transcript.units.to_h { |unit| [unit.id, unit.kind] }
+
+      expect(kinds).to eq("S1.1" => :prose, "S1.2" => :prose, "S1.3" => :move, "S1.4" => :motion,
+                          "S1.5" => :prose, "S2.1" => :chair)
+    end
+
+    # Members often give their reasons in the same paragraph as the move.
+    it "treats the reasons before \"I move\" in the same paragraph as the member's own words" do
+      node = speech("<p>Students deserve better. For these reasons, I move the amendment:</p>" \
+                    "<p class=\"italic\">That the Senate notes it.</p>", id: "s9")
+      units = described_class.build(heading: "Bills", speeches: [node]).speech(1).units
+
+      expect(units.map { |unit| [unit.kind, unit.text] })
+        .to eq([[:prose, "Students deserve better."], [:move, "For these reasons, I move the amendment:"],
+                [:motion, "That the Senate notes it."]])
+    end
+
+    # KNOWN_ISSUES.md KI-38: what a member quotes is someone else's words, so it is never cut into
+    # sentences that could be quoted as theirs.
+    it "keeps a passage the member quoted whole, marked as a quotation, and shows the model which it is" do
+      node = speech("<p>The minister said:</p><p class=\"italic\">It is fair. It is overdue.</p><p>I disagree.</p>", id: "s9")
+      quoted = described_class.build(heading: "Bills", speeches: [node])
+
+      expect(quoted.speech(1).units.map { |unit| [unit.id, unit.kind, unit.text] })
+        .to eq([["S1.1", :prose, "The minister said:"], ["S1.2", :quotation, "It is fair. It is overdue."],
+                ["S1.3", :prose, "I disagree."]])
+      expect(quoted.prompt_text).to include("[S1.2 quotation] It is fair. It is overdue.")
+    end
+
+    it "finds a unit whatever case or spacing the model used for its ID" do
+      expect(transcript.unit(" s1.4 ").kind).to eq(:motion)
+      expect(transcript.unit("S9.9")).to be_nil
+    end
+
+    it "gives the last move's introduction and terms" do
+      speech = transcript.speech(1)
+
+      expect(transcript.last_move_units(speech, :move).map(&:id)).to eq(["S1.3"])
+      expect(transcript.last_move_units(speech, :motion).map(&:id)).to eq(["S1.4"])
+    end
+  end
+
+  # As at Senate 18 August 2026 #16: one statement put the government's amendments, which were
+  # agreed to on the voices, and then the question the division decided.
+  describe "#question_units" do
+    let(:statement) do
+      speech(<<~XML, id: "s2", name: "Robin Castellan", gid: "uk.org.publicwhip/lord/900002", time: "20:16")
+        <p>The question now is that amendments (1) to (4) on sheet XY101 be agreed to.</p>
+        <p class="italic">(1) Clause 2, page 2 (table item 3), omit the item.</p>
+        <p>Question agreed to.</p>
+        <p>I will now deal with the amendments circulated by the Example Party. The first question is that part 3 of schedule 1 stand as printed.</p>
+        <p class="italic">(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed.</p>
+      XML
+    end
+    let(:transcript) do
+      described_class.build(heading: "Bills", speeches: [mover_speech, statement], question_speech_id: "s2")
+    end
+
+    it "is the chair's own words putting the division's question, not an earlier question or the amendments" do
+      expect(transcript.question_units.map(&:text))
+        .to eq(["I will now deal with the amendments circulated by the Example Party. The first question is that " \
+                "part 3 of schedule 1 stand as printed."])
+    end
+
+    # KI-44: nobody moves circulated amendments, so the chair's statement is
+    # the only place Hansard records their terms.
+    it "takes the amendments printed after the division's question as its terms, and other italic as quotation" do
+      expect(transcript.speech(2).units.map(&:kind)).to eq(%i[chair quotation record chair motion])
+      expect(transcript.question_terms_units.map(&:text))
+        .to eq(["(2) Schedule 1, Part 3, page 12 (line 1) to page 14 (line 9), to be opposed."])
+    end
+  end
+
+  # KI-57: Hansard puts "(Time expired)" at the end of the last paragraph.
+  it "marks Hansard's record at the end of a paragraph as a record, not the member's sentence" do
+    node = speech("<p>The levy is fair. (Time expired)</p>", id: "s9")
+
+    expect(described_class.build(heading: "Bills", speeches: [node]).speech(1).units.map { |unit| [unit.kind, unit.text] })
+      .to eq([[:prose, "The levy is fair."], [:record, "(Time expired)"]])
+  end
+
+  # KI-55.
+  it "marks the words of a speech incorporated by leave, which were not spoken" do
+    node = speech("<p>I seek leave to incorporate the speech.</p><p class=\"italic\">The speech read as follows&#x2014;</p>" \
+                  "<p class=\"italic\">The levy is fair. It is overdue.</p><p>I commend the bill.</p>", id: "s9")
+    built = described_class.build(heading: "Bills", speeches: [node])
+
+    expect(built.speech(1).units.map { |unit| [unit.text, unit.incorporated] })
+      .to include(["The levy is fair.", true], ["It is overdue.", true], ["I commend the bill.", false])
+    expect(built.passages(%w[S1.3 S1.4 S1.5]).map(&:incorporated)).to eq([true, false])
+  end
+
+  describe "#passages" do
+    it "quotes consecutive units as the exact run of text they came from" do
+      passages = transcript.passages(%w[S1.2 S1.1])
+
+      expect(passages.size).to eq(1)
+      expect(passages.first.text).to eq("Rural students pay more to study. Mr Example said so in No. 3 of his reports.")
+    end
+
+    it "keeps separate excerpts separate, so a gap is never joined over" do
+      expect(transcript.passages(%w[S1.1 S1.5]).map(&:text))
+        .to eq(["Rural students pay more to study.", "The Senate should support it."])
+    end
+
+    it "keeps a paragraph break inside a run" do
+      expect(transcript.passages(%w[S1.3 S1.4]).first.text).to start_with("I move the second reading amendment on sheet 9001:\n\nAt the end")
+    end
+  end
+
+  describe "#anchor" do
+    it "returns Hansard's own text for a phrase, whatever the model did to its case and punctuation" do
+      anchor = transcript.anchor("S1.4", "example regional access scheme")
+
+      expect(anchor.problem).to be_nil
+      expect(anchor.text).to eq("Example (Regional Access) Scheme")
+    end
+
+    it "keeps a closing bracket the phrase ends inside" do
+      expect(transcript.anchor("S1.4", "the Example (Regional Access").text).to eq("the Example (Regional Access)")
+    end
+
+    it "refuses a phrase that is not in that unit, even if it is elsewhere in the debate" do
+      expect(transcript.anchor("S1.1", "Example (Regional Access) Scheme").problem).to eq(:not_found)
+      expect(transcript.anchor("S7.1", "anything").problem).to eq(:no_such_unit)
+    end
+  end
+
+  describe "#prompt_text" do
+    it "shows every unit with its ID, and marks the chair's question" do
+      text = transcript.prompt_text
+
+      expect(text).to include("--- S1: Morgan Treloar, 13:27 ---")
+      expect(text).to include("[S1.1] Rural students pay more to study.")
+      expect(text).to include("[S1.4 motion] At the end of the motion")
+      expect(text).to include("--- S2: Robin Castellan, 13:30 (the chair putting this division's question) ---")
+      expect(text).to include("[S2.1 chair] The question is")
+    end
+  end
+
+  describe ".from_record" do
+    it "treats the Division record's stored text as one unnamed speech" do
+      record = described_class.from_record(heading: "Motions", text: "That the Senate notes the report.\nIt is late.")
+
+      expect(record.speech(1).label).to eq("Unnamed speaker")
+      expect(record.units.map(&:text)).to eq(["That the Senate notes the report.", "It is late."])
+    end
+  end
+end

@@ -355,6 +355,27 @@ describe DataLoader::DivisionXml do
 
       expect(division.operative_question).to eq("I move:\n\nThat the debate be adjourned.")
     end
+
+    # A member's debate is not the question, and its wording once routed a vote.
+    it "is nil when the last speech is a member debating, not moving anything" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Morgan Treloar"><p>The scheme is failing small businesses across the state.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.operative_question).to be_nil
+    end
+
+    it "reads a chair's statement that puts the question as the question before the House" do
+      division = divisions(<<~XML).first
+        #{heading}
+        <speech id="s1" speakername="Casey Whitlow"><p>The question before the House is that the amendment be agreed to.</p></speech>
+        <division divnumber="1" id="d1"/>
+      XML
+
+      expect(division.operative_question).to eq("The question before the House is that the amendment be agreed to.")
+    end
   end
 
   describe "#context_speeches" do
