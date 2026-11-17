@@ -16,8 +16,13 @@ describe "API usage counting", type: :request do
   end
 
   it "logs the request without the key, keeping the other parameters as sent" do
-    get "/api/v1/divisions.json?start_date=2021-07-01&key=#{user.api_key}&house=senate"
+    get "/api/v1/divisions.json?start_date=2021-07-01&key=#{CGI.escape(user.api_key)}&house=senate"
     expect(ApiStatistic.last.query).to eq "/api/v1/divisions.json?start_date=2021-07-01&house=senate"
+  end
+
+  it "doesn't log a key whose name is percent-encoded" do
+    get "/api/v1/people.json?ke%79=#{CGI.escape(user.api_key)}"
+    expect(ApiStatistic.last.query).to eq "/api/v1/people.json"
   end
 
   it "logs a request with only a key as the bare path" do

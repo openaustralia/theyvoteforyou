@@ -15,8 +15,13 @@ class ApiStatistic < ApplicationRecord
   # user_id already says whose key it was, so the key itself needn't sit in the log for anyone reading it.
   # The other parameters are kept exactly as sent.
   def self.path_without_key(request)
-    query = request.query_string.split("&").reject { |pair| pair.split("=").first == "key" }.join("&")
+    query = request.query_string.split("&").reject { |pair| key_param?(pair) }.join("&")
     query.empty? ? request.path : "#{request.path}?#{query}"
   end
-  private_class_method :path_without_key
+
+  # Rails decodes names before reading params[:key], so "ke%79=" also reaches it as the key
+  def self.key_param?(pair)
+    Rack::Utils.unescape(pair.split("=").first.to_s) == "key"
+  end
+  private_class_method :path_without_key, :key_param?
 end
