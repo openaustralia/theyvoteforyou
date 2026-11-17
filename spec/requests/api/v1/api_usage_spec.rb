@@ -15,6 +15,16 @@ describe "API usage counting", type: :request do
     expect(ApiStatistic.last.user).to eq user
   end
 
+  it "logs the request without the key, keeping the other parameters as sent" do
+    get "/api/v1/divisions.json?start_date=2021-07-01&key=#{user.api_key}&house=senate"
+    expect(ApiStatistic.last.query).to eq "/api/v1/divisions.json?start_date=2021-07-01&house=senate"
+  end
+
+  it "logs a request with only a key as the bare path" do
+    get "/api/v1/people.json", params: { key: user.api_key }
+    expect(ApiStatistic.last.query).to eq "/api/v1/people.json"
+  end
+
   it "still answers the request if counting it fails" do
     allow(DailyApiUsage).to receive(:increment).and_raise(ActiveRecord::Deadlocked)
     get "/api/v1/people.json", params: { key: user.api_key }
