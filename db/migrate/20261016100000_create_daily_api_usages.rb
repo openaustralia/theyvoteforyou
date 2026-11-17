@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateDailyApiUsages < ActiveRecord::Migration[8.1]
+class CreateDailyApiUsages < ActiveRecord::Migration[8.0]
   def change
     # A plain integer with no foreign key, like api_statistics.user_id: production's users.id is an int
     # (from the original PHP table), not the bigint schema.rb shows, so a bigint foreign key would fail there.
