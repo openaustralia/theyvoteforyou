@@ -11,6 +11,11 @@ describe "Logging API calls to Elasticsearch", type: :request do
   before do
     travel_to(Time.utc(2026, 11, 30, 23, 59, 59))
     Rails.configuration.x.log_api_calls_to_elasticsearch = true
+    # The client first checks it's talking to Elasticsearch, and CI has none to answer
+    stub_request(:get, %r{\Ahttps?://[^/]+/\z}).to_return(
+      headers: { "Content-Type" => "application/json", "X-Elastic-Product" => "Elasticsearch" },
+      body: { version: { number: "7.17.7" }, tagline: "You Know, for Search" }.to_json
+    )
     stub_request(:post, %r{/tvfy-api-test-2026\.11/_doc\z}).to_return do |request|
       logged << JSON.parse(request.body)
       { status: 201, headers: { "Content-Type" => "application/json" }, body: "{}" }
@@ -32,17 +37,30 @@ describe "Logging API calls to Elasticsearch", type: :request do
 
   it "logs the endpoint, path and parameters without the key" do
     division = create(:division)
-    get "/api/v1/divisions/#{division.id}.json?ke%79=#{CGI.escape(user.api_key)}&extra=1"
+    get "/api/v1/divisions/#{division.id}.json?ke%79=#{CGI.escape(user.api_key)}&house=senate"
     expect(logged.sole).to include(
       "endpoint" => "divisions#show",
-      "query" => "/api/v1/divisions/#{division.id}.json?extra=1",
-      "params" => { "id" => division.id.to_s, "format" => "json", "extra" => "1" }
+      "query" => "/api/v1/divisions/#{division.id}.json?house=senate",
+      "params" => { "id" => division.id.to_s, "format" => "json", "house" => "senate" }
     )
   end
 
   it "logs parameters sent as arrays or hashes as text, so they can't clash with the index's field types" do
     get "/api/v1/divisions.json?key=#{CGI.escape(user.api_key)}&house[]=senate"
     expect(logged.sole["params"]["house"]).to eq '["senate"]'
+  end
+
+  it "only logs parameters the API reads as fields, so made-up names can't fill the index's field limit" do
+    get "/api/v1/divisions.json?key=#{CGI.escape(user.api_key)}&house=senate&made_up=1"
+    expect(logged.sole).to include(
+      "params" => { "format" => "json", "house" => "senate" },
+      "query" => "/api/v1/divisions.json?house=senate&made_up=1"
+    )
+  end
+
+  it "logs calls with a parameter named like ActiveJob's own serialisation keys" do
+    get "/api/v1/people.json?key=#{CGI.escape(user.api_key)}&_aj_globalid=x"
+    expect(logged.sole["query"]).to eq "/api/v1/people.json?_aj_globalid=x"
   end
 
   it "doesn't log calls with an invalid key" do
