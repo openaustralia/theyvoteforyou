@@ -10,6 +10,8 @@ describe "Logging API calls to Elasticsearch", type: :request do
   let(:attempted_urls) { [] }
   # How many times Elasticsearch fails before it stores a document
   let(:failures) { 0 }
+  let(:created_indices) { [] }
+  let(:index_create_response) { { status: 200, headers: { "Content-Type" => "application/json" }, body: "{}" } }
 
   before do
     travel_to(Time.utc(2026, 11, 30, 23, 59, 59))
@@ -19,7 +21,11 @@ describe "Logging API calls to Elasticsearch", type: :request do
       headers: { "Content-Type" => "application/json", "X-Elastic-Product" => "Elasticsearch" },
       body: { version: { number: "7.17.7" }, tagline: "You Know, for Search" }.to_json
     )
-    stub_request(:put, %r{/tvfy-api-test-2026\.11/_doc/[\w-]+\z}).to_return do |request|
+    stub_request(:put, %r{/tvfy_api_test_2026\.11\z}).to_return do |request|
+      created_indices << JSON.parse(request.body)
+      index_create_response
+    end
+    stub_request(:put, %r{/tvfy_api_test_2026\.11/_doc/[\w-]+\z}).to_return do |request|
       attempted_urls << request.uri.to_s
       next { status: 503, body: "{}" } if attempted_urls.size <= failures
 
@@ -73,6 +79,34 @@ describe "Logging API calls to Elasticsearch", type: :request do
     division = create(:division)
     get "/api/v1/divisions/#{division.id}.json?key=#{CGI.escape(user.api_key)}&id=999"
     expect(logged.sole["params"]["id"]).to eq division.id.to_s
+  end
+
+  # Otherwise Elasticsearch guesses each field's type from a month's first call, so a field such as start_date could
+  # be a date one month and text the next, which Kibana can't chart across months
+  it "creates the month's index with fixed field types before logging to it" do
+    get "/api/v1/people.json", params: { key: user.api_key }
+    expect(created_indices.sole["mappings"]).to include(
+      "date_detection" => false,
+      "properties" => hash_including("query_time" => { "type" => "date" })
+    )
+  end
+
+  it "makes every text value a keyword, so the same field can't be a date one month and text the next" do
+    get "/api/v1/people.json", params: { key: user.api_key }
+    strings_as_keywords = created_indices.sole["mappings"]["dynamic_templates"].sole["strings_as_keywords"]
+    expect(strings_as_keywords).to include("match_mapping_type" => "string", "mapping" => hash_including("type" => "keyword"))
+  end
+
+  context "when the month's index already exists" do
+    let(:index_create_response) do
+      { status: 400, headers: { "Content-Type" => "application/json" },
+        body: { error: { type: "resource_already_exists_exception" }, status: 400 }.to_json }
+    end
+
+    it "still logs the call" do
+      get "/api/v1/people.json", params: { key: user.api_key }
+      expect(logged.size).to eq 1
+    end
   end
 
   context "when Elasticsearch fails then recovers" do
