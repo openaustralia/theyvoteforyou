@@ -23,5 +23,5 @@ class ApiStatistic < ApplicationRecord
   def self.key_param?(pair)
     Rack::Utils.unescape(pair.split("=").first.to_s) == "key"
   end
-  private_class_method :path_without_key, :key_param?
+  private_class_method :key_param?
 end
