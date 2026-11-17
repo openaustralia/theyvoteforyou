@@ -22,6 +22,7 @@ module Api
       def log_api_request
         report_failure { ApiStatistic.log(request, user: @api_user) }
         report_failure { DailyApiUsage.increment(user: @api_user) }
+        report_failure { LogApiCallJob.log(request, user: @api_user) }
       end
 
       def report_failure

@@ -102,6 +102,8 @@ module Publicwhip
     # can be fetched over the web. Production needs this folder to survive a deploy: see
     # linked_dirs in config/deploy.rb.
     config.x.ingest_root = Rails.root.join("storage/ingests")
+    # LogApiCallJob. Off in test, as CI has no Elasticsearch
+    config.x.log_api_calls_to_elasticsearch = true
     config.contact_email = "contact@theyvoteforyou.org.au"
 
     config.facebook_admins = nil

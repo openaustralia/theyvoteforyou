@@ -62,4 +62,7 @@ Rails.application.configure do
   # we switch over to using active job
   # TODO: Get rid of the line below and use the defaults
   config.active_job.queue_adapter = :delayed_job
+
+  # CI has no Elasticsearch. Specs that check the logging turn it on and stub Elasticsearch.
+  config.x.log_api_calls_to_elasticsearch = false
 end
