@@ -60,10 +60,21 @@ the canonical vocabulary for concepts with more than one plausible name.
 
   ```
   brew install mysql tidy-html5                       # macOS
-  sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
+  sudo apt-get install default-libmysqlclient-dev tidy  # Debian/Ubuntu
   ```
 
   On macOS the `mysql` formula includes a MySQL server. Don't start it, because the MySQL container uses port 3306.
+
+On a fresh machine, run `bin/setup-host` (or `make host-setup`), which installs all of these, then runs `make setup`.
+It supports:
+
+- Ubuntu 22.04, 24.04 and 26.04 LTS
+- Debian 12 (bookworm) and 13 (trixie)
+- macOS recent enough to run Docker Desktop, with [Homebrew](https://brew.sh)
+
+It also makes a best effort on WSL2 running Ubuntu or Debian, and on other Ubuntu or Debian derivatives such as Mint
+or Pop!_OS, with a warning. Native Windows, outside WSL2, isn't supported. The `setup-host-test` workflow, run by hand
+from GitHub Actions, tests it on each Linux release above.
 
 If a port the containers need is already in use, or you run more than one worktree at once, see
 [Port clashes](AGENTS.md#port-clashes) in AGENTS.md for the variables that move each one.
@@ -95,7 +106,8 @@ take a long time to calculate, so `make seed` uses `application:cache:all_except
 `application:cache:all` when you need them.
 
 Start the app with `bundle exec rails s`, then open <http://localhost:3000>.
-Mail sent in development is caught by mailpit at <http://localhost:1088>.
+Mail sent in development is caught by mailpit at <http://localhost:1088>, and
+<http://localhost:3000/rails/mailers> previews the app's emails without sending them.
 
 To run the app in Docker instead, run `make up`, or open the repo as a dev container. The app container installs gems
 and sets up the database itself, and `make shell` gives you a shell in it for the data loading commands above.
@@ -140,6 +152,43 @@ The specs use the `tvfy-test` database in the same MySQL container, which `make 
 - Production serves the app with nginx and Passenger. Development uses the Rails server.
 - Production uses RDS MySQL 8.4 and Elasticsearch 7.17.7. Development runs the same versions in containers, with
   databases named `tvfy-development` and `tvfy-test` where production uses `tvfy-production` and `tvfy-staging`.
+
+### Memory requirements
+
+Add enough swap that the machine noticeably slows down before the out-of-memory killer starts closing programs, so
+you get the chance to close things yourself: half your RAM on a hard disk, or as much as your RAM on an SSD. To
+hibernate, swap must be at least as big as RAM.
+
+| RAM   | What to expect                                                                                            |
+|-------|-----------------------------------------------------------------------------------------------------------|
+| 8 GB  | Fine with a light editor such as vim, but not a full IDE such as VS Code or RubyMine                      |
+| 16 GB | Comfortable for one project at a time with a full IDE, including in the dev container. We design for this |
+| 32 GB | Comfortable switching between two projects, or running heavier tools alongside                            |
+
+VS Code and RubyMine each run part of themselves inside the dev container, so the `app` container's limit is 8 GB, as
+RubyMine recommends. Running Rails on the host with `make services-up` uses less. The limits in
+`.devcontainer/compose.yaml` are ceilings, not reservations, so they cost nothing when unused. See
+[#1649](https://github.com/openaustralia/theyvoteforyou/issues/1649) for the reasoning.
+
+### Bundler platforms
+
+`Gemfile.lock` lists these platforms, so `bundle install` on any of them leaves it unchanged:
+
+| Platform        | Covers                                                                        |
+|-----------------|-------------------------------------------------------------------------------|
+| `aarch64-linux` | Docker on Apple Silicon (containers run `linux/arm64`), and ARM Linux or WSL2 |
+| `x86_64-linux`  | Docker on Intel, and x86_64 Linux or WSL2                                     |
+| `arm64-darwin`  | Running Ruby directly on an Apple Silicon Mac                                 |
+| `x86_64-darwin` | Running Ruby directly on an Intel Mac                                         |
+
+The macOS platforms have no version number, so a macOS upgrade doesn't add another. To restore them:
+
+```
+bundle lock --add-platform aarch64-linux arm64-darwin x86_64-darwin x86_64-linux
+```
+
+The generic `ruby` platform is left out on purpose: several gems here (such as ffi, nokogiri and libv8-node) only ship
+precompiled builds for the platforms above, and `ruby` makes Bundler compile them from source instead.
 
 ## Loading data
 
@@ -289,7 +338,7 @@ Or `make lint` to run them in Docker.
 
 ## To check for security updates
 
-Either check [Dependabot alerts](https://github.com/openaustralia/theyvoteforyou/security/dependabot) 
+Either check [Dependabot alerts](https://github.com/openaustralia/theyvoteforyou/security/dependabot)
 for the main branch, taking note of when the last check was run, **or** run manually on current branch:
 
     bundle exec ruby-audit

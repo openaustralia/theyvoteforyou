@@ -25,7 +25,13 @@ describe CardScreenshotter::Utils do
     end
 
     it "uses the browser and driver named by CHROME_BIN and CHROMEDRIVER_PATH" do
-      stub_const("ENV", ENV.to_h.merge("CHROME_BIN" => "/usr/bin/chromium", "CHROMEDRIVER_PATH" => "/usr/bin/chromedriver"))
+      # Stubs reads on the real ENV, as replacing ENV with a Hash would lose ENV.true?
+      # (config/initializers/00_env_boolean.rb)
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with("CHROME_BIN").and_return("/usr/bin/chromium")
+      allow(ENV).to receive(:[]).with("CHROMEDRIVER_PATH").and_return("/usr/bin/chromedriver")
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("CHROMEDRIVER_PATH").and_return("/usr/bin/chromedriver")
       service = instance_double(Selenium::WebDriver::Service)
       allow(Selenium::WebDriver::Service).to receive(:chrome).with(path: "/usr/bin/chromedriver").and_return(service)
 

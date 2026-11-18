@@ -53,8 +53,10 @@ and HTMLTidy:
 
 ```
 brew install mysql tidy-html5                       # macOS (don't start the mysql server, the container uses 3306)
-sudo apt-get install libmysqlclient-dev tidy        # Debian/Ubuntu
+sudo apt-get install default-libmysqlclient-dev tidy  # Debian/Ubuntu
 ```
+
+On a fresh machine, `bin/setup-host` (or `make host-setup`) installs these, Docker and mise, then runs `make setup`.
 
 Then, per the README:
 
@@ -93,6 +95,7 @@ make shell        # a shell in the app container, or a fresh one if it has stopp
 make test         # the specs, as CI runs them (ARGS=spec/models/division_spec.rb:42 to narrow)
 make lint         # RuboCop, as CI runs it
 make console      # a Rails console
+make dbconsole    # a MySQL prompt on the development database
 make seed         # (SLOW) real members and divisions (FROM=2021-07-01 TO=2021-10-31), caches and search
 make down         # stop and remove the containers, keeping the data
 make clean        # also remove built images and gems, so the next start rebuilds; keeps the data
@@ -119,9 +122,9 @@ as normal. In the container, `bin/setup` installs gems and prepares the database
 
 Put overrides in `.env` at the repo root, which is gitignored, with different values in each worktree. Compose reads
 it however you start the stack. Containers and data are named `theyvoteforyou` (`name:` in `compose.yaml`), so a second checkout of
-this repo, such as a worktree, shares them unless its `.env` also sets its own `COMPOSE_PROJECT_NAME`. For
-host-side commands to see the same values, put `dotenv` in a gitignored `.envrc` if you use direnv, or
-run `set -a; . ./.env; set +a`. Services you rarely need from the host get a random port, which `make status` shows.
+this repo, such as a worktree, shares them unless its `.env` also sets its own `COMPOSE_PROJECT_NAME`. `make setup`
+loads `.env` for you. For other host-side commands to see the same values, put `dotenv` in a gitignored `.envrc` if
+you use direnv, or run `set -a; . ./.env; set +a`. Services you rarely need from the host get a random port, which `make status` shows.
 To see what holds a port, use `ss -ltnp | grep 3306` (Linux) or `lsof -iTCP:3306 -sTCP:LISTEN` (macOS); a database
 server installed on the host is the usual culprit.
 

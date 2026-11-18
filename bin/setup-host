@@ -1,0 +1,280 @@
+#!/usr/bin/env bash
+# Takes a fresh Ubuntu/Debian or macOS host to a working app. Run it
+# directly, as a fresh host may not have make yet. It installs what
+# `make setup` expects to find - Docker and Compose, the libraries the gems
+# and Ruby build need, HTML Tidy and mise - then runs `make setup`. Safe to
+# rerun: each step is skipped when its tool is already there.
+set -euo pipefail
+
+# USER is often unset in containers and cron jobs
+user_name="${USER:-$(id -un)}"
+
+# Every Linux install step runs through sudo, which the smallest Debian
+# installs (such as its Docker images) don't have, and this script can't
+# install it without it.
+require_sudo_linux() {
+  command -v sudo >/dev/null 2>&1 && return 0
+  echo "ERROR: sudo isn't installed. As root, run 'apt-get install sudo', give" >&2
+  echo "       $user_name sudo access (e.g. 'usermod -aG sudo $user_name'), then re-run this script." >&2
+  exit 1
+}
+
+# Tools this script and `make setup` use before anything else would install
+# them, most of which the smallest Debian installs don't have. Each is checked
+# by what it provides, so an equivalent installed another way counts.
+install_base_tools_linux() {
+  local missing=()
+  local tool
+  for tool in make curl tar gzip; do
+    command -v "$tool" >/dev/null 2>&1 || missing+=("$tool")
+  done
+  # sysctl is in /usr/sbin, which isn't always on a normal user's PATH
+  PATH="$PATH:/usr/sbin:/sbin" command -v sysctl >/dev/null 2>&1 || missing+=(procps)
+  # The certificates curl, apt and Ruby (bundler, mise) trust for HTTPS
+  [ -s /etc/ssl/certs/ca-certificates.crt ] || missing+=(ca-certificates)
+
+  if [ ${#missing[@]} -eq 0 ]; then
+    echo "OK: make, curl, tar, gzip, sysctl and CA certificates already installed"
+    return 0
+  fi
+  echo "Installing ${missing[*]}..."
+  sudo apt-get update -qq
+  sudo apt-get install -y "${missing[@]}"
+}
+
+docker_ready() {
+  command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
+}
+
+is_wsl() {
+  grep -qi microsoft /proc/version >/dev/null 2>&1
+}
+
+install_docker_linux() {
+  if [ ! -r /etc/os-release ]; then
+    echo "ERROR: /etc/os-release not found - unsupported Linux distribution" >&2
+    exit 1
+  fi
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  # Docker publishes separate apt repos per distro family - using the wrong
+  # one here (e.g. Ubuntu's repo on a Debian host) gives a codename that
+  # doesn't exist on that repo, so apt-get update fails outright.
+  local docker_distro docker_codename derivative=false
+  case "${ID:-}" in
+    ubuntu) docker_distro=ubuntu ;;
+    debian) docker_distro=debian ;;
+    *)
+      case "${ID_LIKE:-}" in
+        *ubuntu*) docker_distro=ubuntu; derivative=true ;;
+        *debian*) docker_distro=debian; derivative=true ;;
+        *)
+          echo "ERROR: this script only supports Ubuntu/Debian on Linux (found: ${ID:-unknown})" >&2
+          exit 1
+          ;;
+      esac
+      ;;
+  esac
+
+  # Derivatives (Mint, Pop!_OS, Zorin, elementary, etc.) report their own
+  # VERSION_CODENAME (e.g. Mint's "vanessa"), which Docker's repo doesn't
+  # publish for. UBUNTU_CODENAME, when present, points at the underlying
+  # Ubuntu release Docker actually has packages for.
+  docker_codename="${UBUNTU_CODENAME:-${VERSION_CODENAME:-}}"
+
+  if [ "$derivative" = true ]; then
+    echo "-----------------------------------------------------------------"
+    echo "NOTE: ${PRETTY_NAME:-this distro} isn't officially supported by"
+    echo "      this script - we only test Ubuntu, Debian, and macOS."
+    echo "      Attempting a best-effort install via the $docker_distro repo"
+    echo "      (codename: $docker_codename). If this breaks, please open an"
+    echo "      issue and let us know what happened."
+    echo "-----------------------------------------------------------------"
+  fi
+
+  if is_wsl; then
+    echo "NOTE: this looks like WSL2. Docker Engine will be installed directly in this"
+    echo "      WSL distro. If you'd rather use Docker Desktop's WSL2 integration"
+    echo "      instead, install Docker Desktop on Windows, enable integration for"
+    echo "      this distro, then re-run this script - docker_ready will already pass."
+  fi
+
+  echo "Installing Docker Engine + Compose plugin ($docker_distro)..."
+
+  # Check Docker publishes this release before adding its repo, as a source
+  # for a release it doesn't have (e.g. Kali's "kali-rolling") breaks every
+  # later apt-get update on this host.
+  if [ -z "$docker_codename" ] || \
+     ! curl -fsI "https://download.docker.com/linux/$docker_distro/dists/$docker_codename/Release" >/dev/null; then
+    echo "ERROR: Docker has no $docker_distro packages for ${PRETTY_NAME:-this release} (codename: ${docker_codename:-none})." >&2
+    echo "       Install Docker by following https://docs.docker.com/engine/install/ then re-run this script." >&2
+    exit 1
+  fi
+
+  sudo install -m 0755 -d /etc/apt/keyrings
+  sudo curl -fsSL "https://download.docker.com/linux/$docker_distro/gpg" -o /etc/apt/keyrings/docker.asc
+  sudo chmod a+r /etc/apt/keyrings/docker.asc
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/$docker_distro $docker_codename stable" \
+    | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  sudo systemctl enable --now docker
+}
+
+# Run on every Linux host, not just when Docker was installed above.
+ensure_max_map_count_linux() {
+  # Elasticsearch's single-node container refuses to start at all if this
+  # is too low - a common cause of "connection refused"-style errors from
+  # anything that talks to ES (e.g. Searchkick during db:seed). Docker
+  # Desktop's VM usually has this set already; a native Linux host often
+  # doesn't.
+  # sudo (not a plain PATH lookup) because sysctl lives in /usr/sbin, which
+  # isn't guaranteed to be on a non-root user's PATH - sudo's secure_path
+  # includes it regardless, and we already need sudo for the -w call below.
+  current_max_map_count="$(sudo sysctl -n vm.max_map_count)"
+  if [ "$current_max_map_count" -lt 262144 ]; then
+    echo "Raising vm.max_map_count (was $current_max_map_count) for Elasticsearch..."
+    sudo sysctl -w vm.max_map_count=262144
+    # Saved as a drop-in, the place sysctl.d(5) gives local settings. A lower
+    # value left in /etc/sysctl.conf would still win at boot, as it's read
+    # after the drop-ins, so it's commented out.
+    local drop_in=/etc/sysctl.d/99-elasticsearch.conf
+    if [ -f /etc/sysctl.conf ]; then
+      sudo sed -i "s|^[[:space:]]*vm\.max_map_count|# Moved to $drop_in: &|" /etc/sysctl.conf
+    fi
+    echo "vm.max_map_count=262144" | sudo tee "$drop_in" > /dev/null
+    echo "Saved vm.max_map_count=262144 in $drop_in so it survives a reboot."
+  else
+    echo "OK: vm.max_map_count is $current_max_map_count (Elasticsearch needs >= 262144)"
+  fi
+}
+
+install_docker_macos() {
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "ERROR: Homebrew not found. Install it first: https://brew.sh" >&2
+    exit 1
+  fi
+
+  echo "Installing Docker Desktop via Homebrew..."
+  brew install --cask docker-desktop
+}
+
+start_docker_desktop() {
+  echo "Starting Docker Desktop..."
+  open -a Docker
+
+  echo "Waiting for the Docker daemon to come up (this can take a minute the first time)..."
+  for _ in $(seq 1 60); do
+    docker info >/dev/null 2>&1 && return 0
+    sleep 2
+  done
+  return 1
+}
+
+# Checked on every run, as Docker may have been installed before this script
+# ran. Exits if Docker isn't usable from this shell yet.
+ensure_docker_usable() {
+  docker info >/dev/null 2>&1 && return 0
+
+  case "$(uname -s)" in
+    Linux)
+      # Only Docker Engine's packages create this group. Rootless Docker and
+      # Docker Desktop work without it, so it's only granted (with its
+      # root-level access) when Docker doesn't already work.
+      if getent group docker >/dev/null && ! id -nG | grep -qw docker; then
+        id -nG "$user_name" | grep -qw docker || sudo usermod -aG docker "$user_name"
+        echo ""
+        echo "$user_name is in the docker group, which only counts from the next login."
+        echo "Log out and back in (or run 'newgrp docker'), then run 'make setup'."
+        exit 0
+      fi
+      echo "ERROR: Docker is installed but not usable from this shell." >&2
+      # shellcheck disable=SC2016 # the backticks are for the reader
+      echo '       If its service is stopped, run `sudo systemctl start docker`.' >&2
+      echo "       Otherwise see https://docs.docker.com/engine/install/ then re-run this script." >&2
+      ;;
+    Darwin)
+      start_docker_desktop && return 0
+      echo "ERROR: Docker Desktop didn't come up. It needs to be open for Docker to work." >&2
+      echo "       See https://docs.docker.com/desktop/setup/install/mac-install/ then re-run this script." >&2
+      ;;
+  esac
+  exit 1
+}
+
+# The mysql2 gem needs a MySQL client library, the specs need HTML Tidy, and
+# mise builds Ruby from source, which needs a compiler and the libraries in
+# ruby-build's suggested build environment.
+install_host_libs_linux() {
+  echo "Installing build tools, MySQL client library and HTML Tidy..."
+  sudo apt-get update -qq
+  sudo apt-get install -y build-essential autoconf libssl-dev libyaml-dev libreadline-dev zlib1g-dev \
+    libgmp-dev libffi-dev default-libmysqlclient-dev tidy
+}
+
+install_host_libs_macos() {
+  echo "Installing MySQL client library, HTML Tidy and Ruby build libraries..."
+  # The mysql formula includes a server; don't start it, the container uses 3306
+  brew install mysql tidy-html5 libyaml openssl@3 gmp
+}
+
+ruby_manager_ready() {
+  command -v mise >/dev/null 2>&1 || command -v rbenv >/dev/null 2>&1
+}
+
+# From mise's own signed apt repo, the same way Docker is installed above
+install_mise_linux() {
+  echo "Installing mise..."
+  sudo install -dm 755 /etc/apt/keyrings
+  curl -fsSL https://mise.jdx.dev/gpg-key.pub | sudo tee /etc/apt/keyrings/mise-archive-keyring.asc > /dev/null
+  echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.asc] https://mise.jdx.dev/deb stable main" \
+    | sudo tee /etc/apt/sources.list.d/mise.list > /dev/null
+  sudo apt-get update -qq
+  sudo apt-get install -y mise
+}
+
+main() {
+  if [ "$(uname -s)" = Linux ]; then
+    require_sudo_linux
+    install_base_tools_linux
+  fi
+
+  if docker_ready; then
+    echo "OK: Docker + Compose plugin already installed"
+  else
+    case "$(uname -s)" in
+      Linux) install_docker_linux ;;
+      Darwin) install_docker_macos ;;
+      *)
+        echo "ERROR: unsupported OS ($(uname -s)) - this script supports Ubuntu/Debian and macOS only" >&2
+        exit 1
+        ;;
+    esac
+  fi
+
+  case "$(uname -s)" in
+    Linux)
+      install_host_libs_linux
+      ensure_max_map_count_linux
+      ruby_manager_ready || install_mise_linux
+      ;;
+    Darwin)
+      install_host_libs_macos
+      ruby_manager_ready || brew install mise
+      ;;
+  esac
+
+  echo ""
+  echo "== Versions =="
+  docker --version
+  docker compose version
+
+  ensure_docker_usable
+
+  echo ""
+  echo "== make setup =="
+  make setup
+}
+
+main "$@"

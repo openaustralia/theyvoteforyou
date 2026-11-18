@@ -30,7 +30,8 @@ module CardScreenshotter
       options = Selenium::WebDriver::Options.chrome(
         args: [
           "--headless=new",
-          "--window-size=#{CARD_WIDTH},#{CARD_HEIGHT}"
+          "--window-size=#{CARD_WIDTH},#{CARD_HEIGHT}",
+          *("--no-sandbox" if ENV.true?("CHROME_NO_SANDBOX"))
         ]
       )
       options.binary = ENV["CHROME_BIN"] if ENV["CHROME_BIN"].present?

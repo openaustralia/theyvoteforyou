@@ -24,10 +24,16 @@ RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git /tmp/ruby-build 
 ENV LANG=C.UTF-8 GEM_HOME=/usr/local/bundle BUNDLE_APP_CONFIG=/usr/local/bundle BUNDLE_SILENCE_ROOT_WARNING=1
 ENV PATH=/usr/local/bundle/bin:$PATH
 
+# default-mysql-client is for `bin/rails dbconsole`; the last four are for debugging networking between containers
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
       default-libmysqlclient-dev \
+      default-mysql-client \
       libyaml-dev \
       tidy \
+      iputils-ping \
+      dnsutils \
+      net-tools \
+      silversearcher-ag \
     && rm -rf /var/lib/apt/lists/*
 
 # Google Chrome for the :js feature specs, as CI has (Ubuntu's chromium package is a snap, which can't run here).

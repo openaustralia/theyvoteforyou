@@ -46,6 +46,9 @@ Rails.application.configure do
     port: ENV.fetch("MAILPIT_SMTP_PORT", 1025)
   }
 
+  # Mail previews at /rails/mailers
+  config.action_mailer.preview_paths << Rails.root.join("spec/mailers/previews").to_s
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 

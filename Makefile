@@ -1,13 +1,19 @@
-.PHONY: help setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console seed
+.PHONY: help host-setup setup aws-check deploy-production deploy-staging up services-up down clean clobber status logs shell test lint console dbconsole seed
 
 help: ## Show this help (the default target)
 	@grep -hE '^[a-zA-Z0-9_.-]+:.*## ' $(MAKEFILE_LIST) | \
 	  awk 'BEGIN {FS = ":.*## "}; {printf "  %-18s %s\n", $$1, $$2}'
 
+# For a fresh Ubuntu, Debian or macOS machine; see bin/setup-host for what it installs.
+host-setup: ## Install Docker, the libraries the gems need and mise, then run `make setup`
+	bin/setup-host
+
 # For running Rails on the host. mise is preferred, rbenv works too; both read .ruby-version (mise via mise.toml).
-# bin/setup can't install Ruby itself, as it needs Ruby to run.
+# bin/setup can't install Ruby itself, as it needs Ruby to run. .env is loaded so Rails reaches the same ports as the
+# containers; Compose reads it itself, and the other targets run in the app container.
 setup: services-up ## Install Ruby (with mise or rbenv), gems and config, and prepare the database, to run Rails on the host
-	@if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
+	@set -a; [ ! -f .env ] || . ./.env; set +a; \
+	if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
 	elif command -v rbenv >/dev/null; then rbenv install --skip-existing && rbenv exec ruby bin/setup --skip-server; \
 	else echo "Install mise (https://mise.jdx.dev) or rbenv first" >&2; exit 1; fi
 
@@ -56,10 +62,12 @@ clobber: clean ## Also remove the databases, then all stopped containers, unused
 	$(COMPOSE) down --volumes
 	@echo "Pruning stopped containers, unused images and build cache from ALL projects (volumes are kept)"
 	docker system prune --all --force
-status: ## Show each container's health, the host ports it's published on, and where to browse
+status: ## Show each container's health, host ports, memory and CPU use, and where to browse
 	@$(COMPOSE) ps -a --format 'table {{.Service}}\t{{.Status}}\t{{.Ports}}'
+	@ids=$$($(COMPOSE) ps -q); [ -z "$$ids" ] || { echo; docker stats --no-stream $$ids; }
 	@echo; port() { $(COMPOSE) port $$1 $$2 2>/dev/null | sed 's/.*://'; }; \
 	p=$$(port app 3000); [ -z "$$p" ] || echo "Web:     http://theyvoteforyou.localhost:$$p/ (user: brenda@oaf.org.au, password: foofoofoo, and more in db/seeds.rb)"; \
+	[ -z "$$p" ] || echo "         http://theyvoteforyou.localhost:$$p/rails/mailers (mail previews)"; \
 	p=$$(port mailpit 8025); [ -z "$$p" ] || echo "Mailpit: http://mailpit.localhost:$$p/"; \
 	p=$$(port dejavu 1358); [ -z "$$p" ] || echo "Dejavu:  http://dejavu.localhost:$$p/ (connect it to http://localhost:$$(port elasticsearch 9200))"
 logs: ## Follow the logs of every container (or SERVICE=app for one)
@@ -73,6 +81,8 @@ lint: ## Run RuboCop as CI does (ARGS=<paths> to narrow)
 	@$(call in_app,bin/rubocop --parallel $(ARGS))
 console: ## Open a Rails console in the app container
 	@$(call in_app,bin/rails console)
+dbconsole: ## Open a MySQL prompt on the development database, in the app container
+	@$(call in_app,bin/rails dbconsole -p)
 # Real data from data.openaustralia.org.au, for a site that looks like production. About 4 minutes on a fast connection,
 # mostly loading members, as every photo is checked. Skips people distances (the "friends" pages), which are slower.
 FROM ?= 2021-07-01

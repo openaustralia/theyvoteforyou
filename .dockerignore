@@ -6,3 +6,8 @@ node_modules/
 vendor/bundle
 public/system
 public/cards
+storage/*
+# Secrets stay out of the build context
+.env*
+config/master.key
+config/credentials/*.key
