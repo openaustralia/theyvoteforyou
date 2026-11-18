@@ -122,9 +122,9 @@ as normal. In the container, `bin/setup` installs gems and prepares the database
 
 Put overrides in `.env` at the repo root, which is gitignored, with different values in each worktree. Compose reads
 it however you start the stack. Containers and data are named `theyvoteforyou` (`name:` in `compose.yaml`), so a second checkout of
-this repo, such as a worktree, shares them unless its `.env` also sets its own `COMPOSE_PROJECT_NAME`. For
-host-side commands to see the same values, put `dotenv` in a gitignored `.envrc` if you use direnv, or
-run `set -a; . ./.env; set +a`. Services you rarely need from the host get a random port, which `make status` shows.
+this repo, such as a worktree, shares them unless its `.env` also sets its own `COMPOSE_PROJECT_NAME`. `make setup`
+loads `.env` for you. For other host-side commands to see the same values, put `dotenv` in a gitignored `.envrc` if
+you use direnv, or run `set -a; . ./.env; set +a`. Services you rarely need from the host get a random port, which `make status` shows.
 To see what holds a port, use `ss -ltnp | grep 3306` (Linux) or `lsof -iTCP:3306 -sTCP:LISTEN` (macOS); a database
 server installed on the host is the usual culprit.
 

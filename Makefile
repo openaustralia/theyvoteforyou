@@ -9,9 +9,11 @@ host-setup: ## Install Docker, the libraries the gems need and mise, then run `m
 	bin/setup-host
 
 # For running Rails on the host. mise is preferred, rbenv works too; both read .ruby-version (mise via mise.toml).
-# bin/setup can't install Ruby itself, as it needs Ruby to run.
+# bin/setup can't install Ruby itself, as it needs Ruby to run. .env is loaded so Rails reaches the same ports as the
+# containers; Compose reads it itself, and the other targets run in the app container.
 setup: services-up ## Install Ruby (with mise or rbenv), gems and config, and prepare the database, to run Rails on the host
-	@if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
+	@set -a; [ ! -f .env ] || . ./.env; set +a; \
+	if command -v mise >/dev/null; then mise trust && mise install && mise exec -- bin/setup --skip-server; \
 	elif command -v rbenv >/dev/null; then rbenv install --skip-existing && rbenv exec ruby bin/setup --skip-server; \
 	else echo "Install mise (https://mise.jdx.dev) or rbenv first" >&2; exit 1; fi
 
