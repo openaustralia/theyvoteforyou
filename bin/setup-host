@@ -105,10 +105,15 @@ ensure_max_map_count_linux() {
   if [ "$current_max_map_count" -lt 262144 ]; then
     echo "Raising vm.max_map_count (was $current_max_map_count) for Elasticsearch..."
     sudo sysctl -w vm.max_map_count=262144
-    if ! grep -q '^vm.max_map_count' /etc/sysctl.conf 2>/dev/null; then
-      echo "vm.max_map_count=262144" | sudo tee -a /etc/sysctl.conf > /dev/null
-      echo "Persisted vm.max_map_count=262144 in /etc/sysctl.conf so it survives a reboot."
+    # Saved as a drop-in, the place sysctl.d(5) gives local settings. A lower
+    # value left in /etc/sysctl.conf would still win at boot, as it's read
+    # after the drop-ins, so it's commented out.
+    local drop_in=/etc/sysctl.d/99-elasticsearch.conf
+    if [ -f /etc/sysctl.conf ]; then
+      sudo sed -i "s|^[[:space:]]*vm\.max_map_count|# Moved to $drop_in: &|" /etc/sysctl.conf
     fi
+    echo "vm.max_map_count=262144" | sudo tee "$drop_in" > /dev/null
+    echo "Saved vm.max_map_count=262144 in $drop_in so it survives a reboot."
   else
     echo "OK: vm.max_map_count is $current_max_map_count (Elasticsearch needs >= 262144)"
   fi
