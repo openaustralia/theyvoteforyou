@@ -89,13 +89,6 @@ install_docker_linux() {
   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
   sudo systemctl enable --now docker
-
-  if groups "$USER" | grep -qw docker; then
-    echo "OK: $USER already in the docker group"
-  else
-    sudo usermod -aG docker "$USER"
-    echo "Added $USER to the docker group - log out/in (or run 'newgrp docker') for this to take effect"
-  fi
 }
 
 # Run on every Linux host, not just when Docker was installed above.
@@ -129,22 +122,49 @@ install_docker_macos() {
 
   echo "Installing Docker Desktop via Homebrew..."
   brew install --cask docker-desktop
+}
 
+start_docker_desktop() {
   echo "Starting Docker Desktop..."
   open -a Docker
 
   echo "Waiting for the Docker daemon to come up (this can take a minute the first time)..."
   for _ in $(seq 1 60); do
-    if docker system info >/dev/null 2>&1; then
-      break
-    fi
+    docker info >/dev/null 2>&1 && return 0
     sleep 2
   done
+  return 1
+}
 
-  if ! docker system info >/dev/null 2>&1; then
-    echo "ERROR: Docker Desktop didn't come up in time - open it manually from Applications and re-run this script" >&2
-    exit 1
-  fi
+# Checked on every run, as Docker may have been installed before this script
+# ran. Exits if Docker isn't usable from this shell yet.
+ensure_docker_usable() {
+  docker info >/dev/null 2>&1 && return 0
+
+  case "$(uname -s)" in
+    Linux)
+      # Only Docker Engine's packages create this group. Rootless Docker and
+      # Docker Desktop work without it, so it's only granted (with its
+      # root-level access) when Docker doesn't already work.
+      if getent group docker >/dev/null && ! id -nG | grep -qw docker; then
+        id -nG "$USER" | grep -qw docker || sudo usermod -aG docker "$USER"
+        echo ""
+        echo "$USER is in the docker group, which only counts from the next login."
+        echo "Log out and back in (or run 'newgrp docker'), then run 'make setup'."
+        exit 0
+      fi
+      echo "ERROR: Docker is installed but not usable from this shell." >&2
+      # shellcheck disable=SC2016 # the backticks are for the reader
+      echo '       If its service is stopped, run `sudo systemctl start docker`.' >&2
+      echo "       Otherwise see https://docs.docker.com/engine/install/ then re-run this script." >&2
+      ;;
+    Darwin)
+      start_docker_desktop && return 0
+      echo "ERROR: Docker Desktop didn't come up. It needs to be open for Docker to work." >&2
+      echo "       See https://docs.docker.com/desktop/setup/install/mac-install/ then re-run this script." >&2
+      ;;
+  esac
+  exit 1
 }
 
 # The mysql2 gem needs a MySQL client library, the specs need HTML Tidy, and
@@ -209,12 +229,7 @@ main() {
   docker --version
   docker compose version
 
-  # Just being added to the docker group only counts from the next login
-  if ! docker info >/dev/null 2>&1; then
-    echo ""
-    echo "Docker isn't usable from this shell yet. Log out and back in (or run 'newgrp docker'), then run 'make setup'."
-    exit 0
-  fi
+  ensure_docker_usable
 
   echo ""
   echo "== make setup =="
