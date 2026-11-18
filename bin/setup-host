@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Takes a fresh Ubuntu/Debian or macOS host to a working app (run it via
-# `make host-setup`). It installs what `make setup` expects to find - Docker
-# and Compose, the libraries the gems and Ruby build need, HTML Tidy and mise
-# - then runs `make setup`. Safe to rerun: each step is skipped when its tool
-# is already there.
+# Takes a fresh Ubuntu/Debian or macOS host to a working app. Run it
+# directly, as a fresh host may not have make yet. It installs what
+# `make setup` expects to find - Docker and Compose, the libraries the gems
+# and Ruby build need, HTML Tidy and mise - then runs `make setup`. Safe to
+# rerun: each step is skipped when its tool is already there.
 set -euo pipefail
 
 docker_ready() {

@@ -56,7 +56,7 @@ brew install mysql tidy-html5                       # macOS (don't start the mys
 sudo apt-get install default-libmysqlclient-dev tidy  # Debian/Ubuntu
 ```
 
-On a fresh machine, `make host-setup` (`bin/setup-host`) installs these, Docker and mise, then runs `make setup`.
+On a fresh machine, `bin/setup-host` (or `make host-setup`) installs these, Docker and mise, then runs `make setup`.
 
 Then, per the README:
 
