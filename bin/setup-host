@@ -6,6 +6,42 @@
 # rerun: each step is skipped when its tool is already there.
 set -euo pipefail
 
+# USER is often unset in containers and cron jobs
+user_name="${USER:-$(id -un)}"
+
+# Every Linux install step runs through sudo, which the smallest Debian
+# installs (such as its Docker images) don't have, and this script can't
+# install it without it.
+require_sudo_linux() {
+  command -v sudo >/dev/null 2>&1 && return 0
+  echo "ERROR: sudo isn't installed. As root, run 'apt-get install sudo', give" >&2
+  echo "       $user_name sudo access (e.g. 'usermod -aG sudo $user_name'), then re-run this script." >&2
+  exit 1
+}
+
+# Tools this script and `make setup` use before anything else would install
+# them, most of which the smallest Debian installs don't have. Each is checked
+# by what it provides, so an equivalent installed another way counts.
+install_base_tools_linux() {
+  local missing=()
+  local tool
+  for tool in make curl tar gzip; do
+    command -v "$tool" >/dev/null 2>&1 || missing+=("$tool")
+  done
+  # sysctl is in /usr/sbin, which isn't always on a normal user's PATH
+  PATH="$PATH:/usr/sbin:/sbin" command -v sysctl >/dev/null 2>&1 || missing+=(procps)
+  # The certificates curl, apt and Ruby (bundler, mise) trust for HTTPS
+  [ -s /etc/ssl/certs/ca-certificates.crt ] || missing+=(ca-certificates)
+
+  if [ ${#missing[@]} -eq 0 ]; then
+    echo "OK: make, curl, tar, gzip, sysctl and CA certificates already installed"
+    return 0
+  fi
+  echo "Installing ${missing[*]}..."
+  sudo apt-get update -qq
+  sudo apt-get install -y "${missing[@]}"
+}
+
 docker_ready() {
   command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1
 }
@@ -64,11 +100,6 @@ install_docker_linux() {
   fi
 
   echo "Installing Docker Engine + Compose plugin ($docker_distro)..."
-  sudo apt-get update -qq
-  # procps provides sysctl, used below for the vm.max_map_count check - not
-  # guaranteed present on a minimal install. Nor is make, which runs every
-  # dev workflow step.
-  sudo apt-get install -y ca-certificates curl procps make
 
   # Check Docker publishes this release before adding its repo, as a source
   # for a release it doesn't have (e.g. Kali's "kali-rolling") breaks every
@@ -152,9 +183,9 @@ ensure_docker_usable() {
       # Docker Desktop work without it, so it's only granted (with its
       # root-level access) when Docker doesn't already work.
       if getent group docker >/dev/null && ! id -nG | grep -qw docker; then
-        id -nG "$USER" | grep -qw docker || sudo usermod -aG docker "$USER"
+        id -nG "$user_name" | grep -qw docker || sudo usermod -aG docker "$user_name"
         echo ""
-        echo "$USER is in the docker group, which only counts from the next login."
+        echo "$user_name is in the docker group, which only counts from the next login."
         echo "Log out and back in (or run 'newgrp docker'), then run 'make setup'."
         exit 0
       fi
@@ -204,6 +235,11 @@ install_mise_linux() {
 }
 
 main() {
+  if [ "$(uname -s)" = Linux ]; then
+    require_sudo_linux
+    install_base_tools_linux
+  fi
+
   if docker_ready; then
     echo "OK: Docker + Compose plugin already installed"
   else
@@ -219,8 +255,8 @@ main() {
 
   case "$(uname -s)" in
     Linux)
-      ensure_max_map_count_linux
       install_host_libs_linux
+      ensure_max_map_count_linux
       ruby_manager_ready || install_mise_linux
       ;;
     Darwin)
