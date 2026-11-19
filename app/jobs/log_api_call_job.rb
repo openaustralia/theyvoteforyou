@@ -73,7 +73,7 @@ class LogApiCallJob < ApplicationJob
   # Remembered in the cache so it's tried once a month rather than on every call
   def create_index(index)
     Rails.cache.fetch("log_api_call_job/created/#{index}", expires_in: 1.day) do
-      Searchkick.client.indices.create(index: index, body: { mappings: MAPPINGS })
+      Searchkick.client.indices.create(index: index, body: { settings: SEARCHKICK_INDEX_SETTINGS, mappings: MAPPINGS })
       true
     rescue Elasticsearch::Transport::Transport::Errors::BadRequest => e
       raise unless e.message.include?("resource_already_exists_exception")
