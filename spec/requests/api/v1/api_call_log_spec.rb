@@ -97,6 +97,11 @@ describe "Logging API calls to Elasticsearch", type: :request do
     expect(strings_as_keywords).to include("match_mapping_type" => "string", "mapping" => hash_including("type" => "keyword"))
   end
 
+  it "creates the month's index with the same settings as the search indices, so a one-node test cluster stays green" do
+    get "/api/v1/people.json", params: { key: user.api_key }
+    expect(created_indices.sole["settings"]).to eq SEARCHKICK_INDEX_SETTINGS.stringify_keys
+  end
+
   context "when the month's index already exists" do
     let(:index_create_response) do
       { status: 400, headers: { "Content-Type" => "application/json" },
