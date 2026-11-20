@@ -26,7 +26,15 @@ describe Admin::ApiUsagesController, type: :request do
 
   it "links to this environment's Kibana dashboard" do
     get "/admin/api_usages"
-    expect(response.body).to include("/app/dashboards#/view/tvfy-api-usage-test")
+    expect(response.body).to include(
+      "https://d2ba5a791b81410f8d2365c8a6d59905.ap-southeast-2.aws.found.io:9243/app/dashboards#/view/tvfy-api-usage-test"
+    )
+  end
+
+  it "shows no Kibana link where no dashboard is set" do
+    allow(Rails.configuration.x).to receive(:kibana_dashboards).and_return({})
+    get "/admin/api_usages"
+    expect(response.body).not_to include("View dashboard in Kibana")
   end
 
   it "is only for admins" do

@@ -16,7 +16,9 @@ module Admin
 
     def kibana_dashboard_url
       dashboards = Rails.configuration.x.kibana_dashboards
-      "#{dashboards[:kibana_url]}/app/dashboards#/view/#{dashboards[:api_usage]}" if dashboards[:api_usage]
+      return unless dashboards[:kibana_url] && dashboards[:api_usage]
+
+      "#{dashboards[:kibana_url]}/app/dashboards#/view/#{dashboards[:api_usage]}"
     end
   end
 end
