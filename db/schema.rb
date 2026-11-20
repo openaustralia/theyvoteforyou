@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_11_05_100000) do
+ActiveRecord::Schema[8.0].define(version: 2026_11_20_100000) do
   create_table "ai_division_summaries", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "division_id", null: false
     t.string "model", null: false
@@ -125,6 +125,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_11_05_100000) do
     t.text "debate_gid", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean "proof"
     t.index ["date", "number", "house"], name: "division_date_2", unique: true
     t.index ["date"], name: "division_date"
     t.index ["house"], name: "house"

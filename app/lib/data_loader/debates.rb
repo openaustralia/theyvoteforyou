@@ -42,6 +42,7 @@ module DataLoader
                                  debate_gid: d.debate_gid,
                                  motion: d.motion,
                                  clock_time: d.clock_time,
+                                 proof: debates.proof,
                                  bills: bills)
 
                 division.votes.delete_all(:delete_all)
