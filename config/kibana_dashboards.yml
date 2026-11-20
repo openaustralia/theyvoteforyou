@@ -1,0 +1,19 @@
+# Kibana dashboards linked from the admin pages, by saved object id. Their import files and steps are in
+# oaf-internal ("TVFY Elasticsearch"). Kibana has its own login; this address isn't a secret.
+# An environment with no id shows no link.
+shared:
+  kibana_url: https://d2ba5a791b81410f8d2365c8a6d59905.ap-southeast-2.aws.found.io:9243
+
+# Shows where the link goes. Development has no Kibana yet: replace this with a local one when it does
+development:
+  kibana_url: https://example.com
+  api_usage: tvfy-api-usage-development
+
+staging:
+  api_usage: tvfy-api-usage-staging
+
+production:
+  api_usage: tvfy-api-usage-production
+
+test:
+  api_usage: tvfy-api-usage-test

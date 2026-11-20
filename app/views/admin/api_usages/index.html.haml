@@ -5,6 +5,10 @@
 %section.main-content__body
   %p
     Days run from midnight to midnight UTC, so "1 day" is today so far.
+  - if @kibana_dashboard_url
+    %p
+      = link_to "View dashboard in Kibana", @kibana_dashboard_url
+      (calls over time, by endpoint and active keys per month; needs a Kibana login)
   %p
     - Admin::ApiUsagesController::PERIODS.each do |period|
       = link_to "Last #{pluralize(period, 'day')}", { period: period }, class: "button"
