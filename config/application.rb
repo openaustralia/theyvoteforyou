@@ -104,6 +104,7 @@ module Publicwhip
     config.x.ingest_root = Rails.root.join("storage/ingests")
     # LogApiCallJob. Off in test, as CI has no Elasticsearch
     config.x.log_api_calls_to_elasticsearch = true
+    config.x.kibana_dashboards = config_for(:kibana_dashboards)
     config.contact_email = "contact@theyvoteforyou.org.au"
 
     config.facebook_admins = nil

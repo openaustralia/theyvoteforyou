@@ -9,6 +9,14 @@ module Admin
       @period = PERIODS.include?(params[:period].to_i) ? params[:period].to_i : PERIODS.first
       today = Time.current.utc.to_date
       @top_users = DailyApiUsage.top_users(from: today - (@period - 1), to: today)
+      @kibana_dashboard_url = kibana_dashboard_url
+    end
+
+    private
+
+    def kibana_dashboard_url
+      dashboards = Rails.configuration.x.kibana_dashboards
+      "#{dashboards[:kibana_url]}/app/dashboards#/view/#{dashboards[:api_usage]}" if dashboards[:api_usage]
     end
   end
 end

@@ -24,6 +24,11 @@ describe Admin::ApiUsagesController, type: :request do
     expect(response.body).not_to include("Old API user")
   end
 
+  it "links to this environment's Kibana dashboard" do
+    get "/admin/api_usages"
+    expect(response.body).to include("/app/dashboards#/view/tvfy-api-usage-test")
+  end
+
   it "is only for admins" do
     sign_in create(:confirmed_user)
     get "/admin/api_usages"
