@@ -4,6 +4,18 @@ require "spec_helper"
 require "nokogiri"
 
 describe DataLoader::DebatesXml do
+  describe "#proof" do
+    def proof_for(debates_tag)
+      xml = File.read(File.expand_path("../../fixtures/2009-11-25.xml", __dir__)).sub("<debates>", debates_tag)
+      described_class.new(Nokogiri.parse(xml), "representatives").proof
+    end
+
+    it { expect(proof_for('<debates proof="1">')).to be(true) }
+    it { expect(proof_for('<debates proof="0">')).to be(false) }
+    it { expect(proof_for("<debates>")).to be_nil }
+    it { expect(proof_for('<debates proof="">')).to be_nil }
+  end
+
   context "with actual division 1 from representatives on 2009-11-25" do
     subject(:division) do
       xml_document = Nokogiri.parse(File.read(File.expand_path("../../fixtures/2009-11-25.xml", __dir__)))

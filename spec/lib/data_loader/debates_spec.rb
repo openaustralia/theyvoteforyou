@@ -71,6 +71,37 @@ describe DataLoader::Debates do
       expect { described_class.load!(date) }.not_to change(DivisionInfo, :count)
     end
 
+    context "when the XML marks the day as a proof" do
+      let(:xml) { super().sub("<debates>", '<debates proof="1">') }
+
+      it "saves proof as true on every division" do
+        load_divisions
+        expect(Division.pluck(:proof)).to eq([true, true])
+      end
+    end
+
+    context "when the XML marks the day as final" do
+      let(:xml) { super().sub("<debates>", '<debates proof="0">') }
+
+      it "saves proof as false on every division" do
+        load_divisions
+        expect(Division.pluck(:proof)).to eq([false, false])
+      end
+    end
+
+    it "saves proof as null when the XML has no proof attribute" do
+      load_divisions
+      expect(Division.pluck(:proof)).to eq([nil, nil])
+    end
+
+    it "replaces proof when a day is reloaded after it goes final" do
+      stub_request(:get, url_for("representatives")).to_return(body: xml.sub("<debates>", '<debates proof="1">'), headers: { "Content-Type" => "text/xml" })
+      load_divisions
+      stub_request(:get, url_for("representatives")).to_return(body: xml.sub("<debates>", '<debates proof="0">'), headers: { "Content-Type" => "text/xml" })
+      described_class.load!(date)
+      expect(Division.pluck(:proof)).to eq([false, false])
+    end
+
     # One agent for the whole run lets Mechanize reuse its connections between requests.
     it "fetches every house's XML with one Mechanize agent" do
       allow(Mechanize).to receive(:new).and_call_original

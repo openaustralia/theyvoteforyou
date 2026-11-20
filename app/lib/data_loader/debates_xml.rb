@@ -9,6 +9,15 @@ module DataLoader
       @house = house
     end
 
+    # Whether Parliament had only published a proof (draft) of this day's Hansard when the
+    # parser fetched it: true for proof="1", false for proof="0", nil when the attribute is absent.
+    def proof
+      case @xml_document.at(:debates)[:proof]
+      when "1" then true
+      when "0" then false
+      end
+    end
+
     def divisions
       @xml_document.search(:division).map { |division| DivisionXml.new(division, @house) }
     end
