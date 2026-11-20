@@ -31,6 +31,33 @@ describe DivisionsController, type: :request do
     end
   end
 
+  describe "#show, proof notice" do
+    let(:division) { division_representatives_2006_12_06_3 }
+
+    before do
+      policy2
+      member_john_howard
+    end
+
+    it "shows the notice when the division was loaded from a proof" do
+      division.update!(proof: true)
+      get "/divisions/representatives/2006-12-06/3"
+      expect(response.body).to include("This division was loaded from a proof (draft) Hansard")
+    end
+
+    it "shows nothing when the division was final" do
+      division.update!(proof: false)
+      get "/divisions/representatives/2006-12-06/3"
+      expect(response.body).not_to include("proof (draft) Hansard")
+    end
+
+    it "shows nothing when it is not known whether the division was final" do
+      division.update!(proof: nil)
+      get "/divisions/representatives/2006-12-06/3"
+      expect(response.body).not_to include("proof (draft) Hansard")
+    end
+  end
+
   describe "#show, AI policy suggestions" do
     let(:kimi) { "moonshotai.kimi-k2.5" }
     let(:deepseek) { "deepseek.v3.2" }
