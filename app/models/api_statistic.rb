@@ -7,16 +7,18 @@ class ApiStatistic < ApplicationRecord
     create!(
       user: user,
       ip_address: request.remote_ip,
-      query: path_without_key(request),
+      query: path_without_key(request.fullpath),
       user_agent: request.headers["User-Agent"]
     )
   end
 
   # user_id already says whose key it was, so the key itself needn't sit in the log for anyone reading it.
-  # The other parameters are kept exactly as sent.
-  def self.path_without_key(request)
-    query = request.query_string.split("&").reject { |pair| key_param?(pair) }.join("&")
-    query.empty? ? request.path : "#{request.path}?#{query}"
+  # The other parameters are kept exactly as sent. Takes a path with its query string, as stored in query, since
+  # rows from before #1871 still hold the key.
+  def self.path_without_key(fullpath)
+    path, query = fullpath.split("?", 2)
+    query = query.to_s.split("&").reject { |pair| key_param?(pair) }.join("&")
+    query.empty? ? path : "#{path}?#{query}"
   end
 
   # Rails decodes names before reading params[:key], so "ke%79=" also reaches it as the key
