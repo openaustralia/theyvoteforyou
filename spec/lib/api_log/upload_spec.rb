@@ -15,8 +15,10 @@ describe ApiLog::Upload do
 
   def bulk_lines
     lines = []
-    expect(a_request(:post, %r{/_bulk\z}).with { |request| lines.concat(request.body.split("\n").map { |l| JSON.parse(l) }) })
-      .to have_been_made.at_least_once
+    bulk = a_request(:post, %r{/_bulk\z}).with do |request|
+      lines.concat(request.body.split("\n").map { |line| JSON.parse(line) })
+    end
+    expect(bulk).to have_been_made.at_least_once
     lines
   end
 

@@ -21,6 +21,10 @@ module ApiLog
     # the run stops rather than reporting each one.
     class Unavailable < StandardError; end
 
+    # Raised for a FROM or TO that can't be used. Kept apart from ArgumentError so a bug raising one partway through
+    # isn't reported as a mistyped month.
+    class InvalidMonth < StandardError; end
+
     # from and to are "YYYY-MM" strings, or nil for the earliest or latest month with rows
     def self.run(from:, to:, out: $stdout)
       first_month, last_month = months_with_rows
@@ -35,10 +39,11 @@ module ApiLog
 
       from_month = from ? parse_month(from) : first_month
       to_month = to ? parse_month(to) : last_month
-      raise ArgumentError, "FROM (#{from_month.strftime('%Y-%m')}) is after TO (#{to_month.strftime('%Y-%m')})" if from_month > to_month
+      from_label, to_label = [from_month, to_month].map { |month| month.strftime("%Y-%m") }
+      raise InvalidMonth, "FROM (#{from_label}) is after TO (#{to_label})" if from_month > to_month
 
       months_between(from_month, to_month).map { |month| copy_month(month, out) }.all?
-    rescue ArgumentError => e
+    rescue InvalidMonth => e
       out.puts e.message
       false
     rescue Unavailable => e
@@ -67,7 +72,8 @@ module ApiLog
         return true
       end
 
-      # Otherwise the first bulk request creates the index, guessing each field's type rather than using MAPPINGS
+      # Created with MAPPINGS before sending, as a bulk request to a missing index would create it guessing each
+      # field's type
       index = Index.monthly_name(start)
       elasticsearch { Index.create(index) }
 
@@ -88,8 +94,8 @@ module ApiLog
       end
       seconds = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
 
-      out.puts "#{label}: sent #{sent} rows to #{index} in #{seconds.round(1)}s " \
-               "(first request #{first_size} bytes)"
+      size = " (first request #{first_size} bytes)" if first_size
+      out.puts "#{label}: sent #{sent} rows to #{index} in #{seconds.round(1)}s#{size}"
       report_unreadable(label, unreadable, out) if unreadable.any?
       report_failures(label, failures, sent, out) if failures.any?
       unreadable.empty? && failures.empty?
@@ -105,9 +111,9 @@ module ApiLog
     private_class_method :months_with_rows
 
     def self.parse_month(text)
-      raise ArgumentError, "#{text.inspect} isn't a month in the form YYYY-MM, such as 2024-03" unless MONTH_FORMAT.match?(text)
+      return Date.strptime(text, "%Y-%m") if MONTH_FORMAT.match?(text)
 
-      Date.strptime(text, "%Y-%m")
+      raise InvalidMonth, "#{text.inspect} isn't a month in the form YYYY-MM, such as 2024-03"
     end
     private_class_method :parse_month
 
