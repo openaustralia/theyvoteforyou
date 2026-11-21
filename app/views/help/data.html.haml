@@ -28,6 +28,7 @@
       %li= link_to "All divisions", "#divisions"
       %li= link_to "Details for a division", "#division"
       %li= link_to "Legacy API", "#legacy"
+      %li= link_to "What we record when you use the API", "#logging"
 
 - if current_user.nil?
   %h2#key Get an API key
@@ -42,6 +43,9 @@
         or
         = link_to "Sign Up", new_user_registration_path, class: "link-signup"
         and come back to this page.
+      %p
+        We record each call you make with your key.
+        = link_to "See what we record.", "#logging"
 - else
   %h2#key Your personal API key
   .row
@@ -51,6 +55,9 @@
         anyone else.
       %p
         The API examples below already include your personal key.
+      %p
+        We record each call you make with your key.
+        = link_to "See what we record.", "#logging"
 
 %h2#people All current people in parliament
 .row
@@ -100,3 +107,26 @@
     = render "legacy_api"
   .col-md-2
     = link_to "Edit docs", "https://github.com/openaustralia/theyvoteforyou/tree/test/app/views/help/_legacy_api.md", class: "btn btn-default"
+
+%h2#logging What we record when you use the API
+.row
+  .col-md-10
+    %p
+      Each time you call the API with your key, we record:
+    %ul
+      %li which account the key belongs to, but not the key itself
+      %li the address you asked for and its parameters, with your key taken out
+      %li the IP address the call came from
+      %li the user agent string your browser or program sent
+      %li the time of the call
+    %p
+      We don't record calls turned away because the key was missing or wrong.
+    %p
+      We keep these records in our database for at least 30 days. Once a calendar month has been over for 30 days,
+      we delete all of that month's records.
+    %p
+      We also copy each record to Elasticsearch, hosted for us by Elastic Cloud, to report on how the API is used.
+      The copy holds the same details, naming your account by its id number, not your name or email address.
+    -# TODO: decide these, and replace this placeholder before the page goes live (#1874)
+    %p.alert.alert-warning
+      [Placeholder: how long we keep the copies in Elastic Cloud, and which country Elastic Cloud stores them in.]
