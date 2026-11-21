@@ -33,7 +33,7 @@ gem "ranker"
 # Gemfile.lock in deployment mode so they can't drift, but without a
 # constraint the next `bundle update` would take a new major silently.
 gem "sentry-ruby", "~> 7.1"
-gem "sentry-rails", "~> 7.0"
+gem "sentry-rails", "~> 7.2"
 gem "sentry-delayed_job", "~> 7.0"
 # Sampling profiler used by Sentry profiling
 gem "vernier"
