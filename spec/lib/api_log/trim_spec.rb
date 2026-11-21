@@ -1,0 +1,184 @@
+# frozen_string_literal: true
+
+require "spec_helper"
+
+# CI has no Elasticsearch, so its requests are stubbed. Rows, and ApiLog::Upload sending a month again, are real.
+describe ApiLog::Trim do
+  include ActiveSupport::Testing::TimeHelpers
+
+  let(:user) { create(:user) }
+
+  before do
+    allow(Sentry).to receive(:capture_message)
+    # What ApiLog::Upload asks for when sending a month again: no yearly index yet, create the monthly one, then send
+    stub_request(:head, /tvfy_api_test_\d{4}\z/).to_return(status: 404)
+    # Trim counts a month's own index while it exists
+    stub_request(:head, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(status: 200)
+    stub_request(:put, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(json({}))
+    stub_request(:post, %r{/_bulk\z}).to_return(json(errors: false, items: []))
+    stub_request(:post, %r{/_refresh\b})
+  end
+
+  def json(body)
+    { body: body.to_json, headers: { "Content-Type" => "application/json", "X-Elastic-Product" => "Elasticsearch" } }
+  end
+
+  def call_at(time)
+    ApiStatistic.create!(
+      user: user, ip_address: "192.0.2.1", query: "/api/v1/policies.json", user_agent: "Example/1.0", created_at: time
+    )
+  end
+
+  # Elasticsearch's answers to successive counts of an index, such as "2026.09" or a combined year's "2025"
+  def stub_count(index, *counts)
+    counts.reduce(stub_request(:any, %r{/tvfy_api_test_#{index}/_count})) do |stub, count|
+      stub.to_return(json(count: count))
+    end
+  end
+
+  def trim
+    result = nil
+    expect { result = described_class.run }.to output.to_stdout
+    result
+  end
+
+  describe "which months are trimmed" do
+    let!(:start_of_october) { call_at(Time.utc(2026, 10, 1)) }
+
+    before do
+      call_at(Time.utc(2026, 9, 30, 23, 59, 59))
+      stub_count("2026.09", 1)
+      stub_count("2026.10", 1)
+    end
+
+    it "keeps the month that ended less than 30 days ago" do
+      travel_to(Time.utc(2026, 11, 20, 12)) { expect(trim).to be true }
+      expect(ApiStatistic.all).to eq [start_of_october]
+    end
+
+    it "keeps a month until a full 30 days after it ended" do
+      travel_to(Time.utc(2026, 11, 30, 23, 59, 59)) { trim }
+      expect(ApiStatistic.all).to eq [start_of_october]
+    end
+
+    it "trims a month 30 days after it ended" do
+      travel_to(Time.utc(2026, 12, 1)) { trim }
+      expect(ApiStatistic.count).to eq 0
+    end
+  end
+
+  context "when Elasticsearch has every call in the month" do
+    before do
+      call_at(Time.utc(2026, 9, 10))
+      call_at(Time.utc(2026, 9, 20))
+      stub_count("2026.09", 2)
+    end
+
+    it "deletes the month's rows" do
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      expect(ApiStatistic.count).to eq 0
+    end
+
+    it "says what it did" do
+      travel_to(Time.utc(2026, 11, 20)) do
+        expect { described_class.run }.to output("2026-09: 2 rows, 2 in Elasticsearch, deleted\n").to_stdout
+      end
+    end
+  end
+
+  context "when Elasticsearch is missing calls that sending the month again fills in" do
+    let!(:rows) { [call_at(Time.utc(2026, 9, 10)), call_at(Time.utc(2026, 9, 20))] }
+
+    before { stub_count("2026.09", 1, 2) }
+
+    it "sends the month again, then deletes its rows" do
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      sent = []
+      expect(a_request(:post, %r{/_bulk\z}).with { |request| sent.concat(request.body.scan(/api_statistics-\d+/)) })
+        .to have_been_made
+      expect(sent).to eq(rows.map { |row| "api_statistics-#{row.id}" })
+      expect(a_request(:post, %r{/tvfy_api_test_2026\.09/_refresh})).to have_been_made
+      expect(ApiStatistic.count).to eq 0
+    end
+  end
+
+  context "when the counts still differ after sending the month again" do
+    let!(:august) { call_at(Time.utc(2026, 8, 10)) }
+
+    before do
+      call_at(Time.utc(2026, 9, 10))
+      stub_count("2026.08", 0, 0)
+      stub_count("2026.09", 1)
+    end
+
+    it "keeps that month, trims later ones, and returns false" do
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be false }
+      expect(ApiStatistic.all).to eq [august]
+    end
+
+    it "reports both counts to Sentry" do
+      travel_to(Time.utc(2026, 11, 20)) { trim }
+      expect(Sentry).to have_received(:capture_message)
+        .with(anything, extra: { month: "2026-08", from: "2026-08-10T00:00:00Z", rows: 1, elasticsearch: 0 })
+    end
+  end
+
+  # Elasticsearch has all 3 of the month's calls, but an earlier run was stopped after deleting the first hour's
+  context "when an earlier run was stopped partway through deleting the month" do
+    before do
+      call_at(Time.utc(2026, 9, 10, 15, 30))
+      call_at(Time.utc(2026, 9, 10, 15, 45))
+      stub_count("2026.09", 2)
+    end
+
+    it "compares only the hours still held, and deletes them" do
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      expect(
+        a_request(:any, %r{/tvfy_api_test_2026\.09/_count}).with do |request|
+          JSON.parse(request.body).dig("query", "range", "query_time", "gte") == "2026-09-10T15:00:00Z"
+        end
+      ).to have_been_made
+      expect(ApiStatistic.count).to eq 0
+    end
+  end
+
+  # A year can be combined while its months are still in api_statistics, such as while backfilling (#1917)
+  context "when the month's year has been combined into a yearly index" do
+    before do
+      call_at(Time.utc(2025, 9, 10))
+      stub_request(:head, %r{/tvfy_api_test_2025\.09\z}).to_return(status: 404)
+      stub_request(:head, %r{/tvfy_api_test_2025\z}).to_return(status: 200)
+    end
+
+    it "counts the calls in the yearly index and deletes the month's rows" do
+      stub_count("2025", 1)
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      expect(ApiStatistic.count).to eq 0
+    end
+
+    it "keeps a month that's short, without writing into the combined year" do
+      stub_count("2025", 0, 0)
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be false }
+      expect(ApiStatistic.count).to eq 1
+      expect(a_request(:post, %r{/_bulk\z})).not_to have_been_made
+    end
+  end
+
+  context "when Elasticsearch can't be reached" do
+    before do
+      call_at(Time.utc(2026, 9, 10))
+      stub_request(:any, /.*/).to_raise(Faraday::ConnectionFailed.new("Connection refused"))
+    end
+
+    it "deletes nothing, says why and returns false" do
+      travel_to(Time.utc(2026, 11, 20)) do
+        expect { expect(described_class.run).to be false }.to output(/couldn't be reached/).to_stdout
+      end
+      expect(ApiStatistic.count).to eq 1
+    end
+  end
+
+  it "does nothing when there are no rows" do
+    expect(described_class.run).to be true
+  end
+end
