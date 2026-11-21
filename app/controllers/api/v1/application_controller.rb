@@ -18,11 +18,11 @@ module Api
       end
 
       # The response is already rendered, so a failure here (e.g. a deadlock) is reported rather than turning it
-      # into an error. Each is separate, so one failing doesn't skip the other.
+      # into an error. Counting is separate, so a failure logging the call doesn't stop it being counted. Elasticsearch
+      # is sent the saved row, so a call that couldn't be saved isn't sent either.
       def log_api_request
-        report_failure { ApiStatistic.log(request, user: @api_user) }
+        report_failure { LogApiCallJob.log(ApiStatistic.log(request, user: @api_user)) }
         report_failure { DailyApiUsage.increment(user: @api_user) }
-        report_failure { LogApiCallJob.log(request, user: @api_user) }
       end
 
       def report_failure
