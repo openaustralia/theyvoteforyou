@@ -12,6 +12,8 @@ describe ApiLog::Trim do
     allow(Sentry).to receive(:capture_message)
     # What ApiLog::Upload asks for when sending a month again: no yearly index yet, create the monthly one, then send
     stub_request(:head, /tvfy_api_test_\d{4}\z/).to_return(status: 404)
+    # Trim counts a month's own index while it exists
+    stub_request(:head, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(status: 200)
     stub_request(:put, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(json({}))
     stub_request(:post, %r{/_bulk\z}).to_return(json(errors: false, items: []))
     stub_request(:post, %r{/_refresh\b})
@@ -27,9 +29,9 @@ describe ApiLog::Trim do
     )
   end
 
-  # Elasticsearch's answers to successive counts of the month's index
-  def stub_count(month, *counts)
-    counts.reduce(stub_request(:any, %r{/tvfy_api_test_#{month}/_count})) do |stub, count|
+  # Elasticsearch's answers to successive counts of an index, such as "2026.09" or a combined year's "2025"
+  def stub_count(index, *counts)
+    counts.reduce(stub_request(:any, %r{/tvfy_api_test_#{index}/_count})) do |stub, count|
       stub.to_return(json(count: count))
     end
   end
@@ -118,6 +120,28 @@ describe ApiLog::Trim do
       travel_to(Time.utc(2026, 11, 20)) { trim }
       expect(Sentry).to have_received(:capture_message)
         .with(anything, extra: { month: "2026-08", rows: 1, elasticsearch: 0 })
+    end
+  end
+
+  # A year can be combined while its months are still in api_statistics, such as while backfilling (#1917)
+  context "when the month's year has been combined into a yearly index" do
+    before do
+      call_at(Time.utc(2025, 9, 10))
+      stub_request(:head, %r{/tvfy_api_test_2025\.09\z}).to_return(status: 404)
+      stub_request(:head, %r{/tvfy_api_test_2025\z}).to_return(status: 200)
+    end
+
+    it "counts the calls in the yearly index and deletes the month's rows" do
+      stub_count("2025", 1)
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      expect(ApiStatistic.count).to eq 0
+    end
+
+    it "keeps a month that's short, without writing into the combined year" do
+      stub_count("2025", 0, 0)
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be false }
+      expect(ApiStatistic.count).to eq 1
+      expect(a_request(:post, %r{/_bulk\z})).not_to have_been_made
     end
   end
 

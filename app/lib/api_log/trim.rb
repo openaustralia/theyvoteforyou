@@ -84,16 +84,26 @@ module ApiLog
     private_class_method :say
 
     def self.elasticsearch_count(month)
-      Index.count(Index.monthly_name(month), from: month, to: month.next_month)
+      Index.count(index_for(month), from: month, to: month.next_month)
     end
     private_class_method :elasticsearch_count
 
+    # The month's own index, or once its year has been combined (#1917) and the monthly index deleted, the year's.
+    # A year can be combined before its rows are trimmed, as the backfill does. Checked on every count, as sending
+    # the month again can create the monthly index.
+    def self.index_for(month)
+      monthly = Index.monthly_name(month)
+      Index.exists?(monthly) ? monthly : Index.yearly_name(month.year)
+    end
+    private_class_method :index_for
+
     # Calls are stored under fixed ids, so sending the month again only replaces what's there. Missing calls are
-    # added, but extra ones stay, so a month with more in Elasticsearch than in api_statistics is still kept.
+    # added, but extra ones stay, so a month with more in Elasticsearch than in api_statistics is still kept. Upload
+    # won't write into a combined year, so a combined month that's short stays short and is kept.
     def self.resend(month)
       Upload.month(month)
       # So the next count sees what was just sent, rather than waiting for Elasticsearch's own refresh
-      Searchkick.client.indices.refresh(index: Index.monthly_name(month), ignore_unavailable: true)
+      Searchkick.client.indices.refresh(index: index_for(month), ignore_unavailable: true)
     end
     private_class_method :resend
   end
