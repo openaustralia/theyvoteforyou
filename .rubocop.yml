@@ -111,3 +111,11 @@ RSpecRails/InferredSpecType:
 # TODO: Fix this
 Rails/I18nLocaleTexts:
   Enabled: false
+
+# Matches config/environments/
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - production
+    - staging
+    - test

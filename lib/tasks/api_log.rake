@@ -10,10 +10,14 @@ namespace :application do
       exit 1 unless ApiLog::Upload.run(from: ENV.fetch("FROM", nil), to: ENV.fetch("TO", nil))
     end
 
-    desc "Combine completed years' monthly indices into yearly ones (FROM=YYYY TO=YYYY, ALLOW_UNTRIMMED=1) (#1917)"
+    desc "Combine completed years' monthly indices into yearly ones " \
+         "(FROM=YYYY TO=YYYY, ALLOW_UNTRIMMED_IN_STAGING=1) (#1917)"
     task combine: :environment do
+      # Only for testing on staging. A year combined with rows left can't have those months trimmed, as Trim checks
+      # them against their monthly indices, which combining deletes.
+      allow_untrimmed = ENV["ALLOW_UNTRIMMED_IN_STAGING"] == "1" && Rails.env.staging?
       exit 1 unless ApiLog::Combine.run(
-        from: ENV.fetch("FROM", nil), to: ENV.fetch("TO", nil), allow_untrimmed: ENV["ALLOW_UNTRIMMED"] == "1"
+        from: ENV.fetch("FROM", nil), to: ENV.fetch("TO", nil), allow_untrimmed: allow_untrimmed
       )
     end
 
