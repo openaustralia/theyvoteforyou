@@ -42,6 +42,25 @@ describe "API usage counting", type: :request do
     expect(DailyApiUsage.find_by(user: user).count).to eq 1
   end
 
+  context "when logging calls to Elasticsearch" do
+    before do
+      allow(Rails.configuration.x).to receive(:log_api_calls_to_elasticsearch).and_return(true)
+      # CI has no Elasticsearch, so the job is checked as queued rather than run
+      allow(LogApiCallJob).to receive(:perform_later)
+    end
+
+    it "sends the saved row" do
+      get "/api/v1/people.json", params: { key: user.api_key }
+      expect(LogApiCallJob).to have_received(:perform_later).with(ApiStatistic.last.id)
+    end
+
+    it "sends nothing if the row couldn't be saved" do
+      allow(ApiStatistic).to receive(:log).and_raise(ActiveRecord::Deadlocked)
+      get "/api/v1/people.json", params: { key: user.api_key }
+      expect(LogApiCallJob).not_to have_received(:perform_later)
+    end
+  end
+
   it "rejects a key sent as an array" do
     get "/api/v1/people.json", params: { key: [user.api_key] }
     expect(response).to have_http_status(:unauthorized)
