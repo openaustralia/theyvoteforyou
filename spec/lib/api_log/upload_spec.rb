@@ -47,10 +47,13 @@ describe ApiLog::Upload do
     expect(bulk_lines.last["query"]).to eq "/api/v1/policies.json?format=json"
   end
 
-  it "sends the rest of the month when an old row's query can't be read, but returns false" do
+  # No stored query is known to break Document.build, so one row is made to, to check the safety net
+  it "sends the rest of the month when a row can't be made into a document, but returns false" do
     allow(Sentry).to receive(:capture_message)
-    unreadable = row(Time.utc(2024, 3, 5), query: "/api/v1/people.json?%zz=1")
+    unreadable = row(Time.utc(2024, 3, 5))
     readable = row(Time.utc(2024, 3, 6))
+    allow(ApiLog::Document).to receive(:build).and_call_original
+    allow(ApiLog::Document).to receive(:build).with(unreadable).and_raise(ArgumentError, "invalid %-encoding")
 
     expect(described_class.run(from: "2024-03", to: "2024-03", out: out)).to be false
     expect(bulk_lines.filter_map { |line| line.dig("index", "_id") }).to eq ["api_statistics-#{readable.id}"]
