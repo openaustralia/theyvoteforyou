@@ -2,21 +2,22 @@
 
 require "spec_helper"
 
-# CI has no Elasticsearch, so its count and refresh calls are stubbed. Rows are real.
+# CI has no Elasticsearch, so its requests are stubbed. Rows, and ApiLog::Upload sending a month again, are real.
 describe ApiLog::Trim do
   include ActiveSupport::Testing::TimeHelpers
 
   let(:user) { create(:user) }
 
   before do
-    # ApiLog::Upload is built separately (#1916); this stands in for it until both are merged
-    stub_const("ApiLog::Upload", Class.new { def self.month(_month); end })
-    allow(ApiLog::Upload).to receive(:month)
     allow(Sentry).to receive(:capture_message)
     # The client checks it's talking to Elasticsearch before its first request
     stub_request(:get, %r{\Ahttp://[^/]+/\z}).to_return(
       json(version: { number: "7.17.7", build_flavor: "default" })
     )
+    # What ApiLog::Upload asks for when sending a month again: no yearly index yet, create the monthly one, then send
+    stub_request(:head, /tvfy_api_test_\d{4}\z/).to_return(status: 404)
+    stub_request(:put, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(json({}))
+    stub_request(:post, %r{/_bulk\z}).to_return(json(errors: false, items: []))
     stub_request(:post, %r{/_refresh\b})
   end
 
@@ -88,15 +89,16 @@ describe ApiLog::Trim do
   end
 
   context "when Elasticsearch is missing calls that sending the month again fills in" do
-    before do
-      call_at(Time.utc(2026, 9, 10))
-      call_at(Time.utc(2026, 9, 20))
-      stub_count("2026.09", 1, 2)
-    end
+    let!(:rows) { [call_at(Time.utc(2026, 9, 10)), call_at(Time.utc(2026, 9, 20))] }
+
+    before { stub_count("2026.09", 1, 2) }
 
     it "sends the month again, then deletes its rows" do
       travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
-      expect(ApiLog::Upload).to have_received(:month).with(Time.utc(2026, 9, 1))
+      sent = []
+      expect(a_request(:post, %r{/_bulk\z}).with { |request| sent.concat(request.body.scan(/api_statistics-\d+/)) })
+        .to have_been_made
+      expect(sent).to eq(rows.map { |row| "api_statistics-#{row.id}" })
       expect(a_request(:post, %r{/tvfy_api_test_2026\.09/_refresh})).to have_been_made
       expect(ApiStatistic.count).to eq 0
     end
