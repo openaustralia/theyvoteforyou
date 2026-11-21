@@ -21,9 +21,13 @@ class ApiStatistic < ApplicationRecord
     query.empty? ? path : "#{path}?#{query}"
   end
 
-  # Rails decodes names before reading params[:key], so "ke%79=" also reaches it as the key
+  # Rails decodes names before reading params[:key], so "ke%79=" also reaches it as the key. A name that can't be
+  # decoded (e.g. "%zz") can't have been read as the key, so it's kept: older rows were stored as sent, and one
+  # such row mustn't stop them being copied to Elasticsearch.
   def self.key_param?(pair)
     Rack::Utils.unescape(pair.split("=").first.to_s) == "key"
+  rescue ArgumentError
+    false
   end
   private_class_method :key_param?
 end
