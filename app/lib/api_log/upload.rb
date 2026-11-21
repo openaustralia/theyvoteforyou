@@ -123,14 +123,14 @@ module ApiLog
     private_class_method :months_between
 
     # Sent as NDJSON we build ourselves, rather than letting the client do it, so the request's size can be printed.
-    # Rows from before #1871 are stored as sent, so a broken %-encoding in a parameter name (such as "?%zz=1")
-    # makes building the document raise ArgumentError. Those rows are left out and added to unreadable, so one of
-    # them can't stop the rest of its month being sent.
+    # Document.build copes with the odd queries known to be stored (rows from before #1871 are kept as sent), so
+    # this is a safety net: a row it still can't build is left out and added to unreadable, rather than stopping the
+    # rest of its month being sent.
     def self.bulk_lines(batch, index, unreadable)
       batch.flat_map do |row|
         [{ index: { _index: index, _id: Document.id(row) } }.to_json, Document.build(row).to_json]
-      rescue ArgumentError => e
-        unreadable << "#{Document.id(row)}: #{e.message}"
+      rescue StandardError => e
+        unreadable << "#{Document.id(row)}: #{e.class}: #{e.message}"
         []
       end
     end
@@ -138,7 +138,7 @@ module ApiLog
 
     # The month's Elasticsearch count then falls short of api_statistics, so ApiLog::Trim keeps the month back
     def self.report_unreadable(label, unreadable, out)
-      out.puts "#{label}: left out #{unreadable.size} rows whose query couldn't be read, for example:"
+      out.puts "#{label}: left out #{unreadable.size} rows that couldn't be made into documents, for example:"
       unreadable.first(REASONS_SHOWN).each { |reason| out.puts "  #{reason}" }
       Sentry.capture_message(
         "ApiLog::Upload: left out #{unreadable.size} unreadable rows for #{label}",
