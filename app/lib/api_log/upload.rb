@@ -73,23 +73,26 @@ module ApiLog
 
       sent = 0
       failures = []
+      unreadable = []
       first_size = nil
       started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       rows.find_in_batches(batch_size: BATCH_SIZE) do |batch|
-        body = bulk_body(batch, index)
+        lines = bulk_lines(batch, index, unreadable)
+        next if lines.empty?
+
+        body = "#{lines.join("\n")}\n"
         first_size ||= body.bytesize
         response = elasticsearch { Searchkick.client.bulk(body: body) }
-        sent += batch.size
+        sent += lines.size / 2
         failures.concat(failed_items(response)) if response["errors"]
       end
       seconds = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
 
       out.puts "#{label}: sent #{sent} rows to #{index} in #{seconds.round(1)}s " \
                "(first request #{first_size} bytes)"
-      return true if failures.empty?
-
-      report_failures(label, failures, sent, out)
-      false
+      report_unreadable(label, unreadable, out) if unreadable.any?
+      report_failures(label, failures, sent, out) if failures.any?
+      unreadable.empty? && failures.empty?
     end
     private_class_method :copy_month
 
@@ -119,13 +122,30 @@ module ApiLog
     end
     private_class_method :months_between
 
-    # Sent as NDJSON we build ourselves, rather than letting the client do it, so the request's size can be printed
-    def self.bulk_body(batch, index)
+    # Sent as NDJSON we build ourselves, rather than letting the client do it, so the request's size can be printed.
+    # Rows from before #1871 are stored as sent, so a broken %-encoding in a parameter name (such as "?%zz=1")
+    # makes building the document raise ArgumentError. Those rows are left out and added to unreadable, so one of
+    # them can't stop the rest of its month being sent.
+    def self.bulk_lines(batch, index, unreadable)
       batch.flat_map do |row|
         [{ index: { _index: index, _id: Document.id(row) } }.to_json, Document.build(row).to_json]
-      end.join("\n") << "\n"
+      rescue ArgumentError => e
+        unreadable << "#{Document.id(row)}: #{e.message}"
+        []
+      end
     end
-    private_class_method :bulk_body
+    private_class_method :bulk_lines
+
+    # The month's Elasticsearch count then falls short of api_statistics, so ApiLog::Trim keeps the month back
+    def self.report_unreadable(label, unreadable, out)
+      out.puts "#{label}: left out #{unreadable.size} rows whose query couldn't be read, for example:"
+      unreadable.first(REASONS_SHOWN).each { |reason| out.puts "  #{reason}" }
+      Sentry.capture_message(
+        "ApiLog::Upload: left out #{unreadable.size} unreadable rows for #{label}",
+        extra: { examples: unreadable.first(REASONS_SHOWN) }
+      )
+    end
+    private_class_method :report_unreadable
 
     # A bulk request succeeds as a whole even when some of its calls are rejected, so each item is checked
     def self.failed_items(response)
