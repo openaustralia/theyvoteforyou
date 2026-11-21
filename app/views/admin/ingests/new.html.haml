@@ -39,45 +39,46 @@
 
     .form-actions= submit_tag "Upload", class: "button"
 
-  :javascript
-    (function () {
-      var zone = document.getElementById("ingest-dropzone");
-      var input = document.getElementById("file");
-      var status = document.getElementById("ingest-dropzone-status");
-      if (!zone || !input || !window.DataTransfer) { return; }
+  %script{nonce: content_security_policy_nonce}
+    :plain
+      (function () {
+        var zone = document.getElementById("ingest-dropzone");
+        var input = document.getElementById("file");
+        var status = document.getElementById("ingest-dropzone-status");
+        if (!zone || !input || !window.DataTransfer) { return; }
 
-      var idle = { background: "#f6f8fa", borderColor: "#9aa5b1" };
-      var active = { background: "#e8f0fb", borderColor: "#1a4f8f" };
-      function paint(colours) { zone.style.background = colours.background; zone.style.borderColor = colours.borderColor; }
+        var idle = { background: "#f6f8fa", borderColor: "#9aa5b1" };
+        var active = { background: "#e8f0fb", borderColor: "#1a4f8f" };
+        function paint(colours) { zone.style.background = colours.background; zone.style.borderColor = colours.borderColor; }
 
-      function describe() {
-        var file = input.files && input.files[0];
-        status.style.color = "";
-        status.textContent = file ? "Ready to upload: " + file.name + " (" + Math.max(1, Math.round(file.size / 1024)) + " KB)" : "";
-      }
-
-      // A file dropped outside the zone would make the browser open it and leave this page.
-      ["dragover", "drop"].forEach(function (name) {
-        window.addEventListener(name, function (event) { event.preventDefault(); });
-      });
-
-      zone.addEventListener("dragenter", function () { paint(active); });
-      zone.addEventListener("dragover", function (event) { event.preventDefault(); paint(active); });
-      zone.addEventListener("dragleave", function (event) { if (!zone.contains(event.relatedTarget)) { paint(idle); } });
-
-      zone.addEventListener("drop", function (event) {
-        event.preventDefault();
-        paint(idle);
-        var files = event.dataTransfer && event.dataTransfer.files;
-        if (!files || files.length === 0) { return; }
-        if (files.length > 1 || !/\.zip$/i.test(files[0].name)) {
-          status.style.color = "#a61b1b";
-          status.textContent = "Drop a single .zip file.";
-          return;
+        function describe() {
+          var file = input.files && input.files[0];
+          status.style.color = "";
+          status.textContent = file ? "Ready to upload: " + file.name + " (" + Math.max(1, Math.round(file.size / 1024)) + " KB)" : "";
         }
-        input.files = files;
-        describe();
-      });
 
-      input.addEventListener("change", describe);
-    })();
+        // A file dropped outside the zone would make the browser open it and leave this page.
+        ["dragover", "drop"].forEach(function (name) {
+          window.addEventListener(name, function (event) { event.preventDefault(); });
+        });
+
+        zone.addEventListener("dragenter", function () { paint(active); });
+        zone.addEventListener("dragover", function (event) { event.preventDefault(); paint(active); });
+        zone.addEventListener("dragleave", function (event) { if (!zone.contains(event.relatedTarget)) { paint(idle); } });
+
+        zone.addEventListener("drop", function (event) {
+          event.preventDefault();
+          paint(idle);
+          var files = event.dataTransfer && event.dataTransfer.files;
+          if (!files || files.length === 0) { return; }
+          if (files.length > 1 || !/\.zip$/i.test(files[0].name)) {
+            status.style.color = "#a61b1b";
+            status.textContent = "Drop a single .zip file.";
+            return;
+          }
+          input.files = files;
+          describe();
+        });
+
+        input.addEventListener("change", describe);
+      })();
