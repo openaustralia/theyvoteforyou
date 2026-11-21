@@ -16,11 +16,6 @@ describe "Logging API calls to Elasticsearch", type: :request do
   before do
     travel_to(Time.utc(2026, 11, 30, 23, 59, 59))
     Rails.configuration.x.log_api_calls_to_elasticsearch = true
-    # The client first checks it's talking to Elasticsearch, and CI has none to answer
-    stub_request(:get, %r{\Ahttps?://[^/]+/\z}).to_return(
-      headers: { "Content-Type" => "application/json", "X-Elastic-Product" => "Elasticsearch" },
-      body: { version: { number: "7.17.7" }, tagline: "You Know, for Search" }.to_json
-    )
     stub_request(:put, %r{/tvfy_api_test_2026\.11\z}).to_return do |request|
       created_indices << JSON.parse(request.body)
       index_create_response
