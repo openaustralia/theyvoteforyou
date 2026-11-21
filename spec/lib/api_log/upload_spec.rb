@@ -47,6 +47,17 @@ describe ApiLog::Upload do
     expect(bulk_lines.last["query"]).to eq "/api/v1/policies.json?format=json"
   end
 
+  it "sends the rest of the month when an old row's query can't be read, but returns false" do
+    allow(Sentry).to receive(:capture_message)
+    unreadable = row(Time.utc(2024, 3, 5), query: "/api/v1/people.json?%zz=1")
+    readable = row(Time.utc(2024, 3, 6))
+
+    expect(described_class.run(from: "2024-03", to: "2024-03", out: out)).to be false
+    expect(bulk_lines.filter_map { |line| line.dig("index", "_id") }).to eq ["api_statistics-#{readable.id}"]
+    expect(out.string).to include "sent 1 rows", "left out 1 rows", "api_statistics-#{unreadable.id}"
+    expect(Sentry).to have_received(:capture_message).once
+  end
+
   it "skips a month whose year has been combined into a yearly index" do
     stub_request(:head, %r{/tvfy_api_test_2024\z}).to_return(status: 200)
     row(Time.utc(2024, 3, 5))
