@@ -10,9 +10,6 @@ module ApiLog
   module Trim
     KEEP_FOR = 30.days
 
-    # Deleted a batch at a time so no single statement holds locks on the table for long
-    BATCH_SIZE = 10_000
-
     # Raised when Elasticsearch can't be reached or answers with an error
     ELASTICSEARCH_ERRORS = [Faraday::Error, Elasticsearch::Transport::Transport::Error].freeze
 
@@ -46,30 +43,34 @@ module ApiLog
     # :deleted, :kept, or :empty if the month has no rows
     def self.trim_month(month)
       label = month.strftime("%Y-%m")
-      rows = ApiStatistic.where(created_at: month...month.next_month)
-      row_count = rows.count
-      if row_count.zero?
+      first_row_at = ApiStatistic.where(created_at: month...month.next_month).minimum(:created_at)
+      unless first_row_at
         say "#{label}: no rows"
         return :empty
       end
 
-      first_count = elasticsearch_count(month)
+      # Only the hours still in api_statistics are compared. A run stopped partway through deleting leaves whole
+      # hours (see delete_hour_by_hour), and the calls of the hours it deleted are still in Elasticsearch, so
+      # counting the whole month would never match again.
+      from = first_row_at.utc.beginning_of_hour
+      row_count = ApiStatistic.where(created_at: from...month.next_month).count
+      first_count = elasticsearch_count(month, from)
       final_count = first_count
       counts = "#{label}: #{row_count} rows, #{first_count} in Elasticsearch"
       if first_count != row_count
         resend(month)
-        final_count = elasticsearch_count(month)
+        final_count = elasticsearch_count(month, from)
         counts += " (#{final_count} after sending again)"
       end
 
       if final_count == row_count
-        rows.in_batches(of: BATCH_SIZE).delete_all
+        delete_hour_by_hour(from, month.next_month)
         say "#{counts}, deleted"
         :deleted
       else
         Sentry.capture_message(
           "api_statistics month kept, as Elasticsearch doesn't have the same calls",
-          extra: { month: label, rows: row_count, elasticsearch: final_count }
+          extra: { month: label, from: from.iso8601, rows: row_count, elasticsearch: final_count }
         )
         say "#{counts}, kept as the counts differ"
         :kept
@@ -83,10 +84,21 @@ module ApiLog
     end
     private_class_method :say
 
-    def self.elasticsearch_count(month)
-      Index.count(index_for(month), from: month, to: month.next_month)
+    def self.elasticsearch_count(month, from)
+      Index.count(index_for(month), from: from, to: month.next_month)
     end
     private_class_method :elasticsearch_count
+
+    # Each hour is one statement, so it's either all deleted or all still there, and no statement holds locks on the
+    # table for long (about 3,000 rows an hour in late 2026)
+    def self.delete_hour_by_hour(from, to)
+      hour = from
+      while hour < to
+        ApiStatistic.where(created_at: hour...(hour + 1.hour)).delete_all
+        hour += 1.hour
+      end
+    end
+    private_class_method :delete_hour_by_hour
 
     # The month's own index, or once its year has been combined (#1917) and the monthly index deleted, the year's.
     # A year can be combined before its rows are trimmed, as the backfill does. Checked on every count, as sending

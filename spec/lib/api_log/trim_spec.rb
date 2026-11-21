@@ -119,7 +119,26 @@ describe ApiLog::Trim do
     it "reports both counts to Sentry" do
       travel_to(Time.utc(2026, 11, 20)) { trim }
       expect(Sentry).to have_received(:capture_message)
-        .with(anything, extra: { month: "2026-08", rows: 1, elasticsearch: 0 })
+        .with(anything, extra: { month: "2026-08", from: "2026-08-10T00:00:00Z", rows: 1, elasticsearch: 0 })
+    end
+  end
+
+  # Elasticsearch has all 3 of the month's calls, but an earlier run was stopped after deleting the first hour's
+  context "when an earlier run was stopped partway through deleting the month" do
+    before do
+      call_at(Time.utc(2026, 9, 10, 15, 30))
+      call_at(Time.utc(2026, 9, 10, 15, 45))
+      stub_count("2026.09", 2)
+    end
+
+    it "compares only the hours still held, and deletes them" do
+      travel_to(Time.utc(2026, 11, 20)) { expect(trim).to be true }
+      expect(
+        a_request(:any, %r{/tvfy_api_test_2026\.09/_count}).with do |request|
+          JSON.parse(request.body).dig("query", "range", "query_time", "gte") == "2026-09-10T15:00:00Z"
+        end
+      ).to have_been_made
+      expect(ApiStatistic.count).to eq 0
     end
   end
 
