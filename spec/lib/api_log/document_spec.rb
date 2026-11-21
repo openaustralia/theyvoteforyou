@@ -52,6 +52,11 @@ describe ApiLog::Document do
       expect(described_class.build(logged("/people"))[:endpoint]).to eq "unknown"
     end
 
+    it "copies a row with a parameter name that can't be decoded, keeping it as stored" do
+      document = described_class.build(logged("/api/v1/people.json?%zz=1&key=abc123&house=senate"))
+      expect(document[:query]).to eq "/api/v1/people.json?%zz=1&house=senate"
+    end
+
     it "copies a row whose query string can't be parsed, without its parameters" do
       expect(described_class.build(logged("/api/v1/people.json?house=%"))[:params]).to eq("format" => "json")
     end
