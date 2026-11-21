@@ -13,8 +13,7 @@
     =render "layouts/history_notice", policy: nil, division: @division
 
 = render "header", division: @division
-- if @division.proof
-  = render "proof_notice"
+= render "proof_notice", division: @division
 = render "ai_policy_suggestions", division: @division
 = render "social_share"
 = render "motion", division: @division
