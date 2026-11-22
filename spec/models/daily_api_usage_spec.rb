@@ -47,25 +47,32 @@ describe DailyApiUsage do
     end
   end
 
-  describe ".rebuild_month" do
+  describe ".rebuild_day" do
     def log_request(user, time)
       ApiStatistic.create!(user: user, query: "/api/v1/people.json", created_at: time)
     end
 
-    before do
-      log_request(user, Time.utc(2026, 10, 1, 1))
-      log_request(user, Time.utc(2026, 10, 1, 23))
-      log_request(other_user, Time.utc(2026, 10, 31, 23, 59))
-      log_request(user, Time.utc(2026, 11, 1))
+    let!(:rebuilt) do
+      log_request(user, Time.utc(2026, 9, 30, 23, 59))
+      log_request(user, Time.utc(2026, 10, 1, 0))
+      log_request(user, Time.utc(2026, 10, 1, 23, 59))
+      log_request(other_user, Time.utc(2026, 10, 1, 12))
+      log_request(user, Time.utc(2026, 10, 2))
       described_class.create!(user: user, date: Date.new(2026, 10, 1), count: 99)
-      described_class.rebuild_month(Date.new(2026, 10, 1))
+      described_class.create!(user: other_user, date: Date.new(2026, 10, 2), count: 5)
+      described_class.rebuild_day(Date.new(2026, 10, 1))
     end
 
-    it "replaces the month's counts with those in api_statistics, by UTC day" do
-      expect(described_class.order(:date).pluck(:user_id, :date, :count)).to eq [
+    it "replaces the day's counts with those in api_statistics, by UTC day, leaving other days alone" do
+      expect(described_class.order(:date, :user_id).pluck(:user_id, :date, :count)).to eq [
         [user.id, Date.new(2026, 10, 1), 2],
-        [other_user.id, Date.new(2026, 10, 31), 1]
+        [other_user.id, Date.new(2026, 10, 1), 1],
+        [other_user.id, Date.new(2026, 10, 2), 5]
       ]
+    end
+
+    it "says how many calls and keys it counted" do
+      expect(rebuilt).to eq described_class::Rebuilt.new(calls: 3, keys: 2)
     end
   end
 end
