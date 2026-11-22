@@ -8,7 +8,7 @@
   - if @kibana_dashboard_url
     %p
       = link_to "View dashboard in Kibana", @kibana_dashboard_url
-      (calls over time, by endpoint and active keys per month; needs a Kibana login)
+      (calls over time, by endpoint and active keys each month; needs a Kibana login)
   %p
     - Admin::ApiUsagesController::PERIODS.each do |period|
       = link_to "Last #{pluralize(period, 'day')}", { period: period }, class: "button"
