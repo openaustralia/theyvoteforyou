@@ -8,9 +8,14 @@ module ApiLog
   # Run by application:api_log:upload, and by ApiLog::Trim to send a month again when its counts don't match.
   # Both return false if anything was left undone, so the rake task exits non-zero.
   module Upload
-    # Estimated at about 5 MB a request. Each month prints its first request's size, to check this against the 5 to
-    # 15 MB Elasticsearch handles comfortably.
+    # Calls sent in each bulk request: about 3.5 MB in production, within the 5 to 15 MB Elasticsearch handles
+    # comfortably. Each month prints its first request's size.
     BATCH_SIZE = 10_000
+
+    # Rows are read from maindb in smaller pieces, each followed by a pause (see Pacer), so the site's own queries
+    # never wait long behind the upload's
+    READ_SIZE = 1_000
+    READ_GAP = 0.5
 
     # How many failed calls a month prints, as one reason is usually shared by all of them
     REASONS_SHOWN = 3
@@ -42,7 +47,8 @@ module ApiLog
       from_label, to_label = [from_month, to_month].map { |month| month.strftime("%Y-%m") }
       raise InvalidMonth, "FROM (#{from_label}) is after TO (#{to_label})" if from_month > to_month
 
-      months_between(from_month, to_month).map { |month| copy_month(month, out) }.all?
+      pacers = new_pacers
+      months_between(from_month, to_month).map { |month| copy_month(month, out, pacers) }.all?
     rescue InvalidMonth => e
       out.puts e.message
       false
@@ -54,14 +60,21 @@ module ApiLog
     # Copies the month that month (a Date or Time) falls in, in UTC
     def self.month(month, out: $stdout)
       month = month.utc if month.respond_to?(:utc)
-      copy_month(Date.new(month.year, month.month), out)
+      copy_month(Date.new(month.year, month.month), out, new_pacers)
     rescue Unavailable => e
       out.puts "Stopped: #{e.message}"
       false
     end
 
+    # One for maindb and one for Elasticsearch, each kept to about half its time. Elasticsearch needs no extra gap:
+    # reading the next batch from maindb already takes longer than sending one.
+    def self.new_pacers
+      { database: Pacer.new(gap: READ_GAP), elasticsearch: Pacer.new(gap: 0) }
+    end
+    private_class_method :new_pacers
+
     # Not a predicate, despite returning true or false: it does the copying, and says whether all of it went
-    def self.copy_month(month, out) # rubocop:disable Naming/PredicateMethod
+    def self.copy_month(month, out, pacers) # rubocop:disable Naming/PredicateMethod
       label = month.strftime("%Y-%m")
       start = Time.utc(month.year, month.month)
       rows = ApiStatistic.where(created_at: start...start.next_month)
@@ -81,26 +94,51 @@ module ApiLog
       failures = []
       unreadable = []
       first_size = nil
+      waited_before = pacers.values.sum(&:waited)
       started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-      rows.find_in_batches(batch_size: BATCH_SIZE) do |batch|
+      each_batch(rows, pacers[:database]) do |batch|
         lines = bulk_lines(batch, index, unreadable)
         next if lines.empty?
 
         body = "#{lines.join("\n")}\n"
         first_size ||= body.bytesize
-        response = elasticsearch { Searchkick.client.bulk(body: body) }
+        response = pacers[:elasticsearch].call { elasticsearch { Searchkick.client.bulk(body: body) } }
         sent += lines.size / 2
         failures.concat(failed_items(response)) if response["errors"]
       end
       seconds = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
+      waited = pacers.values.sum(&:waited) - waited_before
 
-      size = " (first request #{first_size} bytes)" if first_size
-      out.puts "#{label}: sent #{sent} rows to #{index} in #{seconds.round(1)}s#{size}"
+      size = ", first request #{first_size} bytes" if first_size
+      out.puts "#{label}: sent #{sent} rows to #{index} in #{seconds.round(1)}s " \
+               "(#{waited.round(1)}s of it pausing#{size})"
       report_unreadable(label, unreadable, out) if unreadable.any?
       report_failures(label, failures, sent, out) if failures.any?
       unreadable.empty? && failures.empty?
     end
     private_class_method :copy_month
+
+    # Yields the month's rows BATCH_SIZE at a time, read READ_SIZE at a time through the database pacer. Read by
+    # primary key between the month's first and last id, so each read touches only its own rows whichever index
+    # MySQL would otherwise choose; ids rise with created_at, so the range holds the month's rows and few others.
+    def self.each_batch(rows, pacer)
+      first_id, last_id = pacer.call { rows.pick(Arel.sql("MIN(id)"), Arel.sql("MAX(id)")) }
+      batch = []
+      cursor = first_id - 1
+      while cursor < last_id
+        read = pacer.call { rows.where(id: (cursor + 1)..last_id).order(:id).limit(READ_SIZE).to_a }
+        break if read.empty?
+
+        cursor = read.last.id
+        batch.concat(read)
+        next if batch.size < BATCH_SIZE
+
+        yield batch
+        batch = []
+      end
+      yield batch if batch.any?
+    end
+    private_class_method :each_batch
 
     def self.months_with_rows
       first, last = ApiStatistic.pick(Arel.sql("MIN(created_at)"), Arel.sql("MAX(created_at)"))

@@ -23,9 +23,42 @@ describe ApiLog::Upload do
   end
 
   before do
+    # The pauses only spread the load, so specs skip them rather than wait
+    allow(ApiLog::Pacer).to receive(:pause)
     stub_request(:head, /tvfy_api_test_\d{4}\z/).to_return(status: 404)
     stub_request(:put, /tvfy_api_test_\d{4}\.\d{2}\z/).to_return(status: 200, headers: json, body: "{}")
     stub_request(:post, %r{/_bulk\z}).to_return(bulk_ok)
+  end
+
+  context "with more rows in a month than one read" do
+    let!(:rows) { Array.new(5) { |minute| row(Time.utc(2024, 3, 1, 0, minute)) } }
+
+    before do
+      stub_const("#{described_class}::READ_SIZE", 2)
+      stub_const("#{described_class}::BATCH_SIZE", 4)
+    end
+
+    it "gathers several reads into each request, and sends every row once" do
+      expect(described_class.run(from: "2024-03", to: "2024-03", out: out)).to be true
+      expect(a_request(:post, %r{/_bulk\z})).to have_been_made.twice
+      ids = bulk_lines.each_slice(2).map { |action, _document| action["index"]["_id"] }
+      expect(ids).to eq(rows.map { |each_row| "api_statistics-#{each_row.id}" })
+    end
+
+    it "leaves out rows from neighbouring months whose ids fall in the month's range" do
+      # An April row whose id falls among March's, as a row saved just after midnight can
+      late = row(Time.utc(2024, 4, 1))
+      rows.last.update!(id: late.id + 1)
+      described_class.run(from: "2024-03", to: "2024-03", out: out)
+      expect(bulk_lines.each_slice(2).map { |action, _document| action["index"]["_id"] })
+        .not_to include("api_statistics-#{late.id}")
+    end
+
+    it "pauses between reads, and says for how long" do
+      described_class.run(from: "2024-03", to: "2024-03", out: out)
+      expect(ApiLog::Pacer).to have_received(:pause).at_least(3).times
+      expect(out.string).to match(/2024-03: sent 5 rows to tvfy_api_test_2024\.03 in [\d.]+s \([\d.]+s of it pausing/)
+    end
   end
 
   it "sends each row to its month's index, under the same id the live job uses" do
