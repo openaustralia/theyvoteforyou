@@ -20,16 +20,17 @@
     Find out more
     = remove_slash(get_hostname(root_url) + compare_member_path_simple(@person_distance.person1.latest_member, @person_distance.person2.latest_member))
 
-:javascript
-  window.addEventListener('load', (event) => {
-    fitin = document.querySelector('.fitin');
-    fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
+%script{nonce: content_security_policy_nonce}
+  :plain
+    window.addEventListener('load', (event) => {
+      fitin = document.querySelector('.fitin');
+      fitin_inner = document.querySelector('div .socialmedia-card-heading-text');
 
-    while (fitin_inner.offsetHeight > fitin.offsetHeight) {
-      fontStyling = window
-        .getComputedStyle(fitin_inner, null)
-        .getPropertyValue('font-size');
-      fontSize = parseFloat(fontStyling);
-      fitin_inner.style.fontSize = fontSize - 1 + 'px';
-    }
-  });
+      while (fitin_inner.offsetHeight > fitin.offsetHeight) {
+        fontStyling = window
+          .getComputedStyle(fitin_inner, null)
+          .getPropertyValue('font-size');
+        fontSize = parseFloat(fontStyling);
+        fitin_inner.style.fontSize = fontSize - 1 + 'px';
+      }
+    });

@@ -7,6 +7,8 @@
 # support or someone opening the address, only asks for confirmation. It changes nothing, because mail scanners and link
 # previews fetch addresses without the person choosing to.
 class UnsubscribesController < ApplicationController
+  include KeepOutOfCspReports
+
   skip_forgery_protection only: :create
   # Otherwise the signed token in the address would be kept in the session as the person's last page
   skip_after_action :store_location
