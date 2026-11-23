@@ -96,6 +96,25 @@ describe DataLoader::SpeechText do
     end
   end
 
+  describe ".keep_paragraphs" do
+    let(:context_speech) do
+      described_class.context_speech(speech("<p>Rural students pay more to study.</p><p>I move:</p><p class=\"italic\">That the Senate notes it.</p>"))
+    end
+    let(:kept) { context_speech[:paragraphs].select { |paragraph| %i[move motion].include?(paragraph[:kind]) } }
+
+    it "keeps only the given paragraphs" do
+      expect(described_class.keep_paragraphs(context_speech, kept)[:paragraphs]).to eq(kept)
+    end
+
+    it "rebuilds the text from the kept paragraphs" do
+      expect(described_class.keep_paragraphs(context_speech, kept)[:text]).to eq("I move:\n\nThat the Senate notes it.")
+    end
+
+    it "leaves the rest of the speech as it was" do
+      expect(described_class.keep_paragraphs(context_speech, kept)).to include(context_speech.slice(:id, :speaker, :time, :moved_text))
+    end
+  end
+
   describe ".paragraphs" do
     # The pipeline quotes a member's explanation and the motion separately, so it has to know
     # which words are which rather than guessing from their position.

@@ -12,7 +12,7 @@ module DataLoader
     # (see #preceded_by_division?). Current Hansard names the member in the chair like any other
     # speaker, so the words are all there is to go on; the length cap keeps a member's speech
     # that happens to say "the question is" from passing as one.
-    CHAIR_STATEMENT = /\bquestion\s+(?:is|now\s+is|we're\s+dealing\s+with)\b|\bdeferred\b/i
+    CHAIR_STATEMENT = /\bquestion\s+(?:is|now\s+is|we're\s+dealing\s+with|before\s+the\s+(?:house|chair)(?:\s+now)?\s+is)\b|\bdeferred\b/i
     CHAIR_STATEMENT_MAXIMUM_SIZE = 1200
 
     # Whether a speech is the chair's statement, judged on its plain paragraphs only. Hansard sets
@@ -154,7 +154,8 @@ module DataLoader
     # The exact wording of the question being decided at this division: the operative
     # <p pwmotiontext> paragraph nearest the division - the same source #motion's primary
     # case reads from - falling back to the nearest preceding speech when no motion-text
-    # paragraph precedes the division (see #motion for why that happens). Used by
+    # paragraph precedes the division (see #motion for why that happens). A member's speech counts
+    # only when it moves something, since debate wording once routed a vote. Used by
     # DivisionSummaryPipeline::ContextBuilder to anchor procedural routing on the actual
     # question Hansard records, rather than a second, independent read of this XML.
     #
@@ -175,9 +176,9 @@ module DataLoader
 
       last_speech = previous_speeches.last
       return nil unless last_speech
+      return SpeechText.plain_text(last_speech).presence || SpeechText.paragraph_text(last_speech) if question_speech
 
-      plain = SpeechText.plain_text(last_speech) if question_speech
-      plain.presence || SpeechText.paragraph_text(last_speech)
+      SpeechText.paragraph_text(last_speech) if SpeechText.moved_text(last_speech).present?
     end
 
     # The chair's statement putting this division's question: the last speech before the

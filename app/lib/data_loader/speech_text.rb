@@ -91,6 +91,11 @@ module DataLoader
       }
     end
 
+    # Keeps only the given paragraphs of a context speech, and rebuilds its text to match.
+    def keep_paragraphs(speech, kept)
+      speech.merge(paragraphs: kept, text: kept.pluck(:text).join("\n\n"))
+    end
+
     # Every block of the speech in order, each with what it is, so the pipeline can quote a
     # member's own words without ever mistaking the motion, or someone else's words, for them:
     #
