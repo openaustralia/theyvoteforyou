@@ -33,15 +33,19 @@ class DailyApiUsage < ApplicationRecord
     end
   end
 
-  # Recounts one month from api_statistics, replacing whatever counts it had
-  def self.rebuild_month(month)
-    range = month.beginning_of_month.in_time_zone("UTC")...month.next_month.beginning_of_month.in_time_zone("UTC")
-    counts = ApiStatistic.where(created_at: range).where.not(user_id: nil)
-                         .group(:user_id, Arel.sql("DATE(created_at)")).count
-    rows = counts.map { |(user_id, date), count| { user_id: user_id, date: date, count: count } }
+  Rebuilt = Data.define(:calls, :keys)
+
+  # Recounts one UTC day from api_statistics, replacing whatever counts it had. A day at a time, as a whole
+  # month's count on maindb took over 40 minutes and held up the site (#1916). A call made while this runs can
+  # be lost from today's count, as the day's counts are replaced just after being taken.
+  def self.rebuild_day(date)
+    start = date.in_time_zone("UTC")
+    counts = ApiStatistic.where(created_at: start...(start + 1.day)).where.not(user_id: nil).group(:user_id).count
+    rows = counts.map { |user_id, count| { user_id: user_id, date: date, count: count } }
     transaction do
-      where(date: month.all_month).delete_all
+      where(date: date).delete_all
       insert_all(rows) if rows.any? # rubocop:disable Rails/SkipsModelValidations
     end
+    Rebuilt.new(calls: counts.values.sum, keys: counts.size)
   end
 end

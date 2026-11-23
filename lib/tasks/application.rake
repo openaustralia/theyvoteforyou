@@ -52,16 +52,27 @@ namespace :application do
       end
     end
 
-    desc "Rebuild daily API usage counts from api_statistics, a month at a time (FROM=2026-01 limits the start)"
+    desc "Rebuild daily API usage counts from api_statistics, a day at a time (FROM=2026-10-23 or FROM=2026-10)"
     task daily_api_usage: :environment do
-      first = ENV["FROM"] ? Date.strptime(ENV.fetch("FROM"), "%Y-%m") : ApiStatistic.minimum(:created_at)&.utc&.to_date
+      $stdout.sync = true # each day's line shows straight away, even under nohup
+      from = ENV.fetch("FROM", nil)
+      first = if from
+                Date.strptime(from.length == 7 ? "#{from}-01" : from, "%Y-%m-%d")
+              else
+                ApiStatistic.minimum(:created_at)&.utc&.to_date
+              end
       next puts "No API requests logged" if first.nil?
 
-      month = first.beginning_of_month
-      while month <= Time.current.utc.to_date
-        puts "Rebuilding daily API usage for #{month.strftime('%Y-%m')}..."
-        DailyApiUsage.rebuild_month(month)
-        month = month.next_month
+      # Paced like ApiLog::Upload, so the counting never takes more than about half of maindb
+      pacer = ApiLog::Pacer.new(gap: 0.5)
+      (first..Time.current.utc.to_date).each do |date|
+        waited = pacer.waited
+        started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        rebuilt = pacer.call { DailyApiUsage.rebuild_day(date) }
+        seconds = Process.clock_gettime(Process::CLOCK_MONOTONIC) - started
+        puts "#{date}: #{rebuilt.calls} #{'call'.pluralize(rebuilt.calls)} from #{rebuilt.keys} " \
+             "#{'key'.pluralize(rebuilt.keys)} in #{seconds.round(1)}s " \
+             "(#{(pacer.waited - waited).round(1)}s of it pausing)"
       end
     end
 
