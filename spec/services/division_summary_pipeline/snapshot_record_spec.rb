@@ -63,8 +63,8 @@ describe DivisionSummaryPipeline::SnapshotRecord do
     end
 
     it "puts what RouteSnapshot adds from outside Stages 1 and 2 straight after the facts" do
-      sources = { "parliament" => 48, "hansard" => "proof", "hansard_read" => ["representatives/2026-08-19"] }
-      expect(described_class.build(packet, sources).keys.first(4)).to eq(%w[facts parliament hansard hansard_read])
+      sources = { "hansard" => "proof", "hansard_read" => ["representatives/2026-08-19"] }
+      expect(described_class.build(packet, sources).keys.first(3)).to eq(%w[facts hansard hansard_read])
     end
 
     it "lists the bills alphabetically, since the database returns them in no fixed order" do

@@ -5,10 +5,10 @@ They Vote For You's AI summary pipeline starts with two steps that use fixed rul
 finds the question that was voted on, the motion and who moved it. **Stage 2** uses what Stage 1
 found to decide which summary template fits the vote.
 
-This folder holds a record of what those two steps find and decide for every division in the date
-range set in `settings.yml`: one entry per division, one file per year (`2025.yml`, `2026.yml`). The
-files are written by `bin/rake ai:route_snapshot`, and the code is in
-`app/services/division_summary_pipeline/snapshot/`.
+This folder holds a record of what those two steps find and decide for every division: one entry
+per division, one file per calendar year (`2025.yml`, `2026.yml`). Each file covers the whole year,
+or the current year up to the day it was written. The files are written by
+`bin/rake ai:route_snapshot`, and the code is in `app/services/division_summary_pipeline/snapshot/`.
 
 The tests check that each rule works on the example it was written for. These files show what the
 rules do across every real division, and so what else moves when someone changes a rule. The files
@@ -18,13 +18,14 @@ files it changes, and its pull request explains every division that changed.
 ## Running it
 
 ```bash
-bin/rake ai:route_snapshot                  # every year in settings.yml
+bin/rake ai:route_snapshot                  # every year that already has a file here
 bin/rake ai:route_snapshot YEARS=2026       # one year
-bin/rake ai:route_snapshot YEARS=2025-2026  # several years
+bin/rake ai:route_snapshot YEARS=2024-2025  # several years
 ```
 
-It uses no AI model and never changes the database. A year outside the range in `settings.yml` is
-refused: to include it, change the range there first, as a change of its own.
+With no `YEARS=`, it rewrites every year file already in this folder. `YEARS=` writes just those
+years, which is also how a new year's file is started; save a new year's file as a change of its own.
+A year that hasn't begun is refused. It uses no AI model and never changes the database.
 
 What a run does:
 
@@ -89,9 +90,8 @@ one cause.
 
 ## The top of each file
 
-`settings.yml` lists the first sitting day of each Parliament, which is how each entry gets its
-Parliament number. `hansard_days`, at the top of each year's file, lists every sitting day of
-Hansard that year's divisions read, including earlier days Stage 1 looked back to:
+`hansard_days`, at the top of each year's file, lists every sitting day of Hansard that year's
+divisions read, including earlier days Stage 1 looked back to:
 
 | Field | What it is |
 |---|---|
@@ -106,7 +106,6 @@ number, so the names are the same in every copy of the database.
 | Field | What it is |
 |---|---|
 | `facts` | What the database records about the vote, worked out from the votes loaded from Hansard: time, result, whether it was tied, the counts (tellers included) and the bills, in alphabetical order |
-| `parliament` | The Parliament the division was in, from `settings.yml` |
 | `hansard` | Whether the day's Hansard is `final`, a `proof` or `unknown` (empty when there is none) |
 | `hansard_read` | The sitting days whose Hansard Stage 1 read for this division: its own, and each earlier day it looked back to. A change to any of them in `hansard_days` can change this entry |
 | `hansard_division` | The id of the division in that day's Hansard file that Stage 1 matched |

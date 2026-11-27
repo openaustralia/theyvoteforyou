@@ -8,7 +8,7 @@ module DivisionSummaryPipeline
   # The AI summary pipeline starts with two steps that use fixed rules, not AI. Stage 1 reads a
   # division's Hansard (the official record of what was said in parliament) and finds the question
   # that was voted on, the motion and who moved it. Stage 2 uses what Stage 1 found to decide which
-  # summary template fits the vote. This runs both steps over every division in a date range and
+  # summary template fits the vote. This runs both steps over every division in a year and
   # writes down what they found and decided: one entry per division (made by snapshot_record.rb), one
   # file per year, in spec/route_snapshots/.
   #
@@ -16,55 +16,40 @@ module DivisionSummaryPipeline
   # and looking at `git diff` shows exactly which divisions changed. spec/route_snapshots/README.md
   # explains how to use it.
   #
-  # The date range and the list of Parliaments come from spec/route_snapshots/settings.yml, which is
-  # saved with the code, so every run of the same code covers the same divisions.
+  # Each file always covers a whole calendar year (the current year up to today), so a year's file
+  # means the same thing to everyone who runs the task.
   class RouteSnapshot
-    # Where the year files and settings.yml live.
+    # Where the year files live.
     FOLDER = Rails.root.join("spec/route_snapshots")
     # What YEARS= may be: one year ("2026") or a range of years ("2025-2026").
     YEARS = /\A(\d{4})(?:\s*-\s*(\d{4}))?\z/
 
-    # Raised when the task can't run as asked: a YEARS= value it can't use, a range in settings.yml
-    # that starts before the first Parliament listed there, a database missing divisions, or Hansard
-    # that couldn't be downloaded. The task stops and prints the message, which says what to fix.
+    # Raised when the task can't run as asked: a YEARS= value it can't use, no year files to rewrite,
+    # a database missing divisions, or Hansard that couldn't be downloaded. The task stops and prints
+    # the message, which says what to fix.
     class Refused < StandardError; end
 
-    attr_reader :range
-
-    # Reads settings.yml. Stops if the range starts before the first Parliament listed there, since
-    # every entry needs a Parliament number. The tests pass in their own folder and their own local
-    # copy of Hansard (the store, from hansard_store.rb).
+    # The tests pass in their own folder and their own local copy of Hansard (the store, from
+    # hansard_store.rb).
     def initialize(folder: FOLDER, store: HansardStore.new)
       @folder = Pathname(folder)
       @store = store
-      settings = YAML.safe_load_file(@folder.join("settings.yml"), permitted_classes: [Date])
-      @range = Date.parse(settings.dig("range", "from").to_s)..Date.parse(settings.dig("range", "to").to_s)
-      @parliaments = settings.fetch("parliaments", {}).to_h { |number, from| [Integer(number), Date.parse(from.to_s)] }
-      first = @parliaments.values.min
-      return if first && first <= range.first
-
-      raise Refused, "The range in settings.yml starts on #{range.first}, before the first Parliament listed " \
-                     "there. Add the Parliament that date falls in, then run again."
     end
 
-    # Which years to write. With no YEARS=, every year the range covers. With YEARS=, just those
-    # years, but a year outside the range is refused rather than quietly added, so the files and
-    # settings.yml never disagree.
+    # Which years to write. With no YEARS=, every year that already has a file in the folder, so a run
+    # rewrites the whole logbook. With YEARS=, just those years, which is also how a new year's file is
+    # started. A year that hasn't begun yet is refused.
     def years(wanted = nil)
-      all = (range.first.year..range.last.year).to_a
-      return all if wanted.blank?
+      return saved_years if wanted.blank?
 
       match = wanted.to_s.strip.match(YEARS)
       raise Refused, "YEARS must be a year (2026) or a range of years (2025-2026), not #{wanted.inspect}." unless match
 
       chosen = (match[1].to_i..(match[2] || match[1]).to_i).to_a
       raise Refused, "YEARS #{wanted} has no years in it: write the earlier year first." if chosen.empty?
+      raise Refused, "YEARS #{wanted} includes a year that hasn't begun yet." if chosen.last > Date.current.year
 
-      outside = chosen - all
-      return chosen if outside.empty?
-
-      raise Refused, "#{outside.join(', ')} is outside the range in settings.yml (#{range.first} to " \
-                     "#{range.last}). To include it, change the range there first, then run again."
+      chosen
     end
 
     # The division count check (division_count_check.rb): stops if the database is missing any
@@ -100,19 +85,22 @@ module DivisionSummaryPipeline
       folder.join("#{year}.yml")
     end
 
-    # Which Parliament a date falls in: the latest one in settings.yml that began on or before it. For
-    # example, 27 March 2025 is in the 47th and 22 July 2025 is in the 48th.
-    def parliament(date)
-      parliaments.select { |_number, from| from <= date }.max_by { |_number, from| from }.first
-    end
-
     private
 
-    attr_reader :folder, :store, :parliaments
+    attr_reader :folder, :store
 
-    # The days of the year inside the range: for 2026, only 1 January to 31 October.
+    # The years that already have a file in the folder, such as 2025.yml and 2026.yml.
+    def saved_years
+      years = folder.glob("*.yml").filter_map { |file| file.basename(".yml").to_s[/\A\d{4}\z/]&.to_i }.sort
+      return years if years.any?
+
+      raise Refused, "There are no year files in #{folder.relative_path_from(Rails.root)} yet. Name the years " \
+                     "to write, for example YEARS=2026."
+    end
+
+    # The year's days: the whole calendar year, or up to today for the current year.
     def dates(year)
-      [range.first, Date.new(year, 1, 1)].max..[range.last, Date.new(year, 12, 31)].min
+      Date.new(year, 1, 1)..[Date.new(year, 12, 31), Date.current].min
     end
 
     # The year's divisions from the database, in date, house and number order, so the file's order
@@ -140,11 +128,10 @@ module DivisionSummaryPipeline
       [{ "error" => "#{e.class}: #{e.message.gsub(/0x\h+/, '0x...')}" }, []]
     end
 
-    # The fields an entry gets from outside Stages 1 and 2: the Parliament, whether the day's Hansard
-    # is final, a proof or unmarked, and the sitting days read.
+    # The fields an entry gets from outside Stages 1 and 2: whether the day's Hansard is final, a proof
+    # or unmarked, and the sitting days read.
     def sources(division, days)
-      { "parliament" => parliament(division.date),
-        "hansard" => store.describe(division.house, division.date)&.fetch("version"), "hansard_read" => days }
+      { "hansard" => store.describe(division.house, division.date)&.fetch("version"), "hansard_read" => days }
     end
 
     def refuse_after_failed_downloads(year)

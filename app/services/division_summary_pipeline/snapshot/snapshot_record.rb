@@ -9,9 +9,9 @@ module DivisionSummaryPipeline
   #
   # Stage 1 gathers everything it finds about a division into one bundle of information (the
   # "packet", in context/context_packet.rb). This turns that bundle into a plain list of fields: what
-  # Stage 2 decided, and everything Stage 1 found by its rules. route_snapshot.rb adds three fields of
-  # its own straight after the facts: the Parliament, whether the day's Hansard was final or a proof,
-  # and which sitting days were read.
+  # Stage 2 decided, and everything Stage 1 found by its rules. route_snapshot.rb adds two fields of
+  # its own straight after the facts: whether the day's Hansard was final or a proof, and which sitting
+  # days were read.
   #
   # The same code and the same Hansard always give exactly the same entry, so any difference between
   # two runs shows up as a changed line. To make sure of that, the fields are always in the same

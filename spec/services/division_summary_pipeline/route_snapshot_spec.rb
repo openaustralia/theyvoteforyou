@@ -8,55 +8,31 @@ describe DivisionSummaryPipeline::RouteSnapshot do
   let(:folder) { Pathname(Dir.mktmpdir) }
   let(:hansard) { Pathname(Dir.mktmpdir) }
 
-  let(:settings) do
-    <<~YAML
-      range:
-        from: 2025-01-01
-        to: 2026-10-31
-      parliaments:
-        47: 2022-07-26
-        48: 2025-07-22
-    YAML
-  end
-
-  before { folder.join("settings.yml").write(settings) }
-
   after { FileUtils.rm_rf([folder, hansard]) }
 
   describe "#years" do
-    it "is every year the range touches, when none is named" do
+    it "is every year that already has a file, when none is named" do
+      %w[2025.yml 2026.yml README.md].each { |name| folder.join(name).write("") }
+
       expect(snapshot.years).to eq([2025, 2026])
     end
 
-    it "takes one year, or a range of years" do
-      expect(snapshot.years("2026")).to eq([2026])
-      expect(snapshot.years("2025-2026")).to eq([2025, 2026])
+    it "refuses to guess when there are no year files yet, saying how to start one" do
+      expect { snapshot.years }.to raise_error(described_class::Refused, /no year files in .* YEARS=2026/m)
     end
 
-    it "refuses a year outside the range, saying how to include it" do
-      expect { snapshot.years("2024") }.to raise_error(
-        described_class::Refused,
-        "2024 is outside the range in settings.yml (2025-01-01 to 2026-10-31). " \
-        "To include it, change the range there first, then run again."
-      )
+    it "takes one year, or a range of years, which is also how a new year's file is started" do
+      expect(snapshot.years("2026")).to eq([2026])
+      expect(snapshot.years("2024-2025")).to eq([2024, 2025])
+    end
+
+    it "refuses a year that hasn't begun yet" do
+      expect { snapshot.years((Date.current.year + 1).to_s) }.to raise_error(described_class::Refused, /hasn't begun/)
     end
 
     it "refuses anything that isn't a year or a range of years, including one written backwards" do
       expect { snapshot.years("last year") }.to raise_error(described_class::Refused, /must be a year/)
       expect { snapshot.years("2026-2025") }.to raise_error(described_class::Refused, /no years in it/)
-    end
-  end
-
-  describe "#parliament" do
-    it "is the latest Parliament in settings.yml to begin on or before the date" do
-      expect(snapshot.parliament(Date.new(2025, 3, 27))).to eq(47)
-      expect(snapshot.parliament(Date.new(2025, 7, 22))).to eq(48)
-    end
-
-    it "refuses a range that starts before the first Parliament listed" do
-      folder.join("settings.yml").write(settings.sub("47: 2022-07-26\n", ""))
-
-      expect { snapshot }.to raise_error(described_class::Refused, /starts on 2025-01-01, before the first Parliament/)
     end
   end
 
@@ -81,11 +57,11 @@ describe DivisionSummaryPipeline::RouteSnapshot do
     before do
       hansard.join("representatives-2026-08-19.xml").write(parlparse_xml)
       create(:division, house: "representatives", date: Date.new(2026, 8, 19), number: 1)
-      # After the range ends, so not in the 2026 file.
-      create(:division, house: "representatives", date: Date.new(2026, 11, 2), number: 1)
+      # In another year, so not in the 2026 file.
+      create(:division, house: "representatives", date: Date.new(2025, 11, 2), number: 1)
     end
 
-    it "writes an entry for each division in the year's part of the range, named by house, date and number" do
+    it "writes an entry for each division in the year, named by house, date and number" do
       expect(snapshot.write(2026)).to eq(divisions: 1, errors: 0, changed_hansard: [])
 
       written = YAML.safe_load(snapshot.path(2026).read)
@@ -93,12 +69,11 @@ describe DivisionSummaryPipeline::RouteSnapshot do
       expect(written["divisions"]["representatives_2026-08-19_1"]["route"]["template"]).to eq(22)
     end
 
-    it "records the Parliament, the version of the day's Hansard and the days Stage 1 read" do
+    it "records whether the day's Hansard is final and the days Stage 1 read" do
       snapshot.write(2026)
 
-      block = YAML.safe_load(snapshot.path(2026).read)["divisions"]["representatives_2026-08-19_1"]
-      expect(block).to include("parliament" => 48, "hansard" => "unknown",
-                               "hansard_read" => ["representatives/2026-08-19"])
+      entry = YAML.safe_load(snapshot.path(2026).read)["divisions"]["representatives_2026-08-19_1"]
+      expect(entry).to include("hansard" => "unknown", "hansard_read" => ["representatives/2026-08-19"])
     end
 
     it "lists every Hansard day read at the top, with its version and fingerprint" do

@@ -6,8 +6,8 @@
 # app/services/division_summary_pipeline/snapshot/route_snapshot.rb, and how to use it is in
 # spec/route_snapshots/README.md.
 namespace :ai do
-  desc "Write what Stages 1 and 2 decide for every division in the routing snapshot's range, one YAML " \
-       "file per year in spec/route_snapshots. YEARS=2026 or YEARS=2025-2026 writes only those years."
+  desc "Write what Stages 1 and 2 decide for every division, one YAML file per year in spec/route_snapshots. " \
+       "Rewrites every year that already has a file; YEARS=2026 or YEARS=2025-2026 writes those years instead."
   task route_snapshot: :environment do
     snapshot = DivisionSummaryPipeline::RouteSnapshot.new
     years = snapshot.years(ENV.fetch("YEARS", nil))
@@ -30,7 +30,7 @@ namespace :ai do
            "code change\"):"
       result[:changed_hansard].each { |day| puts "    #{day}" }
     end
-  # A planned stop, such as a year outside the range, missing divisions or a failed download: print the
+  # A planned stop, such as a YEARS= it can't use, missing divisions or a failed download: print the
   # message, which says what to do, without Ruby's error details.
   rescue DivisionSummaryPipeline::RouteSnapshot::Refused, DivisionSummaryPipeline::HansardStore::DownloadFailed => e
     abort e.message
