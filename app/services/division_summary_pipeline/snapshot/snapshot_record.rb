@@ -8,8 +8,8 @@ module DivisionSummaryPipeline
   # sources RouteSnapshot adds (the Parliament, the version of the day's Hansard and the days
   # Stage 1 read). Two runs of the same code on the same Hansard give the same block, and any
   # change shows as a changed line in a diff: keys in a fixed order, no database ids, and long text
-  # cut to its two ends with a hash of the whole (Ian's review of #1849, item 1). How to read a
-  # block: spec/fixtures/route_snapshots/README.md.
+  # cut to its two ends with a hash of the whole. How to read a block:
+  # spec/fixtures/route_snapshots/README.md.
   #
   # The facts are only those Hansard itself records (counts, result, bills). Figures the database
   # derives later, such as rebellions, are left out, so a change to them never shows up as a change

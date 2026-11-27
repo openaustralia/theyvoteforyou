@@ -7,8 +7,7 @@ module DivisionSummaryPipeline
   # date range, one SnapshotRecord block per division, written as one YAML file per year in
   # spec/fixtures/route_snapshots. The files are committed, so `git diff` shows what a change to
   # Stage 1 or Stage 2 did across real divisions, and the committed version is the expected
-  # result. Asked for in Ian's review of #1849; the routine for using it is in that folder's
-  # README.md.
+  # result. The routine for using it is in that folder's README.md.
   #
   # The range and the Parliaments live in the folder's settings.yml, saved with the code, so every
   # run of one commit covers the same divisions. Changing it is a change of its own.

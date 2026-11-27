@@ -7,8 +7,7 @@ module DivisionSummaryPipeline
   # An optional tally of what changed in one year's routing snapshot file
   # (rake ai:route_snapshot_changes): the version on disk against the version saved in git. `git diff`
   # shows every change itself; this counts them, by field and by routing decision, with the divisions
-  # under each, for explaining a change group by group in its pull request (Ian's review of #1849,
-  # item 3: "Every changed result should be explained in the PR").
+  # under each, for explaining each group of changes in the pull request that made them.
   class SnapshotChanges
     # The file on disk, and its version in git at `against` (a save, branch or tag).
     def self.for(path, against: "HEAD", root: Rails.root)

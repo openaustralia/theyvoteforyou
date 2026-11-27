@@ -2,9 +2,9 @@
 
 What Stages 1 and 2 of the AI division summary pipeline decide for every division from January 2025
 to October 2026, one YAML file per year, written by `rake ai:route_snapshot`
-(`DivisionSummaryPipeline::RouteSnapshot`). Asked for in Ian's review of #1849: the specs show each
-routing rule works on the example it was written for; this shows what the rules do across real
-divisions, and what else moves when someone changes one.
+(`DivisionSummaryPipeline::RouteSnapshot`). The specs show each routing rule works on the example it
+was written for; this shows what the rules do across real divisions, and what else moves when
+someone changes one.
 
 The committed files are the expected result. A change to what Stage 1 reads or Stage 2 decides is
 committed together with the files it changes, and the pull request explains every changed division.

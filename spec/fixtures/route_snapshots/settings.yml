@@ -2,8 +2,8 @@
 # same divisions. Changing this file is a change of its own: see README.md.
 
 range:
-  # Ian's review of #1849 asked for January 2025 to October 2026. The start moves back only to
-  # cover older years; the end moves forward on purpose, to take in new divisions.
+  # The range starts at January 2025. The start moves back only to cover older years; the end
+  # moves forward on purpose, to take in new divisions.
   from: 2025-01-01
   to: 2026-10-31
 
