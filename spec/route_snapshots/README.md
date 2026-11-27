@@ -33,7 +33,7 @@ What a run does:
    years asked for, in both houses, and checks the database holds every division that day's Hansard
    records. If any are missing, it stops, lists the days and prints the command that loads them, for
    example `bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`. The first check of a year
-   asks about every day it hasn't seen yet: a few hundred requests that take a minute or two.
+   asks the data site about every day it hasn't seen yet, so it is slower than later runs.
 2. **Writes each year's file.** It reads each division from the database and its Hansard from
    `tmp/hansard_xml/`, and runs Stages 1 and 2 on it.
 3. **Warns about changed Hansard.** It lists any day whose Hansard has changed since that year's file
@@ -122,7 +122,7 @@ number, so the names are the same in every copy of the database.
 | `followup` | For a closure, the division that then put the question |
 | `speeches` | How many speeches Stage 1 collected: just before the division, and from earlier in the debate |
 | `earlier_debate` | The earlier sitting days those came from |
-| `limitation` | The chair saying a time limit on debate had run out, when that is why the question was put |
+| `limitation` | The chair putting the question without further debate because of an earlier decision, and saying so. `kind` is `order` (Senate: the time an order allowed for the debate has run out) or `resolution` (House: under a resolution agreed earlier) |
 | `warnings` | Why the speeches just before the division may not be the debate about it |
 | `error` | Instead of all the above, when Stages 1 or 2 failed on the division |
 

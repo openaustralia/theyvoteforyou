@@ -24,21 +24,21 @@ module DivisionSummaryPipeline
     # What YEARS= may be: one year ("2026") or a range of years ("2025-2026").
     YEARS = /\A(\d{4})(?:\s*-\s*(\d{4}))?\z/
 
-    # Raised when the task can't run as asked: a YEARS= value it can't use, no year files to rewrite,
-    # a database missing divisions, or Hansard that couldn't be downloaded. The task stops and prints
-    # the message, which says what to fix.
+    # The error that stops the task when it can't run as asked: a YEARS= value it can't use, no year
+    # files to rewrite, a database missing divisions, or Hansard that couldn't be downloaded. Its
+    # message says what to fix.
     class Refused < StandardError; end
 
-    # The tests pass in their own folder and their own local copy of Hansard (the store, from
-    # hansard_store.rb).
+    # Normally this uses the real folder and the real local copy of Hansard (hansard_store.rb). The
+    # tests hand it a practice folder and practice Hansard instead, so they never touch the real files.
     def initialize(folder: FOLDER, store: HansardStore.new)
       @folder = Pathname(folder)
       @store = store
     end
 
-    # Which years to write. With no YEARS=, every year that already has a file in the folder, so a run
-    # rewrites the whole logbook. With YEARS=, just those years, which is also how a new year's file is
-    # started. A year that hasn't begun yet is refused.
+    # Which years to write. With no YEARS=, every year that already has a file in the folder. With
+    # YEARS=, just those years, which is also how a new year's file is started. A year that hasn't
+    # begun yet is refused.
     def years(wanted = nil)
       return saved_years if wanted.blank?
 
@@ -53,8 +53,8 @@ module DivisionSummaryPipeline
     end
 
     # The division count check (division_count_check.rb): stops if the database is missing any
-    # division Hansard records in these years. The task checks every year before writing any, so if it
-    # stops, all the files are left as they were.
+    # division that Hansard records in these years. The task checks every year before writing any,
+    # so if it stops, all the files are left as they were.
     def check(years)
       years.each { |year| DivisionCountCheck.new(store).call(dates(year).to_a) }
     end
@@ -129,11 +129,13 @@ module DivisionSummaryPipeline
     end
 
     # The fields an entry gets from outside Stages 1 and 2: whether the day's Hansard is final, a proof
-    # or unmarked, and the sitting days read.
+    # or unknown, and the sitting days read.
     def sources(division, days)
       { "hansard" => store.describe(division.house, division.date)&.fetch("version"), "hansard_read" => days }
     end
 
+    # Stops before the year's file is written if any day's Hansard failed to download, and lists
+    # those days.
     def refuse_after_failed_downloads(year)
       return if store.failures.empty?
 

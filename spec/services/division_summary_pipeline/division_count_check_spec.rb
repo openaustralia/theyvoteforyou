@@ -23,7 +23,7 @@ describe DivisionSummaryPipeline::DivisionCountCheck do
 
   after { FileUtils.rm_rf(hansard) }
 
-  it "passes when the database holds every division Hansard records" do
+  it "passes when the database holds every division that Hansard records" do
     hansard.join("senate-2026-08-19.xml").write(hansard_with(1))
 
     expect { check.call([day]) }.not_to raise_error

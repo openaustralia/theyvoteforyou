@@ -14,7 +14,7 @@ namespace :ai do
 
     # Every year is checked before any is written, so if the check stops the task, all the files are
     # left as they were.
-    puts "Checking the database holds every division Hansard records in #{years.to_sentence}..."
+    puts "Checking the database holds every division that Hansard records in #{years.to_sentence}..."
     snapshot.check(years)
 
     years.each do |year|

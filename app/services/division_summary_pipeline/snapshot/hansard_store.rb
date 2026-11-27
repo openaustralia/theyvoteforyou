@@ -4,12 +4,13 @@ require "digest"
 require "nokogiri"
 
 module DivisionSummaryPipeline
-  # The routing snapshot's local copy of Hansard (used by route_snapshot.rb). Each sitting day's
-  # Hansard, one file per house per day, is downloaded once from the same place the nightly loader
-  # gets it (OAF's data site, through app/lib/data_loader/debates.rb), and kept in tmp/hansard_xml/
-  # exactly as published. Every run then reads the same Hansard, so two runs with no code change
-  # agree. It also saves time: Stage 1 can look back through up to 70 days of earlier debate for each
-  # division, and those days are read from here instead of being downloaded again.
+  # The routing snapshot's local copy of Hansard, used by route_snapshot.rb and
+  # division_count_check.rb. Each sitting day's Hansard, one file per house per day, is downloaded
+  # once from the same place the nightly loader gets it (OAF's data site, through
+  # app/lib/data_loader/debates.rb), and kept in tmp/hansard_xml/ exactly as published. Every run then
+  # reads the same Hansard, so two runs with no code change agree. It also saves time: Stage 1 can
+  # look back through up to 70 days of earlier debate for each division, and those days are read from
+  # here instead of being downloaded again.
   #
   # A day with no Hansard (the site says the file doesn't exist, because parliament didn't sit) is
   # remembered with an empty file ending in ".missing", so it isn't asked about again. Delete the
@@ -17,17 +18,18 @@ module DivisionSummaryPipeline
   # kept here as a proof.
   #
   # Any other download problem, such as a dropped internet connection, is noted in failures, so the
-  # snapshot can refuse to write a file that might be missing that day.
+  # snapshot can refuse to write a year's file that might be wrong without that day.
   class HansardStore
-    # Raised when a day's Hansard can't be downloaded for any reason other than there being none.
+    # The error given when a day's Hansard can't be downloaded for any reason other than there being none.
     class DownloadFailed < StandardError; end
 
     # How many days of Hansard to keep ready in memory, already read into a form Stage 1 can search.
     # These are the days used most recently (days with no Hansard count too). A day that has dropped
     # out is simply read from tmp/hansard_xml/ again, so this only affects speed, and it keeps memory
-    # use low: holding a whole year this way would take gigabytes.
+    # use low: holding a whole year this way would take far more memory.
     PARSED_DAYS = 40
-    # How many characters of each day's fingerprint to keep.
+    # How many of each fingerprint's 64 characters go in the year files (describe, below, explains
+    # fingerprints).
     FINGERPRINT_LENGTH = 16
     # A day less than this many days old is never remembered as having no Hansard, because its
     # Hansard may just not be published yet. It is asked about again on the next run.
@@ -37,10 +39,11 @@ module DivisionSummaryPipeline
     # mark at all, which the snapshot calls "unknown".
     VERSIONS = { "1" => "proof", "0" => "final" }.freeze
 
-    # dir is where the files are kept and agent is what downloads them. The tests pass in their own.
-    def initialize(dir: Rails.root.join("tmp/hansard_xml"), agent: Mechanize.new)
+    # Normally the files are kept in tmp/hansard_xml/. The tests hand it a practice folder instead, so
+    # they never touch the real files.
+    def initialize(dir: Rails.root.join("tmp/hansard_xml"))
       @dir = Pathname(dir)
-      @agent = agent
+      @agent = Mechanize.new
       @parsed = {}
       @described = {}
       @failures = []
@@ -92,7 +95,7 @@ module DivisionSummaryPipeline
     # Downloads a day's Hansard and keeps it. It is saved under a temporary name first and renamed
     # once complete, so a run stopped halfway can't leave half a day behind. If the site says there's
     # no file for that day, that is remembered instead (unless the day is recent). Any other problem
-    # is noted in failures and raised, rather than being mistaken for a day without Hansard.
+    # is noted in failures and given as an error, rather than being mistaken for a day without Hansard.
     def download(house, date)
       FileUtils.mkdir_p(dir)
       body = agent.get(DataLoader::Debates.xml_url(house, date.to_s)).body
@@ -109,6 +112,7 @@ module DivisionSummaryPipeline
       failed(house, date, e)
     end
 
+    # Notes the day in failures, then gives the error.
     def failed(house, date, error)
       failures << "#{house}/#{date} (#{error.class}: #{error.message})"
       raise DownloadFailed, "Couldn't download Hansard for #{house} #{date} (#{error.class}: #{error.message})."
