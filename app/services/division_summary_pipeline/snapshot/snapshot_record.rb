@@ -101,16 +101,14 @@ module DivisionSummaryPipeline
     end
 
     # The question the division decided: the sentence Stage 2 based its decision on, the chair's full
-    # statement putting the question, who put it and when, the parts left out of this vote when a
-    # complicated question was split up (divided), and two yes or no flags: whether the question only
-    # points to a motion moved earlier (by_reference), and whether it spells out the whole motion
-    # itself (states_motion).
+    # statement putting the question, who put it and when, and two yes or no flags: whether the
+    # question only points to a motion moved earlier (by_reference), and whether it spells out the
+    # whole motion itself (states_motion).
     def question
       speech = transcript.question_speech
       {
         "routed_on" => packet.speaker_question, "chair_statement" => text_of(transcript.question_units),
         "put_by" => speech&.speaker, "time" => ClockTime.normalise(speech&.time).presence,
-        "divided" => ChairStatement.divided_parts(packet.speaker_question),
         "by_reference" => packet.question_by_reference?, "states_motion" => packet.question_states_motion?
       }
     end
@@ -140,7 +138,9 @@ module DivisionSummaryPipeline
     # Who moved the motion and their party (from the database's member records when Stage 1 matched a
     # member, otherwise the name as Hansard gives it), how Stage 1 worked out who it was (found_by),
     # and the speech it was moved in: its Hansard id, date and time, and whether it sat under a
-    # different Hansard heading from the vote.
+    # different Hansard heading from the vote. Stage 1 records the date, and checks the heading, only
+    # when it found the speech earlier in the debate, which may be on an earlier day. For a speech just
+    # before the division, the date is blank and other_heading is false.
     def mover
       found = packet.mover
       return nil unless found
@@ -155,7 +155,8 @@ module DivisionSummaryPipeline
     end
 
     # Amendments handed out in writing (circulated) and put to the vote without being moved in the
-    # chamber, and who circulated them.
+    # chamber: who circulated them, in Hansard's words (by), the member's name from the database when
+    # that names a member (member), and whether more than one amendment was put (plural).
     def circulation
       circulation = packet.circulation
       circulation && { "by" => circulation.by, "member" => circulation.member&.name, "plural" => circulation.plural }
@@ -168,8 +169,13 @@ module DivisionSummaryPipeline
       { "beside" => beside.size, "earlier" => earlier.size }
     end
 
-    # When debate was cut off by a time limit (a "guillotine"): the chair's statement that the time had
-    # run out, and when and by whom it was made.
+    # When the chair put the question without further debate because of a decision made earlier, and
+    # said so. kind says which of two cases it is:
+    # - "order": in the Senate, the time an earlier order allotted for the debate had run out (a
+    #   limitation of debate, or "guillotine").
+    # - "resolution": in the House, the chair put the question immediately under a resolution the
+    #   House agreed to earlier. That isn't a guillotine.
+    # Then the chair's words, when they were said, the speech's Hansard id, and who said them.
     def limitation
       statement = packet.limitation_statement
       return nil unless statement

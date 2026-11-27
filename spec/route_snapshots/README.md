@@ -113,7 +113,7 @@ number, so the names are the same in every copy of the database.
 | `heading` | The Hansard heading over the division |
 | `context_level` | How much of the debate Stage 1 gathered (`subdebate` unless widened) |
 | `route` | Stage 2's decision: `mode` (`deterministic`: a rule settled the template; `constrained`: a shortlist the AI picks from; `advisory`: only a default the AI may change), `template`, `allowed`, `forbidden`, the `rule` that matched and its `reason` |
-| `question` | The question the division decided: `routed_on` (the sentence Stage 2 based its decision on), the chair's statement putting it, who put it and when, the parts left out when a complicated question was split up (`divided`), and whether the question only points at a motion moved earlier (`by_reference`) or spells out the whole motion itself (`states_motion`) |
+| `question` | The question the division decided: `routed_on` (the sentence Stage 2 based its decision on), the chair's statement putting it, who put it and when, and whether the question only points at a motion moved earlier (`by_reference`) or spells out the whole motion itself (`states_motion`) |
 | `motion` | The words of the motion the division decided: whether Stage 1 found them, where (`mover_speech` or `chair_statement`), the "I move" words, and the motion itself |
 | `mover` | Who moved it (name and party from the database's member records when Stage 1 matched a member, otherwise the name as Hansard gives it), how Stage 1 worked out who it was (`found_by`), and their speech |
 | `circulation` | Amendments handed out in writing and put to the vote without being moved in the chamber, and who circulated them |
