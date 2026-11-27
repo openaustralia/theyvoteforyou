@@ -6,3 +6,12 @@ range:
   # cover older years; the end moves forward on purpose, to take in new divisions.
   from: 2025-01-01
   to: 2026-10-31
+
+parliaments:
+  # The first sitting day of each Parliament. A division belongs to the latest one that began on or
+  # before its date. Both dates were checked against that day's Hansard: the Senate on 26 July 2022
+  # (the Governor-General's opening speech, "the 47th Parliament") and both houses on 22 July 2025
+  # (electing the President and the Speaker, "the 48th Parliament"). Add older Parliaments when the
+  # range moves back to cover them.
+  47: 2022-07-26
+  48: 2025-07-22

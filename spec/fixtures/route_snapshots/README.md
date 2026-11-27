@@ -18,12 +18,20 @@ bin/rake ai:route_snapshot YEARS=2025-2026
 ```
 
 It reads divisions from your database and Hansard from `tmp/hansard_xml/`, downloading any day it
-doesn't have yet from the same place the nightly loader reads. It uses no model and writes nothing to
+doesn't have yet from the same place the nightly loader reads, and remembering days with none
+(an empty `.missing` file) so it asks about each only once, unless the database has divisions on
+that day, which means its Hansard was published after the day was first asked about. It uses no model and writes nothing to
 the database. A year outside the range in `settings.yml` is refused: change the range there first,
 as a change of its own.
 
-Your database needs every division in the range. Load any missing ones with the usual loader, for
-example `bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`.
+Before writing anything it checks that your database holds every division Hansard records in the
+years asked for, walking every day in both houses as the loader does. If any are missing, it stops,
+lists the days and prints the loader command that fills them, for example
+`bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`. The first check of a year asks about
+every day not yet in `tmp/hansard_xml/`, a few hundred requests that take a minute or two.
+
+After writing a year, it lists any day whose Hansard has changed since that year's file was last
+written (see "When the files change with no code change").
 
 ## The routine for a change to Stage 1 or Stage 2
 
@@ -39,8 +47,21 @@ example `bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`.
 
 Two runs of the same code on the same Hansard and database give identical files. A difference with
 no code change means one of those changed: Parliament replaced a proof Hansard with the final one,
-the parser was updated, or divisions were loaded or reloaded. Commit that rerun on its own, saying
-why, before any code change, so every change to these files has one cause.
+the parser was updated, or divisions were loaded or reloaded. The task names the Hansard days that
+changed, for example `senate/2026-09-17 (proof, now final)`, from the fingerprints at the top of the
+file. Commit that rerun on its own, saying why, before any code change, so every change to these
+files has one cause.
+
+## The top of each file
+
+`settings.yml`'s `parliaments` lists the first sitting day of each Parliament, which is how each
+block gets its Parliament number. `hansard_days`, at the top of each year's file, lists every
+sitting day of Hansard that year's divisions read, including earlier days the look-back opened:
+
+| Field | What it is |
+|---|---|
+| `version` | `final`, `proof` or `unknown`: how the parser marked the day (`proof="0"`, `proof="1"`, or not at all) |
+| `fingerprint` | The first 16 characters of the SHA-256 of the day's file as published. Any change to the file changes it |
 
 ## Reading a block
 
@@ -50,6 +71,9 @@ the keys are the same in every copy of the database.
 | Field | What it is |
 |---|---|
 | `facts` | What Hansard records about the vote: time, result, counts (tellers included), bills |
+| `parliament` | The Parliament the division was in, from `settings.yml` |
+| `hansard` | The version of the day's Hansard: `final`, `proof` or `unknown` (empty when there is none) |
+| `hansard_read` | The sitting days whose Hansard Stage 1 read for this division: its own, and each earlier day the look-back opened. A change to any of them in `hansard_days` can change this block |
 | `hansard_division` | The `<division>` element in the ParlParse XML that Stage 1 matched |
 | `source` | `hansard_xml`, or `division_record` when no XML matched and the stored motion was used |
 | `heading` | The Hansard heading over the division |

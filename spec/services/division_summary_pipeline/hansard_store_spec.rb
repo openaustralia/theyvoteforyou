@@ -32,6 +32,30 @@ describe DivisionSummaryPipeline::HansardStore do
     expect(missing).to have_been_requested.once
   end
 
+  it "asks again about a day remembered as having no Hansard, when told to" do
+    FileUtils.touch(dir.join("senate-2026-09-17.missing"))
+    stub_request(:get, url).to_return(body: published, headers: { "Content-Type" => "text/xml" })
+
+    expect(store.raw("senate", Date.new(2026, 9, 17))).to be_nil
+    expect(store.raw("senate", Date.new(2026, 9, 17), recheck_missing: true)).to eq(published)
+    expect(dir.join("senate-2026-09-17.missing")).not_to exist
+  end
+
+  it "describes a day by its version and a fingerprint of the whole file" do
+    dir.join("senate-2026-09-17.xml").write(published)
+
+    expect(store.describe("senate", Date.new(2026, 9, 17)))
+      .to eq("version" => "proof", "fingerprint" => Digest::SHA256.hexdigest(published)[0, 16])
+  end
+
+  it "calls a day final when the parser marks it so, and unknown when it isn't marked" do
+    dir.join("senate-2026-09-17.xml").write(published.sub('proof="1"', 'proof="0"'))
+    dir.join("senate-2026-09-18.xml").write(published.sub(' proof="1"', ""))
+
+    expect(store.describe("senate", Date.new(2026, 9, 17))["version"]).to eq("final")
+    expect(store.describe("senate", Date.new(2026, 9, 18))["version"]).to eq("unknown")
+  end
+
   it "hands ContextBuilder a parsed document for an earlier day" do
     dir.join("senate-2026-09-17.xml").write(published)
 

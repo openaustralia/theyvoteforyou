@@ -4,11 +4,12 @@ require "digest"
 
 module DivisionSummaryPipeline
   # One division's block in the routing snapshot (rake ai:route_snapshot, RouteSnapshot): what
-  # Stage 2 decided and everything Stage 1 found by rule, read from the ContextPacket. Two runs of
-  # the same code on the same Hansard give the same block, and any change shows as a changed line in
-  # a diff: keys in a fixed order, no database ids, and long text cut to its two ends with a hash
-  # of the whole (Ian's review of #1849, item 1). How to read a block:
-  # spec/fixtures/route_snapshots/README.md.
+  # Stage 2 decided and everything Stage 1 found by rule, read from the ContextPacket, after the
+  # sources RouteSnapshot adds (the Parliament, the version of the day's Hansard and the days
+  # Stage 1 read). Two runs of the same code on the same Hansard give the same block, and any
+  # change shows as a changed line in a diff: keys in a fixed order, no database ids, and long text
+  # cut to its two ends with a hash of the whole (Ian's review of #1849, item 1). How to read a
+  # block: spec/fixtures/route_snapshots/README.md.
   #
   # The facts are only those Hansard itself records (counts, result, bills). Figures the database
   # derives later, such as rebellions, are left out, so a change to them never shows up as a change
@@ -19,8 +20,8 @@ module DivisionSummaryPipeline
     LONG_TEXT_ENDS = 20
     HASH_LENGTH = 12
 
-    def self.build(packet)
-      new(packet).to_h
+    def self.build(packet, sources = {})
+      new(packet, sources).to_h
     end
 
     # The block's name: house, date and number, which are the same in every copy of the database,
@@ -37,25 +38,27 @@ module DivisionSummaryPipeline
         "#{words.last(LONG_TEXT_ENDS).join(' ')} [hash: #{Digest::SHA256.hexdigest(text)[0, HASH_LENGTH]}]"
     end
 
-    def initialize(packet)
+    def initialize(packet, sources = {})
       @packet = packet
+      @sources = sources
     end
 
     def to_h
-      shorten(
-        "facts" => facts, "hansard_division" => packet.division_xml_id, "source" => packet.source.to_s,
+      block = {
+        "facts" => facts, **sources, "hansard_division" => packet.division_xml_id, "source" => packet.source.to_s,
         "heading" => packet.heading, "context_level" => packet.context_level.to_s, "route" => route,
         "question" => question, "motion" => motion, "mover" => mover, "circulation" => circulation,
         "proposer" => packet.proposer && { "name" => packet.proposer.name, "party" => packet.proposer.party },
         "closed_template" => packet.closed_template_id, "followup" => packet.facts.supplied[:followup_link],
         "speeches" => speeches, "earlier_debate" => packet.earlier_debate_dates.map(&:to_s),
         "limitation" => limitation, "warnings" => packet.context_warnings
-      )
+      }
+      shorten(block)
     end
 
     private
 
-    attr_reader :packet
+    attr_reader :packet, :sources
 
     delegate :transcript, to: :packet
 

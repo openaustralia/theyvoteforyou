@@ -10,13 +10,13 @@ module DivisionSummaryPipeline
   # result. Asked for in Ian's review of #1849; the routine for using it is in that folder's
   # README.md.
   #
-  # The range lives in the folder's settings.yml, saved with the code, so every run of one commit
-  # covers the same divisions. Moving it is a change of its own.
+  # The range and the Parliaments live in the folder's settings.yml, saved with the code, so every
+  # run of one commit covers the same divisions. Changing it is a change of its own.
   class RouteSnapshot
     FOLDER = Rails.root.join("spec/fixtures/route_snapshots")
     YEARS = /\A(\d{4})(?:\s*-\s*(\d{4}))?\z/
 
-    # A YEARS value the task can't use, or a year outside the range. The task stops with the message.
+    # Settings, a YEARS value or a database the task can't use. The task stops with the message.
     class Refused < StandardError; end
 
     attr_reader :range
@@ -26,6 +26,12 @@ module DivisionSummaryPipeline
       @store = store
       settings = YAML.safe_load_file(@folder.join("settings.yml"), permitted_classes: [Date])
       @range = Date.parse(settings.dig("range", "from").to_s)..Date.parse(settings.dig("range", "to").to_s)
+      @parliaments = settings.fetch("parliaments", {}).to_h { |number, from| [Integer(number), Date.parse(from.to_s)] }
+      first = @parliaments.values.min
+      return if first && first <= range.first
+
+      raise Refused, "The range in settings.yml starts on #{range.first}, before the first Parliament listed " \
+                     "there. Add the Parliament that date falls in, then run again."
     end
 
     # The years to write: every year the range touches, or those YEARS names ("2026", "2025-2026").
@@ -48,34 +54,87 @@ module DivisionSummaryPipeline
                      "#{range.last}). To include it, change the range there first, then run again."
     end
 
-    # Writes the year's file and returns the number of divisions in it and how many failed.
+    # Refuses when the database is missing divisions Hansard records in these years
+    # (DivisionCountCheck). The task checks every year before writing any, so a refusal leaves all
+    # the files as they were.
+    def check(years)
+      years.each { |year| DivisionCountCheck.new(store).call(dates(year).to_a) }
+    end
+
+    # Writes the year's file. Returns how many divisions are in it, how many failed, and the days
+    # whose Hansard has changed since the file was last written ("senate/2026-09-17 (proof, now final)").
     def write(year)
-      divisions = Division.where(date: dates(year)).sort_by { |division| [division.date, division.house, division.number] }
-      blocks = divisions.to_h { |division| [SnapshotRecord.key(division), block(division)] }
-      path(year).write(header(year) + YAML.dump({ "divisions" => blocks }, line_width: -1))
-      { divisions: blocks.size, errors: blocks.count { |_key, entry| entry.key?("error") } }
+      before = saved_hansard_days(year)
+      read = Set.new
+      blocks = divisions(year).to_h do |division|
+        entry, days = block(division)
+        read.merge(days)
+        [SnapshotRecord.key(division), entry]
+      end
+      days = read.sort.index_with { |day| store.describe(*day.split("/")) }
+      path(year).write(header(year) + YAML.dump({ "hansard_days" => days, "divisions" => blocks }, line_width: -1))
+      { divisions: blocks.size, errors: blocks.count { |_key, entry| entry.key?("error") },
+        changed_hansard: changed(before, days) }
     end
 
     def path(year)
       folder.join("#{year}.yml")
     end
 
+    # The Parliament a date falls in: the latest in settings.yml to begin on or before it.
+    def parliament(date)
+      parliaments.select { |_number, from| from <= date }.max_by { |_number, from| from }.first
+    end
+
     private
 
-    attr_reader :folder, :store
+    attr_reader :folder, :store, :parliaments
 
     def dates(year)
       [range.first, Date.new(year, 1, 1)].max..[range.last, Date.new(year, 12, 31)].min
     end
 
+    def divisions(year)
+      Division.where(date: dates(year)).sort_by { |division| [division.date, division.house, division.number] }
+    end
+
+    # The division's block, and the sitting days Stage 1 read for it as "house/date": its own and
+    # every earlier day EarlierDebate opened, the days whose Hansard could change the block.
     # A division Stage 1 or 2 fails on is recorded with the error rather than stopping the run,
     # since the failure is itself a result. Memory addresses are masked so the line is the same
     # from run to run.
     def block(division)
-      SnapshotRecord.build(ContextBuilder.build(division, xml_content: store.raw(division.house, division.date),
-                                                          xml_fetcher: store.fetcher))
+      read = []
+      own = store.raw(division.house, division.date)
+      read << division.date.to_s if own
+      fetcher = ->(house, date) { store.fetcher.call(house, date).tap { |document| read << date.to_s if document } }
+      packet = ContextBuilder.build(division, xml_content: own, xml_fetcher: fetcher)
+      days = read.uniq.sort.map { |date| "#{division.house}/#{date}" }
+      [SnapshotRecord.build(packet, sources(division, days)), days]
     rescue StandardError => e
-      { "error" => "#{e.class}: #{e.message.gsub(/0x\h+/, '0x...')}" }
+      [{ "error" => "#{e.class}: #{e.message.gsub(/0x\h+/, '0x...')}" }, []]
+    end
+
+    # What the block records from outside Stages 1 and 2.
+    def sources(division, days)
+      { "parliament" => parliament(division.date),
+        "hansard" => store.describe(division.house, division.date)&.fetch("version"), "hansard_read" => days }
+    end
+
+    def saved_hansard_days(year)
+      return {} unless path(year).exist?
+
+      YAML.safe_load_file(path(year), permitted_classes: [Date]).fetch("hansard_days", nil) || {}
+    end
+
+    def changed(before, now)
+      now.filter_map do |day, about|
+        was = before[day]
+        next if was.nil? || was["fingerprint"] == about["fingerprint"]
+
+        version = was["version"] == about["version"] ? about["version"] : "#{was['version']}, now #{about['version']}"
+        "#{day} (#{version})"
+      end
     end
 
     def header(year)

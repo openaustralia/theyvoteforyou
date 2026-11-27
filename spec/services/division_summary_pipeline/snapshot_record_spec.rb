@@ -61,6 +61,11 @@ describe DivisionSummaryPipeline::SnapshotRecord do
                                   warnings])
     end
 
+    it "puts what RouteSnapshot adds from outside Stages 1 and 2 straight after the facts" do
+      sources = { "parliament" => 48, "hansard" => "proof", "hansard_read" => ["representatives/2026-08-19"] }
+      expect(described_class.build(packet, sources).keys.first(4)).to eq(%w[facts parliament hansard hansard_read])
+    end
+
     it "gives the same block every time it is built" do
       again = described_class.build(DivisionSummaryPipeline::ContextBuilder.build(division_data,
                                                                                   xml_content: parlparse_xml))
