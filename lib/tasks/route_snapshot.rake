@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-# The routing snapshot: see DivisionSummaryPipeline::RouteSnapshot and
+# The routing snapshot: a record of what the AI summary pipeline's rule-based steps (Stages 1 and 2)
+# find and decide for every division, one file per year, saved with the code so `git diff` shows what a
+# rule change moved. This file only reads what was typed and prints the results. The work is done in
+# app/services/division_summary_pipeline/snapshot/route_snapshot.rb, and how to use it is in
 # spec/route_snapshots/README.md.
 namespace :ai do
   desc "Write what Stages 1 and 2 decide for every division in the routing snapshot's range, one YAML " \
@@ -9,6 +12,8 @@ namespace :ai do
     snapshot = DivisionSummaryPipeline::RouteSnapshot.new
     years = snapshot.years(ENV.fetch("YEARS", nil))
 
+    # Every year is checked before any is written, so if the check stops the task, all the files are
+    # left as they were.
     puts "Checking the database holds every division Hansard records in #{years.to_sentence}..."
     snapshot.check(years)
 
@@ -19,25 +24,15 @@ namespace :ai do
            "#{snapshot.path(year).relative_path_from(Rails.root)}"
       next if result[:changed_hansard].empty?
 
-      puts "  Hansard has changed for #{result[:changed_hansard].size} days since this file was last written, so " \
-           "changed blocks may come from Hansard rather than code (README.md, \"When the files change with no " \
+      changed = result[:changed_hansard].size
+      puts "  Hansard has changed for #{changed} #{'day'.pluralize(changed)} since this file was last written, so " \
+           "changed entries may come from Hansard rather than code (README.md, \"When the files change with no " \
            "code change\"):"
       result[:changed_hansard].each { |day| puts "    #{day}" }
     end
-  rescue DivisionSummaryPipeline::RouteSnapshot::Refused => e
-    abort e.message
-  end
-
-  desc "Optional: count what changed in the routing snapshot's files since the last save, by field and by " \
-       "routing decision. git diff shows the changes themselves. AGAINST=main compares with another branch or save."
-  task route_snapshot_changes: :environment do
-    snapshot = DivisionSummaryPipeline::RouteSnapshot.new
-    against = ENV.fetch("AGAINST", "HEAD")
-    snapshot.years(ENV.fetch("YEARS", nil)).each do |year|
-      puts DivisionSummaryPipeline::SnapshotChanges.for(snapshot.path(year), against: against)
-                                                   .summary(year, against: against)
-    end
-  rescue DivisionSummaryPipeline::RouteSnapshot::Refused => e
+  # A planned stop, such as a year outside the range, missing divisions or a failed download: print the
+  # message, which says what to do, without Ruby's error details.
+  rescue DivisionSummaryPipeline::RouteSnapshot::Refused, DivisionSummaryPipeline::HansardStore::DownloadFailed => e
     abort e.message
   end
 end

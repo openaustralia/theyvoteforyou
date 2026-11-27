@@ -61,7 +61,8 @@ describe DivisionSummaryPipeline::RouteSnapshot do
   end
 
   describe "#write" do
-    # A closure the House divided on, as in context_builder_spec.rb.
+    # A closure (a vote to end the debate and vote now) that the House divided on, the same example as
+    # in context_builder_spec.rb.
     let(:parlparse_xml) do
       <<~XML
         <debates>
@@ -84,7 +85,7 @@ describe DivisionSummaryPipeline::RouteSnapshot do
       create(:division, house: "representatives", date: Date.new(2026, 11, 2), number: 1)
     end
 
-    it "writes a block for each division in the year's part of the range, keyed by house, date and number" do
+    it "writes an entry for each division in the year's part of the range, named by house, date and number" do
       expect(snapshot.write(2026)).to eq(divisions: 1, errors: 0, changed_hansard: [])
 
       written = YAML.safe_load(snapshot.path(2026).read)
@@ -123,12 +124,79 @@ describe DivisionSummaryPipeline::RouteSnapshot do
       expect(snapshot.path(2026).read).to start_with("# Routing snapshot for 2026:")
     end
 
-    it "writes the same file when run again with nothing changed" do
+    it "writes the same file when run again from scratch with nothing changed" do
       snapshot.write(2026)
       first = snapshot.path(2026).read
+      again = described_class.new(folder: folder, store: DivisionSummaryPipeline::HansardStore.new(dir: hansard))
 
-      expect(snapshot.write(2026)[:changed_hansard]).to be_empty
-      expect(snapshot.path(2026).read).to eq(first)
+      expect(again.write(2026)[:changed_hansard]).to be_empty
+      expect(again.path(2026).read).to eq(first)
+    end
+
+    it "records a division Stages 1 and 2 fail on as an error, with any memory address hidden, and carries on" do
+      # Stage 1 doesn't fail on any real Hansard we have, so this test pretends it does.
+      allow(DivisionSummaryPipeline::ContextBuilder).to receive(:build)
+        .and_raise(ArgumentError, "bad packet at 0x00007f3a12bc")
+
+      expect(snapshot.write(2026)).to include(divisions: 1, errors: 1)
+      entry = YAML.safe_load(snapshot.path(2026).read)["divisions"]["representatives_2026-08-19_1"]
+      expect(entry).to eq("error" => "ArgumentError: bad packet at 0x...")
+    end
+
+    context "when Stage 1 looks back to earlier sitting days" do
+      # An amendment moved on 18 August and put to the vote without debate on 20 August, so Stage 1
+      # looks back through 19 August (another debate) to 18 August to find it, as in
+      # context_builder_spec.rb.
+      let(:heading) do
+        %(<major-heading id="h0" url="x">BILLS</major-heading>) +
+          %(<minor-heading id="h1" url="x">Example Bill 2026; Second Reading</minor-heading>)
+      end
+      let(:earlier_day) do
+        <<~XML
+          <debates>
+            #{heading}
+            <speech id="s1" speakerid="uk.org.publicwhip/member/900301" speakername="Robin Carrow" time="12:33:00" url="x"><p>I rise to speak, and I move:</p><p class="italic">That all words after "That" be omitted with a view to substituting the following words: "whilst not declining to give the bill a second reading, the House notes the cost to small business".</p></speech>
+          </debates>
+        XML
+      end
+      let(:vote_day) do
+        <<~XML
+          <debates>
+            #{heading}
+            <speech id="s2" speakerid="uk.org.publicwhip/member/900202" speakername="Casey Whitlow" time="09:20:00" url="x"><p>In accordance with standing order 133, I shall now proceed to put the question on the amendment moved by the member for Exampleton.</p><p>The question is that the amendment be agreed to.</p></speech>
+            <division divdate="2026-08-20" divnumber="1" id="d9" nospeaker="true" time="09:21:00" url="x">
+              <divisioncount ayes="70" noes="60" pairs="0" tellerayes="0" tellernoes="0"/>
+            </division>
+          </debates>
+        XML
+      end
+      let(:earlier_url) { "http://data.openaustralia.org.au/scrapedxml/representatives_debates/2026-08-18.xml" }
+
+      before do
+        hansard.join("representatives-2026-08-20.xml").write(vote_day)
+        create(:division, house: "representatives", date: Date.new(2026, 8, 20), number: 1)
+        # Every other day it looks at has no Hansard.
+        stub_request(:get, %r{scrapedxml/representatives_debates/}).to_return(status: 404)
+      end
+
+      it "records every earlier day it opened, in the entry and in the list at the top" do
+        hansard.join("representatives-2026-08-18.xml").write(earlier_day)
+        snapshot.write(2026)
+
+        written = YAML.safe_load(snapshot.path(2026).read)
+        days = %w[representatives/2026-08-18 representatives/2026-08-19 representatives/2026-08-20]
+        expect(written["divisions"]["representatives_2026-08-20_1"]).to include("hansard_read" => days,
+                                                                                "earlier_debate" => ["2026-08-18"])
+        expect(written["hansard_days"].keys).to eq(days)
+      end
+
+      it "writes nothing when an earlier day couldn't be downloaded, and says which day" do
+        stub_request(:get, earlier_url).to_raise(SocketError)
+
+        expect { snapshot.write(2026) }
+          .to raise_error(described_class::Refused, %r{representatives/2026-08-18 \(SocketError})
+        expect(snapshot.path(2026)).not_to exist
+      end
     end
   end
 end

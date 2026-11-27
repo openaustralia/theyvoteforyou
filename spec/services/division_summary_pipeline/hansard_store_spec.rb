@@ -23,6 +23,25 @@ describe DivisionSummaryPipeline::HansardStore do
 
     expect(store.raw("senate", Date.new(2026, 9, 17))).to eq(published)
     expect(dir.join("senate-2026-09-17.xml").read).to eq(published)
+    expect(dir.children.map { |file| file.basename.to_s }).to eq(["senate-2026-09-17.xml"])
+  end
+
+  it "doesn't remember a recent day as having no Hansard, so it asks again next time" do
+    recent = Date.current - 3
+    missing = stub_request(:get, "http://data.openaustralia.org.au/scrapedxml/senate_debates/#{recent}.xml")
+              .to_return(status: 404)
+
+    2.times { expect(store.raw("senate", recent)).to be_nil }
+    expect(missing).to have_been_requested.twice
+  end
+
+  it "notes a day it couldn't download, and keeps nothing for it" do
+    stub_request(:get, url).to_raise(SocketError)
+
+    expect { store.raw("senate", Date.new(2026, 9, 17)) }
+      .to raise_error(described_class::DownloadFailed, /senate 2026-09-17 \(SocketError/)
+    expect(store.failures).to eq(["senate/2026-09-17 (SocketError: Exception from WebMock)"])
+    expect(dir.children).to be_empty
   end
 
   it "remembers a day with no Hansard, and doesn't ask for it again" do

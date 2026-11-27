@@ -3,33 +3,45 @@
 require "digest"
 
 module DivisionSummaryPipeline
-  # One division's block in the routing snapshot (rake ai:route_snapshot, RouteSnapshot): what
-  # Stage 2 decided and everything Stage 1 found by rule, read from the ContextPacket, after the
-  # sources RouteSnapshot adds (the Parliament, the version of the day's Hansard and the days
-  # Stage 1 read). Two runs of the same code on the same Hansard give the same block, and any
-  # change shows as a changed line in a diff: keys in a fixed order, no database ids, and long text
-  # cut to its two ends with a hash of the whole. How to read a block:
-  # spec/route_snapshots/README.md.
+  # Builds one division's entry in the routing snapshot. The task is in lib/tasks/route_snapshot.rake,
+  # the file it writes is made by route_snapshot.rb, and spec/route_snapshots/README.md explains
+  # every field.
   #
-  # The facts are only those Hansard itself records (counts, result, bills). Figures the database
-  # derives later, such as rebellions, are left out, so a change to them never shows up as a change
-  # in what Stages 1 and 2 decided.
+  # Stage 1 gathers everything it finds about a division into one bundle of information (the
+  # "packet", in context/context_packet.rb). This turns that bundle into a plain list of fields: what
+  # Stage 2 decided, and everything Stage 1 found by its rules. route_snapshot.rb adds three fields of
+  # its own straight after the facts: the Parliament, whether the day's Hansard was final or a proof,
+  # and which sitting days were read.
+  #
+  # The same code and the same Hansard always give exactly the same entry, so any difference between
+  # two runs shows up as a changed line. To make sure of that, the fields are always in the same
+  # order, no database id numbers appear (they differ between copies of the database), and long text
+  # is shortened the same way every time.
+  #
+  # The facts are what the database records about the vote, worked out from the votes loaded from
+  # Hansard: the counts, the result and the bills. Figures the site works out later, such as
+  # rebellions, are left out, so a change to them is never mistaken for a change in what Stages 1 and 2
+  # decided.
   class SnapshotRecord
-    # Text of more than twice this many words is shown as its first and last this-many words, its
-    # word count and a hash of the whole, so a change anywhere in it still changes the line.
+    # Text longer than 40 words is shortened to its first 20 words, its word count, its last 20 words
+    # and a hash: a short code worked out from the whole text, so that a change anywhere in it, even
+    # in the part not shown, changes the code.
     LONG_TEXT_ENDS = 20
+    # How many characters of that code to show.
     HASH_LENGTH = 12
 
+    # One division's entry, from Stage 1's packet and the extra fields route_snapshot.rb adds.
     def self.build(packet, sources = {})
       new(packet, sources).to_h
     end
 
-    # The block's name: house, date and number, which are the same in every copy of the database,
-    # unlike the record's id.
+    # The entry's name, for example senate_2026-09-17_1: the house, the date and the division's number
+    # that day. These are the same in every copy of the database, unlike the database's own id numbers.
     def self.key(division)
       "#{division.house}_#{division.date}_#{division.number}"
     end
 
+    # Shortens long text as described above. Text of 40 words or fewer is kept in full.
     def self.shorten_text(text)
       words = text.split
       return text if words.size <= LONG_TEXT_ENDS * 2
@@ -43,6 +55,7 @@ module DivisionSummaryPipeline
       @sources = sources
     end
 
+    # All of the entry's fields, always in this order, with every long piece of text shortened.
     def to_h
       block = {
         "facts" => facts, **sources, "hansard_division" => packet.division_xml_id, "source" => packet.source.to_s,
@@ -62,15 +75,23 @@ module DivisionSummaryPipeline
 
     delegate :transcript, to: :packet
 
+    # What the database records about the vote itself, worked out from the votes loaded from Hansard:
+    # the house, date, division number and time, the result, whether it was tied, how many voted aye
+    # and no (tellers included), and the bills it was about, in alphabetical order because the database
+    # gives them back in no fixed order.
     def facts
       facts = packet.facts
       {
         "house" => facts.house, "date" => facts.date, "number" => facts.number,
         "time" => ClockTime.normalise(facts.clock_time).presence, "result" => facts.result, "tied" => facts.tied,
-        "ayes" => facts.aye_votes, "noes" => facts.no_votes, "bills" => facts.bill_titles
+        "ayes" => facts.aye_votes, "noes" => facts.no_votes, "bills" => facts.bill_titles.sort
       }
     end
 
+    # Stage 2's decision. The mode is "deterministic" when a rule settled the template, "constrained"
+    # when a rule narrowed it to a shortlist (allowed) for the AI to choose from, and "advisory" when no
+    # rule was sure, so the template is only a default the AI may change. forbidden lists templates
+    # ruled out, rule names the rule that matched, and reason says why.
     def route
       routing = packet.routing
       {
@@ -79,6 +100,11 @@ module DivisionSummaryPipeline
       }
     end
 
+    # The question the division decided: the sentence Stage 2 based its decision on, the chair's full
+    # statement putting the question, who put it and when, the parts left out of this vote when a
+    # complicated question was split up (divided), and two yes or no flags: whether the question only
+    # points to a motion moved earlier (by_reference), and whether it spells out the whole motion
+    # itself (states_motion).
     def question
       speech = transcript.question_speech
       {
@@ -89,8 +115,9 @@ module DivisionSummaryPipeline
       }
     end
 
-    # The terms the division decided, as Stage 1 found them: moved in the mover's speech, or printed
-    # in the chair's statement when amendments circulated beforehand were put without being moved.
+    # The words of the motion the division decided, as Stage 1 found them: either in the speech of the
+    # member who moved it, or printed in the chair's statement. The second happens when amendments
+    # handed out in writing beforehand are put to the vote without anyone moving them in the chamber.
     def motion
       speech = packet.mover_speech
       moved = speech ? transcript.last_move_units(speech, :motion) : []
@@ -103,12 +130,17 @@ module DivisionSummaryPipeline
       }
     end
 
+    # Where the motion's words were found, for the entry's found_in field.
     def motion_found_in(moved, printed)
       if moved.any? then "mover_speech"
       elsif printed.any? then "chair_statement"
       end
     end
 
+    # Who moved the motion and their party (from the database's member records when Stage 1 matched a
+    # member, otherwise the name as Hansard gives it), how Stage 1 worked out who it was (found_by),
+    # and the speech it was moved in: its Hansard id, date and time, and whether it sat under a
+    # different Hansard heading from the vote.
     def mover
       found = packet.mover
       return nil unless found
@@ -122,18 +154,22 @@ module DivisionSummaryPipeline
       }
     end
 
+    # Amendments handed out in writing (circulated) and put to the vote without being moved in the
+    # chamber, and who circulated them.
     def circulation
       circulation = packet.circulation
       circulation && { "by" => circulation.by, "member" => circulation.member&.name, "plural" => circulation.plural }
     end
 
-    # How many speeches the packet holds: those beside the division, and those added from earlier in
-    # the debate. A change in either is a change in what the model would read.
+    # How many speeches Stage 1 collected: those just before the division, and those it added from
+    # earlier in the debate. A change in either number is a change in what the AI would read.
     def speeches
       earlier, beside = transcript.speeches.partition(&:earlier)
       { "beside" => beside.size, "earlier" => earlier.size }
     end
 
+    # When debate was cut off by a time limit (a "guillotine"): the chair's statement that the time had
+    # run out, and when and by whom it was made.
     def limitation
       statement = packet.limitation_statement
       return nil unless statement
@@ -145,11 +181,13 @@ module DivisionSummaryPipeline
       }
     end
 
-    # Hansard's own text for some units, a blank line between runs, or nil when there are none.
+    # Hansard's own words for the given parts of a speech, with a blank line between separate passages,
+    # or nothing if there are none.
     def text_of(units)
       transcript.passages(units.map(&:id)).map(&:text).join("\n\n").presence
     end
 
+    # Shortens every piece of text in the entry, however deep inside other fields it sits.
     def shorten(value)
       case value
       when Hash then value.transform_values { |item| shorten(item) }

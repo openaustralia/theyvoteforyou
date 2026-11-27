@@ -3,8 +3,9 @@
 require "spec_helper"
 
 describe DivisionSummaryPipeline::SnapshotRecord do
-  # The closure from context_builder_spec.rb: a member moves "That the question be now put." and
-  # the House divides on it, so Stage 2 settles Template 22.
+  # The closure from context_builder_spec.rb: a member moves "That the question be now put." (that
+  # the debate end and the vote be taken now) and the House divides on it, so Stage 2 settles on
+  # Template 22, the closure template.
   let(:parlparse_xml) do
     <<~XML
       <debates>
@@ -55,7 +56,7 @@ describe DivisionSummaryPipeline::SnapshotRecord do
       expect(block.to_s).not_to include("1052")
     end
 
-    it "keeps its keys in a fixed order, so every block reads the same way" do
+    it "keeps its fields in a fixed order, so every entry reads the same way" do
       expect(block.keys).to eq(%w[facts hansard_division source heading context_level route question motion mover
                                   circulation proposer closed_template followup speeches earlier_debate limitation
                                   warnings])
@@ -66,7 +67,14 @@ describe DivisionSummaryPipeline::SnapshotRecord do
       expect(described_class.build(packet, sources).keys.first(4)).to eq(%w[facts parliament hansard hansard_read])
     end
 
-    it "gives the same block every time it is built" do
+    it "lists the bills alphabetically, since the database returns them in no fixed order" do
+      packet = DivisionSummaryPipeline::ContextBuilder.build(
+        division_data.merge(bill_titles: ["Zeta Bill 2026", "Alpha Bill 2026"]), xml_content: parlparse_xml
+      )
+      expect(described_class.build(packet)["facts"]["bills"]).to eq(["Alpha Bill 2026", "Zeta Bill 2026"])
+    end
+
+    it "gives the same entry every time it is built" do
       again = described_class.build(DivisionSummaryPipeline::ContextBuilder.build(division_data,
                                                                                   xml_content: parlparse_xml))
       expect(again).to eq(block)

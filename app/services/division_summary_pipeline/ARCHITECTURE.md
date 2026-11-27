@@ -508,20 +508,20 @@ Another development task in the same file checks a change without a model:
 rake ai:replay_reply FILE=tmp/llm_replies/division-23-....json       # a saved reply through today's code
 ```
 
-The routing snapshot checks a change to what Stage 1 reads or Stage 2 decides across real divisions
-(`lib/tasks/route_snapshot.rake`, `RouteSnapshot`):
+The routing snapshot shows what a change to Stage 1 or Stage 2 does across every real division, not
+just the examples in the specs (`lib/tasks/route_snapshot.rake`, with the code in
+`app/services/division_summary_pipeline/snapshot/`):
 
 ```bash
 rake ai:route_snapshot                # Stages 1 and 2 for every division in the range, one file per year
 rake ai:route_snapshot YEARS=2026     # one year
-rake ai:route_snapshot_changes        # optional: counts what changed since the last save
 ```
 
-It writes `spec/route_snapshots/<year>.yml`, which is committed: run it before and after the
-change and read `git diff`, since a rule that fixes one division can move others no spec covers
-(KI-35). The range, the routine and how to read a block are in that folder's `README.md`. Each sitting
-day's XML is downloaded once and kept as published under `tmp/hansard_xml/`, so repeated runs read the
-same Hansard.
+It writes `spec/route_snapshots/<year>.yml`, which is saved in git. Run it before and after the change
+and read `git diff`, since a rule that fixes one division can move others no spec covers (KI-35). The
+date range, the routine and how to read an entry are in that folder's `README.md`. Each sitting day's
+Hansard is downloaded once and kept as published in `tmp/hansard_xml/`, so repeated runs read the same
+Hansard.
 
 ## 12. Architectural constraints for future work
 

@@ -1,5 +1,6 @@
-# Settings for `rake ai:route_snapshot`, saved with the code so every run of one commit covers the
-# same divisions. Changing this file is a change of its own: see README.md.
+# Settings for the routing snapshot (`bin/rake ai:route_snapshot`). They're saved with the code, so
+# every run of the same version of the code covers the same divisions. Change this file in a save of
+# its own: see README.md.
 
 range:
   # The range starts at January 2025. The start moves back only to cover older years; the end

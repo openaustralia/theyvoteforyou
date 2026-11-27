@@ -1,121 +1,135 @@
 # Routing snapshot
 
-What Stages 1 and 2 of the AI division summary pipeline decide for every division from January 2025
-to October 2026, one YAML file per year, written by `rake ai:route_snapshot`
-(`DivisionSummaryPipeline::RouteSnapshot`). The specs show each routing rule works on the example it
-was written for; this shows what the rules do across real divisions, and what else moves when
-someone changes one.
+They Vote For You's AI summary pipeline starts with two steps that use fixed rules, not AI.
+**Stage 1** reads a division's Hansard (the official record of what was said in parliament) and
+finds the question that was voted on, the motion and who moved it. **Stage 2** uses what Stage 1
+found to decide which summary template fits the vote.
 
-The committed files are the expected result. A change to what Stage 1 reads or Stage 2 decides is
-committed together with the files it changes, and the pull request explains every changed division.
+This folder holds a record of what those two steps find and decide for every division in the date
+range set in `settings.yml`: one entry per division, one file per year (`2025.yml`, `2026.yml`). The
+files are written by `bin/rake ai:route_snapshot`, and the code is in
+`app/services/division_summary_pipeline/snapshot/`.
+
+The tests check that each rule works on the example it was written for. These files show what the
+rules do across every real division, and so what else moves when someone changes a rule. The files
+saved in git are the expected result: a change to Stage 1 or Stage 2 is saved together with the
+files it changes, and its pull request explains every division that changed.
 
 ## Running it
 
 ```bash
-bin/rake ai:route_snapshot                # every year in settings.yml
-bin/rake ai:route_snapshot YEARS=2026     # one year
-bin/rake ai:route_snapshot YEARS=2025-2026
+bin/rake ai:route_snapshot                  # every year in settings.yml
+bin/rake ai:route_snapshot YEARS=2026       # one year
+bin/rake ai:route_snapshot YEARS=2025-2026  # several years
 ```
 
-It reads divisions from your database and Hansard from `tmp/hansard_xml/`, downloading any day it
-doesn't have yet from the same place the nightly loader reads, and remembering days with none
-(an empty `.missing` file) so it asks about each only once, unless the database has divisions on
-that day, which means its Hansard was published after the day was first asked about. It uses no model and writes nothing to
-the database. A year outside the range in `settings.yml` is refused: change the range there first,
-as a change of its own.
+It uses no AI model and never changes the database. A year outside the range in `settings.yml` is
+refused: to include it, change the range there first, as a change of its own.
 
-Before writing anything it checks that your database holds every division Hansard records in the
-years asked for, walking every day in both houses as the loader does. If any are missing, it stops,
-lists the days and prints the loader command that fills them, for example
-`bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`. The first check of a year asks about
-every day not yet in `tmp/hansard_xml/`, a few hundred requests that take a minute or two.
+What a run does:
 
-After writing a year, it lists any day whose Hansard has changed since that year's file was last
-written (see "When the files change with no code change").
+1. **Checks the database is complete.** Before writing anything, it goes through every day of the
+   years asked for, in both houses, and checks the database holds every division that day's Hansard
+   records. If any are missing, it stops, lists the days and prints the command that loads them, for
+   example `bin/rake "application:load:divisions[2025-01-01,2025-12-31]"`. The first check of a year
+   asks about every day it hasn't seen yet: a few hundred requests that take a minute or two.
+2. **Writes each year's file.** It reads each division from the database and its Hansard from
+   `tmp/hansard_xml/`, and runs Stages 1 and 2 on it.
+3. **Warns about changed Hansard.** It lists any day whose Hansard has changed since that year's file
+   was last written (see "When the files change with no code change").
+
+If any day's Hansard can't be downloaded, for example because the internet connection dropped, it
+stops without writing that year's file and names the day. Run it again once the connection is back.
+
+### The local copy of Hansard
+
+Each sitting day's Hansard is downloaded once, from the same place the nightly loader gets it, and
+kept in `tmp/hansard_xml/` exactly as published, so every run reads the same Hansard. A day with no
+Hansard (parliament didn't sit) is remembered with an empty `.missing` file and not asked about
+again, except:
+
+- a day less than 14 days old, whose Hansard may not be published yet, is asked about again on every
+  run
+- a day the database has divisions on is asked about again, because those divisions were loaded
+  from its Hansard
+
+To get a newer version of a day, such as the final version of a day kept as a proof, delete that
+day's files from `tmp/hansard_xml/` (or the whole folder) and run again.
+
+The older local drafting tools save a reworded copy of Hansard in the same folder. If you've used
+them, delete `tmp/hansard_xml/` before your first run, so the snapshot downloads the files as
+published.
 
 ## The routine for a change to Stage 1 or Stage 2
 
-1. Before changing anything, run the task. `git diff spec/route_snapshots` should show
-   nothing. If it shows changes, they come from your Hansard or your database, not the code (see
-   below); sort that out first.
+1. Before changing anything, run the task. `git diff spec/route_snapshots` should show nothing. If it
+   shows changes, they come from your Hansard or your database, not the code (see below); sort that
+   out first.
 2. Make the change and run the task again.
-3. Read `git diff spec/route_snapshots`. Every changed division is one the change moved,
-   whether or not it was meant to.
-4. Commit the new files with the change, and explain each changed division in the pull request.
-
-### Counting the changes (optional)
-
-`git diff` shows every change. When there are many, this counts them by field and by routing
-decision, with the divisions under each, ready to paste into the pull request and explain group by
-group:
-
-```bash
-bin/rake ai:route_snapshot_changes                # the files on disk against the last save
-bin/rake ai:route_snapshot_changes AGAINST=main   # against another branch or save
-```
-
-What it prints looks like this (an illustration, not a real run):
-
-```
-2026: 2 of 910 divisions changed, compared with HEAD
-- mover.name changed in 2: senate_2026-07-01_1, senate_2026-09-17_1
-- Routing constrained 2, 29 (SECOND_READING_NUANCE) became deterministic 29 (SECOND_READING_QUESTION) in 1: ...
-- Hansard changed for 1 day: senate/2026-09-17 (proof, now final)
-```
-
-It only reads, and says nothing `git diff` doesn't: use whichever you prefer.
+3. Read `git diff spec/route_snapshots`. Every changed division is one the change moved, whether or
+   not it was meant to.
+4. Save (commit) the new files with the change, and explain each changed division in the pull
+   request.
 
 ### When the files change with no code change
 
 Two runs of the same code on the same Hansard and database give identical files. A difference with
-no code change means one of those changed: Parliament replaced a proof Hansard with the final one,
-the parser was updated, or divisions were loaded or reloaded. The task names the Hansard days that
-changed, for example `senate/2026-09-17 (proof, now final)`, from the fingerprints at the top of the
-file. Commit that rerun on its own, saying why, before any code change, so every change to these
-files has one cause.
+no code change means one of those changed:
+
+- **Hansard:** Parliament replaced a proof with the final version, or the program that turns Hansard
+  into the files the site reads (the parser) was updated. The task names the days whose Hansard
+  changed, for example `senate/2026-09-17 (proof, now final)`, from the fingerprints at the top of
+  the file.
+- **The database:** divisions were loaded or reloaded, which can change their stored details and the
+  vote counts worked out from them, or member records changed, which can change a mover's name or
+  party.
+
+Save that rerun on its own, saying why, before any code change, so every change to these files has
+one cause.
 
 ## The top of each file
 
-`settings.yml`'s `parliaments` lists the first sitting day of each Parliament, which is how each
-block gets its Parliament number. `hansard_days`, at the top of each year's file, lists every
-sitting day of Hansard that year's divisions read, including earlier days the look-back opened:
+`settings.yml` lists the first sitting day of each Parliament, which is how each entry gets its
+Parliament number. `hansard_days`, at the top of each year's file, lists every sitting day of
+Hansard that year's divisions read, including earlier days Stage 1 looked back to:
 
 | Field | What it is |
 |---|---|
 | `version` | `final`, `proof` or `unknown`: how the parser marked the day (`proof="0"`, `proof="1"`, or not at all) |
-| `fingerprint` | The first 16 characters of the SHA-256 of the day's file as published. Any change to the file changes it |
+| `fingerprint` | A short code worked out from every character of the day's file as published (the first 16 characters of its SHA-256 hash). Any change to the file gives a different code |
 
-## Reading a block
+## Reading an entry
 
-Each division is keyed by house, date and number (`senate_2026-09-17_1`), never a database id, so
-the keys are the same in every copy of the database.
+Each division's entry is named by house, date and number (`senate_2026-09-17_1`), never a database id
+number, so the names are the same in every copy of the database.
 
 | Field | What it is |
 |---|---|
-| `facts` | What Hansard records about the vote: time, result, counts (tellers included), bills |
+| `facts` | What the database records about the vote, worked out from the votes loaded from Hansard: time, result, whether it was tied, the counts (tellers included) and the bills, in alphabetical order |
 | `parliament` | The Parliament the division was in, from `settings.yml` |
-| `hansard` | The version of the day's Hansard: `final`, `proof` or `unknown` (empty when there is none) |
-| `hansard_read` | The sitting days whose Hansard Stage 1 read for this division: its own, and each earlier day the look-back opened. A change to any of them in `hansard_days` can change this block |
-| `hansard_division` | The `<division>` element in the ParlParse XML that Stage 1 matched |
-| `source` | `hansard_xml`, or `division_record` when no XML matched and the stored motion was used |
+| `hansard` | Whether the day's Hansard is `final`, a `proof` or `unknown` (empty when there is none) |
+| `hansard_read` | The sitting days whose Hansard Stage 1 read for this division: its own, and each earlier day it looked back to. A change to any of them in `hansard_days` can change this entry |
+| `hansard_division` | The id of the division in that day's Hansard file that Stage 1 matched |
+| `source` | `hansard_xml`, or `division_record` when no division in the Hansard file matched and the motion stored in the database was used |
 | `heading` | The Hansard heading over the division |
-| `context_level` | How much debate Stage 1 gathered (`subdebate` unless widened) |
-| `route` | Stage 2's decision: `mode` (`deterministic` settled, `constrained` a shortlist, `advisory` only a default), `template`, `allowed`, `forbidden`, the `rule` that matched and its `reason` |
-| `question` | The question the division decided: `routed_on` (the sentence Stage 2 routed on), the chair's statement putting it, who put it and when, the parts left out of a divided question, and whether the question only points at a motion (`by_reference`) or is itself the whole motion (`states_motion`) |
-| `motion` | The terms the division decided: whether Stage 1 found them, where (`mover_speech` or `chair_statement`), the "I move" words, and the terms |
-| `mover` | Who moved it, and how Stage 1 found them (`found_by`), with their speech |
-| `circulation` | Amendments the chair put that nobody moved in the chamber, and who circulated them |
-| `proposer` | Who proposed a matter of urgency someone else moved |
-| `closed_template` | For a closure, the template of the business it cut short |
+| `context_level` | How much of the debate Stage 1 gathered (`subdebate` unless widened) |
+| `route` | Stage 2's decision: `mode` (`deterministic`: a rule settled the template; `constrained`: a shortlist the AI picks from; `advisory`: only a default the AI may change), `template`, `allowed`, `forbidden`, the `rule` that matched and its `reason` |
+| `question` | The question the division decided: `routed_on` (the sentence Stage 2 based its decision on), the chair's statement putting it, who put it and when, the parts left out when a complicated question was split up (`divided`), and whether the question only points at a motion moved earlier (`by_reference`) or spells out the whole motion itself (`states_motion`) |
+| `motion` | The words of the motion the division decided: whether Stage 1 found them, where (`mover_speech` or `chair_statement`), the "I move" words, and the motion itself |
+| `mover` | Who moved it (name and party from the database's member records when Stage 1 matched a member, otherwise the name as Hansard gives it), how Stage 1 worked out who it was (`found_by`), and their speech |
+| `circulation` | Amendments handed out in writing and put to the vote without being moved in the chamber, and who circulated them |
+| `proposer` | Who proposed a matter of urgency that someone else moved |
+| `closed_template` | For a closure (a vote to end the debate and vote now), the template of the business it cut short |
 | `followup` | For a closure, the division that then put the question |
-| `speeches` | How many speeches the packet holds, beside the division and from earlier in the debate |
+| `speeches` | How many speeches Stage 1 collected: just before the division, and from earlier in the debate |
 | `earlier_debate` | The earlier sitting days those came from |
-| `limitation` | The chair saying a limitation of debate's time had expired, when that is why the question was put |
-| `warnings` | Why the speeches beside the division may not be the debate about it |
+| `limitation` | The chair saying a time limit on debate had run out, when that is why the question was put |
+| `warnings` | Why the speeches just before the division may not be the debate about it |
 | `error` | Instead of all the above, when Stages 1 or 2 failed on the division |
 
-Text over 40 words is shown as its first 20 words, its word count, its last 20 words and the start
-of a SHA-256 hash of the whole, so a change anywhere in it changes the line. Shorter text is in full.
+Text over 40 words is shown as its first 20 words, its word count, its last 20 words and a hash (a
+short code worked out from the whole text), so a change anywhere in it changes the line. Shorter
+text is in full.
 
-Facts the database derives later, such as rebellions and turnout, are left out, so a change to them
+Figures the site works out later, such as rebellions and turnout, are left out, so a change to them
 never shows up as a change in what Stages 1 and 2 decided.
