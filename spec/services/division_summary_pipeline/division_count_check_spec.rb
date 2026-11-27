@@ -7,7 +7,7 @@ describe DivisionSummaryPipeline::DivisionCountCheck do
 
   let(:hansard) { Pathname(Dir.mktmpdir) }
   let(:day) { Date.new(2026, 8, 19) }
-  let(:senate_url) { "http://data.openaustralia.org.au/scrapedxml/senate_debates/2026-08-19.xml" }
+  let(:senate_url) { DataLoader::Debates.xml_url("senate", day) }
 
   # A day's Hansard recording this many divisions.
   def hansard_with(divisions)

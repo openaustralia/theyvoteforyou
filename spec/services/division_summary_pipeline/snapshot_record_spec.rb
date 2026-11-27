@@ -3,32 +3,10 @@
 require "spec_helper"
 
 describe DivisionSummaryPipeline::SnapshotRecord do
-  # The closure from context_builder_spec.rb: a member moves "That the question be now put." (that
-  # the debate end and the vote be taken now) and the House divides on it, so Stage 2 settles on
-  # Template 22, the closure template.
-  let(:parlparse_xml) do
-    <<~XML
-      <debates>
-        <major-heading id="d1" url="http://example.org/1">BILLS</major-heading>
-        <minor-heading id="d2" url="http://example.org/1">Border Processing Amendment Bill 2026</minor-heading>
-        <speech id="d3" speakerid="uk.org.publicwhip/member/1" speakername="Daniel Whitfield" time="10:10:00" url="http://example.org/1">
-          <p>I move: That the question be now put.</p>
-        </speech>
-        <speech id="d4" nospeaker="true" time="10:11:00" url="http://example.org/1">
-          <p pwmotiontext="moved">That the question be now put.</p>
-        </speech>
-        <division divdate="2026-08-19" divnumber="1" id="d5" nospeaker="true" time="10:15:00" url="http://example.org/1">
-          <divisioncount ayes="82" noes="54" pairs="0" tellerayes="0" tellernoes="0"/>
-          <memberlist vote="aye">
-            <member id="uk.org.publicwhip/member/1" vote="aye">Daniel Whitfield</member>
-          </memberlist>
-          <memberlist vote="no">
-            <member id="uk.org.publicwhip/member/2" vote="no">Alex Pemberton</member>
-          </memberlist>
-        </division>
-      </debates>
-    XML
-  end
+  # The closure shared with context_builder_spec.rb: a member moves "That the question be now put."
+  # (that the debate end and the vote be taken now) and the House divides on it, so Stage 2 settles
+  # on Template 22, the closure template.
+  let(:parlparse_xml) { Rails.root.join("spec/fixtures/closure_of_debate.xml").read }
   let(:division_data) do
     { id: 1052, house: "representatives", name: "Closure of Debate", date: "2026-08-19", number: 1,
       clock_time: "10:15 AM", aye_votes: 82, no_votes: 54, result: "passed" }

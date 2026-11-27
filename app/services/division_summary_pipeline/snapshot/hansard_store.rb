@@ -44,7 +44,7 @@ module DivisionSummaryPipeline
     def initialize(dir: Rails.root.join("tmp/hansard_xml"))
       @dir = Pathname(dir)
       @agent = Mechanize.new
-      @parsed = {}
+      @documents = {}
       @described = {}
       @failures = []
     end
@@ -76,11 +76,17 @@ module DivisionSummaryPipeline
       end
     end
 
-    # What Stage 1 (context/context_builder.rb) uses to read earlier sitting days when it looks back
-    # through a debate: give it a house and a date, and it returns that day's Hansard ready to search,
-    # or nothing if the day has none.
-    def fetcher
-      ->(house, date) { parsed(house, date.to_s) }
+    # The day's Hansard read into a searchable form, or nothing if the day has none. Stage 1
+    # (context/context_builder.rb) reads earlier sitting days through this when it looks back through a
+    # debate. Each day is kept in memory for the next time it's asked for; when PARSED_DAYS days are
+    # already held, the one used longest ago is dropped to make room.
+    def document(house, date)
+      key = "#{house}-#{date}"
+      return @documents[key] = @documents.delete(key) if @documents.key?(key)
+
+      @documents.shift if @documents.size >= PARSED_DAYS
+      text = raw(house, date)
+      @documents[key] = text && Nokogiri::XML(text)
     end
 
     private
@@ -92,17 +98,16 @@ module DivisionSummaryPipeline
       dir.join("#{house}-#{date}.#{extension}")
     end
 
-    # Downloads a day's Hansard with the nightly loader's code and keeps it. It is saved under a
-    # temporary name first and renamed once complete, so a run stopped halfway can't leave half a day
-    # behind. If the site has no file for that day, that is remembered instead (unless the day is
-    # recent). Any other problem is noted in failures and given as an error, rather than being
-    # mistaken for a day without Hansard.
+    # Downloads a day's Hansard with the nightly loader's code and keeps it. Rails' File.atomic_write
+    # saves it under a temporary name and renames it once complete, so a run stopped halfway can't
+    # leave half a day behind. If the site has no file for that day, that is remembered instead
+    # (unless the day is recent). Any other problem is noted in failures and given as an error, rather
+    # than being mistaken for a day without Hansard.
     def download(house, date)
       FileUtils.mkdir_p(dir)
       body = DataLoader::Debates.fetch_xml(house, date, agent: agent)
       if body
-        path(house, date, "partial").binwrite(body)
-        path(house, date, "partial").rename(path(house, date, "xml"))
+        File.atomic_write(path(house, date, "xml")) { |file| file.write(body) }
         FileUtils.rm_f(path(house, date, "missing"))
         path(house, date, "xml").read
       elsif !recent?(date)
@@ -120,18 +125,7 @@ module DivisionSummaryPipeline
     end
 
     def recent?(date)
-      Date.parse(date.to_s) >= Date.current - RECENT_DAYS
-    end
-
-    # A day's Hansard read into a searchable form, kept in memory for the next time it's asked for.
-    # When PARSED_DAYS days are already held, the one used longest ago is dropped to make room.
-    def parsed(house, date)
-      key = "#{house}-#{date}"
-      return @parsed[key] = @parsed.delete(key) if @parsed.key?(key)
-
-      @parsed.shift if @parsed.size >= PARSED_DAYS
-      text = raw(house, date)
-      @parsed[key] = text && Nokogiri::XML(text)
+      date.to_date >= Date.current - RECENT_DAYS
     end
   end
 end

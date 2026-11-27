@@ -67,14 +67,10 @@ module DivisionSummaryPipeline
     # entries that needed that day could be wrong.
     def write(year)
       before = saved_hansard_days(year)
-      read = Set.new
-      blocks = divisions(year).to_h do |division|
-        entry, days = block(division)
-        read.merge(days)
-        [SnapshotRecord.key(division), entry]
-      end
+      blocks = divisions(year).to_h { |division| [SnapshotRecord.key(division), block(division)] }
       refuse_after_failed_downloads(year)
-      days = read.sort.index_with { |day| store.describe(*day.split("/")) }
+      read = blocks.values.flat_map { |entry| entry.fetch("hansard_read", []) }.uniq.sort
+      days = read.index_with { |day| store.describe(*day.split("/")) }
       path(year).write(header(year) + YAML.dump({ "hansard_days" => days, "divisions" => blocks }, line_width: -1))
       { divisions: blocks.size, errors: blocks.count { |_key, entry| entry.key?("error") },
         changed_hansard: changed_hansard(before, days) }
@@ -106,12 +102,12 @@ module DivisionSummaryPipeline
     # The year's divisions from the database, in date, house and number order, so the file's order
     # never changes.
     def divisions(year)
-      Division.where(date: dates(year)).sort_by { |division| [division.date, division.house, division.number] }
+      Division.where(date: dates(year)).order(:date, :house, :number)
     end
 
-    # One division's entry, and the sitting days Stage 1 read for it, written as "house/date": the
-    # division's own day, plus any earlier day it looked back to for earlier parts of the debate. A
-    # change to any of those days' Hansard could change the entry.
+    # One division's entry. Its hansard_read field lists the sitting days Stage 1 read for it, written
+    # as "house/date": the division's own day, plus any earlier day it looked back to for earlier parts
+    # of the debate. A change to any of those days' Hansard could change the entry.
     #
     # If Stage 1 or 2 fails on a division, its entry records the error instead of stopping the run,
     # because the failure is a result worth seeing. Some error messages contain a memory address (like
@@ -120,12 +116,12 @@ module DivisionSummaryPipeline
       read = []
       own = store.raw(division.house, division.date)
       read << division.date.to_s if own
-      fetcher = ->(house, date) { store.fetcher.call(house, date).tap { |document| read << date.to_s if document } }
+      fetcher = ->(house, date) { store.document(house, date).tap { |document| read << date.to_s if document } }
       packet = ContextBuilder.build(division, xml_content: own, xml_fetcher: fetcher)
       days = read.uniq.sort.map { |date| "#{division.house}/#{date}" }
-      [SnapshotRecord.build(packet, sources(division, days)), days]
+      SnapshotRecord.build(packet, sources(division, days))
     rescue StandardError => e
-      [{ "error" => "#{e.class}: #{e.message.gsub(/0x\h+/, '0x...')}" }, []]
+      { "error" => "#{e.class}: #{e.message.gsub(/0x\h+/, '0x...')}" }
     end
 
     # The fields an entry gets from outside Stages 1 and 2: whether the day's Hansard is final, a proof

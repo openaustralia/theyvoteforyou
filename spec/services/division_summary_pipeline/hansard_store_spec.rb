@@ -6,7 +6,7 @@ describe DivisionSummaryPipeline::HansardStore do
   subject(:store) { described_class.new(dir: dir) }
 
   let(:dir) { Pathname(Dir.mktmpdir) }
-  let(:url) { "http://data.openaustralia.org.au/scrapedxml/senate_debates/2026-09-17.xml" }
+  let(:url) { DataLoader::Debates.xml_url("senate", "2026-09-17") }
   let(:published) { %(<?xml version="1.0" encoding="UTF-8"?>\n<debates proof="1">\n  <speech id="a"/>\n</debates>\n) }
 
   after { FileUtils.rm_rf(dir) }
@@ -28,8 +28,7 @@ describe DivisionSummaryPipeline::HansardStore do
 
   it "doesn't remember a recent day as having no Hansard, so it asks again next time" do
     recent = Date.current - 3
-    missing = stub_request(:get, "http://data.openaustralia.org.au/scrapedxml/senate_debates/#{recent}.xml")
-              .to_return(status: 404)
+    missing = stub_request(:get, DataLoader::Debates.xml_url("senate", recent)).to_return(status: 404)
 
     2.times { expect(store.raw("senate", recent)).to be_nil }
     expect(missing).to have_been_requested.twice
@@ -78,6 +77,6 @@ describe DivisionSummaryPipeline::HansardStore do
   it "hands ContextBuilder a parsed document for an earlier day" do
     dir.join("senate-2026-09-17.xml").write(published)
 
-    expect(store.fetcher.call("senate", Date.new(2026, 9, 17)).at("speech")[:id]).to eq("a")
+    expect(store.document("senate", Date.new(2026, 9, 17)).at("speech")[:id]).to eq("a")
   end
 end

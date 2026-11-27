@@ -37,22 +37,9 @@ describe DivisionSummaryPipeline::RouteSnapshot do
   end
 
   describe "#write" do
-    # A closure (a vote to end the debate and vote now) that the House divided on, the same example as
-    # in context_builder_spec.rb.
-    let(:parlparse_xml) do
-      <<~XML
-        <debates>
-          <major-heading id="d1" url="http://example.org/1">BILLS</major-heading>
-          <minor-heading id="d2" url="http://example.org/1">Border Processing Amendment Bill 2026</minor-heading>
-          <speech id="d3" speakerid="uk.org.publicwhip/member/1" speakername="Daniel Whitfield" time="10:10:00" url="http://example.org/1">
-            <p>I move: That the question be now put.</p>
-          </speech>
-          <division divdate="2026-08-19" divnumber="1" id="d5" nospeaker="true" time="10:15:00" url="http://example.org/1">
-            <divisioncount ayes="82" noes="54" pairs="0" tellerayes="0" tellernoes="0"/>
-          </division>
-        </debates>
-      XML
-    end
+    # A closure (a vote to end the debate and vote now) that the House divided on, the example shared
+    # with context_builder_spec.rb.
+    let(:parlparse_xml) { Rails.root.join("spec/fixtures/closure_of_debate.xml").read }
 
     before do
       hansard.join("representatives-2026-08-19.xml").write(parlparse_xml)
@@ -145,7 +132,7 @@ describe DivisionSummaryPipeline::RouteSnapshot do
           </debates>
         XML
       end
-      let(:earlier_url) { "http://data.openaustralia.org.au/scrapedxml/representatives_debates/2026-08-18.xml" }
+      let(:earlier_url) { DataLoader::Debates.xml_url("representatives", "2026-08-18") }
 
       before do
         hansard.join("representatives-2026-08-20.xml").write(vote_day)

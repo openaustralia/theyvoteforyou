@@ -66,7 +66,7 @@ module DivisionSummaryPipeline
         "speeches" => speeches, "earlier_debate" => packet.earlier_debate_dates.map(&:to_s),
         "limitation" => limitation, "warnings" => packet.context_warnings
       }
-      shorten(block)
+      block.deep_transform_values { |value| value.is_a?(String) ? self.class.shorten_text(value) : value }
     end
 
     private
@@ -121,18 +121,12 @@ module DivisionSummaryPipeline
       moved = speech ? transcript.last_move_units(speech, :motion) : []
       printed = transcript.question_terms_units
       {
-        "found" => packet.motion_found?, "found_in" => motion_found_in(moved, printed),
+        "found" => packet.motion_found?,
+        "found_in" => ("mover_speech" if moved.any?) || ("chair_statement" if printed.any?),
         "terms_moved" => packet.terms_moved?,
         "introduction" => (text_of(transcript.last_move_units(speech, :move)) if speech),
         "text" => text_of(moved.presence || printed)
       }
-    end
-
-    # Where the motion's words were found, for the entry's found_in field.
-    def motion_found_in(moved, printed)
-      if moved.any? then "mover_speech"
-      elsif printed.any? then "chair_statement"
-      end
     end
 
     # Who moved the motion and their party (from the database's member records when Stage 1 matched a
@@ -191,16 +185,6 @@ module DivisionSummaryPipeline
     # or nothing if there are none.
     def text_of(units)
       transcript.passages(units.map(&:id)).map(&:text).join("\n\n").presence
-    end
-
-    # Shortens every piece of text in the entry, however deep inside other fields it sits.
-    def shorten(value)
-      case value
-      when Hash then value.transform_values { |item| shorten(item) }
-      when Array then value.map { |item| shorten(item) }
-      when String then self.class.shorten_text(value)
-      else value
-      end
     end
   end
 end
