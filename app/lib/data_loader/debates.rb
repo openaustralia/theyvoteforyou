@@ -76,16 +76,24 @@ module DataLoader
     #
     # Also used by DivisionSummaryPipeline::ContextBuilder (app/services/division_summary_
     # pipeline/context/context_builder.rb) to fetch wider debate context for the AI division summary
-    # feature, so this stays the one place that knows the source URL and fetch mechanics -
-    # see app/services/division_summary_pipeline/ARCHITECTURE.md for why that matters.
+    # feature. The fetching itself is .fetch_xml, the one place that knows the source URL and fetch
+    # mechanics - see app/services/division_summary_pipeline/ARCHITECTURE.md for why that matters.
     #
     # agent - A Mechanize agent to reuse, so a run of many fetches (see .load!) shares its
     #   connections. A one-off fetch can leave it out.
     def self.fetch_xml_document(house, date, agent: Mechanize.new)
+      xml = fetch_xml(house, date, agent: agent)
+      Nokogiri::XML(xml) if xml
+    end
+
+    # .fetch_xml_document without the parsing: the day's XML exactly as published, or nil when the
+    # source has none. The AI summary pipeline's routing snapshot uses it to keep a local copy of
+    # each day as published.
+    def self.fetch_xml(house, date, agent: Mechanize.new)
       url = xml_url(house, date)
       Sentry.with_child_span(op: "http.client", description: "Fetch #{house} debates XML for #{date}") do |span|
         span&.set_data("http.url", url)
-        Nokogiri::XML(agent.get(url).body)
+        agent.get(url).body
       end
     rescue Mechanize::ResponseCodeError => e
       raise e if e.response_code != "404"

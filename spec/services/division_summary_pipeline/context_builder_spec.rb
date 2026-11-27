@@ -4,32 +4,11 @@ require "spec_helper"
 require "nokogiri"
 
 describe DivisionSummaryPipeline::ContextBuilder do
-  # A minimal but real ParlParse <debates> document - the shape DataLoader::DebatesXml/
+  # A closure of debate (a member moves "That the question be now put." and the House divides on
+  # it) in a minimal but real ParlParse <debates> document - the shape DataLoader::DebatesXml/
   # DivisionXml actually parse (see spec/fixtures/2009-11-25.xml), not the <hansard>
   # shape an earlier draft of this spec used, which no other part of the app reads.
-  let(:parlparse_xml) do
-    <<~XML
-      <debates>
-        <major-heading id="d1" url="http://example.org/1">BILLS</major-heading>
-        <minor-heading id="d2" url="http://example.org/1">Border Processing Amendment Bill 2026</minor-heading>
-        <speech id="d3" speakerid="uk.org.publicwhip/member/1" speakername="Daniel Whitfield" time="10:10:00" url="http://example.org/1">
-          <p>I move: That the question be now put.</p>
-        </speech>
-        <speech id="d4" nospeaker="true" time="10:11:00" url="http://example.org/1">
-          <p pwmotiontext="moved">That the question be now put.</p>
-        </speech>
-        <division divdate="2026-08-19" divnumber="1" id="d5" nospeaker="true" time="10:15:00" url="http://example.org/1">
-          <divisioncount ayes="82" noes="54" pairs="0" tellerayes="0" tellernoes="0"/>
-          <memberlist vote="aye">
-            <member id="uk.org.publicwhip/member/1" vote="aye">Daniel Whitfield</member>
-          </memberlist>
-          <memberlist vote="no">
-            <member id="uk.org.publicwhip/member/2" vote="no">Alex Pemberton</member>
-          </memberlist>
-        </division>
-      </debates>
-    XML
-  end
+  let(:parlparse_xml) { Rails.root.join("spec/fixtures/closure_of_debate.xml").read }
 
   describe ".build" do
     context "with a matching <division> in the supplied XML" do
