@@ -65,13 +65,18 @@ module DivisionSummaryPipeline
     #
     # If any day's Hansard couldn't be downloaded along the way, it stops without writing, because the
     # entries that needed that day could be wrong.
+    #
+    # Rails' File.atomic_write saves the file under a temporary name and renames it once complete, so a
+    # run stopped partway through writing leaves the old file whole, and the next run can still read it.
     def write(year)
       before = saved_hansard_days(year)
       blocks = divisions(year).to_h { |division| [SnapshotRecord.key(division), block(division)] }
       refuse_after_failed_downloads(year)
       read = blocks.values.flat_map { |entry| entry.fetch("hansard_read", []) }.uniq.sort
       days = read.index_with { |day| store.describe(*day.split("/")) }
-      path(year).write(header(year) + YAML.dump({ "hansard_days" => days, "divisions" => blocks }, line_width: -1))
+      File.atomic_write(path(year)) do |file|
+        file.write(header(year) + YAML.dump({ "hansard_days" => days, "divisions" => blocks }, line_width: -1))
+      end
       { divisions: blocks.size, errors: blocks.count { |_key, entry| entry.key?("error") },
         changed_hansard: changed_hansard(before, days) }
     end
