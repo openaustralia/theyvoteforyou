@@ -517,7 +517,7 @@ rake ai:route_snapshot YEARS=2026     # one year
 rake ai:route_snapshot_changes        # optional: counts what changed since the last save
 ```
 
-It writes `spec/fixtures/route_snapshots/<year>.yml`, which is committed: run it before and after the
+It writes `spec/route_snapshots/<year>.yml`, which is committed: run it before and after the
 change and read `git diff`, since a rule that fixes one division can move others no spec covers
 (KI-35). The range, the routine and how to read a block are in that folder's `README.md`. Each sitting
 day's XML is downloaded once and kept as published under `tmp/hansard_xml/`, so repeated runs read the

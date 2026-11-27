@@ -5,14 +5,14 @@ require "yaml"
 module DivisionSummaryPipeline
   # The routing snapshot (rake ai:route_snapshot): Stages 1 and 2 run over every division in a
   # date range, one SnapshotRecord block per division, written as one YAML file per year in
-  # spec/fixtures/route_snapshots. The files are committed, so `git diff` shows what a change to
+  # spec/route_snapshots. The files are committed, so `git diff` shows what a change to
   # Stage 1 or Stage 2 did across real divisions, and the committed version is the expected
   # result. The routine for using it is in that folder's README.md.
   #
   # The range and the Parliaments live in the folder's settings.yml, saved with the code, so every
   # run of one commit covers the same divisions. Changing it is a change of its own.
   class RouteSnapshot
-    FOLDER = Rails.root.join("spec/fixtures/route_snapshots")
+    FOLDER = Rails.root.join("spec/route_snapshots")
     YEARS = /\A(\d{4})(?:\s*-\s*(\d{4}))?\z/
 
     # Settings, a YEARS value or a database the task can't use. The task stops with the message.

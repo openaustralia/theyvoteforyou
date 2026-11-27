@@ -35,11 +35,11 @@ written (see "When the files change with no code change").
 
 ## The routine for a change to Stage 1 or Stage 2
 
-1. Before changing anything, run the task. `git diff spec/fixtures/route_snapshots` should show
+1. Before changing anything, run the task. `git diff spec/route_snapshots` should show
    nothing. If it shows changes, they come from your Hansard or your database, not the code (see
    below); sort that out first.
 2. Make the change and run the task again.
-3. Read `git diff spec/fixtures/route_snapshots`. Every changed division is one the change moved,
+3. Read `git diff spec/route_snapshots`. Every changed division is one the change moved,
    whether or not it was meant to.
 4. Commit the new files with the change, and explain each changed division in the pull request.
 
