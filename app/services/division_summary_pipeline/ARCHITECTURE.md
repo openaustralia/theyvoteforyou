@@ -514,6 +514,7 @@ The routing snapshot checks a change to what Stage 1 reads or Stage 2 decides ac
 ```bash
 rake ai:route_snapshot                # Stages 1 and 2 for every division in the range, one file per year
 rake ai:route_snapshot YEARS=2026     # one year
+rake ai:route_snapshot_changes        # optional: counts what changed since the last save
 ```
 
 It writes `spec/fixtures/route_snapshots/<year>.yml`, which is committed: run it before and after the

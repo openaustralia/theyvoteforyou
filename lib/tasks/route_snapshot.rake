@@ -27,4 +27,17 @@ namespace :ai do
   rescue DivisionSummaryPipeline::RouteSnapshot::Refused => e
     abort e.message
   end
+
+  desc "Optional: count what changed in the routing snapshot's files since the last save, by field and by " \
+       "routing decision. git diff shows the changes themselves. AGAINST=main compares with another branch or save."
+  task route_snapshot_changes: :environment do
+    snapshot = DivisionSummaryPipeline::RouteSnapshot.new
+    against = ENV.fetch("AGAINST", "HEAD")
+    snapshot.years(ENV.fetch("YEARS", nil)).each do |year|
+      puts DivisionSummaryPipeline::SnapshotChanges.for(snapshot.path(year), against: against)
+                                                   .summary(year, against: against)
+    end
+  rescue DivisionSummaryPipeline::RouteSnapshot::Refused => e
+    abort e.message
+  end
 end

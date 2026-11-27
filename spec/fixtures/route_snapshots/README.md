@@ -43,6 +43,28 @@ written (see "When the files change with no code change").
    whether or not it was meant to.
 4. Commit the new files with the change, and explain each changed division in the pull request.
 
+### Counting the changes (optional)
+
+`git diff` shows every change. When there are many, this counts them by field and by routing
+decision, with the divisions under each, ready to paste into the pull request and explain group by
+group:
+
+```bash
+bin/rake ai:route_snapshot_changes                # the files on disk against the last save
+bin/rake ai:route_snapshot_changes AGAINST=main   # against another branch or save
+```
+
+What it prints looks like this (an illustration, not a real run):
+
+```
+2026: 2 of 910 divisions changed, compared with HEAD
+- mover.name changed in 2: senate_2026-07-01_1, senate_2026-09-17_1
+- Routing constrained 2, 29 (SECOND_READING_NUANCE) became deterministic 29 (SECOND_READING_QUESTION) in 1: ...
+- Hansard changed for 1 day: senate/2026-09-17 (proof, now final)
+```
+
+It only reads, and says nothing `git diff` doesn't: use whichever you prefer.
+
 ### When the files change with no code change
 
 Two runs of the same code on the same Hansard and database give identical files. A difference with

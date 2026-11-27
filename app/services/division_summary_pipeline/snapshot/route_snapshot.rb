@@ -74,7 +74,7 @@ module DivisionSummaryPipeline
       days = read.sort.index_with { |day| store.describe(*day.split("/")) }
       path(year).write(header(year) + YAML.dump({ "hansard_days" => days, "divisions" => blocks }, line_width: -1))
       { divisions: blocks.size, errors: blocks.count { |_key, entry| entry.key?("error") },
-        changed_hansard: changed(before, days) }
+        changed_hansard: SnapshotChanges.hansard_changes(before, days) }
     end
 
     def path(year)
@@ -125,16 +125,6 @@ module DivisionSummaryPipeline
       return {} unless path(year).exist?
 
       YAML.safe_load_file(path(year), permitted_classes: [Date]).fetch("hansard_days", nil) || {}
-    end
-
-    def changed(before, now)
-      now.filter_map do |day, about|
-        was = before[day]
-        next if was.nil? || was["fingerprint"] == about["fingerprint"]
-
-        version = was["version"] == about["version"] ? about["version"] : "#{was['version']}, now #{about['version']}"
-        "#{day} (#{version})"
-      end
     end
 
     def header(year)
