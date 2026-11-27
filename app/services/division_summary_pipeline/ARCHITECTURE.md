@@ -520,8 +520,9 @@ rake ai:route_snapshot YEARS=2026     # one year
 It writes `spec/route_snapshots/<year>.yml`, which is saved in git. Run it before and after the change
 and read `git diff`, since a rule that fixes one division can move others no spec covers (KI-35). The
 years it covers, the routine and how to read an entry are in that folder's `README.md`. Each sitting day's
-Hansard is downloaded once and kept as published in `tmp/hansard_xml/`, so repeated runs read the same
-Hansard.
+Hansard is downloaded once, through `DataLoader::Debates.fetch_xml` (the download half of
+`fetch_xml_document`), and kept as published in `tmp/hansard_xml/`, so repeated runs read the same
+Hansard. Its division count check counts with `DataLoader::DebatesXml#divisions`, like the loader.
 
 ## 12. Architectural constraints for future work
 

@@ -38,11 +38,12 @@ module DivisionSummaryPipeline
 
     attr_reader :store
 
-    # How many divisions the day's Hansard records. If the database has divisions on a day that was
-    # remembered as having no Hansard, that memory is out of date (they were loaded from its Hansard),
-    # so the day is asked about again.
+    # How many divisions the day's Hansard records, found with the nightly loader's own reader. If the
+    # database has divisions on a day that was remembered as having no Hansard, that memory is out of
+    # date (they were loaded from its Hansard), so the day is asked about again.
     def in_hansard(house, date, stored)
-      store.raw(house, date, recheck_missing: stored.positive?)&.scan(/<division\s/)&.size || 0
+      xml = store.raw(house, date, recheck_missing: stored.positive?)
+      xml ? DataLoader::DebatesXml.new(Nokogiri::XML(xml), house).divisions.size : 0
     end
 
     # The message printed when divisions are missing, ending with the command that loads them.

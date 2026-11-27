@@ -6,11 +6,11 @@ require "nokogiri"
 module DivisionSummaryPipeline
   # The routing snapshot's local copy of Hansard, used by route_snapshot.rb and
   # division_count_check.rb. Each sitting day's Hansard, one file per house per day, is downloaded
-  # once from the same place the nightly loader gets it (OAF's data site, through
-  # app/lib/data_loader/debates.rb), and kept in tmp/hansard_xml/ exactly as published. Every run then
-  # reads the same Hansard, so two runs with no code change agree. It also saves time: Stage 1 can
-  # look back through up to 70 days of earlier debate for each division, and those days are read from
-  # here instead of being downloaded again.
+  # once by the nightly loader's own code (app/lib/data_loader/debates.rb), from OAF's data site,
+  # and kept in tmp/hansard_xml/ exactly as published. Every run then reads the same Hansard, so two
+  # runs with no code change agree. It also saves time: Stage 1 can look back through up to 70 days
+  # of earlier debate for each division, and those days are read from here instead of being
+  # downloaded again.
   #
   # A day with no Hansard (the site says the file doesn't exist, because parliament didn't sit) is
   # remembered with an empty file ending in ".missing", so it isn't asked about again. Delete the
@@ -92,22 +92,23 @@ module DivisionSummaryPipeline
       dir.join("#{house}-#{date}.#{extension}")
     end
 
-    # Downloads a day's Hansard and keeps it. It is saved under a temporary name first and renamed
-    # once complete, so a run stopped halfway can't leave half a day behind. If the site says there's
-    # no file for that day, that is remembered instead (unless the day is recent). Any other problem
-    # is noted in failures and given as an error, rather than being mistaken for a day without Hansard.
+    # Downloads a day's Hansard with the nightly loader's code and keeps it. It is saved under a
+    # temporary name first and renamed once complete, so a run stopped halfway can't leave half a day
+    # behind. If the site has no file for that day, that is remembered instead (unless the day is
+    # recent). Any other problem is noted in failures and given as an error, rather than being
+    # mistaken for a day without Hansard.
     def download(house, date)
       FileUtils.mkdir_p(dir)
-      body = agent.get(DataLoader::Debates.xml_url(house, date.to_s)).body
-      path(house, date, "partial").binwrite(body)
-      path(house, date, "partial").rename(path(house, date, "xml"))
-      FileUtils.rm_f(path(house, date, "missing"))
-      path(house, date, "xml").read
-    rescue Mechanize::ResponseCodeError => e
-      return failed(house, date, e) if e.response_code != "404"
-
-      FileUtils.touch(path(house, date, "missing")) unless recent?(date)
-      nil
+      body = DataLoader::Debates.fetch_xml(house, date, agent: agent)
+      if body
+        path(house, date, "partial").binwrite(body)
+        path(house, date, "partial").rename(path(house, date, "xml"))
+        FileUtils.rm_f(path(house, date, "missing"))
+        path(house, date, "xml").read
+      elsif !recent?(date)
+        FileUtils.touch(path(house, date, "missing"))
+        nil
+      end
     rescue StandardError => e
       failed(house, date, e)
     end
